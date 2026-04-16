@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# portfolioV2
 
-## Getting Started
+Richard Griner's portfolio for 2026 — open source, built as a design-systems playground.
 
-First, run the development server:
+## Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org) (App Router, Turbopack, React 19)
+- **Language:** TypeScript (strict)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com) with a layered design-token system (primitives → semantic → component)
+- **Components:** [shadcn/ui](https://ui.shadcn.com) on top of [Base UI](https://base-ui.com) primitives
+- **Theming:** [next-themes](https://github.com/pacocoursey/next-themes) — light / dark / system, class-based
+- **Typography:** Geist (sans), Geist Mono (mono), Instrument Serif (display), all self-hosted via `next/font`
+- **Analytics:** Vercel Analytics + Speed Insights
+- **Hosting:** [Vercel](https://vercel.com)
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server with Turbopack on port 3000 |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier + Tailwind class sort (writes) |
+| `npm run format:check` | Prettier check (no writes) |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+portfolioV2/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx        # Fonts, ThemeProvider, metadata, analytics
+│   │   ├── page.tsx          # Landing (placeholder sections for now)
+│   │   └── globals.css       # Design token architecture — the heart of the DS
+│   ├── components/
+│   │   ├── ui/               # shadcn components (owned code, edit freely)
+│   │   ├── theme-provider.tsx
+│   │   ├── theme-toggle.tsx
+│   │   ├── site-header.tsx
+│   │   └── site-footer.tsx
+│   └── lib/
+│       └── utils.ts          # cn() helper
+├── content/                  # Content engine (see AGENTS.md)
+│   ├── journal/              # Raw brain-dumps (gitignored)
+│   ├── drafts/               # In-progress posts
+│   └── published/            # Ready-to-ship posts, split by pillar
+│       ├── process/
+│       ├── breakdown/
+│       ├── authority/
+│       └── experiment/
+├── .claude/
+│   ├── agents/               # Multi-agent Claude Code workflow
+│   └── commands/             # Slash commands (/journal, /polish)
+├── AGENTS.md                 # Instructions for AI coding agents
+└── CLAUDE.md                 # @AGENTS.md shim
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design tokens
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The design system lives in [`src/app/globals.css`](src/app/globals.css) with a three-layer architecture:
 
-## Deploy on Vercel
+1. **Primitives** — raw OKLCH values, ms durations, rems
+2. **Semantic tokens** — role-based aliases (`--background`, `--primary`, `--muted`, ...)
+3. **Component tokens** — added by shadcn components as needed
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Light theme lives in `:root`, dark theme in `.dark`. Theme-switching is class-based, toggled by `next-themes`. All tokens are exposed to Tailwind via `@theme` — so you can write `bg-background`, `rounded-md`, `shadow-lg` and they respond to the active theme.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Workflows
+
+This repo uses a multi-agent [Claude Code](https://claude.com/claude-code) setup — see [AGENTS.md](AGENTS.md) for the full explanation. Two loops are defined:
+
+- **Dev loop** — `code-writer` → `test-runner` → `code-reviewer` auto-hands off on every feature/fix.
+- **Content loop** — `/journal` invokes a scribe that captures end-of-day thoughts; `/polish <file>` hands a journal entry to an editor to shape it into a publishable post.
+
+## License
+
+MIT — see [LICENSE](LICENSE) (to be added).

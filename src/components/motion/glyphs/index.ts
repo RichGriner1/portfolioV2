@@ -1,25 +1,15 @@
 import type { ComponentType } from "react";
 
-import { MigrationGlyph } from "./migration";
-import { OscillationGlyph } from "./oscillation";
-import { ScheduleGlyph } from "./schedule";
-import { SiblingsGlyph } from "./siblings";
-import { WhitelabelGlyph } from "./whitelabel";
+import { BrandRulesGlyph } from "./brand-rules";
+import { DesignSystemGlyph } from "./design-system";
+import { VisualStrategyGlyph } from "./visual-strategy";
 
 import type { GlyphKey } from "@/lib/content/work";
 
 export const GLYPHS: Record<GlyphKey, ComponentType> = {
-  migration: MigrationGlyph,
-  whitelabel: WhitelabelGlyph,
-  siblings: SiblingsGlyph,
-  schedule: ScheduleGlyph,
-  oscillation: OscillationGlyph,
+  "design-system": DesignSystemGlyph,
+  "visual-strategy": VisualStrategyGlyph,
+  "brand-rules": BrandRulesGlyph,
 };
 
-export {
-  MigrationGlyph,
-  OscillationGlyph,
-  ScheduleGlyph,
-  SiblingsGlyph,
-  WhitelabelGlyph,
-};
+export { BrandRulesGlyph, DesignSystemGlyph, VisualStrategyGlyph };

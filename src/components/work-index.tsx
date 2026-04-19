@@ -12,7 +12,7 @@ export function WorkIndex() {
       <h2 className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
         Selected work
       </h2>
-      <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-4">
         {WORK.map((item, index) => (
           <WorkCard key={item.slug} item={item} index={index} />
         ))}

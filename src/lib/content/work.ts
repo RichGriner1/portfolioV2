@@ -1,11 +1,3 @@
-/**
- * Homepage work index. Reverse-chronological.
- *
- * Range-weighted: mixes DS depth (afi wealth manager, afi simulators, Audemic)
- * with passion projects (SSPC, Beetested) to tell the "broad taste, focused
- * discipline" story. Portfolio landing page for jobs will come later.
- */
-
 export type WorkType =
   | "design-system"
   | "brand-ds"
@@ -13,12 +5,7 @@ export type WorkType =
   | "experiment"
   | "writing";
 
-export type GlyphKey =
-  | "migration"
-  | "whitelabel"
-  | "siblings"
-  | "schedule"
-  | "oscillation";
+export type GlyphKey = "design-system" | "visual-strategy" | "brand-rules";
 
 export type WorkItem = {
   slug: string;
@@ -28,61 +15,40 @@ export type WorkItem = {
   type: WorkType;
   href: string;
   glyph: GlyphKey;
-  /** Set to true when the project is being revisited/refreshed. */
+  featured?: boolean;
   revamp?: boolean;
 };
 
 export const WORK: WorkItem[] = [
   {
-    slug: "afi-wealth-manager",
-    title: "Afi Wealth Manager",
+    slug: "afi-design-system",
+    title: "Afi Design System",
     description:
-      "Migrating a wealth-management platform from Material to PrimeNG for more flexibility and efficiency. AI + fintech.",
+      "Building a unified design system and AI-powered platform for a fintech consultancy — from scattered docs to scalable white-label infrastructure.",
     year: 2026,
     type: "design-system",
-    href: "/work/afi-wealth-manager",
-    glyph: "migration",
+    href: "/work/afi-design-system",
+    glyph: "design-system",
+    featured: true,
   },
   {
-    slug: "afi-simulators",
-    title: "Afi Simulators",
+    slug: "story-architect",
+    title: "Story Architect",
     description:
-      "White-label design system for fintech simulator products — customized per client.",
-    year: 2026,
-    type: "design-system",
-    href: "/work/afi-simulators",
-    glyph: "whitelabel",
-  },
-  {
-    slug: "audemic",
-    title: "Audemic",
-    description:
-      "Sibling design systems across two products under one umbrella brand.",
-    year: 2024,
-    type: "brand-ds",
-    href: "/work/audemic",
-    glyph: "siblings",
-  },
-  {
-    slug: "beetested",
-    title: "Beetested",
-    description:
-      "Logo and brand for a gaming-AI studio — my first branding project, now getting the full system it deserved.",
-    year: 2023,
+      "Visual strategy and an AI-built website for a two-person brand consultancy — giving a small team enterprise-quality design.",
+    year: 2025,
     type: "brand",
-    href: "/work/beetested",
-    glyph: "oscillation",
-    revamp: true,
+    href: "/work/story-architect",
+    glyph: "visual-strategy",
   },
   {
-    slug: "sspc-childrens-center",
-    title: "SSPC Children's Center",
+    slug: "kt360",
+    title: "KT360",
     description:
-      "Brand, site, and admin automation (WhatsApp tour scheduling) for my mom's school.",
-    year: 2022,
-    type: "experiment",
-    href: "/work/sspc-childrens-center",
-    glyph: "schedule",
-    revamp: true,
+      "Brand strategy, design rules, and an AI-powered system that lets non-technical people ship consistent, high-quality work.",
+    year: 2025,
+    type: "brand-ds",
+    href: "/work/kt360",
+    glyph: "brand-rules",
   },
 ];

@@ -13,10 +13,16 @@ const TOKEN_CHAIN = [
   { label: "Button", sub: "component" },
 ];
 
-function LayersAnimation() {
-  const [step, setStep] = useState(-1);
+type AnimationProps = { active: boolean };
+
+function LayersAnimation({ active }: AnimationProps) {
+  const [step, setStep] = useState(2);
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setStep(2), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -34,7 +40,7 @@ function LayersAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   return (
     <div className="flex w-full flex-col items-stretch gap-2 px-3">
@@ -159,10 +165,14 @@ type SwapPhase =
   | "to-custom"
   | "custom-done";
 
-function SwapAnimation() {
-  const [phase, setPhase] = useState<SwapPhase>("material");
+function SwapAnimation({ active }: AnimationProps) {
+  const [phase, setPhase] = useState<SwapPhase>("custom-done");
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setPhase("custom-done"), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -187,7 +197,7 @@ function SwapAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   const showCustom = phase === "to-custom" || phase === "custom-done";
 
@@ -333,12 +343,16 @@ const OUTER_NODES = [
 ];
 const HUB = { x: 63, y: 48 };
 
-function NodesAnimation() {
+function NodesAnimation({ active }: AnimationProps) {
   const [phase, setPhase] = useState<"scattered" | "connecting" | "unified">(
-    "scattered"
+    "unified"
   );
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setPhase("unified"), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -358,7 +372,7 @@ function NodesAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   return (
     <svg viewBox="0 0 130 96" className="w-full" aria-hidden>
@@ -467,10 +481,14 @@ const TONE_CLASSES = [
   "bg-foreground/20",
 ] as const;
 
-function MoodboardAnimation() {
+function MoodboardAnimation({ active }: AnimationProps) {
   const [comp, setComp] = useState(0);
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setComp(0), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -482,7 +500,7 @@ function MoodboardAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   const cells = MOODBOARD_COMPOSITIONS[comp];
 
@@ -516,10 +534,14 @@ function MoodboardAnimation() {
   );
 }
 
-function CodeToSiteAnimation() {
-  const [phase, setPhase] = useState<"code" | "site">("code");
+function CodeToSiteAnimation({ active }: AnimationProps) {
+  const [phase, setPhase] = useState<"code" | "site">("site");
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setPhase("site"), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -535,7 +557,7 @@ function CodeToSiteAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   // Code editor view: dark bg, syntax-colored bars with indent
   // Site preview: light bg, browser chrome, content
@@ -677,10 +699,13 @@ function CodeToSiteAnimation() {
   );
 }
 
-function PulseAnimation() {
+function PulseAnimation({ active }: AnimationProps) {
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
+    if (!active) {
+      return;
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -692,34 +717,43 @@ function PulseAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   return (
     <div className="relative flex h-20 w-20 items-center justify-center">
-      {[0, 1, 2].map((i) => (
-        <motion.span
-          key={`${tick}-${i}`}
-          className="border-primary absolute inset-0 rounded-full border"
-          initial={{ scale: 0.4, opacity: 0.8 }}
-          animate={{ scale: 1.8, opacity: 0 }}
-          transition={{
-            duration: 1.6,
-            delay: i * 0.35,
-            ease: EASE,
-          }}
-        />
-      ))}
+      {active &&
+        [0, 1, 2].map((i) => (
+          <motion.span
+            key={`${tick}-${i}`}
+            className="border-primary absolute inset-0 rounded-full border"
+            initial={{ scale: 0.4, opacity: 0.8 }}
+            animate={{ scale: 1.8, opacity: 0 }}
+            transition={{
+              duration: 1.6,
+              delay: i * 0.35,
+              ease: EASE,
+            }}
+          />
+        ))}
       <motion.div
         className="bg-primary relative h-6 w-6 rounded-full"
-        animate={{
-          scale: [1, 1.15, 1],
-          borderRadius: ["50%", "30%", "50%"],
-        }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        animate={
+          active
+            ? {
+                scale: [1, 1.15, 1],
+                borderRadius: ["50%", "30%", "50%"],
+              }
+            : { scale: 1, borderRadius: "50%" }
+        }
+        transition={
+          active
+            ? {
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }
+            : { duration: 0.3, ease: EASE }
+        }
       />
     </div>
   );
@@ -732,24 +766,28 @@ const BANKS = [
   { name: "Bankinter", color: "#FF6B35" },
 ];
 
-function PaletteAnimation() {
-  const [active, setActive] = useState(0);
+function PaletteAnimation({ active: activeProp }: AnimationProps) {
+  const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
+    if (!activeProp) {
+      const t = setTimeout(() => setActiveIdx(0), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
         await new Promise((r) => setTimeout(r, 1400));
-        if (!cancelled) setActive((p) => (p + 1) % BANKS.length);
+        if (!cancelled) setActiveIdx((p) => (p + 1) % BANKS.length);
       }
     }
     void loop();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [activeProp]);
 
-  const bank = BANKS[active];
+  const bank = BANKS[activeIdx];
 
   return (
     <motion.div
@@ -762,13 +800,13 @@ function PaletteAnimation() {
           key={b.name}
           className="flex items-center gap-2.5 rounded-lg px-3 py-2"
           animate={{
-            backgroundColor: i === active ? b.color + "30" : "transparent",
-            scale: i === active ? 1 : 0.97,
-            opacity: i === active ? 1 : 0.45,
+            backgroundColor: i === activeIdx ? b.color + "30" : "transparent",
+            scale: i === activeIdx ? 1 : 0.97,
+            opacity: i === activeIdx ? 1 : 0.45,
           }}
           transition={{ duration: 0.4, ease: EASE }}
           style={
-            i === active
+            i === activeIdx
               ? { border: `1px solid ${b.color}55` }
               : { border: "1px solid transparent" }
           }
@@ -778,7 +816,7 @@ function PaletteAnimation() {
             style={{ backgroundColor: b.color }}
           />
           <span className="text-foreground font-mono text-xs">{b.name}</span>
-          {i === active && (
+          {i === activeIdx && (
             <motion.span
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -817,11 +855,18 @@ const RULE_CHECKS = [
 
 type RulePhase = "wrong" | "catching" | "fixed";
 
-function RulesAnimation() {
+function RulesAnimation({ active }: AnimationProps) {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [phase, setPhase] = useState<RulePhase>("wrong");
+  const [phase, setPhase] = useState<RulePhase>("fixed");
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setActiveIdx(0);
+        setPhase("fixed");
+      }, 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -841,15 +886,15 @@ function RulesAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   return (
     <div className="flex w-full flex-col gap-1.5 px-2 font-mono text-[10px]">
       <div className="flex flex-col gap-1">
         {RULE_CHECKS.map((check, i) => {
           const isActive = i === activeIdx;
-          const rowPhase: RulePhase = isActive ? phase : "wrong";
-          const showFixed = isActive && rowPhase === "fixed";
+          const rowPhase: RulePhase = isActive ? phase : "fixed";
+          const showFixed = rowPhase === "fixed";
           const showWrong = isActive && rowPhase === "wrong";
           const showCatching = isActive && rowPhase === "catching";
 
@@ -928,12 +973,20 @@ function RulesAnimation() {
   );
 }
 
-function CursorAnimation() {
+function CursorAnimation({ active }: AnimationProps) {
   const cursor = useAnimationControls();
-  const [published, setPublished] = useState(false);
+  const [published, setPublished] = useState(true);
   const [pressed, setPressed] = useState(false);
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setPublished(true);
+        setPressed(false);
+        void cursor.start({ x: 0, y: 0, opacity: 0, transition: { duration: 0 } });
+      }, 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -942,6 +995,7 @@ function CursorAnimation() {
         await cursor.start({
           x: -40,
           y: -22,
+          opacity: 1,
           transition: { duration: 0 },
         });
         await new Promise((r) => setTimeout(r, 400));
@@ -949,6 +1003,7 @@ function CursorAnimation() {
         await cursor.start({
           x: 28,
           y: 18,
+          opacity: 1,
           transition: { duration: 0.7, ease: EASE },
         });
         if (cancelled) break;
@@ -964,7 +1019,7 @@ function CursorAnimation() {
     return () => {
       cancelled = true;
     };
-  }, [cursor]);
+  }, [active, cursor]);
 
   return (
     <div className="relative w-full px-3">
@@ -1018,7 +1073,7 @@ function CursorAnimation() {
       <motion.div
         animate={cursor}
         className="text-foreground pointer-events-none absolute top-1/2 left-1/2"
-        style={{ originX: 0, originY: 0 }}
+        style={{ originX: 0, originY: 0, opacity: 0 }}
       >
         <svg
           viewBox="0 0 12 18"
@@ -1064,17 +1119,16 @@ const KT_DOT_PATHS = [
   "M19.3417 27.992C20.0786 27.992 20.6759 27.3947 20.6759 26.6579C20.6759 25.921 20.0786 25.3237 19.3417 25.3237C18.6049 25.3237 18.0076 25.921 18.0076 26.6579C18.0076 27.3947 18.6049 27.992 19.3417 27.992Z",
 ];
 
-function LogoIdentityAnimation() {
+function LogoIdentityAnimation({ active }: AnimationProps) {
   const [themeIdx, setThemeIdx] = useState(0);
-  const [dotsReady, setDotsReady] = useState(false);
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setThemeIdx(0), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
-      // wait for staggered intro (21 dots × 50ms + buffer)
-      await new Promise((r) => setTimeout(r, 1400));
-      if (cancelled) return;
-      setDotsReady(true);
       while (!cancelled) {
         await new Promise((r) => setTimeout(r, 1100));
         if (!cancelled) setThemeIdx((p) => (p + 1) % KT_THEMES.length);
@@ -1084,7 +1138,7 @@ function LogoIdentityAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   const current = KT_THEMES[themeIdx];
 
@@ -1124,9 +1178,12 @@ function LogoIdentityAnimation() {
             key={i}
             d={d}
             fill="currentColor"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: dotsReady ? 1 : 1 }}
-            transition={{ duration: 0.35, delay: i * 0.048, ease: EASE }}
+            animate={{ opacity: 1 }}
+            transition={
+              active
+                ? { duration: 0.35, delay: i * 0.048, ease: EASE }
+                : { duration: 0 }
+            }
           />
         ))}
       </motion.svg>
@@ -1154,11 +1211,18 @@ type GitPhase = "clone" | "files" | "preview" | "published";
 const GIT_CMD = "git clone kt360-env";
 const FILE_TREE = ["src/", "components/", "globals.css", "README.md"];
 
-function CanvasAnimation() {
-  const [phase, setPhase] = useState<GitPhase>("clone");
+function CanvasAnimation({ active }: AnimationProps) {
+  const [phase, setPhase] = useState<GitPhase>("published");
   const [chars, setChars] = useState(0);
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setPhase("published");
+        setChars(0);
+      }, 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -1186,7 +1250,7 @@ function CanvasAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   return (
     <div className="w-full px-1">
@@ -1320,10 +1384,14 @@ const KT_SWATCHES = [
   { hex: "#fcfcfd", name: "BG" },
 ];
 
-function GuidelineAnimation() {
+function GuidelineAnimation({ active }: AnimationProps) {
   const [page, setPage] = useState<FoundPage>("Colors");
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setPage("Colors"), 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -1339,7 +1407,7 @@ function GuidelineAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   return (
     <div className="flex w-full flex-col gap-2 px-1">
@@ -1479,11 +1547,18 @@ const WP_STEPS = [
   { label: "Live", icon: "◉", detail: "WordPress" },
 ];
 
-function WordpressAnimation() {
+function WordpressAnimation({ active }: AnimationProps) {
   const [step, setStep] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setStep(0);
+        setTransitioning(false);
+      }, 0);
+      return () => clearTimeout(t);
+    }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
@@ -1500,7 +1575,7 @@ function WordpressAnimation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [active]);
 
   const s = WP_STEPS[step];
 
@@ -1545,7 +1620,10 @@ function WordpressAnimation() {
   );
 }
 
-const ANIMATIONS: Record<BentoCard["animation"], () => JSX.Element> = {
+const ANIMATIONS: Record<
+  BentoCard["animation"],
+  (props: AnimationProps) => JSX.Element
+> = {
   layers: LayersAnimation,
   swap: SwapAnimation,
   nodes: NodesAnimation,
@@ -1563,16 +1641,18 @@ const ANIMATIONS: Record<BentoCard["animation"], () => JSX.Element> = {
 
 function BentoCardItem({ card }: { card: BentoCard }) {
   const Animation = ANIMATIONS[card.animation];
-
+  const [active, setActive] = useState(false);
   return (
     <motion.div
       className="bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5"
       initial="rest"
       whileHover="hover"
       animate="rest"
+      onHoverStart={() => setActive(true)}
+      onHoverEnd={() => setActive(false)}
     >
       <div className="flex min-h-[120px] flex-1 items-center justify-center">
-        <Animation />
+        <Animation active={active} />
       </div>
       <div className="flex flex-col gap-0.5">
         <span className="text-foreground text-sm font-medium">

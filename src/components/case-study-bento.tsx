@@ -72,67 +72,73 @@ function LayersAnimation({ active }: AnimationProps) {
 
   return (
     <div className="border-border/40 bg-card/50 relative w-full rounded-lg border p-3">
-      {/* Left-side connector line (behind rows) */}
-      <div className="pointer-events-none absolute top-4 bottom-4 left-[1.75rem] w-px overflow-hidden">
-        <motion.div
-          className="bg-foreground/25 h-full w-full origin-top"
-          initial={false}
-          animate={{ scaleY: connectorDrawn ? 1 : 0 }}
-          transition={{ duration: 0.5, ease: EASE }}
-        />
-      </div>
-
-      <div className="relative flex flex-col gap-1.5">
+      <div className="relative flex flex-col">
         {TOKEN_CHAIN.map((token, i) => {
           const isActive = step === i;
           const isVisible = step === -1 ? false : step >= i;
           const isButton = i === 2;
+          const showConnector = i < TOKEN_CHAIN.length - 1;
 
           return (
-            <motion.div
-              key={token.label}
-              className="relative grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-1.5 py-1"
-              animate={{
-                opacity: isVisible ? 1 : 0.3,
-                backgroundColor: isActive
-                  ? "hsl(var(--muted) / 0.4)"
-                  : "hsl(var(--muted) / 0)",
-              }}
-              transition={{ duration: 0.4, ease: EASE }}
-            >
-              {isButton ? (
-                <motion.button
-                  type="button"
-                  tabIndex={-1}
-                  className="bg-primary text-primary-foreground rounded-md px-2 py-1 font-mono text-[10px] font-medium"
-                  animate={{ scale: isActive ? 1.06 : 1 }}
-                  transition={{ duration: 0.35, ease: EASE }}
-                >
-                  {token.label}
-                </motion.button>
-              ) : (
-                <>
-                  <div className="flex h-5 w-5 items-center justify-center">
-                    <motion.div
-                      className={
-                        i === 0
-                          ? "bg-primary h-4 w-4 shrink-0 rounded-full"
-                          : "bg-primary h-3 w-3 shrink-0 rounded-sm"
-                      }
-                      animate={{ scale: isActive ? 1.2 : 1 }}
-                      transition={{ duration: 0.35, ease: EASE }}
-                    />
-                  </div>
-                  <span className="text-foreground font-mono text-[10px]">
+            <div key={token.label} className="flex flex-col">
+              <motion.div
+                className="relative grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-1.5 py-1"
+                animate={{
+                  opacity: isVisible ? 1 : 0.3,
+                  backgroundColor: isActive
+                    ? "hsl(var(--muted) / 0.4)"
+                    : "hsl(var(--muted) / 0)",
+                }}
+                transition={{ duration: 0.4, ease: EASE }}
+              >
+                {isButton ? (
+                  <motion.button
+                    type="button"
+                    tabIndex={-1}
+                    className="bg-primary text-primary-foreground rounded-md px-2 py-1 font-mono text-[10px] font-medium"
+                    animate={{ scale: isActive ? 1.06 : 1 }}
+                    transition={{ duration: 0.35, ease: EASE }}
+                  >
                     {token.label}
-                  </span>
-                </>
+                  </motion.button>
+                ) : (
+                  <>
+                    <div className="flex h-5 w-5 items-center justify-center">
+                      <motion.div
+                        className={
+                          i === 0
+                            ? "bg-primary h-4 w-4 shrink-0 rounded-full"
+                            : "bg-primary h-3 w-3 shrink-0 rounded-sm"
+                        }
+                        animate={{ scale: isActive ? 1.2 : 1 }}
+                        transition={{ duration: 0.35, ease: EASE }}
+                      />
+                    </div>
+                    <span className="text-foreground font-mono text-[10px]">
+                      {token.label}
+                    </span>
+                  </>
+                )}
+                {isButton && <span />}
+                <span className="text-muted-foreground font-mono text-[8px] tracking-wider uppercase">
+                  {token.sub}
+                </span>
+              </motion.div>
+              {showConnector && (
+                <div className="flex h-2 items-center pl-[0.875rem]">
+                  <motion.div
+                    className="bg-border h-full w-px origin-top"
+                    initial={false}
+                    animate={{ scaleY: connectorDrawn ? 1 : 0 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: connectorDrawn ? i * 0.15 : 0,
+                      ease: EASE,
+                    }}
+                  />
+                </div>
               )}
-              {isButton && <span />}
-              <span className="text-muted-foreground font-mono text-[8px] tracking-wider uppercase">
-                {token.sub}
-              </span>
-            </motion.div>
+            </div>
           );
         })}
       </div>
@@ -315,13 +321,22 @@ function SwapAnimation({ active }: AnimationProps) {
   );
 }
 
-const OUTER_NODES = [
-  { id: 0, sx: 18, sy: 14 },
-  { id: 1, sx: 102, sy: 10 },
-  { id: 2, sx: 118, sy: 48 },
-  { id: 3, sx: 95, sy: 82 },
-  { id: 4, sx: 22, sy: 80 },
-  { id: 5, sx: 8, sy: 46 },
+type NodeAnchor = "start" | "middle" | "end";
+const OUTER_NODES: {
+  id: number;
+  sx: number;
+  sy: number;
+  label: string;
+  lx: number;
+  ly: number;
+  anchor: NodeAnchor;
+}[] = [
+  { id: 0, sx: 18, sy: 14, label: ".md", lx: 18, ly: 6, anchor: "middle" },
+  { id: 1, sx: 102, sy: 10, label: "design", lx: 102, ly: 4, anchor: "middle" },
+  { id: 2, sx: 118, sy: 48, label: ".svg", lx: 126, ly: 50, anchor: "end" },
+  { id: 3, sx: 95, sy: 82, label: "ai", lx: 95, ly: 92, anchor: "middle" },
+  { id: 4, sx: 22, sy: 80, label: ".tokens", lx: 22, ly: 92, anchor: "middle" },
+  { id: 5, sx: 8, sy: 46, label: "dev", lx: 2, ly: 48, anchor: "start" },
 ];
 const HUB = { x: 63, y: 48 };
 
@@ -357,7 +372,7 @@ function NodesAnimation({ active }: AnimationProps) {
   }, [active]);
 
   return (
-    <svg viewBox="0 0 130 96" className="w-full" aria-hidden>
+    <svg viewBox="0 0 130 110" className="w-full" aria-hidden>
       {OUTER_NODES.map((n) => (
         <motion.line
           key={`line-${n.id}`}
@@ -400,6 +415,22 @@ function NodesAnimation({ active }: AnimationProps) {
         />
       ))}
 
+      {OUTER_NODES.map((n) => (
+        <motion.text
+          key={`label-${n.id}`}
+          x={n.lx}
+          y={n.ly}
+          textAnchor={n.anchor}
+          dominantBaseline="middle"
+          className="fill-muted-foreground font-mono"
+          style={{ fontSize: 6, letterSpacing: 0.4 }}
+          animate={{ opacity: phase === "unified" ? 0 : 0.85 }}
+          transition={{ duration: 0.5, delay: n.id * 0.05, ease: EASE }}
+        >
+          {n.label}
+        </motion.text>
+      ))}
+
       <motion.circle
         cx={HUB.x}
         cy={HUB.y}
@@ -424,6 +455,19 @@ function NodesAnimation({ active }: AnimationProps) {
         }}
         transition={{ duration: 0.5, ease: EASE }}
       />
+
+      <motion.text
+        x={HUB.x}
+        y={HUB.y + 22}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="fill-muted-foreground font-mono"
+        style={{ fontSize: 6, letterSpacing: 0.4 }}
+        animate={{ opacity: phase === "unified" ? 0.85 : 0 }}
+        transition={{ duration: 0.5, ease: EASE }}
+      >
+        platform
+      </motion.text>
     </svg>
   );
 }
@@ -2887,6 +2931,35 @@ function BentoCardItem({ card }: { card: BentoCard }) {
 }
 
 export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
+  const hasTall = cards.some((c) => c.span === "tall");
+
+  if (hasTall) {
+    return (
+      <div className="grid auto-rows-fr grid-cols-3 gap-3">
+        {cards.map((card, i) => {
+          const spanClass =
+            card.span === "tall"
+              ? "col-span-1 row-span-2"
+              : card.span === "wide"
+                ? "col-span-2 row-span-1"
+                : "col-span-1 row-span-1";
+          return (
+            <motion.div
+              key={card.label}
+              className={spanClass}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
+            >
+              <BentoCardItem card={card} />
+            </motion.div>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-2 gap-3">
       {cards.map((card, i) => (

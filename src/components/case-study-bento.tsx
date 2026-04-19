@@ -1623,30 +1623,6 @@ function WordpressAnimation({ active }: AnimationProps) {
 
 // Mindfulme animations — backed by real brand SVGs in /public/mindfulme/.
 
-function useCrossfadeIndex(length: number, intervalMs: number, active: boolean) {
-  const [idx, setIdx] = useState(0);
-
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => setIdx(0), 0);
-      return () => clearTimeout(t);
-    }
-    let cancelled = false;
-    async function loop() {
-      while (!cancelled) {
-        await new Promise((r) => setTimeout(r, intervalMs));
-        if (!cancelled) setIdx((p) => (p + 1) % length);
-      }
-    }
-    void loop();
-    return () => {
-      cancelled = true;
-    };
-  }, [active, length, intervalMs]);
-
-  return idx;
-}
-
 const MM_JOURNEY_FRAMES = [
   { src: "/mindfulme/hero.svg", alt: "Mindfulme hero scene" },
   { src: "/mindfulme/frame-988.svg", alt: "Mindfulme brand illustration" },
@@ -1654,27 +1630,56 @@ const MM_JOURNEY_FRAMES = [
 ];
 
 function JourneySceneAnimation({ active }: AnimationProps) {
-  const idx = useCrossfadeIndex(MM_JOURNEY_FRAMES.length, 2400, active);
-  const frame = MM_JOURNEY_FRAMES[idx];
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setIdx(0), 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setIdx((p) => (p + 1) % MM_JOURNEY_FRAMES.length);
+    }, 2400);
+    return () => clearInterval(t);
+  }, [active]);
+
+  const activeIdx = active ? idx : 0;
+  const frame = MM_JOURNEY_FRAMES[activeIdx];
 
   return (
     <div className="bg-muted/30 relative aspect-[16/7] w-full overflow-hidden rounded-xl">
       <AnimatePresence mode="wait">
         <motion.div
-          key={idx}
+          key={activeIdx}
           className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          <Image
-            src={frame.src}
-            alt={frame.alt}
-            fill
-            className="object-contain"
-            sizes="(min-width: 1024px) 480px, 100vw"
-          />
+          {active ? (
+            <motion.div
+              className="absolute inset-0"
+              animate={{ scale: [1, 1.04, 1.02], x: [-4, 4, -2] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
+            >
+              <Image
+                src={frame.src}
+                alt={frame.alt}
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 480px, 100vw"
+              />
+            </motion.div>
+          ) : (
+            <Image
+              src={frame.src}
+              alt={frame.alt}
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 480px, 100vw"
+            />
+          )}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -1696,30 +1701,55 @@ const MM_AFFIRMATION_FRAMES = [
 ];
 
 function AffirmationMorphAnimation({ active }: AnimationProps) {
-  const idx = useCrossfadeIndex(MM_AFFIRMATION_FRAMES.length, 1600, active);
-  const frame = MM_AFFIRMATION_FRAMES[idx];
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setIdx(0), 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setIdx((p) => (p + 1) % MM_AFFIRMATION_FRAMES.length);
+    }, 1800);
+    return () => clearInterval(t);
+  }, [active]);
+
+  const activeIdx = active ? idx : 0;
+  const frame = MM_AFFIRMATION_FRAMES[activeIdx];
 
   return (
-    <div className="bg-muted/30 flex h-[140px] w-full items-center justify-center rounded-xl p-4">
-      <div className="relative h-full w-[140px]">
+    <div className="flex w-full flex-col items-center gap-3">
+      <div className="relative flex h-[160px] w-full items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.div
-            key={idx}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
+            key={activeIdx}
+            initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 1.1, rotate: 4 }}
+            transition={{
+              duration: 0.55,
+              ease: [0.175, 0.885, 0.32, 1.275],
+            }}
           >
             <Image
               src={frame.src}
               alt={frame.alt}
-              fill
+              width={140}
+              height={140}
               className="object-contain"
-              sizes="140px"
             />
           </motion.div>
         </AnimatePresence>
+      </div>
+      <div className="flex gap-1.5">
+        {MM_AFFIRMATION_FRAMES.map((_, i) => (
+          <span
+            key={i}
+            className={`h-[3px] w-[3px] rounded-full ${
+              i === activeIdx ? "bg-foreground" : "bg-muted"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );
@@ -1740,30 +1770,106 @@ const MM_SCREEN_FRAMES = [
 ];
 
 function OrganicBundleAnimation({ active }: AnimationProps) {
-  const idx = useCrossfadeIndex(MM_SCREEN_FRAMES.length, 1800, active);
-  const frame = MM_SCREEN_FRAMES[idx];
+  const [idx, setIdx] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [restartTrigger, setRestartTrigger] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setIdx(0);
+        setDirection(1);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setDirection(1);
+      setIdx((p) => (p + 1) % MM_SCREEN_FRAMES.length);
+    }, 2200);
+    return () => clearInterval(t);
+  }, [active, restartTrigger]);
+
+  const activeIdx = active ? idx : 0;
+  const frame = MM_SCREEN_FRAMES[activeIdx];
+
+  const advance = (dir: 1 | -1) => {
+    setDirection(dir);
+    setIdx(
+      (p) =>
+        (p + dir + MM_SCREEN_FRAMES.length) % MM_SCREEN_FRAMES.length,
+    );
+    setRestartTrigger((n) => n + 1);
+  };
 
   return (
-    <div className="flex h-[160px] w-full items-center justify-center">
-      <div className="relative h-full w-20 drop-shadow-sm">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={idx}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            <Image
-              src={frame.src}
-              alt={frame.alt}
-              fill
-              className="object-contain"
-              sizes="80px"
+    <div className="flex w-full flex-col items-center gap-3">
+      <div className="group relative">
+        <div className="border-border bg-card rounded-[24px] border p-1 shadow-sm">
+          <div className="bg-background relative flex h-[180px] w-[100px] items-center justify-center overflow-hidden rounded-[18px]">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeIdx}
+                className="absolute inset-0 flex items-center justify-center"
+                initial={{ x: direction * 30, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -direction * 30, opacity: 0 }}
+                transition={{ duration: 0.35, ease: EASE }}
+              >
+                <Image
+                  src={frame.src}
+                  alt={frame.alt}
+                  width={90}
+                  height={180}
+                  className="object-contain"
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {active ? (
+          <>
+            <button
+              type="button"
+              aria-label="Previous screen"
+              onClick={() => advance(-1)}
+              className="absolute inset-y-0 left-0 w-1/2 cursor-pointer bg-transparent"
             />
-          </motion.div>
-        </AnimatePresence>
+            <button
+              type="button"
+              aria-label="Next screen"
+              onClick={() => advance(1)}
+              className="absolute inset-y-0 right-0 w-1/2 cursor-pointer bg-transparent"
+            />
+            <span
+              aria-hidden
+              className="bg-background/80 text-foreground pointer-events-none absolute top-1/2 left-2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-xs opacity-0 backdrop-blur transition-opacity group-hover:opacity-100"
+            >
+              ‹
+            </span>
+            <span
+              aria-hidden
+              className="bg-background/80 text-foreground pointer-events-none absolute top-1/2 right-2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-xs opacity-0 backdrop-blur transition-opacity group-hover:opacity-100"
+            >
+              ›
+            </span>
+          </>
+        ) : null}
+      </div>
+      <div className="flex gap-1.5">
+        {MM_SCREEN_FRAMES.map((_, i) => (
+          <motion.span
+            key={i}
+            className="bg-border rounded-full"
+            animate={{
+              width: i === activeIdx ? 16 : 4,
+              backgroundColor:
+                i === activeIdx ? "var(--foreground)" : "var(--border)",
+            }}
+            style={{ height: 4 }}
+            transition={{ duration: 0.3, ease: EASE }}
+          />
+        ))}
       </div>
     </div>
   );
@@ -1780,30 +1886,29 @@ const MM_FEEDBACK_SCREENS = [
 
 function UserFeedbackAnimation({ active }: AnimationProps) {
   return (
-    <div className="flex w-full items-end justify-center gap-4 px-3">
+    <div className="flex w-full items-end justify-center gap-6 px-4">
       {MM_FEEDBACK_SCREENS.map((screen, i) => (
         <motion.div
           key={screen.src}
-          className="relative h-[160px] w-[90px] drop-shadow-sm"
-          animate={
-            active
-              ? { y: [0, -6, 0], scale: [1, 1.03, 1] }
-              : { y: 0, scale: 1 }
-          }
+          className="border-border bg-card rounded-[20px] border p-1 shadow-sm"
+          animate={active ? { y: [0, -6, 0] } : { y: 0 }}
+          whileHover={{ y: -10, scale: 1.04 }}
           transition={{
             duration: 2.4,
             repeat: active ? Infinity : 0,
             ease: "easeInOut",
-            delay: i * 0.4,
+            delay: i * 0.3,
           }}
         >
-          <Image
-            src={screen.src}
-            alt={screen.alt}
-            fill
-            className="object-contain"
-            sizes="90px"
-          />
+          <div className="bg-background overflow-hidden rounded-[16px]">
+            <Image
+              src={screen.src}
+              alt={screen.alt}
+              width={80}
+              height={160}
+              className="object-contain"
+            />
+          </div>
         </motion.div>
       ))}
     </div>

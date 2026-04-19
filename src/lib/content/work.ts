@@ -31,16 +31,17 @@ export const WORK: WorkItem[] = [
     glyph: "design-system",
     featured: true,
   },
-  {
-    slug: "story-architect",
-    title: "Story Architect",
-    description:
-      "Visual strategy and an AI-built website for a two-person brand consultancy — giving a small team enterprise-quality design.",
-    year: 2025,
-    type: "brand",
-    href: "/work/story-architect",
-    glyph: "visual-strategy",
-  },
+  // story-architect: hidden until the case study is finished.
+  // {
+  //   slug: "story-architect",
+  //   title: "Story Architect",
+  //   description:
+  //     "Visual strategy and an AI-built website for a two-person brand consultancy — giving a small team enterprise-quality design.",
+  //   year: 2025,
+  //   type: "brand",
+  //   href: "/work/story-architect",
+  //   glyph: "visual-strategy",
+  // },
   {
     slug: "kt360",
     title: "KT360",

@@ -53,6 +53,16 @@ export const WORK: WorkItem[] = [
     glyph: "brand-rules",
   },
   {
+    slug: "audemic-growth",
+    title: "Audemic",
+    description:
+      "Pivoting a B2C research app to B2B enterprise — validated in a week with AI-driven interviews and 20 qualified leads.",
+    year: 2024,
+    type: "experiment",
+    href: "/work/audemic-growth",
+    glyph: "visual-strategy",
+  },
+  {
     slug: "mindfulme",
     title: "Mindfulme",
     description:

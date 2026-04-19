@@ -19,7 +19,11 @@ export type BentoCard = {
     | "journey-scene"
     | "affirmation-morph"
     | "organic-bundle"
-    | "user-feedback";
+    | "user-feedback"
+    | "audience-pivot"
+    | "hours-stat"
+    | "leads-funnel"
+    | "model-iteration";
 };
 
 export type CaseStudyContext = {
@@ -321,6 +325,122 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         {
           title: "Shared prototype environment",
           body: "One shadcn-based codebase the whole team runs locally. Marketer, developer, founder — same foundation, same output quality.",
+        },
+      ],
+    },
+  },
+  "audemic-growth": {
+    tagline: "Pivoting a B2C research app to B2B enterprise",
+    intro:
+      "Audemic Scholar had built a loyal B2C user base at $8K/month — but students graduate, and investors were right to worry about where growth was coming from. We ran discovery interviews with UN analysts and vaccine researchers and found a bigger story: researchers lose 20 hours a month to information retrieval, costing organizations like NIH close to $10M monthly. We launched a Beta — a 24/7 junior analyst powered by AI — and captured 20 qualified leads in a single week through paid ads. From there, iteration: better summaries on OpenAI and Claude, an audio redesign built around how researchers actually work, and a prioritization framework that kept the roadmap honest.",
+    role: "Product Manager & UX Designer",
+    contributions: [
+      "Product strategy",
+      "User research",
+      "AI prompting",
+      "Growth experiments",
+      "Prototype design",
+    ],
+    bento: [
+      {
+        label: "B2C → B2B Pivot",
+        sublabel: "Students were the loyal base. Professionals were the market.",
+        animation: "audience-pivot",
+        span: "wide",
+      },
+      {
+        label: "20 Hours Lost a Month",
+        sublabel: "Per researcher. ~$10M monthly for NIH-sized orgs.",
+        animation: "hours-stat",
+      },
+      {
+        label: "20 Leads in 7 Days",
+        sublabel: "Paid ads validated the new direction in a week.",
+        animation: "leads-funnel",
+      },
+      {
+        label: "AI Summary Refinement",
+        sublabel:
+          "Iterating between OpenAI and Claude models based on user feedback.",
+        animation: "model-iteration",
+        span: "wide",
+      },
+    ],
+    context: {
+      credits: [
+        { name: "Audemic", role: "Research-AI startup" },
+        { name: "Josh Mitcham", role: "CEO" },
+        { name: "Jose Rayo", role: "CMO" },
+      ],
+      headline: "A loyal B2C base — and an expiration date on the user lifecycle.",
+      paragraph:
+        "Audemic Scholar gave university students audio versions of research papers and reports. By 2024 the product was generating $8K a month and had strong retention. The problem was structural: students graduate. Investors pressed on scalability, and the team needed a real answer — not just more students.",
+      blocks: [
+        {
+          label: "User need",
+          body: "Give busy professionals tools that reduce the workload of finding and organizing information so they can focus on impactful work.",
+        },
+        {
+          label: "Business need",
+          body: "Expand into new markets using existing insights. Define a clear ICP — early hypotheses pointed to social sciences, where 60% of Scholar users already came from.",
+        },
+        {
+          label: "Product vision",
+          body: "An AI-driven research assistant that surfaces what matters, cuts the noise, and earns its spot in professionals' daily workflow.",
+        },
+      ],
+    },
+    problem: {
+      summary:
+        "The growth ceiling was the lifecycle itself — loyal users who had to leave.",
+      cards: [
+        {
+          title: "Users with expiration dates",
+          body: "B2C retention was strong inside cohorts, but the funnel refilled with undergrads who eventually graduated out. No compounding base.",
+        },
+        {
+          title: "Unclear ICP in B2B",
+          body: "We had insights across disciplines but no defined buyer. The team had hypotheses, not proof.",
+        },
+        {
+          title: "AI without the loop",
+          body: "Summaries weren't tuned to researchers' actual needs — real-world context, societal impact, effect on studied populations.",
+        },
+      ],
+    },
+    process: {
+      steps: [
+        {
+          title: "Discovery interviews",
+          body: "UN analysts and vaccine researchers revealed a 20-hour monthly black hole in information retrieval. At NIH scale, that's nearly $10M a month.",
+        },
+        {
+          title: "Cocreation & testing",
+          body: "Mapped the as-is journey, then launched a Beta 24/7 junior analyst. Twenty qualified leads came through paid ads inside a week.",
+        },
+        {
+          title: "Beta-user iterations",
+          body: "Users told us summaries lacked context — the societal stakes, the affected populations, the why-does-it-matter. We redesigned with that in mind.",
+        },
+        {
+          title: "Launch & roadmap",
+          body: "Aligned beta feedback to a prioritization equation — Reach × Impact × Confidence / Effort — and positioned the product for B2B.",
+        },
+      ],
+    },
+    solution: {
+      pillars: [
+        {
+          title: "Summary iteration",
+          body: "Tested OpenAI and Claude models side by side. Quick feedback loops through surveys and interviews kept the best-performing prompts in rotation.",
+        },
+        {
+          title: "Audio page redesign",
+          body: "Added summaries on top of full-text papers so researchers could understand a new piece of work in seconds and stay in sync with their teams.",
+        },
+        {
+          title: "Scalable in-app feedback",
+          body: "Passive, lightweight feedback built into the workflow — no interruptions, but a steady stream of signal to shape the next iteration.",
         },
       ],
     },

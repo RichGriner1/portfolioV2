@@ -15,7 +15,11 @@ export type BentoCard = {
     | "canvas"
     | "guideline"
     | "wordpress"
-    | "logo-identity";
+    | "logo-identity"
+    | "journey-scene"
+    | "affirmation-morph"
+    | "organic-bundle"
+    | "user-feedback";
 };
 
 export type CaseStudyContext = {
@@ -317,6 +321,122 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         {
           title: "Shared prototype environment",
           body: "One shadcn-based codebase the whole team runs locally. Marketer, developer, founder — same foundation, same output quality.",
+        },
+      ],
+    },
+  },
+  mindfulme: {
+    tagline: "A mindfulness MVP that treats each journey as unique",
+    intro:
+      "Young professionals keep bouncing off mindfulness apps because every one of them looks and sounds the same — calming greens, a meditation library, a timer. Mindfulme hired me to design the MVP's brand and experience from scratch: no brand yet, two ready-to-code developers, and user feedback as the rawest input we had. The work started with listening, turned into a hand-crafted visual language of organic shapes and script affirmations, and shipped as a tight MVP that the two devs could build alongside the design. The throughline: a mindfulness practice that echoes the person, not the industry.",
+    role: "Freelance Designer & Product Lead",
+    contributions: [
+      "Brand identity",
+      "Product design",
+      "User research",
+      "MVP delivery",
+    ],
+    bento: [
+      {
+        label: "Every Journey is Different",
+        sublabel:
+          "A brand built around the idea that no two mindfulness paths look alike",
+        animation: "journey-scene",
+        span: "wide",
+      },
+      {
+        label: "Affirmations that Evolve",
+        sublabel: "Hand-lettered words that change with the user",
+        animation: "affirmation-morph",
+      },
+      {
+        label: "Organic Visual Language",
+        sublabel: "Hand-drawn shapes over sterile iconography",
+        animation: "organic-bundle",
+      },
+      {
+        label: "User-led iteration",
+        sublabel:
+          "Designed alongside two developers and early users — shipped an MVP that reflected them",
+        animation: "user-feedback",
+        span: "wide",
+      },
+    ],
+    context: {
+      credits: [
+        { name: "Mindfulme", role: "Mindfulness app client" },
+        { name: "Young professionals", role: "Primary users" },
+      ],
+      headline:
+        "A mindfulness practice that echoes the person, not the industry.",
+      paragraph:
+        "Young professionals find it hard to sustain a mindfulness practice because most apps default to a one-size-fits-all library. Mindfulme contracted me to design their MVP's experience and interface. We started with no brand, no application, two ready-to-code developers, and the rawest thing you can start with — user feedback.",
+      blocks: [
+        {
+          label: "Problem",
+          body: "Mindfulness apps look and feel the same — cool greens, clean icons, meditation timers. None of them acknowledge that every user's journey is different.",
+        },
+        {
+          label: "Business need",
+          body: "A brand and MVP distinct enough to stand out in a crowded category, flexible enough to grow with real usage data.",
+        },
+        {
+          label: "User need",
+          body: "A tool that adapts to the user — not the other way around. Something that feels personal from the first screen.",
+        },
+      ],
+    },
+    problem: {
+      summary:
+        "Mindfulness as a category has flattened into a single visual language — and a single user experience.",
+      cards: [
+        {
+          title: "Category sameness",
+          body: "Every competitor uses the same calming greens, the same soft sans, the same meditation timers.",
+        },
+        {
+          title: "Generic content",
+          body: "Meditations treat every user like a beginner. There's no acknowledgment that people come in with very different starting points.",
+        },
+        {
+          title: "No room to grow",
+          body: "Apps don't evolve with users. A thirty-session streak looks the same as day one.",
+        },
+      ],
+    },
+    process: {
+      steps: [
+        {
+          title: "Listen first",
+          body: "Interviews with young professionals surfaced the pattern: they all felt the apps were talking to someone else.",
+        },
+        {
+          title: "Brand from the feeling",
+          body: "Organic shapes, hand-drawn type, muted earthy palette. A brand that looks made by a person, not a template.",
+        },
+        {
+          title: "Design alongside developers",
+          body: "The two devs were ready to code from day one. Flows and screens were scoped tightly so design and build moved together.",
+        },
+        {
+          title: "Ship, then iterate",
+          body: "The MVP went live fast. User feedback shaped the second pass more than any pre-launch assumption.",
+        },
+      ],
+    },
+    solution: {
+      pillars: [
+        {
+          title: "Hand-crafted brand",
+          body: "Wood frames, organic blobs, script affirmations — a visual system that reads like a person made it, because a person did.",
+        },
+        {
+          title: "Evolving content",
+          body: "Affirmations and meditations change as the user changes. No two sessions look the same, and no two users' experiences mirror each other.",
+        },
+        {
+          title: "Tight MVP loop",
+          body: "A scope small enough for two developers to ship, and a feedback loop that turned real users into the strongest design input.",
         },
       ],
     },

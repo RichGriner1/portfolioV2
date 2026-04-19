@@ -52,4 +52,14 @@ export const WORK: WorkItem[] = [
     href: "/work/kt360",
     glyph: "brand-rules",
   },
+  {
+    slug: "mindfulme",
+    title: "Mindfulme",
+    description:
+      "Brand identity and MVP experience for a mindfulness app that treats each person's journey as unique — no cookie-cutter meditations.",
+    year: 2024,
+    type: "brand-ds",
+    href: "/work/mindfulme",
+    glyph: "visual-strategy",
+  },
 ];

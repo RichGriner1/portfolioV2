@@ -2,12 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CaseStudyBento } from "@/components/case-study-bento";
-import {
-  ContextSection,
-  ProblemSection,
-  ProcessSection,
-  SolutionSection,
-} from "@/components/case-study-sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { CASE_STUDIES } from "@/lib/content/case-studies";
@@ -88,11 +82,6 @@ export default async function WorkDetailPage({ params }: { params: Params }) {
             )}
 
             <CaseStudyBento cards={study.bento} />
-
-            {study.context && <ContextSection data={study.context} />}
-            {study.problem && <ProblemSection data={study.problem} />}
-            {study.process && <ProcessSection data={study.process} />}
-            {study.solution && <SolutionSection data={study.solution} />}
           </>
         ) : (
           <>

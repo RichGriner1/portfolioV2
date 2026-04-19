@@ -1947,8 +1947,12 @@ function BentoCardItem({ card }: { card: BentoCard }) {
       initial="rest"
       whileHover="hover"
       animate="rest"
-      onHoverStart={() => setActive(true)}
-      onHoverEnd={() => setActive(false)}
+      tabIndex={0}
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+      onFocus={() => setActive(true)}
+      onBlur={() => setActive(false)}
+      onTouchStart={() => setActive(true)}
     >
       <div className="flex min-h-[120px] flex-1 items-center justify-center">
         <Animation active={active} />

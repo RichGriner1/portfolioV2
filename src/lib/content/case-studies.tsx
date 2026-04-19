@@ -18,6 +18,26 @@ export type BentoCard = {
     | "logo-identity";
 };
 
+export type CaseStudyContext = {
+  credits?: { name: string; role: string }[];
+  headline: string;
+  paragraph: string;
+  blocks: { label: string; body: string }[];
+};
+
+export type CaseStudyProblem = {
+  summary: string;
+  cards: { title: string; body: string }[];
+};
+
+export type CaseStudyProcess = {
+  steps: { title: string; body: string }[];
+};
+
+export type CaseStudySolution = {
+  pillars: { title: string; body: string }[];
+};
+
 export type CaseStudy = {
   tagline: string;
   intro: string;
@@ -25,6 +45,10 @@ export type CaseStudy = {
   contributions: string[];
   bento: BentoCard[];
   confidential?: string;
+  context?: CaseStudyContext;
+  problem?: CaseStudyProblem;
+  process?: CaseStudyProcess;
+  solution?: CaseStudySolution;
 };
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
@@ -67,6 +91,83 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         span: "wide",
       },
     ],
+    context: {
+      credits: [
+        { name: "Afi Consultores", role: "Fintech consultancy" },
+        { name: "Banking clients", role: "End users" },
+      ],
+      headline: "A design team of one, shipping for every bank on the roster.",
+      paragraph:
+        "Afi is a Spanish fintech consultancy with a high project rate and a single designer holding the line. Documentation lived in scattered decks and Figma files. The Angular product was hacked on top of Material UI — a framework built for Google, stretched thin to fit banking workflows it was never meant to carry.",
+      blocks: [
+        {
+          label: "Problem",
+          body: "Inconsistent patterns across products, no single source of truth, and a component library fighting its own framework.",
+        },
+        {
+          label: "Business need",
+          body: "A system that scales across banking clients without rebuilding from scratch every engagement.",
+        },
+        {
+          label: "User need",
+          body: "Interfaces that feel coherent — same logic, same behavior, same quality — regardless of which product they open.",
+        },
+      ],
+    },
+    problem: {
+      summary:
+        "The pace never allowed for foundational work, so every project paid the tax.",
+      cards: [
+        {
+          title: "Scattered documentation",
+          body: "Specs lived in decks, Figma files, and tribal memory. Nobody could find the current version.",
+        },
+        {
+          title: "Framework fighting itself",
+          body: "Material UI bent into shapes it wasn't designed for. Every override added more debt.",
+        },
+        {
+          title: "No path to white-label",
+          body: "Each banking client needed its own look. Without token architecture, that meant forking everything.",
+        },
+      ],
+    },
+    process: {
+      steps: [
+        {
+          title: "Audit the surface",
+          body: "Mapped every product, every component, every divergence. Named the debt out loud.",
+        },
+        {
+          title: "Pick the migration",
+          body: "Material to PrimeNG — a component set built for data-dense enterprise work, with the flexibility Material refused.",
+        },
+        {
+          title: "Build the token architecture",
+          body: "Primitive, semantic, and component layers in Figma. One source of truth, theme-able per client.",
+        },
+        {
+          title: "Ship with AI handoff",
+          body: "Unified platform for design, docs, and review. Agents check work against the system before it merges.",
+        },
+      ],
+    },
+    solution: {
+      pillars: [
+        {
+          title: "Token architecture",
+          body: "Three layers — primitives, semantics, components — that let the system white-label cleanly across banking brands.",
+        },
+        {
+          title: "Component library migration",
+          body: "Material to PrimeNG, then a custom layer on top. Each step unlocked flexibility the last one blocked.",
+        },
+        {
+          title: "AI-assisted platform",
+          body: "Documentation, handoff, and review agents live in the same repo as the code. The system audits itself.",
+        },
+      ],
+    },
   },
   "story-architect": {
     tagline: "Agency-quality design for a two-person brand consultancy",
@@ -141,5 +242,83 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         animation: "guideline",
       },
     ],
+    context: {
+      credits: [
+        { name: "KT360", role: "Early-stage AI startup" },
+        { name: "Two founders", role: "No in-house designer" },
+      ],
+      headline:
+        "A two-founder AI startup that needed to look nothing like AI.",
+      paragraph:
+        "KT360 launched into a saturated market where every product looked the same — same gradients, same SaaS chrome, same generic confidence. The founders wanted playful, human, distinct. The harder problem: keeping it that way without a designer in the room. Marketers write blog posts. Developers ship new pages. The brand has to survive both.",
+      blocks: [
+        {
+          label: "Problem",
+          body: "Brand consistency without a designer is usually impossible. AI tooling defaults to the generic SaaS aesthetic. Rules lived in people's heads.",
+        },
+        {
+          label: "Business need",
+          body: "Non-technical contributors shipping on-brand work without blocking on design review.",
+        },
+        {
+          label: "User need",
+          body: "An experience that feels coherent across every touchpoint — site, docs, product — so the brand earns trust in a crowded category.",
+        },
+      ],
+    },
+    problem: {
+      summary:
+        "The brand had to live in files an AI could read, not in a designer's head.",
+      cards: [
+        {
+          title: "No designer in the loop",
+          body: "Two founders, high ship rate, no one whose job is to catch drift.",
+        },
+        {
+          title: "Generic by default",
+          body: "AI tooling pulls work toward the mean. Left alone, everything converges on the same SaaS look.",
+        },
+        {
+          title: "Rules in people's heads",
+          body: "Tribal knowledge doesn't scale. If a new contributor joins, the brand is one Slack thread away from breaking.",
+        },
+      ],
+    },
+    process: {
+      steps: [
+        {
+          title: "Define the voice",
+          body: "Playful, human, deliberately distinct. Wrote it down so the tone was auditable, not vibes-based.",
+        },
+        {
+          title: "Encode it as files",
+          body: "Brand rules, component specs, and motion patterns written in markdown and JSON — the kind of thing an agent can read.",
+        },
+        {
+          title: "Build the environment",
+          body: "A shadcn-based prototype repo the whole team runs locally. One codebase, many surfaces.",
+        },
+        {
+          title: "Wire in review agents",
+          body: "AI agents check work against the rule files before it ships. The system enforces itself.",
+        },
+      ],
+    },
+    solution: {
+      pillars: [
+        {
+          title: "Visual identity",
+          body: "Logo, color, and typography that read as human first — a brand that stands out in a category trying to look identical.",
+        },
+        {
+          title: "Rules as files",
+          body: "Markdown and JSON rule files that encode the brand. AI agents read them, enforce them, and flag drift on every change.",
+        },
+        {
+          title: "Shared prototype environment",
+          body: "One shadcn-based codebase the whole team runs locally. Marketer, developer, founder — same foundation, same output quality.",
+        },
+      ],
+    },
   },
 };

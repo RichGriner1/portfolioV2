@@ -23,7 +23,8 @@ export type BentoCard = {
     | "audience-pivot"
     | "hours-stat"
     | "leads-funnel"
-    | "model-iteration";
+    | "model-iteration"
+    | "asset-portal";
 };
 
 export type CaseStudyContext = {
@@ -248,6 +249,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         sublabel:
           "Tokens, typography, and components everyone builds on top of",
         animation: "guideline",
+      },
+      {
+        label: "Transparent Asset Portal",
+        sublabel:
+          "104 assets across 4 color variants, 3 categories, and 2 formats — so a marketer can grab the right logo without opening Figma.",
+        animation: "asset-portal",
+        span: "wide",
       },
     ],
     context: {

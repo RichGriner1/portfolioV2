@@ -819,7 +819,7 @@ const RULE_CHECKS = [
   },
 ];
 
-type RulePhase = "wrong" | "catching" | "fixed";
+type RulePhase = "wrong" | "fixed";
 
 function RulesAnimation({ active }: AnimationProps) {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -837,13 +837,10 @@ function RulesAnimation({ active }: AnimationProps) {
     async function loop() {
       while (!cancelled) {
         setPhase("wrong");
-        await new Promise((r) => setTimeout(r, 600));
-        if (cancelled) break;
-        setPhase("catching");
-        await new Promise((r) => setTimeout(r, 600));
+        await new Promise((r) => setTimeout(r, 800));
         if (cancelled) break;
         setPhase("fixed");
-        await new Promise((r) => setTimeout(r, 900));
+        await new Promise((r) => setTimeout(r, 1100));
         if (cancelled) break;
         setActiveIdx((p) => (p + 1) % RULE_CHECKS.length);
       }
@@ -860,9 +857,13 @@ function RulesAnimation({ active }: AnimationProps) {
         {RULE_CHECKS.map((check, i) => {
           const isActive = i === activeIdx;
           const rowPhase: RulePhase = isActive ? phase : "fixed";
-          const showFixed = rowPhase === "fixed";
-          const showWrong = isActive && rowPhase === "wrong";
-          const showCatching = isActive && rowPhase === "catching";
+          const isWrong = isActive && rowPhase === "wrong";
+          const isFixed = isActive && rowPhase === "fixed";
+          const tone = isWrong
+            ? "text-destructive"
+            : isFixed
+              ? "text-primary"
+              : "text-muted-foreground";
 
           return (
             <motion.div
@@ -870,62 +871,39 @@ function RulesAnimation({ active }: AnimationProps) {
               className="relative flex items-center gap-2 overflow-hidden rounded-md border px-2 py-1"
               animate={{
                 opacity: isActive ? 1 : 0.35,
-                borderColor: showCatching
-                  ? "hsl(var(--primary))"
-                  : showFixed
+                borderColor: isWrong
+                  ? "hsl(var(--destructive) / 0.5)"
+                  : isActive
                     ? "hsl(var(--primary) / 0.5)"
                     : "hsl(var(--border))",
               }}
-              transition={{ duration: 0.3, ease: EASE }}
+              transition={{ duration: 0.35, ease: EASE }}
             >
-              {showCatching && (
-                <motion.div
-                  className="bg-primary/15 pointer-events-none absolute inset-y-0 w-1/3"
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "320%" }}
-                  transition={{ duration: 0.55, ease: EASE }}
-                />
-              )}
-
-              <span
-                className={
-                  showFixed
-                    ? "text-primary"
-                    : showWrong
-                      ? "text-destructive"
-                      : "text-muted-foreground"
-                }
+              <motion.span
+                animate={{
+                  color: isWrong
+                    ? "hsl(var(--destructive))"
+                    : isActive
+                      ? "hsl(var(--primary))"
+                      : "hsl(var(--muted-foreground))",
+                }}
+                transition={{ duration: 0.35, ease: EASE }}
               >
-                {showFixed ? "✓" : "⚠"}
-              </span>
+                {isWrong ? "⚠" : "✓"}
+              </motion.span>
               <span className="text-foreground">{check.label}</span>
               <span className="text-muted-foreground">|</span>
               <AnimatePresence mode="wait" initial={false}>
-                {showFixed ? (
-                  <motion.span
-                    key="fixed"
-                    className="text-primary"
-                    initial={{ opacity: 0, y: 2 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -2 }}
-                    transition={{ duration: 0.2, ease: EASE }}
-                  >
-                    {check.fix}
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="wrong"
-                    className={
-                      isActive ? "text-destructive" : "text-muted-foreground"
-                    }
-                    initial={{ opacity: 0, y: 2 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -2 }}
-                    transition={{ duration: 0.2, ease: EASE }}
-                  >
-                    {check.wrong}
-                  </motion.span>
-                )}
+                <motion.span
+                  key={rowPhase}
+                  className={tone}
+                  initial={{ opacity: 0, y: 2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -2 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                >
+                  {isWrong ? check.wrong : check.fix}
+                </motion.span>
               </AnimatePresence>
             </motion.div>
           );
@@ -1170,6 +1148,185 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
         ))}
       </div>
     </motion.div>
+  );
+}
+
+const ASSET_TILES = [
+  { themeIdx: 0, format: "svg" },
+  { themeIdx: 1, format: "svg" },
+  { themeIdx: 2, format: "svg" },
+  { themeIdx: 3, format: "svg" },
+  { themeIdx: 0, format: "png" },
+  { themeIdx: 1, format: "png" },
+  { themeIdx: 2, format: "png" },
+  { themeIdx: 3, format: "png" },
+] as const;
+
+// Deterministic pseudo-random sequence of tile indices (4 picks per cycle).
+const ASSET_SEQUENCE = [2, 5, 0, 7, 3, 6, 1, 4] as const;
+
+function AssetPortalAnimation({ active }: AnimationProps) {
+  const cursor = useAnimationControls();
+  const [targetIdx, setTargetIdx] = useState<number | null>(null);
+  const [downloadedIdx, setDownloadedIdx] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setTargetIdx(null);
+        setDownloadedIdx(null);
+        void cursor.start({ opacity: 0, transition: { duration: 0 } });
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      // Tile layout is 4 columns × 2 rows. Tile size ~28px with 6px gap.
+      // Cursor coords are relative to the grid's top-left (approximate).
+      const cols = 4;
+      const tileW = 30;
+      const tileH = 30;
+      const gap = 6;
+      let seqPos = 0;
+      while (!cancelled) {
+        const idx = ASSET_SEQUENCE[seqPos % ASSET_SEQUENCE.length];
+        const col = idx % cols;
+        const row = Math.floor(idx / cols);
+        const x = col * (tileW + gap) + tileW / 2;
+        const y = row * (tileH + gap) + tileH / 2;
+
+        setDownloadedIdx(null);
+        setTargetIdx(idx);
+        await cursor.start({
+          x,
+          y,
+          opacity: 1,
+          transition: { duration: 0.4, ease: EASE },
+        });
+        if (cancelled) break;
+        await new Promise((r) => setTimeout(r, 200));
+        if (cancelled) break;
+        setDownloadedIdx(idx);
+        await new Promise((r) => setTimeout(r, 700));
+        if (cancelled) break;
+        seqPos += 1;
+        if (seqPos % 4 === 0) {
+          // brief reset pause before continuing
+          await cursor.start({
+            opacity: 0,
+            transition: { duration: 0.25, ease: EASE },
+          });
+          setTargetIdx(null);
+          setDownloadedIdx(null);
+          await new Promise((r) => setTimeout(r, 400));
+        }
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active, cursor]);
+
+  const downloaded =
+    downloadedIdx !== null ? ASSET_TILES[downloadedIdx] : null;
+  const downloadedTheme =
+    downloaded !== null ? KT_THEMES[downloaded.themeIdx] : null;
+
+  return (
+    <div className="flex w-full flex-col gap-2 px-2">
+      <div className="flex items-center justify-between">
+        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+          Design portal
+        </span>
+        <span className="text-muted-foreground font-mono text-[9px]">
+          104 assets
+        </span>
+      </div>
+      <div className="relative">
+        <div className="grid grid-cols-4 gap-1.5">
+          {ASSET_TILES.map((tile, i) => {
+            const theme = KT_THEMES[tile.themeIdx];
+            const isTarget = targetIdx === i;
+            const isDownloaded = downloadedIdx === i;
+            return (
+              <motion.div
+                key={`${tile.themeIdx}-${tile.format}`}
+                className="border-border/60 relative flex aspect-square items-center justify-center rounded-md border p-1"
+                style={{ backgroundColor: theme.bg }}
+                animate={{
+                  scale: isDownloaded ? [1, 1.08, 1] : 1,
+                }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
+                <motion.div
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: theme.dot }}
+                  animate={{
+                    opacity: isDownloaded ? [0.6, 1, 0.85] : isTarget ? 0.9 : 0.6,
+                  }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                />
+                <span
+                  className="absolute right-0.5 bottom-0.5 font-mono text-[6px] tracking-wider uppercase"
+                  style={{ color: theme.dot, opacity: 0.5 }}
+                >
+                  {tile.format}
+                </span>
+                <AnimatePresence>
+                  {isDownloaded && (
+                    <motion.span
+                      key="check"
+                      className="absolute top-0.5 left-0.5 font-mono text-[8px]"
+                      style={{ color: theme.dot }}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.6 }}
+                      transition={{ duration: 0.2, ease: EASE }}
+                    >
+                      ✓
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <motion.div
+          animate={cursor}
+          className="text-foreground pointer-events-none absolute top-0 left-0"
+          style={{ originX: 0, originY: 0, opacity: 0 }}
+        >
+          <svg
+            viewBox="0 0 12 18"
+            className="h-3.5 w-3.5 drop-shadow-sm"
+            fill="currentColor"
+            aria-hidden
+          >
+            <path d="M0 0 L0 14 L3.5 10.5 L6 16 L7.5 15.5 L5 10 L9 10 Z" />
+          </svg>
+        </motion.div>
+
+        <AnimatePresence>
+          {downloaded && downloadedTheme && (
+            <motion.div
+              key={`${downloadedIdx}-label`}
+              className="bg-card border-border/60 absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-md border px-1.5 py-0.5 font-mono text-[8px] whitespace-nowrap shadow-sm"
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.2, ease: EASE }}
+            >
+              <span className="text-foreground">
+                logo-{downloadedTheme.label.toLowerCase()}.{downloaded.format}
+              </span>
+              <span className="text-muted-foreground ml-1">↓</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
@@ -2269,6 +2426,7 @@ const ANIMATIONS: Record<
   "hours-stat": HoursStatAnimation,
   "leads-funnel": LeadsFunnelAnimation,
   "model-iteration": ModelIterationAnimation,
+  "asset-portal": AssetPortalAnimation,
 };
 
 function BentoCardItem({ card }: { card: BentoCard }) {

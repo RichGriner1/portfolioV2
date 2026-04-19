@@ -1,11 +1,27 @@
 "use client";
 
-import { AnimatePresence, motion, useAnimationControls } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useAnimationControls,
+  type Transition,
+} from "motion/react";
 import { useEffect, useState, type JSX } from "react";
 
 import type { BentoCard } from "@/lib/content/case-studies";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
+const EASE_SOFT = [0.32, 0.72, 0.18, 1] as const;
+const SPRING_SOFT: Transition = {
+  type: "spring",
+  stiffness: 180,
+  damping: 22,
+};
+const SPRING_SNAP: Transition = {
+  type: "spring",
+  stiffness: 260,
+  damping: 20,
+};
 
 const TOKEN_CHAIN = [
   { label: "blue/500", sub: "primitive" },
@@ -187,7 +203,7 @@ function SwapAnimation({ active }: AnimationProps) {
           animate={{
             opacity: phase === "to-prime" || phase === "to-custom" ? 1 : 0.25,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4, ease: EASE_SOFT }}
         >
           →
         </motion.span>
@@ -216,7 +232,7 @@ function SwapAnimation({ active }: AnimationProps) {
               opacity: phase === "prime-done" ? 1 : 0,
               scale: phase === "prime-done" ? 1 : 0.4,
             }}
-            transition={{ duration: 0.3, ease: [0.175, 0.885, 0.32, 1.275] }}
+            transition={SPRING_SNAP}
           >
             ✓
           </motion.span>
@@ -227,7 +243,7 @@ function SwapAnimation({ active }: AnimationProps) {
           animate={{
             opacity: phase === "to-custom" || phase === "custom-done" ? 1 : 0,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4, ease: EASE_SOFT }}
         >
           →
         </motion.span>
@@ -256,7 +272,7 @@ function SwapAnimation({ active }: AnimationProps) {
               opacity: phase === "custom-done" ? 1 : 0,
               scale: phase === "custom-done" ? 1 : 0.4,
             }}
-            transition={{ duration: 0.3, ease: [0.175, 0.885, 0.32, 1.275] }}
+            transition={SPRING_SNAP}
           >
             ✓
           </motion.span>
@@ -491,7 +507,7 @@ function MoodboardAnimation({ active }: AnimationProps) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.35, delay: i * 0.04, ease: EASE }}
+              transition={{ duration: 0.45, delay: i * 0.04, ease: EASE_SOFT }}
             />
           ))}
         </AnimatePresence>
@@ -537,7 +553,7 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.3, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <div className="border-background/10 flex items-center gap-1 border-b px-2 py-1">
               <div className="bg-background/20 h-1.5 w-1.5 rounded-full" />
@@ -603,9 +619,9 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
                       initial={{ opacity: 0, x: -4 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{
-                        duration: 0.25,
+                        duration: 0.4,
                         delay: i * 0.05 + j * 0.03,
-                        ease: EASE,
+                        ease: EASE_SOFT,
                       }}
                     />
                   ))}
@@ -620,7 +636,7 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.3, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <div className="border-border flex items-center gap-1 border-b px-2 py-1">
               <div className="bg-muted h-1.5 w-1.5 rounded-full" />
@@ -635,25 +651,25 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
                 className="bg-foreground h-2 w-20 rounded-sm"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.05, ease: EASE }}
+                transition={{ duration: 0.4, delay: 0.05, ease: EASE_SOFT }}
               />
               <motion.div
                 className="bg-muted h-1.5 w-full rounded-full"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1, ease: EASE }}
+                transition={{ duration: 0.4, delay: 0.1, ease: EASE_SOFT }}
               />
               <motion.div
                 className="bg-muted h-1.5 w-4/5 rounded-full"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.15, ease: EASE }}
+                transition={{ duration: 0.4, delay: 0.15, ease: EASE_SOFT }}
               />
               <motion.div
                 className="bg-primary text-primary-foreground mt-0.5 inline-flex w-fit rounded px-1.5 py-0.5 font-mono text-[8px] font-medium"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.2, ease: EASE }}
+                transition={{ duration: 0.4, delay: 0.2, ease: EASE_SOFT }}
               >
                 Launch
               </motion.div>
@@ -897,10 +913,10 @@ function RulesAnimation({ active }: AnimationProps) {
                 <motion.span
                   key={rowPhase}
                   className={tone}
-                  initial={{ opacity: 0, y: 2 }}
+                  initial={{ opacity: 0, y: 3 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -2 }}
-                  transition={{ duration: 0.2, ease: EASE }}
+                  exit={{ opacity: 0, y: -3 }}
+                  transition={{ duration: 0.35, ease: EASE_SOFT }}
                 >
                   {isWrong ? check.wrong : check.fix}
                 </motion.span>
@@ -992,7 +1008,7 @@ function CursorAnimation({ active }: AnimationProps) {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.25, ease: EASE }}
+                transition={SPRING_SOFT}
               >
                 <span>✓</span>
                 <span>Published</span>
@@ -1003,9 +1019,9 @@ function CursorAnimation({ active }: AnimationProps) {
                 type="button"
                 className="bg-primary text-primary-foreground rounded-md px-2 py-1 font-mono text-[9px] font-medium"
                 animate={{ scale: pressed ? 0.92 : 1 }}
-                transition={{ duration: 0.12, ease: EASE }}
+                transition={{ duration: 0.18, ease: EASE_SOFT }}
                 initial={false}
-                exit={{ opacity: 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.3, ease: EASE_SOFT } }}
               >
                 Publish
               </motion.button>
@@ -1102,7 +1118,7 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 4 }}
-          transition={{ duration: 0.3, ease: EASE }}
+          transition={{ duration: 0.4, ease: EASE_SOFT }}
         >
           {current.label}
         </motion.span>
@@ -1143,7 +1159,7 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
               width: i === themeIdx ? 14 : 4,
               opacity: i === themeIdx ? 1 : 0.35,
             }}
-            transition={{ duration: 0.3, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           />
         ))}
       </div>
@@ -1282,7 +1298,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
                       initial={{ opacity: 0, scale: 0.6 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.6 }}
-                      transition={{ duration: 0.2, ease: EASE }}
+                      transition={SPRING_SNAP}
                     >
                       ✓
                     </motion.span>
@@ -1316,7 +1332,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2, ease: EASE }}
+              transition={{ duration: 0.35, ease: EASE_SOFT }}
             >
               <span className="text-foreground">
                 logo-{downloadedTheme.label.toLowerCase()}.{downloaded.format}
@@ -1385,7 +1401,7 @@ function CanvasAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <span className="text-muted-foreground">$ </span>
             <span className="text-foreground">{GIT_CMD.slice(0, chars)}</span>
@@ -1404,7 +1420,7 @@ function CanvasAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <span className="text-foreground font-medium">kt360-env/</span>
             {FILE_TREE.map((f, i) => (
@@ -1413,7 +1429,7 @@ function CanvasAnimation({ active }: AnimationProps) {
                 className="text-muted-foreground flex items-center gap-1.5 pl-3"
                 initial={{ opacity: 0, x: -4 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2, delay: i * 0.1, ease: EASE }}
+                transition={{ duration: 0.35, delay: i * 0.1, ease: EASE_SOFT }}
               >
                 <span className="text-border">├</span>
                 <span>{f}</span>
@@ -1430,7 +1446,7 @@ function CanvasAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <div className="border-border flex items-center gap-1.5 border-b px-2 py-1.5">
               {["bg-red-400", "bg-yellow-400", "bg-green-400"].map((c, i) => (
@@ -1468,7 +1484,7 @@ function CanvasAnimation({ active }: AnimationProps) {
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.35, ease: EASE }}
+            transition={SPRING_SOFT}
           >
             <span
               className="text-2xl leading-none"
@@ -1544,7 +1560,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
               color: p === page ? "#5e5eed" : "hsl(var(--muted-foreground))",
               fontWeight: p === page ? 600 : 400,
             }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             {p}
           </motion.span>
@@ -1559,7 +1575,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             {KT_SWATCHES.map((s, i) => (
               <motion.div
@@ -1567,7 +1583,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
                 className="flex flex-col items-center gap-0.5"
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2, delay: i * 0.04, ease: EASE }}
+                transition={{ duration: 0.35, delay: i * 0.04, ease: EASE_SOFT }}
               >
                 <div
                   className="h-7 w-full rounded-md border"
@@ -1594,7 +1610,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             {[
               { size: "text-xl", weight: "font-bold", label: "Display — Bold" },
@@ -1614,7 +1630,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
                 className={`text-foreground font-sans ${t.size} ${t.weight} leading-none`}
                 initial={{ opacity: 0, x: -4 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2, delay: i * 0.07, ease: EASE }}
+                transition={{ duration: 0.35, delay: i * 0.07, ease: EASE_SOFT }}
               >
                 {t.label}
               </motion.div>
@@ -1629,7 +1645,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.25, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <div className="flex flex-wrap gap-1.5">
               <div
@@ -1735,7 +1751,7 @@ function WordpressAnimation({ active }: AnimationProps) {
                 i === step ? "hsl(var(--foreground))" : "hsl(var(--border))",
             }}
             style={{ height: 4 }}
-            transition={{ duration: 0.3, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
           />
         ))}
       </div>
@@ -1745,28 +1761,75 @@ function WordpressAnimation({ active }: AnimationProps) {
 
 // Mindfulme animations — abstract, metaphor-driven, semantic tokens only.
 
-const JOURNEY_PATHS = [
-  "M 8 32 C 40 32, 60 8, 120 12",
-  "M 8 32 C 36 32, 56 52, 120 56",
-  "M 8 32 C 28 32, 40 20, 60 40 S 96 24, 120 28",
-  "M 8 32 C 50 32, 70 32, 120 40",
-  "M 8 32 C 30 32, 46 44, 72 18 S 104 48, 120 46",
+// Start positions: 5 avatars clustered near the left.
+const JOURNEY_START_POINTS = [
+  { x: 14, y: 18 },
+  { x: 10, y: 32 },
+  { x: 14, y: 46 },
+  { x: 18, y: 26 },
+  { x: 18, y: 38 },
 ] as const;
 
-const JOURNEY_END_POINTS = [
-  { x: 120, y: 12 },
-  { x: 120, y: 56 },
-  { x: 120, y: 28 },
-  { x: 120, y: 40 },
-  { x: 120, y: 46 },
+// Each path is a series of waypoints (x,y) sampled from a hand-drawn-ish curve.
+// The avatar's cx / cy animates through these waypoints. Last waypoint = destination.
+const JOURNEY_WAYPOINTS: readonly (readonly { x: number; y: number }[])[] = [
+  [
+    { x: 14, y: 18 },
+    { x: 40, y: 14 },
+    { x: 70, y: 10 },
+    { x: 100, y: 12 },
+    { x: 120, y: 12 },
+  ],
+  [
+    { x: 10, y: 32 },
+    { x: 38, y: 48 },
+    { x: 68, y: 54 },
+    { x: 98, y: 56 },
+    { x: 120, y: 56 },
+  ],
+  [
+    { x: 14, y: 46 },
+    { x: 34, y: 34 },
+    { x: 60, y: 40 },
+    { x: 90, y: 30 },
+    { x: 120, y: 28 },
+  ],
+  [
+    { x: 18, y: 26 },
+    { x: 46, y: 32 },
+    { x: 76, y: 36 },
+    { x: 102, y: 40 },
+    { x: 120, y: 40 },
+  ],
+  [
+    { x: 18, y: 38 },
+    { x: 40, y: 44 },
+    { x: 70, y: 22 },
+    { x: 100, y: 44 },
+    { x: 120, y: 46 },
+  ],
+];
+
+// Pre-computed SVG path strings (smooth cubic through the waypoints).
+const JOURNEY_PATH_STRINGS = [
+  "M 14 18 C 30 14, 58 10, 120 12",
+  "M 10 32 C 32 48, 70 56, 120 56",
+  "M 14 46 C 30 34, 70 44, 120 28",
+  "M 18 26 C 46 32, 88 38, 120 40",
+  "M 18 38 C 46 46, 82 22, 120 46",
 ] as const;
+
+const JOURNEY_DURATIONS = [2.0, 2.2, 1.9, 2.3, 2.1] as const;
 
 function JourneySceneAnimation({ active }: AnimationProps) {
   const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
-    if (!active) return;
-    const t = setInterval(() => setCycle((c) => c + 1), 3000);
+    if (!active) {
+      const t = setTimeout(() => setCycle(0), 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => setCycle((c) => c + 1), 3400);
     return () => clearInterval(t);
   }, [active]);
 
@@ -1777,45 +1840,90 @@ function JourneySceneAnimation({ active }: AnimationProps) {
         className="h-full w-full max-w-[320px]"
         aria-hidden
       >
-        {/* Start dot */}
-        <circle cx="8" cy="32" r="3" fill="currentColor" opacity="0.9" />
-
-        {JOURNEY_PATHS.map((d, i) => (
+        {/* Paths — drawn behind avatars */}
+        {JOURNEY_PATH_STRINGS.map((d, i) => (
           <motion.path
-            key={`${cycle}-${i}`}
+            key={`${cycle}-path-${i}`}
             d={d}
             fill="none"
             stroke="currentColor"
             strokeWidth="1"
             strokeLinecap="round"
-            opacity={0.4}
+            opacity={0.3}
             initial={active ? { pathLength: 0 } : { pathLength: 1 }}
             animate={{ pathLength: 1 }}
             transition={{
-              duration: active ? 1.8 : 0,
-              delay: active ? i * 0.15 : 0,
-              ease: EASE,
+              duration: active ? JOURNEY_DURATIONS[i] * 0.9 : 0,
+              delay: active ? 0.15 + i * 0.08 : 0,
+              ease: EASE_SOFT,
             }}
           />
         ))}
 
-        {JOURNEY_END_POINTS.map((p, i) => (
-          <motion.circle
-            key={`${cycle}-end-${i}`}
-            cx={p.x}
-            cy={p.y}
-            r="2.5"
-            fill="currentColor"
-            opacity={0.6}
-            initial={active ? { opacity: 0 } : { opacity: 0.6 }}
-            animate={{ opacity: 0.6 }}
-            transition={{
-              duration: 0.3,
-              delay: active ? i * 0.15 + 1.6 : 0,
-              ease: EASE,
-            }}
-          />
-        ))}
+        {/* End dots */}
+        {JOURNEY_WAYPOINTS.map((wp, i) => {
+          const end = wp[wp.length - 1];
+          return (
+            <motion.circle
+              key={`${cycle}-end-${i}`}
+              cx={end.x}
+              cy={end.y}
+              r="3"
+              fill="currentColor"
+              initial={
+                active
+                  ? { opacity: 0, scale: 0.5 }
+                  : { opacity: 0.7, scale: 1 }
+              }
+              animate={
+                active
+                  ? { opacity: [0, 0.7, 0.9, 0.7], scale: [0.5, 1.2, 1, 1] }
+                  : { opacity: 0.7, scale: 1 }
+              }
+              transition={{
+                duration: 0.8,
+                delay: active ? JOURNEY_DURATIONS[i] + 0.1 : 0,
+                ease: EASE_SOFT,
+              }}
+              style={{ transformOrigin: `${end.x}px ${end.y}px` }}
+            />
+          );
+        })}
+
+        {/* Avatars — travel along sampled waypoints */}
+        {JOURNEY_WAYPOINTS.map((wp, i) => {
+          const start = JOURNEY_START_POINTS[i];
+          const xs = wp.map((p) => p.x);
+          const ys = wp.map((p) => p.y);
+          return (
+            <motion.circle
+              key={`${cycle}-avatar-${i}`}
+              r="2.8"
+              fill="currentColor"
+              opacity={0.85}
+              initial={
+                active
+                  ? { cx: start.x, cy: start.y, scale: 0 }
+                  : { cx: wp[wp.length - 1].x, cy: wp[wp.length - 1].y, scale: 1 }
+              }
+              animate={
+                active
+                  ? { cx: xs, cy: ys, scale: [0, 1, 1, 1, 1] }
+                  : { cx: wp[wp.length - 1].x, cy: wp[wp.length - 1].y, scale: 1 }
+              }
+              transition={
+                active
+                  ? {
+                      duration: JOURNEY_DURATIONS[i],
+                      delay: 0.1 + i * 0.08,
+                      ease: EASE_SOFT,
+                      times: [0, 0.15, 0.5, 0.8, 1],
+                    }
+                  : { duration: 0 }
+              }
+            />
+          );
+        })}
       </svg>
     </div>
   );
@@ -1828,6 +1936,13 @@ const AFFIRMATION_PHRASES = [
   "Tomorrow belongs to you.",
 ] as const;
 
+const AFFIRMATION_SHAPES = [
+  "50% 50% 50% 50%",
+  "40% 60% 55% 45%",
+  "60% 40% 45% 55%",
+  "50% 50% 50% 50%",
+] as const;
+
 function AffirmationMorphAnimation({ active }: AnimationProps) {
   const [idx, setIdx] = useState(0);
 
@@ -1838,82 +1953,178 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
     }
     const t = setInterval(() => {
       setIdx((p) => (p + 1) % AFFIRMATION_PHRASES.length);
-    }, 1800);
+    }, 2200);
     return () => clearInterval(t);
   }, [active]);
 
   const activeIdx = active ? idx : 0;
+  const words = AFFIRMATION_PHRASES[activeIdx].split(" ");
 
   return (
-    <div className="flex w-full flex-col items-center gap-4 px-4">
-      <div className="flex h-10 items-center justify-center">
+    <div className="flex w-full flex-col items-center gap-3 px-4">
+      <div className="relative flex h-12 items-center justify-center">
         <AnimatePresence mode="wait">
-          <motion.p
+          <motion.div
             key={activeIdx}
-            className="text-foreground text-center font-serif text-base italic"
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.45, ease: EASE }}
+            className="relative flex flex-col items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.45, ease: EASE_SOFT }}
           >
-            {AFFIRMATION_PHRASES[activeIdx]}
-          </motion.p>
+            <p className="text-foreground text-center font-serif text-base italic">
+              {words.map((w, i) => (
+                <motion.span
+                  key={`${activeIdx}-${i}`}
+                  className="inline-block"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.08 + i * 0.08,
+                    ease: EASE_SOFT,
+                  }}
+                >
+                  {w}
+                  {i < words.length - 1 ? "\u00A0" : ""}
+                </motion.span>
+              ))}
+            </p>
+            {/* Pen stroke underline */}
+            <motion.span
+              className="bg-foreground/40 mt-1 block h-px origin-left"
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{
+                scaleX: [0, 1, 1, 1],
+                opacity: [0, 0.9, 0.9, 0],
+                width: [24, 48, 48, 48],
+              }}
+              transition={{
+                duration: 1.6,
+                delay: 0.2,
+                ease: EASE_SOFT,
+                times: [0, 0.3, 0.7, 1],
+              }}
+            />
+          </motion.div>
         </AnimatePresence>
       </div>
-      <div className="flex gap-1.5">
-        {AFFIRMATION_PHRASES.map((_, i) => (
-          <motion.div
-            key={i}
-            className="rounded-full"
-            animate={{
-              width: i === activeIdx ? 16 : 4,
-              backgroundColor:
-                i === activeIdx
-                  ? "hsl(var(--foreground))"
-                  : "hsl(var(--border))",
-            }}
-            style={{ height: 4 }}
-            transition={{ duration: 0.3, ease: EASE }}
-          />
-        ))}
+
+      <div className="flex items-center gap-2">
+        {/* Evolution indicator: shape that morphs with each phrase */}
+        <motion.div
+          className="bg-primary h-2 w-2"
+          animate={{
+            borderRadius: AFFIRMATION_SHAPES[activeIdx],
+            rotate: activeIdx * 30,
+          }}
+          transition={{ duration: 0.9, ease: EASE_SOFT }}
+        />
+
+        <div className="flex gap-1.5">
+          {AFFIRMATION_PHRASES.map((_, i) => (
+            <div key={i} className="relative h-1 w-4">
+              {i === activeIdx && (
+                <motion.div
+                  layoutId="affirmation-active-dot"
+                  className="bg-foreground absolute inset-0 rounded-full"
+                  transition={SPRING_SOFT}
+                />
+              )}
+              {i !== activeIdx && (
+                <div className="bg-border absolute inset-y-0 left-0 h-1 w-1 rounded-full" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-const ORGANIC_SHAPES = [
-  "8% 8% 8% 8% / 8% 8% 8% 8%",
+const ORGANIC_BLOB_SHAPES = [
   "30% 70% 70% 30% / 30% 30% 70% 70%",
   "60% 40% 30% 70% / 60% 30% 70% 40%",
   "40% 60% 70% 30% / 40% 70% 30% 60%",
+  "55% 45% 60% 40% / 50% 60% 40% 50%",
 ] as const;
 
 function OrganicBundleAnimation({ active }: AnimationProps) {
-  const [idx, setIdx] = useState(2);
-
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => setIdx(2), 0);
-      return () => clearTimeout(t);
-    }
-    const t = setInterval(() => {
-      setIdx((p) => (p + 1) % ORGANIC_SHAPES.length);
-    }, 1400);
-    return () => clearInterval(t);
-  }, [active]);
-
-  const rotations = [0, 3, -2, 1];
+  // Each blob has its own loop. When inactive, they settle to a calm resolved state.
+  const blobs = [
+    {
+      cls: "bg-primary",
+      size: 50,
+      left: 50,
+      top: 50,
+      duration: 6.8,
+      restShape: "40% 60% 55% 45% / 45% 55% 45% 55%",
+    },
+    {
+      cls: "bg-primary/60",
+      size: 32,
+      left: 28,
+      top: 26,
+      duration: 5.5,
+      restShape: "60% 40% 45% 55% / 50% 55% 45% 50%",
+    },
+    {
+      cls: "bg-primary/40",
+      size: 28,
+      left: 74,
+      top: 76,
+      duration: 4,
+      restShape: "45% 55% 40% 60% / 55% 45% 55% 45%",
+    },
+  ] as const;
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
-      <motion.div
-        className="bg-primary h-20 w-20"
-        animate={{
-          borderRadius: ORGANIC_SHAPES[idx],
-          rotate: rotations[idx],
-        }}
-        transition={{ duration: 1.4, ease: "easeInOut" }}
-      />
+      <div className="relative h-24 w-24">
+        {blobs.map((b, i) => (
+          <motion.div
+            key={i}
+            className={`${b.cls} absolute`}
+            style={{
+              width: b.size,
+              height: b.size,
+              left: `${b.left}%`,
+              top: `${b.top}%`,
+              x: "-50%",
+              y: "-50%",
+            }}
+            animate={
+              active
+                ? {
+                    borderRadius: [
+                      ORGANIC_BLOB_SHAPES[i % ORGANIC_BLOB_SHAPES.length],
+                      ORGANIC_BLOB_SHAPES[(i + 1) % ORGANIC_BLOB_SHAPES.length],
+                      ORGANIC_BLOB_SHAPES[(i + 2) % ORGANIC_BLOB_SHAPES.length],
+                      ORGANIC_BLOB_SHAPES[i % ORGANIC_BLOB_SHAPES.length],
+                    ],
+                    rotate: [0, 6, -4, 0],
+                    translateX: ["-50%", "calc(-50% + 3px)", "calc(-50% - 2px)", "-50%"],
+                    translateY: ["-50%", "calc(-50% - 2px)", "calc(-50% + 3px)", "-50%"],
+                  }
+                : {
+                    borderRadius: b.restShape,
+                    rotate: 0,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                  }
+            }
+            transition={
+              active
+                ? {
+                    duration: b.duration,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }
+                : { duration: 0.8, ease: EASE_SOFT }
+            }
+          />
+        ))}
+      </div>
       <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
         organic by design
       </span>
@@ -1926,20 +2137,25 @@ type FeedbackStage = 1 | 2 | 3 | 4;
 function FeedbackScreen({
   stage,
   highlight,
-  pulse,
+  shipped,
 }: {
   stage: FeedbackStage;
   highlight: boolean;
-  pulse: boolean;
+  shipped: boolean;
 }) {
+  const isStage4 = stage === 4;
   return (
     <motion.div
-      className="border-border bg-card flex h-16 w-10 flex-col gap-1 rounded-md border p-1.5"
+      className="border-border bg-card relative flex h-16 w-10 flex-col gap-1 rounded-md border p-1.5"
       animate={{
-        opacity: highlight ? 1 : 0.4,
-        scale: pulse ? [1, 1.05, 1] : highlight ? 1 : 0.95,
+        opacity: highlight ? 1 : 0.35,
+        scale: highlight ? 1 : 0.94,
+        boxShadow:
+          shipped && isStage4
+            ? "0 0 0 2px hsl(var(--primary) / 0.25)"
+            : "0 0 0 0 hsl(var(--primary) / 0)",
       }}
-      transition={{ duration: pulse ? 0.6 : 0.3, ease: EASE }}
+      transition={{ duration: 0.45, ease: EASE_SOFT }}
     >
       {stage === 1 && <div className="bg-muted h-0.5 w-full rounded-full" />}
       {stage === 2 && (
@@ -1961,19 +2177,54 @@ function FeedbackScreen({
           <div className="bg-muted h-0.5 w-full rounded-full" />
           <div className="bg-muted h-0.5 w-full rounded-full" />
           <div className="bg-muted h-0.5 w-2/3 rounded-full" />
-          <div className="bg-primary mt-auto h-1 w-1 rounded-full" />
+          <div className="bg-primary mt-auto h-1 w-3 rounded-full" />
         </>
+      )}
+      {/* Shipped status dot */}
+      {isStage4 && (
+        <motion.div
+          className="bg-primary absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full"
+          animate={{
+            opacity: shipped ? 1 : 0,
+            scale: shipped ? 1 : 0.4,
+          }}
+          transition={SPRING_SNAP}
+        />
       )}
     </motion.div>
   );
 }
 
+function UserIcon({ pulse }: { pulse: boolean }) {
+  return (
+    <motion.svg
+      viewBox="0 0 10 12"
+      className="text-muted-foreground h-3 w-2.5"
+      aria-hidden
+      animate={{
+        opacity: pulse ? 1 : 0.35,
+        scale: pulse ? [1, 1.3, 1] : 1,
+      }}
+      transition={{ duration: 0.45, ease: EASE_SOFT }}
+      style={{ color: "currentColor" }}
+    >
+      <circle cx="5" cy="3" r="2" fill="currentColor" />
+      <path d="M1 12 C 1 8, 9 8, 9 12 Z" fill="currentColor" />
+    </motion.svg>
+  );
+}
+
 function UserFeedbackAnimation({ active }: AnimationProps) {
-  const [step, setStep] = useState<0 | 1 | 2 | 3 | 4>(3);
+  // step: 0..3 = highlight a phone; 4 = shipped state (stage 4 glowing).
+  const [step, setStep] = useState<0 | 1 | 2 | 3 | 4>(4);
+  const [pulseIdx, setPulseIdx] = useState<number>(-1);
 
   useEffect(() => {
     if (!active) {
-      const t = setTimeout(() => setStep(3), 0);
+      const t = setTimeout(() => {
+        setStep(4);
+        setPulseIdx(-1);
+      }, 0);
       return () => clearTimeout(t);
     }
     let cancelled = false;
@@ -1982,11 +2233,19 @@ function UserFeedbackAnimation({ active }: AnimationProps) {
         for (let i = 0; i < 4; i++) {
           if (cancelled) return;
           setStep(i as 0 | 1 | 2 | 3);
+          setPulseIdx(-1);
           await new Promise((r) => setTimeout(r, 400));
+          if (cancelled) return;
+          // Pulse the user icon between this phone and the next one.
+          if (i < 3) {
+            setPulseIdx(i);
+            await new Promise((r) => setTimeout(r, 220));
+          }
         }
         if (cancelled) return;
+        setPulseIdx(-1);
         setStep(4);
-        await new Promise((r) => setTimeout(r, 600));
+        await new Promise((r) => setTimeout(r, 900));
       }
     }
     void loop();
@@ -1999,24 +2258,19 @@ function UserFeedbackAnimation({ active }: AnimationProps) {
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
-      <div className="flex w-full items-center justify-center gap-2 px-2">
+      <div className="flex w-full items-end justify-center gap-3 px-3">
         {stages.map((stage, i) => {
           const isHighlight = active ? step === i || step === 4 : true;
-          const isPulse = active && step === 4 && i === 3;
+          const shipped = step === 4;
           return (
             <div key={stage} className="flex items-center gap-2">
               <FeedbackScreen
                 stage={stage}
                 highlight={isHighlight}
-                pulse={isPulse}
+                shipped={shipped}
               />
               {i < stages.length - 1 && (
-                <div className="flex flex-col items-center gap-1">
-                  <div className="bg-foreground/60 h-1 w-1 rounded-full" />
-                  <span className="text-muted-foreground text-xs leading-none">
-                    →
-                  </span>
-                </div>
+                <UserIcon pulse={active && pulseIdx === i} />
               )}
             </div>
           );
@@ -2024,8 +2278,8 @@ function UserFeedbackAnimation({ active }: AnimationProps) {
       </div>
       <motion.span
         className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase"
-        animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: EASE }}
+        animate={{ opacity: active ? 1 : 0.6 }}
+        transition={{ duration: 0.4, ease: EASE_SOFT }}
       >
         shaped by users
       </motion.span>
@@ -2033,38 +2287,457 @@ function UserFeedbackAnimation({ active }: AnimationProps) {
   );
 }
 
-const PIVOT_DOTS = 5;
+// B2C avatar body: trapezoid approximating a grad cap silhouette (below the head).
+const PIVOT_BODY_B2C = "M -3 5 L -5 1 L 5 1 L 3 5 Z";
+// B2B avatar body: rectangle briefcase.
+const PIVOT_BODY_B2B = "M -4 1 L 4 1 L 4 6 L -4 6 Z";
+
+const PIVOT_AUDIENCES = [
+  {
+    id: "b2c" as const,
+    tag: "B2C · Students",
+    metric: "$8K MRR",
+    body: PIVOT_BODY_B2C,
+    tagClass: "bg-muted text-muted-foreground",
+  },
+  {
+    id: "b2b" as const,
+    tag: "B2B · Professionals",
+    metric: "Enterprise pipeline",
+    body: PIVOT_BODY_B2B,
+    tagClass: "bg-primary text-primary-foreground",
+  },
+] as const;
 
 function AudiencePivotAnimation({ active }: AnimationProps) {
-  // -1 = reset (right empty, arrow hidden). 0..PIVOT_DOTS = how many dots have migrated.
-  const [step, setStep] = useState<number>(PIVOT_DOTS);
-  const [arrow, setArrow] = useState(true);
+  const [audIdx, setAudIdx] = useState(1);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setAudIdx(1), 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setAudIdx((p) => (p + 1) % PIVOT_AUDIENCES.length);
+    }, 2200);
+    return () => clearInterval(t);
+  }, [active]);
+
+  const aud = PIVOT_AUDIENCES[audIdx];
+
+  return (
+    <div className="flex w-full items-center justify-center px-2">
+      <div className="bg-card border-border/60 flex w-full max-w-[280px] flex-col items-center gap-3 rounded-xl border p-4">
+        {/* Tag pill */}
+        <div className="flex h-5 items-center overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={aud.id}
+              layout
+              className={`${aud.tagClass} rounded-full px-2.5 py-0.5 font-mono text-[10px] font-medium`}
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={SPRING_SOFT}
+            >
+              {aud.tag}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+
+        {/* Avatar row — 5 people morphing body shape */}
+        <div className="flex items-center justify-center gap-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <svg
+              key={i}
+              viewBox="-6 -6 12 14"
+              className="text-foreground h-5 w-3"
+              aria-hidden
+            >
+              <circle cx="0" cy="-3" r="2" fill="currentColor" />
+              <motion.path
+                fill="currentColor"
+                animate={{ d: aud.body }}
+                transition={{
+                  ...SPRING_SOFT,
+                  delay: i * 0.04,
+                }}
+                initial={false}
+              />
+            </svg>
+          ))}
+        </div>
+
+        {/* Metric readout */}
+        <div className="flex h-4 items-center overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={aud.id}
+              className="text-foreground font-mono text-[11px] font-medium"
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            >
+              {aud.metric}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const HOURS_DOT_COUNT = 20;
+const HOURS_DOTS = Array.from({ length: HOURS_DOT_COUNT }, (_, i) => {
+  const angle = (i / HOURS_DOT_COUNT) * Math.PI * 2 - Math.PI / 2;
+  return {
+    x: 50 + Math.cos(angle) * 42,
+    y: 50 + Math.sin(angle) * 42,
+  };
+});
+
+type HoursPhase = "counting" | "hours-done" | "money" | "money-done";
+
+function CountingNumberAnim({
+  target,
+  prefix = "",
+  suffix = "",
+  running,
+  duration = 1200,
+}: {
+  target: number;
+  prefix?: string;
+  suffix?: string;
+  running: boolean;
+  duration?: number;
+}) {
+  const [display, setDisplay] = useState(running ? 0 : target);
+
+  useEffect(() => {
+    if (!running) {
+      const t = setTimeout(() => setDisplay(target), 0);
+      return () => clearTimeout(t);
+    }
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      // Ease-out curve
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(target * eased));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [target, running, duration]);
+
+  return (
+    <>
+      {prefix}
+      {display}
+      {suffix}
+    </>
+  );
+}
+
+function HoursStatAnimation({ active }: AnimationProps) {
+  const [phase, setPhase] = useState<HoursPhase>("money-done");
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setPhase("money-done"), 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        setPhase("counting");
+        await new Promise((r) => setTimeout(r, 1200));
+        if (cancelled) return;
+        setPhase("hours-done");
+        await new Promise((r) => setTimeout(r, 900));
+        if (cancelled) return;
+        setPhase("money");
+        await new Promise((r) => setTimeout(r, 100));
+        if (cancelled) return;
+        setPhase("money-done");
+        await new Promise((r) => setTimeout(r, 1400));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const isMoney = phase === "money" || phase === "money-done";
+  const isHours = phase === "counting" || phase === "hours-done";
+  const countingHours = phase === "counting";
+  const moneyDone = phase === "money-done";
+
+  // For the ring: lit count based on phase.
+  const litCount = isMoney
+    ? HOURS_DOT_COUNT
+    : countingHours
+      ? HOURS_DOT_COUNT
+      : phase === "hours-done"
+        ? HOURS_DOT_COUNT
+        : 0;
+
+  return (
+    <div className="relative flex w-full flex-col items-center justify-center gap-2 px-2">
+      <div className="relative flex items-center justify-center">
+        <motion.div
+          className="bg-primary/10 relative flex h-24 w-24 items-center justify-center rounded-full"
+          animate={{
+            boxShadow: moneyDone
+              ? "0 0 0 6px hsl(var(--primary) / 0.15)"
+              : "0 0 0 0 hsl(var(--primary) / 0)",
+          }}
+          transition={{ duration: 0.6, ease: EASE_SOFT }}
+        >
+          {/* Ring of 20 dots */}
+          <svg
+            viewBox="0 0 100 100"
+            className="absolute inset-0 h-full w-full"
+            aria-hidden
+          >
+            {HOURS_DOTS.map((d, i) => {
+              const lit = i < litCount;
+              return (
+                <motion.circle
+                  key={i}
+                  cx={d.x}
+                  cy={d.y}
+                  r="2"
+                  initial={false}
+                  animate={{
+                    fill: lit
+                      ? "hsl(var(--primary))"
+                      : "hsl(var(--muted))",
+                    scale: countingHours && i < litCount ? [1, 1.6, 1] : 1,
+                  }}
+                  transition={{
+                    duration: 0.35,
+                    delay: countingHours ? i * 0.05 : 0,
+                    ease: EASE_SOFT,
+                  }}
+                  style={{ transformOrigin: `${d.x}px ${d.y}px` }}
+                />
+              );
+            })}
+          </svg>
+
+          {/* Number */}
+          <AnimatePresence mode="wait">
+            {isHours ? (
+              <motion.span
+                key="hrs"
+                className="text-foreground font-display text-4xl font-black tabular-nums"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={SPRING_SOFT}
+              >
+                <CountingNumberAnim
+                  target={20}
+                  running={countingHours}
+                  duration={1100}
+                />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="money"
+                className="text-foreground font-display text-3xl font-black tabular-nums"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={SPRING_SOFT}
+              >
+                <CountingNumberAnim
+                  target={10}
+                  prefix="$"
+                  suffix="M"
+                  running={phase === "money"}
+                  duration={700}
+                />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={isMoney ? "label-money" : "label-hours"}
+          className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase"
+          initial={{ opacity: 0, y: 3 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -3 }}
+          transition={{ duration: 0.35, ease: EASE_SOFT }}
+        >
+          {isMoney ? "monthly opportunity" : "hrs/month lost"}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+const LEAD_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
+const LEAD_PER_DAY = [3, 3, 3, 3, 3, 3, 2] as const; // sums to 20
+const LEAD_TOTAL_TARGET = 20;
+const LEAD_VISIBLE = 3;
+
+type LeadNotification = { id: number; day: string };
+
+const LEAD_IDLE_FEED: LeadNotification[] = [
+  { id: 18, day: "Sun" },
+  { id: 19, day: "Sun" },
+  { id: 20, day: "Sun" },
+];
+
+function LeadsFunnelAnimation({ active }: AnimationProps) {
+  const [feed, setFeed] = useState<LeadNotification[]>(LEAD_IDLE_FEED);
+  const [total, setTotal] = useState(LEAD_TOTAL_TARGET);
 
   useEffect(() => {
     if (!active) {
       const t = setTimeout(() => {
-        setStep(PIVOT_DOTS);
-        setArrow(true);
+        setFeed(LEAD_IDLE_FEED);
+        setTotal(LEAD_TOTAL_TARGET);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    let seq = 0;
+    async function loop() {
+      while (!cancelled) {
+        setFeed([]);
+        setTotal(0);
+        await new Promise((r) => setTimeout(r, 500));
+        if (cancelled) return;
+        for (let d = 0; d < LEAD_DAYS.length; d++) {
+          for (let k = 0; k < LEAD_PER_DAY[d]; k++) {
+            if (cancelled) return;
+            seq += 1;
+            const id = seq;
+            setFeed((prev) => {
+              const next: LeadNotification[] = [
+                { id, day: LEAD_DAYS[d] },
+                ...prev,
+              ];
+              return next.slice(0, LEAD_VISIBLE);
+            });
+            setTotal((t) => t + 1);
+            await new Promise((r) => setTimeout(r, 160));
+          }
+        }
+        await new Promise((r) => setTimeout(r, 1200));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  return (
+    <div className="flex w-full flex-col items-center gap-2 px-2">
+      <div className="flex flex-col items-center">
+        <motion.span
+          key={total}
+          className="text-foreground font-display text-3xl font-black tabular-nums"
+          initial={{ opacity: 0.7, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={SPRING_SNAP}
+        >
+          {total}
+        </motion.span>
+        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+          qualified leads · 7 days
+        </span>
+      </div>
+
+      <div className="flex w-full max-w-[180px] flex-col gap-1">
+        <AnimatePresence initial={false}>
+          {feed.map((n) => (
+            <motion.div
+              key={n.id}
+              layout
+              className="border-primary/20 bg-primary/10 flex items-center gap-2 rounded-md border px-2 py-1"
+              initial={{ opacity: 0, y: -12, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={SPRING_SOFT}
+            >
+              <motion.span
+                className="bg-primary h-1.5 w-1.5 shrink-0 rounded-full"
+                animate={{ scale: [1, 1.5, 1] }}
+                transition={{ duration: 0.55, ease: EASE_SOFT }}
+              />
+              <span className="text-foreground flex-1 font-mono text-[10px]">
+                New lead · {n.day}
+              </span>
+              <span className="bg-primary/20 text-primary rounded-sm px-1 font-mono text-[9px]">
+                +1
+              </span>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+const MODEL_NAMES = ["OpenAI", "Claude"] as const;
+
+// Each model has a set of "summary variants" — arrays of line widths (as % of
+// the card's content width). When the model is active, its lines re-animate.
+const MODEL_LINE_VARIANTS: readonly (readonly number[])[][] = [
+  // OpenAI variants
+  [
+    [85, 60, 70],
+    [78, 90, 55],
+    [65, 80, 72],
+  ],
+  // Claude variants
+  [
+    [70, 88, 60, 45],
+    [82, 65, 75, 50],
+    [58, 78, 68, 80],
+  ],
+];
+
+function ModelIterationAnimation({ active }: AnimationProps) {
+  // activeModel: 0 = OpenAI, 1 = Claude. iter advances per model independently.
+  const [activeModel, setActiveModel] = useState<0 | 1>(1);
+  const [iters, setIters] = useState<[number, number]>([2, 2]);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setActiveModel(1);
+        setIters([2, 2]);
       }, 0);
       return () => clearTimeout(t);
     }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
-        setStep(-1);
-        setArrow(false);
-        await new Promise((r) => setTimeout(r, 450));
+        await new Promise((r) => setTimeout(r, 1800));
         if (cancelled) return;
-        setArrow(true);
-        await new Promise((r) => setTimeout(r, 600));
-        if (cancelled) return;
-        setStep(0);
-        for (let i = 1; i <= PIVOT_DOTS; i++) {
-          if (cancelled) return;
-          await new Promise((r) => setTimeout(r, 150));
-          setStep(i);
-        }
-        await new Promise((r) => setTimeout(r, 1500));
+        // Swap active model and advance the newly-active model's iteration.
+        setActiveModel((prev) => {
+          const next = ((prev + 1) % 2) as 0 | 1;
+          setIters((its) => {
+            const updated: [number, number] = [its[0], its[1]];
+            updated[next] =
+              (its[next] + 1) % MODEL_LINE_VARIANTS[next].length;
+            return updated;
+          });
+          return next;
+        });
       }
     }
     void loop();
@@ -2073,329 +2746,84 @@ function AudiencePivotAnimation({ active }: AnimationProps) {
     };
   }, [active]);
 
-  const started = step >= 0;
-
   return (
-    <div className="flex w-full items-center justify-center gap-4 px-4">
-      {/* Left column: B2C */}
-      <div className="flex w-20 flex-col items-center gap-2">
-        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
-          B2C
-        </span>
-        <div className="flex flex-col items-center gap-1.5">
-          {Array.from({ length: PIVOT_DOTS }).map((_, i) => {
-            const migrated = started && step > i;
-            return (
-              <motion.div
-                key={i}
-                className="bg-primary h-2 w-2 rounded-full"
-                animate={{ opacity: migrated ? 0.25 : 1 }}
-                transition={{ duration: 0.35, ease: EASE }}
-              />
-            );
-          })}
+    <div className="flex w-full items-stretch justify-center gap-3 px-2">
+      {/* Source doc chip */}
+      <div className="flex items-center">
+        <div className="bg-foreground/85 text-background rounded-md px-2 py-1 font-mono text-[10px]">
+          paper.pdf
         </div>
-        <span className="text-foreground font-mono text-[10px]">$8K MRR</span>
-      </div>
-
-      {/* Connector */}
-      <div className="relative flex h-8 w-20 items-center justify-center">
-        <svg
-          width="100%"
-          height="12"
-          viewBox="0 0 80 12"
-          className="overflow-visible"
-          aria-hidden="true"
+        <motion.span
+          className="text-muted-foreground ml-1 font-mono text-[12px]"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <motion.line
-            x1="0"
-            y1="6"
-            x2="72"
-            y2="6"
-            stroke="hsl(var(--foreground))"
-            strokeOpacity="0.45"
-            strokeWidth="1"
-            strokeDasharray="3 3"
-            initial={false}
-            animate={{ pathLength: arrow ? 1 : 0, opacity: arrow ? 1 : 0 }}
-            transition={{ duration: 0.6, ease: EASE }}
-          />
-          <motion.path
-            d="M68 2 L76 6 L68 10"
-            fill="none"
-            stroke="hsl(var(--foreground))"
-            strokeOpacity="0.45"
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={false}
-            animate={{ opacity: arrow ? 1 : 0 }}
-            transition={{ duration: 0.4, delay: 0.4, ease: EASE }}
-          />
-        </svg>
+          →
+        </motion.span>
       </div>
 
-      {/* Right column: B2B */}
-      <div className="flex w-20 flex-col items-center gap-2">
-        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
-          B2B
-        </span>
-        <div className="flex flex-col items-center gap-1.5">
-          {Array.from({ length: PIVOT_DOTS }).map((_, i) => {
-            const arrived = started && step > i;
-            return (
-              <motion.div
-                key={i}
-                className="bg-primary h-2 w-2 rounded-full"
-                initial={false}
-                animate={{
-                  opacity: arrived ? 1 : 0,
-                  scale: arrived ? 1 : 0.5,
-                }}
-                transition={{ duration: 0.35, ease: EASE }}
-              />
-            );
-          })}
-        </div>
-        <span className="text-foreground font-mono text-[10px]">
-          Enterprise pipeline
-        </span>
-      </div>
-    </div>
-  );
-}
-
-const HOURS_STATS = [
-  { value: 20, display: "20", label: "hrs/month lost" },
-  { value: 10, display: "$10M", label: "monthly opportunity" },
-] as const;
-
-function CountingNumber({
-  target,
-  display,
-  duration = 800,
-}: {
-  target: number;
-  display: string;
-  duration?: number;
-}) {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    const start = performance.now();
-    let frame = 0;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      setValue(Math.round(target * t));
-      if (t < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [target, duration]);
-
-  // For "$10M" we render the final display once counter reaches target,
-  // and render a plain counting integer with the dollar prefix while animating.
-  const hasDollar = display.startsWith("$");
-  const hasSuffix = display.endsWith("M");
-  const reachedTarget = value >= target;
-
-  if (reachedTarget) return <>{display}</>;
-  return (
-    <>
-      {hasDollar ? "$" : ""}
-      {value}
-      {hasSuffix ? "M" : ""}
-    </>
-  );
-}
-
-function HoursStatAnimation({ active }: AnimationProps) {
-  const [idx, setIdx] = useState(1);
-
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => setIdx(1), 0);
-      return () => clearTimeout(t);
-    }
-    const t = setInterval(() => {
-      setIdx((p) => (p + 1) % HOURS_STATS.length);
-    }, 1800);
-    return () => clearInterval(t);
-  }, [active]);
-
-  const stat = HOURS_STATS[idx];
-
-  return (
-    <div className="flex w-full flex-col items-center justify-center gap-2 px-2">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={idx}
-          className="flex flex-col items-center gap-1"
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.35, ease: EASE }}
-        >
-          <span className="text-foreground font-display text-5xl font-bold">
-            <CountingNumber target={stat.value} display={stat.display} />
-          </span>
-          <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
-            {stat.label}
-          </span>
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  );
-}
-
-const LEADS_PER_DAY = [2, 2, 3, 3, 4, 3, 3] as const;
-const LEADS_MAX_HEIGHT = 28;
-const LEADS_PEAK = Math.max(...LEADS_PER_DAY);
-
-function LeadsFunnelAnimation({ active }: AnimationProps) {
-  // -1 = reset, 0..LEADS_PER_DAY.length-1 = up through this day revealed.
-  const [day, setDay] = useState(LEADS_PER_DAY.length - 1);
-
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => setDay(LEADS_PER_DAY.length - 1), 0);
-      return () => clearTimeout(t);
-    }
-    let cancelled = false;
-    async function loop() {
-      while (!cancelled) {
-        setDay(-1);
-        await new Promise((r) => setTimeout(r, 400));
-        if (cancelled) return;
-        for (let i = 0; i < LEADS_PER_DAY.length; i++) {
-          if (cancelled) return;
-          setDay(i);
-          await new Promise((r) => setTimeout(r, 200));
-        }
-        await new Promise((r) => setTimeout(r, 1500));
-      }
-    }
-    void loop();
-    return () => {
-      cancelled = true;
-    };
-  }, [active]);
-
-  const revealedTotal =
-    day < 0
-      ? 0
-      : LEADS_PER_DAY.slice(0, day + 1).reduce((a, b) => a + b, 0);
-
-  return (
-    <div className="flex w-full flex-col items-center gap-2 px-2">
-      <div className="flex flex-col items-center gap-0.5">
-        <span className="text-foreground font-display text-3xl font-bold tabular-nums">
-          {revealedTotal}
-        </span>
-        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
-          qualified leads
-        </span>
-      </div>
-      <div className="flex h-8 items-end gap-1.5">
-        {LEADS_PER_DAY.map((count, i) => {
-          const revealed = day >= i;
-          const target = (count / LEADS_PEAK) * LEADS_MAX_HEIGHT;
-          return (
-            <motion.div
-              key={i}
-              className="bg-primary w-2 rounded-t-sm"
-              initial={false}
-              animate={{ height: revealed ? target : 4 }}
-              transition={{ duration: 0.4, ease: EASE }}
-              style={{ height: 4 }}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-const MODEL_PILLS = ["OpenAI", "Claude"] as const;
-
-const MODEL_SUMMARY_VARIANTS = [
-  { line1: 28, line2: 22 },
-  { line1: 34, line2: 18 },
-  { line1: 24, line2: 30 },
-] as const;
-
-function ModelIterationAnimation({ active }: AnimationProps) {
-  const [iter, setIter] = useState(MODEL_SUMMARY_VARIANTS.length - 1);
-
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(
-        () => setIter(MODEL_SUMMARY_VARIANTS.length - 1),
-        0,
-      );
-      return () => clearTimeout(t);
-    }
-    const t = setInterval(() => {
-      setIter((p) => (p + 1) % MODEL_SUMMARY_VARIANTS.length);
-    }, 1600);
-    return () => clearInterval(t);
-  }, [active]);
-
-  const activeModel = iter % 2;
-  const variant = MODEL_SUMMARY_VARIANTS[iter];
-
-  return (
-    <div className="flex w-full flex-col items-center gap-3 px-4">
-      <div className="flex gap-2">
-        {MODEL_PILLS.map((name, i) => {
+      {/* Two model cards */}
+      <div className="flex flex-1 gap-2">
+        {MODEL_NAMES.map((name, i) => {
           const isActive = i === activeModel;
+          const lines = MODEL_LINE_VARIANTS[i][iters[i]];
           return (
             <motion.div
               key={name}
-              className="border-border rounded-full border px-3 py-1 font-mono text-[10px]"
-              animate={{
-                backgroundColor: isActive
-                  ? "hsl(var(--primary))"
-                  : "hsl(var(--background) / 0)",
-                color: isActive
-                  ? "hsl(var(--primary-foreground))"
-                  : "hsl(var(--muted-foreground))",
-              }}
-              transition={{ duration: 0.35, ease: EASE }}
+              className="bg-card border-border/60 relative flex flex-1 flex-col gap-1.5 rounded-lg border p-2.5"
+              animate={{ opacity: isActive ? 1 : 0.5 }}
+              transition={{ duration: 0.45, ease: EASE_SOFT }}
             >
-              {name}
+              {/* Header row */}
+              <div className="flex items-center justify-between">
+                <span className="text-foreground font-mono text-[9px] font-medium">
+                  {name}
+                </span>
+                <div className="relative h-1.5 w-1.5">
+                  {isActive && (
+                    <motion.div
+                      layoutId="model-active-dot"
+                      className="bg-primary absolute inset-0 rounded-full"
+                      transition={SPRING_SOFT}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Animated summary lines */}
+              <div className="flex flex-col gap-1">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={`${i}-${iters[i]}-${isActive}`}
+                    className="flex flex-col gap-1"
+                    initial={{ opacity: 0, y: 3 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -3 }}
+                    transition={{ duration: 0.35, ease: EASE_SOFT }}
+                  >
+                    {lines.map((w, li) => (
+                      <motion.div
+                        key={li}
+                        className="bg-muted h-1.5 rounded-full"
+                        initial={
+                          isActive && li === 0
+                            ? { width: 0 }
+                            : { width: `${w}%` }
+                        }
+                        animate={{ width: `${w}%` }}
+                        transition={{
+                          duration: isActive && li === 0 ? 0.6 : 0.45,
+                          delay: isActive ? li * 0.08 : 0,
+                          ease: EASE_SOFT,
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </motion.div>
           );
         })}
-      </div>
-
-      <div className="bg-card/50 border-border/40 w-full max-w-[220px] rounded-lg border p-3">
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-foreground/60 h-2 w-16 rounded-full" />
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={iter}
-              className="flex flex-col gap-1.5"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.35, ease: EASE }}
-            >
-              <motion.div
-                className="bg-foreground/25 h-1.5 rounded-full"
-                animate={{ width: variant.line1 * 4 }}
-                transition={{ duration: 0.4, ease: EASE }}
-                style={{ width: variant.line1 * 4 }}
-              />
-              <motion.div
-                className="bg-foreground/25 h-1.5 rounded-full"
-                animate={{ width: variant.line2 * 4 }}
-                transition={{ duration: 0.4, ease: EASE }}
-                style={{ width: variant.line2 * 4 }}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
       </div>
     </div>
   );

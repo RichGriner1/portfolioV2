@@ -1,11 +1,6 @@
 import { WorkCard } from "@/components/work-card";
 import { WORK } from "@/lib/content/work";
 
-/**
- * Combined index of projects (and later, writing). Reverse-chronological.
- * Card grid — each card has a glyph stage at the top encoding the project's
- * central idea via `motion/react` (see `.choreograph` agent).
- */
 export function WorkIndex() {
   return (
     <section className="flex flex-col gap-6 pt-4">

@@ -6,12 +6,6 @@ import { CvModal } from "@/components/cv-modal";
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const STAGGER = 0.08;
 
-/**
- * Hero — benji-style. Name, short prose, links. Staggered entrance on mount.
- * TODO: rewrite copy in your voice. The current version leans into the
- * range-weighted homepage (DS depth + passion projects) without
- * over-explaining.
- */
 export function Hero() {
   return (
     <section className="flex flex-col gap-5 pt-12 sm:pt-20">
@@ -71,18 +65,11 @@ export function Hero() {
         aria-label="Social links"
         className="text-muted-foreground flex flex-wrap gap-4 text-sm"
       >
-        {/* TODO: replace with real handles. */}
         <a
-          href="#"
+          href="https://www.linkedin.com/in/richardgriner"
           className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
         >
-          X
-        </a>
-        <a
-          href="https://github.com/RichGriner1"
-          className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-        >
-          GitHub
+          LinkedIn
         </a>
         <a
           href="mailto:richardgrinerdesigns@gmail.com"

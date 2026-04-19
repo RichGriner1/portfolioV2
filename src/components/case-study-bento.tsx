@@ -1,10 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion, useAnimationControls } from "motion/react";
-import Image from "next/image";
 import { useEffect, useState, type JSX } from "react";
 
-import { MindfulmePrototype } from "@/components/mindfulme-prototype";
 import type { BentoCard } from "@/lib/content/case-studies";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
@@ -1622,84 +1620,90 @@ function WordpressAnimation({ active }: AnimationProps) {
   );
 }
 
-// Mindfulme animations — backed by real brand SVGs in /public/mindfulme/.
+// Mindfulme animations — abstract, metaphor-driven, semantic tokens only.
 
-const MM_JOURNEY_FRAMES = [
-  { src: "/mindfulme/hero.svg", alt: "Mindfulme hero scene" },
-  { src: "/mindfulme/frame-988.svg", alt: "Mindfulme brand illustration" },
-  { src: "/mindfulme/frame-990.svg", alt: "Mindfulme brand illustration" },
-];
+const JOURNEY_PATHS = [
+  "M 8 32 C 40 32, 60 8, 120 12",
+  "M 8 32 C 36 32, 56 52, 120 56",
+  "M 8 32 C 28 32, 40 20, 60 40 S 96 24, 120 28",
+  "M 8 32 C 50 32, 70 32, 120 40",
+  "M 8 32 C 30 32, 46 44, 72 18 S 104 48, 120 46",
+] as const;
+
+const JOURNEY_END_POINTS = [
+  { x: 120, y: 12 },
+  { x: 120, y: 56 },
+  { x: 120, y: 28 },
+  { x: 120, y: 40 },
+  { x: 120, y: 46 },
+] as const;
 
 function JourneySceneAnimation({ active }: AnimationProps) {
-  const [idx, setIdx] = useState(0);
+  const [cycle, setCycle] = useState(0);
 
   useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => setIdx(0), 0);
-      return () => clearTimeout(t);
-    }
-    const t = setInterval(() => {
-      setIdx((p) => (p + 1) % MM_JOURNEY_FRAMES.length);
-    }, 2400);
+    if (!active) return;
+    const t = setInterval(() => setCycle((c) => c + 1), 3000);
     return () => clearInterval(t);
   }, [active]);
 
-  const activeIdx = active ? idx : 0;
-  const frame = MM_JOURNEY_FRAMES[activeIdx];
-
   return (
-    <div className="bg-muted/30 relative aspect-[16/7] w-full overflow-hidden rounded-xl">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeIdx}
-          className="absolute inset-0"
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 0.6, ease: EASE }}
-        >
-          {active ? (
-            <motion.div
-              className="absolute inset-0"
-              animate={{ scale: [1, 1.04, 1.02], x: [-4, 4, -2] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
-            >
-              <Image
-                src={frame.src}
-                alt={frame.alt}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 480px, 100vw"
-              />
-            </motion.div>
-          ) : (
-            <Image
-              src={frame.src}
-              alt={frame.alt}
-              fill
-              className="object-cover"
-              sizes="(min-width: 1024px) 480px, 100vw"
-            />
-          )}
-        </motion.div>
-      </AnimatePresence>
+    <div className="text-foreground flex w-full items-center justify-center px-2">
+      <svg
+        viewBox="0 0 128 64"
+        className="h-full w-full max-w-[320px]"
+        aria-hidden
+      >
+        {/* Start dot */}
+        <circle cx="8" cy="32" r="3" fill="currentColor" opacity="0.9" />
+
+        {JOURNEY_PATHS.map((d, i) => (
+          <motion.path
+            key={`${cycle}-${i}`}
+            d={d}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            opacity={0.4}
+            initial={active ? { pathLength: 0 } : { pathLength: 1 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: active ? 1.8 : 0,
+              delay: active ? i * 0.15 : 0,
+              ease: EASE,
+            }}
+          />
+        ))}
+
+        {JOURNEY_END_POINTS.map((p, i) => (
+          <motion.circle
+            key={`${cycle}-end-${i}`}
+            cx={p.x}
+            cy={p.y}
+            r="2.5"
+            fill="currentColor"
+            opacity={0.6}
+            initial={active ? { opacity: 0 } : { opacity: 0.6 }}
+            animate={{ opacity: 0.6 }}
+            transition={{
+              duration: 0.3,
+              delay: active ? i * 0.15 + 1.6 : 0,
+              ease: EASE,
+            }}
+          />
+        ))}
+      </svg>
     </div>
   );
 }
 
-const MM_AFFIRMATION_FRAMES = [
-  { src: "/mindfulme/career.svg", alt: "Mindfulme career illustration" },
-  { src: "/mindfulme/finance.svg", alt: "Mindfulme finance illustration" },
-  { src: "/mindfulme/focus.svg", alt: "Mindfulme focus illustration" },
-  {
-    src: "/mindfulme/mental-health.svg",
-    alt: "Mindfulme mental health illustration",
-  },
-  {
-    src: "/mindfulme/physical-health.svg",
-    alt: "Mindfulme physical health illustration",
-  },
-];
+const AFFIRMATION_PHRASES = [
+  "You are enough.",
+  "You — right now — are enough.",
+  "Today, you did more than enough.",
+  "Tomorrow belongs to you.",
+] as const;
 
 function AffirmationMorphAnimation({ active }: AnimationProps) {
   const [idx, setIdx] = useState(0);
@@ -1710,45 +1714,43 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
       return () => clearTimeout(t);
     }
     const t = setInterval(() => {
-      setIdx((p) => (p + 1) % MM_AFFIRMATION_FRAMES.length);
+      setIdx((p) => (p + 1) % AFFIRMATION_PHRASES.length);
     }, 1800);
     return () => clearInterval(t);
   }, [active]);
 
   const activeIdx = active ? idx : 0;
-  const frame = MM_AFFIRMATION_FRAMES[activeIdx];
 
   return (
-    <div className="flex w-full flex-col items-center gap-3">
-      <div className="relative flex h-[160px] w-full items-center justify-center">
+    <div className="flex w-full flex-col items-center gap-4 px-4">
+      <div className="flex h-10 items-center justify-center">
         <AnimatePresence mode="wait">
-          <motion.div
+          <motion.p
             key={activeIdx}
-            initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 1.1, rotate: 4 }}
-            transition={{
-              duration: 0.55,
-              ease: [0.175, 0.885, 0.32, 1.275],
-            }}
+            className="text-foreground text-center font-serif text-base italic"
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.45, ease: EASE }}
           >
-            <Image
-              src={frame.src}
-              alt={frame.alt}
-              width={140}
-              height={140}
-              className="object-contain"
-            />
-          </motion.div>
+            {AFFIRMATION_PHRASES[activeIdx]}
+          </motion.p>
         </AnimatePresence>
       </div>
       <div className="flex gap-1.5">
-        {MM_AFFIRMATION_FRAMES.map((_, i) => (
-          <span
+        {AFFIRMATION_PHRASES.map((_, i) => (
+          <motion.div
             key={i}
-            className={`h-[3px] w-[3px] rounded-full ${
-              i === activeIdx ? "bg-foreground" : "bg-muted"
-            }`}
+            className="rounded-full"
+            animate={{
+              width: i === activeIdx ? 16 : 4,
+              backgroundColor:
+                i === activeIdx
+                  ? "hsl(var(--foreground))"
+                  : "hsl(var(--border))",
+            }}
+            style={{ height: 4 }}
+            transition={{ duration: 0.3, ease: EASE }}
           />
         ))}
       </div>
@@ -1756,50 +1758,154 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
   );
 }
 
+const ORGANIC_SHAPES = [
+  "8% 8% 8% 8% / 8% 8% 8% 8%",
+  "30% 70% 70% 30% / 30% 30% 70% 70%",
+  "60% 40% 30% 70% / 60% 30% 70% 40%",
+  "40% 60% 70% 30% / 40% 70% 30% 60%",
+] as const;
+
 function OrganicBundleAnimation({ active }: AnimationProps) {
+  const [idx, setIdx] = useState(2);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setIdx(2), 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setIdx((p) => (p + 1) % ORGANIC_SHAPES.length);
+    }, 1400);
+    return () => clearInterval(t);
+  }, [active]);
+
+  const rotations = [0, 3, -2, 1];
+
   return (
-    <div className="flex w-full items-center justify-center">
-      <MindfulmePrototype active={active} />
+    <div className="flex w-full flex-col items-center gap-3">
+      <motion.div
+        className="bg-primary h-20 w-20"
+        animate={{
+          borderRadius: ORGANIC_SHAPES[idx],
+          rotate: rotations[idx],
+        }}
+        transition={{ duration: 1.4, ease: "easeInOut" }}
+      />
+      <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+        organic by design
+      </span>
     </div>
   );
 }
 
-const MM_FEEDBACK_SCREENS = [
-  { src: "/mindfulme/screens/home.svg", alt: "Mindfulme home screen" },
-  { src: "/mindfulme/screens/profile.svg", alt: "Mindfulme profile screen" },
-  {
-    src: "/mindfulme/screens/meditation.svg",
-    alt: "Mindfulme meditation screen",
-  },
-];
+type FeedbackStage = 1 | 2 | 3 | 4;
+
+function FeedbackScreen({
+  stage,
+  highlight,
+  pulse,
+}: {
+  stage: FeedbackStage;
+  highlight: boolean;
+  pulse: boolean;
+}) {
+  return (
+    <motion.div
+      className="border-border bg-card flex h-16 w-10 flex-col gap-1 rounded-md border p-1.5"
+      animate={{
+        opacity: highlight ? 1 : 0.4,
+        scale: pulse ? [1, 1.05, 1] : highlight ? 1 : 0.95,
+      }}
+      transition={{ duration: pulse ? 0.6 : 0.3, ease: EASE }}
+    >
+      {stage === 1 && <div className="bg-muted h-0.5 w-full rounded-full" />}
+      {stage === 2 && (
+        <>
+          <div className="bg-muted h-0.5 w-full rounded-full" />
+          <div className="bg-muted h-0.5 w-3/4 rounded-full" />
+        </>
+      )}
+      {stage === 3 && (
+        <>
+          <div className="bg-muted-foreground/40 h-1 w-full rounded-sm" />
+          <div className="bg-muted h-0.5 w-full rounded-full" />
+          <div className="bg-muted h-0.5 w-2/3 rounded-full" />
+        </>
+      )}
+      {stage === 4 && (
+        <>
+          <div className="bg-foreground h-1 w-full rounded-sm" />
+          <div className="bg-muted h-0.5 w-full rounded-full" />
+          <div className="bg-muted h-0.5 w-full rounded-full" />
+          <div className="bg-muted h-0.5 w-2/3 rounded-full" />
+          <div className="bg-primary mt-auto h-1 w-1 rounded-full" />
+        </>
+      )}
+    </motion.div>
+  );
+}
 
 function UserFeedbackAnimation({ active }: AnimationProps) {
+  const [step, setStep] = useState<0 | 1 | 2 | 3 | 4>(3);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setStep(3), 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        for (let i = 0; i < 4; i++) {
+          if (cancelled) return;
+          setStep(i as 0 | 1 | 2 | 3);
+          await new Promise((r) => setTimeout(r, 400));
+        }
+        if (cancelled) return;
+        setStep(4);
+        await new Promise((r) => setTimeout(r, 600));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const stages: FeedbackStage[] = [1, 2, 3, 4];
+
   return (
-    <div className="flex w-full items-end justify-center gap-6 px-4">
-      {MM_FEEDBACK_SCREENS.map((screen, i) => (
-        <motion.div
-          key={screen.src}
-          className="border-border bg-card rounded-[20px] border p-1 shadow-sm"
-          animate={active ? { y: [0, -6, 0] } : { y: 0 }}
-          whileHover={{ y: -10, scale: 1.04 }}
-          transition={{
-            duration: 2.4,
-            repeat: active ? Infinity : 0,
-            ease: "easeInOut",
-            delay: i * 0.3,
-          }}
-        >
-          <div className="bg-background overflow-hidden rounded-[16px]">
-            <Image
-              src={screen.src}
-              alt={screen.alt}
-              width={80}
-              height={160}
-              className="object-contain"
-            />
-          </div>
-        </motion.div>
-      ))}
+    <div className="flex w-full flex-col items-center gap-3">
+      <div className="flex w-full items-center justify-center gap-2 px-2">
+        {stages.map((stage, i) => {
+          const isHighlight = active ? step === i || step === 4 : true;
+          const isPulse = active && step === 4 && i === 3;
+          return (
+            <div key={stage} className="flex items-center gap-2">
+              <FeedbackScreen
+                stage={stage}
+                highlight={isHighlight}
+                pulse={isPulse}
+              />
+              {i < stages.length - 1 && (
+                <div className="flex flex-col items-center gap-1">
+                  <div className="bg-foreground/60 h-1 w-1 rounded-full" />
+                  <span className="text-muted-foreground text-xs leading-none">
+                    →
+                  </span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <motion.span
+        className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase"
+        animate={{ opacity: active ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: EASE }}
+      >
+        shaped by users
+      </motion.span>
     </div>
   );
 }

@@ -2,6 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CaseStudyBento } from "@/components/case-study-bento";
+import {
+  ContextSection,
+  ProblemSection,
+  ProcessSection,
+  SolutionSection,
+} from "@/components/case-study-sections";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { CASE_STUDIES } from "@/lib/content/case-studies";
@@ -33,7 +39,7 @@ export default async function WorkDetailPage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-12 px-6 pt-8 pb-24">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24">
         <Link
           href="/"
           className="text-muted-foreground hover:text-foreground font-mono text-xs tracking-wider uppercase transition-colors"
@@ -82,6 +88,11 @@ export default async function WorkDetailPage({ params }: { params: Params }) {
             )}
 
             <CaseStudyBento cards={study.bento} />
+
+            {study.context && <ContextSection data={study.context} />}
+            {study.problem && <ProblemSection data={study.problem} />}
+            {study.process && <ProcessSection data={study.process} />}
+            {study.solution && <SolutionSection data={study.solution} />}
           </>
         ) : (
           <>

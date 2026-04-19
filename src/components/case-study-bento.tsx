@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useAnimationControls } from "motion/react";
+import Image from "next/image";
 import { useEffect, useState, type JSX } from "react";
 
 import type { BentoCard } from "@/lib/content/case-studies";
@@ -1620,6 +1621,195 @@ function WordpressAnimation({ active }: AnimationProps) {
   );
 }
 
+// Mindfulme animations — backed by real brand SVGs in /public/mindfulme/.
+
+function useCrossfadeIndex(length: number, intervalMs: number, active: boolean) {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setIdx(0), 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        await new Promise((r) => setTimeout(r, intervalMs));
+        if (!cancelled) setIdx((p) => (p + 1) % length);
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active, length, intervalMs]);
+
+  return idx;
+}
+
+const MM_JOURNEY_FRAMES = [
+  { src: "/mindfulme/hero.svg", alt: "Mindfulme hero scene" },
+  { src: "/mindfulme/frame-988.svg", alt: "Mindfulme brand illustration" },
+  { src: "/mindfulme/frame-990.svg", alt: "Mindfulme brand illustration" },
+];
+
+function JourneySceneAnimation({ active }: AnimationProps) {
+  const idx = useCrossfadeIndex(MM_JOURNEY_FRAMES.length, 2400, active);
+  const frame = MM_JOURNEY_FRAMES[idx];
+
+  return (
+    <div className="bg-muted/30 relative aspect-[16/7] w-full overflow-hidden rounded-xl">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={idx}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: EASE }}
+        >
+          <Image
+            src={frame.src}
+            alt={frame.alt}
+            fill
+            className="object-contain"
+            sizes="(min-width: 1024px) 480px, 100vw"
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+const MM_AFFIRMATION_FRAMES = [
+  { src: "/mindfulme/career.svg", alt: "Mindfulme career illustration" },
+  { src: "/mindfulme/finance.svg", alt: "Mindfulme finance illustration" },
+  { src: "/mindfulme/focus.svg", alt: "Mindfulme focus illustration" },
+  {
+    src: "/mindfulme/mental-health.svg",
+    alt: "Mindfulme mental health illustration",
+  },
+  {
+    src: "/mindfulme/physical-health.svg",
+    alt: "Mindfulme physical health illustration",
+  },
+];
+
+function AffirmationMorphAnimation({ active }: AnimationProps) {
+  const idx = useCrossfadeIndex(MM_AFFIRMATION_FRAMES.length, 1600, active);
+  const frame = MM_AFFIRMATION_FRAMES[idx];
+
+  return (
+    <div className="bg-muted/30 flex h-[140px] w-full items-center justify-center rounded-xl p-4">
+      <div className="relative h-full w-[140px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={idx}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <Image
+              src={frame.src}
+              alt={frame.alt}
+              fill
+              className="object-contain"
+              sizes="140px"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+const MM_SCREEN_FRAMES = [
+  { src: "/mindfulme/screens/home.svg", alt: "Mindfulme home screen" },
+  { src: "/mindfulme/screens/profile.svg", alt: "Mindfulme profile screen" },
+  {
+    src: "/mindfulme/screens/meditation.svg",
+    alt: "Mindfulme meditation screen",
+  },
+  { src: "/mindfulme/screens/referral.svg", alt: "Mindfulme referral screen" },
+  {
+    src: "/mindfulme/screens/affirmation.svg",
+    alt: "Mindfulme affirmation screen",
+  },
+];
+
+function OrganicBundleAnimation({ active }: AnimationProps) {
+  const idx = useCrossfadeIndex(MM_SCREEN_FRAMES.length, 1800, active);
+  const frame = MM_SCREEN_FRAMES[idx];
+
+  return (
+    <div className="flex h-[160px] w-full items-center justify-center">
+      <div className="relative h-full w-20 drop-shadow-sm">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={idx}
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <Image
+              src={frame.src}
+              alt={frame.alt}
+              fill
+              className="object-contain"
+              sizes="80px"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+const MM_FEEDBACK_SCREENS = [
+  { src: "/mindfulme/screens/home.svg", alt: "Mindfulme home screen" },
+  { src: "/mindfulme/screens/profile.svg", alt: "Mindfulme profile screen" },
+  {
+    src: "/mindfulme/screens/meditation.svg",
+    alt: "Mindfulme meditation screen",
+  },
+];
+
+function UserFeedbackAnimation({ active }: AnimationProps) {
+  return (
+    <div className="flex w-full items-end justify-center gap-4 px-3">
+      {MM_FEEDBACK_SCREENS.map((screen, i) => (
+        <motion.div
+          key={screen.src}
+          className="relative h-[160px] w-[90px] drop-shadow-sm"
+          animate={
+            active
+              ? { y: [0, -6, 0], scale: [1, 1.03, 1] }
+              : { y: 0, scale: 1 }
+          }
+          transition={{
+            duration: 2.4,
+            repeat: active ? Infinity : 0,
+            ease: "easeInOut",
+            delay: i * 0.4,
+          }}
+        >
+          <Image
+            src={screen.src}
+            alt={screen.alt}
+            fill
+            className="object-contain"
+            sizes="90px"
+          />
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 const ANIMATIONS: Record<
   BentoCard["animation"],
   (props: AnimationProps) => JSX.Element
@@ -1637,6 +1827,10 @@ const ANIMATIONS: Record<
   guideline: GuidelineAnimation,
   wordpress: WordpressAnimation,
   "logo-identity": LogoIdentityAnimation,
+  "journey-scene": JourneySceneAnimation,
+  "affirmation-morph": AffirmationMorphAnimation,
+  "organic-bundle": OrganicBundleAnimation,
+  "user-feedback": UserFeedbackAnimation,
 };
 
 function BentoCardItem({ card }: { card: BentoCard }) {

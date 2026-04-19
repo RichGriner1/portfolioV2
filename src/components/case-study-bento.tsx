@@ -1876,6 +1876,374 @@ function UserFeedbackAnimation({ active }: AnimationProps) {
   );
 }
 
+const PIVOT_DOTS = 5;
+
+function AudiencePivotAnimation({ active }: AnimationProps) {
+  // -1 = reset (right empty, arrow hidden). 0..PIVOT_DOTS = how many dots have migrated.
+  const [step, setStep] = useState<number>(PIVOT_DOTS);
+  const [arrow, setArrow] = useState(true);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setStep(PIVOT_DOTS);
+        setArrow(true);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        setStep(-1);
+        setArrow(false);
+        await new Promise((r) => setTimeout(r, 450));
+        if (cancelled) return;
+        setArrow(true);
+        await new Promise((r) => setTimeout(r, 600));
+        if (cancelled) return;
+        setStep(0);
+        for (let i = 1; i <= PIVOT_DOTS; i++) {
+          if (cancelled) return;
+          await new Promise((r) => setTimeout(r, 150));
+          setStep(i);
+        }
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const started = step >= 0;
+
+  return (
+    <div className="flex w-full items-center justify-center gap-4 px-4">
+      {/* Left column: B2C */}
+      <div className="flex w-20 flex-col items-center gap-2">
+        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+          B2C
+        </span>
+        <div className="flex flex-col items-center gap-1.5">
+          {Array.from({ length: PIVOT_DOTS }).map((_, i) => {
+            const migrated = started && step > i;
+            return (
+              <motion.div
+                key={i}
+                className="bg-primary h-2 w-2 rounded-full"
+                animate={{ opacity: migrated ? 0.25 : 1 }}
+                transition={{ duration: 0.35, ease: EASE }}
+              />
+            );
+          })}
+        </div>
+        <span className="text-foreground font-mono text-[10px]">$8K MRR</span>
+      </div>
+
+      {/* Connector */}
+      <div className="relative flex h-8 w-20 items-center justify-center">
+        <svg
+          width="100%"
+          height="12"
+          viewBox="0 0 80 12"
+          className="overflow-visible"
+          aria-hidden="true"
+        >
+          <motion.line
+            x1="0"
+            y1="6"
+            x2="72"
+            y2="6"
+            stroke="hsl(var(--foreground))"
+            strokeOpacity="0.45"
+            strokeWidth="1"
+            strokeDasharray="3 3"
+            initial={false}
+            animate={{ pathLength: arrow ? 1 : 0, opacity: arrow ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: EASE }}
+          />
+          <motion.path
+            d="M68 2 L76 6 L68 10"
+            fill="none"
+            stroke="hsl(var(--foreground))"
+            strokeOpacity="0.45"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={false}
+            animate={{ opacity: arrow ? 1 : 0 }}
+            transition={{ duration: 0.4, delay: 0.4, ease: EASE }}
+          />
+        </svg>
+      </div>
+
+      {/* Right column: B2B */}
+      <div className="flex w-20 flex-col items-center gap-2">
+        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+          B2B
+        </span>
+        <div className="flex flex-col items-center gap-1.5">
+          {Array.from({ length: PIVOT_DOTS }).map((_, i) => {
+            const arrived = started && step > i;
+            return (
+              <motion.div
+                key={i}
+                className="bg-primary h-2 w-2 rounded-full"
+                initial={false}
+                animate={{
+                  opacity: arrived ? 1 : 0,
+                  scale: arrived ? 1 : 0.5,
+                }}
+                transition={{ duration: 0.35, ease: EASE }}
+              />
+            );
+          })}
+        </div>
+        <span className="text-foreground font-mono text-[10px]">
+          Enterprise pipeline
+        </span>
+      </div>
+    </div>
+  );
+}
+
+const HOURS_STATS = [
+  { value: 20, display: "20", label: "hrs/month lost" },
+  { value: 10, display: "$10M", label: "monthly opportunity" },
+] as const;
+
+function CountingNumber({
+  target,
+  display,
+  duration = 800,
+}: {
+  target: number;
+  display: string;
+  duration?: number;
+}) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      setValue(Math.round(target * t));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [target, duration]);
+
+  // For "$10M" we render the final display once counter reaches target,
+  // and render a plain counting integer with the dollar prefix while animating.
+  const hasDollar = display.startsWith("$");
+  const hasSuffix = display.endsWith("M");
+  const reachedTarget = value >= target;
+
+  if (reachedTarget) return <>{display}</>;
+  return (
+    <>
+      {hasDollar ? "$" : ""}
+      {value}
+      {hasSuffix ? "M" : ""}
+    </>
+  );
+}
+
+function HoursStatAnimation({ active }: AnimationProps) {
+  const [idx, setIdx] = useState(1);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setIdx(1), 0);
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setIdx((p) => (p + 1) % HOURS_STATS.length);
+    }, 1800);
+    return () => clearInterval(t);
+  }, [active]);
+
+  const stat = HOURS_STATS[idx];
+
+  return (
+    <div className="flex w-full flex-col items-center justify-center gap-2 px-2">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={idx}
+          className="flex flex-col items-center gap-1"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.35, ease: EASE }}
+        >
+          <span className="text-foreground font-display text-5xl font-bold">
+            <CountingNumber target={stat.value} display={stat.display} />
+          </span>
+          <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+            {stat.label}
+          </span>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+const LEADS_PER_DAY = [2, 2, 3, 3, 4, 3, 3] as const;
+const LEADS_MAX_HEIGHT = 28;
+const LEADS_PEAK = Math.max(...LEADS_PER_DAY);
+
+function LeadsFunnelAnimation({ active }: AnimationProps) {
+  // -1 = reset, 0..LEADS_PER_DAY.length-1 = up through this day revealed.
+  const [day, setDay] = useState(LEADS_PER_DAY.length - 1);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setDay(LEADS_PER_DAY.length - 1), 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        setDay(-1);
+        await new Promise((r) => setTimeout(r, 400));
+        if (cancelled) return;
+        for (let i = 0; i < LEADS_PER_DAY.length; i++) {
+          if (cancelled) return;
+          setDay(i);
+          await new Promise((r) => setTimeout(r, 200));
+        }
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const revealedTotal =
+    day < 0
+      ? 0
+      : LEADS_PER_DAY.slice(0, day + 1).reduce((a, b) => a + b, 0);
+
+  return (
+    <div className="flex w-full flex-col items-center gap-2 px-2">
+      <div className="flex flex-col items-center gap-0.5">
+        <span className="text-foreground font-display text-3xl font-bold tabular-nums">
+          {revealedTotal}
+        </span>
+        <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+          qualified leads
+        </span>
+      </div>
+      <div className="flex h-8 items-end gap-1.5">
+        {LEADS_PER_DAY.map((count, i) => {
+          const revealed = day >= i;
+          const target = (count / LEADS_PEAK) * LEADS_MAX_HEIGHT;
+          return (
+            <motion.div
+              key={i}
+              className="bg-primary w-2 rounded-t-sm"
+              initial={false}
+              animate={{ height: revealed ? target : 4 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              style={{ height: 4 }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const MODEL_PILLS = ["OpenAI", "Claude"] as const;
+
+const MODEL_SUMMARY_VARIANTS = [
+  { line1: 28, line2: 22 },
+  { line1: 34, line2: 18 },
+  { line1: 24, line2: 30 },
+] as const;
+
+function ModelIterationAnimation({ active }: AnimationProps) {
+  const [iter, setIter] = useState(MODEL_SUMMARY_VARIANTS.length - 1);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(
+        () => setIter(MODEL_SUMMARY_VARIANTS.length - 1),
+        0,
+      );
+      return () => clearTimeout(t);
+    }
+    const t = setInterval(() => {
+      setIter((p) => (p + 1) % MODEL_SUMMARY_VARIANTS.length);
+    }, 1600);
+    return () => clearInterval(t);
+  }, [active]);
+
+  const activeModel = iter % 2;
+  const variant = MODEL_SUMMARY_VARIANTS[iter];
+
+  return (
+    <div className="flex w-full flex-col items-center gap-3 px-4">
+      <div className="flex gap-2">
+        {MODEL_PILLS.map((name, i) => {
+          const isActive = i === activeModel;
+          return (
+            <motion.div
+              key={name}
+              className="border-border rounded-full border px-3 py-1 font-mono text-[10px]"
+              animate={{
+                backgroundColor: isActive
+                  ? "hsl(var(--primary))"
+                  : "hsl(var(--background) / 0)",
+                color: isActive
+                  ? "hsl(var(--primary-foreground))"
+                  : "hsl(var(--muted-foreground))",
+              }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              {name}
+            </motion.div>
+          );
+        })}
+      </div>
+
+      <div className="bg-card/50 border-border/40 w-full max-w-[220px] rounded-lg border p-3">
+        <div className="flex flex-col gap-1.5">
+          <div className="bg-foreground/60 h-2 w-16 rounded-full" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={iter}
+              className="flex flex-col gap-1.5"
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              <motion.div
+                className="bg-foreground/25 h-1.5 rounded-full"
+                animate={{ width: variant.line1 * 4 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                style={{ width: variant.line1 * 4 }}
+              />
+              <motion.div
+                className="bg-foreground/25 h-1.5 rounded-full"
+                animate={{ width: variant.line2 * 4 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                style={{ width: variant.line2 * 4 }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const ANIMATIONS: Record<
   BentoCard["animation"],
   (props: AnimationProps) => JSX.Element
@@ -1897,6 +2265,10 @@ const ANIMATIONS: Record<
   "affirmation-morph": AffirmationMorphAnimation,
   "organic-bundle": OrganicBundleAnimation,
   "user-feedback": UserFeedbackAnimation,
+  "audience-pivot": AudiencePivotAnimation,
+  "hours-stat": HoursStatAnimation,
+  "leads-funnel": LeadsFunnelAnimation,
+  "model-iteration": ModelIterationAnimation,
 };
 
 function BentoCardItem({ card }: { card: BentoCard }) {

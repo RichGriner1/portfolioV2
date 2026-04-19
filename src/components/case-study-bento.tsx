@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useAnimationControls } from "motion/react";
 import Image from "next/image";
 import { useEffect, useState, type JSX } from "react";
 
+import { MindfulmePrototype } from "@/components/mindfulme-prototype";
 import type { BentoCard } from "@/lib/content/case-studies";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
@@ -1755,122 +1756,10 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
   );
 }
 
-const MM_SCREEN_FRAMES = [
-  { src: "/mindfulme/screens/home.svg", alt: "Mindfulme home screen" },
-  { src: "/mindfulme/screens/profile.svg", alt: "Mindfulme profile screen" },
-  {
-    src: "/mindfulme/screens/meditation.svg",
-    alt: "Mindfulme meditation screen",
-  },
-  { src: "/mindfulme/screens/referral.svg", alt: "Mindfulme referral screen" },
-  {
-    src: "/mindfulme/screens/affirmation.svg",
-    alt: "Mindfulme affirmation screen",
-  },
-];
-
 function OrganicBundleAnimation({ active }: AnimationProps) {
-  const [idx, setIdx] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [restartTrigger, setRestartTrigger] = useState(0);
-
-  useEffect(() => {
-    if (!active) {
-      const t = setTimeout(() => {
-        setIdx(0);
-        setDirection(1);
-      }, 0);
-      return () => clearTimeout(t);
-    }
-    const t = setInterval(() => {
-      setDirection(1);
-      setIdx((p) => (p + 1) % MM_SCREEN_FRAMES.length);
-    }, 2200);
-    return () => clearInterval(t);
-  }, [active, restartTrigger]);
-
-  const activeIdx = active ? idx : 0;
-  const frame = MM_SCREEN_FRAMES[activeIdx];
-
-  const advance = (dir: 1 | -1) => {
-    setDirection(dir);
-    setIdx(
-      (p) =>
-        (p + dir + MM_SCREEN_FRAMES.length) % MM_SCREEN_FRAMES.length,
-    );
-    setRestartTrigger((n) => n + 1);
-  };
-
   return (
-    <div className="flex w-full flex-col items-center gap-3">
-      <div className="group relative">
-        <div className="border-border bg-card rounded-[24px] border p-1 shadow-sm">
-          <div className="bg-background relative flex h-[180px] w-[100px] items-center justify-center overflow-hidden rounded-[18px]">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={activeIdx}
-                className="absolute inset-0 flex items-center justify-center"
-                initial={{ x: direction * 30, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -direction * 30, opacity: 0 }}
-                transition={{ duration: 0.35, ease: EASE }}
-              >
-                <Image
-                  src={frame.src}
-                  alt={frame.alt}
-                  width={90}
-                  height={180}
-                  className="object-contain"
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {active ? (
-          <>
-            <button
-              type="button"
-              aria-label="Previous screen"
-              onClick={() => advance(-1)}
-              className="absolute inset-y-0 left-0 w-1/2 cursor-pointer bg-transparent"
-            />
-            <button
-              type="button"
-              aria-label="Next screen"
-              onClick={() => advance(1)}
-              className="absolute inset-y-0 right-0 w-1/2 cursor-pointer bg-transparent"
-            />
-            <span
-              aria-hidden
-              className="bg-background/80 text-foreground pointer-events-none absolute top-1/2 left-2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-xs opacity-0 backdrop-blur transition-opacity group-hover:opacity-100"
-            >
-              ‹
-            </span>
-            <span
-              aria-hidden
-              className="bg-background/80 text-foreground pointer-events-none absolute top-1/2 right-2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-xs opacity-0 backdrop-blur transition-opacity group-hover:opacity-100"
-            >
-              ›
-            </span>
-          </>
-        ) : null}
-      </div>
-      <div className="flex gap-1.5">
-        {MM_SCREEN_FRAMES.map((_, i) => (
-          <motion.span
-            key={i}
-            className="bg-border rounded-full"
-            animate={{
-              width: i === activeIdx ? 16 : 4,
-              backgroundColor:
-                i === activeIdx ? "var(--foreground)" : "var(--border)",
-            }}
-            style={{ height: 4 }}
-            transition={{ duration: 0.3, ease: EASE }}
-          />
-        ))}
-      </div>
+    <div className="flex w-full items-center justify-center">
+      <MindfulmePrototype active={active} />
     </div>
   );
 }

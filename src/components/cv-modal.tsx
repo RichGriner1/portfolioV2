@@ -74,22 +74,31 @@ export function CvModal() {
 
   useEffect(() => {
     if (open) {
+      // Clear any lingering state before locking (belt-and-suspenders against
+      // stacked state from weird edge cases / previous unmounts).
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+
       const scrollY = window.scrollY;
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = "100%";
-    } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+
+      return () => {
+        // On close OR unmount-while-open: fully restore body and scroll.
+        const storedTop = document.body.style.top;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        window.scrollTo(0, parseInt(storedTop || "0") * -1);
+      };
     }
-    return () => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-    };
+
+    // Closed state: ensure everything is clear.
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
   }, [open]);
 
   return (

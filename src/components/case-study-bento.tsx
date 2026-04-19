@@ -8,7 +8,7 @@ import type { BentoCard } from "@/lib/content/case-studies";
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
 const TOKEN_CHAIN = [
-  { label: "#3E6BF5", sub: "primitive" },
+  { label: "blue/500", sub: "primitive" },
   { label: "--color-primary", sub: "semantic" },
   { label: "Button", sub: "component" },
 ];
@@ -16,24 +16,36 @@ const TOKEN_CHAIN = [
 type AnimationProps = { active: boolean };
 
 function LayersAnimation({ active }: AnimationProps) {
-  const [step, setStep] = useState(2);
+  // -1 = reset (rows dim, connector not drawn); 0..2 = row highlighted.
+  // Idle state (active=false) shows a fully-drawn, fully-visible frame.
+  const [step, setStep] = useState<number>(2);
+  const [connectorDrawn, setConnectorDrawn] = useState(true);
 
   useEffect(() => {
     if (!active) {
-      const t = setTimeout(() => setStep(2), 0);
-      return () => clearTimeout(t);
+      setStep(2);
+      setConnectorDrawn(true);
+      return;
     }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
+        // Reset: dim rows, erase connector.
         setStep(-1);
+        setConnectorDrawn(false);
+        await new Promise((r) => setTimeout(r, 450));
+        if (cancelled) return;
+        // Draw connector.
+        setConnectorDrawn(true);
         await new Promise((r) => setTimeout(r, 500));
+        // Highlight rows in sequence.
         for (let i = 0; i < TOKEN_CHAIN.length; i++) {
           if (cancelled) return;
           setStep(i);
-          await new Promise((r) => setTimeout(r, 800));
+          await new Promise((r) => setTimeout(r, i === 2 ? 900 : 700));
         }
-        await new Promise((r) => setTimeout(r, 1400));
+        // Pause before loop.
+        await new Promise((r) => setTimeout(r, 1500));
       }
     }
     void loop();
@@ -43,117 +55,71 @@ function LayersAnimation({ active }: AnimationProps) {
   }, [active]);
 
   return (
-    <div className="flex w-full flex-col items-stretch gap-2 px-3">
-      {/* Primitive: raw hex + swatch */}
-      <motion.div
-        className="border-border bg-card flex items-center gap-2 rounded-md border px-2.5 py-1.5"
-        animate={{
-          opacity: step >= 0 ? 1 : 0.2,
-          borderColor:
-            step === 0 ? "hsl(var(--foreground) / 0.4)" : "hsl(var(--border))",
-        }}
-        transition={{ duration: 0.35, ease: EASE }}
-      >
+    <div className="border-border/40 bg-card/50 relative w-full rounded-lg border p-3">
+      {/* Left-side connector line (behind rows) */}
+      <div className="pointer-events-none absolute top-4 bottom-4 left-[1.75rem] w-px overflow-hidden">
         <motion.div
-          className="bg-primary h-3 w-3 shrink-0 rounded-full"
-          animate={{ scale: step === 0 ? 1.25 : 1 }}
-          transition={{ duration: 0.35, ease: EASE }}
+          className="bg-foreground/25 h-full w-full origin-top"
+          initial={false}
+          animate={{ scaleY: connectorDrawn ? 1 : 0 }}
+          transition={{ duration: 0.5, ease: EASE }}
         />
-        <span className="text-foreground font-mono text-[11px]">
-          {TOKEN_CHAIN[0].label}
-        </span>
-        <span className="text-muted-foreground ml-auto font-mono text-[8px] tracking-wider uppercase">
-          {TOKEN_CHAIN[0].sub}
-        </span>
-      </motion.div>
-
-      {/* Connector */}
-      <div className="flex justify-center">
-        <svg
-          viewBox="0 0 8 16"
-          className="text-muted-foreground h-4 w-2"
-          aria-hidden
-        >
-          <motion.path
-            d="M4 0 L4 14 M1 11 L4 14 L7 11"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            animate={{
-              pathLength: step >= 1 ? 1 : 0,
-              opacity: step >= 1 ? 0.6 : 0.15,
-            }}
-            transition={{ duration: 0.4, ease: EASE }}
-          />
-        </svg>
       </div>
 
-      {/* Semantic: CSS var */}
-      <motion.div
-        className="border-border bg-card flex items-center gap-2 rounded-md border px-2.5 py-1.5"
-        animate={{
-          opacity: step >= 1 ? 1 : 0.2,
-          borderColor:
-            step === 1 ? "hsl(var(--foreground) / 0.4)" : "hsl(var(--border))",
-        }}
-        transition={{ duration: 0.35, ease: EASE }}
-      >
-        <motion.div
-          className="bg-primary h-3 w-3 shrink-0 rounded-sm"
-          animate={{ scale: step === 1 ? 1.15 : 1 }}
-          transition={{ duration: 0.35, ease: EASE }}
-        />
-        <span className="text-foreground font-mono text-[11px]">
-          {TOKEN_CHAIN[1].label}
-        </span>
-        <span className="text-muted-foreground ml-auto font-mono text-[8px] tracking-wider uppercase">
-          {TOKEN_CHAIN[1].sub}
-        </span>
-      </motion.div>
+      <div className="relative flex flex-col gap-1.5">
+        {TOKEN_CHAIN.map((token, i) => {
+          const isActive = step === i;
+          const isVisible = step === -1 ? false : step >= i;
+          const isButton = i === 2;
 
-      {/* Connector */}
-      <div className="flex justify-center">
-        <svg
-          viewBox="0 0 8 16"
-          className="text-muted-foreground h-4 w-2"
-          aria-hidden
-        >
-          <motion.path
-            d="M4 0 L4 14 M1 11 L4 14 L7 11"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            animate={{
-              pathLength: step >= 2 ? 1 : 0,
-              opacity: step >= 2 ? 0.6 : 0.15,
-            }}
-            transition={{ duration: 0.4, ease: EASE }}
-          />
-        </svg>
+          return (
+            <motion.div
+              key={token.label}
+              className="relative grid grid-cols-[auto_1fr_auto] items-center gap-2 rounded-md px-1.5 py-1"
+              animate={{
+                opacity: isVisible ? 1 : 0.3,
+                backgroundColor: isActive
+                  ? "hsl(var(--muted) / 0.4)"
+                  : "hsl(var(--muted) / 0)",
+              }}
+              transition={{ duration: 0.4, ease: EASE }}
+            >
+              {isButton ? (
+                <motion.button
+                  type="button"
+                  tabIndex={-1}
+                  className="bg-primary text-primary-foreground rounded-md px-2 py-1 font-mono text-[10px] font-medium"
+                  animate={{ scale: isActive ? 1.06 : 1 }}
+                  transition={{ duration: 0.35, ease: EASE }}
+                >
+                  {token.label}
+                </motion.button>
+              ) : (
+                <>
+                  <div className="flex h-5 w-5 items-center justify-center">
+                    <motion.div
+                      className={
+                        i === 0
+                          ? "bg-primary h-4 w-4 shrink-0 rounded-full"
+                          : "bg-primary h-3 w-3 shrink-0 rounded-sm"
+                      }
+                      animate={{ scale: isActive ? 1.2 : 1 }}
+                      transition={{ duration: 0.35, ease: EASE }}
+                    />
+                  </div>
+                  <span className="text-foreground font-mono text-[10px]">
+                    {token.label}
+                  </span>
+                </>
+              )}
+              {isButton && <span />}
+              <span className="text-muted-foreground font-mono text-[8px] tracking-wider uppercase">
+                {token.sub}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
-
-      {/* Component: rendered button */}
-      <motion.div
-        className="flex items-center justify-between gap-2"
-        animate={{ opacity: step >= 2 ? 1 : 0.2 }}
-        transition={{ duration: 0.35, ease: EASE }}
-      >
-        <motion.button
-          type="button"
-          className="bg-primary text-primary-foreground rounded-md px-3 py-1.5 font-mono text-[11px] font-medium"
-          animate={{ scale: step === 2 ? 1.05 : 1 }}
-          transition={{ duration: 0.3, ease: EASE }}
-        >
-          {TOKEN_CHAIN[2].label}
-        </motion.button>
-        <span className="text-muted-foreground font-mono text-[8px] tracking-wider uppercase">
-          {TOKEN_CHAIN[2].sub}
-        </span>
-      </motion.div>
     </div>
   );
 }

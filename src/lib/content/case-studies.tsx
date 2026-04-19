@@ -1,7 +1,7 @@
 export type BentoCard = {
   label: string;
   sublabel: string;
-  span?: "wide";
+  span?: "wide" | "tall";
   animation:
     | "layers"
     | "swap"
@@ -52,6 +52,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
     bento: [
       {
+        label: "Unified Design Platform",
+        sublabel: "Files, agents, and people — converging in one repo.",
+        animation: "nodes",
+        span: "tall",
+      },
+      {
         label: "Token Architecture",
         sublabel: "Primitive → semantic → component",
         animation: "layers",
@@ -67,13 +73,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         label: "White-label at Scale",
         sublabel: "One system, any brand — swap the tokens, ship the product.",
         animation: "palette",
-      },
-      {
-        label: "Unified Design Platform",
-        sublabel:
-          "Design, docs, handoff, and agents — all in one repo. The system checks its own work.",
-        animation: "nodes",
-        span: "wide",
       },
     ],
   },

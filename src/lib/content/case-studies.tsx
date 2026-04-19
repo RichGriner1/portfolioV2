@@ -133,14 +133,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         sublabel:
           "One codebase the whole team can open, experiment in, and ship from",
         animation: "canvas",
-        span: "wide",
       },
       {
         label: "Design System Foundation",
         sublabel:
           "Tokens, typography, and components everyone builds on top of",
         animation: "guideline",
-        span: "wide",
       },
     ],
   },

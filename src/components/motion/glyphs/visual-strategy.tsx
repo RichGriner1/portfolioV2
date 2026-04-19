@@ -32,9 +32,17 @@ export function VisualStrategyGlyph() {
           animate={{ opacity: b.opacity, y: b.y }}
           variants={{
             rest: { opacity: b.opacity, x: b.x, y: b.y },
-            hover: { opacity: b.opacity + 0.15, x: b.x + b.hoverX, y: b.y + b.hoverY },
+            hover: {
+              opacity: b.opacity + 0.15,
+              x: b.x + b.hoverX,
+              y: b.y + b.hoverY,
+            },
           }}
-          transition={{ duration: 0.4, delay: DELAYS[i], ease: [0.2, 0.8, 0.2, 1] }}
+          transition={{
+            duration: 0.4,
+            delay: DELAYS[i],
+            ease: [0.2, 0.8, 0.2, 1],
+          }}
         />
       ))}
     </svg>

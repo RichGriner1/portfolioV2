@@ -43,7 +43,11 @@ export function BrandRulesGlyph() {
               rest: { pathLength: 0, opacity: 0 },
               hover: { pathLength: 1, opacity: 1 },
             }}
-            transition={{ duration: 0.3, delay: i * 0.1 + 0.05, ease: "easeOut" }}
+            transition={{
+              duration: 0.3,
+              delay: i * 0.1 + 0.05,
+              ease: "easeOut",
+            }}
           />
           <motion.rect
             x={20}

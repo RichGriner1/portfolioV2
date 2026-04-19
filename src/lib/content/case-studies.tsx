@@ -12,10 +12,10 @@ export type BentoCard = {
     | "palette"
     | "rules"
     | "cursor"
-    | "blocks"
     | "canvas"
     | "guideline"
-    | "wordpress";
+    | "wordpress"
+    | "logo-identity";
 };
 
 export type CaseStudy = {
@@ -50,7 +50,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       {
         label: "Material → PrimeNG → Custom",
-        sublabel: "Each step unlocked more flexibility. AI made the last one possible.",
+        sublabel:
+          "Each step unlocked more flexibility. AI made the last one possible.",
         animation: "swap",
       },
       {
@@ -60,7 +61,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       {
         label: "Unified Design Platform",
-        sublabel: "Design, docs, handoff, and agents — all in one repo. The system checks its own work.",
+        sublabel:
+          "Design, docs, handoff, and agents — all in one repo. The system checks its own work.",
         animation: "nodes",
         span: "wide",
       },
@@ -102,7 +104,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
   },
   kt360: {
-    tagline: "An AI environment built for a team that doesn't have a full design department",
+    tagline:
+      "An AI environment built for a team that doesn't have a full design department",
     intro:
       "KT360 is an early-stage startup in a saturated AI market — so the brand strategy was to look nothing like AI. Playful, human, deliberately distinct. But the bigger challenge was operational: how does a small team stay on-brand when there's no designer in the room? The answer was to encode the brand into the environment itself. Design rules, component guidelines, and animation patterns all live as structured files — the kind of thing an AI can read, check against, and enforce. Agents review work before it ships. A shared system built on shadcn gives everyone a foundation to prototype and build from. The result: a marketer can write a blog post, a developer can add a new page, and the output looks like it came from the same hand — because the rules are doing the work.",
     role: "Freelance Designer & AI Builder",
@@ -117,28 +120,26 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: "Visual Identity",
         sublabel: "Playful and human — deliberately nothing like AI",
-        animation: "moodboard",
+        animation: "logo-identity",
       },
       {
         label: "Rules as Files",
-        sublabel: "Brand guidelines, component specs, and animation patterns written so AI can read and enforce them",
+        sublabel:
+          "Brand guidelines, component specs, and animation patterns written so AI can read and enforce them",
         animation: "rules",
-        span: "wide",
       },
       {
         label: "Shared Prototype Environment",
-        sublabel: "One codebase the whole team can open, experiment in, and ship from",
+        sublabel:
+          "One codebase the whole team can open, experiment in, and ship from",
         animation: "canvas",
+        span: "wide",
       },
       {
         label: "Design System Foundation",
-        sublabel: "Tokens, typography, and components everyone builds on top of",
+        sublabel:
+          "Tokens, typography, and components everyone builds on top of",
         animation: "guideline",
-      },
-      {
-        label: "Anyone Can Ship",
-        sublabel: "Marketers, developers, and designers all contribute — the environment keeps it consistent",
-        animation: "cursor",
         span: "wide",
       },
     ],

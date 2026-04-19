@@ -46,7 +46,11 @@ export function DesignSystemGlyph() {
             rest: { opacity: 0.5 },
             hover: { opacity: 1 },
           }}
-          transition={{ duration: 0.45, delay: i * 0.06, ease: [0.2, 0.8, 0.2, 1] }}
+          transition={{
+            duration: 0.45,
+            delay: i * 0.06,
+            ease: [0.2, 0.8, 0.2, 1],
+          }}
         />
       ))}
 

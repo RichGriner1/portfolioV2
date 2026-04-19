@@ -105,7 +105,7 @@ export function CvModal() {
         {open && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm"
+              className="bg-background/80 fixed inset-0 z-40 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -114,73 +114,100 @@ export function CvModal() {
             />
 
             <motion.div
-              className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 bg-card border-border overflow-y-auto overscroll-contain rounded-3xl border shadow-xl p-8 pb-10"
+              className="bg-card border-border fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-3xl border p-8 pb-10 shadow-xl"
               style={{ maxHeight: "85vh" }}
               initial={{ opacity: 0, scale: 0.97, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
               transition={{ duration: 0.3, ease: EASE }}
             >
-                <div className="mb-6 flex items-start justify-between">
-                  <div>
-                    <h2 className="text-foreground text-lg font-semibold">{CV.name}</h2>
-                    <p className="text-muted-foreground text-sm">{CV.title}</p>
-                    <p className="text-muted-foreground text-sm">{CV.location} · {CV.email}</p>
-                  </div>
-                  <button
-                    onClick={() => setOpen(false)}
-                    className="text-muted-foreground hover:text-foreground text-xl leading-none transition-colors"
-                    aria-label="Close"
-                  >
-                    ×
-                  </button>
+              <div className="mb-6 flex items-start justify-between">
+                <div>
+                  <h2 className="text-foreground text-lg font-semibold">
+                    {CV.name}
+                  </h2>
+                  <p className="text-muted-foreground text-sm">{CV.title}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {CV.location} · {CV.email}
+                  </p>
                 </div>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-muted-foreground hover:text-foreground text-xl leading-none transition-colors"
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+              </div>
 
-                <div className="grid grid-cols-3 gap-8">
-                  <div className="col-span-2 flex flex-col gap-6">
-                    <div>
-                      <h3 className="text-muted-foreground mb-3 font-mono text-xs uppercase tracking-wider">Experience</h3>
-                      <div className="flex flex-col gap-5">
-                        {CV.experience.map((e) => (
-                          <div key={e.role}>
-                            <div className="flex items-baseline justify-between gap-2">
-                              <span className="text-foreground text-sm font-medium">{e.role}</span>
-                              <span className="text-muted-foreground shrink-0 font-mono text-xs">{e.period}</span>
-                            </div>
-                            <div className="text-muted-foreground mb-1 font-mono text-xs">{e.company}</div>
-                            <p className="text-muted-foreground text-xs leading-relaxed">{e.description}</p>
+              <div className="grid grid-cols-3 gap-8">
+                <div className="col-span-2 flex flex-col gap-6">
+                  <div>
+                    <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
+                      Experience
+                    </h3>
+                    <div className="flex flex-col gap-5">
+                      {CV.experience.map((e) => (
+                        <div key={e.role}>
+                          <div className="flex items-baseline justify-between gap-2">
+                            <span className="text-foreground text-sm font-medium">
+                              {e.role}
+                            </span>
+                            <span className="text-muted-foreground shrink-0 font-mono text-xs">
+                              {e.period}
+                            </span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="text-muted-foreground mb-3 font-mono text-xs uppercase tracking-wider">Education</h3>
-                      <div className="flex flex-col gap-2">
-                        {CV.education.map((e) => (
-                          <div key={e.degree}>
-                            <div className="flex items-baseline justify-between gap-2">
-                              <span className="text-foreground text-sm">{e.degree}</span>
-                              <span className="text-muted-foreground shrink-0 font-mono text-xs">{e.year}</span>
-                            </div>
-                            <div className="text-muted-foreground font-mono text-xs">{e.school}</div>
+                          <div className="text-muted-foreground mb-1 font-mono text-xs">
+                            {e.company}
                           </div>
-                        ))}
-                      </div>
+                          <p className="text-muted-foreground text-xs leading-relaxed">
+                            {e.description}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-muted-foreground mb-3 font-mono text-xs uppercase tracking-wider">Skills</h3>
-                    <div className="flex flex-wrap gap-1.5">
-                      {CV.skills.map((s) => (
-                        <span key={s} className="border-border text-muted-foreground rounded-full border px-2.5 py-1 font-mono text-xs">
-                          {s}
-                        </span>
+                    <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
+                      Education
+                    </h3>
+                    <div className="flex flex-col gap-2">
+                      {CV.education.map((e) => (
+                        <div key={e.degree}>
+                          <div className="flex items-baseline justify-between gap-2">
+                            <span className="text-foreground text-sm">
+                              {e.degree}
+                            </span>
+                            <span className="text-muted-foreground shrink-0 font-mono text-xs">
+                              {e.year}
+                            </span>
+                          </div>
+                          <div className="text-muted-foreground font-mono text-xs">
+                            {e.school}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
                 </div>
+
+                <div>
+                  <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
+                    Skills
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {CV.skills.map((s) => (
+                      <span
+                        key={s}
+                        className="border-border text-muted-foreground rounded-full border px-2.5 py-1 font-mono text-xs"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </>
         )}

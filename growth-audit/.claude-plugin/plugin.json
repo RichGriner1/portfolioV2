@@ -1,0 +1,11 @@
+{
+  "name": "growth-audit",
+  "description": "Behavioral-psychology audit for product designs. Scores a screenshot, URL, or description against ~40 principles across 7 categories (perception, cognitive load, decision-making, social influence, motivation, memory, trust) and returns a prioritized fix list. Inspired by Growth Design's cheat sheet.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Richard Griner",
+    "url": "https://github.com/RichGriner1"
+  },
+  "homepage": "https://github.com/RichGriner1/growth-audit",
+  "license": "MIT"
+}

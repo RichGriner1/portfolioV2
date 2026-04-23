@@ -16,7 +16,7 @@ const CV = {
       company: "Afi",
       period: "2024 — present",
       description:
-        "Designing fintech products for banks and financial institutions at a leading Spanish consultancy. Building a design system from the ground up — migrating products from Material to PrimeNG, architecting a custom token system, and developing an AI-powered platform for white-label products across banking clients.",
+        "Designing fintech products for banks and financial institutions at a leading Spanish consultancy. Building a design system from the ground up — architecting a custom token system, building an AI-assisted platform for white-label products across banking clients, and turning every new client into another pass at sharpening the system.",
     },
     {
       role: "Product Manager & UX Designer",

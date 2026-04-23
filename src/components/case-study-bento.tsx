@@ -147,18 +147,18 @@ function LayersAnimation({ active }: AnimationProps) {
 }
 
 type SwapPhase =
-  | "material"
-  | "to-prime"
-  | "prime-done"
-  | "to-custom"
-  | "custom-done";
+  | "tokens"
+  | "to-brand"
+  | "brand-done"
+  | "to-product"
+  | "product-done";
 
 function SwapAnimation({ active }: AnimationProps) {
-  const [phase, setPhase] = useState<SwapPhase>("custom-done");
+  const [phase, setPhase] = useState<SwapPhase>("product-done");
 
   useEffect(() => {
     if (!active) {
-      const t = setTimeout(() => setPhase("custom-done"), 0);
+      const t = setTimeout(() => setPhase("product-done"), 0);
       return () => clearTimeout(t);
     }
     let cancelled = false;
@@ -166,19 +166,19 @@ function SwapAnimation({ active }: AnimationProps) {
       while (!cancelled) {
         await new Promise((r) => setTimeout(r, 1200));
         if (cancelled) break;
-        setPhase("to-prime");
+        setPhase("to-brand");
         await new Promise((r) => setTimeout(r, 700));
         if (cancelled) break;
-        setPhase("prime-done");
+        setPhase("brand-done");
         await new Promise((r) => setTimeout(r, 1100));
         if (cancelled) break;
-        setPhase("to-custom");
+        setPhase("to-product");
         await new Promise((r) => setTimeout(r, 700));
         if (cancelled) break;
-        setPhase("custom-done");
+        setPhase("product-done");
         await new Promise((r) => setTimeout(r, 1600));
         if (cancelled) break;
-        setPhase("material");
+        setPhase("tokens");
       }
     }
     void loop();
@@ -187,56 +187,56 @@ function SwapAnimation({ active }: AnimationProps) {
     };
   }, [active]);
 
-  const showCustom = phase === "to-custom" || phase === "custom-done";
+  const showProduct = phase === "to-product" || phase === "product-done";
 
   return (
     <div className="flex w-full flex-col items-center gap-3 px-2">
       <div className="flex w-full items-center justify-center gap-2">
-        {/* Material */}
+        {/* Tokens */}
         <motion.div
           className="border-border bg-muted rounded-xl border px-3 py-2 font-mono text-xs"
           animate={{
-            opacity: phase !== "material" ? 0.2 : 1,
-            scale: phase !== "material" ? 0.9 : 1,
+            opacity: phase !== "tokens" ? 0.2 : 1,
+            scale: phase !== "tokens" ? 0.9 : 1,
           }}
           transition={{ duration: 0.4, ease: EASE }}
         >
-          Material
+          Tokens
         </motion.div>
 
         <motion.span
           className="text-muted-foreground text-xs"
           animate={{
-            opacity: phase === "to-prime" || phase === "to-custom" ? 1 : 0.25,
+            opacity: phase === "to-brand" || phase === "to-product" ? 1 : 0.25,
           }}
           transition={{ duration: 0.4, ease: EASE_SOFT }}
         >
           →
         </motion.span>
 
-        {/* PrimeNG */}
+        {/* Brand */}
         <div className="relative">
           <motion.div
             className="rounded-xl px-3 py-2 font-mono text-xs"
             animate={{
-              backgroundColor: showCustom
+              backgroundColor: showProduct
                 ? "hsl(var(--muted))"
                 : "hsl(var(--primary))",
-              color: showCustom
+              color: showProduct
                 ? "hsl(var(--foreground))"
                 : "hsl(var(--primary-foreground))",
-              opacity: showCustom ? 0.25 : phase === "material" ? 0.35 : 1,
-              scale: phase === "prime-done" ? 1.08 : showCustom ? 0.9 : 1,
+              opacity: showProduct ? 0.25 : phase === "tokens" ? 0.35 : 1,
+              scale: phase === "brand-done" ? 1.08 : showProduct ? 0.9 : 1,
             }}
             transition={{ duration: 0.45, ease: EASE }}
           >
-            PrimeNG
+            Brand
           </motion.div>
           <motion.span
             className="text-primary absolute -top-2 -right-2 text-xs"
             animate={{
-              opacity: phase === "prime-done" ? 1 : 0,
-              scale: phase === "prime-done" ? 1 : 0.4,
+              opacity: phase === "brand-done" ? 1 : 0,
+              scale: phase === "brand-done" ? 1 : 0.4,
             }}
             transition={SPRING_SNAP}
           >
@@ -247,36 +247,36 @@ function SwapAnimation({ active }: AnimationProps) {
         <motion.span
           className="text-muted-foreground text-xs"
           animate={{
-            opacity: phase === "to-custom" || phase === "custom-done" ? 1 : 0,
+            opacity: phase === "to-product" || phase === "product-done" ? 1 : 0,
           }}
           transition={{ duration: 0.4, ease: EASE_SOFT }}
         >
           →
         </motion.span>
 
-        {/* Custom */}
+        {/* Product */}
         <div className="relative">
           <motion.div
             className="rounded-xl px-3 py-2 font-mono text-xs"
             animate={{
-              backgroundColor: showCustom
+              backgroundColor: showProduct
                 ? "hsl(var(--primary))"
                 : "hsl(var(--muted))",
-              color: showCustom
+              color: showProduct
                 ? "hsl(var(--primary-foreground))"
                 : "hsl(var(--foreground))",
-              opacity: showCustom ? 1 : 0,
-              scale: phase === "custom-done" ? 1.08 : showCustom ? 1 : 0.8,
+              opacity: showProduct ? 1 : 0,
+              scale: phase === "product-done" ? 1.08 : showProduct ? 1 : 0.8,
             }}
             transition={{ duration: 0.45, ease: EASE }}
           >
-            Custom
+            Product
           </motion.div>
           <motion.span
             className="text-primary absolute -top-2 -right-2 text-xs"
             animate={{
-              opacity: phase === "custom-done" ? 1 : 0,
-              scale: phase === "custom-done" ? 1 : 0.4,
+              opacity: phase === "product-done" ? 1 : 0,
+              scale: phase === "product-done" ? 1 : 0.4,
             }}
             transition={SPRING_SNAP}
           >
@@ -290,13 +290,13 @@ function SwapAnimation({ active }: AnimationProps) {
           className="bg-primary absolute inset-y-0 left-0 rounded-full"
           animate={{
             width:
-              phase === "material"
+              phase === "tokens"
                 ? "0%"
-                : phase === "to-prime"
+                : phase === "to-brand"
                   ? "40%"
-                  : phase === "prime-done"
+                  : phase === "brand-done"
                     ? "55%"
-                    : phase === "to-custom"
+                    : phase === "to-product"
                       ? "80%"
                       : "100%",
           }}
@@ -307,8 +307,8 @@ function SwapAnimation({ active }: AnimationProps) {
       <motion.div
         className="flex items-center gap-1.5"
         animate={{
-          opacity: phase === "custom-done" ? 1 : 0,
-          y: phase === "custom-done" ? 0 : 4,
+          opacity: phase === "product-done" ? 1 : 0,
+          y: phase === "product-done" ? 0 : 4,
         }}
         transition={{ duration: 0.35, ease: EASE }}
       >

@@ -41,7 +41,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     confidential: "Designs are not shown due to client confidentiality.",
     tagline: "Building design infrastructure for a fintech consultancy",
     intro:
-      "A design team of one, a high project rate, and never enough time to stop and organize. The result: scattered documents, inconsistent patterns across products, and one team stuck on Material UI — hacked and stretched to fit fintech workflows it was never built for. The problem wasn't talent or intention, it was that the pace never allowed for the kind of foundational work that makes everything else faster. I came in to change that — migrating the Angular product to PrimeNG for real flexibility, building a custom token system in Figma, and now turning it all into a unified platform with AI-assisted white-labeling, handoff workflows, and internal docs so the whole team can finally move together.",
+      "A design team of one, a high project rate, and never enough time to stop and organize. AFI ships white-labeled fintech products for banks and financial institutions — each surface has to feel consistent with the shared system but distinct for the client, which means we're remaking the same product over and over, one brand at a time. The result: scattered docs, inconsistent patterns across clients, and no rulebook keeping the system honest. I came in to change that — architecting a custom token system in Figma, building a unified platform with AI-assisted white-labeling and handoff workflows, and writing internal docs so the whole team can finally move together. The upside of constant remakes: every new client is another pass to sharpen the system. AI is what lets us take every one.",
     role: "Design Systems Lead",
     contributions: [
       "Design systems",
@@ -64,9 +64,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         span: "wide",
       },
       {
-        label: "Material → PrimeNG → Custom",
+        label: "Tokens → Brand → Product",
         sublabel:
-          "Each step unlocked more flexibility. AI made the last one possible.",
+          "The white-label pipeline: one system, any client. AI moves it faster every cycle.",
         animation: "swap",
       },
       {

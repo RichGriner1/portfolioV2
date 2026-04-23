@@ -4,9 +4,25 @@ import Link from "next/link";
 import { motion } from "motion/react";
 
 import { GLYPHS } from "@/components/motion/glyphs";
-import type { WorkItem } from "@/lib/content/work";
+import { Badge } from "@/components/ui/badge";
+import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
+const AUTHOR = "Richard Griner";
+
+function formatDate(item: WorkItem): string {
+  if (item.date) {
+    const [y, m, d] = item.date.split("-").map(Number);
+    const date = new Date(Date.UTC(y, (m ?? 1) - 1, d ?? 1));
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    });
+  }
+  return String(item.year);
+}
 
 export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const Glyph = GLYPHS[item.glyph];
@@ -17,54 +33,33 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: index * 0.07, ease: EASE }}
-      className={item.featured ? "col-span-2" : "col-span-1"}
     >
-      <motion.div
-        className="group relative overflow-hidden rounded-3xl"
-        style={{ aspectRatio: item.featured ? "16/7" : "4/3" }}
-        initial="rest"
-        whileHover="hover"
-        animate="rest"
-      >
-        <Link href={item.href} className="absolute inset-0">
-          {/* Background stage */}
-          <div className="bg-muted/50 absolute inset-0 flex items-center justify-center">
-            <Glyph />
+      <Link href={item.href} className="group flex flex-col gap-4">
+        <motion.div
+          className="bg-muted/50 relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-2xl"
+          initial="rest"
+          whileHover="hover"
+          animate="rest"
+        >
+          <Glyph />
+          <div className="absolute top-4 left-4">
+            <Badge variant="outline" className="bg-background/70 backdrop-blur">
+              {KIND_LABELS[item.kind]}
+            </Badge>
           </div>
-
-          {/* Hover overlay */}
-          <motion.div
-            className="absolute inset-0 flex flex-col justify-end p-6"
-            variants={{
-              rest: { backgroundColor: "hsl(var(--background)/0)" },
-              hover: { backgroundColor: "hsl(var(--background)/0.88)" },
-            }}
-            transition={{ duration: 0.35, ease: EASE }}
-          >
-            <motion.div
-              className="flex flex-col gap-2"
-              variants={{
-                rest: { opacity: 0, y: 12 },
-                hover: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.3, delay: 0.05, ease: EASE }}
-            >
-              <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                {item.year}
-              </div>
-              <h3 className="text-foreground font-display text-2xl font-bold tracking-tight">
-                {item.title}
-              </h3>
-              <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
-                {item.description}
-              </p>
-              <span className="text-foreground mt-1 font-mono text-xs">
-                View case study →
-              </span>
-            </motion.div>
-          </motion.div>
-        </Link>
-      </motion.div>
+        </motion.div>
+        <div className="flex flex-col gap-2">
+          <h3 className="text-foreground font-display text-xl font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
+            {item.title}
+          </h3>
+          <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
+            {item.description}
+          </p>
+          <div className="text-muted-foreground mt-2 font-mono text-xs tracking-wider">
+            {AUTHOR} · {formatDate(item)}
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
 }

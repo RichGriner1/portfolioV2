@@ -5,14 +5,22 @@ export type WorkType =
   | "experiment"
   | "writing";
 
-export type GlyphKey = "design-system" | "visual-strategy" | "brand-rules";
+export type WorkKind = "case-study" | "process";
+
+export type GlyphKey =
+  | "design-system"
+  | "visual-strategy"
+  | "brand-rules"
+  | "migration";
 
 export type WorkItem = {
   slug: string;
   title: string;
   description: string;
   year: number;
+  date?: string;
   type: WorkType;
+  kind: WorkKind;
   href: string;
   glyph: GlyphKey;
   featured?: boolean;
@@ -27,6 +35,7 @@ export const WORK: WorkItem[] = [
       "Building a unified design system and AI-powered platform for a fintech consultancy — from scattered docs to scalable white-label infrastructure.",
     year: 2026,
     type: "design-system",
+    kind: "case-study",
     href: "/work/afi-design-system",
     glyph: "design-system",
     featured: true,
@@ -39,6 +48,7 @@ export const WORK: WorkItem[] = [
   //     "Visual strategy and an AI-built website for a two-person brand consultancy — giving a small team enterprise-quality design.",
   //   year: 2025,
   //   type: "brand",
+  //   kind: "case-study",
   //   href: "/work/story-architect",
   //   glyph: "visual-strategy",
   // },
@@ -49,6 +59,7 @@ export const WORK: WorkItem[] = [
       "Brand strategy, design rules, and an AI-powered system that lets non-technical people ship consistent, high-quality work.",
     year: 2025,
     type: "brand-ds",
+    kind: "case-study",
     href: "/work/kt360",
     glyph: "brand-rules",
   },
@@ -59,6 +70,7 @@ export const WORK: WorkItem[] = [
       "Pivoting a B2C research app to B2B enterprise — validated in a week with AI-driven interviews and 20 qualified leads.",
     year: 2024,
     type: "experiment",
+    kind: "case-study",
     href: "/work/audemic-growth",
     glyph: "visual-strategy",
   },
@@ -69,7 +81,29 @@ export const WORK: WorkItem[] = [
       "Brand identity and MVP experience for a mindfulness app that treats each person's journey as unique — no cookie-cutter meditations.",
     year: 2024,
     type: "brand-ds",
+    kind: "case-study",
     href: "/work/mindfulme",
     glyph: "visual-strategy",
   },
+  {
+    slug: "design-md-primeng-wealth-manager",
+    title: "Writing the rulebook PrimeNG doesn't ship with",
+    description:
+      "A design.md for our Wealth Manager product — how I closed the Figma/code drift and taught AI agents to generate correct UI.",
+    year: 2026,
+    date: "2026-04-23",
+    type: "writing",
+    kind: "process",
+    href: "/writing/design-md-primeng-wealth-manager",
+    glyph: "migration",
+  },
 ];
+
+export const KIND_LABELS: Record<WorkKind, string> = {
+  "case-study": "Case study",
+  process: "Process",
+};
+
+export function sortKey(item: WorkItem): string {
+  return item.date ?? `${item.year}-01-01`;
+}

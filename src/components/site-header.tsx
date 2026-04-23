@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function SiteHeader() {
@@ -12,7 +13,10 @@ export function SiteHeader() {
         >
           Richard Griner
         </Link>
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <LangToggle />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

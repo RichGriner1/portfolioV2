@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { LangProvider } from "@/lib/i18n";
 import "./globals.css";
 
 // Typography — self-hosted via next/font, no external Google requests.
@@ -65,7 +66,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <LangProvider>{children}</LangProvider>
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

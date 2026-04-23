@@ -3,58 +3,95 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
+import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
+
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
-const CV = {
+type CvExperience = {
+  role: Bilingual<string>;
+  company: string;
+  period: Bilingual<string>;
+  description: Bilingual<string>;
+};
+
+type CvEducation = {
+  degree: Bilingual<string>;
+  school: string;
+  year: string;
+};
+
+const CV: {
+  name: string;
+  email: string;
+  experience: CvExperience[];
+  skills: Bilingual<string>[];
+  education: CvEducation[];
+} = {
   name: "Richard Griner",
-  title: "UX/UI Designer · AI Builder",
-  location: "Madrid, Spain",
   email: "richardgrinerdesigns@gmail.com",
   experience: [
     {
-      role: "UX/UI Designer",
+      role: { en: "UX/UI Designer", es: "Diseñador UX/UI" },
       company: "Afi",
-      period: "2024 — present",
-      description:
-        "Designing fintech products for banks and financial institutions at a leading Spanish consultancy. Building a design system from the ground up — architecting a custom token system, building an AI-assisted platform for white-label products across banking clients, and turning every new client into another pass at sharpening the system.",
+      period: { en: "2024 — present", es: "2024 — actualidad" },
+      description: {
+        en: "Designing fintech products for banks and financial institutions at a leading Spanish consultancy. Building a design system from the ground up — architecting a custom token system, building an AI-assisted platform for white-label products across banking clients, and turning every new client into another pass at sharpening the system.",
+        es: "Diseñando productos fintech para bancos e instituciones financieras en una consultora española de referencia. Construyendo un sistema de diseño desde cero — arquitectando un sistema de tokens a medida, creando una plataforma asistida por IA para productos white-label entre clientes bancarios, y convirtiendo cada nuevo cliente en otra pasada para afinar el sistema.",
+      },
     },
     {
-      role: "Product Manager & UX Designer",
+      role: {
+        en: "Product Manager & UX Designer",
+        es: "Product manager y diseñador UX",
+      },
       company: "Audemic",
-      period: "2023 — 2024",
-      description:
-        "Led product and UX across two sister products under one brand. Defined the product roadmap, ran user research, and built sibling design systems that kept both products visually consistent while serving different user needs.",
+      period: { en: "2023 — 2024", es: "2023 — 2024" },
+      description: {
+        en: "Led product and UX across two sister products under one brand. Defined the product roadmap, ran user research, and built sibling design systems that kept both products visually consistent while serving different user needs.",
+        es: "Lideré producto y UX en dos productos hermanos bajo una misma marca. Definí la hoja de ruta de producto, realicé investigación con usuarios y construí sistemas de diseño hermanos que mantuvieron ambos productos visualmente consistentes mientras atendían necesidades distintas.",
+      },
     },
     {
-      role: "Freelance Designer & AI Builder",
+      role: {
+        en: "Freelance Designer & AI Builder",
+        es: "Diseñador freelance y constructor de IA",
+      },
       company: "Independent",
-      period: "2022 — present",
-      description:
-        "Visual strategy, design systems, and AI-assisted development for startups and small businesses. Projects include KT360 (brand identity + AI-powered team environment) and Story Architect (visual strategy + AI-built website).",
+      period: { en: "2022 — present", es: "2022 — actualidad" },
+      description: {
+        en: "Visual strategy, design systems, and AI-assisted development for startups and small businesses. Projects include KT360 (brand identity + AI-powered team environment) and Story Architect (visual strategy + AI-built website).",
+        es: "Estrategia visual, sistemas de diseño y desarrollo asistido por IA para startups y pequeñas empresas. Los proyectos incluyen KT360 (identidad de marca + entorno de equipo impulsado por IA) y Story Architect (estrategia visual + web construida con IA).",
+      },
     },
   ],
   skills: [
-    "Design Systems",
-    "Token Architecture",
-    "Figma",
-    "UX Research",
-    "Product Design",
-    "Visual Strategy",
-    "Tailwind CSS",
-    "AI Workflow Design",
-    "Brand Strategy",
-    "White-label Products",
-    "PrimeNG",
-    "shadcn/ui",
+    { en: "Design Systems", es: "Sistemas de diseño" },
+    { en: "Token Architecture", es: "Arquitectura de tokens" },
+    { en: "Figma", es: "Figma" },
+    { en: "UX Research", es: "Investigación UX" },
+    { en: "Product Design", es: "Diseño de producto" },
+    { en: "Visual Strategy", es: "Estrategia visual" },
+    { en: "Tailwind CSS", es: "Tailwind CSS" },
+    { en: "AI Workflow Design", es: "Diseño de flujos de IA" },
+    { en: "Brand Strategy", es: "Estrategia de marca" },
+    { en: "White-label Products", es: "Productos white-label" },
+    { en: "PrimeNG", es: "PrimeNG" },
+    { en: "shadcn/ui", es: "shadcn/ui" },
   ],
   education: [
     {
-      degree: "Master's in UX & Service Design",
+      degree: {
+        en: "Master's in UX & Service Design",
+        es: "Máster en UX y diseño de servicios",
+      },
       school: "IED Madrid",
       year: "2022",
     },
     {
-      degree: "BA Anthropology",
+      degree: {
+        en: "BA Anthropology",
+        es: "Grado en Antropología",
+      },
       school: "University of Maryland, College Park",
       year: "2020",
     },
@@ -62,6 +99,7 @@ const CV = {
 };
 
 export function CvModal() {
+  const { lang } = useLang();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -107,7 +145,7 @@ export function CvModal() {
         onClick={() => setOpen(true)}
         className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
       >
-        CV
+        {t("nav.cv", lang)}
       </button>
 
       <AnimatePresence>
@@ -135,15 +173,17 @@ export function CvModal() {
                   <h2 className="text-foreground text-lg font-semibold">
                     {CV.name}
                   </h2>
-                  <p className="text-muted-foreground text-sm">{CV.title}</p>
                   <p className="text-muted-foreground text-sm">
-                    {CV.location} · {CV.email}
+                    {t("cv.title", lang)}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    {t("cv.location", lang)} · {CV.email}
                   </p>
                 </div>
                 <button
                   onClick={() => setOpen(false)}
                   className="text-muted-foreground hover:text-foreground text-xl leading-none transition-colors"
-                  aria-label="Close"
+                  aria-label={t("cv.close", lang)}
                 >
                   ×
                 </button>
@@ -153,24 +193,24 @@ export function CvModal() {
                 <div className="col-span-2 flex flex-col gap-6">
                   <div>
                     <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
-                      Experience
+                      {t("cv.experience_heading", lang)}
                     </h3>
                     <div className="flex flex-col gap-5">
                       {CV.experience.map((e) => (
-                        <div key={e.role}>
+                        <div key={e.company}>
                           <div className="flex items-baseline justify-between gap-2">
                             <span className="text-foreground text-sm font-medium">
-                              {e.role}
+                              {pick(e.role, lang)}
                             </span>
                             <span className="text-muted-foreground shrink-0 font-mono text-xs">
-                              {e.period}
+                              {pick(e.period, lang)}
                             </span>
                           </div>
                           <div className="text-muted-foreground mb-1 font-mono text-xs">
                             {e.company}
                           </div>
                           <p className="text-muted-foreground text-xs leading-relaxed">
-                            {e.description}
+                            {pick(e.description, lang)}
                           </p>
                         </div>
                       ))}
@@ -179,14 +219,14 @@ export function CvModal() {
 
                   <div>
                     <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
-                      Education
+                      {t("cv.education_heading", lang)}
                     </h3>
                     <div className="flex flex-col gap-2">
                       {CV.education.map((e) => (
-                        <div key={e.degree}>
+                        <div key={e.school}>
                           <div className="flex items-baseline justify-between gap-2">
                             <span className="text-foreground text-sm">
-                              {e.degree}
+                              {pick(e.degree, lang)}
                             </span>
                             <span className="text-muted-foreground shrink-0 font-mono text-xs">
                               {e.year}
@@ -203,15 +243,15 @@ export function CvModal() {
 
                 <div>
                   <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
-                    Skills
+                    {t("cv.skills_heading", lang)}
                   </h3>
                   <div className="flex flex-wrap gap-1.5">
                     {CV.skills.map((s) => (
                       <span
-                        key={s}
+                        key={s.en}
                         className="border-border text-muted-foreground rounded-full border px-2.5 py-1 font-mono text-xs"
                       >
-                        {s}
+                        {pick(s, lang)}
                       </span>
                     ))}
                   </div>

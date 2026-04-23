@@ -1,3 +1,5 @@
+import type { Bilingual } from "@/lib/i18n";
+
 export type WorkType =
   | "design-system"
   | "brand-ds"
@@ -15,8 +17,8 @@ export type GlyphKey =
 
 export type WorkItem = {
   slug: string;
-  title: string;
-  description: string;
+  title: Bilingual<string>;
+  description: Bilingual<string>;
   year: number;
   date?: string;
   type: WorkType;
@@ -30,9 +32,14 @@ export type WorkItem = {
 export const WORK: WorkItem[] = [
   {
     slug: "afi-design-system",
-    title: "Afi Design System",
-    description:
-      "Building a unified design system and AI-powered platform for a fintech consultancy — from scattered docs to scalable white-label infrastructure.",
+    title: {
+      en: "Afi Design System",
+      es: "Sistema de diseño de Afi",
+    },
+    description: {
+      en: "Building a unified design system and AI-powered platform for a fintech consultancy — from scattered docs to scalable white-label infrastructure.",
+      es: "Construyendo un sistema de diseño unificado y una plataforma impulsada por IA para una consultora fintech — de documentación dispersa a una infraestructura white-label escalable.",
+    },
     year: 2026,
     type: "design-system",
     kind: "case-study",
@@ -40,23 +47,13 @@ export const WORK: WorkItem[] = [
     glyph: "design-system",
     featured: true,
   },
-  // story-architect: hidden until the case study is finished.
-  // {
-  //   slug: "story-architect",
-  //   title: "Story Architect",
-  //   description:
-  //     "Visual strategy and an AI-built website for a two-person brand consultancy — giving a small team enterprise-quality design.",
-  //   year: 2025,
-  //   type: "brand",
-  //   kind: "case-study",
-  //   href: "/work/story-architect",
-  //   glyph: "visual-strategy",
-  // },
   {
     slug: "kt360",
-    title: "KT360",
-    description:
-      "Brand strategy, design rules, and an AI-powered system that lets non-technical people ship consistent, high-quality work.",
+    title: { en: "KT360", es: "KT360" },
+    description: {
+      en: "Brand strategy, design rules, and an AI-powered system that lets non-technical people ship consistent, high-quality work.",
+      es: "Estrategia de marca, reglas de diseño y un sistema impulsado por IA que permite a personas sin perfil técnico lanzar trabajo consistente y de calidad.",
+    },
     year: 2025,
     type: "brand-ds",
     kind: "case-study",
@@ -65,9 +62,11 @@ export const WORK: WorkItem[] = [
   },
   {
     slug: "audemic-growth",
-    title: "Audemic",
-    description:
-      "Pivoting a B2C research app to B2B enterprise — validated in a week with AI-driven interviews and 20 qualified leads.",
+    title: { en: "Audemic", es: "Audemic" },
+    description: {
+      en: "Pivoting a B2C research app to B2B enterprise — validated in a week with AI-driven interviews and 20 qualified leads.",
+      es: "Pivotando una app de investigación B2C hacia B2B enterprise — validado en una semana con entrevistas impulsadas por IA y 20 leads cualificados.",
+    },
     year: 2024,
     type: "experiment",
     kind: "case-study",
@@ -76,9 +75,11 @@ export const WORK: WorkItem[] = [
   },
   {
     slug: "mindfulme",
-    title: "Mindfulme",
-    description:
-      "Brand identity and MVP experience for a mindfulness app that treats each person's journey as unique — no cookie-cutter meditations.",
+    title: { en: "Mindfulme", es: "Mindfulme" },
+    description: {
+      en: "Brand identity and MVP experience for a mindfulness app that treats each person's journey as unique — no cookie-cutter meditations.",
+      es: "Identidad de marca y experiencia MVP para una app de mindfulness que trata el camino de cada persona como único — nada de meditaciones en serie.",
+    },
     year: 2024,
     type: "brand-ds",
     kind: "case-study",
@@ -87,9 +88,14 @@ export const WORK: WorkItem[] = [
   },
   {
     slug: "design-md-primeng-wealth-manager",
-    title: "Writing the rulebook PrimeNG doesn't ship with",
-    description:
-      "A design.md for our Wealth Manager product — how I closed the Figma/code drift and taught AI agents to generate correct UI.",
+    title: {
+      en: "Writing the rulebook PrimeNG doesn't ship with",
+      es: "Escribiendo el manual de reglas que PrimeNG no incluye",
+    },
+    description: {
+      en: "A design.md for our Wealth Manager product — how I closed the Figma/code drift and taught AI agents to generate correct UI.",
+      es: "Un design.md para nuestro producto Wealth Manager — cómo cerré el desfase entre Figma y código y enseñé a los agentes de IA a generar la UI correcta.",
+    },
     year: 2026,
     date: "2026-04-23",
     type: "writing",
@@ -99,9 +105,9 @@ export const WORK: WorkItem[] = [
   },
 ];
 
-export const KIND_LABELS: Record<WorkKind, string> = {
-  "case-study": "Case study",
-  process: "Process",
+export const KIND_LABELS: Record<WorkKind, Bilingual<string>> = {
+  "case-study": { en: "Case study", es: "Caso de estudio" },
+  process: { en: "Process", es: "Proceso" },
 };
 
 export function sortKey(item: WorkItem): string {

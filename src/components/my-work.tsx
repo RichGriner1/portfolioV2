@@ -6,14 +6,15 @@ import { AnimatePresence, motion } from "motion/react";
 import { WorkCard } from "@/components/work-card";
 import { cn } from "@/lib/utils";
 import { sortKey, WORK, type WorkItem } from "@/lib/content/work";
+import { t, useLang, type UIKey } from "@/lib/i18n";
 
 type TabKey = "new-releases" | "all" | "case-studies" | "processes";
 
-const TABS: Array<{ key: TabKey; label: string }> = [
-  { key: "new-releases", label: "New releases" },
-  { key: "all", label: "All" },
-  { key: "case-studies", label: "Case studies" },
-  { key: "processes", label: "Processes" },
+const TABS: Array<{ key: TabKey; labelKey: UIKey }> = [
+  { key: "new-releases", labelKey: "tabs.new_releases" },
+  { key: "all", labelKey: "tabs.all" },
+  { key: "case-studies", labelKey: "tabs.case_studies" },
+  { key: "processes", labelKey: "tabs.processes" },
 ];
 
 function filterItems(tab: TabKey, items: WorkItem[]): WorkItem[] {
@@ -34,6 +35,7 @@ function filterItems(tab: TabKey, items: WorkItem[]): WorkItem[] {
 }
 
 export function MyWork() {
+  const { lang } = useLang();
   const [active, setActive] = useState<TabKey>("new-releases");
   const items = useMemo(() => filterItems(active, WORK), [active]);
 
@@ -41,12 +43,10 @@ export function MyWork() {
     <section className="flex flex-col gap-8 pt-4">
       <header className="flex flex-col gap-3">
         <h2 className="text-foreground font-display text-4xl font-bold tracking-tight md:text-5xl">
-          My work
+          {t("home.my_work", lang)}
         </h2>
         <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
-          A mix of projects, case studies, and process notes — what I&apos;ve
-          been shipping and thinking about as a design-systems designer in AI
-          and fintech.
+          {t("home.my_work_intro", lang)}
         </p>
       </header>
 
@@ -69,7 +69,7 @@ export function MyWork() {
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              {tab.label}
+              {t(tab.labelKey, lang)}
               {isActive && (
                 <motion.span
                   layoutId="my-work-tab-underline"

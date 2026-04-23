@@ -9,6 +9,7 @@ import {
 import { useEffect, useState, type JSX } from "react";
 
 import type { BentoCard } from "@/lib/content/case-studies";
+import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const EASE_SOFT = [0.32, 0.72, 0.18, 1] as const;
@@ -1973,12 +1974,18 @@ function JourneySceneAnimation({ active }: AnimationProps) {
   );
 }
 
-const AFFIRMATION_PHRASES = [
-  "You are enough.",
-  "You — right now — are enough.",
-  "Today, you did more than enough.",
-  "Tomorrow belongs to you.",
-] as const;
+const AFFIRMATION_PHRASES: Bilingual<string>[] = [
+  { en: "You are enough.", es: "Eres suficiente." },
+  {
+    en: "You — right now — are enough.",
+    es: "Tú — ahora mismo — eres suficiente.",
+  },
+  {
+    en: "Today, you did more than enough.",
+    es: "Hoy hiciste más que suficiente.",
+  },
+  { en: "Tomorrow belongs to you.", es: "El mañana es tuyo." },
+];
 
 const AFFIRMATION_SHAPES = [
   "50% 50% 50% 50%",
@@ -1988,6 +1995,7 @@ const AFFIRMATION_SHAPES = [
 ] as const;
 
 function AffirmationMorphAnimation({ active }: AnimationProps) {
+  const { lang } = useLang();
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
@@ -2002,7 +2010,7 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
   }, [active]);
 
   const activeIdx = active ? idx : 0;
-  const words = AFFIRMATION_PHRASES[activeIdx].split(" ");
+  const words = pick(AFFIRMATION_PHRASES[activeIdx], lang).split(" ");
 
   return (
     <div className="flex w-full flex-col items-center gap-3 px-4">
@@ -2902,6 +2910,7 @@ const ANIMATIONS: Record<
 };
 
 function BentoCardItem({ card }: { card: BentoCard }) {
+  const { lang } = useLang();
   const Animation = ANIMATIONS[card.animation];
   const [active, setActive] = useState(false);
   return (
@@ -2922,9 +2931,11 @@ function BentoCardItem({ card }: { card: BentoCard }) {
       </div>
       <div className="flex flex-col gap-0.5">
         <span className="text-foreground text-sm font-medium">
-          {card.label}
+          {pick(card.label, lang)}
         </span>
-        <span className="text-muted-foreground text-xs">{card.sublabel}</span>
+        <span className="text-muted-foreground text-xs">
+          {pick(card.sublabel, lang)}
+        </span>
       </div>
     </motion.div>
   );
@@ -2945,7 +2956,7 @@ export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
                 : "col-span-1 row-span-1";
           return (
             <motion.div
-              key={card.label}
+              key={card.label.en}
               className={spanClass}
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -2964,7 +2975,7 @@ export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
     <div className="grid grid-cols-2 gap-3">
       {cards.map((card, i) => (
         <motion.div
-          key={card.label}
+          key={card.label.en}
           className={card.span === "wide" ? "col-span-2" : ""}
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}

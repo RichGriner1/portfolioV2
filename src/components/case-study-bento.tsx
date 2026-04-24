@@ -2997,14 +2997,14 @@ export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
 
   if (hasTall) {
     return (
-      <div className="grid auto-rows-fr grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:auto-rows-fr sm:grid-cols-3">
         {cards.map((card, i) => {
           const spanClass =
             card.span === "tall"
-              ? "col-span-1 row-span-2"
+              ? "sm:col-span-1 sm:row-span-2"
               : card.span === "wide"
-                ? "col-span-2 row-span-1"
-                : "col-span-1 row-span-1";
+                ? "sm:col-span-2 sm:row-span-1"
+                : "sm:col-span-1 sm:row-span-1";
           return (
             <motion.div
               key={card.label.en}
@@ -3023,11 +3023,11 @@ export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       {cards.map((card, i) => (
         <motion.div
           key={card.label.en}
-          className={card.span === "wide" ? "col-span-2" : ""}
+          className={card.span === "wide" ? "sm:col-span-2" : ""}
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}

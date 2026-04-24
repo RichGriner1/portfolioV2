@@ -8,11 +8,6 @@ import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const STAGGER = 0.08;
 
-const HERO_P1: Bilingual<string> = {
-  en: "Born and raised in Washington, DC — now I call Madrid home.",
-  es: "Nací y crecí en Washington, DC — ahora Madrid es mi hogar.",
-};
-
 const HERO_P3: Bilingual<string> = {
   en: "I believe great design starts by understanding someone's world. Before AI, that took time and money most businesses didn't have. Now it doesn't.",
   es: "Creo que el gran diseño empieza por entender el mundo de alguien. Antes de la IA, eso requería tiempo y dinero que la mayoría de las empresas no tenía. Ahora no.",
@@ -35,15 +30,6 @@ export function Hero() {
           {t("hero.updated", lang)}
         </span>
       </motion.div>
-
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: STAGGER, ease: EASE }}
-        className="text-foreground max-w-xl text-base leading-relaxed"
-      >
-        {pick(HERO_P1, lang)}
-      </motion.p>
 
       <motion.p
         initial={{ opacity: 0, y: 8 }}

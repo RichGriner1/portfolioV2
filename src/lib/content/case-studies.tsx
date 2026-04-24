@@ -376,12 +376,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Diseñador freelance y responsable de producto",
     },
     contributions: {
-      en: [
-        "Brand identity",
-        "Product design",
-        "User research",
-        "MVP delivery",
-      ],
+      en: ["Brand identity", "Product design", "User research", "MVP delivery"],
       es: [
         "Identidad de marca",
         "Diseño de producto",

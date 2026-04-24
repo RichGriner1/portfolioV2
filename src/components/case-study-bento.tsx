@@ -9,6 +9,7 @@ import {
 import { useEffect, useState, type JSX } from "react";
 
 import type { BentoCard } from "@/lib/content/case-studies";
+import { useIsMobile } from "@/lib/hooks";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
@@ -988,7 +989,12 @@ function CursorAnimation({ active }: AnimationProps) {
       const t = setTimeout(() => {
         setPublished(true);
         setPressed(false);
-        void cursor.start({ x: 0, y: 0, opacity: 0, transition: { duration: 0 } });
+        void cursor.start({
+          x: 0,
+          y: 0,
+          opacity: 0,
+          transition: { duration: 0 },
+        });
       }, 0);
       return () => clearTimeout(t);
     }
@@ -1066,7 +1072,10 @@ function CursorAnimation({ active }: AnimationProps) {
                 animate={{ scale: pressed ? 0.92 : 1 }}
                 transition={{ duration: 0.18, ease: EASE_SOFT }}
                 initial={false}
-                exit={{ opacity: 0, transition: { duration: 0.3, ease: EASE_SOFT } }}
+                exit={{
+                  opacity: 0,
+                  transition: { duration: 0.3, ease: EASE_SOFT },
+                }}
               >
                 Publish
               </motion.button>
@@ -1289,8 +1298,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
     };
   }, [active, cursor]);
 
-  const downloaded =
-    downloadedIdx !== null ? ASSET_TILES[downloadedIdx] : null;
+  const downloaded = downloadedIdx !== null ? ASSET_TILES[downloadedIdx] : null;
   const downloadedTheme =
     downloaded !== null ? KT_THEMES[downloaded.themeIdx] : null;
 
@@ -1324,7 +1332,11 @@ function AssetPortalAnimation({ active }: AnimationProps) {
                   className="h-2 w-2 rounded-full"
                   style={{ backgroundColor: theme.dot }}
                   animate={{
-                    opacity: isDownloaded ? [0.6, 1, 0.85] : isTarget ? 0.9 : 0.6,
+                    opacity: isDownloaded
+                      ? [0.6, 1, 0.85]
+                      : isTarget
+                        ? 0.9
+                        : 0.6,
                   }}
                   transition={{ duration: 0.5, ease: EASE }}
                 />
@@ -1628,7 +1640,11 @@ function GuidelineAnimation({ active }: AnimationProps) {
                 className="flex flex-col items-center gap-0.5"
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.35, delay: i * 0.04, ease: EASE_SOFT }}
+                transition={{
+                  duration: 0.35,
+                  delay: i * 0.04,
+                  ease: EASE_SOFT,
+                }}
               >
                 <div
                   className="h-7 w-full rounded-md border"
@@ -1675,7 +1691,11 @@ function GuidelineAnimation({ active }: AnimationProps) {
                 className={`text-foreground font-sans ${t.size} ${t.weight} leading-none`}
                 initial={{ opacity: 0, x: -4 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.07, ease: EASE_SOFT }}
+                transition={{
+                  duration: 0.35,
+                  delay: i * 0.07,
+                  ease: EASE_SOFT,
+                }}
               >
                 {t.label}
               </motion.div>
@@ -1916,9 +1936,7 @@ function JourneySceneAnimation({ active }: AnimationProps) {
               r="3"
               fill="currentColor"
               initial={
-                active
-                  ? { opacity: 0, scale: 0.5 }
-                  : { opacity: 0.7, scale: 1 }
+                active ? { opacity: 0, scale: 0.5 } : { opacity: 0.7, scale: 1 }
               }
               animate={
                 active
@@ -1949,12 +1967,20 @@ function JourneySceneAnimation({ active }: AnimationProps) {
               initial={
                 active
                   ? { cx: start.x, cy: start.y, scale: 0 }
-                  : { cx: wp[wp.length - 1].x, cy: wp[wp.length - 1].y, scale: 1 }
+                  : {
+                      cx: wp[wp.length - 1].x,
+                      cy: wp[wp.length - 1].y,
+                      scale: 1,
+                    }
               }
               animate={
                 active
                   ? { cx: xs, cy: ys, scale: [0, 1, 1, 1, 1] }
-                  : { cx: wp[wp.length - 1].x, cy: wp[wp.length - 1].y, scale: 1 }
+                  : {
+                      cx: wp[wp.length - 1].x,
+                      cy: wp[wp.length - 1].y,
+                      scale: 1,
+                    }
               }
               transition={
                 active
@@ -2155,8 +2181,18 @@ function OrganicBundleAnimation({ active }: AnimationProps) {
                       ORGANIC_BLOB_SHAPES[i % ORGANIC_BLOB_SHAPES.length],
                     ],
                     rotate: [0, 6, -4, 0],
-                    translateX: ["-50%", "calc(-50% + 3px)", "calc(-50% - 2px)", "-50%"],
-                    translateY: ["-50%", "calc(-50% - 2px)", "calc(-50% + 3px)", "-50%"],
+                    translateX: [
+                      "-50%",
+                      "calc(-50% + 3px)",
+                      "calc(-50% - 2px)",
+                      "-50%",
+                    ],
+                    translateY: [
+                      "-50%",
+                      "calc(-50% - 2px)",
+                      "calc(-50% + 3px)",
+                      "-50%",
+                    ],
                   }
                 : {
                     borderRadius: b.restShape,
@@ -2565,9 +2601,7 @@ function HoursStatAnimation({ active }: AnimationProps) {
                   r="2"
                   initial={false}
                   animate={{
-                    fill: lit
-                      ? "hsl(var(--primary))"
-                      : "hsl(var(--muted))",
+                    fill: lit ? "hsl(var(--primary))" : "hsl(var(--muted))",
                     scale: countingHours && i < litCount ? [1, 1.6, 1] : 1,
                   }}
                   transition={{
@@ -2784,8 +2818,7 @@ function ModelIterationAnimation({ active }: AnimationProps) {
           const next = ((prev + 1) % 2) as 0 | 1;
           setIters((its) => {
             const updated: [number, number] = [its[0], its[1]];
-            updated[next] =
-              (its[next] + 1) % MODEL_LINE_VARIANTS[next].length;
+            updated[next] = (its[next] + 1) % MODEL_LINE_VARIANTS[next].length;
             return updated;
           });
           return next;
@@ -2913,12 +2946,30 @@ function BentoCardItem({ card }: { card: BentoCard }) {
   const { lang } = useLang();
   const Animation = ANIMATIONS[card.animation];
   const [active, setActive] = useState(false);
+  const isMobile = useIsMobile();
+  const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const SHOW = 2200;
+    const HIDE = 1200;
+    let timer: ReturnType<typeof setTimeout>;
+    function cycle(current: "idle" | "hover") {
+      const next = current === "idle" ? "hover" : "idle";
+      const delay = current === "idle" ? SHOW : HIDE;
+      setMobileVariant(next);
+      timer = setTimeout(() => cycle(next), delay);
+    }
+    timer = setTimeout(() => cycle("idle"), 600);
+    return () => clearTimeout(timer);
+  }, [isMobile]);
+
   return (
     <motion.div
       className="bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5"
       initial="rest"
-      whileHover="hover"
-      animate="rest"
+      whileHover={!isMobile ? "hover" : undefined}
+      animate={isMobile ? mobileVariant : "rest"}
       tabIndex={0}
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
@@ -2927,7 +2978,7 @@ function BentoCardItem({ card }: { card: BentoCard }) {
       onTouchStart={() => setActive(true)}
     >
       <div className="flex min-h-[120px] flex-1 items-center justify-center">
-        <Animation active={active} />
+        <Animation active={isMobile ? mobileVariant === "hover" : active} />
       </div>
       <div className="flex flex-col gap-0.5">
         <span className="text-foreground text-sm font-medium">

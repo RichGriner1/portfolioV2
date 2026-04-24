@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 
 import { GLYPHS } from "@/components/motion/glyphs";
 import { Badge } from "@/components/ui/badge";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
+import { useIsMobile } from "@/lib/hooks";
 import { pick, useLang } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
@@ -29,6 +31,23 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const { lang } = useLang();
   const Glyph = GLYPHS[item.glyph];
   const locale = lang === "es" ? "es-ES" : "en-US";
+  const isMobile = useIsMobile();
+  const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const SHOW = 2200;
+    const HIDE = 1200;
+    let timer: ReturnType<typeof setTimeout>;
+    function cycle(current: "idle" | "hover") {
+      const next = current === "idle" ? "hover" : "idle";
+      const delay = current === "idle" ? SHOW : HIDE;
+      setMobileVariant(next);
+      timer = setTimeout(() => cycle(next), delay);
+    }
+    timer = setTimeout(() => cycle("idle"), 600);
+    return () => clearTimeout(timer);
+  }, [isMobile]);
 
   return (
     <motion.div
@@ -41,8 +60,8 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
         <motion.div
           className="bg-muted/50 relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-2xl"
           initial="rest"
-          whileHover="hover"
-          animate="rest"
+          whileHover={!isMobile ? "hover" : undefined}
+          animate={isMobile ? mobileVariant : "rest"}
         >
           <Glyph />
           <div className="absolute top-4 left-4">

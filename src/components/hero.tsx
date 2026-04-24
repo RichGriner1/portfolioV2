@@ -14,8 +14,8 @@ const HERO_P1: Bilingual<string> = {
 };
 
 const HERO_P3: Bilingual<string> = {
-  en: "Design creates real differences when it starts by truly understanding someone's universe — what makes each person different is exactly what I'm looking for. Before AI, that depth of craft was reserved for companies with big teams and bigger budgets. Now it isn't, and that's the part I find most exciting.",
-  es: "El diseño crea diferencias reales cuando empieza por entender de verdad el universo de alguien — lo que hace única a cada persona es justo lo que busco. Antes de la IA, ese nivel de oficio estaba reservado para empresas con grandes equipos y presupuestos mayores. Ya no es así, y esa es la parte que más me entusiasma.",
+  en: "I believe great design starts by understanding someone's reality and creating solutions based on that. Before AI, that level of craft was expensive and slow, reserved for companies that had already made it. Now it isn't, and that's what I find most exciting about this moment.",
+  es: "Creo que el gran diseño empieza por entender la realidad de alguien y crear soluciones basadas en eso. Antes de la IA, ese nivel de oficio era caro y lento, reservado para empresas que ya lo habían logrado. Ahora no es así, y eso es lo que más me entusiasma de este momento.",
 };
 
 export function Hero() {
@@ -53,33 +53,29 @@ export function Hero() {
       >
         {lang === "en" ? (
           <>
-            I work at{" "}
+            Currently building AI-powered design systems and fintech products
+            for banks and financial institutions at{" "}
             <a
               href="https://www.afi.es"
               className="underline underline-offset-4"
             >
               Afi
             </a>
-            , a financial consultancy in Spain, building AI-powered design
-            systems and fintech products for banks and financial institutions.
-            Freelance, I do the same for founders and small teams — design
-            systems, products, and the AI workflows that make both actually
-            scale.
+            , and freelancing — building AI systems, workflows, and products
+            for small businesses.
           </>
         ) : (
           <>
-            Trabajo en{" "}
+            Actualmente construyendo sistemas de diseño impulsados por IA y
+            productos fintech para bancos e instituciones financieras en{" "}
             <a
               href="https://www.afi.es"
               className="underline underline-offset-4"
             >
               Afi
             </a>
-            , una consultora financiera en España, construyendo sistemas de
-            diseño impulsados por IA y productos fintech para bancos e
-            instituciones financieras. Como freelance, hago lo mismo para
-            founders y equipos pequeños — sistemas de diseño, productos y los
-            flujos de IA que hacen que ambos escalen de verdad.
+            , y como freelance — construyendo sistemas de IA, flujos de trabajo
+            y productos para pequeñas empresas.
           </>
         )}
       </motion.p>

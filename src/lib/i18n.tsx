@@ -111,8 +111,8 @@ export const UI = {
     es: "Todos los derechos reservados.",
   },
   "footer.built": {
-    en: "Designed & built by hand.",
-    es: "Diseñado y construido a mano.",
+    en: "Born and raised in DC, based in Madrid.",
+    es: "Nacido y criado en DC, basado en Madrid.",
   },
   "lang.toggle_aria_to_es": {
     en: "Cambiar a español",

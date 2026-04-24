@@ -47,8 +47,8 @@ export function Hero() {
             >
               Afi
             </a>
-            , and freelancing — building AI systems, workflows, and products
-            for small teams.
+            , and freelancing — building AI systems, workflows, and products for
+            small teams.
           </>
         ) : (
           <>

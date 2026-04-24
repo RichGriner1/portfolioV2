@@ -66,7 +66,7 @@ export default async function WritingPost({
           ← Back
         </Link>
 
-        <header className="flex flex-col gap-4 border-border border-b pb-8">
+        <header className="border-border flex flex-col gap-4 border-b pb-8">
           {formatPostDate(post.data.created) ? (
             <time className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
               {formatPostDate(post.data.created)}
@@ -118,9 +118,7 @@ export default async function WritingPost({
                   className="text-primary underline underline-offset-4 hover:no-underline"
                   target={href?.startsWith("http") ? "_blank" : undefined}
                   rel={
-                    href?.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
+                    href?.startsWith("http") ? "noopener noreferrer" : undefined
                   }
                 >
                   {children}
@@ -131,9 +129,7 @@ export default async function WritingPost({
                   {children}
                 </strong>
               ),
-              em: ({ children }) => (
-                <em className="italic">{children}</em>
-              ),
+              em: ({ children }) => <em className="italic">{children}</em>,
               code: ({ children }) => (
                 <code className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-[0.9em]">
                   {children}

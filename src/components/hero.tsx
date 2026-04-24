@@ -14,8 +14,8 @@ const HERO_P1: Bilingual<string> = {
 };
 
 const HERO_P3: Bilingual<string> = {
-  en: "I believe great design starts by understanding someone's reality and creating solutions based on that. Before AI, that level of craft was expensive and slow, reserved for companies that had already made it. Now it isn't, and that's what I find most exciting about this moment.",
-  es: "Creo que el gran diseño empieza por entender la realidad de alguien y crear soluciones basadas en eso. Antes de la IA, ese nivel de oficio era caro y lento, reservado para empresas que ya lo habían logrado. Ahora no es así, y eso es lo que más me entusiasma de este momento.",
+  en: "I believe great design starts by understanding someone's world. Before AI, that took time and money most businesses didn't have. Now it doesn't.",
+  es: "Creo que el gran diseño empieza por entender el mundo de alguien. Antes de la IA, eso requería tiempo y dinero que la mayoría de las empresas no tenía. Ahora no.",
 };
 
 export function Hero() {
@@ -62,7 +62,7 @@ export function Hero() {
               Afi
             </a>
             , and freelancing — building AI systems, workflows, and products
-            for small businesses.
+            for small teams.
           </>
         ) : (
           <>
@@ -75,7 +75,7 @@ export function Hero() {
               Afi
             </a>
             , y como freelance — construyendo sistemas de IA, flujos de trabajo
-            y productos para pequeñas empresas.
+            y productos para equipos pequeños.
           </>
         )}
       </motion.p>

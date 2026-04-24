@@ -9,13 +9,13 @@ const EASE = [0.2, 0.8, 0.2, 1] as const;
 const STAGGER = 0.08;
 
 const HERO_P1: Bilingual<string> = {
-  en: "I grew up in Washington, DC and now live in Madrid.",
-  es: "Crecí en Washington, DC y ahora vivo en Madrid.",
+  en: "Born and raised in Washington, DC — now I call Madrid home.",
+  es: "Nací y crecí en Washington, DC — ahora Madrid es mi hogar.",
 };
 
 const HERO_P3: Bilingual<string> = {
-  en: "Design lets you understand someone's universe and build solutions that create real collaboration and work that moves the needle. AI means that level of craft is no longer reserved for companies with big teams and bigger budgets — and that's the part I find most exciting.",
-  es: "El diseño te permite entender el universo de alguien y construir soluciones que generan colaboración real y trabajo que mueve la aguja. La IA significa que ese nivel de oficio ya no está reservado a empresas con grandes equipos y presupuestos mayores — y esa es la parte que más me entusiasma.",
+  en: "Design creates real differences when it starts by truly understanding someone's universe — what makes each person different is exactly what I'm looking for. Before AI, that depth of craft was reserved for companies with big teams and bigger budgets. Now it isn't, and that's the part I find most exciting.",
+  es: "El diseño crea diferencias reales cuando empieza por entender de verdad el universo de alguien — lo que hace única a cada persona es justo lo que busco. Antes de la IA, ese nivel de oficio estaba reservado para empresas con grandes equipos y presupuestos mayores. Ya no es así, y esa es la parte que más me entusiasma.",
 };
 
 export function Hero() {

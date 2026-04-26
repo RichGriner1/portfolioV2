@@ -82,7 +82,11 @@ export function DesignSystemGlyph() {
         animate={{ opacity: 0.9, scale: 1 }}
         variants={{
           rest: { opacity: 0.9, scale: 1, transition: { duration: 0.2 } },
-          hover: { opacity: 1, scale: 1.2, transition: { duration: 0.3, delay: 0 } },
+          hover: {
+            opacity: 1,
+            scale: 1.2,
+            transition: { duration: 0.3, delay: 0 },
+          },
         }}
         transition={{ duration: 0.3, delay: 0.38 }}
       />
@@ -98,7 +102,11 @@ export function DesignSystemGlyph() {
           animate={{ opacity: 0.65, scale: 1 }}
           variants={{
             rest: { opacity: 0.65, scale: 1, transition: { duration: 0.2 } },
-            hover: { opacity: 1, scale: 1.1, transition: { duration: 0.3, delay: 0.2 } },
+            hover: {
+              opacity: 1,
+              scale: 1.1,
+              transition: { duration: 0.3, delay: 0.2 },
+            },
           }}
           transition={{ duration: 0.3, delay: 0.5 + i * 0.06 }}
         />

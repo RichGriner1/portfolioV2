@@ -13,7 +13,8 @@ export type GlyphKey =
   | "design-system"
   | "visual-strategy"
   | "brand-rules"
-  | "migration";
+  | "migration"
+  | "wordpress-shell";
 
 export type WorkItem = {
   slug: string;
@@ -102,6 +103,23 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/design-md-primeng-wealth-manager",
     glyph: "migration",
+  },
+  {
+    slug: "wordpress-ai-front-end-shell",
+    title: {
+      en: "AI-built sites without leaving WordPress",
+      es: "Sitios construidos con IA sin salir de WordPress",
+    },
+    description: {
+      en: "How an Astro front-end shell on top of WordPress unlocks AI iteration for non-technical operators — without breaking SEO or the workflows their business already runs on.",
+      es: "Cómo un shell de Astro sobre WordPress desbloquea la iteración con IA para operadores no técnicos — sin romper el SEO ni los flujos de trabajo en los que ya se apoya su negocio.",
+    },
+    year: 2026,
+    date: "2026-04-26",
+    type: "writing",
+    kind: "process",
+    href: "/writing/wordpress-ai-front-end-shell",
+    glyph: "wordpress-shell",
   },
 ];
 

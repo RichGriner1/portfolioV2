@@ -4,6 +4,7 @@ import { BrandRulesGlyph } from "./brand-rules";
 import { DesignSystemGlyph } from "./design-system";
 import { MigrationGlyph } from "./migration";
 import { VisualStrategyGlyph } from "./visual-strategy";
+import { WordpressShellGlyph } from "./wordpress-shell";
 
 import type { GlyphKey } from "@/lib/content/work";
 
@@ -12,6 +13,7 @@ export const GLYPHS: Record<GlyphKey, ComponentType> = {
   "visual-strategy": VisualStrategyGlyph,
   "brand-rules": BrandRulesGlyph,
   migration: MigrationGlyph,
+  "wordpress-shell": WordpressShellGlyph,
 };
 
 export {
@@ -19,4 +21,5 @@ export {
   DesignSystemGlyph,
   MigrationGlyph,
   VisualStrategyGlyph,
+  WordpressShellGlyph,
 };

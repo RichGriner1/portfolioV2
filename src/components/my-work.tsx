@@ -8,13 +8,19 @@ import { cn } from "@/lib/utils";
 import { sortKey, WORK, type WorkItem } from "@/lib/content/work";
 import { t, useLang, type UIKey } from "@/lib/i18n";
 
-type TabKey = "new-releases" | "all" | "case-studies" | "processes";
+type TabKey =
+  | "new-releases"
+  | "all"
+  | "case-studies"
+  | "processes"
+  | "projects";
 
 const TABS: Array<{ key: TabKey; labelKey: UIKey }> = [
   { key: "new-releases", labelKey: "tabs.new_releases" },
   { key: "all", labelKey: "tabs.all" },
   { key: "case-studies", labelKey: "tabs.case_studies" },
   { key: "processes", labelKey: "tabs.processes" },
+  { key: "projects", labelKey: "tabs.projects" },
 ];
 
 function filterItems(tab: TabKey, items: WorkItem[]): WorkItem[] {
@@ -28,6 +34,8 @@ function filterItems(tab: TabKey, items: WorkItem[]): WorkItem[] {
       return sorted.filter((i) => i.kind === "case-study");
     case "processes":
       return sorted.filter((i) => i.kind === "process");
+    case "projects":
+      return sorted.filter((i) => i.kind === "lab");
     case "all":
     default:
       return sorted;

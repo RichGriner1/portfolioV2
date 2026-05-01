@@ -7,14 +7,15 @@ export type WorkType =
   | "experiment"
   | "writing";
 
-export type WorkKind = "case-study" | "process";
+export type WorkKind = "case-study" | "process" | "lab";
 
 export type GlyphKey =
   | "design-system"
   | "visual-strategy"
   | "brand-rules"
   | "migration"
-  | "wordpress-shell";
+  | "wordpress-shell"
+  | "breathing";
 
 export type WorkItem = {
   slug: string;
@@ -121,11 +122,29 @@ export const WORK: WorkItem[] = [
     href: "/writing/wordpress-ai-front-end-shell",
     glyph: "wordpress-shell",
   },
+  {
+    slug: "breathing-randomizer",
+    title: {
+      en: "Breathing Randomizer",
+      es: "Generador de respiración",
+    },
+    description: {
+      en: "A micro-break tool with five guided breathing exercises — Box, 4-7-8, Physiological Sigh, Coherent, and Triangle. Hit Randomize and follow the animated ball.",
+      es: "Una herramienta de micro-pausa con cinco ejercicios de respiración guiada — Caja, 4-7-8, Suspiro fisiológico, Coherente y Triangular. Dale a Aleatorio y sigue la bola animada.",
+    },
+    year: 2026,
+    date: "2026-05-01",
+    type: "experiment",
+    kind: "lab",
+    href: "/playground/breathing",
+    glyph: "breathing",
+  },
 ];
 
 export const KIND_LABELS: Record<WorkKind, Bilingual<string>> = {
   "case-study": { en: "Case study", es: "Caso de estudio" },
   process: { en: "Process", es: "Proceso" },
+  lab: { en: "Lab", es: "Laboratorio" },
 };
 
 export function sortKey(item: WorkItem): string {

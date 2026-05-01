@@ -8,8 +8,12 @@ import { WORK } from "@/lib/content/work";
 
 type Params = Promise<{ slug: string }>;
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return WORK.map((item) => ({ slug: item.slug }));
+  return WORK.filter((item) => item.kind !== "lab").map((item) => ({
+    slug: item.slug,
+  }));
 }
 
 export async function generateMetadata({ params }: { params: Params }) {

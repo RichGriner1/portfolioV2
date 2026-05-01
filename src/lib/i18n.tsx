@@ -83,6 +83,7 @@ export const UI = {
   "tabs.all": { en: "All", es: "Todos" },
   "tabs.case_studies": { en: "Case studies", es: "Casos de estudio" },
   "tabs.processes": { en: "Processes", es: "Procesos" },
+  "tabs.projects": { en: "Projects", es: "Proyectos" },
   "kind.case_study": { en: "Case study", es: "Caso de estudio" },
   "kind.process": { en: "Process", es: "Proceso" },
   "cv.experience_heading": { en: "Experience", es: "Experiencia" },

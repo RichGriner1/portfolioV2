@@ -106,6 +106,57 @@ export const WORK: WorkItem[] = [
     glyph: "migration",
   },
   {
+    slug: "page-layout-template",
+    title: {
+      en: "One Template to Rule Every Page",
+      es: "One Template to Rule Every Page",
+    },
+    description: {
+      en: "Why consistency matters more than flexibility, and how a single page layout template replaced three copies of the same header.",
+      es: "Why consistency matters more than flexibility, and how a single page layout template replaced three copies of the same header.",
+    },
+    year: 2026,
+    date: "2026-04-30",
+    type: "writing",
+    kind: "process",
+    href: "/writing/page-layout-template",
+    glyph: "migration",
+  },
+  {
+    slug: "from-static-to-code",
+    title: {
+      en: "From Static Screens to Code-First Design",
+      es: "From Static Screens to Code-First Design",
+    },
+    description: {
+      en: "How AWM design went code-first with AI — and why vibe coding is design.",
+      es: "How AWM design went code-first with AI — and why vibe coding is design.",
+    },
+    year: 2026,
+    date: "2026-04-29",
+    type: "writing",
+    kind: "process",
+    href: "/writing/from-static-to-code",
+    glyph: "design-system",
+  },
+  {
+    slug: "bootstrapping-the-showcase",
+    title: {
+      en: "Bootstrapping the AWM Design Showcase",
+      es: "Bootstrapping the AWM Design Showcase",
+    },
+    description: {
+      en: "Setting up an internal design showcase on PrimeNG + Angular 21 — repo layout, agent rulebook, theme preset, page shell, all from a clean machine.",
+      es: "Setting up an internal design showcase on PrimeNG + Angular 21 — repo layout, agent rulebook, theme preset, page shell, all from a clean machine.",
+    },
+    year: 2026,
+    date: "2026-04-29",
+    type: "writing",
+    kind: "process",
+    href: "/writing/bootstrapping-the-showcase",
+    glyph: "wordpress-shell",
+  },
+  {
     slug: "wordpress-ai-front-end-shell",
     title: {
       en: "AI-built sites without leaving WordPress",

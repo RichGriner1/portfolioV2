@@ -29,6 +29,7 @@ export type WorkItem = {
   glyph: GlyphKey;
   featured?: boolean;
   revamp?: boolean;
+  hidden?: boolean;
 };
 
 export const WORK: WorkItem[] = [
@@ -74,6 +75,7 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/audemic-growth",
     glyph: "visual-strategy",
+    hidden: true,
   },
   {
     slug: "mindfulme",
@@ -87,6 +89,7 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/mindfulme",
     glyph: "visual-strategy",
+    hidden: true,
   },
   {
     slug: "design-md-primeng-wealth-manager",
@@ -104,6 +107,7 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/design-md-primeng-wealth-manager",
     glyph: "migration",
+    hidden: true,
   },
   {
     slug: "page-layout-template",
@@ -172,6 +176,7 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/wordpress-ai-front-end-shell",
     glyph: "wordpress-shell",
+    hidden: true,
   },
   {
     slug: "breathing-randomizer",
@@ -189,6 +194,7 @@ export const WORK: WorkItem[] = [
     kind: "lab",
     href: "/playground/breathing",
     glyph: "breathing",
+    hidden: true,
   },
 ];
 

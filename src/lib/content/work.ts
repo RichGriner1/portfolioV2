@@ -125,6 +125,7 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/page-layout-template",
     glyph: "migration",
+    hidden: true,
   },
   {
     slug: "from-static-to-code",
@@ -142,6 +143,7 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/from-static-to-code",
     glyph: "design-system",
+    hidden: true,
   },
   {
     slug: "bootstrapping-the-showcase",
@@ -159,6 +161,7 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/bootstrapping-the-showcase",
     glyph: "wordpress-shell",
+    hidden: true,
   },
   {
     slug: "wordpress-ai-front-end-shell",

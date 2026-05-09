@@ -23,6 +23,8 @@ const TABS: Array<{ key: TabKey; labelKey: UIKey }> = [
   { key: "projects", labelKey: "tabs.projects" },
 ];
 
+const VISIBLE_WORK = WORK.filter((item) => !item.hidden);
+
 function filterItems(tab: TabKey, items: WorkItem[]): WorkItem[] {
   const sorted = [...items].sort((a, b) =>
     sortKey(b).localeCompare(sortKey(a))
@@ -45,7 +47,7 @@ function filterItems(tab: TabKey, items: WorkItem[]): WorkItem[] {
 export function MyWork() {
   const { lang } = useLang();
   const [active, setActive] = useState<TabKey>("new-releases");
-  const items = useMemo(() => filterItems(active, WORK), [active]);
+  const items = useMemo(() => filterItems(active, VISIBLE_WORK), [active]);
 
   return (
     <section className="flex flex-col gap-8 pt-4">

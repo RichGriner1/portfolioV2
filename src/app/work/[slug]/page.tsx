@@ -11,15 +11,15 @@ type Params = Promise<{ slug: string }>;
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return WORK.filter((item) => item.kind !== "lab").map((item) => ({
-    slug: item.slug,
-  }));
+  return WORK.filter((item) => item.kind !== "lab" && !item.hidden).map(
+    (item) => ({ slug: item.slug })
+  );
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
   const item = WORK.find((w) => w.slug === slug);
-  if (!item) return {};
+  if (!item || item.hidden) return {};
   return {
     title: item.title.en,
     description: item.description.en,
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 export default async function WorkDetailPage({ params }: { params: Params }) {
   const { slug } = await params;
   const item = WORK.find((w) => w.slug === slug);
-  if (!item) notFound();
+  if (!item || item.hidden) notFound();
 
   const study = CASE_STUDIES[slug];
 

@@ -9,8 +9,8 @@ const EASE = [0.2, 0.8, 0.2, 1] as const;
 const STAGGER = 0.08;
 
 const HERO_P3: Bilingual<string> = {
-  en: "I believe great design starts by understanding someone's world. Before AI, that took time and money most businesses didn't have. Now it doesn't.",
-  es: "Creo que el gran diseño empieza por entender el mundo de alguien. Antes de la IA, eso requería tiempo y dinero que la mayoría de las empresas no tenía. Ahora no.",
+  en: "I believe design is how we solve problems and understand each other. By connecting different perspectives—whether in finance, culture, or experience—we create clarity and positive change.",
+  es: "Creo que el diseño es la forma en que resolvemos problemas y nos entendemos. Al conectar perspectivas distintas—en finanzas, cultura o experiencia—creamos claridad y cambio positivo.",
 };
 
 export function Hero() {

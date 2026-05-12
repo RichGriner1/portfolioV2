@@ -149,39 +149,65 @@ function LayersAnimation({ active }: AnimationProps) {
   );
 }
 
-type SwapPhase =
-  | "tokens"
-  | "to-brand"
-  | "brand-done"
-  | "to-product"
-  | "product-done";
+type CommentPinsPhase = "idle" | "pinning" | "resolving" | "collapsed";
 
-function SwapAnimation({ active }: AnimationProps) {
-  const [phase, setPhase] = useState<SwapPhase>("product-done");
+const COMMENT_PINS = [
+  { pinX: "20%", pinY: "22%", chipLabel: "..." },
+  { pinX: "50%", pinY: "55%", chipLabel: "..." },
+  { pinX: "75%", pinY: "72%", chipLabel: "..." },
+] as const;
+
+function CommentPinsAnimation({ active }: AnimationProps) {
+  const [phase, setPhase] = useState<CommentPinsPhase>("collapsed");
+  const [visiblePins, setVisiblePins] = useState(3);
+  const [resolved, setResolved] = useState(false);
 
   useEffect(() => {
     if (!active) {
-      const t = setTimeout(() => setPhase("product-done"), 0);
+      const t = setTimeout(() => {
+        setPhase("collapsed");
+        setVisiblePins(3);
+        setResolved(true);
+      }, 0);
       return () => clearTimeout(t);
     }
     let cancelled = false;
     async function loop() {
       while (!cancelled) {
-        await new Promise((r) => setTimeout(r, 1200));
-        if (cancelled) break;
-        setPhase("to-brand");
-        await new Promise((r) => setTimeout(r, 700));
-        if (cancelled) break;
-        setPhase("brand-done");
-        await new Promise((r) => setTimeout(r, 1100));
-        if (cancelled) break;
-        setPhase("to-product");
-        await new Promise((r) => setTimeout(r, 700));
-        if (cancelled) break;
-        setPhase("product-done");
-        await new Promise((r) => setTimeout(r, 1600));
-        if (cancelled) break;
-        setPhase("tokens");
+        // idle — canvas visible, no pins
+        setPhase("idle");
+        setVisiblePins(0);
+        setResolved(false);
+        await new Promise((r) => setTimeout(r, 800));
+        if (cancelled) return;
+
+        // pinning — pins fade in one by one
+        setPhase("pinning");
+        for (let i = 1; i <= COMMENT_PINS.length; i++) {
+          if (cancelled) return;
+          setVisiblePins(i);
+          await new Promise((r) => setTimeout(r, 250));
+        }
+        await new Promise((r) => setTimeout(r, 600));
+        if (cancelled) return;
+
+        // resolving — numerals become checkmarks, chips fade
+        setPhase("resolving");
+        setResolved(true);
+        await new Promise((r) => setTimeout(r, 600));
+        if (cancelled) return;
+
+        // collapsed — pins fade out, resolved pill appears
+        setPhase("collapsed");
+        setVisiblePins(3);
+        await new Promise((r) => setTimeout(r, 1400));
+        if (cancelled) return;
+
+        // reset for next loop
+        setPhase("idle");
+        setVisiblePins(0);
+        setResolved(false);
+        await new Promise((r) => setTimeout(r, 200));
       }
     }
     void loop();
@@ -190,135 +216,68 @@ function SwapAnimation({ active }: AnimationProps) {
     };
   }, [active]);
 
-  const showProduct = phase === "to-product" || phase === "product-done";
+  const showPins = phase === "pinning" || phase === "resolving";
+  const showCollapsed = phase === "collapsed";
 
   return (
     <div className="flex w-full flex-col items-center gap-3 px-2">
-      <div className="flex w-full items-center justify-center gap-2">
-        {/* Tokens */}
-        <motion.div
-          className="border-border bg-muted rounded-xl border px-3 py-2 font-mono text-xs"
-          animate={{
-            opacity: phase !== "tokens" ? 0.2 : 1,
-            scale: phase !== "tokens" ? 0.9 : 1,
-          }}
-          transition={{ duration: 0.4, ease: EASE }}
-        >
-          Tokens
-        </motion.div>
+      {/* Canvas with abstract UI shapes */}
+      <div className="border-border/40 bg-card/50 relative w-full rounded-lg border p-3">
+        {/* Abstract shape 1: button-like rounded rect */}
+        <div className="bg-primary absolute top-[18%] left-[12%] h-3 w-9 rounded-md" />
+        {/* Abstract shape 2: label rule */}
+        <div className="bg-muted absolute top-[50%] left-[20%] h-0.5 w-12 rounded-full" />
+        {/* Abstract shape 3: icon square */}
+        <div className="bg-foreground/20 absolute right-[14%] bottom-[18%] h-2.5 w-2.5 rounded-sm" />
 
-        <motion.span
-          className="text-muted-foreground text-xs"
-          animate={{
-            opacity: phase === "to-brand" || phase === "to-product" ? 1 : 0.25,
-          }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
-        >
-          →
-        </motion.span>
+        {/* Spacer to give the canvas height */}
+        <div className="h-14" />
 
-        {/* Brand */}
-        <div className="relative">
-          <motion.div
-            className="rounded-xl px-3 py-2 font-mono text-xs"
-            animate={{
-              backgroundColor: showProduct
-                ? "hsl(var(--muted))"
-                : "hsl(var(--primary))",
-              color: showProduct
-                ? "hsl(var(--foreground))"
-                : "hsl(var(--primary-foreground))",
-              opacity: showProduct ? 0.25 : phase === "tokens" ? 0.35 : 1,
-              scale: phase === "brand-done" ? 1.08 : showProduct ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.45, ease: EASE }}
-          >
-            Brand
-          </motion.div>
-          <motion.span
-            className="text-primary absolute -top-2 -right-2 text-xs"
-            animate={{
-              opacity: phase === "brand-done" ? 1 : 0,
-              scale: phase === "brand-done" ? 1 : 0.4,
-            }}
-            transition={SPRING_SNAP}
-          >
-            ✓
-          </motion.span>
-        </div>
-
-        <motion.span
-          className="text-muted-foreground text-xs"
-          animate={{
-            opacity: phase === "to-product" || phase === "product-done" ? 1 : 0,
-          }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
-        >
-          →
-        </motion.span>
-
-        {/* Product */}
-        <div className="relative">
-          <motion.div
-            className="rounded-xl px-3 py-2 font-mono text-xs"
-            animate={{
-              backgroundColor: showProduct
-                ? "hsl(var(--primary))"
-                : "hsl(var(--muted))",
-              color: showProduct
-                ? "hsl(var(--primary-foreground))"
-                : "hsl(var(--foreground))",
-              opacity: showProduct ? 1 : 0,
-              scale: phase === "product-done" ? 1.08 : showProduct ? 1 : 0.8,
-            }}
-            transition={{ duration: 0.45, ease: EASE }}
-          >
-            Product
-          </motion.div>
-          <motion.span
-            className="text-primary absolute -top-2 -right-2 text-xs"
-            animate={{
-              opacity: phase === "product-done" ? 1 : 0,
-              scale: phase === "product-done" ? 1 : 0.4,
-            }}
-            transition={SPRING_SNAP}
-          >
-            ✓
-          </motion.span>
-        </div>
+        {/* Comment pins */}
+        {COMMENT_PINS.map((pin, i) => {
+          const visible = showPins && i < visiblePins;
+          return (
+            <motion.div
+              key={i}
+              className="pointer-events-none absolute flex items-center gap-1"
+              style={{ left: pin.pinX, top: pin.pinY }}
+              initial={false}
+              animate={{
+                opacity: visible ? 1 : 0,
+                scale: visible ? 1 : 0.5,
+              }}
+              transition={{
+                duration: 0.25,
+                delay: visible ? i * 0.05 : 0,
+                ease: EASE,
+              }}
+            >
+              {/* Pin circle */}
+              <div className="bg-primary text-primary-foreground ring-background flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full font-mono text-[7px] font-bold ring-1">
+                {resolved ? "✓" : String(i + 1)}
+              </div>
+              {/* Connector line */}
+              <div className="bg-border/40 h-px w-4" />
+              {/* Comment chip */}
+              <motion.div
+                className="border-border/40 bg-muted rounded-sm border px-1 font-mono text-[7px] text-transparent"
+                animate={{ opacity: resolved ? 0 : 0.7 }}
+                transition={{ duration: 0.3, ease: EASE }}
+              >
+                {pin.chipLabel}
+              </motion.div>
+            </motion.div>
+          );
+        })}
       </div>
 
-      <div className="bg-muted relative h-1 w-full overflow-hidden rounded-full">
-        <motion.div
-          className="bg-primary absolute inset-y-0 left-0 rounded-full"
-          animate={{
-            width:
-              phase === "tokens"
-                ? "0%"
-                : phase === "to-brand"
-                  ? "40%"
-                  : phase === "brand-done"
-                    ? "55%"
-                    : phase === "to-product"
-                      ? "80%"
-                      : "100%",
-          }}
-          transition={{ duration: 0.6, ease: EASE }}
-        />
-      </div>
-
+      {/* Resolved pill */}
       <motion.div
-        className="flex items-center gap-1.5"
-        animate={{
-          opacity: phase === "product-done" ? 1 : 0,
-          y: phase === "product-done" ? 0 : 4,
-        }}
-        transition={{ duration: 0.35, ease: EASE }}
+        className="bg-foreground/10 text-muted-foreground rounded-full px-3 py-0.5 font-mono text-[9px] tracking-wider uppercase"
+        animate={{ opacity: showCollapsed ? 1 : 0, y: showCollapsed ? 0 : 4 }}
+        transition={{ duration: 0.3, ease: EASE }}
       >
-        <span className="text-primary font-mono text-[10px]">✓</span>
-        <span className="text-muted-foreground font-mono text-[10px]">
-          Design system complete
-        </span>
+        ✓ resolved
       </motion.div>
     </div>
   );
@@ -2920,7 +2879,6 @@ const ANIMATIONS: Record<
   (props: AnimationProps) => JSX.Element
 > = {
   layers: LayersAnimation,
-  swap: SwapAnimation,
   nodes: NodesAnimation,
   moodboard: MoodboardAnimation,
   "code-to-site": CodeToSiteAnimation,
@@ -2941,6 +2899,7 @@ const ANIMATIONS: Record<
   "leads-funnel": LeadsFunnelAnimation,
   "model-iteration": ModelIterationAnimation,
   "asset-portal": AssetPortalAnimation,
+  "comment-pins": CommentPinsAnimation,
 };
 
 function BentoCardItem({ card }: { card: BentoCard }) {

@@ -10,7 +10,6 @@ export type BentoCard = {
   };
   animation:
     | "layers"
-    | "swap"
     | "nodes"
     | "moodboard"
     | "code-to-site"
@@ -30,7 +29,8 @@ export type BentoCard = {
     | "hours-stat"
     | "leads-funnel"
     | "model-iteration"
-    | "asset-portal";
+    | "asset-portal"
+    | "comment-pins";
 };
 
 export type CaseStudy = {
@@ -53,8 +53,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
     },
     intro: {
-      en: "A design team of one, a high project rate, and never enough time to stop and organize. AFI ships white-labeled fintech products for banks and financial institutions — each surface has to feel consistent with the shared system but distinct for the client, which means we're remaking the same product over and over, one brand at a time. The result: scattered docs, inconsistent patterns across clients, and no rulebook keeping the system honest. I came in to change that — architecting a custom token system in Figma, building a unified platform with AI-assisted white-labeling and handoff workflows, and writing internal docs so the whole team can finally move together. The upside of constant remakes: every new client is another pass to sharpen the system. AI is what lets us take every one.",
-      es: "Un equipo de diseño de una sola persona, un ritmo de proyectos alto y nunca tiempo suficiente para parar y ordenar. AFI lanza productos fintech white-label para bancos e instituciones financieras — cada superficie tiene que sentirse consistente con el sistema compartido pero distinta para el cliente, lo que significa que rehacemos el mismo producto una y otra vez, una marca tras otra. El resultado: documentación dispersa, patrones inconsistentes entre clientes y ningún manual de reglas que mantenga honesto al sistema. Entré para cambiar eso — arquitectando un sistema de tokens a medida en Figma, construyendo una plataforma unificada con white-labeling asistido por IA y flujos de entrega, y escribiendo la documentación interna para que todo el equipo pueda por fin avanzar a la vez. La ventaja de rehacer constantemente: cada nuevo cliente es otra pasada para afinar el sistema. La IA es lo que nos permite aprovechar todas.",
+      en: "AFI ships white-labeled fintech products for banks and financial institutions — each surface has to feel consistent with the shared system but distinct for the client. The problem: a design team of one, a high project rate, design docs scattered across Microsoft Teams threads and email, no rulebook keeping the system honest across remakes. The fix: a custom token system in Figma, a unified platform where designers, developers, and AI agents share the same rules, and a designer↔dev handoff tool so feedback stops getting lost. The upside of constant remakes — each new client is another pass sharpening the system. AI is what lets us take every one.",
+      es: "AFI lanza productos fintech white-label para bancos e instituciones financieras — cada superficie tiene que sentirse consistente con el sistema compartido pero distinta para el cliente. El problema: un equipo de diseño de una sola persona, un ritmo de proyectos alto, documentación dispersa en hilos de Microsoft Teams y correo, sin ningún manual de reglas que mantuviera honesto al sistema entre rehaceres. La solución: un sistema de tokens a medida en Figma, una plataforma unificada donde diseñadores, desarrolladores y agentes de IA comparten las mismas reglas, y una herramienta de entrega entre diseño y desarrollo para que el feedback deje de perderse. La ventaja de los rehaceres constantes: cada nuevo cliente es otra pasada para afinar el sistema. La IA es lo que nos permite aprovechar todas.",
     },
     role: {
       en: "Design Systems Lead",
@@ -93,15 +93,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
           body: {
             en: [
-              "The AWM Design Showcase is a single repo that gives everyone — designers, developers, and AI agents — a shared place to work. Two main folders keep things from blurring: design/ for the rulebook, token snapshots, and writing rules; engineering/ for Angular conventions, code style, and test patterns.",
-              "At the root sit AGENTS.md and CLAUDE.md. AGENTS.md is the canonical rulebook: current focus, mission, where things live, MCPs, anti-patterns. CLAUDE.md is a one-line redirect pointing at AGENTS.md so every AI tool — Claude Code, OpenCode — starts from the same page.",
-              "The .claude/skills/ folder extends that: a spanish-writing skill fires whenever an agent produces Spanish copy, keeping tone consistent without manual policing. Same idea as the design tokens — encode the decision once, let the system enforce it.",
-              "The showcase/ app itself is the interactive layer: an Angular 21 prototype with real component behavior, not flat Figma approximations. Hover states, transitions, loading patterns — the parts that static screens can't pin down — are proven here before engineering picks them up.",
+              "Before the platform existed, there was no shared place. Design docs lived in Microsoft Teams threads and email attachments — design.md got sent over chat, Figma annotations emailed to developers who then lost the thread. When a developer had a question, the answer was buried in a DM. When a designer needed to know what was implemented, they had to ask. There was no single source a designer or developer could open and trust was current.",
+              "The AWM Design Showcase is that shared place. A single repo that gives designers, developers, and AI agents a converged home to work from. Two main folders keep things from blurring: design/ for the rulebook, token snapshots, and writing rules; engineering/ for Angular conventions, code style, and test patterns.",
+              "At the root sit AGENTS.md and CLAUDE.md. AGENTS.md is the canonical rulebook: current focus, mission, where things live, MCPs, anti-patterns. CLAUDE.md is a one-line redirect pointing at AGENTS.md so every AI tool — Claude Code, OpenCode — starts from the same page. The .claude/skills/ folder extends that: a Spanish-writing skill fires whenever an agent produces Spanish copy, keeping tone consistent without manual policing. Encode the decision once, let the system enforce it.",
+              "The showcase/ app is the interactive layer: an Angular 21 prototype with real component behavior, not flat Figma approximations. Hover states, transitions, loading patterns — the parts that static screens can't pin down — are proven here before engineering picks them up.",
             ],
             es: [
-              "El AWM Design Showcase es un repositorio único que le da a todos — diseñadores, desarrolladores y agentes de IA — un lugar compartido para trabajar. Dos carpetas principales evitan que todo se mezcle: design/ para el manual de reglas, instantáneas de tokens y normas de escritura; engineering/ para convenciones Angular, estilo de código y patrones de pruebas.",
-              "En la raíz están AGENTS.md y CLAUDE.md. AGENTS.md es el manual de reglas canónico: foco actual, misión, dónde viven las cosas, MCPs, anti-patrones. CLAUDE.md es una redirección de una línea que apunta a AGENTS.md para que cada herramienta de IA — Claude Code, OpenCode — empiece desde la misma página.",
-              "La carpeta .claude/skills/ amplía eso: una habilidad de escritura en español se activa cuando un agente produce texto en español, manteniendo el tono consistente sin supervisión manual. Misma idea que los design tokens — codifica la decisión una vez, deja que el sistema la haga cumplir.",
+              "Antes de que existiera la plataforma, no había ningún lugar compartido. La documentación de diseño vivía en hilos de Microsoft Teams y archivos adjuntos de correo — design.md se enviaba por chat, las anotaciones de Figma llegaban por email a desarrolladores que luego perdían el hilo. Cuando un desarrollador tenía una pregunta, la respuesta estaba enterrada en un mensaje privado. Cuando un diseñador necesitaba saber qué estaba implementado, tenía que preguntar. No existía una fuente única que diseñadores o desarrolladores pudieran abrir y confiar en que estaba actualizada.",
+              "El AWM Design Showcase es ese lugar compartido. Un repositorio único que da a diseñadores, desarrolladores y agentes de IA un punto de convergencia desde el que trabajar. Dos carpetas principales evitan que todo se mezcle: design/ para el manual de reglas, instantáneas de tokens y normas de escritura; engineering/ para convenciones Angular, estilo de código y patrones de pruebas.",
+              "En la raíz están AGENTS.md y CLAUDE.md. AGENTS.md es el manual de reglas canónico: foco actual, misión, dónde viven las cosas, MCPs, anti-patrones. CLAUDE.md es una redirección de una línea que apunta a AGENTS.md para que cada herramienta de IA — Claude Code, OpenCode — empiece desde la misma página. La carpeta .claude/skills/ amplía eso: una habilidad de escritura en español se activa cuando un agente produce texto en español, manteniendo el tono consistente sin supervisión manual. Codifica la decisión una vez, deja que el sistema la haga cumplir.",
               "La app showcase/ es la capa interactiva: un prototipo en Angular 21 con comportamiento de componente real, no aproximaciones planas de Figma. Estados hover, transiciones, patrones de carga — las partes que las pantallas estáticas no pueden fijar — se prueban aquí antes de que engineering las recoja.",
             ],
           },
@@ -127,50 +127,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: [
               "The Figma variable panel gave us three tiers: 87 AFI Primitives (raw atoms — a hex, a pixel number, a font family), 39 Semantic numbers (aliases like spacing/md that reference primitives but carry intent), and 22 AFI Custom Semantics (component-level overrides like p-datatable/padding/normal that PrimeNG's Figma library didn't expose).",
               "Tier 1 is just numbers — dimension-8 is the number 8, nothing more. Tier 2 is where meaning enters: spacing/md references dimension-8 and says 'this is medium spacing.' A designer or developer reaching for a value goes here, not to primitives.",
-              "Tier 3 is where drift hides. Every custom semantic is hand-made in Figma, so every one is a place Figma and the code preset could quietly disagree. When we audited all 22, almost every one routed cleanly back to a semantic number — less drift than expected. Still worth checking every single one.",
-              "Writing the doc was the audit. The structure — raw to meaningful to component-specific — became the spine of design.md, the rulebook every agent reads before generating UI.",
+              "Tier 3 is where drift hides — and it surfaces in conversation before it surfaces in the doc. PrimeNG uses a single primary slot for action color. AFI has two blues: AzulProfundo goes into light mode (it passes AA on small text where bright azulafi doesn't), azulafi takes dark mode where dark surfaces give it the contrast it needs. Same role, two palettes, the mode picks the right one. Alberto's meeting about neutral colors was another drift moment — a discussion about whether a gray was warm or cool exposed an undocumented assumption. Andres's naming-inconsistency catches were a third: small mismatches between what Figma called a token and what code called it, invisible until someone tried to hand off. Every custom semantic is hand-made, so every one is a place things can quietly disagree.",
+              "That's also why the doc names the palette, not the role. If design.md said 'primary' generically, an AI agent reading the file would happily paste azulafi into an action slot — 'primary' slides toward 'main brand color' in any reasonable reading. A human teammate might pause and check; a coding agent won't. Pinning the word to the palette — AzulProfundo, not primary — removes the ambiguity in the one place it matters: the source of truth the AI is reading.",
+              "Writing the doc was the audit. The structure — raw to meaningful to component-specific — became the spine of design.md. When we audited all 22 custom semantics, almost every one routed cleanly back to a semantic number. Less drift than expected. Still worth checking every single one.",
             ],
             es: [
               "El panel de variables de Figma nos dio tres niveles: 87 Primitivos AFI (átomos en bruto — un hex, un número en píxeles, una familia tipográfica), 39 números Semánticos (alias como spacing/md que referencian primitivos pero llevan intención), y 22 Semánticos Personalizados AFI (anulaciones a nivel de componente como p-datatable/padding/normal que la librería Figma de PrimeNG no exponía).",
               "El Nivel 1 son solo números — dimension-8 es el número 8, nada más. El Nivel 2 es donde entra el significado: spacing/md referencia dimension-8 y dice 'este es el espaciado medio'. Un diseñador o desarrollador que busca un valor va aquí, no a los primitivos.",
-              "El Nivel 3 es donde se esconde la deriva. Cada semántico personalizado está hecho a mano en Figma, así que cada uno es un lugar donde Figma y el preset de código podrían discrepar en silencio. Cuando auditamos los 22, casi todos enrutaban limpiamente hacia un número semántico — menos deriva de la esperada. Aun así merece la pena revisar cada uno.",
-              "Escribir el documento fue la auditoría. La estructura — de bruto a significativo a específico de componente — se convirtió en la columna vertebral de design.md, el manual de reglas que cada agente lee antes de generar interfaz.",
+              "El Nivel 3 es donde se esconde la deriva — y aflora en conversación antes de aparecer en el documento. PrimeNG usa un único slot primary para el color de acción. AFI tiene dos azules: AzulProfundo va en modo claro (supera AA en texto pequeño donde el azulafi brillante no lo hace), azulafi toma el modo oscuro donde las superficies oscuras le dan el contraste que necesita. El mismo rol, dos paletas, el modo elige la correcta. La reunión de Alberto sobre colores neutros fue otro momento de deriva — una discusión sobre si un gris era cálido o frío sacó a la luz un supuesto no documentado. Los hallazgos de Andres sobre inconsistencias de nombres fueron un tercer ejemplo: pequeñas discrepancias entre cómo Figma llamaba a un token y cómo lo llamaba el código, invisibles hasta que alguien intentaba hacer una entrega. Cada semántico personalizado está hecho a mano, así que cada uno es un lugar donde las cosas pueden discrepar en silencio.",
+              "Por eso el documento nombra la paleta, no el rol. Si design.md dijera 'primary' de forma genérica, un agente de IA leyendo el archivo pegaría azulafi en un slot de acción sin dudar — 'primary' se desliza hacia 'color principal de marca' en cualquier lectura razonable. Un compañero humano podría pausar y comprobar; un agente de código no. Fijar la palabra a la paleta — AzulProfundo, no primary — elimina la ambigüedad en el único lugar donde importa: la fuente de verdad que lee la IA.",
+              "Escribir el documento fue la auditoría. La estructura — de bruto a significativo a específico de componente — se convirtió en la columna vertebral de design.md. Cuando auditamos los 22 semánticos personalizados, casi todos enrutaban limpiamente hacia un número semántico. Menos deriva de la esperada. Aun así merece la pena revisar cada uno.",
             ],
           },
         },
         animation: "layers",
         span: "wide",
-      },
-      {
-        label: {
-          en: "Tokens → Brand → Product",
-          es: "Tokens → Marca → Producto",
-        },
-        sublabel: {
-          en: "The white-label pipeline: one system, any client. AI moves it faster every cycle.",
-          es: "El pipeline white-label: un sistema, cualquier cliente. La IA lo acelera en cada ciclo.",
-        },
-        details: {
-          heading: {
-            en: "Name the palette, not the role",
-            es: "Nombra la paleta, no el rol",
-          },
-          body: {
-            en: [
-              "PrimeNG uses a single primary slot for action color — buttons, links, focused states. Our brand has two blues, so we routed primary to both: AzulProfundo in light mode, azulafi in dark mode, auto-swapped by the theme.",
-              "The darker blue goes in light mode for accessibility — bright azulafi on a white surface doesn't reliably pass AA on small text, but AzulProfundo does. The bright one earns its keep in dark mode, where dark surfaces give it the contrast it needs. Same role, two palettes, the mode picks the right one.",
-              "That's also why the doc doesn't call the role 'primary.' It calls it AzulProfundo. If the doc said 'primary' generically, an AI agent reading the file would happily paste azulafi into an action slot — 'primary' slides toward 'main brand color' in any reasonable reading. A human teammate might pause; a coding agent won't.",
-              "Pinning the word to the palette removes the ambiguity in the one place it matters: the source of truth the AI is reading.",
-            ],
-            es: [
-              "PrimeNG usa un único slot primary para el color de acción — botones, enlaces, estados de foco. Nuestra marca tiene dos azules, así que enrutamos primary a ambos: AzulProfundo en modo claro, azulafi en modo oscuro, intercambiados automáticamente por el tema.",
-              "El azul más oscuro va en modo claro por accesibilidad — el azulafi brillante sobre una superficie blanca no supera AA de forma fiable en texto pequeño, pero AzulProfundo sí. El brillante se justifica en modo oscuro, donde las superficies oscuras le dan el contraste que necesita. El mismo rol, dos paletas, el modo elige la correcta.",
-              "Por eso el documento no llama al rol 'primary'. Lo llama AzulProfundo. Si el documento dijera 'primary' de forma genérica, un agente de IA leyendo el archivo pegaría azulafi en un slot de acción sin dudar — 'primary' se desliza hacia 'color principal de marca' en cualquier lectura razonable. Un compañero humano podría pausar; un agente de código no.",
-              "Fijar la palabra a la paleta elimina la ambigüedad en el único lugar donde importa: la fuente de verdad que lee la IA.",
-            ],
-          },
-        },
-        animation: "swap",
       },
       {
         label: {
@@ -202,6 +173,37 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
         },
         animation: "palette",
+      },
+      {
+        label: {
+          en: "Designer Handoff & Feedback Tool",
+          es: "Herramienta de entrega y feedback de diseño",
+        },
+        sublabel: {
+          en: "Comments land on the design — not in Teams threads.",
+          es: "Los comentarios llegan al diseño — no a hilos de Teams.",
+        },
+        details: {
+          heading: {
+            en: "Where feedback finally has somewhere to land",
+            es: "Donde el feedback por fin tiene un lugar al que llegar",
+          },
+          body: {
+            en: [
+              "Before the tool existed, handoff looked like this: a design.md sent over Microsoft Teams, Figma annotations emailed to developers, and feedback scattered across threads that nobody could find later. Devs lost context the moment a comment left its attachment. Designers had no record of which notes were resolved and which were silently ignored.",
+              "The tool is an internal designer↔dev surface where comments attach to specific parts of the UI. PMs and developers leave feedback in-place — on the component, the screen, the state. Each comment carries a status: open or resolved. Nothing gets lost between channels because there's only one channel.",
+              "What this changes: the handoff is auditable. A designer can come back a week later and see exactly which feedback was acted on. A developer can close a comment when the code is in, and the designer sees it. The conversation lives next to the thing it's about — which is the only place it was ever useful anyway.",
+              "This composes with the rest of the platform. Same repo, same rulebook, now plus a feedback surface so the loop closes. Designers, developers, and the AI agents working alongside them are all reading from the same file — and now writing back to it.",
+            ],
+            es: [
+              "Antes de que existiera la herramienta, la entrega funcionaba así: un design.md enviado por Microsoft Teams, anotaciones de Figma por correo a los desarrolladores, y feedback disperso en hilos que nadie podía encontrar después. Los desarrolladores perdían el contexto en el momento en que un comentario abandonaba su punto de anclaje. Los diseñadores no tenían registro de qué notas estaban resueltas y cuáles simplemente ignoradas.",
+              "La herramienta es una superficie interna entre diseñadores y desarrolladores donde los comentarios se anclan a partes específicas de la interfaz. Los PMs y los desarrolladores dejan el feedback en su sitio — sobre el componente, la pantalla, el estado. Cada comentario lleva un estado: abierto o resuelto. Nada se pierde entre canales porque solo hay un canal.",
+              "Lo que esto cambia: la entrega es auditable. Un diseñador puede volver una semana después y ver exactamente qué feedback fue atendido. Un desarrollador puede cerrar un comentario cuando el código está listo, y el diseñador lo ve. La conversación vive junto a lo que trata — que es el único lugar donde siempre fue útil.",
+              "Esto encaja con el resto de la plataforma. El mismo repositorio, el mismo manual de reglas, ahora más una superficie de feedback para que el ciclo se cierre. Diseñadores, desarrolladores y los agentes de IA que trabajan junto a ellos leen todos del mismo archivo — y ahora también escriben de vuelta a él.",
+            ],
+          },
+        },
+        animation: "comment-pins",
       },
     ],
   },

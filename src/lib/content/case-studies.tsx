@@ -4,6 +4,10 @@ export type BentoCard = {
   label: Bilingual<string>;
   sublabel: Bilingual<string>;
   span?: "wide" | "tall";
+  details?: {
+    heading: Bilingual<string>;
+    body: Bilingual<string[]>;
+  };
   animation:
     | "layers"
     | "swap"
@@ -82,6 +86,26 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           en: "Files, agents, and people — converging in one repo.",
           es: "Archivos, agentes y personas — convergiendo en un solo repositorio.",
         },
+        details: {
+          heading: {
+            en: "One repo, everyone on the same rulebook",
+            es: "Un solo repositorio, todos con el mismo manual de reglas",
+          },
+          body: {
+            en: [
+              "The AWM Design Showcase is a single repo that gives everyone — designers, developers, and AI agents — a shared place to work. Two main folders keep things from blurring: design/ for the rulebook, token snapshots, and writing rules; engineering/ for Angular conventions, code style, and test patterns.",
+              "At the root sit AGENTS.md and CLAUDE.md. AGENTS.md is the canonical rulebook: current focus, mission, where things live, MCPs, anti-patterns. CLAUDE.md is a one-line redirect pointing at AGENTS.md so every AI tool — Claude Code, OpenCode — starts from the same page.",
+              "The .claude/skills/ folder extends that: a spanish-writing skill fires whenever an agent produces Spanish copy, keeping tone consistent without manual policing. Same idea as the design tokens — encode the decision once, let the system enforce it.",
+              "The showcase/ app itself is the interactive layer: an Angular 21 prototype with real component behavior, not flat Figma approximations. Hover states, transitions, loading patterns — the parts that static screens can't pin down — are proven here before engineering picks them up.",
+            ],
+            es: [
+              "El AWM Design Showcase es un repositorio único que le da a todos — diseñadores, desarrolladores y agentes de IA — un lugar compartido para trabajar. Dos carpetas principales evitan que todo se mezcle: design/ para el manual de reglas, instantáneas de tokens y normas de escritura; engineering/ para convenciones Angular, estilo de código y patrones de pruebas.",
+              "En la raíz están AGENTS.md y CLAUDE.md. AGENTS.md es el manual de reglas canónico: foco actual, misión, dónde viven las cosas, MCPs, anti-patrones. CLAUDE.md es una redirección de una línea que apunta a AGENTS.md para que cada herramienta de IA — Claude Code, OpenCode — empiece desde la misma página.",
+              "La carpeta .claude/skills/ amplía eso: una habilidad de escritura en español se activa cuando un agente produce texto en español, manteniendo el tono consistente sin supervisión manual. Misma idea que los design tokens — codifica la decisión una vez, deja que el sistema la haga cumplir.",
+              "La app showcase/ es la capa interactiva: un prototipo en Angular 21 con comportamiento de componente real, no aproximaciones planas de Figma. Estados hover, transiciones, patrones de carga — las partes que las pantallas estáticas no pueden fijar — se prueban aquí antes de que engineering las recoja.",
+            ],
+          },
+        },
         animation: "nodes",
         span: "tall",
       },
@@ -93,6 +117,26 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         sublabel: {
           en: "Primitive → semantic → component",
           es: "Primitivo → semántico → componente",
+        },
+        details: {
+          heading: {
+            en: "Three tiers — and where drift hides",
+            es: "Tres niveles — y dónde se esconde la deriva",
+          },
+          body: {
+            en: [
+              "The Figma variable panel gave us three tiers: 87 AFI Primitives (raw atoms — a hex, a pixel number, a font family), 39 Semantic numbers (aliases like spacing/md that reference primitives but carry intent), and 22 AFI Custom Semantics (component-level overrides like p-datatable/padding/normal that PrimeNG's Figma library didn't expose).",
+              "Tier 1 is just numbers — dimension-8 is the number 8, nothing more. Tier 2 is where meaning enters: spacing/md references dimension-8 and says 'this is medium spacing.' A designer or developer reaching for a value goes here, not to primitives.",
+              "Tier 3 is where drift hides. Every custom semantic is hand-made in Figma, so every one is a place Figma and the code preset could quietly disagree. When we audited all 22, almost every one routed cleanly back to a semantic number — less drift than expected. Still worth checking every single one.",
+              "Writing the doc was the audit. The structure — raw to meaningful to component-specific — became the spine of design.md, the rulebook every agent reads before generating UI.",
+            ],
+            es: [
+              "El panel de variables de Figma nos dio tres niveles: 87 Primitivos AFI (átomos en bruto — un hex, un número en píxeles, una familia tipográfica), 39 números Semánticos (alias como spacing/md que referencian primitivos pero llevan intención), y 22 Semánticos Personalizados AFI (anulaciones a nivel de componente como p-datatable/padding/normal que la librería Figma de PrimeNG no exponía).",
+              "El Nivel 1 son solo números — dimension-8 es el número 8, nada más. El Nivel 2 es donde entra el significado: spacing/md referencia dimension-8 y dice 'este es el espaciado medio'. Un diseñador o desarrollador que busca un valor va aquí, no a los primitivos.",
+              "El Nivel 3 es donde se esconde la deriva. Cada semántico personalizado está hecho a mano en Figma, así que cada uno es un lugar donde Figma y el preset de código podrían discrepar en silencio. Cuando auditamos los 22, casi todos enrutaban limpiamente hacia un número semántico — menos deriva de la esperada. Aun así merece la pena revisar cada uno.",
+              "Escribir el documento fue la auditoría. La estructura — de bruto a significativo a específico de componente — se convirtió en la columna vertebral de design.md, el manual de reglas que cada agente lee antes de generar interfaz.",
+            ],
+          },
         },
         animation: "layers",
         span: "wide",
@@ -106,6 +150,26 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           en: "The white-label pipeline: one system, any client. AI moves it faster every cycle.",
           es: "El pipeline white-label: un sistema, cualquier cliente. La IA lo acelera en cada ciclo.",
         },
+        details: {
+          heading: {
+            en: "Name the palette, not the role",
+            es: "Nombra la paleta, no el rol",
+          },
+          body: {
+            en: [
+              "PrimeNG uses a single primary slot for action color — buttons, links, focused states. Our brand has two blues, so we routed primary to both: AzulProfundo in light mode, azulafi in dark mode, auto-swapped by the theme.",
+              "The darker blue goes in light mode for accessibility — bright azulafi on a white surface doesn't reliably pass AA on small text, but AzulProfundo does. The bright one earns its keep in dark mode, where dark surfaces give it the contrast it needs. Same role, two palettes, the mode picks the right one.",
+              "That's also why the doc doesn't call the role 'primary.' It calls it AzulProfundo. If the doc said 'primary' generically, an AI agent reading the file would happily paste azulafi into an action slot — 'primary' slides toward 'main brand color' in any reasonable reading. A human teammate might pause; a coding agent won't.",
+              "Pinning the word to the palette removes the ambiguity in the one place it matters: the source of truth the AI is reading.",
+            ],
+            es: [
+              "PrimeNG usa un único slot primary para el color de acción — botones, enlaces, estados de foco. Nuestra marca tiene dos azules, así que enrutamos primary a ambos: AzulProfundo en modo claro, azulafi en modo oscuro, intercambiados automáticamente por el tema.",
+              "El azul más oscuro va en modo claro por accesibilidad — el azulafi brillante sobre una superficie blanca no supera AA de forma fiable en texto pequeño, pero AzulProfundo sí. El brillante se justifica en modo oscuro, donde las superficies oscuras le dan el contraste que necesita. El mismo rol, dos paletas, el modo elige la correcta.",
+              "Por eso el documento no llama al rol 'primary'. Lo llama AzulProfundo. Si el documento dijera 'primary' de forma genérica, un agente de IA leyendo el archivo pegaría azulafi en un slot de acción sin dudar — 'primary' se desliza hacia 'color principal de marca' en cualquier lectura razonable. Un compañero humano podría pausar; un agente de código no.",
+              "Fijar la palabra a la paleta elimina la ambigüedad en el único lugar donde importa: la fuente de verdad que lee la IA.",
+            ],
+          },
+        },
         animation: "swap",
       },
       {
@@ -116,6 +180,26 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         sublabel: {
           en: "One system, any brand — swap the tokens, ship the product.",
           es: "Un sistema, cualquier marca — intercambia los tokens, lanza el producto.",
+        },
+        details: {
+          heading: {
+            en: "Every client another pass at sharpening the system",
+            es: "Cada cliente, otra pasada para afinar el sistema",
+          },
+          body: {
+            en: [
+              "AFI ships white-labeled fintech products for banks and financial institutions — each surface has to feel consistent with the shared system but distinct for the client. That means remaking the same product over and over, one brand at a time.",
+              "The upside of constant remakes: every new client is another pass to sharpen the system. A pattern that worked for one bank gets tested against a second, then a third. Edge cases surface. The token structure gets tighter. The rulebook grows more honest.",
+              "AI is what lets us take every one of those passes. What used to be a days-long manual re-skin is now a token swap with an agent doing the QA pass. The system earns its keep not on the first client, but on the fifth.",
+              "Scattered docs and inconsistent patterns were the cost of not having a rulebook. Architecting the token system and writing design.md wasn't about tidying — it was about making the remakes compoundable. Each one builds on the last instead of starting from scratch.",
+            ],
+            es: [
+              "AFI lanza productos fintech white-label para bancos e instituciones financieras — cada superficie tiene que sentirse consistente con el sistema compartido pero distinta para el cliente. Eso significa rehacer el mismo producto una y otra vez, una marca tras otra.",
+              "La ventaja de los rehaceres constantes: cada nuevo cliente es otra pasada para afinar el sistema. Un patrón que funcionó para un banco se prueba contra un segundo, luego un tercero. Surgen casos límite. La estructura de tokens se vuelve más precisa. El manual de reglas crece más honesto.",
+              "La IA es lo que nos permite aprovechar cada una de esas pasadas. Lo que antes era un reskinning manual de días es ahora un intercambio de tokens con un agente haciendo el pase de QA. El sistema se justifica no en el primer cliente, sino en el quinto.",
+              "La documentación dispersa y los patrones inconsistentes eran el coste de no tener un manual de reglas. Arquitectar el sistema de tokens y escribir design.md no era ordenar — era hacer que los rehaceres fueran acumulables. Cada uno construye sobre el anterior en lugar de empezar desde cero.",
+            ],
+          },
         },
         animation: "palette",
       },

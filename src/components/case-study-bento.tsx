@@ -8,6 +8,7 @@ import {
 } from "motion/react";
 import { useEffect, useState, type JSX } from "react";
 
+import { BentoCardModal } from "@/components/bento-card-modal";
 import type { BentoCard } from "@/lib/content/case-studies";
 import { useIsMobile } from "@/lib/hooks";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
@@ -2946,6 +2947,7 @@ function BentoCardItem({ card }: { card: BentoCard }) {
   const { lang } = useLang();
   const Animation = ANIMATIONS[card.animation];
   const [active, setActive] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
 
@@ -2964,9 +2966,57 @@ function BentoCardItem({ card }: { card: BentoCard }) {
     return () => clearTimeout(timer);
   }, [isMobile]);
 
+  const inner = (
+    <>
+      <div className="flex min-h-[120px] flex-1 items-center justify-center">
+        <Animation active={isMobile ? mobileVariant === "hover" : active} />
+      </div>
+      <div className="flex flex-col gap-0.5 text-left">
+        <span className="text-foreground text-sm font-medium">
+          {pick(card.label, lang)}
+        </span>
+        <span className="text-muted-foreground text-xs">
+          {pick(card.sublabel, lang)}
+        </span>
+      </div>
+    </>
+  );
+
+  const baseClass =
+    "bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5";
+
+  if (card.details) {
+    return (
+      <>
+        <motion.button
+          type="button"
+          className={`${baseClass} hover:ring-border focus-visible:ring-border w-full cursor-pointer text-left transition-shadow hover:ring-1 focus-visible:ring-1 focus-visible:outline-none`}
+          initial="rest"
+          whileHover={!isMobile ? "hover" : undefined}
+          animate={isMobile ? mobileVariant : "rest"}
+          onMouseEnter={() => setActive(true)}
+          onMouseLeave={() => setActive(false)}
+          onFocus={() => setActive(true)}
+          onBlur={() => setActive(false)}
+          onTouchStart={() => setActive(true)}
+          onClick={() => setModalOpen(true)}
+          aria-haspopup="dialog"
+          aria-label={pick(card.label, lang)}
+        >
+          {inner}
+        </motion.button>
+        <BentoCardModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          card={card}
+        />
+      </>
+    );
+  }
+
   return (
     <motion.div
-      className="bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5"
+      className={baseClass}
       initial="rest"
       whileHover={!isMobile ? "hover" : undefined}
       animate={isMobile ? mobileVariant : "rest"}
@@ -2977,17 +3027,7 @@ function BentoCardItem({ card }: { card: BentoCard }) {
       onBlur={() => setActive(false)}
       onTouchStart={() => setActive(true)}
     >
-      <div className="flex min-h-[120px] flex-1 items-center justify-center">
-        <Animation active={isMobile ? mobileVariant === "hover" : active} />
-      </div>
-      <div className="flex flex-col gap-0.5">
-        <span className="text-foreground text-sm font-medium">
-          {pick(card.label, lang)}
-        </span>
-        <span className="text-muted-foreground text-xs">
-          {pick(card.sublabel, lang)}
-        </span>
-      </div>
+      {inner}
     </motion.div>
   );
 }

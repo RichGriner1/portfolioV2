@@ -2874,6 +2874,703 @@ function ModelIterationAnimation({ active }: AnimationProps) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// coded-logo — one SVG mark cycling through 4 token-aware variants
+// ---------------------------------------------------------------------------
+
+type LogoVariant = "brand-light" | "brand-dark" | "mono-light" | "mono-dark";
+
+const LOGO_VARIANTS: LogoVariant[] = [
+  "brand-light",
+  "brand-dark",
+  "mono-light",
+  "mono-dark",
+];
+
+const LOGO_VARIANT_LABELS: Record<
+  LogoVariant,
+  { swatch: string; label: string }
+> = {
+  "brand-light": { swatch: "brand/primary", label: "AzulProfundo" },
+  "brand-dark": { swatch: "brand/primary", label: "azulafi" },
+  "mono-light": { swatch: "fg/default", label: "base.black" },
+  "mono-dark": { swatch: "fg/default", label: "base.white" },
+};
+
+function CodedLogoAnimation({ active }: AnimationProps) {
+  const [variantIdx, setVariantIdx] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setVariantIdx(0), 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        for (let i = 0; i < LOGO_VARIANTS.length; i++) {
+          if (cancelled) return;
+          setVariantIdx(i);
+          await new Promise((r) => setTimeout(r, 1300));
+        }
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const variant = LOGO_VARIANTS[variantIdx % LOGO_VARIANTS.length]!;
+  const meta = LOGO_VARIANT_LABELS[variant];
+  const isDark = variant === "brand-dark" || variant === "mono-dark";
+  const isMono = variant === "mono-light" || variant === "mono-dark";
+
+  return (
+    <div className="flex w-full flex-col items-center gap-3 px-3">
+      {/* Swatch background showing the surface the mark sits on */}
+      <motion.div
+        className="relative flex h-[72px] w-[72px] items-center justify-center rounded-xl"
+        animate={{
+          backgroundColor: isDark
+            ? "hsl(var(--foreground))"
+            : "hsl(var(--card))",
+          boxShadow: "0 0 0 1px hsl(var(--border))",
+        }}
+        transition={{ duration: 0.7, ease: EASE_SOFT }}
+      >
+        {/* Simplified geometric "A" mark — circle with internal crossbar */}
+        <motion.svg
+          viewBox="0 0 32 32"
+          width={36}
+          height={36}
+          aria-hidden
+          animate={{
+            color: isMono
+              ? isDark
+                ? "hsl(var(--background))"
+                : "hsl(var(--foreground))"
+              : "hsl(var(--primary))",
+          }}
+          transition={{ duration: 0.6, ease: EASE_SOFT }}
+        >
+          {/* Outer circle */}
+          <circle
+            cx="16"
+            cy="16"
+            r="14"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+          />
+          {/* Triangle peak to bottom-left and bottom-right */}
+          <path
+            d="M16 6 L7 26 L25 26 Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          {/* Crossbar */}
+          <line
+            x1="10"
+            y1="20"
+            x2="22"
+            y2="20"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </motion.svg>
+      </motion.div>
+
+      {/* Token label row */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={variant}
+          className="flex flex-col items-center gap-0.5"
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.35, ease: EASE_SOFT }}
+        >
+          <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+            {meta.swatch}
+          </span>
+          <span className="text-foreground font-mono text-[10px] font-medium">
+            {meta.label}
+          </span>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Variant dots */}
+      <div className="flex gap-1">
+        {LOGO_VARIANTS.map((_, i) => (
+          <motion.div
+            key={i}
+            className="bg-foreground rounded-full"
+            animate={{
+              width: i === variantIdx ? 14 : 4,
+              opacity: i === variantIdx ? 1 : 0.25,
+            }}
+            style={{ height: 4 }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// playground — mock playground UI with toggle, token panel, copy pulse
+// ---------------------------------------------------------------------------
+
+function PlaygroundAnimation({ active }: AnimationProps) {
+  const [toggle1, setToggle1] = useState(false);
+  const [toggle2, setToggle2] = useState(false);
+  const [showCopy, setShowCopy] = useState(false);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setToggle1(false);
+        setToggle2(false);
+        setShowCopy(false);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        // click toggle 1
+        setToggle1((v) => !v);
+        await new Promise((r) => setTimeout(r, 1200));
+        if (cancelled) return;
+        // click toggle 2
+        setToggle2((v) => !v);
+        await new Promise((r) => setTimeout(r, 1200));
+        if (cancelled) return;
+        // copy pulse
+        setShowCopy(true);
+        await new Promise((r) => setTimeout(r, 900));
+        if (cancelled) return;
+        setShowCopy(false);
+        await new Promise((r) => setTimeout(r, 1100));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  // Token labels update based on toggles
+  const paddingToken = toggle1 ? "spacing/lg" : "spacing/md";
+  const colorToken = toggle2 ? "brand/secondary" : "brand/primary";
+
+  return (
+    <div className="flex w-full flex-col gap-2 px-2 font-mono">
+      {/* Rendered component preview */}
+      <div className="flex items-center justify-center py-1">
+        <motion.div
+          className="bg-primary text-primary-foreground rounded-md font-mono text-[10px] font-medium"
+          animate={{
+            paddingLeft: toggle1 ? 14 : 10,
+            paddingRight: toggle1 ? 14 : 10,
+          }}
+          style={{ paddingTop: 5, paddingBottom: 5 }}
+          transition={{ duration: 0.4, ease: EASE_SOFT }}
+        >
+          Button
+        </motion.div>
+      </div>
+
+      {/* Toggle row */}
+      <div className="flex items-center gap-2">
+        {/* Toggle 1 */}
+        <motion.div
+          className="relative h-3 w-6 cursor-pointer rounded-full"
+          animate={{
+            backgroundColor: toggle1
+              ? "hsl(var(--primary))"
+              : "hsl(var(--muted))",
+          }}
+          transition={{ duration: 0.45, ease: EASE_SOFT }}
+        >
+          <motion.div
+            className="bg-primary-foreground absolute top-0.5 h-2 w-2 rounded-full"
+            animate={{ x: toggle1 ? 12 : 2 }}
+            transition={{ duration: 0.45, ease: EASE_SOFT }}
+          />
+        </motion.div>
+        <span className="text-muted-foreground text-[9px]">size</span>
+
+        {/* Toggle 2 */}
+        <motion.div
+          className="relative h-3 w-6 cursor-pointer rounded-full"
+          animate={{
+            backgroundColor: toggle2
+              ? "hsl(var(--primary))"
+              : "hsl(var(--muted))",
+          }}
+          transition={{ duration: 0.45, ease: EASE_SOFT }}
+        >
+          <motion.div
+            className="bg-primary-foreground absolute top-0.5 h-2 w-2 rounded-full"
+            animate={{ x: toggle2 ? 12 : 2 }}
+            transition={{ duration: 0.45, ease: EASE_SOFT }}
+          />
+        </motion.div>
+        <span className="text-muted-foreground text-[9px]">variant</span>
+      </div>
+
+      {/* Token chips */}
+      <div className="flex gap-1.5">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={paddingToken}
+            className="border-border/50 bg-muted text-foreground rounded-sm border px-1.5 py-0.5 text-[8px]"
+            initial={{ opacity: 0, y: 3 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -3 }}
+            transition={{ duration: 0.3, ease: EASE_SOFT }}
+          >
+            {paddingToken}
+          </motion.span>
+        </AnimatePresence>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={colorToken}
+            className="border-border/50 bg-muted text-foreground rounded-sm border px-1.5 py-0.5 text-[8px]"
+            initial={{ opacity: 0, y: 3 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -3 }}
+            transition={{ duration: 0.3, ease: EASE_SOFT }}
+          >
+            {colorToken}
+          </motion.span>
+        </AnimatePresence>
+
+        {/* Copy indicator */}
+        <AnimatePresence>
+          {showCopy && (
+            <motion.span
+              key="copy"
+              className="bg-primary/15 text-primary rounded-sm px-1.5 py-0.5 text-[8px] font-medium"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={SPRING_SNAP}
+            >
+              ✓ copied
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// ai-teammate — 4 avatar circles + rule-shelf, AI references rules sequentially
+// ---------------------------------------------------------------------------
+
+const RULE_FILES = ["AGENTS.md", "CLAUDE.md", "design.md"] as const;
+const TEAM_LABELS = ["DES", "DEV1", "DEV2", "AI"] as const;
+
+type AITeammateStep = "idle" | "ref-0" | "ref-1" | "ref-2" | "produce";
+
+function AITeammateAnimation({ active }: AnimationProps) {
+  const [step, setStep] = useState<AITeammateStep>("idle");
+  const [showTile, setShowTile] = useState(false);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setStep("idle");
+        setShowTile(false);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        setStep("idle");
+        setShowTile(false);
+        await new Promise((r) => setTimeout(r, 800));
+        if (cancelled) return;
+
+        for (let i = 0; i < RULE_FILES.length; i++) {
+          if (cancelled) return;
+          setStep(`ref-${i}` as AITeammateStep);
+          await new Promise((r) => setTimeout(r, 950));
+        }
+
+        if (cancelled) return;
+        setStep("produce");
+        setShowTile(true);
+        await new Promise((r) => setTimeout(r, 1500));
+        if (cancelled) return;
+
+        setShowTile(false);
+        await new Promise((r) => setTimeout(r, 600));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const activeRuleIdx =
+    step === "ref-0" ? 0 : step === "ref-1" ? 1 : step === "ref-2" ? 2 : -1;
+
+  return (
+    <div className="flex w-full flex-col items-center gap-3 px-2">
+      {/* Rule shelf */}
+      <div className="flex gap-1.5">
+        {RULE_FILES.map((f, i) => (
+          <motion.div
+            key={f}
+            className="border-border/50 rounded-sm border px-2 py-0.5 font-mono text-[8px]"
+            animate={{
+              backgroundColor:
+                activeRuleIdx === i
+                  ? "hsl(var(--primary) / 0.15)"
+                  : "transparent",
+              borderColor:
+                activeRuleIdx === i
+                  ? "hsl(var(--primary) / 0.5)"
+                  : "hsl(var(--border) / 0.5)",
+              color:
+                activeRuleIdx === i
+                  ? "hsl(var(--primary))"
+                  : "hsl(var(--muted-foreground))",
+            }}
+            transition={{ duration: 0.5, ease: EASE_SOFT }}
+          >
+            {f}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Connecting line from AI to active rule */}
+      <div className="relative flex h-5 w-full items-center justify-center">
+        <AnimatePresence>
+          {activeRuleIdx >= 0 && (
+            <motion.div
+              key={activeRuleIdx}
+              className="bg-primary/50 absolute h-px"
+              style={{ width: "60%" }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              exit={{ scaleX: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            />
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Avatar row */}
+      <div className="flex items-center gap-3">
+        {TEAM_LABELS.map((label, i) => {
+          const isAI = i === 3;
+          const isActive = isAI && (activeRuleIdx >= 0 || step === "produce");
+          return (
+            <div key={label} className="flex flex-col items-center gap-1">
+              <motion.div
+                className="border-border/50 flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[8px]"
+                animate={{
+                  backgroundColor: isActive
+                    ? "hsl(var(--primary) / 0.15)"
+                    : "hsl(var(--muted) / 0.4)",
+                  borderColor: isActive
+                    ? "hsl(var(--primary) / 0.6)"
+                    : "hsl(var(--border) / 0.5)",
+                  color: isActive
+                    ? "hsl(var(--primary))"
+                    : "hsl(var(--muted-foreground))",
+                }}
+                transition={{ duration: 0.5, ease: EASE_SOFT }}
+              >
+                {label}
+              </motion.div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Produced tile */}
+      <AnimatePresence>
+        {showTile && (
+          <motion.div
+            key="tile"
+            className="bg-primary/10 border-primary/30 text-primary rounded-md border px-3 py-1 font-mono text-[9px]"
+            initial={{ opacity: 0, y: 6, scale: 0.92 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.92 }}
+            transition={SPRING_SOFT}
+          >
+            component ✓
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// port-diff — split frame: React pill animation → arrows → Angular pill builds
+// ---------------------------------------------------------------------------
+
+const PORT_DIFF_ARROW_LABELS = ["HTML", "SCSS", "TS"] as const;
+const PORT_DIFF_SEGMENT_LABELS = ["A", "B", "C"] as const;
+
+function PillSegments({ pos, dim }: { pos: number; dim?: boolean }) {
+  return (
+    <div className="border-border/50 relative flex overflow-hidden rounded-full border">
+      {PORT_DIFF_SEGMENT_LABELS.map((l, i) => (
+        <div
+          key={l}
+          className="relative px-2 py-0.5 font-mono text-[8px]"
+          style={{ opacity: dim ? 0.4 : 1 }}
+        >
+          <span className="text-muted-foreground relative z-10">{l}</span>
+          {i === pos && (
+            <motion.div
+              layoutId={dim ? "ang-pill" : "react-pill"}
+              className="bg-primary/20 border-primary/50 absolute inset-0 rounded-full border"
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PortDiffAnimation({ active }: AnimationProps) {
+  const [reactPillPos, setReactPillPos] = useState(0); // 0 | 1 | 2
+  const [angularPillPos, setAngularPillPos] = useState(0);
+  const [angularLines, setAngularLines] = useState(0); // 0..3
+  const [arrowIdx, setArrowIdx] = useState(-1);
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => {
+        setReactPillPos(0);
+        setAngularPillPos(0);
+        setAngularLines(0);
+        setArrowIdx(-1);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        // React plays
+        for (let i = 1; i <= 2; i++) {
+          if (cancelled) return;
+          setReactPillPos(i);
+          await new Promise((r) => setTimeout(r, 700));
+        }
+        if (cancelled) return;
+        setReactPillPos(0);
+        await new Promise((r) => setTimeout(r, 500));
+
+        // Arrows pulse
+        for (let i = 0; i < 3; i++) {
+          if (cancelled) return;
+          setArrowIdx(i);
+          await new Promise((r) => setTimeout(r, 500));
+        }
+        setArrowIdx(-1);
+
+        // Angular lines build
+        setAngularLines(0);
+        for (let i = 1; i <= 3; i++) {
+          if (cancelled) return;
+          setAngularLines(i);
+          await new Promise((r) => setTimeout(r, 420));
+        }
+        await new Promise((r) => setTimeout(r, 500));
+
+        // Angular plays
+        if (cancelled) return;
+        for (let i = 1; i <= 2; i++) {
+          if (cancelled) return;
+          setAngularPillPos(i);
+          await new Promise((r) => setTimeout(r, 700));
+        }
+        if (cancelled) return;
+        setAngularPillPos(0);
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  return (
+    <div className="flex w-full items-center gap-2 px-1">
+      {/* React side */}
+      <div className="flex flex-1 flex-col items-center gap-2">
+        <span className="text-muted-foreground font-mono text-[8px] tracking-wider">
+          React
+        </span>
+        {/* Code silhouette */}
+        <div className="flex w-full flex-col gap-1 px-1">
+          {[70, 90, 55].map((w, i) => (
+            <div
+              key={i}
+              className="bg-foreground/15 h-1.5 rounded-full"
+              style={{ width: `${w}%` }}
+            />
+          ))}
+        </div>
+        <PillSegments pos={reactPillPos} />
+      </div>
+
+      {/* Arrows column */}
+      <div className="flex flex-col items-center gap-1">
+        {PORT_DIFF_ARROW_LABELS.map((lbl, i) => (
+          <motion.div
+            key={lbl}
+            className="flex items-center gap-0.5"
+            animate={{
+              opacity: arrowIdx === i ? 1 : 0.25,
+            }}
+            transition={{ duration: 0.4, ease: EASE_SOFT }}
+          >
+            <span className="text-muted-foreground font-mono text-[7px]">
+              {lbl}
+            </span>
+            <span className="text-primary font-mono text-[8px]">→</span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Angular side */}
+      <div className="flex flex-1 flex-col items-center gap-2">
+        <span className="text-muted-foreground font-mono text-[8px] tracking-wider">
+          Angular
+        </span>
+        {/* Building code silhouette */}
+        <div className="flex w-full flex-col gap-1 px-1">
+          {[70, 90, 55].map((w, i) => (
+            <motion.div
+              key={i}
+              className="bg-foreground/15 h-1.5 rounded-full"
+              animate={{ width: angularLines > i ? `${w}%` : "0%" }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.1,
+                ease: EASE_SOFT,
+              }}
+            />
+          ))}
+        </div>
+        <PillSegments pos={angularPillPos} dim={angularLines < 3} />
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// motion-tokens — 3 shapes animate IN with out-soft, pause, OUT with in-firm
+// ---------------------------------------------------------------------------
+
+type MotionTokensPhase = "in" | "hold-in" | "out" | "hold-out";
+
+const MOTION_SHAPES = [
+  { label: "Button", cls: "bg-primary h-4 w-14 rounded-md" },
+  { label: "Card", cls: "border-border/60 h-8 w-20 rounded-lg border" },
+  { label: "Toast", cls: "bg-muted h-5 w-16 rounded-md" },
+] as const;
+
+function MotionTokensAnimation({ active }: AnimationProps) {
+  const [phase, setPhase] = useState<MotionTokensPhase>("hold-in");
+
+  useEffect(() => {
+    if (!active) {
+      const t = setTimeout(() => setPhase("hold-in"), 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        // Animate IN
+        setPhase("in");
+        await new Promise((r) => setTimeout(r, 800));
+        if (cancelled) return;
+        setPhase("hold-in");
+        await new Promise((r) => setTimeout(r, 1600));
+        if (cancelled) return;
+        // Animate OUT
+        setPhase("out");
+        await new Promise((r) => setTimeout(r, 500));
+        if (cancelled) return;
+        setPhase("hold-out");
+        await new Promise((r) => setTimeout(r, 900));
+        if (cancelled) return;
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const isIn = phase === "in" || phase === "hold-in";
+  const labelText =
+    phase === "out" || phase === "hold-out"
+      ? "kt360 / motion.ease.in-firm · ~160ms"
+      : "kt360 / motion.ease.out-soft · ~240ms";
+
+  return (
+    <div className="flex w-full flex-col items-center gap-3 px-3">
+      {/* Component shapes */}
+      <div className="flex w-full flex-col items-center gap-2">
+        {MOTION_SHAPES.map((shape, i) => (
+          <motion.div
+            key={shape.label}
+            className={shape.cls}
+            animate={{
+              opacity: isIn ? 1 : 0,
+              y: isIn ? 0 : phase === "out" ? -8 : 8,
+            }}
+            transition={{
+              duration: phase === "in" ? 0.24 : phase === "out" ? 0.16 : 0,
+              delay:
+                phase === "in"
+                  ? i * 0.09
+                  : (MOTION_SHAPES.length - 1 - i) * 0.06,
+              ease: phase === "in" ? EASE_SOFT : EASE,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Token label */}
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={labelText}
+          className="text-muted-foreground font-mono text-[9px]"
+          initial={{ opacity: 0, y: 3 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -3 }}
+          transition={{ duration: 0.3, ease: EASE_SOFT }}
+        >
+          {labelText}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 const ANIMATIONS: Record<
   BentoCard["animation"],
   (props: AnimationProps) => JSX.Element
@@ -2900,6 +3597,11 @@ const ANIMATIONS: Record<
   "model-iteration": ModelIterationAnimation,
   "asset-portal": AssetPortalAnimation,
   "comment-pins": CommentPinsAnimation,
+  "coded-logo": CodedLogoAnimation,
+  playground: PlaygroundAnimation,
+  "ai-teammate": AITeammateAnimation,
+  "port-diff": PortDiffAnimation,
+  "motion-tokens": MotionTokensAnimation,
 };
 
 function BentoCardItem({ card }: { card: BentoCard }) {

@@ -13,7 +13,13 @@ Given a path to a journal file (always under `content/journal/`), pick the singl
 
 ## Inputs
 
-The user (or orchestrator) gives you a file path, e.g. `content/journal/2026-04-15-tokens-rant.md`. Read the file fully before doing anything.
+The user (or orchestrator) gives you a file path, e.g. `content/journal/2026-04-15-tokens-rant.md`.
+
+## Step 0 — Read the rulebook (mandatory)
+
+Before drafting **anything**, read [content/voice.md](../../content/voice.md). It's the source of truth for tone, banned phrases, approved patterns. If the file is missing, stop and tell Richard — do not proceed without it.
+
+Then read the journal file fully.
 
 ## How to choose what to draft
 
@@ -27,6 +33,23 @@ Journals are often `pillar: mixed` — four sections (Process, Breakdown, Author
 **Authority** > **Breakdown** > **Process** > **Experiment** when genuinely tied — authority pieces are rarest and highest-signal for a DS portfolio.
 
 `experiment/` entries get drafted too, but framed as *"here's the idea, here's why it matters"* — not implementation detail. The repo for the actual build happens later.
+
+## Clarify before drafting (Richard speaks in loops)
+
+Once you've picked the section, **before** you start shaping, ask 1–2 clarifier questions if the section is loopy, multi-thread, or ambiguous. Skip the clarifier only if the section is short and the angle is unmistakable.
+
+Ask, in order:
+
+1. **One-takeaway question (almost always ask).** *"What's the one thing you want a reader to walk away thinking after this post? Here are the candidate framings I pulled from your section: [2–3 options drawn from the journal]."* This catches the case where the journal contains three threads and Richard's intuition was about thread #2, but the wordcount-strongest one is #1.
+2. **Audience question (ask if unclear).** *"Who is this for — designers, design-system folks, fintech adjacents, or general-tech?"* The audience changes the register and the depth of explanation.
+
+Two questions max. Then stop and wait for answers. If Richard's answer is itself loopy, ask one focused follow-up — *"so the main thing is X, not Y?"* — to confirm. Don't drift into a discovery interview.
+
+Skipping the clarifier is allowed only when:
+- The section is one paragraph or shorter, AND
+- It contains exactly one claim or move.
+
+If unsure, ask. The cost of one question is much less than drafting the wrong angle.
 
 ## Shaping the draft
 

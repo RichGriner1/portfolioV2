@@ -41,10 +41,24 @@ The orchestrator invokes them in order. If `test-runner` fails, it routes back t
 
 ## Content workflow (writing)
 
-Two subagents + two slash commands. See [content/README.md](content/README.md) for the stage model (journal → drafts → published) and the four pillars (process / breakdown / authority / experiment).
+Five subagents + four slash commands across two stages. See [content/README.md](content/README.md) for the stage model (journal → drafts → published → social) and the four pillars (process / breakdown / authority / experiment). The voice rulebook at [content/voice.md](content/voice.md) is the source of truth for tone.
+
+### Long-form (journal → drafts → published)
 
 - **`/journal`** → spawns **`scribe`** ([.claude/agents/scribe.md](.claude/agents/scribe.md)). End-of-day capture: 2–4 structured questions, writes to `content/journal/YYYY-MM-DD-<slug>.md`. **`content/journal/` is gitignored** — raw notes are private.
-- **`/polish <journal-file>`** → spawns **`editor`** ([.claude/agents/editor.md](.claude/agents/editor.md)). Shapes the strongest section of a journal entry into a draft at `content/drafts/<pillar>/<slug>.md`. Preserves voice. Never writes to `content/published/` — that move is manual.
+- **`/polish <journal-file>`** → spawns **`editor`** ([.claude/agents/editor.md](.claude/agents/editor.md)). Shapes the strongest section of a journal entry into a draft at `content/drafts/<pillar>/<slug>.md`. Asks 1–2 clarifier questions before drafting (Richard speaks in loops sometimes). Preserves voice. Never writes to `content/published/` — that move is manual.
+
+### Short-form (published → social)
+
+- **`/syndicate <published-file>`** → chains **`syndicator`** → **`voice-keeper`** → **`post-reviewer`**. Mirrors the dev loop (`code-writer → test-runner → code-reviewer`).
+  1. **`syndicator`** ([.claude/agents/syndicator.md](.claude/agents/syndicator.md)) — reads the published post + `content/voice.md`, asks 2–3 clarifier questions (one-takeaway for LI, Twitter hook, CTA shape), drafts both platforms to `content/social/<pillar>/<slug>.md`. **Never writes "DM me" or freelance pitches on LinkedIn** — Richard has a full-time job.
+  2. **`voice-keeper`** ([.claude/agents/voice-keeper.md](.claude/agents/voice-keeper.md)) — read-only lint pass against `content/voice.md`. Banned phrases, AI-tells, construction patterns. Returns `pass | revise`.
+  3. **`post-reviewer`** ([.claude/agents/post-reviewer.md](.claude/agents/post-reviewer.md)) — read-only review for hook quality, stance fit, CTA placement, platform conventions. Returns `ship | revise | rewrite`.
+- **`/voice-check <file>`** → spawns **`voice-keeper`** alone for ad-hoc checks on any markdown file in Richard's voice.
+
+If `voice-keeper` or `post-reviewer` return non-`ship` verdicts, the orchestrator routes back to `syndicator` with the failures. Do not skip steps.
+
+`/syndicate` ends at a file on disk with `status: draft`. Posting is manual for now (copy/paste into LinkedIn + Twitter composers). A `/push` command + Typefully (or X API) integration is a deferred Phase 2.
 
 `experiment/` pillar entries are seeds for side projects. When one is ready to build, spin up a dedicated repo — the experiment doesn't live inside portfolioV2.
 

@@ -28,6 +28,22 @@ Then probe for each pillar, one at a time, skipping any the user has nothing for
 
 Keep your questions short. Let Richard talk.
 
+## Loop-catcher (when an answer rambles)
+
+Richard knows he speaks in loops. When his answer to any of the above contains multiple threads or starts circling back on itself, ask **one** focused follow-up before moving to the next pillar — never two, never a discovery interview:
+
+- *"You touched on three things there — A, B, and C. Which is the one you'd actually want to write about?"*
+- *"It sounds like the main thing is X, but you also mentioned Y — same post or different posts?"*
+- *"What's the headline of what you just said?"*
+
+Pick one of these phrasings, ask, and capture his answer as the section's anchor. The other threads still go into the journal — don't drop them — but they get framed as supporting beats around the anchor, not equal-weight bullet points. This way the editor agent has a clear strongest section to draft from later.
+
+Skip the loop-catcher when:
+- The answer is already short and single-threaded.
+- Richard explicitly says he's just dumping ideas to revisit later (set `status: idea`, capture verbatim, don't structure).
+
+Don't ask the loop-catcher for *every* pillar — only when an answer actually rambles.
+
 ## Capturing
 
 Each exchange → one markdown section in the journal file. Structure:

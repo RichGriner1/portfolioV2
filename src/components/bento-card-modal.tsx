@@ -56,7 +56,7 @@ export function BentoCardModal({ open, onClose, card }: Props) {
   if (!card.details) return null;
 
   const heading = pick(card.details.heading, lang);
-  const paragraphs = pick(card.details.body, lang);
+  const sections = card.details.sections;
 
   return (
     <AnimatePresence>
@@ -95,14 +95,16 @@ export function BentoCardModal({ open, onClose, card }: Props) {
               </button>
             </div>
 
-            <div className="flex flex-col gap-4">
-              {paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  className="text-muted-foreground text-sm leading-relaxed"
-                >
-                  {para}
-                </p>
+            <div className="flex flex-col gap-5">
+              {sections.map((section, i) => (
+                <div key={i} className="flex flex-col gap-1.5">
+                  <h3 className="text-foreground text-xs font-semibold tracking-wider uppercase">
+                    {pick(section.label, lang)}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {pick(section.body, lang)}
+                  </p>
+                </div>
               ))}
             </div>
           </motion.div>

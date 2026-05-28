@@ -1,12 +1,17 @@
 import type { Bilingual } from "@/lib/i18n";
 
+export type DetailSection = {
+  label: Bilingual<string>;
+  body: Bilingual<string>;
+};
+
 export type BentoCard = {
   label: Bilingual<string>;
   sublabel: Bilingual<string>;
   span?: "wide" | "tall";
   details?: {
     heading: Bilingual<string>;
-    body: Bilingual<string[]>;
+    sections: DetailSection[];
   };
   animation:
     | "layers"
@@ -58,8 +63,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
     },
     intro: {
-      en: "AFI ships white-labeled fintech products for banks and financial institutions — each surface has to feel consistent with the shared system but distinct for the client. The problem: a design team of one, a high project rate, design docs scattered across Microsoft Teams threads and email, no rulebook keeping the system honest across remakes. The fix: a custom token system in Figma, a unified platform where designers, developers, and AI agents share the same rules, and a designer↔dev handoff tool so feedback stops getting lost. The upside of constant remakes — each new client is another pass sharpening the system. AI is what lets us take every one.",
-      es: "AFI lanza productos fintech white-label para bancos e instituciones financieras — cada superficie tiene que sentirse consistente con el sistema compartido pero distinta para el cliente. El problema: un equipo de diseño de una sola persona, un ritmo de proyectos alto, documentación dispersa en hilos de Microsoft Teams y correo, sin ningún manual de reglas que mantuviera honesto al sistema entre rehaceres. La solución: un sistema de tokens a medida en Figma, una plataforma unificada donde diseñadores, desarrolladores y agentes de IA comparten las mismas reglas, y una herramienta de entrega entre diseño y desarrollo para que el feedback deje de perderse. La ventaja de los rehaceres constantes: cada nuevo cliente es otra pasada para afinar el sistema. La IA es lo que nos permite aprovechar todas.",
+      en: "Afi ships white-label fintech products to banks. The starting state: one designer, a high project rate, docs scattered across Teams threads and email, no rulebook to keep the system honest across rebuilds. We rebuilt the spine — a three-tier token system in Figma, a single repo where designers, developers, and AI agents read from the same source of truth, and a designer↔dev handoff tool that anchors feedback to the screen instead of losing it in chat. Each rebuild sharpens the system; the AI agents reading those docs are what make the next one compoundable instead of redundant.",
+      es: "Afi desarrolla productos fintech white-label para bancos. El punto de partida: una sola persona en diseño, una cartera intensa de proyectos y la documentación repartida entre hilos de Teams y correos electrónicos, sin un manual que diera coherencia al sistema de un proyecto a otro. Hemos rediseñado los cimientos: un sistema de tokens estructurado en tres niveles dentro de Figma, un único repositorio del que leen diseñadores, desarrolladores y agentes de IA, y una herramienta de traspaso entre diseño y desarrollo que fija los comentarios sobre la propia pantalla en lugar de perderlos en el chat. Con cada proyecto el sistema gana precisión; los agentes de IA que consultan esa documentación hacen que el siguiente trabajo se apoye en el anterior, en lugar de partir desde cero.",
     },
     role: {
       en: "Design Systems Lead",
@@ -96,20 +101,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "One repo, everyone on the same rulebook",
             es: "Un solo repositorio, todos con el mismo manual de reglas",
           },
-          body: {
-            en: [
-              "Before the platform existed, there was no shared place. Design docs lived in Microsoft Teams threads and email attachments — design.md got sent over chat, Figma annotations emailed to developers who then lost the thread. When a developer had a question, the answer was buried in a DM. When a designer needed to know what was implemented, they had to ask. There was no single source a designer or developer could open and trust was current.",
-              "The AWM Design Showcase is that shared place. A single repo that gives designers, developers, and AI agents a converged home to work from. Two main folders keep things from blurring: design/ for the rulebook, token snapshots, and writing rules; engineering/ for Angular conventions, code style, and test patterns.",
-              "At the root sit AGENTS.md and CLAUDE.md. AGENTS.md is the canonical rulebook: current focus, mission, where things live, MCPs, anti-patterns. CLAUDE.md is a one-line redirect pointing at AGENTS.md so every AI tool — Claude Code, OpenCode — starts from the same page. The .claude/skills/ folder extends that: a Spanish-writing skill fires whenever an agent produces Spanish copy, keeping tone consistent without manual policing. Encode the decision once, let the system enforce it.",
-              "The showcase/ app is the interactive layer: an Angular 21 prototype with real component behavior, not flat Figma approximations. Hover states, transitions, loading patterns — the parts that static screens can't pin down — are proven here before engineering picks them up.",
-            ],
-            es: [
-              "Antes de que existiera la plataforma, no había ningún lugar compartido. La documentación de diseño vivía en hilos de Microsoft Teams y archivos adjuntos de correo — design.md se enviaba por chat, las anotaciones de Figma llegaban por email a desarrolladores que luego perdían el hilo. Cuando un desarrollador tenía una pregunta, la respuesta estaba enterrada en un mensaje privado. Cuando un diseñador necesitaba saber qué estaba implementado, tenía que preguntar. No existía una fuente única que diseñadores o desarrolladores pudieran abrir y confiar en que estaba actualizada.",
-              "El AWM Design Showcase es ese lugar compartido. Un repositorio único que da a diseñadores, desarrolladores y agentes de IA un punto de convergencia desde el que trabajar. Dos carpetas principales evitan que todo se mezcle: design/ para el manual de reglas, instantáneas de tokens y normas de escritura; engineering/ para convenciones Angular, estilo de código y patrones de pruebas.",
-              "En la raíz están AGENTS.md y CLAUDE.md. AGENTS.md es el manual de reglas canónico: foco actual, misión, dónde viven las cosas, MCPs, anti-patrones. CLAUDE.md es una redirección de una línea que apunta a AGENTS.md para que cada herramienta de IA — Claude Code, OpenCode — empiece desde la misma página. La carpeta .claude/skills/ amplía eso: una habilidad de escritura en español se activa cuando un agente produce texto en español, manteniendo el tono consistente sin supervisión manual. Codifica la decisión una vez, deja que el sistema la haga cumplir.",
-              "La app showcase/ es la capa interactiva: un prototipo en Angular 21 con comportamiento de componente real, no aproximaciones planas de Figma. Estados hover, transiciones, patrones de carga — las partes que las pantallas estáticas no pueden fijar — se prueban aquí antes de que engineering las recoja.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Design docs lived in Microsoft Teams threads and email attachments. `design.md` sent over chat. Figma annotations emailed to developers who lost the thread. When a designer needed to know what shipped, they had to ask. There was no single source a designer or developer could open with the certainty that it was current.",
+                es: "La documentación de diseño se repartía entre hilos de Microsoft Teams y archivos adjuntos del correo. Un `design.md` enviado por chat, las anotaciones de Figma reenviadas a los desarrolladores y, a partir de ahí, todos terminaban perdiendo el hilo. Si un diseñador quería saber qué se había implementado, no le quedaba más remedio que preguntar. No había una fuente única que el equipo pudiera abrir con la confianza de que estaba al día.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Built one repo with two clear folders — `design/` for the rulebook and token snapshots, `engineering/` for Angular conventions and test patterns. Put `AGENTS.md` at the root as the canonical brief and `CLAUDE.md` as a one-line redirect so every AI tool opens the same page.",
+                es: "Hemos montado un único repositorio con dos carpetas bien delimitadas: `design/` para el manual de reglas y las instantáneas de tokens, y `engineering/` para las convenciones de Angular y los patrones de pruebas. En la raíz, `AGENTS.md` hace las veces de guía maestra y `CLAUDE.md` actúa como redirección de una sola línea, para que cualquier herramienta de IA parta de la misma página.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "A converged home where designers, developers, and AI agents read from the same files. The `showcase/` app sits on top — an Angular 21 prototype where hover states, transitions, and loading patterns are proven before engineering picks them up.",
+                es: "Un punto de convergencia en el que diseñadores, desarrolladores y agentes de IA leen los mismos archivos. La app `showcase/` se asienta sobre esa base: un prototipo en Angular 21 en el que los estados hover, las transiciones y los patrones de carga quedan probados antes de que ingeniería los integre.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "The decision is encoded once and the system enforces it, not a person. The `.claude/skills/` folder extends the idea — small skills like the Spanish-writing one fire automatically when an agent produces Spanish copy, keeping tone consistent without manual policing.",
+                es: "La decisión queda codificada una sola vez, y es el sistema —no una persona— quien la hace cumplir. La carpeta `.claude/skills/` extiende esa lógica: skills concretas como la de redacción en español saltan automáticamente cuando un agente produce texto en castellano y mantienen el tono coherente sin necesidad de supervisión manual.",
+              },
+            },
+          ],
         },
         animation: "nodes",
         span: "tall",
@@ -128,22 +149,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "Three tiers — and where drift hides",
             es: "Tres niveles — y dónde se esconde la deriva",
           },
-          body: {
-            en: [
-              "The Figma variable panel gave us three tiers: 87 AFI Primitives (raw atoms — a hex, a pixel number, a font family), 39 Semantic numbers (aliases like spacing/md that reference primitives but carry intent), and 22 AFI Custom Semantics (component-level overrides like p-datatable/padding/normal that PrimeNG's Figma library didn't expose).",
-              "Tier 1 is just numbers — dimension-8 is the number 8, nothing more. Tier 2 is where meaning enters: spacing/md references dimension-8 and says 'this is medium spacing.' A designer or developer reaching for a value goes here, not to primitives.",
-              "Tier 3 is where drift hides — and it surfaces in conversation before it surfaces in the doc. PrimeNG uses a single primary slot for action color. AFI has two blues: AzulProfundo goes into light mode (it passes AA on small text where bright azulafi doesn't), azulafi takes dark mode where dark surfaces give it the contrast it needs. Same role, two palettes, the mode picks the right one. Alberto's meeting about neutral colors was another drift moment — a discussion about whether a gray was warm or cool exposed an undocumented assumption. Andres's naming-inconsistency catches were a third: small mismatches between what Figma called a token and what code called it, invisible until someone tried to hand off. Every custom semantic is hand-made, so every one is a place things can quietly disagree.",
-              "That's also why the doc names the palette, not the role. If design.md said 'primary' generically, an AI agent reading the file would happily paste azulafi into an action slot — 'primary' slides toward 'main brand color' in any reasonable reading. A human teammate might pause and check; a coding agent won't. Pinning the word to the palette — AzulProfundo, not primary — removes the ambiguity in the one place it matters: the source of truth the AI is reading.",
-              "Writing the doc was the audit. The structure — raw to meaningful to component-specific — became the spine of design.md. When we audited all 22 custom semantics, almost every one routed cleanly back to a semantic number. Less drift than expected. Still worth checking every single one.",
-            ],
-            es: [
-              "El panel de variables de Figma nos dio tres niveles: 87 Primitivos AFI (átomos en bruto — un hex, un número en píxeles, una familia tipográfica), 39 números Semánticos (alias como spacing/md que referencian primitivos pero llevan intención), y 22 Semánticos Personalizados AFI (anulaciones a nivel de componente como p-datatable/padding/normal que la librería Figma de PrimeNG no exponía).",
-              "El Nivel 1 son solo números — dimension-8 es el número 8, nada más. El Nivel 2 es donde entra el significado: spacing/md referencia dimension-8 y dice 'este es el espaciado medio'. Un diseñador o desarrollador que busca un valor va aquí, no a los primitivos.",
-              "El Nivel 3 es donde se esconde la deriva — y aflora en conversación antes de aparecer en el documento. PrimeNG usa un único slot primary para el color de acción. AFI tiene dos azules: AzulProfundo va en modo claro (supera AA en texto pequeño donde el azulafi brillante no lo hace), azulafi toma el modo oscuro donde las superficies oscuras le dan el contraste que necesita. El mismo rol, dos paletas, el modo elige la correcta. La reunión de Alberto sobre colores neutros fue otro momento de deriva — una discusión sobre si un gris era cálido o frío sacó a la luz un supuesto no documentado. Los hallazgos de Andres sobre inconsistencias de nombres fueron un tercer ejemplo: pequeñas discrepancias entre cómo Figma llamaba a un token y cómo lo llamaba el código, invisibles hasta que alguien intentaba hacer una entrega. Cada semántico personalizado está hecho a mano, así que cada uno es un lugar donde las cosas pueden discrepar en silencio.",
-              "Por eso el documento nombra la paleta, no el rol. Si design.md dijera 'primary' de forma genérica, un agente de IA leyendo el archivo pegaría azulafi en un slot de acción sin dudar — 'primary' se desliza hacia 'color principal de marca' en cualquier lectura razonable. Un compañero humano podría pausar y comprobar; un agente de código no. Fijar la palabra a la paleta — AzulProfundo, no primary — elimina la ambigüedad en el único lugar donde importa: la fuente de verdad que lee la IA.",
-              "Escribir el documento fue la auditoría. La estructura — de bruto a significativo a específico de componente — se convirtió en la columna vertebral de design.md. Cuando auditamos los 22 semánticos personalizados, casi todos enrutaban limpiamente hacia un número semántico. Menos deriva de la esperada. Aun así merece la pena revisar cada uno.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "PrimeNG's library exposed a single `primary` slot, but Afi runs two blues. AzulProfundo passes AA on small text in light mode where bright `azulafi` doesn't; `azulafi` takes dark mode, where dark surfaces give it the contrast it needs. Same role, two palettes — and PrimeNG had no place to encode that. Naming inconsistencies piled up between Figma and code. Each custom semantic was a place things could quietly disagree.",
+                es: "La librería de PrimeNG ofrecía un único slot, `primary`, pero en Afi manejamos dos azules. AzulProfundo supera el contraste AA en texto pequeño en modo claro, donde el `azulafi` brillante se queda corto; en cambio, `azulafi` se reserva para el modo oscuro, ya que las superficies oscuras le aportan el contraste que necesita. El mismo rol, dos paletas: PrimeNG no tenía dónde codificar esa distinción. Las inconsistencias de nomenclatura entre Figma y código se iban acumulando, y cada semántico personalizado se convertía en un punto en el que las cosas podían discrepar en silencio.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Sorted every variable into three tiers. Tier 1: 87 primitives — raw atoms like a hex or a pixel number. Tier 2: 39 semantic numbers — aliases like `spacing/md` that reference primitives but carry intent. Tier 3: 22 Afi custom semantics — component-level overrides PrimeNG didn't expose, like `p-datatable/padding/normal`. Then audited all 22 against the semantic layer.",
+                es: "Hemos ordenado cada variable en tres niveles. Nivel 1: 87 primitivos, átomos en bruto como un hex o un número en píxeles. Nivel 2: 39 números semánticos, alias del tipo `spacing/md` que apuntan a primitivos pero ya cargan intención. Nivel 3: 22 semánticos personalizados de Afi, sobreescrituras a nivel de componente que PrimeNG no exponía, como `p-datatable/padding/normal`. A continuación, hemos auditado los 22 contra la capa semántica.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "A token doc that names the palette, not the role. The rulebook reaches for `AzulProfundo` and `azulafi` directly — not a generic `primary` slot — so the agent reading the file pastes the right blue into the right surface.",
+                es: "Un documento de tokens que nombra la paleta, no el rol. El manual apunta directamente a `AzulProfundo` y a `azulafi`, no a un slot genérico llamado `primary`, de modo que el agente que lee el archivo coloca el azul adecuado en la superficie adecuada.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "A human teammate might pause before pasting the wrong blue. A coding agent won't. Pinning the word to the palette removes the ambiguity in the one place it matters: the source of truth the AI reads. The audit also showed that nearly every custom semantic routed cleanly back to the semantic layer — less drift than expected, but worth checking each one.",
+                es: "Un compañero humano puede pararse a comprobarlo antes de pegar el azul equivocado. Un agente de código, no. Anclar la palabra a la paleta elimina la ambigüedad en el único sitio en el que importa: la referencia única que lee la IA. La auditoría también mostró que casi todos los semánticos personalizados encajaban limpiamente con la capa semántica: menos deriva de la esperada, aunque merece la pena revisar cada uno.",
+              },
+            },
+          ],
         },
         animation: "layers",
         span: "wide",
@@ -162,20 +197,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "Every client another pass at sharpening the system",
             es: "Cada cliente, otra pasada para afinar el sistema",
           },
-          body: {
-            en: [
-              "AFI ships white-labeled fintech products for banks and financial institutions — each surface has to feel consistent with the shared system but distinct for the client. That means remaking the same product over and over, one brand at a time.",
-              "The upside of constant remakes: every new client is another pass to sharpen the system. A pattern that worked for one bank gets tested against a second, then a third. Edge cases surface. The token structure gets tighter. The rulebook grows more honest.",
-              "AI is what lets us take every one of those passes. What used to be a days-long manual re-skin is now a token swap with an agent doing the QA pass. The system earns its keep not on the first client, but on the fifth.",
-              "Scattered docs and inconsistent patterns were the cost of not having a rulebook. Architecting the token system and writing design.md wasn't about tidying — it was about making the remakes compoundable. Each one builds on the last instead of starting from scratch.",
-            ],
-            es: [
-              "AFI lanza productos fintech white-label para bancos e instituciones financieras — cada superficie tiene que sentirse consistente con el sistema compartido pero distinta para el cliente. Eso significa rehacer el mismo producto una y otra vez, una marca tras otra.",
-              "La ventaja de los rehaceres constantes: cada nuevo cliente es otra pasada para afinar el sistema. Un patrón que funcionó para un banco se prueba contra un segundo, luego un tercero. Surgen casos límite. La estructura de tokens se vuelve más precisa. El manual de reglas crece más honesto.",
-              "La IA es lo que nos permite aprovechar cada una de esas pasadas. Lo que antes era un reskinning manual de días es ahora un intercambio de tokens con un agente haciendo el pase de QA. El sistema se justifica no en el primer cliente, sino en el quinto.",
-              "La documentación dispersa y los patrones inconsistentes eran el coste de no tener un manual de reglas. Arquitectar el sistema de tokens y escribir design.md no era ordenar — era hacer que los rehaceres fueran acumulables. Cada uno construye sobre el anterior en lugar de empezar desde cero.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Afi ships white-label fintech products to banks and financial institutions. Each surface has to feel consistent with the shared system but distinct for the client — which means rebuilding the same product, brand by brand. Scattered docs and inconsistent patterns made every rebuild start from a slightly different place.",
+                es: "Afi desarrolla productos fintech white-label para bancos e instituciones financieras. Cada producto debe transmitir coherencia con el sistema compartido y, a la vez, ser distinto para el cliente, lo que se traduce en rehacer el mismo producto una y otra vez, marca a marca. La documentación dispersa y los patrones inconsistentes hacían que cada nuevo proyecto arrancara desde un punto ligeramente distinto.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Architected a token system that absorbs brand differences as values, not as code. Wrote `design.md` so the rulebook travels across rebuilds instead of getting locked into a single client's surface.",
+                es: "Hemos construido la arquitectura de un sistema de tokens que absorbe las diferencias de marca como valores, no como código. Y hemos redactado `design.md` con la idea de que el manual viaje de un proyecto al siguiente, en lugar de quedarse anclado al producto de un cliente concreto.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "A re-skin is now a token swap with an AI agent doing the QA pass. The next bank inherits the same component library, the same conventions, the same motion tokens. What changes is the values inside the slots, not the slots themselves.",
+                es: "Hacer un reskin se ha convertido en un intercambio de tokens, con un agente de IA encargado del pase de QA. El siguiente banco hereda la misma librería de componentes, las mismas convenciones y los mismos tokens de movimiento. Lo que cambia son los valores dentro de los slots, no los slots en sí.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "The system earns its keep on the fifth client, not the first. Each rebuild is another pass for edge cases to surface and the rulebook to grow more honest. AI is what makes that pass take a day instead of a week — so we take it every time.",
+                es: "El sistema da sus frutos a partir del quinto cliente, no en el primero. Cada nuevo proyecto sirve para que afloren casos límite y para que el manual gane fiabilidad. Y es la IA la que reduce ese ejercicio a un día en lugar de una semana, por eso nos compensa hacerlo siempre.",
+              },
+            },
+          ],
         },
         animation: "palette",
       },
@@ -193,20 +244,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "Where feedback finally has somewhere to land",
             es: "Donde el feedback por fin tiene un lugar al que llegar",
           },
-          body: {
-            en: [
-              "Before the tool existed, handoff looked like this: a design.md sent over Microsoft Teams, Figma annotations emailed to developers, and feedback scattered across threads that nobody could find later. Devs lost context the moment a comment left its attachment. Designers had no record of which notes were resolved and which were silently ignored.",
-              "The tool is an internal designer↔dev surface where comments attach to specific parts of the UI. PMs and developers leave feedback in-place — on the component, the screen, the state. Each comment carries a status: open or resolved. Nothing gets lost between channels because there's only one channel.",
-              "What this changes: the handoff is auditable. A designer can come back a week later and see exactly which feedback was acted on. A developer can close a comment when the code is in, and the designer sees it. The conversation lives next to the thing it's about — which is the only place it was ever useful anyway.",
-              "This composes with the rest of the platform. Same repo, same rulebook, now plus a feedback surface so the loop closes. Designers, developers, and the AI agents working alongside them are all reading from the same file — and now writing back to it.",
-            ],
-            es: [
-              "Antes de que existiera la herramienta, la entrega funcionaba así: un design.md enviado por Microsoft Teams, anotaciones de Figma por correo a los desarrolladores, y feedback disperso en hilos que nadie podía encontrar después. Los desarrolladores perdían el contexto en el momento en que un comentario abandonaba su punto de anclaje. Los diseñadores no tenían registro de qué notas estaban resueltas y cuáles simplemente ignoradas.",
-              "La herramienta es una superficie interna entre diseñadores y desarrolladores donde los comentarios se anclan a partes específicas de la interfaz. Los PMs y los desarrolladores dejan el feedback en su sitio — sobre el componente, la pantalla, el estado. Cada comentario lleva un estado: abierto o resuelto. Nada se pierde entre canales porque solo hay un canal.",
-              "Lo que esto cambia: la entrega es auditable. Un diseñador puede volver una semana después y ver exactamente qué feedback fue atendido. Un desarrollador puede cerrar un comentario cuando el código está listo, y el diseñador lo ve. La conversación vive junto a lo que trata — que es el único lugar donde siempre fue útil.",
-              "Esto encaja con el resto de la plataforma. El mismo repositorio, el mismo manual de reglas, ahora más una superficie de feedback para que el ciclo se cierre. Diseñadores, desarrolladores y los agentes de IA que trabajan junto a ellos leen todos del mismo archivo — y ahora también escriben de vuelta a él.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Handoff happened in Microsoft Teams threads and email attachments. A `design.md` over chat, Figma annotations forwarded by email, feedback scattered across channels nobody could find a week later. Developers lost context the moment a comment left its attachment. Designers had no record of which notes were resolved and which were silently ignored.",
+                es: "La entrega entre diseño y desarrollo se hacía a través de hilos de Microsoft Teams y archivos adjuntos del correo. Un `design.md` por chat, anotaciones de Figma reenviadas por email y comentarios sueltos repartidos por canales que nadie era capaz de encontrar una semana más tarde. Los desarrolladores se quedaban sin contexto en cuanto un comentario salía de su punto de anclaje. Los diseñadores tampoco tenían registro de qué notas se habían resuelto y cuáles se habían ignorado en silencio.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Built an internal designer↔dev surface where comments anchor to specific parts of the UI — the component, the screen, the state. Every comment carries an open or resolved status.",
+                es: "Hemos creado una superficie interna entre diseñadores y desarrolladores en la que los comentarios se anclan a partes concretas de la interfaz: el componente, la pantalla, el estado. Cada comentario lleva asociado un estado: abierto o resuelto.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "One channel for feedback. PMs and developers leave notes in place. A designer can return a week later and see exactly which feedback was acted on; a developer can close a comment when the code is in, and the designer sees it.",
+                es: "Un único canal para los comentarios. Los PMs y los desarrolladores dejan las notas en el sitio que les corresponde. Un diseñador puede volver una semana más tarde y ver con exactitud qué comentarios se han atendido; un desarrollador puede cerrar un comentario cuando el código ya está integrado, y el diseñador lo ve en ese mismo momento.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "Feedback lives next to the thing it's about — the only place it was ever useful. Same repo, same rulebook, plus a feedback surface that closes the loop. Designers, developers, and the AI agents working alongside them are all reading from the same file, and now writing back to it.",
+                es: "Los comentarios viven junto a aquello a lo que se refieren, que es el único sitio en el que alguna vez tuvieron utilidad. El mismo repositorio, el mismo manual y, ahora, una superficie de comentarios que cierra el ciclo. Diseñadores, desarrolladores y los agentes de IA que trabajan con ellos leen del mismo archivo, y ahora también lo actualizan.",
+              },
+            },
+          ],
         },
         animation: "comment-pins",
       },
@@ -224,20 +291,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "One component instead of a folder of files",
             es: "Un componente en vez de una carpeta de archivos",
           },
-          body: {
-            en: [
-              "Before this, the logo lived in the assets folder as a stack of SVG exports. Six sizes for marketing, two for product, color and monochrome for each, light and dark for each — twenty-plus files for one brand mark. A new client meant another twenty exports. A brand refresh meant redoing the lot. Engineers imported the right file per surface and remembered to swap it on every theme change.",
-              "The mark is one shape. The variants are decisions about color and size, and decisions are what the token system already encodes. The fix is to make the logo a component that takes those decisions from the semantic layer instead of from a filename.",
-              "One SVG component. Two semantic-token slots — one for brand color, one for monochrome. The brand variant references `brand/primary`, which resolves to AzulProfundo in light mode and azulafi in dark. The monochrome variant references `fg/default`, which switches black or white with the mode. Size is a CSS variable, not another file. The component lives in `ui/src/` alongside the other primitives, and the docs are a playground that shows every variant against `base.white` and `base.black` so the contrast is provable, not assumed.",
-              "For white-label this matters double. Every client's brand goes through the same swap mechanism — the next bank doesn't need a new asset folder, it needs new token values.",
-            ],
-            es: [
-              "Antes de esto, el logo vivía en la carpeta de assets como una pila de SVGs exportados. Seis tamaños para marketing, dos para producto, color y monocromo de cada uno, modo claro y oscuro de cada uno — más de veinte archivos para una sola marca. Un cliente nuevo significaba otras veinte exportaciones. Un rediseño de marca significaba rehacerlo todo. Los desarrolladores importaban el archivo correcto en cada superficie y se acordaban de cambiarlo en cada cambio de tema.",
-              "La marca es una sola forma. Las variantes son decisiones sobre color y tamaño, y las decisiones son justamente lo que el sistema de tokens ya codifica. La solución es convertir el logo en un componente que tome esas decisiones desde la capa semántica en lugar de desde un nombre de archivo.",
-              "Un componente SVG. Dos espacios de token semántico — uno para el color de marca, otro para monocromo. La variante de color referencia `brand/primary`, que se resuelve a AzulProfundo en modo claro y azulafi en modo oscuro. La variante monocroma referencia `fg/default`, que cambia entre negro o blanco con el modo. El tamaño es una variable CSS, no otro archivo. El componente vive en `ui/src/` junto al resto de primitivos, y la documentación es un playground que muestra cada variante sobre `base.white` y `base.black` para que el contraste sea demostrable, no asumido.",
-              "Para el white-label esto cuenta doble. La marca de cada cliente pasa por el mismo mecanismo de intercambio — el próximo banco no necesita una nueva carpeta de assets, necesita nuevos valores de token.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "The logo lived in the assets folder as a stack of SVG exports — six sizes for marketing, two for product, color and monochrome for each, light and dark for each. More than twenty files for a single brand mark. A new client meant another twenty exports. A refresh meant redoing the lot. Developers imported the right file per surface and remembered to swap it on every theme change.",
+                es: "El logo residía en la carpeta de assets como una pila de SVG exportados: seis tamaños para marketing, dos para producto, una versión a color y otra monocroma de cada uno, y una para modo claro y otra para modo oscuro. Más de veinte archivos para una sola marca. Cada cliente nuevo suponía otras veinte exportaciones, y un rediseño implicaba rehacerlo todo. Los desarrolladores tenían que importar el archivo correcto en cada superficie y acordarse de cambiarlo en cada cambio de tema.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Recognized that the mark is one shape and the variants are decisions about color and size — and decisions are what the token system already encodes. Built the logo as a single SVG component that reads its values from the semantic layer.",
+                es: "Asumimos que la marca es una sola forma y que las variantes son decisiones sobre color y tamaño, decisiones que el sistema de tokens ya codifica. Hemos construido el logo como un único componente SVG que recoge sus valores directamente de la capa semántica.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "One component, two semantic-token slots. The brand variant references `brand/primary`, which resolves to AzulProfundo in light mode and `azulafi` in dark. The monochrome variant references `fg/default`, which switches black or white with the mode. Size is a CSS variable. The component lives in `ui/src/` next to the other primitives, and the docs page proves contrast against `base.white` and `base.black`.",
+                es: "Un componente y dos espacios de token semántico. La variante de color apunta a `brand/primary`, que se resuelve a AzulProfundo en modo claro y a `azulafi` en modo oscuro. La variante monocroma apunta a `fg/default`, que alterna entre negro y blanco según el modo. El tamaño se controla con una variable CSS. El componente reside en `ui/src/` junto al resto de primitivos, y la página de documentación verifica el contraste sobre `base.white` y `base.black`.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "For white-label this counts double. The next bank doesn't need a new asset folder, it needs new token values. A refresh means editing the token, not regenerating twenty exports.",
+                es: "En un contexto white-label el ahorro es doble. El siguiente banco no necesita una carpeta de assets nueva, sino unos cuantos valores de token nuevos. Un rediseño se traduce en editar el token, no en regenerar veinte exportaciones.",
+              },
+            },
+          ],
         },
         animation: "coded-logo",
       },
@@ -255,20 +338,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "Where designers and developers see the real thing",
             es: "Donde diseñadores y desarrolladores ven lo de verdad",
           },
-          body: {
-            en: [
-              "Static design docs lie a little. A Figma frame can show a button at rest, but it can't show how it hovers, how it transitions between states, how it sits on a real background, or what the code it generates actually looks like. Engineers end up rebuilding from approximations and designers end up reviewing screenshots of code instead of code.",
-              "A doc that is also a working component is a doc that can't lie. The same surface a designer uses to validate spacing is the surface a developer uses to grab the snippet they'll commit. The same surface an AI agent reads is the surface a teammate hovers over.",
-              "Each component gets a playground page in the showcase app. The component renders for real, with the actual code path the app uses. Above it, toggles for the variants — icon vs icon+wordmark, brand vs monochrome, mode, size. Below it, a tokens-consumed panel that updates as the variant changes, and a copy button that yields the exact HTML, SCSS, and TypeScript a developer would paste. The page is built on the same primitives it documents, so it can't drift from itself.",
-              "The playground is also the audit surface. When something breaks — a token rename, a missing variant, an animation that doesn't carry — it breaks here first, in public, before it ships into a screen.",
-            ],
-            es: [
-              "La documentación de diseño estática miente un poco. Un frame de Figma puede mostrar un botón en reposo, pero no puede mostrar cómo hace hover, cómo transita entre estados, cómo se asienta sobre un fondo real, ni cómo se ve el código que genera. Los desarrolladores acaban reconstruyendo a partir de aproximaciones y los diseñadores acaban revisando capturas de código en lugar de código.",
-              "Un documento que también es un componente que funciona es un documento que no puede mentir. La misma superficie que un diseñador usa para validar el espaciado es la superficie de la que un desarrollador coge el snippet que va a hacer commit. La misma superficie que un agente de IA lee es la que un compañero de equipo pasa por encima con el cursor.",
-              "Cada componente tiene una página de playground en la app showcase. El componente se renderiza de verdad, con la misma ruta de código que usa la app. Arriba, interruptores para las variantes — icono o icono+wordmark, marca o monocromo, modo, tamaño. Abajo, un panel de tokens consumidos que se actualiza al cambiar la variante, y un botón de copia que devuelve el HTML, SCSS y TypeScript exactos que un desarrollador pegaría. La página está construida sobre los mismos primitivos que documenta, así que no puede desviarse de sí misma.",
-              "El playground es también la superficie de auditoría. Cuando algo se rompe — un rename de token, una variante que falta, una animación que no llega — se rompe aquí primero, a la vista, antes de llegar a una pantalla.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Static design docs lie a little. A Figma frame shows a button at rest but can't show how it hovers, how it transitions between states, how it sits on a real background, or what the generated code looks like. Developers end up rebuilding from approximations. Designers end up reviewing screenshots of code instead of code.",
+                es: "La documentación de diseño estática miente un poco. Un frame de Figma muestra un botón en reposo, pero no puede mostrar cómo se comporta en hover, cómo transita entre estados, cómo se asienta sobre un fondo real ni qué aspecto tiene el código que genera. Los desarrolladores acaban reconstruyendo a partir de aproximaciones, y los diseñadores acaban revisando capturas de código en lugar del código en sí.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Built a playground page per component inside the showcase app. The component renders for real, with the same code path the production app uses.",
+                es: "Hemos creado una página de playground por componente dentro de la app showcase. El componente se renderiza tal cual, siguiendo la misma ruta de código que utiliza la app en producción.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "Each page carries toggles for the variants — icon vs icon+wordmark, brand vs monochrome, mode, size — a tokens-consumed panel that updates as the variant changes, and a copy button that yields the exact HTML, SCSS, and TypeScript a developer would paste. The page is built on the primitives it documents, so it can't drift from itself.",
+                es: "Cada página incluye selectores para las variantes (icono o icono+wordmark, marca o monocromo, modo, tamaño), un panel de tokens consumidos que se actualiza al cambiar de variante y un botón de copia que devuelve el HTML, el SCSS y el TypeScript exactos que pegaría un desarrollador. La página está construida sobre los mismos primitivos que documenta, de modo que no puede desviarse de sí misma.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "A doc that is also a working component is a doc that can't lie. When something breaks — a token rename, a missing variant, an animation that doesn't carry — it breaks here first, in public, before it ships into a screen.",
+                es: "Un documento que al mismo tiempo funciona como componente es un documento que no puede mentir. Cuando algo se rompe (un renombrado de token, una variante que falta, una animación que no llega), se rompe aquí primero, a la vista, antes de llegar a una pantalla de producto.",
+              },
+            },
+          ],
         },
         animation: "playground",
       },
@@ -286,20 +385,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "AI didn't change the rules — it forced us to write them down",
             es: "La IA no cambió las reglas — nos obligó a escribirlas",
           },
-          body: {
-            en: [
-              "Early on I built primitives — button, input, select, checkbox, switch — and then asked the AI to build a screen with them. It built a clean screen and ignored every primitive I'd shipped. The rules existed in my head and in scattered Figma annotations. They didn't exist anywhere the agent could read.",
-              "AI joining the team didn't change the rules — it changed who had to read them, which exposed how few of them were actually written down. The work of documenting what was always implicit was overdue. The agent is what forced the calendar.",
-              "A rulebook at the repo root that every tool starts from. AGENTS.md carries the current focus, where things live, the anti-patterns, the components the team owns. CLAUDE.md is a one-line redirect so Claude Code, OpenCode, and any future tool open the same page. design.md sits next to them, naming the design-side decisions a coding agent can't infer from the code alone. The `.claude/skills/` folder extends that — small enforcement skills like the Spanish-writing one that fires when an agent produces Spanish copy, so tone stays consistent without anyone policing it.",
-              "A human teammate might pause and check before pasting the wrong blue into an action slot. A coding agent won't. The rulebook is where the design system stops being a suggestion and becomes the floor.",
-            ],
-            es: [
-              "Al principio construí primitivos — botón, input, select, checkbox, switch — y luego pedí a la IA que montara una pantalla con ellos. Construyó una pantalla limpia e ignoró todos los primitivos que había hecho. Las reglas existían en mi cabeza y en anotaciones de Figma dispersas. No existían en ningún sitio que el agente pudiera leer.",
-              "Que la IA se sumara al equipo no cambió las reglas — cambió quién tenía que leerlas, lo que dejó al descubierto cuántas no estaban realmente escritas. El trabajo de documentar lo que siempre fue implícito iba con retraso. El agente fue lo que obligó al calendario.",
-              "Un manual en la raíz del repo del que parte cada herramienta. AGENTS.md lleva el foco actual, dónde vive cada cosa, los anti-patrones, los componentes que mantiene el equipo. CLAUDE.md es una redirección de una línea para que Claude Code, OpenCode y cualquier herramienta futura abran la misma página. design.md vive junto a ellos, nombrando las decisiones de diseño que un agente de código no puede deducir solo del código base. La carpeta `.claude/skills/` amplía eso — pequeñas skills de cumplimiento como la de escritura en español que se activa cuando un agente produce texto en español, para que el tono se mantenga consistente sin que nadie tenga que vigilarlo.",
-              "Un compañero humano puede pausar y comprobar antes de pegar el azul equivocado en un slot de acción. Un agente de código no lo hará. El manual es donde el sistema de diseño deja de ser una sugerencia y se convierte en el suelo.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Early on we built primitives — button, input, select, checkbox, switch — and asked the AI to assemble a screen from them. It built a clean screen and ignored every primitive we'd shipped. The rules lived in heads and in scattered Figma annotations. They didn't exist anywhere the agent could read.",
+                es: "Al principio creamos los primitivos (botón, input, select, checkbox, switch) y pedimos a la IA que ensamblara una pantalla con ellos. Lo que devolvió fue una pantalla limpia, pero ignoraba por completo los primitivos que habíamos entregado. Las reglas vivían en nuestras cabezas y en anotaciones sueltas de Figma. No existían en ningún sitio al que el agente pudiera acceder.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Treated AI joining the team as the deadline for putting the rules in writing. `AGENTS.md` at the repo root carrying the current focus, where things live, the anti-patterns, the components we own. `CLAUDE.md` as a one-line redirect so every tool — Claude Code, OpenCode — opens the same page. `design.md` next to them, naming the design-side decisions a coding agent can't infer from the code alone.",
+                es: "Hemos aprovechado la llegada de la IA al equipo como fecha límite para poner las reglas por escrito. En la raíz del repositorio, `AGENTS.md` recoge el foco actual, dónde se ubica cada cosa, los antipatrones y los componentes que mantenemos. `CLAUDE.md` actúa como redirección de una sola línea para que cualquier herramienta —Claude Code, OpenCode— parta de la misma página. Y junto a ellos, `design.md`, que nombra las decisiones de diseño que un agente de código no podría deducir solo a partir del código.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "A rulebook every tool starts from. `.claude/skills/` extends it — small enforcement skills like the Spanish-writing one that fires whenever an agent produces Spanish copy, so tone stays consistent without anyone policing it.",
+                es: "Un manual del que parte cada herramienta. La carpeta `.claude/skills/` lo extiende con pequeñas skills de cumplimiento, como la de redacción en castellano, que se activa cuando un agente produce texto en español y consigue que el tono se mantenga coherente sin que nadie tenga que vigilar.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "A human teammate might pause and check before pasting the wrong blue into an action slot. A coding agent won't. The rulebook is where the design system stops being a suggestion and becomes the floor.",
+                es: "Un compañero humano puede pararse y comprobarlo antes de pegar el azul equivocado en un slot de acción. Un agente de código, no. El manual es donde el sistema de diseño deja de ser una sugerencia y pasa a ser el suelo desde el que se construye.",
+              },
+            },
+          ],
         },
         animation: "ai-teammate",
       },
@@ -317,20 +432,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "The Angular wall moved",
             es: "El muro de Angular se movió",
           },
-          body: {
-            en: [
-              "Banks run on Angular or older. Most modern UI inspiration ships React-first — Animata, Aceternity, Magic UI. Angular teams used to watch the good interactions go past on Twitter and wait for someone to rebuild them, which mostly didn't happen. The pattern stayed React's.",
-              'AI is good at translation jobs. The animation library that doesn\'t ship for Angular ships its source — and the source can be ported. The question stops being "should we wait for an Angular version" and becomes "what tokens will it wear when it lands."',
-              "Take a target interaction — this week, a sliding-pill segmented control from an open-source React example. Hand the agent the actual snippet, the existing Angular component file structure, and the motion tokens. It refactors the React idioms into Angular's HTML/SCSS/TypeScript split, swaps every hard-coded easing for `motion.ease.out-soft`, every spacing for `spacing/sm`. The animation that everyone admires now belongs to the Afi system and inherits its brand cohesion automatically.",
-              "The wall didn't move because Angular got cooler. It moved because the cost of crossing it dropped to zero. The team's menu of references is wider now, and the system absorbs each one.",
-            ],
-            es: [
-              "Los bancos van con Angular o anteriores. La mayor parte de la inspiración moderna de UI llega primero a React — Animata, Aceternity, Magic UI. Los equipos de Angular solían ver pasar las interacciones buenas por Twitter y esperar a que alguien las reconstruyera, cosa que casi nunca pasaba. El patrón se quedaba en React.",
-              'La IA es buena en trabajos de traducción. La librería de animaciones que no sale para Angular sí publica su código fuente — y el código fuente se puede portar. La pregunta deja de ser "esperamos una versión de Angular" y se convierte en "qué tokens va a vestir cuando aterrice".',
-              "Toma una interacción objetivo — esta semana, un control segmentado con píldora deslizante de un ejemplo open source en React. Pasa al agente el snippet real, la estructura de archivos del componente Angular existente, y los tokens de movimiento. Refactoriza los modismos de React en el split HTML/SCSS/TypeScript de Angular, intercambia cada easing hard-coded por `motion.ease.out-soft`, cada espaciado por `spacing/sm`. La animación que todo el mundo admira ahora pertenece al sistema Afi y hereda su cohesión de marca automáticamente.",
-              "El muro no se movió porque Angular se volviera más moderna. Se movió porque el coste de cruzarlo cayó a cero. El menú de referencias del equipo es más amplio ahora, y el sistema absorbe cada una.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Banks run on Angular or older. Most modern UI inspiration ships React-first — Animata, Aceternity, Magic UI. Angular teams watched the good interactions go past on Twitter and waited for someone to rebuild them, which mostly didn't happen. The pattern stayed React's.",
+                es: "Los bancos funcionan con Angular o con stacks aún anteriores. Casi toda la inspiración moderna de UI llega primero a React: Animata, Aceternity, Magic UI. Los equipos de Angular veían pasar las interacciones buenas por Twitter y se quedaban esperando a que alguien las reconstruyera, cosa que casi nunca terminaba ocurriendo. El patrón se quedaba en React.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Treated cross-stack porting as a translation problem AI handles well. Pulled the React source for a target interaction, handed the agent the existing Angular component structure plus our motion tokens, and let it refactor across the stack split.",
+                es: "Hemos tratado el porting entre stacks como un problema de traducción, algo que la IA resuelve bien. Le pasamos al agente el código fuente en React de la interacción objetivo, la estructura de componentes Angular que ya teníamos y nuestros tokens de movimiento, y le dejamos refactorizar entre los dos lenguajes.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "This week's port — a sliding-pill segmented control from an open-source React example. The agent rewrote the React idioms into Angular's HTML/SCSS/TypeScript split, swapped every hard-coded easing for `motion.ease.out-soft`, every spacing for `spacing/sm`. The animation everyone admired now belongs to Afi's system and inherits its brand cohesion automatically.",
+                es: "El porting de esta semana: un control segmentado con píldora deslizante, tomado de un ejemplo open source en React. El agente ha reescrito los modismos de React siguiendo la separación HTML/SCSS/TypeScript de Angular, ha intercambiado cada easing escrito a mano por `motion.ease.out-soft` y cada espaciado por `spacing/sm`. La animación que tanto admiraba el equipo ahora pertenece al sistema Afi y hereda automáticamente su cohesión de marca.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "The Angular wall didn't move because Angular got cooler. It moved because the cost of crossing it dropped to zero. The team's menu of references is wider now, and the system absorbs each one through the token layer.",
+                es: "El muro de Angular no ha caído porque Angular se haya vuelto más moderna, sino porque el coste de saltárselo se ha reducido a cero. El catálogo de referencias del equipo es ahora mucho más amplio, y el sistema absorbe cada nueva pieza a través de la capa de tokens.",
+              },
+            },
+          ],
         },
         animation: "port-diff",
       },
@@ -417,8 +548,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Un entorno de IA construido para un equipo que no tiene un departamento de diseño completo",
     },
     intro: {
-      en: "KT360 is an early-stage startup in a saturated AI market — so the brand strategy was to look nothing like AI. Playful, human, deliberately distinct. But the bigger challenge was operational: how does a small team stay on-brand when there's no designer in the room? The answer was to encode the brand into the environment itself. Design rules, component guidelines, and animation patterns all live as structured files — the kind of thing an AI can read, check against, and enforce. Agents review work before it ships. A shared system built on shadcn gives everyone a foundation to prototype and build from. The result: a marketer can write a blog post, a developer can add a new page, and the output looks like it came from the same hand — because the rules are doing the work.",
-      es: "KT360 es una startup en fase inicial dentro de un mercado de IA saturado — así que la estrategia de marca fue no parecerse en nada a la IA. Juguetona, humana, deliberadamente distinta. Pero el reto mayor era operativo: ¿cómo mantiene un equipo pequeño la coherencia de marca cuando no hay diseñador en la sala? La respuesta fue codificar la marca en el propio entorno. Las reglas de diseño, las pautas de componentes y los patrones de animación viven como archivos estructurados — el tipo de cosa que una IA puede leer, comprobar y hacer cumplir. Los agentes revisan el trabajo antes de que salga. Un sistema compartido construido sobre shadcn da a todos una base para prototipar y construir. El resultado: una persona de marketing puede escribir un artículo, un desarrollador puede añadir una página nueva, y el resultado parece salido de la misma mano — porque las reglas están haciendo el trabajo.",
+      en: "KT360 is an early-stage startup in a saturated AI market. The brand strategy: look nothing like AI. Playful, human, deliberately distinct. The harder problem was operational — how does a small team stay on-brand when no designer sits in the room? We encoded the brand into the environment itself. Design rules, component guidelines, and animation patterns live as structured files an AI can read, check against, and enforce; agents review work before it ships. A shared system built on shadcn gives everyone a foundation to prototype and build from. The result: a marketer can write a blog post, a developer can ship a new page, and the output looks like it came from the same hand — because the rules are doing the work.",
+      es: "KT360 es una startup en fase inicial dentro de un mercado de IA saturado. La estrategia de marca: no parecerse en nada a la IA. Juguetona, humana, deliberadamente distinta. El reto más complicado era operativo: ¿cómo mantiene la coherencia de marca un equipo pequeño cuando no hay ningún diseñador en la sala? Hemos codificado la marca dentro del propio entorno. Las reglas de diseño, las pautas de componentes y los patrones de animación viven como archivos estructurados que una IA puede leer, comprobar y hacer cumplir; los agentes revisan el trabajo antes de que se publique. Un sistema compartido construido sobre shadcn ofrece al equipo una base sobre la que prototipar y construir. El resultado: una persona de marketing puede escribir un artículo, un desarrollador puede sacar al aire una página nueva, y el resultado parece salido de la misma mano, porque son las reglas las que están haciendo el trabajo.",
     },
     role: {
       en: "Freelance Designer & AI Builder",
@@ -499,20 +630,36 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "Treat motion the way you treat color",
             es: "Trata el movimiento como tratas el color",
           },
-          body: {
-            en: [
-              "On most teams, motion is the last thing the designer hands over and the first thing the developer simplifies. The brand has a font, a color, a spacing scale — and then every animation gets eyeballed in CSS at the end. Surfaces drift in feel even when they look identical at rest.",
-              "Motion is just decisions about curves and times. Decisions are what the token system already encodes for everything else. If a marketer or a developer adding a new page reaches into the token registry instead of writing an `ease-in-out 200ms` from memory, the brand stops fraying at the edges.",
-              "Two motion-token tables in the KT360 rulebook. Timing — values like `motion.duration.fast` (~160ms), `motion.duration.base` (~240ms), `motion.duration.slow` (~400ms). Easing — keys like `motion.ease.out-soft` for entrances, `motion.ease.in-firm` for exits, `motion.ease.spring-snap` for things that should feel alive. Every component reaches into these by name, and the rulebook tells the AI which token a given interaction belongs to. The same easing carries from a button hover to a modal entrance to a toast — because the token is what got copied, not the value.",
-              "This is the part of the system that earns its keep on the long tail. Year one nobody notices. Year three, the brand still feels the way the founder remembers it feeling, because the motion didn't drift.",
-            ],
-            es: [
-              "En la mayoría de los equipos, el movimiento es lo último que el diseñador entrega y lo primero que el desarrollador simplifica. La marca tiene una tipografía, un color, una escala de espaciado — y luego cada animación se calcula a ojo en CSS al final. Las superficies se desvían en sensación incluso cuando se ven idénticas en reposo.",
-              "El movimiento son solo decisiones sobre curvas y tiempos. Las decisiones son lo que el sistema de tokens ya codifica para todo lo demás. Si una persona de marketing o un desarrollador que añade una página nueva mete la mano en el registro de tokens en lugar de escribir un `ease-in-out 200ms` de memoria, la marca deja de deshilacharse por los bordes.",
-              "Dos tablas de tokens de movimiento en el manual de KT360. Tiempos — valores como `motion.duration.fast` (~160ms), `motion.duration.base` (~240ms), `motion.duration.slow` (~400ms). Easing — claves como `motion.ease.out-soft` para entradas, `motion.ease.in-firm` para salidas, `motion.ease.spring-snap` para cosas que deben sentirse vivas. Cada componente entra en estos por nombre, y el manual le dice a la IA qué token corresponde a una interacción dada. El mismo easing pasa de un hover de botón a la entrada de un modal a un toast — porque lo que se copió fue el token, no el valor.",
-              "Esta es la parte del sistema que se justifica en el largo plazo. El año uno nadie se da cuenta. El año tres, la marca sigue sintiéndose como el fundador la recuerda sintiéndose, porque el movimiento no se ha desviado.",
-            ],
-          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "On most teams, motion is the last thing the designer hands over and the first thing the developer simplifies. The brand has a font, a color, a spacing scale — and then every animation gets eyeballed in CSS at the end. Surfaces drift in feel even when they look identical at rest.",
+                es: "En la mayoría de equipos, el movimiento es lo último que entrega el diseñador y lo primero que simplifica el desarrollador. La marca tiene tipografía, color y escala de espaciado, y luego cada animación se ajusta a ojo en el CSS final. Las superficies acaban desviándose en sensación, aunque a primera vista parezcan idénticas en reposo.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Treated motion the way the system already treats color and spacing — as decisions about curves and times, not as decoration. Built two motion-token tables inside the KT360 rulebook.",
+                es: "Hemos tratado el movimiento igual que el sistema trata el color y el espaciado: como decisiones sobre curvas y tiempos, no como decoración. Hemos creado dos tablas de tokens de movimiento dentro del manual de KT360.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "Timing tokens like `motion.duration.fast` (~160ms), `motion.duration.base` (~240ms), `motion.duration.slow` (~400ms). Easing tokens like `motion.ease.out-soft` for entrances, `motion.ease.in-firm` for exits, `motion.ease.spring-snap` for things that should feel alive. Every component reaches in by name, and the rulebook tells the AI which token a given interaction belongs to.",
+                es: "Tokens de tiempo: `motion.duration.fast` (~160 ms), `motion.duration.base` (~240 ms), `motion.duration.slow` (~400 ms). Tokens de easing: `motion.ease.out-soft` para las entradas, `motion.ease.in-firm` para las salidas y `motion.ease.spring-snap` para lo que tiene que sentirse con vida propia. Cada componente accede a estos tokens por nombre, y el manual le indica a la IA qué token corresponde a cada tipo de interacción.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "The same easing carries from a button hover to a modal entrance to a toast — because what got copied is the token, not the value. Year one nobody notices. Year three the brand still feels the way the founder remembers it feeling, because the motion didn't drift.",
+                es: "El mismo easing pasa del hover de un botón a la entrada de un modal y, de ahí, a un toast: lo que se copia es el token, no el valor. El primer año nadie lo nota. El tercer año, la marca sigue transmitiendo la sensación que el fundador recuerda haber creado, porque el movimiento no se ha desviado.",
+              },
+            },
+          ],
         },
         animation: "motion-tokens",
       },

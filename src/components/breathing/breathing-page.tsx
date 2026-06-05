@@ -62,7 +62,11 @@ export function BreathingPage() {
 
       <div className="flex min-h-80 items-center justify-center">
         {selected ? (
-          <BreathingBall key={selected.id} exercise={selected} running={running} />
+          <BreathingBall
+            key={selected.id}
+            exercise={selected}
+            running={running}
+          />
         ) : (
           <p className="text-muted-foreground font-mono text-sm">
             Press Randomize to begin.

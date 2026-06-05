@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
 
 import { GLYPHS } from "@/components/motion/glyphs";
-import { Badge } from "@/components/ui/badge";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
-import { useIsMobile } from "@/lib/hooks";
 import { pick, useLang } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
-const AUTHOR = "Richard Griner";
+
+const BENTO_CLASS = {
+  square: "md:col-span-1 md:row-span-1",
+  tall: "md:col-span-1 md:row-span-2",
+  wide: "md:col-span-2 md:row-span-1",
+} as const;
 
 function formatDate(item: WorkItem, locale: string): string {
   if (item.date) {
@@ -31,23 +33,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const { lang } = useLang();
   const Glyph = GLYPHS[item.glyph];
   const locale = lang === "es" ? "es-ES" : "en-US";
-  const isMobile = useIsMobile();
-  const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
-
-  useEffect(() => {
-    if (!isMobile) return;
-    const SHOW = 2200;
-    const HIDE = 1200;
-    let timer: ReturnType<typeof setTimeout>;
-    function cycle(current: "idle" | "hover") {
-      const next = current === "idle" ? "hover" : "idle";
-      const delay = current === "idle" ? SHOW : HIDE;
-      setMobileVariant(next);
-      timer = setTimeout(() => cycle(next), delay);
-    }
-    timer = setTimeout(() => cycle("idle"), 600);
-    return () => clearTimeout(timer);
-  }, [isMobile]);
+  const bentoClass = BENTO_CLASS[item.bento ?? "square"];
 
   return (
     <motion.div
@@ -55,30 +41,26 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: index * 0.07, ease: EASE }}
+      className={bentoClass}
     >
       <Link href={item.href} className="group flex flex-col gap-4">
-        <motion.div
-          className="bg-muted/50 relative flex aspect-[16/10] items-center justify-center overflow-hidden rounded-2xl"
-          initial="rest"
-          whileHover={!isMobile ? "hover" : undefined}
-          animate={isMobile ? mobileVariant : "rest"}
+        {/* Thumbnail */}
+        <div
+          style={item.bgColor ? { backgroundColor: item.bgColor } : undefined}
+          className="bg-card border-border duration-base ease-out-soft relative aspect-square overflow-hidden rounded-2xl border transition-all group-hover:-translate-y-1 group-hover:scale-[1.02] group-hover:shadow-lg"
         >
-          <Glyph />
-          <div className="absolute top-4 left-4">
-            <Badge variant="outline" className="bg-background/70 backdrop-blur">
-              {pick(KIND_LABELS[item.kind], lang)}
-            </Badge>
+          <div className="absolute inset-2 flex items-center justify-center">
+            <Glyph active />
           </div>
-        </motion.div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-foreground font-display text-xl font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
+        </div>
+
+        {/* Text below */}
+        <div className="flex flex-col gap-1">
+          <h3 className="text-foreground font-display text-base font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
             {pick(item.title, lang)}
           </h3>
-          <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
-            {pick(item.description, lang)}
-          </p>
-          <div className="text-muted-foreground mt-2 font-mono text-xs tracking-wider">
-            {AUTHOR} · {formatDate(item, locale)}
+          <div className="text-muted-foreground font-mono text-xs tracking-wider">
+            {pick(KIND_LABELS[item.kind], lang)} · {formatDate(item, locale)}
           </div>
         </div>
       </Link>

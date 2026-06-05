@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 
 const ROWS = [12, 24, 36];
 
-export function BrandRulesGlyph() {
+export function BrandRulesGlyph(_props?: { active?: boolean }) {
   return (
     <svg
       viewBox="0 0 56 48"

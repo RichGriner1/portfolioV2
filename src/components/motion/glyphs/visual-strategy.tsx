@@ -11,7 +11,7 @@ const BLOCKS = [
 
 const DELAYS = [0, 0.08, 0.14, 0.2];
 
-export function VisualStrategyGlyph() {
+export function VisualStrategyGlyph(_props?: { active?: boolean }) {
   return (
     <svg
       viewBox="0 0 60 56"

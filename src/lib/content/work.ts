@@ -15,7 +15,11 @@ export type GlyphKey =
   | "brand-rules"
   | "migration"
   | "wordpress-shell"
-  | "breathing";
+  | "breathing"
+  | "palette"
+  | "canvas"
+  | "mindfulme"
+  | "typo-trail";
 
 export type WorkItem = {
   slug: string;
@@ -27,6 +31,8 @@ export type WorkItem = {
   kind: WorkKind;
   href: string;
   glyph: GlyphKey;
+  bento?: "square" | "tall" | "wide";
+  bgColor?: string;
   featured?: boolean;
   revamp?: boolean;
   hidden?: boolean;
@@ -40,28 +46,32 @@ export const WORK: WorkItem[] = [
       es: "Sistema de diseño de Afi",
     },
     description: {
-      en: "Building a unified design system and AI-powered platform for a fintech consultancy — from scattered docs to scalable white-label infrastructure.",
-      es: "Construyendo un sistema de diseño unificado y una plataforma impulsada por IA para una consultora fintech — de documentación dispersa a una infraestructura white-label escalable.",
+      en: "White label design system Figma plus vibe coding prototype environment, brand changes via tokens.",
+      // TODO(afi-redaccion)
+      es: "Sistema de diseño white-label de Figma más entorno de prototipado vibe-coded, cambios de marca a través de tokens.",
     },
     year: 2026,
     type: "design-system",
     kind: "case-study",
     href: "/work/afi-design-system",
-    glyph: "design-system",
+    glyph: "palette",
+    bento: "square",
     featured: true,
   },
   {
     slug: "kt360",
-    title: { en: "KT360", es: "KT360" },
+    title: { en: "KnowThyself360", es: "KnowThyself360" },
     description: {
-      en: "Brand strategy, design rules, and an AI-powered system that lets non-technical people ship consistent, high-quality work.",
-      es: "Estrategia de marca, reglas de diseño y un sistema impulsado por IA que permite a personas sin perfil técnico lanzar trabajo consistente y de calidad.",
+      en: "A shared environment for non-technical people to push changes and ship live.",
+      // TODO(afi-redaccion)
+      es: "Un entorno compartido para personas no técnicas para subir cambios y lanzar en vivo.",
     },
     year: 2025,
     type: "brand-ds",
     kind: "case-study",
     href: "/work/kt360",
-    glyph: "brand-rules",
+    glyph: "canvas",
+    bento: "square",
   },
   {
     slug: "audemic-growth",
@@ -88,26 +98,30 @@ export const WORK: WorkItem[] = [
     type: "brand-ds",
     kind: "case-study",
     href: "/work/mindfulme",
-    glyph: "visual-strategy",
-    hidden: true,
+    glyph: "mindfulme",
+    bento: "square",
+    bgColor: "#e6f5f6",
   },
   {
     slug: "design-md-primeng-wealth-manager",
     title: {
-      en: "Writing the rulebook PrimeNG doesn't ship with",
-      es: "Escribiendo el manual de reglas que PrimeNG no incluye",
+      en: "Creating a design.md",
+      // TODO(afi-redaccion)
+      es: "Creando un design.md",
     },
     description: {
-      en: "A design.md for our Wealth Manager product — how I closed the Figma/code drift and taught AI agents to generate correct UI.",
-      es: "Un design.md para nuestro producto Wealth Manager — cómo cerré el desfase entre Figma y código y enseñé a los agentes de IA a generar la UI correcta.",
+      en: "Markdown rulebook AI agents read to generate Wealth Manager UI, closing Figma to code drift.",
+      // TODO(afi-redaccion)
+      es: "Manual en markdown que los agentes de IA leen para generar la UI de Wealth Manager, cerrando el desfase entre Figma y código.",
     },
     year: 2026,
     date: "2026-04-23",
     type: "writing",
     kind: "process",
     href: "/writing/design-md-primeng-wealth-manager",
-    glyph: "migration",
-    hidden: true,
+    glyph: "typo-trail",
+    bento: "square",
+    bgColor: "#ff7cba",
   },
   {
     slug: "page-layout-template",

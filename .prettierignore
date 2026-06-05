@@ -4,3 +4,4 @@ public
 package-lock.json
 *.md
 content/journal
+src/components/motion/glyphs/*.lottie.json

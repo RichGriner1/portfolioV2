@@ -66,7 +66,7 @@ export function CaseStudyPage({ item, study }: Props) {
             </p>
           )}
 
-          <CaseStudyBento cards={study.bento} />
+          <CaseStudyBento cards={study.bento} gallery={study.gallery} />
         </>
       ) : (
         <>

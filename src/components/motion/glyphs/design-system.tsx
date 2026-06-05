@@ -27,12 +27,12 @@ const BOTTOM_LINES = [
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
-export function DesignSystemGlyph() {
+export function DesignSystemGlyph(_props?: { active?: boolean }) {
   return (
     <svg
       viewBox="0 0 80 60"
       fill="none"
-      className="text-foreground h-28 w-28"
+      className="text-foreground h-24 w-24"
       aria-hidden
     >
       {TOP_LINES.map((l, i) => (

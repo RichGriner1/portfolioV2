@@ -754,7 +754,7 @@ const BANKS = [
   { name: "Bankinter", color: "#FF6B35" },
 ];
 
-function PaletteAnimation({ active: activeProp }: AnimationProps) {
+export function PaletteAnimation({ active: activeProp }: AnimationProps) {
   const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
@@ -1367,7 +1367,10 @@ type GitPhase = "clone" | "files" | "preview" | "published";
 const GIT_CMD = "git clone kt360-env";
 const FILE_TREE = ["src/", "components/", "globals.css", "README.md"];
 
-function CanvasAnimation({ active }: AnimationProps) {
+export function CanvasAnimation({
+  active,
+  tall = false,
+}: AnimationProps & { tall?: boolean }) {
   const [phase, setPhase] = useState<GitPhase>("published");
   const [chars, setChars] = useState(0);
 
@@ -1409,63 +1412,157 @@ function CanvasAnimation({ active }: AnimationProps) {
   }, [active]);
 
   return (
-    <div className="w-full px-1">
+    <div className="flex w-full flex-1 flex-col px-1">
       <AnimatePresence mode="wait">
-        {phase === "clone" && (
-          <motion.div
-            key="clone"
-            className="bg-foreground/5 border-border rounded-lg border px-3 py-2.5 font-mono text-[10px]"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
-          >
-            <span className="text-muted-foreground">$ </span>
-            <span className="text-foreground">{GIT_CMD.slice(0, chars)}</span>
-            <motion.span
-              className="bg-foreground inline-block h-[10px] w-[1px] align-middle"
-              animate={{ opacity: [1, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity }}
-            />
-          </motion.div>
-        )}
-
-        {phase === "files" && (
-          <motion.div
-            key="files"
-            className="flex flex-col gap-1 font-mono text-[10px]"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
-          >
-            <span className="text-foreground font-medium">kt360-env/</span>
-            {FILE_TREE.map((f, i) => (
-              <motion.div
-                key={f}
-                className="text-muted-foreground flex items-center gap-1.5 pl-3"
-                initial={{ opacity: 0, x: -4 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.1, ease: EASE_SOFT }}
+        {phase === "clone" &&
+          (tall ? (
+            <motion.div
+              key="clone"
+              className="border-border flex flex-1 flex-col overflow-hidden rounded-lg border"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            >
+              <div className="border-border bg-foreground/5 relative flex items-center border-b px-2 py-1.5">
+                <div className="flex gap-1.5">
+                  {["bg-red-400", "bg-yellow-400", "bg-green-400"].map(
+                    (c, i) => (
+                      <div
+                        key={i}
+                        className={`${c} h-2 w-2 rounded-full opacity-60`}
+                      />
+                    )
+                  )}
+                </div>
+                <div className="text-muted-foreground absolute left-1/2 -translate-x-1/2 font-mono text-[8px]">
+                  kt360-env — bash
+                </div>
+              </div>
+              <div
+                className="flex flex-1 items-center px-3 font-mono text-[10px]"
+                style={{ backgroundColor: "#1e1e1e", color: "#e0e0e0" }}
               >
-                <span className="text-border">├</span>
-                <span>{f}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
+                <span style={{ color: "#7ec699" }}>$ </span>
+                <span>{GIT_CMD.slice(0, chars)}</span>
+                <motion.span
+                  className="ml-[1px] inline-block h-[10px] w-[1px] align-middle"
+                  style={{ backgroundColor: "#e0e0e0" }}
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.6, repeat: Infinity }}
+                />
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="clone"
+              className="bg-foreground/5 border-border rounded-lg border px-3 py-2.5 font-mono text-[10px]"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            >
+              <span className="text-muted-foreground">$ </span>
+              <span className="text-foreground">{GIT_CMD.slice(0, chars)}</span>
+              <motion.span
+                className="bg-foreground inline-block h-[10px] w-[1px] align-middle"
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.6, repeat: Infinity }}
+              />
+            </motion.div>
+          ))}
+
+        {phase === "files" &&
+          (tall ? (
+            <motion.div
+              key="files"
+              className="border-border flex flex-1 flex-col overflow-hidden rounded-lg border"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            >
+              <div className="border-border bg-foreground/5 relative flex items-center border-b px-2 py-1.5">
+                <div className="flex gap-1.5">
+                  {["bg-red-400", "bg-yellow-400", "bg-green-400"].map(
+                    (c, i) => (
+                      <div
+                        key={i}
+                        className={`${c} h-2 w-2 rounded-full opacity-60`}
+                      />
+                    )
+                  )}
+                </div>
+                <div className="text-muted-foreground absolute left-1/2 -translate-x-1/2 font-mono text-[8px]">
+                  kt360-env — bash
+                </div>
+              </div>
+              <div
+                className="flex flex-1 flex-col justify-center px-3 font-mono text-[10px]"
+                style={{ backgroundColor: "#1e1e1e", color: "#e0e0e0" }}
+              >
+                <span style={{ color: "#e0e0e0" }} className="font-medium">
+                  kt360-env/
+                </span>
+                {FILE_TREE.map((f, i) => (
+                  <motion.div
+                    key={f}
+                    className="flex items-center gap-1.5 pl-3"
+                    style={{ color: "#a0a0a0" }}
+                    initial={{ opacity: 0, x: -4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: i * 0.1,
+                      ease: EASE_SOFT,
+                    }}
+                  >
+                    <span style={{ color: "#666" }}>├</span>
+                    <span>{f}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="files"
+              className="flex flex-col gap-1 font-mono text-[10px]"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.4, ease: EASE_SOFT }}
+            >
+              <span className="text-foreground font-medium">kt360-env/</span>
+              {FILE_TREE.map((f, i) => (
+                <motion.div
+                  key={f}
+                  className="text-muted-foreground flex items-center gap-1.5 pl-3"
+                  initial={{ opacity: 0, x: -4 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.35,
+                    delay: i * 0.1,
+                    ease: EASE_SOFT,
+                  }}
+                >
+                  <span className="text-border">├</span>
+                  <span>{f}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+          ))}
 
         {phase === "preview" && (
           <motion.div
             key="preview"
-            className="border-border overflow-hidden rounded-lg border"
-            style={{ height: 88 }}
+            className={`border-border overflow-hidden rounded-lg border ${tall ? "flex-1" : ""}`}
+            style={tall ? undefined : { height: 88 }}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
-            <div className="border-border flex items-center gap-1.5 border-b px-2 py-1.5">
+            <div className="border-border flex shrink-0 items-center gap-1.5 border-b px-2 py-1.5">
               {["bg-red-400", "bg-yellow-400", "bg-green-400"].map((c, i) => (
                 <div
                   key={i}
@@ -1476,15 +1573,21 @@ function CanvasAnimation({ active }: AnimationProps) {
                 localhost:3000
               </div>
             </div>
-            <div className="flex flex-col gap-1.5 p-2">
+            <div
+              className={`flex flex-col ${tall ? "flex-1 gap-3 p-3" : "gap-1.5 p-2"}`}
+            >
               <div
-                className="h-2 w-16 rounded-full"
+                className={`${tall ? "h-3" : "h-2"} w-16 rounded-full`}
                 style={{ backgroundColor: "#5e5eed", opacity: 0.8 }}
               />
-              <div className="bg-muted h-1.5 w-full rounded-full opacity-40" />
-              <div className="bg-muted h-1.5 w-4/5 rounded-full opacity-30" />
               <div
-                className="mt-0.5 inline-flex rounded-md px-2 py-0.5 font-mono text-[8px] font-medium text-white"
+                className={`bg-muted ${tall ? "h-2" : "h-1.5"} w-full rounded-full opacity-40`}
+              />
+              <div
+                className={`bg-muted ${tall ? "h-2" : "h-1.5"} w-4/5 rounded-full opacity-30`}
+              />
+              <div
+                className={`mt-0.5 inline-flex rounded-md px-2 py-0.5 font-mono text-[8px] font-medium text-white ${tall ? "h-3" : "h-2"} items-center`}
                 style={{ backgroundColor: "#5e5eed" }}
               >
                 Get started
@@ -1496,27 +1599,31 @@ function CanvasAnimation({ active }: AnimationProps) {
         {phase === "published" && (
           <motion.div
             key="published"
-            className="flex flex-col items-center justify-center gap-1.5 rounded-lg px-3 py-4"
-            style={{ backgroundColor: "#5e5eed12", height: 88 }}
+            className={`flex flex-col items-center justify-center gap-1.5 rounded-lg px-3 ${tall ? "flex-1 py-6" : "py-4"}`}
+            style={
+              tall
+                ? { backgroundColor: "#5e5eed12" }
+                : { backgroundColor: "#5e5eed12", height: 88 }
+            }
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ opacity: 0, y: -6 }}
             transition={SPRING_SOFT}
           >
             <span
-              className="text-2xl leading-none"
+              className={`${tall ? "text-5xl" : "text-2xl"} leading-none`}
               style={{ color: "#5e5eed" }}
             >
               ✓
             </span>
             <span
-              className="font-mono text-[11px] font-medium"
+              className={`font-mono ${tall ? "text-sm" : "text-[11px]"} font-medium`}
               style={{ color: "#5e5eed" }}
             >
               Deployed
             </span>
             <span
-              className="font-mono text-[8px]"
+              className={`font-mono ${tall ? "text-xs" : "text-[8px]"}`}
               style={{ color: "#5e5eed", opacity: 0.7 }}
             >
               kt360-env → production
@@ -3572,7 +3679,7 @@ function MotionTokensAnimation({ active }: AnimationProps) {
 }
 
 const ANIMATIONS: Record<
-  BentoCard["animation"],
+  NonNullable<BentoCard["animation"]>,
   (props: AnimationProps) => JSX.Element
 > = {
   layers: LayersAnimation,
@@ -3604,9 +3711,15 @@ const ANIMATIONS: Record<
   "motion-tokens": MotionTokensAnimation,
 };
 
-function BentoCardItem({ card }: { card: BentoCard }) {
+function BentoCardItem({
+  card,
+  gallery,
+}: {
+  card: BentoCard;
+  gallery?: boolean;
+}) {
   const { lang } = useLang();
-  const Animation = ANIMATIONS[card.animation];
+  const Animation = card.animation ? ANIMATIONS[card.animation] : null;
   const [active, setActive] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -3629,22 +3742,47 @@ function BentoCardItem({ card }: { card: BentoCard }) {
 
   const inner = (
     <>
-      <div className="flex min-h-[120px] flex-1 items-center justify-center">
-        <Animation active={isMobile ? mobileVariant === "hover" : active} />
+      <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
+        {card.images && card.images.length > 0 ? (
+          <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">
+            {card.images.map((src, i) => (
+              <div
+                key={i}
+                className="bg-muted/40 flex items-center justify-center overflow-hidden rounded-lg"
+              >
+                <img
+                  src={src}
+                  alt=""
+                  className="duration-slow ease-out-soft h-full w-full object-cover transition-transform group-hover:scale-[1.05]"
+                />
+              </div>
+            ))}
+          </div>
+        ) : card.image ? (
+          <img
+            src={card.image}
+            alt={pick(card.label, lang)}
+            className="duration-slow ease-out-soft h-full w-full object-contain transition-transform group-hover:scale-[1.03]"
+          />
+        ) : Animation ? (
+          <Animation active={isMobile ? mobileVariant === "hover" : active} />
+        ) : null}
       </div>
-      <div className="flex flex-col gap-0.5 text-left">
-        <span className="text-foreground text-sm font-medium">
-          {pick(card.label, lang)}
-        </span>
-        <span className="text-muted-foreground text-xs">
-          {pick(card.sublabel, lang)}
-        </span>
-      </div>
+      {gallery ? null : (
+        <div className="flex flex-col gap-0.5 text-left">
+          <span className="text-foreground text-sm font-medium">
+            {pick(card.label, lang)}
+          </span>
+          <span className="text-muted-foreground text-xs">
+            {pick(card.sublabel, lang)}
+          </span>
+        </div>
+      )}
     </>
   );
 
   const baseClass =
-    "bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5";
+    "group bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5";
 
   if (card.details) {
     return (
@@ -3693,7 +3831,13 @@ function BentoCardItem({ card }: { card: BentoCard }) {
   );
 }
 
-export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
+export function CaseStudyBento({
+  cards,
+  gallery,
+}: {
+  cards: BentoCard[];
+  gallery?: boolean;
+}) {
   const hasTall = cards.some((c) => c.span === "tall");
 
   if (hasTall) {
@@ -3715,7 +3859,7 @@ export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
             >
-              <BentoCardItem card={card} />
+              <BentoCardItem card={card} gallery={gallery} />
             </motion.div>
           );
         })}
@@ -3734,7 +3878,7 @@ export function CaseStudyBento({ cards }: { cards: BentoCard[] }) {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
         >
-          <BentoCardItem card={card} />
+          <BentoCardItem card={card} gallery={gallery} />
         </motion.div>
       ))}
     </div>

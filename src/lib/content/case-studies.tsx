@@ -93,6 +93,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     bento: [
       {
         label: {
+          en: "Playground — try the live component",
+          es: "Playground — prueba el componente en vivo",
+        },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Hover, focus, click — see for yourself how the tokens hold the design language together.",
+          es: "Hover, focus, clic — comprueba tú mismo cómo los tokens mantienen unido el lenguaje de diseño.",
+        },
+        iframe:
+          "https://coherence-wealth-manager.vercel.app/componentes/button",
+        span: "wide",
+      },
+      {
+        label: {
           en: "Unified Design Platform",
           es: "Plataforma de diseño unificada",
         },
@@ -468,20 +482,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
         animation: "port-diff",
-      },
-      {
-        label: {
-          en: "AI as a teammate — play with the live component",
-          es: "La IA como compañera — prueba el componente en directo",
-        },
-        // TODO(afi-redaccion)
-        sublabel: {
-          en: "The Button component, deployed from the same rulebook the AI agents read. Try a hover, focus, disabled state — the tokens enforce the design language without a human in the loop.",
-          es: "El componente Button, desplegado desde el mismo manual que leen los agentes de IA. Prueba un hover, un focus, un estado disabled — los tokens hacen cumplir el lenguaje de diseño sin que tenga que intervenir nadie.",
-        },
-        iframe:
-          "https://coherence-wealth-manager.vercel.app/componentes/button",
-        span: "wide",
       },
     ],
   },

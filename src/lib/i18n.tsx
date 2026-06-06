@@ -87,6 +87,7 @@ export const UI = {
   "cv.location": { en: "Madrid, Spain", es: "Madrid, España" },
   "work.back": { en: "← back", es: "← volver" },
   "work.role": { en: "Role", es: "Rol" },
+  "work.ongoing": { en: "Ongoing", es: "En curso" },
   "work.contribution": { en: "Contribution", es: "Contribución" },
   "work.view_case_study": {
     en: "View case study →",

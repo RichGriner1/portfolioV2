@@ -36,6 +36,7 @@ export type WorkItem = {
   featured?: boolean;
   revamp?: boolean;
   hidden?: boolean;
+  ongoing?: boolean;
 };
 
 export const WORK: WorkItem[] = [
@@ -57,6 +58,7 @@ export const WORK: WorkItem[] = [
     glyph: "palette",
     bento: "square",
     featured: true,
+    ongoing: true,
   },
   {
     slug: "kt360",

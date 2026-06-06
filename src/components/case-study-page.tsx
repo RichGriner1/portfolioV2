@@ -28,8 +28,19 @@ export function CaseStudyPage({ item, study }: Props) {
         <>
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
             <div className="flex flex-col gap-3">
-              <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                {item.year}
+              <div className="flex items-center gap-2">
+                <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+                  {item.year}
+                </div>
+                {item.ongoing && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-emerald-700 uppercase dark:text-emerald-400">
+                    <span className="relative flex size-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                      <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+                    </span>
+                    {t("work.ongoing", lang)}
+                  </span>
+                )}
               </div>
               <h1 className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
                 {pick(item.title, lang)}{" "}
@@ -71,8 +82,19 @@ export function CaseStudyPage({ item, study }: Props) {
       ) : (
         <>
           <header className="flex flex-col gap-3">
-            <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-              {item.year}
+            <div className="flex items-center gap-2">
+              <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+                {item.year}
+              </div>
+              {item.ongoing && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-emerald-700 uppercase dark:text-emerald-400">
+                  <span className="relative flex size-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                    <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+                  </span>
+                  {t("work.ongoing", lang)}
+                </span>
+              )}
             </div>
             <h1 className="font-display text-4xl tracking-tight sm:text-5xl">
               {pick(item.title, lang)}

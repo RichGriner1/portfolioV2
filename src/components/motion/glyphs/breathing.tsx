@@ -12,12 +12,12 @@ const RINGS = [
   { r: 22, hoverR: 28, restOpacity: 0.2, hoverOpacity: 0.45 },
 ];
 
-export function BreathingGlyph() {
+export function BreathingGlyph(_props?: { active?: boolean }) {
   return (
     <svg
       viewBox="0 0 80 60"
       fill="none"
-      className="text-foreground h-28 w-28"
+      className="text-foreground h-24 w-24"
       aria-hidden
     >
       {/* Center dot */}

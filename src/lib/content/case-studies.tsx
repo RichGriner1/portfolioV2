@@ -13,7 +13,9 @@ export type BentoCard = {
     heading: Bilingual<string>;
     sections: DetailSection[];
   };
-  animation:
+  image?: string;
+  images?: string[];
+  animation?:
     | "layers"
     | "nodes"
     | "moodboard"
@@ -50,6 +52,7 @@ export type CaseStudy = {
   contributions: Bilingual<string[]>;
   bento: BentoCard[];
   confidential?: Bilingual<string>;
+  gallery?: boolean;
 };
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
@@ -744,13 +747,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
   },
   mindfulme: {
+    gallery: true,
+    // TODO(afi-redaccion)
     tagline: {
-      en: "A mindfulness MVP that treats each journey as unique",
-      es: "Un MVP de mindfulness que trata cada camino como único",
+      en: "An AI-powered meditation app, personal to each user's journey",
+      es: "Una app de meditación con IA, personal para el camino de cada usuario",
     },
+    // TODO(afi-redaccion)
     intro: {
-      en: "Young professionals keep bouncing off mindfulness apps because every one of them looks and sounds the same — calming greens, a meditation library, a timer. Mindfulme hired me to design the MVP's brand and experience from scratch: no brand yet, two ready-to-code developers, and user feedback as the rawest input we had. The work started with listening, turned into a hand-crafted visual language of organic shapes and script affirmations, and shipped as a tight MVP that the two devs could build alongside the design. The throughline: a mindfulness practice that echoes the person, not the industry.",
-      es: "Los jóvenes profesionales siguen rebotando de las apps de mindfulness porque todas tienen la misma imagen y el mismo tono — verdes calmantes, una biblioteca de meditaciones, un temporizador. Mindfulme me contrató para diseñar desde cero la marca y la experiencia del MVP: sin marca todavía, dos desarrolladores listos para escribir código y el feedback de los usuarios como el insumo más en bruto que teníamos. El trabajo empezó escuchando, se convirtió en un lenguaje visual hecho a mano con formas orgánicas y afirmaciones caligráficas, y se lanzó como un MVP ajustado que los dos desarrolladores podían construir en paralelo al diseño. El hilo conductor: una práctica de mindfulness que refleja a la persona, no a la industria.",
+      en: "Chinwuba brought the idea to life through a website where users could generate affirmations aligned with their goals — delivered as audio guides with actionable tips. Early users found value but craved more: editing, saving, building their own libraries. The challenge: people bounce off mindfulness apps because every solution looks the same — generic categories, generic meditations, none of which echo the unique journey of the individual. Mindfulme uses AI to craft personalized meditations and affirmations that evolve with each user, refining its understanding with every interaction.",
+      es: "Chinwuba dio vida a la idea con una web donde los usuarios podían generar afirmaciones alineadas con sus objetivos — entregadas como guías de audio con consejos accionables. Los primeros usuarios veían valor pero querían más: editar, guardar, construir su propia biblioteca. El reto: la gente rebota de las apps de mindfulness porque todas las soluciones se parecen — categorías genéricas, meditaciones genéricas, ninguna refleja el camino único de la persona. Mindfulme usa IA para crear meditaciones y afirmaciones personalizadas que evolucionan con cada usuario, refinando su comprensión con cada interacción.",
     },
     role: {
       en: "Freelance Designer & Product Lead",
@@ -768,48 +774,103 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     bento: [
       {
         label: {
-          en: "Every Journey is Different",
-          es: "Cada camino es distinto",
+          en: "A mindfulness app that meets you where you are",
+          es: "Una app de mindfulness que te encuentra donde estás",
         },
+        // TODO(afi-redaccion)
         sublabel: {
-          en: "A brand built around the idea that no two mindfulness paths look alike",
-          es: "Una marca construida sobre la idea de que no hay dos caminos de mindfulness iguales",
+          en: "Built around personal journeys, not generic categories — AI personalizes meditation and affirmations for each user",
+          es: "Construida alrededor de los caminos personales, no de categorías genéricas — la IA personaliza meditaciones y afirmaciones para cada persona",
         },
-        animation: "journey-scene",
+        image: "/mindfulme/screens/poster.jpg",
         span: "wide",
       },
       {
-        label: {
-          en: "Affirmations that Evolve",
-          es: "Afirmaciones que evolucionan",
-        },
+        label: { en: "Five focus areas", es: "Cinco áreas de enfoque" },
+        // TODO(afi-redaccion)
         sublabel: {
-          en: "Hand-lettered words that change with the user",
-          es: "Palabras caligrafiadas a mano que cambian con el usuario",
+          en: "Mental Health, Physical Health, Finance, Career — each with its own visual language",
+          es: "Salud mental, salud física, finanzas, carrera — cada una con su propio lenguaje visual",
         },
-        animation: "affirmation-morph",
+        images: [
+          "/mindfulme/mental-health.svg",
+          "/mindfulme/physical-health.svg",
+          "/mindfulme/finance.svg",
+          "/mindfulme/career.svg",
+        ],
+      },
+      {
+        label: { en: "The core experience", es: "La experiencia central" },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Home, favorites, and personalized affirmations — every screen tuned to the user's selected focuses",
+          es: "Inicio, favoritos y afirmaciones personalizadas — cada pantalla ajustada a los enfoques que la persona ha elegido",
+        },
+        image: "/mindfulme/screens/home-favorites-affirmation.png",
+        span: "wide",
+      },
+      {
+        label: { en: "Brand language", es: "Lenguaje de marca" },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Hand-drawn over sterile iconography — organic shapes, peaceful palette, genuine typography",
+          es: "Dibujado a mano frente a la iconografía estéril — formas orgánicas, paleta apacible, tipografía genuina",
+        },
+        images: [
+          "/mindfulme/challenges.svg",
+          "/mindfulme/focus.svg",
+          "/mindfulme/notifications.svg",
+          "/mindfulme/figuring-it-out.svg",
+        ],
       },
       {
         label: {
-          en: "Organic Visual Language",
-          es: "Lenguaje visual orgánico",
+          en: "Reminders, on their terms",
+          es: "Recordatorios, en sus términos",
         },
+        // TODO(afi-redaccion)
         sublabel: {
-          en: "Hand-drawn shapes over sterile iconography",
-          es: "Formas dibujadas a mano frente a iconografía estéril",
+          en: "Customizable instead of standardized — users decide when the practice fits their day",
+          es: "Personalizables, no estandarizados — la persona decide cuándo encaja la práctica en su día",
         },
-        animation: "organic-bundle",
+        image: "/mindfulme/screens/reminders-goals-adjustment.png",
       },
       {
-        label: {
-          en: "User-led iteration",
-          es: "Iteración guiada por usuarios",
-        },
+        label: { en: "Onboarding and pricing", es: "Onboarding y precios" },
+        // TODO(afi-redaccion)
         sublabel: {
-          en: "Designed alongside two developers and early users — shipped an MVP that reflected them",
-          es: "Diseñado junto a dos desarrolladores y los primeros usuarios — lanzamos un MVP que los reflejaba",
+          en: "Honest pricing alongside what users get — no dark patterns, no fake urgency",
+          es: "Precios honestos junto a lo que la persona recibe — sin patrones oscuros ni urgencia falsa",
         },
-        animation: "user-feedback",
+        image: "/mindfulme/screens/payment-howitworks.png",
+      },
+      {
+        label: { en: "Color as meaning", es: "El color como significado" },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Brand colors became functional indicators — orange is always the CTA, each category has its own hue",
+          es: "Los colores de marca se convirtieron en indicadores funcionales — el naranja es siempre el CTA, cada categoría tiene su propio tono",
+        },
+        image: "/mindfulme/screens/visual-consistency.png",
+        span: "wide",
+      },
+      {
+        label: { en: "Beyond the screen", es: "Más allá de la pantalla" },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "The visual language carries to merch and print — the brand has to live in three dimensions",
+          es: "El lenguaje visual se traslada al merchandising y al impreso — la marca tiene que vivir en tres dimensiones",
+        },
+        image: "/mindfulme/screens/tote-bag-mockup.jpg",
+      },
+      {
+        label: { en: "Technology that nurtures", es: "Tecnología que nutre" },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Mindfulme isn't another meditation tool — it's an AI companion for self-awareness, evolving with each user",
+          es: "Mindfulme no es otra herramienta de meditación más — es una compañera de IA para el autoconocimiento, que evoluciona con cada persona",
+        },
+        image: "/mindfulme/screens/conclusion.jpg",
         span: "wide",
       },
     ],

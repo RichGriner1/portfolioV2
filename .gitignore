@@ -43,3 +43,14 @@ next-env.d.ts
 # content engine — raw journal stays local & private
 /content/journal/*
 !/content/journal/.gitkeep
+
+# Source materials for case studies (not for production)
+/assets/
+/mindful me mock ups/
+/mindfulme_casestudy/
+/old_casestudy_assets/
+/growth-audit/
+
+# Personal notes
+/Because tools make competence cheap.md
+

@@ -94,8 +94,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         // TODO(afi-redaccion)
         sublabel: {
-          en: "Hover, focus, click — see for yourself how the tokens hold the design language together.",
-          es: "Hover, focus, clic — comprueba tú mismo cómo los tokens mantienen unido el lenguaje de diseño.",
+          en: "Hover, focus, click — see how the tokens hold the design language together. The rest of the system is password-protected for client work — reach out at richardgrinerdesigns@gmail.com if you want a walkthrough.",
+          es: "Hover, focus, clic — comprueba cómo los tokens mantienen unido el lenguaje de diseño. El resto del sistema está protegido por contraseña por confidencialidad del cliente — escríbeme a richardgrinerdesigns@gmail.com si quieres un recorrido.",
         },
         iframe:
           "https://coherence-wealth-manager.vercel.app/componentes/button",
@@ -384,53 +384,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
         animation: "playground",
-      },
-      {
-        label: {
-          en: "AI as a Teammate",
-          es: "La IA como compañera de equipo",
-        },
-        sublabel: {
-          en: "Same library, same docs, same review — just a new dev who reads faster",
-          es: "La misma librería, las mismas docs, la misma revisión — solo una nueva dev que lee más rápido",
-        },
-        details: {
-          heading: {
-            en: "AI didn't change the rules — it forced us to write them down",
-            es: "La IA no cambió las reglas — nos obligó a escribirlas",
-          },
-          sections: [
-            {
-              label: { en: "The problem", es: "El problema" },
-              body: {
-                en: "Early on we built primitives — button, input, select, checkbox, switch — and asked the AI to assemble a screen from them. It built a clean screen and ignored every primitive we'd shipped. The rules lived in heads and in scattered Figma annotations. They didn't exist anywhere the agent could read.",
-                es: "Al principio creamos los primitivos (botón, input, select, checkbox, switch) y pedimos a la IA que ensamblara una pantalla con ellos. Lo que devolvió fue una pantalla limpia, pero ignoraba por completo los primitivos que habíamos entregado. Las reglas vivían en nuestras cabezas y en anotaciones sueltas de Figma. No existían en ningún sitio al que el agente pudiera acceder.",
-              },
-            },
-            {
-              label: { en: "What we did", es: "Lo que hicimos" },
-              body: {
-                en: "Treated AI joining the team as the deadline for putting the rules in writing. `AGENTS.md` at the repo root carrying the current focus, where things live, the anti-patterns, the components we own. `CLAUDE.md` as a one-line redirect so every tool — Claude Code, OpenCode — opens the same page. `design.md` next to them, naming the design-side decisions a coding agent can't infer from the code alone.",
-                es: "Hemos aprovechado la llegada de la IA al equipo como fecha límite para poner las reglas por escrito. En la raíz del repositorio, `AGENTS.md` recoge el foco actual, dónde se ubica cada cosa, los antipatrones y los componentes que mantenemos. `CLAUDE.md` actúa como redirección de una sola línea para que cualquier herramienta —Claude Code, OpenCode— parta de la misma página. Y junto a ellos, `design.md`, que nombra las decisiones de diseño que un agente de código no podría deducir solo a partir del código.",
-              },
-            },
-            {
-              label: { en: "The solution", es: "La solución" },
-              body: {
-                en: "A rulebook every tool starts from. `.claude/skills/` extends it — small enforcement skills like the Spanish-writing one that fires whenever an agent produces Spanish copy, so tone stays consistent without anyone policing it.",
-                es: "Un manual del que parte cada herramienta. La carpeta `.claude/skills/` lo extiende con pequeñas skills de cumplimiento, como la de redacción en castellano, que se activa cuando un agente produce texto en español y consigue que el tono se mantenga coherente sin que nadie tenga que vigilar.",
-              },
-            },
-            {
-              label: { en: "Why it works", es: "Por qué funciona" },
-              body: {
-                en: "A human teammate might pause and check before pasting the wrong blue into an action slot. A coding agent won't. The rulebook is where the design system stops being a suggestion and becomes the floor.",
-                es: "Un compañero humano puede pararse y comprobarlo antes de pegar el azul equivocado en un slot de acción. Un agente de código, no. El manual es donde el sistema de diseño deja de ser una sugerencia y pasa a ser el suelo desde el que se construye.",
-              },
-            },
-          ],
-        },
-        animation: "ai-teammate",
       },
       {
         label: {

@@ -63,9 +63,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
     },
     intro: {
-      en: "Afi ships white-label fintech products to banks. I'm the only designer. The brief: build a system that gets sharper with every client, not slower. So we built it — three-tier tokens in Figma, one repo where designers, developers, and AI agents read the same files, and a feedback tool that pins comments to the design instead of losing them in chat. Each rollout teaches the system. AI is how the next rollout starts where the last one ended.",
+      en: "Afi ships white-label fintech products to banks. I'm the only designer. The brief: a system that gets sharper with every client, not slower. We built it — three-tier tokens in Figma, one repo where designers, developers, and AI agents read the same files, an inspector that exposes the token behind every UI element so developers code against the same variables the design uses, and a feedback tool that pins comments to the design instead of losing them in chat. Each rollout teaches the system. AI is how the next one starts where the last one ended.",
       // TODO(afi-redaccion)
-      es: "Afi desarrolla productos fintech white-label para bancos. Yo soy el único diseñador. El brief: construir un sistema que gane precisión con cada cliente, no que pierda. Y lo construimos — tokens en tres niveles dentro de Figma, un único repositorio del que leen diseñadores, desarrolladores y agentes de IA, y una herramienta que fija los comentarios sobre el diseño en lugar de perderlos en el chat. Cada proyecto le enseña algo al sistema. La IA es lo que hace que el siguiente arranque donde terminó el anterior.",
+      es: "Afi desarrolla productos fintech white-label para bancos. Yo soy el único diseñador. El brief: un sistema que gane precisión con cada cliente, no que pierda. Lo construimos — tokens en tres niveles dentro de Figma, un único repositorio del que leen diseñadores, desarrolladores y agentes de IA, un inspector que expone el token detrás de cada elemento de UI para que los desarrolladores codifiquen contra las mismas variables que usa el diseño, y una herramienta que fija los comentarios sobre el diseño en lugar de perderlos en el chat. Cada proyecto le enseña algo al sistema. La IA es lo que hace que el siguiente arranque donde terminó el anterior.",
     },
     role: {
       en: "Design Systems Lead",
@@ -294,6 +294,53 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       {
         label: {
+          en: "Token Inspector",
+          es: "Inspector de tokens",
+        },
+        sublabel: {
+          en: "Hover any component on the demo to reveal the tokens behind it — so developers code against the same variables the system enforces.",
+          es: "Pasa el cursor sobre cualquier componente en la demo para revelar los tokens que hay detrás — para que los desarrolladores codifiquen contra las mismas variables que el sistema impone.",
+        },
+        details: {
+          heading: {
+            en: "Designers and developers reading the same variable",
+            es: "Diseñadores y desarrolladores leyendo la misma variable",
+          },
+          sections: [
+            {
+              label: { en: "The problem", es: "El problema" },
+              body: {
+                en: "Developers were eyeballing colors from screenshots and approximating spacing from Figma exports. By the time a value reached production it was usually close, but never exactly the token — so the system started lying.",
+                es: "Los desarrolladores aproximaban colores desde capturas y deducían el espaciado desde exportaciones de Figma. Para cuando un valor llegaba a producción solía estar cerca, pero nunca era exactamente el token — y el sistema empezaba a mentir.",
+              },
+            },
+            {
+              label: { en: "What we did", es: "Lo que hicimos" },
+              body: {
+                en: "Built an inspector into the component playground. Hover a button, click a card — a popup surfaces the token (`color/action/primary`, `spacing/sm`), the resolved value, and the line of code to consume it. The variable name in the popup matches the variable name in the codebase, on purpose.",
+                es: "Construimos un inspector dentro del playground de componentes. Pasa el cursor sobre un botón, haz clic en una card — un popup muestra el token (`color/action/primary`, `spacing/sm`), el valor resuelto, y la línea de código para consumirlo. El nombre de la variable en el popup coincide con el nombre en el código, a propósito.",
+              },
+            },
+            {
+              label: { en: "The solution", es: "La solución" },
+              body: {
+                en: "Token surfacing as a designer→dev handoff. The demo isn't just a showcase — it's a lookup tool that lives in the same repo developers commit to. They open the playground, find the variable they need, and paste it. No more approximating.",
+                es: "Exponer los tokens como un traspaso diseño→desarrollo. La demo no es solo una vitrina — es una herramienta de consulta que vive en el mismo repositorio donde los desarrolladores hacen commits. Abren el playground, encuentran la variable que necesitan, y la pegan. Se acabó aproximar.",
+              },
+            },
+            {
+              label: { en: "Why it works", es: "Por qué funciona" },
+              body: {
+                en: "The handoff isn't a separate doc that has to stay in sync — it's the same component the developer will be coding against. When the token name changes, the popup changes. The source of truth is also the surface they're looking at.",
+                es: "El traspaso no es un documento aparte que tenga que mantenerse al día — es el mismo componente contra el que el desarrollador va a codificar. Cuando el nombre del token cambia, el popup cambia. La fuente de verdad es la misma superficie que están mirando.",
+              },
+            },
+          ],
+        },
+        animation: "cursor",
+      },
+      {
+        label: {
           en: "Coded Logo, Token-Aware",
           es: "Logo en código, consciente de tokens",
         },
@@ -392,8 +439,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Puerto de animaciones entre stacks",
         },
         sublabel: {
-          en: "Best-in-class React animations, ported to Angular and wearing our motion tokens — so the bank stack inherits the same polish.",
-          es: "Las mejores animaciones de React, portadas a Angular con nuestros tokens de movimiento — para que el stack del banco herede la misma calidad.",
+          en: "Modern interaction libraries ship React-first. I drop the source into Claude, get an Angular version that wears our motion tokens, and check it against the team's conventions — so the bank stack uses what was previously locked behind React.",
+          es: "Las librerías modernas de interacción se publican primero en React. Llevo el código a Claude, recibo una versión Angular que usa nuestros tokens de movimiento, y la valido contra las convenciones del equipo — para que el stack del banco use lo que antes estaba bloqueado en React.",
         },
         details: {
           heading: {

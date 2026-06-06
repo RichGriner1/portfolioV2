@@ -15,6 +15,7 @@ export type BentoCard = {
   };
   image?: string;
   images?: string[];
+  iframe?: string;
   animation?:
     | "layers"
     | "nodes"
@@ -467,6 +468,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
         animation: "port-diff",
+      },
+      {
+        label: {
+          en: "AI as a teammate — play with the live component",
+          es: "La IA como compañera — prueba el componente en directo",
+        },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "The Button component, deployed from the same rulebook the AI agents read. Try a hover, focus, disabled state — the tokens enforce the design language without a human in the loop.",
+          es: "El componente Button, desplegado desde el mismo manual que leen los agentes de IA. Prueba un hover, un focus, un estado disabled — los tokens hacen cumplir el lenguaje de diseño sin que tenga que intervenir nadie.",
+        },
+        iframe:
+          "https://coherence-wealth-manager.vercel.app/componentes/button",
+        span: "wide",
       },
     ],
   },

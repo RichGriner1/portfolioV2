@@ -3743,7 +3743,15 @@ function BentoCardItem({
   const inner = (
     <>
       <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
-        {card.images && card.images.length > 0 ? (
+        {card.iframe ? (
+          <iframe
+            src={card.iframe}
+            title={pick(card.label, lang)}
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-forms"
+            className="h-full min-h-[420px] w-full border-0"
+          />
+        ) : card.images && card.images.length > 0 ? (
           <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">
             {card.images.map((src, i) => (
               <div

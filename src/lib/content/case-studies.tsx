@@ -800,16 +800,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         ],
       },
       {
-        label: { en: "The core experience", es: "La experiencia central" },
-        // TODO(afi-redaccion)
-        sublabel: {
-          en: "Home, favorites, and personalized affirmations — every screen tuned to the user's selected focuses",
-          es: "Inicio, favoritos y afirmaciones personalizadas — cada pantalla ajustada a los enfoques que la persona ha elegido",
-        },
-        image: "/mindfulme/screens/home-favorites-affirmation.png",
-        span: "wide",
-      },
-      {
         label: { en: "Brand language", es: "Lenguaje de marca" },
         // TODO(afi-redaccion)
         sublabel: {
@@ -824,6 +814,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         ],
       },
       {
+        label: { en: "The core experience", es: "La experiencia central" },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Home, favorites, and personalized affirmations — every screen tuned to the user's selected focuses",
+          es: "Inicio, favoritos y afirmaciones personalizadas — cada pantalla ajustada a los enfoques que la persona ha elegido",
+        },
+        image: "/mindfulme/screens/home-favorites-affirmation.png",
+        span: "wide",
+      },
+      {
         label: {
           en: "Reminders, on their terms",
           es: "Recordatorios, en sus términos",
@@ -836,13 +836,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         image: "/mindfulme/screens/reminders-goals-adjustment.png",
       },
       {
-        label: { en: "Onboarding and pricing", es: "Onboarding y precios" },
+        label: { en: "Beyond the screen", es: "Más allá de la pantalla" },
         // TODO(afi-redaccion)
         sublabel: {
-          en: "Honest pricing alongside what users get — no dark patterns, no fake urgency",
-          es: "Precios honestos junto a lo que la persona recibe — sin patrones oscuros ni urgencia falsa",
+          en: "The visual language carries to merch and print — the brand has to live in three dimensions",
+          es: "El lenguaje visual se traslada al merchandising y al impreso — la marca tiene que vivir en tres dimensiones",
         },
-        image: "/mindfulme/screens/payment-howitworks.png",
+        image: "/mindfulme/screens/tote-bag-mockup.jpg",
       },
       {
         label: { en: "Color as meaning", es: "El color como significado" },
@@ -853,15 +853,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         image: "/mindfulme/screens/visual-consistency.png",
         span: "wide",
-      },
-      {
-        label: { en: "Beyond the screen", es: "Más allá de la pantalla" },
-        // TODO(afi-redaccion)
-        sublabel: {
-          en: "The visual language carries to merch and print — the brand has to live in three dimensions",
-          es: "El lenguaje visual se traslada al merchandising y al impreso — la marca tiene que vivir en tres dimensiones",
-        },
-        image: "/mindfulme/screens/tote-bag-mockup.jpg",
       },
       {
         label: { en: "Technology that nurtures", es: "Tecnología que nutre" },

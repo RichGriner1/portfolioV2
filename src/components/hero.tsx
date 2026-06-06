@@ -62,7 +62,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: STAGGER * 2, ease: EASE }}
-        className="text-muted-foreground max-w-xl text-lg leading-relaxed sm:mx-auto sm:text-center"
+        className="text-muted-foreground max-w-xl text-lg leading-relaxed sm:mx-auto sm:max-w-3xl sm:text-center"
       >
         {pick(HERO_SUBHEAD, lang)}
       </motion.p>

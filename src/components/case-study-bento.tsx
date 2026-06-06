@@ -3749,7 +3749,7 @@ function BentoCardItem({
             title={pick(card.label, lang)}
             loading="lazy"
             sandbox="allow-scripts allow-same-origin allow-forms"
-            className="h-full min-h-[420px] w-full border-0"
+            className="h-[640px] w-full border-0 bg-white"
           />
         ) : card.images && card.images.length > 0 ? (
           <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">

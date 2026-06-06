@@ -3857,7 +3857,9 @@ export function CaseStudyBento({
               ? "sm:col-span-1 sm:row-span-2"
               : card.span === "wide"
                 ? "sm:col-span-2 sm:row-span-1"
-                : "sm:col-span-1 sm:row-span-1";
+                : card.span === "full"
+                  ? "sm:col-span-3 sm:row-span-1"
+                  : "sm:col-span-1 sm:row-span-1";
           return (
             <motion.div
               key={card.label.en}
@@ -3880,7 +3882,9 @@ export function CaseStudyBento({
       {cards.map((card, i) => (
         <motion.div
           key={card.label.en}
-          className={card.span === "wide" ? "sm:col-span-2" : ""}
+          className={
+            card.span === "wide" || card.span === "full" ? "sm:col-span-2" : ""
+          }
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}

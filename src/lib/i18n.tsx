@@ -88,6 +88,7 @@ export const UI = {
   "work.back": { en: "← back", es: "← volver" },
   "work.role": { en: "Role", es: "Rol" },
   "work.ongoing": { en: "Ongoing", es: "En curso" },
+  "work.more": { en: "More case studies", es: "Más casos de estudio" },
   "work.contribution": { en: "Contribution", es: "Contribución" },
   "work.view_case_study": {
     en: "View case study →",

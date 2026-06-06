@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { CaseStudyBento } from "@/components/case-study-bento";
 import type { CaseStudy } from "@/lib/content/case-studies";
-import type { WorkItem } from "@/lib/content/work";
+import { WORK, type WorkItem } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
 
 type Props = {
@@ -14,6 +15,9 @@ type Props = {
 
 export function CaseStudyPage({ item, study }: Props) {
   const { lang } = useLang();
+  const otherCaseStudies = WORK.filter(
+    (w) => w.slug !== item.slug && !w.hidden && w.kind === "case-study"
+  );
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24">
@@ -78,6 +82,36 @@ export function CaseStudyPage({ item, study }: Props) {
           )}
 
           <CaseStudyBento cards={study.bento} gallery={study.gallery} />
+
+          {otherCaseStudies.length > 0 && (
+            <section className="border-border/60 flex flex-col gap-6 border-t pt-12">
+              <h2 className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+                {t("work.more", lang)}
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {otherCaseStudies.map((w) => (
+                  <Link
+                    key={w.slug}
+                    href={w.href}
+                    className="group border-border bg-card hover:border-foreground/30 flex items-center justify-between gap-4 rounded-2xl border p-5 transition-all hover:shadow-md"
+                    style={
+                      w.bgColor ? { backgroundColor: w.bgColor } : undefined
+                    }
+                  >
+                    <div className="flex flex-col gap-1">
+                      <span className="text-foreground font-display text-lg font-bold tracking-tight">
+                        {pick(w.title, lang)}
+                      </span>
+                      <span className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+                        {pick(w.description, lang)}
+                      </span>
+                    </div>
+                    <ArrowRight className="text-muted-foreground group-hover:text-foreground size-5 shrink-0 transition-colors" />
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
         </>
       ) : (
         <>

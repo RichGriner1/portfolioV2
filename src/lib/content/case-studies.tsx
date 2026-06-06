@@ -8,7 +8,7 @@ export type DetailSection = {
 export type BentoCard = {
   label: Bilingual<string>;
   sublabel: Bilingual<string>;
-  span?: "wide" | "tall";
+  span?: "wide" | "tall" | "full";
   details?: {
     heading: Bilingual<string>;
     sections: DetailSection[];
@@ -58,10 +58,6 @@ export type CaseStudy = {
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
   "afi-design-system": {
-    confidential: {
-      en: "Designs are not shown due to client confidentiality.",
-      es: "Los diseños no se muestran por confidencialidad del cliente.",
-    },
     tagline: {
       en: "Building design infrastructure for a fintech consultancy",
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
@@ -103,7 +99,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         iframe:
           "https://coherence-wealth-manager.vercel.app/componentes/button",
-        span: "wide",
+        span: "full",
       },
       {
         label: {

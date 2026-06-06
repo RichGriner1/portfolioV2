@@ -196,7 +196,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
         animation: "layers",
-        span: "wide",
       },
       {
         label: {

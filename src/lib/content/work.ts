@@ -74,6 +74,7 @@ export const WORK: WorkItem[] = [
     href: "/work/kt360",
     glyph: "canvas",
     bento: "square",
+    ongoing: true,
   },
   {
     slug: "audemic-growth",

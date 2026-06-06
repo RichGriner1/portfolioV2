@@ -7,7 +7,19 @@ import { useRef } from "react";
 import { GLYPHS } from "@/components/motion/glyphs";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
 import { useIsMobile } from "@/lib/hooks";
-import { pick, useLang } from "@/lib/i18n";
+import { pick, t, useLang } from "@/lib/i18n";
+
+function OngoingChip({ label }: { label: string }) {
+  return (
+    <span className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 absolute top-2 right-2 z-10 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur-sm">
+      <span className="relative flex size-1.5">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+        <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+      </span>
+      {label}
+    </span>
+  );
+}
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
@@ -74,6 +86,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
             <div className="absolute inset-2 flex items-center justify-center">
               <Glyph active />
             </div>
+            {item.ongoing && <OngoingChip label={t("work.ongoing", lang)} />}
           </div>
           <div className="flex flex-col gap-1">
             <h3 className="text-foreground font-display text-base font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
@@ -106,6 +119,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           <div className="absolute inset-2 flex items-center justify-center">
             <Glyph active />
           </div>
+          {item.ongoing && <OngoingChip label={t("work.ongoing", lang)} />}
         </div>
 
         {/* Text below */}

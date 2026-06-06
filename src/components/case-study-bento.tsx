@@ -6,7 +6,8 @@ import {
   useAnimationControls,
   type Transition,
 } from "motion/react";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
+import { Maximize2 } from "lucide-react";
 
 import { BentoCardModal } from "@/components/bento-card-modal";
 import type { BentoCard } from "@/lib/content/case-studies";
@@ -3724,6 +3725,19 @@ function BentoCardItem({
   const [modalOpen, setModalOpen] = useState(false);
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
+  const iframeWrapperRef = useRef<HTMLDivElement>(null);
+
+  const enterFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const el = iframeWrapperRef.current;
+    if (!el) return;
+    if (el.requestFullscreen) {
+      void el.requestFullscreen();
+    } else if (card.iframe) {
+      // Fallback: open in new tab (iOS Safari etc.)
+      window.open(card.iframe, "_blank", "noopener,noreferrer");
+    }
+  };
 
   useEffect(() => {
     if (!isMobile) return;
@@ -3744,13 +3758,26 @@ function BentoCardItem({
     <>
       <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
         {card.iframe ? (
-          <iframe
-            src={card.iframe}
-            title={pick(card.label, lang)}
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin allow-forms"
-            className="h-[640px] w-full border-0 bg-white"
-          />
+          <div
+            ref={iframeWrapperRef}
+            className="relative h-[640px] w-full bg-white"
+          >
+            <iframe
+              src={card.iframe}
+              title={pick(card.label, lang)}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms"
+              className="h-full w-full border-0"
+            />
+            <button
+              type="button"
+              onClick={enterFullscreen}
+              aria-label="Open demo fullscreen"
+              className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
+            >
+              <Maximize2 className="size-4" />
+            </button>
+          </div>
         ) : card.images && card.images.length > 0 ? (
           <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">
             {card.images.map((src, i) => (

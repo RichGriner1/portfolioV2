@@ -25,6 +25,7 @@ export type BentoCard = {
     | "palette"
     | "rules"
     | "cursor"
+    | "token-inspect"
     | "canvas"
     | "guideline"
     | "wordpress"
@@ -337,7 +338,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           ],
         },
-        animation: "cursor",
+        animation: "token-inspect",
       },
       {
         label: {

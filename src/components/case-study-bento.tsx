@@ -3725,31 +3725,24 @@ function BentoCardItem({
   const [modalOpen, setModalOpen] = useState(false);
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
-  const iframeWrapperRef = useRef<HTMLDivElement>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [iframeOpen, setIframeOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => {
-      setIsFullscreen(document.fullscreenElement === iframeWrapperRef.current);
+    if (!iframeOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIframeOpen(false);
     };
-    document.addEventListener("fullscreenchange", handler);
-    return () => document.removeEventListener("fullscreenchange", handler);
-  }, []);
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [iframeOpen]);
 
-  const toggleFullscreen = (e: React.MouseEvent) => {
+  const openIframeModal = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isFullscreen) {
-      void document.exitFullscreen();
-      return;
-    }
-    const el = iframeWrapperRef.current;
-    if (!el) return;
-    if (el.requestFullscreen) {
-      void el.requestFullscreen();
-    } else if (card.iframe) {
-      // Fallback: open in new tab (iOS Safari etc.)
-      window.open(card.iframe, "_blank", "noopener,noreferrer");
-    }
+    setIframeOpen(true);
   };
 
   useEffect(() => {
@@ -3771,10 +3764,7 @@ function BentoCardItem({
     <>
       <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
         {card.iframe ? (
-          <div
-            ref={iframeWrapperRef}
-            className="relative h-[640px] w-full bg-white"
-          >
+          <div className="relative h-[640px] w-full bg-white">
             <iframe
               src={card.iframe}
               title={pick(card.label, lang)}
@@ -3784,17 +3774,11 @@ function BentoCardItem({
             />
             <button
               type="button"
-              onClick={toggleFullscreen}
-              aria-label={
-                isFullscreen ? "Close fullscreen" : "Open demo fullscreen"
-              }
+              onClick={openIframeModal}
+              aria-label="Open demo in fullscreen"
               className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
             >
-              {isFullscreen ? (
-                <X className="size-5" />
-              ) : (
-                <Maximize2 className="size-4" />
-              )}
+              <Maximize2 className="size-4" />
             </button>
           </div>
         ) : card.images && card.images.length > 0 ? (
@@ -3868,20 +3852,56 @@ function BentoCardItem({
   }
 
   return (
-    <motion.div
-      className={baseClass}
-      initial="rest"
-      whileHover={!isMobile ? "hover" : undefined}
-      animate={isMobile ? mobileVariant : "rest"}
-      tabIndex={0}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}
-      onFocus={() => setActive(true)}
-      onBlur={() => setActive(false)}
-      onTouchStart={() => setActive(true)}
-    >
-      {inner}
-    </motion.div>
+    <>
+      <motion.div
+        className={baseClass}
+        initial="rest"
+        whileHover={!isMobile ? "hover" : undefined}
+        animate={isMobile ? mobileVariant : "rest"}
+        tabIndex={0}
+        onMouseEnter={() => setActive(true)}
+        onMouseLeave={() => setActive(false)}
+        onFocus={() => setActive(true)}
+        onBlur={() => setActive(false)}
+        onTouchStart={() => setActive(true)}
+      >
+        {inner}
+      </motion.div>
+      {card.iframe && iframeOpen ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={pick(card.label, lang)}
+          onClick={() => setIframeOpen(false)}
+          className="bg-background/80 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md sm:p-8"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-card border-border relative flex h-[90vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border shadow-2xl"
+          >
+            <div className="border-border bg-card flex shrink-0 items-center justify-between border-b px-4 py-3">
+              <span className="text-foreground text-sm font-medium">
+                {pick(card.label, lang)}
+              </span>
+              <button
+                type="button"
+                onClick={() => setIframeOpen(false)}
+                aria-label="Close demo"
+                className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-md p-1.5 transition-colors"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+            <iframe
+              src={card.iframe}
+              title={pick(card.label, lang)}
+              sandbox="allow-scripts allow-same-origin allow-forms"
+              className="flex-1 border-0 bg-white"
+            />
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 

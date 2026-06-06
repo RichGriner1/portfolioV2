@@ -7,7 +7,7 @@ import {
   type Transition,
 } from "motion/react";
 import { useEffect, useRef, useState, type JSX } from "react";
-import { Maximize2 } from "lucide-react";
+import { Maximize2, X } from "lucide-react";
 
 import { BentoCardModal } from "@/components/bento-card-modal";
 import type { BentoCard } from "@/lib/content/case-studies";
@@ -3726,9 +3726,22 @@ function BentoCardItem({
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
   const iframeWrapperRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const enterFullscreen = (e: React.MouseEvent) => {
+  useEffect(() => {
+    const handler = () => {
+      setIsFullscreen(document.fullscreenElement === iframeWrapperRef.current);
+    };
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+  const toggleFullscreen = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isFullscreen) {
+      void document.exitFullscreen();
+      return;
+    }
     const el = iframeWrapperRef.current;
     if (!el) return;
     if (el.requestFullscreen) {
@@ -3771,11 +3784,17 @@ function BentoCardItem({
             />
             <button
               type="button"
-              onClick={enterFullscreen}
-              aria-label="Open demo fullscreen"
+              onClick={toggleFullscreen}
+              aria-label={
+                isFullscreen ? "Close fullscreen" : "Open demo fullscreen"
+              }
               className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
             >
-              <Maximize2 className="size-4" />
+              {isFullscreen ? (
+                <X className="size-5" />
+              ) : (
+                <Maximize2 className="size-4" />
+              )}
             </button>
           </div>
         ) : card.images && card.images.length > 0 ? (

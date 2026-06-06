@@ -563,8 +563,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Un entorno de IA construido para un equipo que no tiene un departamento de diseño completo",
     },
     intro: {
-      en: "KT360 is an early-stage startup in a saturated AI market. The brand strategy: look nothing like AI. Playful, human, deliberately distinct. The harder problem was operational — how does a small team stay on-brand when no designer sits in the room? We encoded the brand into the environment itself. Design rules, component guidelines, and animation patterns live as structured files an AI can read, check against, and enforce; agents review work before it ships. A shared system built on shadcn gives everyone a foundation to prototype and build from. The result: a marketer can write a blog post, a developer can ship a new page, and the output looks like it came from the same hand — because the rules are doing the work.",
-      es: "KT360 es una startup en fase inicial dentro de un mercado de IA saturado. La estrategia de marca: no parecerse en nada a la IA. Juguetona, humana, deliberadamente distinta. El reto más complicado era operativo: ¿cómo mantiene la coherencia de marca un equipo pequeño cuando no hay ningún diseñador en la sala? Hemos codificado la marca dentro del propio entorno. Las reglas de diseño, las pautas de componentes y los patrones de animación viven como archivos estructurados que una IA puede leer, comprobar y hacer cumplir; los agentes revisan el trabajo antes de que se publique. Un sistema compartido construido sobre shadcn ofrece al equipo una base sobre la que prototipar y construir. El resultado: una persona de marketing puede escribir un artículo, un desarrollador puede sacar al aire una página nueva, y el resultado parece salido de la misma mano, porque son las reglas las que están haciendo el trabajo.",
+      en: "KT360 is an early-stage AI startup. The brand had to look nothing like AI — playful, human, deliberately distinct. The harder problem: no designer on the team. We encoded the brand into the environment. Rules, component specs, and motion patterns live as files an AI can read, check, and enforce. Marketing writes a blog post, a developer ships a page — both come out looking like the same hand because the rules do the work.",
+      // TODO(afi-redaccion)
+      es: "KT360 es una startup de IA en fase inicial. La marca tenía que no parecerse en nada a la IA — juguetona, humana, deliberadamente distinta. El reto más complicado: no hay diseñador en el equipo. Codificamos la marca dentro del entorno. Las reglas, las specs de componentes y los patrones de movimiento viven como archivos que una IA puede leer, comprobar y hacer cumplir. Marketing escribe un artículo, un desarrollador lanza una página — ambos salen como de la misma mano porque las reglas hacen el trabajo.",
     },
     role: {
       en: "Freelance Designer & AI Builder",
@@ -593,8 +594,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Identidad visual",
         },
         sublabel: {
-          en: "Playful and human — deliberately nothing like AI",
-          es: "Juguetona y humana — deliberadamente nada parecida a la IA",
+          en: "Playful, human, deliberately distinct — so the brand reads as a person, not as a model.",
+          es: "Juguetona, humana, deliberadamente distinta — para que la marca se lea como una persona, no como un modelo.",
         },
         animation: "logo-identity",
       },
@@ -604,8 +605,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Reglas como archivos",
         },
         sublabel: {
-          en: "Brand guidelines, component specs, and animation patterns written so AI can read and enforce them",
-          es: "Pautas de marca, especificaciones de componentes y patrones de animación escritos para que la IA pueda leerlos y hacerlos cumplir",
+          en: "Brand rules, component specs, and motion patterns written as files the AI reads — so an agent catches the off-brand button before a human has to.",
+          es: "Reglas de marca, specs de componentes y patrones de movimiento escritos como archivos que la IA lee — para que un agente cace el botón fuera de marca antes que una persona.",
         },
         animation: "rules",
       },
@@ -615,8 +616,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Entorno de prototipado compartido",
         },
         sublabel: {
-          en: "One codebase the whole team can open, experiment in, and ship from",
-          es: "Un único código base que todo el equipo puede abrir, experimentar y desde el que lanzar",
+          en: "One codebase marketers, developers, and AI agents all open — so a blog post and a new page come out of the same place.",
+          es: "Un único código base que marketing, desarrolladores y agentes de IA abren — para que un artículo y una página nueva salgan del mismo sitio.",
         },
         animation: "canvas",
       },
@@ -626,8 +627,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Base del sistema de diseño",
         },
         sublabel: {
-          en: "Tokens, typography, and components everyone builds on top of",
-          es: "Tokens, tipografía y componentes sobre los que todos construyen",
+          en: "Tokens, typography, components — so every new page inherits the brand without anyone choosing it manually.",
+          es: "Tokens, tipografía, componentes — para que cada página nueva herede la marca sin que nadie tenga que elegirla a mano.",
         },
         animation: "guideline",
       },
@@ -637,8 +638,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Movimiento como tokens",
         },
         sublabel: {
-          en: "Easing curves and timing as rules — not decoration handed to a developer",
-          es: "Curvas de easing y tiempos como reglas — no decoración entregada a un desarrollador",
+          en: "Easing and timing live as tokens like color and spacing — so motion doesn't drift between a button hover and a modal entrance.",
+          es: "Los easings y los tiempos viven como tokens igual que el color y el espaciado — para que el movimiento no se desvíe entre el hover de un botón y la entrada de un modal.",
         },
         details: {
           heading: {
@@ -762,13 +763,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     gallery: true,
     // TODO(afi-redaccion)
     tagline: {
-      en: "An AI-powered meditation app, personal to each user's journey",
-      es: "Una app de meditación con IA, personal para el camino de cada usuario",
+      en: "An AI-powered meditation app personal to each user's journey",
+      es: "Una app de meditación con IA personal para el camino de cada usuario",
     },
     // TODO(afi-redaccion)
     intro: {
-      en: "Chinwuba brought the idea to life through a website where users could generate affirmations aligned with their goals — delivered as audio guides with actionable tips. Early users found value but craved more: editing, saving, building their own libraries. The challenge: people bounce off mindfulness apps because every solution looks the same — generic categories, generic meditations, none of which echo the unique journey of the individual. Mindfulme uses AI to craft personalized meditations and affirmations that evolve with each user, refining its understanding with every interaction.",
-      es: "Chinwuba dio vida a la idea con una web donde los usuarios podían generar afirmaciones alineadas con sus objetivos — entregadas como guías de audio con consejos accionables. Los primeros usuarios veían valor pero querían más: editar, guardar, construir su propia biblioteca. El reto: la gente rebota de las apps de mindfulness porque todas las soluciones se parecen — categorías genéricas, meditaciones genéricas, ninguna refleja el camino único de la persona. Mindfulme usa IA para crear meditaciones y afirmaciones personalizadas que evolucionan con cada usuario, refinando su comprensión con cada interacción.",
+      en: "Chinwuba had built a site where users could generate affirmations from their goals — audio guides with tips. Users liked it but wanted to edit, save, and build their own library. The problem with most mindfulness apps: generic categories, generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user — so the next session knows what the last one taught.",
+      es: "Chinwuba había construido una web donde los usuarios podían generar afirmaciones a partir de sus objetivos — guías de audio con consejos. Les gustaba, pero querían editar, guardar y construir su propia biblioteca. El problema con la mayoría de apps de mindfulness: categorías genéricas, meditaciones genéricas, nada moldeado a la persona que la usa. Mindfulme usa IA para crear meditaciones y afirmaciones que evolucionan con cada usuario — para que la próxima sesión sepa lo que enseñó la anterior.",
     },
     role: {
       en: "Freelance Designer & Product Lead",

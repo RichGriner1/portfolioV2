@@ -26,7 +26,7 @@ export function MyWork() {
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
-        className="grid grid-cols-1 gap-3 md:grid-cols-4"
+        className="grid grid-cols-1 gap-16 md:grid-cols-4 md:gap-3"
       >
         {VISIBLE_WORK.map((item, index) => (
           <WorkCard key={item.slug} item={item} index={index} />

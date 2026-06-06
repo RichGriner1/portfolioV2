@@ -63,8 +63,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
     },
     intro: {
-      en: "Afi ships white-label fintech products to banks. The starting state: one designer, a high project rate, docs scattered across Teams threads and email, no rulebook to keep the system honest across rebuilds. We rebuilt the spine — a three-tier token system in Figma, a single repo where designers, developers, and AI agents read from the same source of truth, and a designer↔dev handoff tool that anchors feedback to the screen instead of losing it in chat. Each rebuild sharpens the system; the AI agents reading those docs are what make the next one compoundable instead of redundant.",
-      es: "Afi desarrolla productos fintech white-label para bancos. El punto de partida: una sola persona en diseño, una cartera intensa de proyectos y la documentación repartida entre hilos de Teams y correos electrónicos, sin un manual que diera coherencia al sistema de un proyecto a otro. Hemos rediseñado los cimientos: un sistema de tokens estructurado en tres niveles dentro de Figma, un único repositorio del que leen diseñadores, desarrolladores y agentes de IA, y una herramienta de traspaso entre diseño y desarrollo que fija los comentarios sobre la propia pantalla en lugar de perderlos en el chat. Con cada proyecto el sistema gana precisión; los agentes de IA que consultan esa documentación hacen que el siguiente trabajo se apoye en el anterior, en lugar de partir desde cero.",
+      en: "Afi ships white-label fintech products to banks. I'm the only designer. The brief: build a system that gets sharper with every client, not slower. So we built it — three-tier tokens in Figma, one repo where designers, developers, and AI agents read the same files, and a feedback tool that pins comments to the design instead of losing them in chat. Each rollout teaches the system. AI is how the next rollout starts where the last one ended.",
+      // TODO(afi-redaccion)
+      es: "Afi desarrolla productos fintech white-label para bancos. Yo soy el único diseñador. El brief: construir un sistema que gane precisión con cada cliente, no que pierda. Y lo construimos — tokens en tres niveles dentro de Figma, un único repositorio del que leen diseñadores, desarrolladores y agentes de IA, y una herramienta que fija los comentarios sobre el diseño en lugar de perderlos en el chat. Cada proyecto le enseña algo al sistema. La IA es lo que hace que el siguiente arranque donde terminó el anterior.",
     },
     role: {
       en: "Design Systems Lead",
@@ -94,8 +95,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         // TODO(afi-redaccion)
         sublabel: {
-          en: "v1, our MVP — in production with banking clients and sharpened with each rollout. Hover, focus, click to see how the tokens hold the design language together. The rest of the system is password-protected for client confidentiality — reach out at richardgrinerdesigns@gmail.com for a walkthrough.",
-          es: "v1, nuestra MVP — en producción con clientes bancarios y afinada en cada nuevo proyecto. Hover, focus, clic para ver cómo los tokens mantienen unido el lenguaje de diseño. El resto del sistema está protegido por contraseña por confidencialidad — escríbeme a richardgrinerdesigns@gmail.com para un recorrido.",
+          en: "v1, live with our first banks. Click around to see how the tokens drive every state. The full app is password-protected — email richardgrinerdesigns@gmail.com for a walkthrough.",
+          es: "v1, en producción con nuestros primeros bancos. Haz clic por aquí para ver cómo los tokens mueven cada estado. La app entera está protegida por contraseña — escríbeme a richardgrinerdesigns@gmail.com para un recorrido.",
         },
         iframe:
           "https://coherence-wealth-manager.vercel.app/componentes/segmented-control",
@@ -107,8 +108,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Plataforma de diseño unificada",
         },
         sublabel: {
-          en: "Files, agents, and people — converging in one repo.",
-          es: "Archivos, agentes y personas — convergiendo en un solo repositorio.",
+          en: "One repo for designers, developers, and AI agents — so everyone opens the same files instead of chasing different versions.",
+          es: "Un solo repositorio para diseñadores, desarrolladores y agentes de IA — para que todos abran los mismos archivos en lugar de perseguir versiones distintas.",
         },
         details: {
           heading: {
@@ -155,8 +156,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Arquitectura de tokens",
         },
         sublabel: {
-          en: "Primitive → semantic → component",
-          es: "Primitivo → semántico → componente",
+          en: "Three tiers — primitive, semantic, component — so a brand change happens at the token, not in twenty files.",
+          es: "Tres niveles — primitivo, semántico, componente — para que un cambio de marca ocurra en el token, no en veinte archivos.",
         },
         details: {
           heading: {
@@ -203,8 +204,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "White-label a escala",
         },
         sublabel: {
-          en: "One system, any brand — swap the tokens, ship the product.",
-          es: "Un sistema, cualquier marca — intercambia los tokens, lanza el producto.",
+          en: "Swap the tokens, ship the next bank — the components don't change, the brand does.",
+          es: "Intercambia los tokens, lanza el siguiente banco — los componentes no cambian, la marca sí.",
         },
         details: {
           heading: {
@@ -250,8 +251,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Herramienta de entrega y feedback de diseño",
         },
         sublabel: {
-          en: "Comments land on the design — not in Teams threads.",
-          es: "Los comentarios llegan al diseño — no a hilos de Teams.",
+          en: "Pin feedback to the design where the work is, so nothing lives in a chat thread anymore.",
+          es: "Fija el feedback sobre el diseño donde está el trabajo — para que nada se quede atrapado en un hilo de chat.",
         },
         details: {
           heading: {
@@ -297,8 +298,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Logo en código, consciente de tokens",
         },
         sublabel: {
-          en: "One SVG, four variants — the mode picks the right one",
-          es: "Un SVG, cuatro variantes — el modo elige la correcta",
+          en: "One SVG that adapts to the mode — so light, dark, and brand variants ship without four separate exports.",
+          es: "Un SVG que se adapta al modo — para que las variantes light, dark y de marca se entreguen sin cuatro exportaciones distintas.",
         },
         details: {
           heading: {
@@ -344,8 +345,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Playground de componentes",
         },
         sublabel: {
-          en: "A live surface for every component — toggles for state, mode, size, copyable code",
-          es: "Una superficie en vivo para cada componente — interruptores para estado, modo, tamaño, código copiable",
+          en: "Every component, every state, with copyable code — so a developer grabs the snippet and ships.",
+          es: "Cada componente, cada estado, con código copiable — para que un desarrollador coja el snippet y lo lance.",
         },
         details: {
           heading: {
@@ -391,8 +392,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Puerto de animaciones entre stacks",
         },
         sublabel: {
-          en: "React-only libraries, ported to Angular, wearing our motion tokens",
-          es: "Librerías solo para React, portadas a Angular, vistiendo nuestros tokens de movimiento",
+          en: "Best-in-class React animations, ported to Angular and wearing our motion tokens — so the bank stack inherits the same polish.",
+          es: "Las mejores animaciones de React, portadas a Angular con nuestros tokens de movimiento — para que el stack del banco herede la misma calidad.",
         },
         details: {
           heading: {

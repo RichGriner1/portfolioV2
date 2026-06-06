@@ -20,9 +20,9 @@ const HERO_TAGLINE: Bilingual<string> = {
 };
 
 const HERO_SUBHEAD: Bilingual<string> = {
-  en: "Designers are now builders. In order to create consistent products and workflows I focus on systems, building internal tools, and iterating on my design process.",
+  en: "Designers are now builders. In order to create consistent products and workflows I focus on systems, building internal tools, and iterating my design process.",
   // TODO(afi-redaccion)
-  es: "Los diseñadores ahora somos builders. Para crear productos y flujos de trabajo consistentes, mi foco está en los sistemas, en construir herramientas internas y en iterar sobre mi proceso de diseño.",
+  es: "Los diseñadores ahora somos builders. Para crear productos y flujos de trabajo consistentes, mi foco está en los sistemas, en construir herramientas internas y en iterar mi proceso de diseño.",
 };
 
 export function Hero() {

@@ -98,7 +98,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Hover, focus, clic — comprueba cómo los tokens mantienen unido el lenguaje de diseño. El resto del sistema está protegido por contraseña por confidencialidad del cliente — escríbeme a richardgrinerdesigns@gmail.com si quieres un recorrido.",
         },
         iframe:
-          "https://coherence-wealth-manager.vercel.app/componentes/button",
+          "https://coherence-wealth-manager.vercel.app/componentes/segmented-control",
         span: "full",
       },
       {

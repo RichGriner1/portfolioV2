@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 
-export function WordpressShellGlyph() {
+export function WordpressShellGlyph(_props?: { active?: boolean }) {
   return (
     <svg
       viewBox="0 0 64 64"

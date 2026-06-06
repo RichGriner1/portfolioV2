@@ -7,7 +7,7 @@ import { motion } from "motion/react";
  * Three component-dots stream from source grid (Material) to target grid
  * (PrimeNG) on hover. The target grid wakes from ghosted to full.
  */
-export function MigrationGlyph() {
+export function MigrationGlyph(_props?: { active?: boolean }) {
   return (
     <svg
       viewBox="0 0 48 48"

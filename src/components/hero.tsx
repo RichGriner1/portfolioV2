@@ -2,15 +2,27 @@
 
 import { motion } from "motion/react";
 
-import { CvModal } from "@/components/cv-modal";
-import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
+import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const STAGGER = 0.08;
 
-const HERO_P3: Bilingual<string> = {
-  en: "I believe design is how we solve problems and understand each other. By connecting different perspectives—whether in finance, culture, or experience—we create clarity and positive change.",
-  es: "Creo que el diseño es la forma en que resolvemos problemas y nos entendemos. Al conectar perspectivas distintas—en finanzas, cultura o experiencia—creamos claridad y cambio positivo.",
+const HERO_EYEBROW: Bilingual<string> = {
+  en: "Currently — Designing fintech products and design systems at Afi",
+  // TODO(afi-redaccion)
+  es: "Actualmente — Diseñando productos fintech y sistemas de diseño en Afi",
+};
+
+// TODO(afi-redaccion): polish ES copy
+const HERO_TAGLINE: Bilingual<string> = {
+  en: "Ship taste at scale",
+  es: "Llevar el gusto a escala",
+};
+
+const HERO_SUBHEAD: Bilingual<string> = {
+  en: "Designers are now builders. In order to create consistent products and workflows I focus on systems, building internal tools, and iterating on my design process.",
+  // TODO(afi-redaccion)
+  es: "Los diseñadores ahora somos builders. Para crear productos y flujos de trabajo consistentes, mi foco está en los sistemas, en construir herramientas internas y en iterar sobre mi proceso de diseño.",
 };
 
 export function Hero() {
@@ -20,82 +32,40 @@ export function Hero() {
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: EASE }}
-        className="flex flex-col gap-1"
+        transition={{ duration: 0.5, delay: STAGGER * 0.5, ease: EASE }}
+        className="sm:text-center"
       >
-        <span className="text-foreground text-base font-normal">
-          Richard Griner
-        </span>
-        <span className="text-muted-foreground text-sm">
-          {t("hero.updated", lang)}
-        </span>
+        <a
+          href="https://www.afi.es"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-muted-foreground hover:text-foreground hover:bg-muted bg-muted/50 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm transition-colors"
+        >
+          <span
+            aria-hidden="true"
+            className="bg-primary size-1.5 shrink-0 rounded-full"
+          />
+          <span>{pick(HERO_EYEBROW, lang)}</span>
+        </a>
       </motion.div>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: STAGGER, ease: EASE }}
+        className="font-display text-foreground text-6xl leading-tight font-bold tracking-tight text-balance sm:text-center sm:text-7xl lg:text-8xl"
+      >
+        {pick(HERO_TAGLINE, lang)}
+      </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: STAGGER * 2, ease: EASE }}
-        className="text-foreground max-w-xl text-base leading-relaxed"
+        className="text-muted-foreground max-w-xl text-lg leading-relaxed sm:mx-auto sm:text-center"
       >
-        {lang === "en" ? (
-          <>
-            Currently building AI-powered design systems and fintech products
-            for banks and financial institutions at{" "}
-            <a
-              href="https://www.afi.es"
-              className="underline underline-offset-4"
-            >
-              Afi
-            </a>
-            , and freelancing — building AI systems, workflows, and products for
-            small teams.
-          </>
-        ) : (
-          <>
-            Actualmente construyendo sistemas de diseño impulsados por IA y
-            productos fintech para bancos e instituciones financieras en{" "}
-            <a
-              href="https://www.afi.es"
-              className="underline underline-offset-4"
-            >
-              Afi
-            </a>
-            , y como freelance — construyendo sistemas de IA, flujos de trabajo
-            y productos para equipos pequeños.
-          </>
-        )}
+        {pick(HERO_SUBHEAD, lang)}
       </motion.p>
-
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: STAGGER * 3, ease: EASE }}
-        className="text-foreground max-w-xl text-base leading-relaxed"
-      >
-        {pick(HERO_P3, lang)}
-      </motion.p>
-
-      <motion.nav
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: STAGGER * 4, ease: EASE }}
-        aria-label="Social links"
-        className="text-muted-foreground flex flex-wrap gap-4 text-sm"
-      >
-        <a
-          href="https://www.linkedin.com/in/richardgriner"
-          className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-        >
-          {t("nav.linkedin", lang)}
-        </a>
-        <a
-          href="mailto:richardgrinerdesigns@gmail.com"
-          className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-        >
-          {t("nav.email", lang)}
-        </a>
-        <CvModal />
-      </motion.nav>
     </section>
   );
 }

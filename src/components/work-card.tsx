@@ -11,7 +11,7 @@ import { pick, t, useLang } from "@/lib/i18n";
 
 function OngoingChip({ label }: { label: string }) {
   return (
-    <span className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 absolute top-2 right-2 z-10 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur-sm">
+    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-emerald-700 uppercase dark:text-emerald-400">
       <span className="relative flex size-1.5">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
         <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
@@ -86,12 +86,14 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
             <div className="absolute inset-2 flex items-center justify-center">
               <Glyph active />
             </div>
-            {item.ongoing && <OngoingChip label={t("work.ongoing", lang)} />}
           </div>
           <div className="flex flex-col gap-1">
-            <h3 className="text-foreground font-display text-base font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
-              {pick(item.title, lang)}
-            </h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="text-foreground font-display text-base font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
+                {pick(item.title, lang)}
+              </h3>
+              {item.ongoing && <OngoingChip label={t("work.ongoing", lang)} />}
+            </div>
             <div className="text-muted-foreground font-mono text-xs tracking-wider">
               {pick(KIND_LABELS[item.kind], lang)} · {formatDate(item, locale)}
             </div>
@@ -119,14 +121,16 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           <div className="absolute inset-2 flex items-center justify-center">
             <Glyph active />
           </div>
-          {item.ongoing && <OngoingChip label={t("work.ongoing", lang)} />}
         </div>
 
         {/* Text below */}
         <div className="flex flex-col gap-1">
-          <h3 className="text-foreground font-display text-base font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
-            {pick(item.title, lang)}
-          </h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-foreground font-display text-base font-bold tracking-tight decoration-2 underline-offset-4 group-hover:underline">
+              {pick(item.title, lang)}
+            </h3>
+            {item.ongoing && <OngoingChip label={t("work.ongoing", lang)} />}
+          </div>
           <div className="text-muted-foreground font-mono text-xs tracking-wider">
             {pick(KIND_LABELS[item.kind], lang)} · {formatDate(item, locale)}
           </div>

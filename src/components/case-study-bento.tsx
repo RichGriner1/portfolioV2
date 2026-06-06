@@ -3131,6 +3131,90 @@ function CodedLogoAnimation({ active }: AnimationProps) {
 }
 
 // ---------------------------------------------------------------------------
+// token-inspect — hover a component, popup reveals the tokens behind it
+// ---------------------------------------------------------------------------
+
+function TokenInspectAnimation({ active }: AnimationProps) {
+  const [stage, setStage] = useState<"idle" | "hover" | "popup">("idle");
+
+  useEffect(() => {
+    if (!active) {
+      setStage("idle");
+      return;
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        setStage("idle");
+        await new Promise((r) => setTimeout(r, 700));
+        if (cancelled) return;
+        setStage("hover");
+        await new Promise((r) => setTimeout(r, 450));
+        if (cancelled) return;
+        setStage("popup");
+        await new Promise((r) => setTimeout(r, 2400));
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
+
+  const tokens: Array<{ prop: string; value: string }> = [
+    { prop: "padding", value: "spacing/md" },
+    { prop: "color", value: "action/primary" },
+    { prop: "radius", value: "radius/md" },
+  ];
+
+  return (
+    <div className="relative flex w-full flex-col items-center justify-center gap-3 px-3 py-2">
+      <motion.div
+        className="bg-primary text-primary-foreground rounded-md px-3 py-1.5 text-[11px] font-medium shadow-sm"
+        animate={{
+          scale: stage === "hover" || stage === "popup" ? 1.04 : 1,
+          y: stage === "hover" || stage === "popup" ? -1 : 0,
+        }}
+        transition={{ duration: 0.25, ease: EASE_SOFT }}
+      >
+        Save changes
+      </motion.div>
+
+      <AnimatePresence>
+        {stage === "popup" && (
+          <motion.div
+            key="popup"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.22, ease: EASE_SOFT }}
+            style={{ backgroundColor: "#1e1e1e", color: "#e0e0e0" }}
+            className="flex flex-col gap-0.5 rounded-md px-2.5 py-1.5 font-mono text-[9px] shadow-lg"
+          >
+            {tokens.map((t, i) => (
+              <motion.div
+                key={t.prop}
+                initial={{ opacity: 0, x: -3 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.2,
+                  delay: 0.08 + i * 0.07,
+                  ease: EASE_SOFT,
+                }}
+              >
+                <span style={{ color: "#7ec699" }}>{t.prop}</span>
+                <span style={{ color: "#666" }}>: </span>
+                <span style={{ color: "#e0e0e0" }}>{t.value}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // playground — mock playground UI with toggle, token panel, copy pulse
 // ---------------------------------------------------------------------------
 
@@ -3691,6 +3775,7 @@ const ANIMATIONS: Record<
   palette: PaletteAnimation,
   rules: RulesAnimation,
   cursor: CursorAnimation,
+  "token-inspect": TokenInspectAnimation,
   canvas: CanvasAnimation,
   guideline: GuidelineAnimation,
   wordpress: WordpressAnimation,

@@ -94,8 +94,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         // TODO(afi-redaccion)
         sublabel: {
-          en: "Hover, focus, click — see how the tokens hold the design language together. The rest of the system is password-protected for client work — reach out at richardgrinerdesigns@gmail.com if you want a walkthrough.",
-          es: "Hover, focus, clic — comprueba cómo los tokens mantienen unido el lenguaje de diseño. El resto del sistema está protegido por contraseña por confidencialidad del cliente — escríbeme a richardgrinerdesigns@gmail.com si quieres un recorrido.",
+          en: "v1, our MVP — in production with banking clients and sharpened with each rollout. Hover, focus, click to see how the tokens hold the design language together. The rest of the system is password-protected for client confidentiality — reach out at richardgrinerdesigns@gmail.com for a walkthrough.",
+          es: "v1, nuestra MVP — en producción con clientes bancarios y afinada en cada nuevo proyecto. Hover, focus, clic para ver cómo los tokens mantienen unido el lenguaje de diseño. El resto del sistema está protegido por contraseña por confidencialidad — escríbeme a richardgrinerdesigns@gmail.com para un recorrido.",
         },
         iframe:
           "https://coherence-wealth-manager.vercel.app/componentes/segmented-control",

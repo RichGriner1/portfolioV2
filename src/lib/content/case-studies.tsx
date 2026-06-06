@@ -291,6 +291,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
         animation: "comment-pins",
+        span: "wide",
       },
       {
         label: {
@@ -338,53 +339,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
         animation: "cursor",
-      },
-      {
-        label: {
-          en: "Coded Logo, Token-Aware",
-          es: "Logo en código, consciente de tokens",
-        },
-        sublabel: {
-          en: "One SVG that adapts to the mode — so light, dark, and brand variants ship without four separate exports.",
-          es: "Un SVG que se adapta al modo — para que las variantes light, dark y de marca se entreguen sin cuatro exportaciones distintas.",
-        },
-        details: {
-          heading: {
-            en: "One component instead of a folder of files",
-            es: "Un componente en vez de una carpeta de archivos",
-          },
-          sections: [
-            {
-              label: { en: "The problem", es: "El problema" },
-              body: {
-                en: "The logo lived in the assets folder as a stack of SVG exports — six sizes for marketing, two for product, color and monochrome for each, light and dark for each. More than twenty files for a single brand mark. A new client meant another twenty exports. A refresh meant redoing the lot. Developers imported the right file per surface and remembered to swap it on every theme change.",
-                es: "El logo residía en la carpeta de assets como una pila de SVG exportados: seis tamaños para marketing, dos para producto, una versión a color y otra monocroma de cada uno, y una para modo claro y otra para modo oscuro. Más de veinte archivos para una sola marca. Cada cliente nuevo suponía otras veinte exportaciones, y un rediseño implicaba rehacerlo todo. Los desarrolladores tenían que importar el archivo correcto en cada superficie y acordarse de cambiarlo en cada cambio de tema.",
-              },
-            },
-            {
-              label: { en: "What we did", es: "Lo que hicimos" },
-              body: {
-                en: "Recognized that the mark is one shape and the variants are decisions about color and size — and decisions are what the token system already encodes. Built the logo as a single SVG component that reads its values from the semantic layer.",
-                es: "Asumimos que la marca es una sola forma y que las variantes son decisiones sobre color y tamaño, decisiones que el sistema de tokens ya codifica. Hemos construido el logo como un único componente SVG que recoge sus valores directamente de la capa semántica.",
-              },
-            },
-            {
-              label: { en: "The solution", es: "La solución" },
-              body: {
-                en: "One component, two semantic-token slots. The brand variant references `brand/primary`, which resolves to AzulProfundo in light mode and `azulafi` in dark. The monochrome variant references `fg/default`, which switches black or white with the mode. Size is a CSS variable. The component lives in `ui/src/` next to the other primitives, and the docs page proves contrast against `base.white` and `base.black`.",
-                es: "Un componente y dos espacios de token semántico. La variante de color apunta a `brand/primary`, que se resuelve a AzulProfundo en modo claro y a `azulafi` en modo oscuro. La variante monocroma apunta a `fg/default`, que alterna entre negro y blanco según el modo. El tamaño se controla con una variable CSS. El componente reside en `ui/src/` junto al resto de primitivos, y la página de documentación verifica el contraste sobre `base.white` y `base.black`.",
-              },
-            },
-            {
-              label: { en: "Why it works", es: "Por qué funciona" },
-              body: {
-                en: "For white-label this counts double. The next bank doesn't need a new asset folder, it needs new token values. A refresh means editing the token, not regenerating twenty exports.",
-                es: "En un contexto white-label el ahorro es doble. El siguiente banco no necesita una carpeta de assets nueva, sino unos cuantos valores de token nuevos. Un rediseño se traduce en editar el token, no en regenerar veinte exportaciones.",
-              },
-            },
-          ],
-        },
-        animation: "coded-logo",
       },
       {
         label: {
@@ -439,8 +393,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Puerto de animaciones entre stacks",
         },
         sublabel: {
-          en: "Modern interaction libraries ship React-first. I drop the source into Claude, get an Angular version that wears our motion tokens, and check it against the team's conventions — so the bank stack uses what was previously locked behind React.",
-          es: "Las librerías modernas de interacción se publican primero en React. Llevo el código a Claude, recibo una versión Angular que usa nuestros tokens de movimiento, y la valido contra las convenciones del equipo — para que el stack del banco use lo que antes estaba bloqueado en React.",
+          en: "Most animation libraries ship React-only. Claude ports them to Angular against our motion tokens — so the bank stack borrows what used to be off-limits.",
+          es: "La mayoría de las librerías de animación se publican solo para React. Claude las porta a Angular contra nuestros tokens de movimiento — para que el stack del banco use lo que antes le estaba vetado.",
         },
         details: {
           heading: {

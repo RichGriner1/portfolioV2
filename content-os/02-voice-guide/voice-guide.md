@@ -109,11 +109,12 @@ Cut these on sight:
 
 ## X / Twitter-specific
 
+- **Standalone-first.** Current read (from studying creators like Matt Gray — see `examples/liked-posts.md`): single sharp posts and short list-posts are outperforming long threads. Default to standalone; reach for a thread only when a story genuinely needs the steps.
+- Standalone tweets are single sharp observations — opinions, lessons, one-liners. Lean on parallelism (triads) and the list-post-with-a-kicker shape.
 - The first tweet is the whole game — it must stand alone and earn the click.
-- Threads tell one story or make one argument, step by step.
-- Standalone tweets are single sharp observations — opinions, lessons, one-liners.
-- No thread-bait ("a thread 🧵" with nothing behind it).
+- When you *do* thread: it tells one story or makes one argument, step by step. No thread-bait ("a thread 🧵" with nothing behind it).
 - More room to be blunt and experimental than LinkedIn — lean into it.
+- Borrow *structure* from aphorism creators, never their guru voice. Every Richard post still starts from a real moment, not a maxim.
 
 ## Blog-specific
 

@@ -64,11 +64,22 @@ This is where content actually gets produced. Block ~60–90 minutes.
 6. **You answer those questions in Granola** (talk through them out loud; Granola transcribes).
 7. Claude processes the Granola transcript (`04-interview/granola-processing-prompt.md`), then **combines** story + research + interview transcript + voice guide.
 8. Claude drafts, using the content-production prompts and templates:
-   - **blog** (`blog-template.md`)
-   - **LinkedIn post** (`linkedin-post-template.md`)
-   - **X thread** (`x-thread-template.md`)
-   - **standalone tweets** (`standalone-tweets-template.md`)
+   - **standalone tweets** (`standalone-tweets-template.md`) — *X is the primary, experimental channel; default here*
+   - **X thread** (`x-thread-template.md`) — only when a story needs the steps
+   - **LinkedIn post** (`linkedin-post-template.md`) — the polished version
+   - **blog** (`blog-template.md`) — the anchor long-form
 9. **You manually edit** the drafts (`05-content-production/editing-prompt.md` helps), then move finished pieces into `07-backlog/`.
+
+### Platform flow: X first → LinkedIn (the proven path)
+
+Richard's company is on LinkedIn, so X is the freer, higher-frequency home and LinkedIn is the polished, company-aware channel. Run content **X-first, then promote the winners to LinkedIn**:
+
+1. **Post on X first** — standalone tweets and short list-posts (threads only when needed). Low stakes, high frequency. This is where you build the muscle and *test which ideas land*.
+2. **Watch what hits** — the posts that get real traction are validated hooks.
+3. **Promote winners to LinkedIn** — reshape the X winner into a tighter, more polished LinkedIn post (the proven "story → admission → numbered tips" arc). **Reshape, never paste** — same idea, platform-appropriate form.
+4. **Anchor in a blog** — when several related posts land, that's the signal the story is strong enough for the long-form blog.
+
+> The loop is **lived story → X (test) → LinkedIn (polish the winners) → blog (anchor)**. Ideas earn their way up the polish ladder by proving themselves on X first.
 
 ---
 

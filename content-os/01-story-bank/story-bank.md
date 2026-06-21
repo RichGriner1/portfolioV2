@@ -65,22 +65,12 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
 
 ---
 
-### [ID: collective-0-to-1-2026-04-24]
+### [ID: collective-0-to-1-2026-04-24] — ARCHIVED
 
-- **Date:** 2026-04-24
-- **Pillar / Type:** Blog — "0 to 1 in a month" / "Finding clients" / "Defining target audience" / "Elite case study" (Building The Collective)
-- **The story (what happened):** Stood up The Collective and made the money structure real: **5% of all project revenue goes to a collective pot**, individual contributors track hours for future compensation, and you pull in help as needed. First concrete projects: KT360 as a collective client on a **$500/month retainer (25 hours)**, plus Elite's marketing campaign and an Orazio UX audit. The Elite numbers are the gut-punch: a recent webinar drove **500 signups → only 2 conversions**, with no nurturing process and manual steps all through the funnel. We built WhatsApp automation (template messaging across 5,000–6,000 contacts, reply tracking) and started converting 7–10 qualified leads regularly. Next steps were deliberately small: first KT360 invoice funds the domain/website; pick a name and secure the domain in ~1.5 weeks; target 4–5 recurring clients before expanding.
-- **The lesson / insight:** Going 0→1 isn't a big launch — it's a revenue structure plus a few concrete retainers and one honest look at what's broken. **500 leads converting 2 isn't a traffic problem, it's a nurturing problem.** Manual funnels leak. The fix was systems (automation, tracking), not more signups.
-- **Why it matters:** Designers/freelancers romanticize starting a studio. The real version is unglamorous numbers, a revenue-share model, and fixing a leaky funnel — which is exactly why honest specifics land.
-- **Strength:** strong
-- **Connected ideas:** "0 to 1 in a month", "Finding clients", "Defining target audience", "Workflows for busy people", "Elite case study", "Creating outreach for my personal business", "What it is" (The Collective) · also "Second brain for metrics and Slack updates as a freelancer"
-- **Useful phrases:**
-  - "500 signups, 2 conversions."
-  - "5% of every project goes into the collective pot."
-  - "Target 4–5 recurring clients before we expand."
-- **Open questions:** What changed *after* the 500→2 realization — did conversions improve? How is the target audience actually defined? What's the collective named now, and did the domain happen? (This one could split into 2–3 posts.)
+- **Status:** archived (set aside 2026-06-21)
+- **Why archived:** Richard opted not to pursue The Collective / business-building content for now. Strong material (the 500→2 funnel, the 5% pot, the retainers) but not the direction he wants to publish in. Kept as a record so it isn't re-suggested.
+- **Salvage note:** the raw specifics are still here if the call changes — especially "500 signups → 2 conversions" as a hook and the revenue-share structure. The full original entry lives in git history (commit before this archive).
 - **Source:** Granola `7b42cadd-a161-4aec-bc48-67d7a733e6a5` ("Collective business strategy and project planning session")
-- **Status:** prioritized
 
 ---
 

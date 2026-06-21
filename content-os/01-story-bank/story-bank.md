@@ -41,7 +41,26 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
   - "Name by function, not by brand hierarchy."
   - "Does the download button need its own variable, or does it reuse control-background-hover?"
 - **Open questions:** How did the one-file vs two-layer debate actually resolve? Need a specific naming mistake that bit me later (the cost). Did the generic-naming switch break anything mid-flight?
-- **Source:** Granola `25a1af0d-c674-46d4-a914-62cecbfc77a9` ("Design system variables and naming standards — primitives, semantics, and component tokens")
+- **Source:** Granola `25a1af0d-c674-46d4-a914-62cecbfc77a9` ("Design system variables and naming standards — primitives, semantics, and component tokens"). Supporting evidence: `c359a266-46b5-43c4-b4f6-fd98ce4bf687` ("Variable naming in wealth manager… overwrite PRIMENG values") — Figma vars need a `-p-` prefix to match PrimeNG, so copied dev-mode CSS needs manual edits; a concrete naming-mismatch cost.
+- **Status:** prioritized
+
+---
+
+### [ID: design-md-modular-2026-04-30]
+
+- **Date:** 2026-04-30
+- **Pillar / Type:** Blog — "Design MD" / "Project planning process with AI" / "AI unlocks documentation, scale, and quality"
+- **The story (what happened):** Built a "Design MD showcase" prototype in 3–4 hours with AI — migrating static screens into interactive prototypes so microanimations and flows could actually be felt. The system was structured as three markdown layers: **Content** (writing rules, Real Academia Española), **Design** (Figma primitives + component screenshots), and **Agents** (config for OpenCode, Codex, Claude). Then the experiment that mattered: I generated proposals *with* and *without* the Design MD, and ran it against existing vs new projects. The finding was counterintuitive — on **existing** projects the Design MD barely moved the needle (the AI just reads the codebase and copies the patterns already there); its real value showed up on **new** builds/prototypes from scratch (and even less with a library like PrimeNG, where only ~2 colors change). I also shifted from one giant document toward a modular **"skills + router"** model — a base Design MD plus attachable skills (buttons, drawers) — treating it like a changelog that's never finished. Used a "Caveman" repo to shrink token usage and cost.
+- **The lesson / insight:** A Design MD isn't a spec you write once — it's an **organic, modular system that evolves like a changelog**. And its value is conditional: **AI already reads an existing codebase, so documentation pays off most on new, from-scratch work.** Knowing *when* it helps is the actual insight, not the document itself.
+- **Why it matters:** Everyone's rushing to write "AI design rules" / design.md files. Almost nobody distinguishes where they actually help. This saves people from documenting into the void on mature codebases.
+- **Strength:** strong
+- **Connected ideas:** "Design MD", "Project planning process with AI", "AI unlocks documentation, scale, and quality", "AI allows designers to explain reasoning and document decisions", "Build components first with vibe coding" · framework: ai-shifts-designer-to-judgment, components-before-pages
+- **Useful phrases:**
+  - "It's never finished — it's a changelog, not a spec."
+  - "On existing projects the AI just reads the codebase and copies the patterns."
+  - "Skills and a router, not one giant document."
+- **Open questions:** What were the actual quality differences in the with/without test (be concrete)? What's in the "Caveman" repo and how much did it cut cost? Did the skills+router model actually ship? This pairs naturally with the Claude-vs-Stitch interactivity story.
+- **Source:** Granola `7677a8ea-7034-477f-b595-779044773d35` and `d2384f65-e8ca-4a4d-8173-f5ee78ff68ef` ("Design MD" strategy + showcase)
 - **Status:** prioritized
 
 ---
@@ -81,6 +100,46 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
   - "They make the pages static, which makes it harder to imagine the experience."
 - **Open questions:** Do I have a real project where a static mockup led me to a wrong decision that interactivity would've caught? That lived example would turn this from solid → strong.
 - **Source:** Granola `53108e6d-c70d-4503-8adc-03ac5027902e` ("Claude code vs stitch")
+- **Status:** captured
+
+---
+
+### [ID: designing-against-the-build-2026-02-16]
+
+- **Date:** 2026-02-16 (also draws on 2025-11-14)
+- **Pillar / Type:** Blog — "Challenges faced as a non-technical designer shipping products" / "Lessons learned" (AFI Simulators)
+- **The story (what happened):** On the AFI simulators, my clean Figma designs kept colliding with the build. The code was written *before* the Figma design system existed, so tokens didn't match and every handoff needed manual translation. Component states (hover, pressed, disabled) weren't defined in the prototypes, so developers had to invent them — and lose time interpreting my intent. A custom stepper (the little dots between steps) didn't exist in the base components and meant overriding multiple CSS classes. The stack itself fought back: a Bootstrap 12-column grid meant exact widths like 288px were impossible (everything wanted to "fill container at 100%"), Bootstrap and Material were mixed (rem spacing vs Material states), and a 14px base clashed with Bootstrap's 16px. On the energy-efficiency simulator I cut modals entirely — "dialogs are annoying for programmers" — and simplified the onboarding into clear steps.
+- **The lesson / insight:** As a non-technical designer shipping real products, **the design isn't done when it looks right — it's done when it survives the build system.** Designing without knowing the grid, the component states, and the framework constraints just moves the work downstream and creates invisible rework. Define states and respect the grid up front, or the developers design it for you (worse).
+- **Why it matters:** Non-technical designers are told to "just design." This is the unglamorous reality of actually shipping — and naming it helps others stop fighting the same invisible battles.
+- **Strength:** strong
+- **Connected ideas:** "Challenges faced as a non-technical designer shipping products", "Lessons learned from poor AI outputs", "Auto-sync to Figma and code", "Primitive components then patterns then pages", "Mistakes I've made as a design system designer" · framework: components-before-pages
+- **Useful phrases:**
+  - "The code was written before the design system, so everything needs manual translation."
+  - "If you don't define the states, the developers invent them."
+  - "Dialogs are annoying for programmers."
+  - "Everything just wants to fill the container at 100%."
+- **Open questions:** A specific moment where undefined states shipped wrong, and what it cost? How did connecting Figma tokens to the build (the plugin idea) actually go? This is the counterweight to the AI-makes-it-easy stories — keep it honest.
+- **Source:** Granola `69baec77-85c9-4a75-88ea-64af5aaa18f6` ("Simulador de eficiencia energética") and `f4499d28-61dd-4eb7-8f6f-7c93a18e29cd` ("Simulators design")
+- **Status:** prioritized
+
+---
+
+### [ID: cafe-portfolio-storytelling-2026-04-17]
+
+- **Date:** 2026-04-17 (also 2026-04-18)
+- **Pillar / Type:** Blog — "Building my portfolio" / "Creating animations" (passion/portfolio)
+- **The story (what happened):** Reimagined my portfolio away from a "tech business" feel toward something intimate — a café-shaped concept (inspiration from altportfolio): an animated "Hello," floating clouds that persist on scroll, the logo sliding to center as the portfolio moves up. Dropped the "316" logo to make it more personal. Built the site around a "what brings you here" story-selection interface, with **circles representing emotional states** (clashing/bouncing circles for disconnection) that move and transform with scroll to match each story line. Messaging leaned warm and human: "Take a sip, stay a while," "For the times you feel lost," products presented bar-style as "get a taste."
+- **The lesson / insight:** A portfolio can be a *gathering*, not a brochure. Positioning yourself as a **guide rather than a tech business** — and using motion/metaphor (circles as emotional states) to carry meaning — changes who connects with it. The interaction *is* the storytelling.
+- **Why it matters:** Most designer portfolios are sterile grids. Showing the thinking behind a story-first, animated, emotionally-framed portfolio is itself a portfolio piece — and rare.
+- **Strength:** solid *(conceptual/aspirational — needs the built result + a clear takeaway to reach strong; risk of being self-indulgent without a lesson others can use)*
+- **Connected ideas:** "Building my portfolio", "Creating animations for components", "Creating animations with AI", "Layout patterns"
+- **Useful phrases:**
+  - "Less of a tech business, more of a gathering."
+  - "Take a sip, stay a while."
+  - "What brings you here?"
+  - "Circles that clash and bounce for the feeling of disconnection."
+- **Open questions:** What's the takeaway for *readers* (vs. just documenting my own portfolio)? Did the scroll/circle interactions actually get built and work? Tie it to a principle — "interaction as storytelling" — or it stays a mood board.
+- **Source:** Granola `a8552064-1427-44a6-8950-e8f855be712b` and `8191d17b-8131-4054-9b23-5ccc9667c0a7` (portfolio design exploration + visual storytelling)
 - **Status:** captured
 
 ---

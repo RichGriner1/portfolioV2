@@ -41,6 +41,7 @@ Posts by **other people** whose voice, structure, or hook Richard wants to learn
 - **Images:** `liked-mattgray-aphorisms.png`, `liked-mattgray-list-posts.png`, `liked-mattgray-systems.png`
 - **What I like about it:** Compressed, confident one-liners and tight list-posts. Each says one thing and stops. High signal, no padding.
 - **⚠️ Key observation (Richard, 2026-06):** *He's not doing threads anymore.* It's all standalone aphorisms and short list-posts with a kicker. Signal that on X right now, **single sharp posts > long threads.** Lean standalone-first.
+- **Full template vault:** Matt's "Tweet Templates" Notion (Richard duplicated it into the connected workspace). The reusable *structures* are distilled into `05-content-production/tweet-frameworks.md` — translated to Richard's voice, with the guru-maxim ones flagged as avoid.
 - **What to borrow (STRUCTURE, not voice):**
   - **Aphorism + parallelism:** triads like "First-time founders… Second-time founders… Third-time founders…"
   - **List-post with a kicker line:** a titled list, then a punchy close ("No babysitting. No fires. Empty calendar.")

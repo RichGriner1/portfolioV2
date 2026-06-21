@@ -49,7 +49,7 @@ Each tweet stands alone. No numbering, no thread. Pull from the gold and verbati
 
 ## Proven structures (from the swipe file)
 
-Studied from creators like Matt Gray (`02-voice-guide/examples/liked-posts.md`) — borrow the **shape**, fill it with Richard's lived design/AI specifics, never the guru voice:
+Studied from creators like Matt Gray (`02-voice-guide/examples/liked-posts.md`). Full skeletons with Richard-flavored examples live in **`tweet-frameworks.md`** — use that as the working reference. Borrow the **shape**, fill it with Richard's lived design/AI specifics, never the guru voice:
 
 - **Triad / parallelism:** three parallel clauses that build. *"First design system: you name the colors. Second: you name the roles. Third: you let the tokens decide."*
 - **List-post + kicker:** a titled list, then one punchy closing line. *"3 things I check before any handoff: tokens match code · states defined · the grid is real. Miss one and the devs design it for you."*

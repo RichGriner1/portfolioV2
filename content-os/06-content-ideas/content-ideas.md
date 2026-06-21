@@ -93,4 +93,7 @@ As the weekly review connects stories to ideas, log it here so patterns become v
 
 | Idea | Connected story (ID) | Status | Notes |
 |------|----------------------|--------|-------|
-|      |                      |        |       |
+| Building page templates for fintech / Page templates / Layout patterns | `fintech-pattern-hierarchy-2026-06-08` | prioritized | Global→page→section hierarchy; strongest, most ready |
+| Naming / Mistakes I've made as a DS designer / Overcomplication | `ds-naming-afi-azul-2026-05-22` | prioritized | "AFI azul" doesn't scale; name by function |
+| 0 to 1 in a month / Finding clients / Elite case study (The Collective) | `collective-0-to-1-2026-04-24` | prioritized | 500 signups → 2 conversions; could split into 2–3 posts |
+| Lessons learned from poor AI outputs / Build components first | `ai-design-interactivity-2026-05-27` | captured | Claude vs Stitch; solid, needs a lived example to go strong |

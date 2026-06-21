@@ -84,23 +84,12 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
 
 ---
 
-### [ID: ai-design-interactivity-2026-05-27]
+### [ID: ai-design-interactivity-2026-05-27] — ARCHIVED
 
-- **Date:** 2026-05-27
-- **Pillar / Type:** Blog — "Lessons learned from poor AI outputs" / "Build components first with vibe coding" / "Using AI for feedback and launch"
-- **The story (what happened):** Broke down a Claude Code vs Google Stitch comparison by actually working through both on a real test (a wealth-manager-style trading dashboard). The difference that mattered wasn't visual polish — it was **interactivity**. Claude's output was a clickable, tweakable prototype (density controls, live side-panel iteration, clean handoff to Claude Code with design mostly preserved). Stitch produced static images first, needed re-prompting for most changes, and the design "got lost" on handoff. The trap I named for myself: trying to do wireframe + high fidelity at once — "we get lost in the sauce doing both at once."
-- **The lesson / insight:** **"Seeing interactiveness and iterating is how we get to good design"** — static AI mockups (like static Figma pages) make it harder to imagine the experience, so they lead to worse decisions. Visual iteration isn't a step in design; it's the whole thing. Also: don't chase wireframe and high-fidelity in the same breath.
-- **Why it matters:** Everyone's comparing AI design tools on output looks. The real differentiator is whether you can *iterate live* — and most people pick wrong because they judge the screenshot, not the loop.
-- **Strength:** solid *(reaction to a video + hands-on test, not a full lived project — best as a sharp LinkedIn post or short thread, not a case study)*
-- **Connected ideas:** "Lessons learned from poor AI outputs", "Build components first with vibe coding", "Using AI for feedback and launch", "AI unlocks documentation, scale, and quality" · framework: ai-shifts-designer-to-judgment
-- **Useful phrases:**
-  - "Seeing interactiveness and iterating is how we get to good design."
-  - "Visual iteration is literally the entire process of design."
-  - "We get lost in the sauce doing both at once."
-  - "They make the pages static, which makes it harder to imagine the experience."
-- **Open questions:** Do I have a real project where a static mockup led me to a wrong decision that interactivity would've caught? That lived example would turn this from solid → strong.
-- **Source:** Granola `53108e6d-c70d-4503-8adc-03ac5027902e` ("Claude code vs stitch")
-- **Status:** captured
+- **Status:** archived (killed 2026-06-21)
+- **Why killed:** Tool comparison (Claude Code vs Stitch) — buzzword-y, ages fast, and it was a work presentation, not Richard's own lived project. Not content material. Kept as a record so it doesn't get re-suggested.
+- **Salvage note:** the one durable idea — "visual iteration *is* the design, static mockups lead to worse decisions" — only becomes content if it's attached to a real project where a static mockup led to a wrong call. If that lived moment surfaces, capture it as a new entry; don't revive this one.
+- **Source:** Granola `53108e6d-c70d-4503-8adc-03ac5027902e`
 
 ---
 
@@ -154,6 +143,6 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
 - **Connected ideas:** "Primitive components then patterns then pages", "Build components instead of pages", "Build components first with vibe coding", "Auto-sync to Figma and code".
 
 ### Pattern: AI shifts the designer's job from pixels to judgment
-- **Evidence:** Granola `99c914a4` DS manifesto ("team reviews backend/accessibility, designer reviews taste, animations") · Granola `28d1b893` Component architecture ("recording design decisions valuable for articulating process") · `ai-design-interactivity-2026-05-27` (iteration > output looks).
-- **Why it's real:** the same reframe — AI removes production work, leaving taste, reasoning, and review as the job — recurs across the manifesto, the architecture session, and the tooling comparison.
+- **Evidence:** Granola `99c914a4` DS manifesto ("team reviews backend/accessibility, designer reviews taste, animations") · Granola `28d1b893` Component architecture ("recording design decisions valuable for articulating process") · `design-md-modular-2026-04-30` (documentation/reasoning as the new work; AI handles production).
+- **Why it's real:** the same reframe — AI removes production work, leaving taste, reasoning, and review as the job — recurs across the manifesto, the architecture session, and the Design MD experiment.
 - **Connected ideas:** "AI allows designers to explain reasoning and document decisions", "AI changes the feedback dynamic for designers", "Revision is the most critical moment now", "AI unlocks documentation, scale, and quality".

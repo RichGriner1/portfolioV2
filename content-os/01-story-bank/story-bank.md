@@ -62,8 +62,9 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
 - **Open questions:** What were the actual quality differences in the with/without test (be concrete)? What's in the "Caveman" repo and how much did it cut cost? Did the skills+router model actually ship?
 - **Already published (don't repeat):** A LinkedIn post (~May 2026) name-drops design.md as one of three tips ("put your learnings… in your design.md or a skill") but does NOT make this entry's core argument. The differentiated angle is still open: docs help *new* builds not *existing* ones, the skills+router model, and the with/without experiment. Go deeper than "use a design.md."
 - **Source:** Granola `7677a8ea-7034-477f-b595-779044773d35` and `d2384f65-e8ca-4a4d-8173-f5ee78ff68ef` ("Design MD" strategy + showcase)
-- **Gap analysis:** `03-research/gap-analysis-design-md-modular.md` — almost all `[ASK]`, no research needed. Interview seed ready.
-- **Status:** in-research
+- **Gap analysis:** `03-research/gap-analysis-design-md-modular.md` — almost all `[ASK]`, no research needed.
+- **Interview:** `04-interview/interview-design-md-modular.md` — ready to record in Granola.
+- **Status:** interviewing
 
 ---
 
@@ -103,7 +104,8 @@ Format follows `story-bank-template.md`. Status flow: `captured → prioritized 
 - **Already published (partially spent):** A LinkedIn post (~May 2026) already tells this story's *arc* — "cut the inconsistencies between design and development," "looked at the code, it was awful," "improved at lightning pace but it wasn't scalable," plus the tip "audit your token layers in Figma and make sure they match to code." The blog version must NOT re-run this. Fresh angle = the one concrete moment it shipped wrong (the cost), not the general lesson the post already gave.
 - **Source:** Granola `69baec77-85c9-4a75-88ea-64af5aaa18f6` ("Simulador de eficiencia energética") and `f4499d28-61dd-4eb7-8f6f-7c93a18e29cd` ("Simulators design"). Related published LinkedIn post (screenshot, ~May 2026).
 - **Gap analysis:** `03-research/gap-analysis-designing-against-the-build.md` — all `[ASK]`, no research. Blog needs the concrete "shipped wrong" moment as its spine (arc is already on LinkedIn).
-- **Status:** in-research
+- **Interview:** `04-interview/interview-designing-against-the-build.md` — ready to record in Granola (Q1 is the make-or-break moment).
+- **Status:** interviewing
 
 ---
 

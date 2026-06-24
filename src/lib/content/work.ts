@@ -19,7 +19,8 @@ export type GlyphKey =
   | "palette"
   | "canvas"
   | "mindfulme"
-  | "typo-trail";
+  | "typo-trail"
+  | "layout-grammar";
 
 export type WorkItem = {
   slug: string;
@@ -74,7 +75,6 @@ export const WORK: WorkItem[] = [
     href: "/work/kt360",
     glyph: "canvas",
     bento: "square",
-    ongoing: true,
   },
   {
     slug: "audemic-growth",
@@ -125,6 +125,26 @@ export const WORK: WorkItem[] = [
     glyph: "typo-trail",
     bento: "square",
     bgColor: "#ff7cba",
+  },
+  {
+    slug: "fintech-layout-grammar",
+    title: {
+      en: "A layout grammar for dense fin-tech",
+      // TODO(afi-redaccion)
+      es: "Una gramática de layout para fin-tech denso",
+    },
+    description: {
+      en: "Defining the global → page → section → content stack that keeps Wealth Manager and Wealth Planner coherent.",
+      // TODO(afi-redaccion)
+      es: "Definiendo la pila global → página → sección → contenido que mantiene Wealth Manager y Wealth Planner coherentes.",
+    },
+    year: 2026,
+    date: "2026-06-08",
+    type: "writing",
+    kind: "process",
+    href: "/writing/fintech-layout-grammar",
+    glyph: "layout-grammar",
+    bento: "square",
   },
   {
     slug: "page-layout-template",

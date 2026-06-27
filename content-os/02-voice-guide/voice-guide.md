@@ -93,7 +93,7 @@ This is a living document. As real writing accumulates, refine it using `voice-u
 Cut these on sight:
 
 - 🌱 "In today's fast-paced world…" / "In the ever-evolving landscape of…"
-- 🌱 "It's not just X, it's Y." (overused construction)
+- 🌱 *(updated this convo)* "It's not just X, it's Y." / "X isn't a Y, it's a Z." — **allowed, but rarely and only when earned** (Richard likes these in the Matt-Gray style). Hollow or overused, it's the #1 AI-tell. See *Reframes — earned vs AI-y* below.
 - 🌱 "Let's dive in" / "Let's unpack this"
 - 🌱 "game-changer", "revolutionary", "seamless", "robust", "leverage", "synergy", "elevate", "unlock your potential"
 - 🌱 "As a designer, I…" as a throat-clear opener
@@ -130,6 +130,28 @@ Cut these on sight:
 - 🌱 When you *do* thread: one story / one argument, step by step. No thread-bait.
 - 🌱 *(corroborated)* More room to be blunt and experimental than LinkedIn.
 - 📌 Borrow *structure* from aphorism creators, never their guru voice. Every Richard post starts from a real moment, not a maxim. *(explicit guardrail you set.)*
+
+## Reframes — earned vs AI-y
+
+📌 *(this convo — Richard kept flagging AI-generated reframes as "ai-y," and one as "I just don't understand it")*
+
+A reframe is the one-line turn that sharpens a belief (*"If everything is a priority, nothing is."*). Matt Gray's land because the post around them earns them. The AI-generated ones miss in specific, recognizable ways.
+
+**Earned** — falls out of the concrete thing you just said, true, only makes sense in *your* post:
+- *"When three actions all look primary, none of them are."* (after the split-button fix)
+- *"Writing the doc was the audit."* (after explaining the design.md)
+
+**AI-y — cut these:**
+- **Over-symmetry.** Two clauses balanced too perfectly; the shape is doing the work, not the truth.
+- **Anthropomorphized cuteness.** *"your color system is lying to the user."* Reaching.
+- **Could-apply-to-anything.** Swap the nouns and it still "works"? Then it says nothing.
+- **Profound-sounding, content-free.** *"Design isn't decoration, it's decision."* Smells true, means nothing.
+
+**The test:** would the line survive being said to a skeptical colleague, or would they go "…okay, but what do you actually *mean*"? If it needs the construction to land, cut it and state the concrete thing plainly. Richard's dry, specific register *is* the twist.
+
+**Not every idea is a one-liner.** A reframe only works when the idea is self-contained — a button, a tab, a delay; the reader gets it with no setup. If the line needs context to make sense (what an empty state is, which dashboard, whose tokens), keep it a **standalone** and put the setup *in* the post. Forcing a context-heavy insight into a punchy line is exactly how it stops making sense.
+
+---
 
 ## Blog-specific
 

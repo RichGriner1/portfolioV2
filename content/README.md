@@ -11,7 +11,7 @@ This is where writing lives. Four stages, four pillars.
 - **`social/`** — short-form copy for LinkedIn + Twitter, derived from a published post.
   Created by the `syndicator` agent via `/syndicate`.
 
-The voice rulebook at [voice.md](voice.md) is the source of truth for tone — every agent that writes in Richard's voice reads it before drafting.
+The voice rulebook at [voice.md](voice.md) is the source of truth for tone — every agent that writes in Richard's voice reads it before drafting. It opens with the **substance bar**: whether a post is worth posting, checked before tone. Reusable post **formats** (Problem → Steps → Scale, etc.) live in [formats.md](formats.md).
 
 For the step-by-step "how to actually use this" — what to type, what each agent will ask, what to do when something goes wrong — see [runbook.md](runbook.md).
 

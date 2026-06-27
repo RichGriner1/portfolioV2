@@ -28,13 +28,13 @@ If voice-keeper or post-reviewer return non-`ship` verdicts, do not skip the loo
 
 ## Output
 
-A single file at `content/social/<pillar>/<slug>.md` containing both the LinkedIn body and the Twitter thread, with `status: draft`. Richard reviews, flips `status: ready`, then posts (manually for now — `/push` is deferred).
+A single file at `content/social/<pillar>/<slug>.md` containing both the LinkedIn body and the Twitter thread, with `status: draft`. Richard reviews, flips `status: ready`, then runs `/push` to draft/schedule it to Typefully (or posts manually by copy/paste).
 
 ## Hard rules (orchestrator enforces)
 
 - **Do not auto-post.** This pipeline ends with a file on disk, not a published post.
 - **Do not skip the clarifier.** The syndicator must ask Richard the one-takeaway question at minimum, even if questions 2 and 3 are obvious.
 - **Do not skip voice-keeper.** Even if you think the syndicator nailed it, run the lint pass.
-- **Do not write to LinkedIn or Twitter APIs.** Out of scope for `/syndicate`. That's `/push`, which doesn't exist yet.
+- **Do not write to LinkedIn or Twitter APIs.** Out of scope for `/syndicate`. Publishing is `/push`'s job (Typefully), run separately after review.
 
 Full rules live in `.claude/agents/syndicator.md`, `.claude/agents/voice-keeper.md`, and `.claude/agents/post-reviewer.md`.

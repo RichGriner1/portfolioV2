@@ -58,7 +58,7 @@ Five subagents + four slash commands across two stages. See [content/README.md](
 
 If `voice-keeper` or `post-reviewer` return non-`ship` verdicts, the orchestrator routes back to `syndicator` with the failures. Do not skip steps.
 
-`/syndicate` ends at a file on disk with `status: draft`. Posting is manual for now (copy/paste into LinkedIn + Twitter composers). A `/push` command + Typefully (or X API) integration is a deferred Phase 2.
+`/syndicate` ends at a file on disk with `status: draft`. To publish, flip `status: ready` and run **`/push`** ([.claude/commands/push.md](.claude/commands/push.md)) — it drafts/schedules the post to Typefully via its API ([scripts/typefully-push.mjs](scripts/typefully-push.mjs)). Needs `TYPEFULLY_API_KEY` in the environment. `/push` always dry-runs first and asks before a real send; its Typefully API assumptions are flagged `TODO-VERIFY` until confirmed against Typefully's live docs.
 
 `experiment/` pillar entries are seeds for side projects. When one is ready to build, spin up a dedicated repo — the experiment doesn't live inside portfolioV2.
 

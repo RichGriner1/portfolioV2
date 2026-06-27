@@ -149,8 +149,7 @@ If any of these appear in generated copy, the voice-keeper flags them. This list
 
 ### Construction patterns
 
-- **"Not just X, but Y."** Overused tricolon. One use per long-form piece, max. Zero uses in short-form.
-- **"X isn't a Y, it's a Z."** Same problem — punchy, but everyone uses it.
+- **"Not just X, but Y." / "X isn't a Y, it's a Z."** The reframe constructions. **Allowed — with taste, used rarely.** They're load-bearing in the Matt-Gray-style posts Richard likes, so they're no longer banned. But they're also the single biggest AI-tell when hollow or overused. Rule of thumb: at most one per post, and only when the turn is *true and specific* — not just symmetrical. See **Reframes — earned vs AI-y** below.
 - **Three-item lists where two would do.** LLMs default to three. If the third is filler, drop it.
 - **Em-dashes as rhythm crutch.** If a paragraph has more than two, at least one is decorative — kill it.
 
@@ -173,6 +172,27 @@ His meeting/Granola voice has a different register. Don't carry it into drafts:
 
 ---
 
+## Reframes — earned vs AI-y
+
+A reframe is the one-line turn that sharpens a belief: *"If everything is a priority, nothing is."* Used well it's the best line in a post. Used badly it's the fastest way to sound like an AI trying to be deep. Matt Gray's reframes work; the ones that drift AI-y don't. The difference is whether the line is **earned**.
+
+**A good reframe is earned and specific.** It falls out of the concrete thing you just said, it's true, and it would only make sense in *your* post:
+
+- *"Everything else is just storage."* — after naming one source of truth.
+- *"If everything is a priority, nothing is."* — after "write five tasks, not fifteen."
+- *"When three actions all look primary, none of them are."* — after the split-button fix.
+
+**An AI-y reframe is hollow, over-built, or trying too hard.** Tells:
+
+- **Over-symmetry.** Two clauses balanced too perfectly — the shape is doing the work, not the truth.
+- **Anthropomorphized cuteness.** *"your color system is lying to the user"* — punchy, but reaching.
+- **Could-apply-to-anything.** Swap the nouns and it still "works"? Then it says nothing.
+- **Profound-sounding, content-free.** *"Design isn't decoration, it's decision."* — smells true, means nothing.
+
+**The test:** would the line survive being said out loud to a skeptical colleague, or would they go "…okay, but what do you actually *mean*"? If it needs the construction to land, cut it. When in doubt, state the concrete thing plainly — a real observation beats a hollow aphorism every time. That plain statement, in Richard's dry register, *is* the twist: the turn comes from the specific, not the wordplay.
+
+---
+
 ## Approved patterns (what to preserve)
 
 These show up in his actual writing. Don't paste them verbatim, but recognize them as voice signals to keep.
@@ -190,7 +210,7 @@ These show up in his actual writing. Don't paste them verbatim, but recognize th
 ### LinkedIn
 
 - **Audience:** designers, design-system folks, fintech adjacents, ex-coworkers, recruiters. Mostly skim-readers on a phone.
-- **Length:** 150–250 words. LinkedIn caps "see more" around 200 chars / 3 lines, so the hook is the first 2 sentences — they decide whether anyone clicks expand.
+- **Length:** 150–250 words by default, but a numbered/list post (see [formats.md](formats.md)) may run **300–500 words** when each section earns it. White space does the formatting — one idea per line. Still **no emoji**. LinkedIn caps "see more" around 200 chars / 3 lines, so the hook is the first 2 sentences — they decide whether anyone clicks expand.
 - **Hook:** state the situation or the surprising claim in the first line. Don't open with "I've been thinking…" or with a question.
 - **Body:** 2–4 short paragraphs, no bold-keyword sprinkling, no emojis. White space is the formatting.
 - **Tone:** plain-spoken POV. Observation, not pitch.
@@ -204,7 +224,8 @@ These show up in his actual writing. Don't paste them verbatim, but recognize th
 
 - **Audience:** tech, design-Twitter, devs who care about tooling. More opinionated than LinkedIn. Hard CTAs are fair game.
 - **Hook tweet:** the first ~7 words decide whether anyone scrolls. Open with the surprising claim, the pointed question, or the concrete number. *"I built a design system rulebook for an AI to read. Here's what worked and what didn't:"*
-- **Thread length:** 5–9 tweets. Fewer if the idea fits.
+- **Prefer the single list post over the thread.** Threads don't move the needle — a hook-colon → 3–5 item list → kicker (see [formats.md](formats.md)) packs a thread's worth into one scannable tweet. Reserve threads for when the idea genuinely needs the steps drawn out.
+- **Thread length (when you do thread):** 5–9 tweets. Fewer if the idea fits.
 - **Per tweet:** one beat — one observation, one number, one move. Don't pack two ideas into one tweet.
 - **Format:** line breaks, not numbered lists. The thread structure is implicit; numbering ("1/", "2/") is fine if it's the thread style he prefers, but don't enforce it.
 - **CTA tweet (last):** link to the long-form piece. Variants:

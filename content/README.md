@@ -47,10 +47,10 @@ title: "<source post title>"
 source: published/<pillar>/<slug>.md
 pillar: <pillar>
 stance: educator | builder | noticer
-status: draft              # draft | ready | posted
+status: draft              # draft | ready | scheduled | posted
 created: 2026-04-27
 posted_at:                 # filled when posted
-typefully_ids:             # filled if/when /push is built
+typefully_ids:             # filled by /push when drafted/scheduled to Typefully
   linkedin:
   twitter:
 ---

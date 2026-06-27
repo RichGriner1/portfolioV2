@@ -6,6 +6,30 @@ This is bootstrapped from his existing published work and journal/draft entries.
 
 ---
 
+## The substance bar (clear this first — before tone)
+
+Everything below this section is about *how it sounds*. This section is about *whether it's worth posting at all*. A post can be flawless on voice and still be worthless: a true observation with no point, a "here's what I did" that gives the reader nothing to take away. **Substance is the first gate. Tone is the second.** A post that fails here doesn't get a voice pass — it gets cut or rebuilt.
+
+Every post must clear three things:
+
+- **One takeaway, stated.** The reader should finish able to *do* something, *use* something, or *see* something differently. If the takeaway can't be said in one sentence, the post isn't ready. *"I swapped inputs for sliders"* is a fact. *"Sliders beat input boxes for high-stakes numbers — people feel the range before they commit"* is a takeaway.
+- **A real "so what," on the page.** Name why it matters in words. Don't make the reader infer the point from a story. The story buys attention; the takeaway pays it back. A post that's all setup and no payoff fails.
+- **Non-obvious.** If a competent peer already knows it, go deeper or cut it. *"Dense dashboards need consistent structure"* is a truism. *"Lock the structure so the data can change without the screen feeling like a different product"* is worth the slot.
+
+Three tests, in order:
+
+1. **The "and?" test.** Read it as a stranger and say "and?" If the post already answers it, good. If "and?" lands on silence, the point is missing.
+2. **The screenshot test.** Would a practitioner screenshot this to keep or send a coworker? If not, it's a status update, not value.
+3. **The subtraction test.** If deleting the post would cost the reader nothing, don't post it to fill the calendar — an empty slot beats a pointless one.
+
+When a post fails the bar, the fix is almost never *more words*. It's finding the actual point and leading with it, or killing the post and reusing the slot.
+
+**Process / build-in-public posts are not exempt.** "Here's my workflow" is not automatically valuable. The value is the *transferable* part — the principle, the trade-off, the thing that broke and what it taught. A workflow tour with no extractable lesson fails the bar even when every sentence sounds like Richard.
+
+**Ownership.** The drafting agent (`syndicator`, `editor`) must clear this bar *before* writing — pick the takeaway first, draft second. `post-reviewer` enforces it as a ship-blocker, same weight as a weak hook. `voice-keeper` checks tone, not substance: a post can pass voice-keeper and still fail here.
+
+---
+
 ## Stance per pillar
 
 The voice shifts slightly across pillars. All four sit on a shared base (plain, specific, opinionated, honest), but the angle differs.

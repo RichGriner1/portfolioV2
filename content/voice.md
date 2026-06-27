@@ -191,6 +191,8 @@ A reframe is the one-line turn that sharpens a belief: *"If everything is a prio
 
 **The test:** would the line survive being said out loud to a skeptical colleague, or would they go "…okay, but what do you actually *mean*"? If it needs the construction to land, cut it. When in doubt, state the concrete thing plainly — a real observation beats a hollow aphorism every time. That plain statement, in Richard's dry register, *is* the twist: the turn comes from the specific, not the wordplay.
 
+**Not every idea is a one-liner.** A reframe only works when the idea is self-contained — a button, a tab, a delay; the reader gets it with no setup. If the line needs context to make sense (what an empty state is, which dashboard, whose tokens), keep it a **standalone** and put the context *in* the post. Forcing a context-dependent insight into a punchy line is exactly how it stops making sense — the failure mode behind more than one miss here.
+
 ---
 
 ## Approved patterns (what to preserve)

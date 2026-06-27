@@ -28,7 +28,9 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 
 **Ownership.** The drafting agent (`syndicator`, `editor`) must clear this bar *before* writing — pick the takeaway first, draft second. `post-reviewer` enforces it as a ship-blocker, same weight as a weak hook. `voice-keeper` checks tone, not substance: a post can pass voice-keeper and still fail here.
 
-**Formats** — the reusable *shape* of a post (Problem → Steps → Scale, and more) — live in [formats.md](formats.md). A format decides structure; it never overrides this bar or the voice rules below.
+**Formats** — the reusable *shape* of a post — live in the content-os system at [content-os/05-content-production/tweet-frameworks.md](../content-os/05-content-production/tweet-frameworks.md) (and the templates beside it). A format decides structure; it never overrides this bar or the voice rules below.
+
+> **Note:** the content-os system at [content-os/](../content-os/) is now the source of truth for the content workflow (voice guide, frameworks, story bank, backlog). This file remains wired into the legacy `.claude/agents`; the two voice docs should be unified in a focused pass.
 
 ---
 

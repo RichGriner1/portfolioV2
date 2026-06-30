@@ -89,6 +89,8 @@
   --blue-800: #1e40af;
   --blue-900: #1e3a8a;
   --blue-950: #172554;
+  --accessibility-white: #ffffff;
+  --accessibility-black: #000000;
   --space-0: 0px;
   --space-1: 1px;
   --space-2: 2px;
@@ -374,6 +376,8 @@
   --color-blue-800: #1e40af;
   --color-blue-900: #1e3a8a;
   --color-blue-950: #172554;
+  --color-accessibility-white: #ffffff;
+  --color-accessibility-black: #000000;
   --breakpoint-xs: 480px;
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

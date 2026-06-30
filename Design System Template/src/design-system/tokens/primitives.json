@@ -91,6 +91,11 @@
       "800": { "$type": "color", "$value": "#1e40af" },
       "900": { "$type": "color", "$value": "#1e3a8a" },
       "950": { "$type": "color", "$value": "#172554" }
+    },
+    "accessibility": {
+      "$description": "Pure black and white — escape hatch for maximum contrast when a semantic token isn't enough (e.g. WCAG AAA text, high-contrast mode).",
+      "white": { "$type": "color", "$value": "#ffffff" },
+      "black": { "$type": "color", "$value": "#000000" }
     }
   },
   "dimension": {

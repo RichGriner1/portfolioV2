@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import primitivesJson from "@/design-system/tokens/primitives.json";
 import semanticLightJson from "@/design-system/tokens/semantic-light.json";
 import semanticDarkJson from "@/design-system/tokens/semantic-dark.json";
@@ -87,11 +88,13 @@ const SHADOWS: Array<{ name: string; usage: string }> = [
 const SPACES = ["0", "1", "2", "4", "8", "12", "16", "20", "24", "32", "48", "64", "96", "128", "256"];
 
 export default function Home() {
-  const [dark, setDark] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
+  // next-themes only knows the real theme after mount; guard against
+  // a hydration mismatch by treating the server render as light.
+  useEffect(() => setMounted(true), []);
+  const dark = mounted && resolvedTheme === "dark";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -103,7 +106,7 @@ export default function Home() {
           </p>
         </div>
         <button
-          onClick={() => setDark((d) => !d)}
+          onClick={() => setTheme(dark ? "light" : "dark")}
           className="px-16 py-10 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary-hover active:bg-primary-active transition-colors"
         >
           Toggle {dark ? "light" : "dark"}

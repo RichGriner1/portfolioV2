@@ -5,10 +5,10 @@ import {
   Section,
   SemanticCard,
   PrimitiveRampCard,
-  BorderRingDemo,
+  BorderRingCard,
   useDark,
 } from "../_showcase/ui";
-import { RAMPS, SEMANTIC_PAIRS } from "../_showcase/data";
+import { BORDERS, RAMPS, SEMANTIC_PAIRS } from "../_showcase/data";
 
 export default function ColorPage() {
   const { dark } = useDark();
@@ -18,6 +18,29 @@ export default function ColorPage() {
       title="Color"
       description="Three layers, bottom-up: primitive ramps → semantic roles → component use."
     >
+      <div className="max-w-3xl space-y-12 text-sm leading-relaxed text-muted-foreground">
+        <p>
+          Color here is built in three layers. <strong className="font-medium text-foreground">Primitives</strong>{" "}
+          are the raw scales — complete ramps of every hue, with no meaning attached.{" "}
+          <strong className="font-medium text-foreground">Semantic tokens</strong> map those primitives to roles
+          like <code className="font-mono">background</code>, <code className="font-mono">primary</code>, or{" "}
+          <code className="font-mono">error</code>. Components only ever touch the semantic layer, so they never
+          hard-code a hex.
+        </p>
+        <p>
+          I worked with a team that had three brand colors: <code className="font-mono">brand</code>,{" "}
+          <code className="font-mono">brand-light</code>, and <code className="font-mono">brand-lighter</code>. Then
+          someone needed something a bit lighter than light. There was nowhere to put it, so they eyeballed a value
+          and the palette drifted. Define the full ramps first and that doesn&apos;t happen &mdash;{" "}
+          <strong className="font-medium text-foreground">&ldquo;lighter&rdquo; already exists</strong>, so you reach
+          for <code className="font-mono">primary-200</code>{" "}
+          instead of inventing it. You make a thousand small decisions building a product. Settling the scale once
+          removes a whole class of them. It also lets you swap a brand color, or an entire neutral scale, without
+          touching a single component. That matters most when you&apos;re shipping several products, or
+          white-labeling one.
+        </p>
+      </div>
+
       <Section
         title="Primitives"
         description="Raw color scales — the bottom layer, with no meaning attached. Each card shows the ramp's base color, what it's for, and all 11 steps."
@@ -64,9 +87,13 @@ export default function ColorPage() {
 
       <Section
         title="Border + ring"
-        description="Interactive — hover and focus the controls to see each token in its natural state."
+        description="Hover a card to see its use cases and the primitive + hex behind it."
       >
-        <BorderRingDemo />
+        <div className="grid grid-cols-2 items-start gap-12 md:grid-cols-3 lg:grid-cols-4">
+          {BORDERS.map(({ name, usage }) => (
+            <BorderRingCard key={name} name={name} usage={usage} dark={dark} />
+          ))}
+        </div>
       </Section>
     </PageShell>
   );

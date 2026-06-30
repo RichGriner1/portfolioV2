@@ -34,11 +34,10 @@ export function durationMs(d: "fast" | "base" | "slow" | "slower"): number {
   return { fast: 120, base: 200, slow: 320, slower: 500 }[d];
 }
 
-// Pick a readable text token (light vs dark) for a given hex background, via
-// WCAG relative luminance. Returns a CSS var so it still tracks the theme.
-export function readableOn(hex: string): string {
+// WCAG relative luminance for a #rrggbb hex. null if unparseable.
+function relLuminance(hex: string): number | null {
   const h = hex.replace("#", "");
-  if (h.length < 6) return "var(--surface-950)";
+  if (h.length < 6) return null;
   const toLin = (c: number) => {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
@@ -46,8 +45,31 @@ export function readableOn(hex: string): string {
   const r = toLin(parseInt(h.slice(0, 2), 16));
   const g = toLin(parseInt(h.slice(2, 4), 16));
   const b = toLin(parseInt(h.slice(4, 6), 16));
-  const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+// Pick a readable text token (light vs dark) for a given hex background.
+// Returns a CSS var so it still tracks the theme.
+export function readableOn(hex: string): string {
+  const L = relLuminance(hex);
+  if (L === null) return "var(--surface-950)";
   return L > 0.45 ? "var(--surface-950)" : "var(--surface-50)";
+}
+
+// WCAG contrast ratio between two hex colors (1–21). null if unparseable.
+export function contrastRatio(a: string, b: string): number | null {
+  const La = relLuminance(a);
+  const Lb = relLuminance(b);
+  if (La === null || Lb === null) return null;
+  return (Math.max(La, Lb) + 0.05) / (Math.min(La, Lb) + 0.05);
+}
+
+// Map a ratio to its WCAG level for normal text.
+export function wcagLevel(ratio: number): { label: string; pass: boolean } {
+  if (ratio >= 7) return { label: "AAA", pass: true };
+  if (ratio >= 4.5) return { label: "AA", pass: true };
+  if (ratio >= 3) return { label: "AA Large", pass: true };
+  return { label: "Fail", pass: false };
 }
 
 // Split a usage string ("overview\nExamples:\n• a\n• b") into parts.

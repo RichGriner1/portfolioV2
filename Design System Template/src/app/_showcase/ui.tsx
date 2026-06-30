@@ -7,10 +7,12 @@ import { cn } from "@/design-system/lib/utils";
 import {
   PRIMITIVE_RAMP_INFO,
   STEPS,
+  contrastRatio,
   parseUsage,
   primitiveHex,
   readableOn,
   resolveSemantic,
+  wcagLevel,
 } from "./data";
 
 /** Theme state with a mount guard (next-themes resolves only after mount). */
@@ -123,6 +125,8 @@ export function SemanticCard({
   const { overview, examples } = parseUsage(usage);
   const bgC = resolveSemantic(bg, dark ? "dark" : "light");
   const fgC = resolveSemantic(fg, dark ? "dark" : "light");
+  const ratio = bgC && fgC ? contrastRatio(bgC.hex, fgC.hex) : null;
+  const level = ratio !== null ? wcagLevel(ratio) : null;
 
   return (
     <div
@@ -148,6 +152,9 @@ export function SemanticCard({
               >
                 <div>bg --{bg} · {bgC?.primitive ?? "?"} · {bgC?.hex ?? ""}</div>
                 <div>fg --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
+                {ratio !== null && level ? (
+                  <div>contrast {ratio.toFixed(2)}:1 · {level.label} {level.pass ? "✓" : "✕"}</div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -210,44 +217,59 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
   );
 }
 
-/** Interactive border + ring demo — the tokens shown in their natural states. */
-export function BorderRingDemo() {
+/**
+ * Border / ring token card. Swatch + name at rest; hover expands to reveal
+ * use cases and the primitive + hex in both themes (mirrors SemanticCard).
+ */
+export function BorderRingCard({
+  name,
+  usage,
+  dark,
+}: {
+  name: string;
+  usage: string;
+  dark: boolean;
+}) {
+  const { overview, examples } = parseUsage(usage);
+  const light = resolveSemantic(name, "light");
+  const dk = resolveSemantic(name, "dark");
+  const current = dark ? dk : light;
+
   return (
-    <div className="space-y-24">
-      <div className="max-w-md space-y-8">
-        <label htmlFor="ring-demo" className="block text-sm font-medium">
-          Live input — hover it, then click or Tab in to see the ring
-        </label>
-        <input
-          id="ring-demo"
-          type="text"
-          placeholder="Focus me…"
-          className="w-full rounded-md border border-input-border bg-input px-12 py-8 text-sm text-foreground outline-none transition-colors placeholder:text-input-placeholder hover:border-input-border-hover focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
-        />
-        <p className="text-xs text-muted-foreground">
-          <code className="font-mono">input-border</code> at rest ·{" "}
-          <code className="font-mono">input-border-hover</code> on hover ·{" "}
-          <code className="font-mono">ring</code> on focus
-        </p>
-      </div>
-
-      <div>
-        <button
-          type="button"
-          className="rounded-md bg-primary px-16 py-10 text-sm font-medium text-primary-foreground outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-          Tab to me — focus ring
-        </button>
-      </div>
-
-      <div className="flex flex-wrap gap-16">
-        <div className="group rounded-lg border border-border bg-card p-16 text-sm transition-colors hover:border-border-strong">
-          <div className="font-medium">border</div>
-          <code className="text-xs text-muted-foreground">--border · hover → border-strong</code>
+    <div className="group overflow-hidden rounded-lg border border-border bg-card">
+      <div className="p-16">
+        <div className="flex items-center gap-12">
+          <div
+            className="size-40 shrink-0 rounded-md bg-background"
+            style={{ border: `2px solid var(--${name})` }}
+          />
+          <div className="min-w-0">
+            <div className="text-sm font-medium">{name}</div>
+            {current ? (
+              <code className="font-mono text-[10px] text-muted-foreground">
+                {current.primitive} · {current.hex}
+              </code>
+            ) : null}
+          </div>
         </div>
-        <div className="rounded-lg border border-border-strong bg-card p-16 text-sm">
-          <div className="font-medium">border-strong</div>
-          <code className="text-xs text-muted-foreground">--border-strong</code>
+        <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
+          <div className="overflow-hidden">
+            <div className="space-y-12 pt-12 text-xs text-muted-foreground">
+              <p className="leading-snug">{overview}</p>
+              {examples.length ? (
+                <ul className="space-y-2">
+                  {examples.map((e) => (
+                    <li key={e}>• {e}</li>
+                  ))}
+                </ul>
+              ) : null}
+              <div className="space-y-2 border-t border-border pt-8 font-mono text-[10px]">
+                <div>--{name}</div>
+                <div>light · {light?.primitive ?? "?"} · {light?.hex ?? ""}</div>
+                <div>dark · {dk?.primitive ?? "?"} · {dk?.hex ?? ""}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

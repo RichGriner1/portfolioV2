@@ -120,7 +120,7 @@ Cut these on sight:
 - 📌 No "DM me" / no freelance pitches — Richard has a full-time job. *(your stated context + AGENTS.md.)*
 - 📌 White space. Short lines. Mobile-scannable. *(2026-05 post.)*
 - 📌 End on the insight or a genuine question, not a sales ask. *(2026-05 post.)*
-- 📌 A numbered, practical how-to list is a proven format here. *(2026-05 post.)*
+- 📌 A numbered, practical how-to list is a proven format here. *(2026-05 post.)* The canonical long-form structure — credential hook → N Title-Case items, each a bullet sub-list + a contrast kicker — is catalogued in `examples/liked-posts.md` (Matt Gray "8 rare traits"). Borrow the shape; **skip its repost/follow/lead-magnet CTA** (soft CTAs only).
 
 ## X / Twitter-specific
 

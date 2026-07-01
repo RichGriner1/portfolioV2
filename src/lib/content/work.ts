@@ -32,8 +32,9 @@ export type WorkItem = {
   kind: WorkKind;
   href: string;
   glyph: GlyphKey;
-  /** Optional language-keyed thumbnail video, shown in place of the glyph. */
-  video?: Bilingual<string>;
+  /** Optional thumbnail-video base path. Full src is built per language + theme:
+      `${video}_${lang}_${light|dark}_thumb.mp4`. Shown in place of the glyph. */
+  video?: string;
   bento?: "square" | "tall" | "wide";
   bgColor?: string;
   featured?: boolean;
@@ -60,10 +61,7 @@ export const WORK: WorkItem[] = [
     kind: "methodology",
     href: "/methodology/color",
     glyph: "palette",
-    video: {
-      en: "/methodology/token-levels_en_thumb.mp4",
-      es: "/methodology/token-levels_es_thumb.mp4",
-    },
+    video: "/methodology/token-levels",
     bento: "square",
     featured: true,
   },

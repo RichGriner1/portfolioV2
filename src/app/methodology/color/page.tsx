@@ -33,7 +33,9 @@ function B({ children }: { children: React.ReactNode }) {
 
 function HeroVideo() {
   const { lang } = useLang();
-  const src = `/methodology/token-levels_${lang}_hero.mp4`;
+  const { dark } = useDark();
+  const mode = dark ? "dark" : "light";
+  const src = `/methodology/token-levels_${lang}_${mode}_hero.mp4`;
   return (
     <div className="border-border w-full rounded-2xl border p-6 sm:p-8">
       <video
@@ -105,7 +107,7 @@ export default function ColorMethodologyPage() {
                   producto tomas mil decisiones pequeñas. Fijar la escala una vez elimina toda
                   una clase de ellas. Además, te permite cambiar un color de marca, o una escala
                   neutra entera, sin tocar un solo componente. Eso importa sobre todo cuando
-                  lanzas varios productos, o comercializas uno en marca blanca.
+                  lanzas varios productos o comercializas uno en marca blanca.
                 </p>
               </>
             ) : (
@@ -127,7 +129,7 @@ export default function ColorMethodologyPage() {
                   bit lighter than light. There was nowhere to put it, so they eyeballed a value
                   and the palette drifted. Define the full ramps first and that doesn&apos;t
                   happen &mdash; <B>&ldquo;lighter&rdquo; already exists</B>, so you reach for{" "}
-                  <B>primary-200</B> instead of inventing it. You make a thousand small decisions
+                  <B>primary-200</B>{" "}instead of inventing it. You make a thousand small decisions
                   building a product. Settling the scale once removes a whole class of them. It
                   also lets you swap a brand color, or an entire neutral scale, without touching
                   a single component. That matters most when you&apos;re shipping several
@@ -182,9 +184,9 @@ export default function ColorMethodologyPage() {
             </p>
             <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3">
               {RAMPS.map((ramp) => (
-                <PrimitiveRampCard key={ramp} ramp={ramp} span={ramp === "primary"} />
+                <PrimitiveRampCard key={ramp} ramp={ramp} span={ramp === "primary"} lang={lang} />
               ))}
-              <AccessibilityCard />
+              <AccessibilityCard lang={lang} />
             </div>
           </Section>
 
@@ -199,7 +201,7 @@ export default function ColorMethodologyPage() {
             <p className="text-sm text-muted-foreground">
               {es ? (
                 <>
-                  <B>Canvas frente a superficies.</B> Con un único fondo plano no distingues el
+                  <B>Canvas frente a superficies.</B>{" "}Con un único fondo plano no distingues el
                   marco de la aplicación del contenido, y las tarjetas flotan sin nada que las
                   asiente. El canvas lo resuelve: una capa base de verdad (blanco puro en claro,
                   casi negro en oscuro) sobre la que se apoya todo. Página, tarjeta y popover se
@@ -208,7 +210,7 @@ export default function ColorMethodologyPage() {
                 </>
               ) : (
                 <>
-                  <B>Canvas vs. surfaces.</B> With one flat background you can&apos;t tell the
+                  <B>Canvas vs. surfaces.</B>{" "}With one flat background you can&apos;t tell the
                   app frame from the content, and cards float with nothing grounding them. Canvas
                   is the fix: a true base layer (pure white in light, near-black in dark) that
                   everything sits on. Page, card, and popover stack on top of it, each a small
@@ -219,7 +221,7 @@ export default function ColorMethodologyPage() {
             <p className="text-sm text-muted-foreground">
               {es ? (
                 <>
-                  <B>Ghost = outline.</B> Cada nivel ghost usa los mismos tokens que un botón
+                  <B>Ghost = outline.</B>{" "}Cada nivel ghost usa los mismos tokens que un botón
                   outline: texto de color sobre la superficie y un tinte al pasar el ratón. La
                   única diferencia es si el componente dibuja un borde, así que un mismo conjunto
                   de tokens sirve para los dos. Los niveles filled y subtle no llevan borde: son
@@ -227,7 +229,7 @@ export default function ColorMethodologyPage() {
                 </>
               ) : (
                 <>
-                  <B>Ghost = outline.</B> Every ghost tier uses the same tokens as an outline
+                  <B>Ghost = outline.</B>{" "}Every ghost tier uses the same tokens as an outline
                   button — colored text on the surface, a tint on hover. The only difference is
                   whether the component draws a border, so one token set serves both. Filled and
                   subtle tiers have no border at all — they&apos;re solid surfaces, so
@@ -253,7 +255,7 @@ export default function ColorMethodologyPage() {
                             bg={p.bg}
                             fg={p.fg}
                             label={p.label}
-                            usage={p.usage}
+                            usage={p.usage[lang]}
                             ghost={p.ghost}
                             flat={group.flat}
                             dark={dark}
@@ -277,7 +279,7 @@ export default function ColorMethodologyPage() {
           >
             <div className="grid grid-cols-1 items-start gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {BORDERS.map(({ name, usage }) => (
-                <BorderRingCard key={name} name={name} usage={usage} dark={dark} />
+                <BorderRingCard key={name} name={name} usage={usage[lang]} dark={dark} />
               ))}
             </div>
           </Section>
@@ -296,14 +298,14 @@ export default function ColorMethodologyPage() {
                   <p>
                     Aquí es donde un rol se encuentra con un componente. <B>primary</B> +{" "}
                     <B>primary-foreground</B> forman el botón por defecto; <B>destructive</B>{" "}
-                    forma el botón de eliminar; <B>card</B> forma la superficie de la tarjeta. El
+                    forma el botón de eliminar; <B>card</B>{" "}forma la superficie de la tarjeta. El
                     componente pide el rol por su nombre: nunca ve un primitivo ni un hex.
                   </p>
                   <p>
                     De ahí salen dos cosas. <B>Reutilización:</B> cada botón que pide{" "}
-                    <B>primary</B> comparte una única definición, así que se mantienen idénticos
+                    <B>primary</B>{" "}comparte una única definición, así que se mantienen idénticos
                     sin que nadie los sincronice; cambia <B>primary</B> una vez y todos los
-                    botones, enlaces y estados activos primary se mueven con él, en una sola
+                    botones, enlaces y estados activos que lo usan se mueven con él, en una sola
                     edición. <B>Patrones:</B> como los componentes hablan en roles, uno nuevo
                     montado con esos mismos roles hereda el sistema gratis.
                   </p>
@@ -321,12 +323,12 @@ export default function ColorMethodologyPage() {
                   <p>
                     This is where a role meets a component. <B>primary</B> +{" "}
                     <B>primary-foreground</B> become the default button; <B>destructive</B>{" "}
-                    becomes the delete button; <B>card</B> becomes the card surface. The component
+                    becomes the delete button; <B>card</B>{" "}becomes the card surface. The component
                     asks for the role by name &mdash; it never sees a primitive step or a hex.
                   </p>
                   <p>
                     Two things fall out of that. <B>Reuse:</B> every button that asks for{" "}
-                    <B>primary</B> shares one definition, so they stay identical without anyone
+                    <B>primary</B>{" "}shares one definition, so they stay identical without anyone
                     keeping them in sync &mdash; change <B>primary</B> once and every primary
                     button, link and active state moves with it, in a single edit. <B>Patterns:</B>{" "}
                     because components speak in roles, a new one assembled from the same roles

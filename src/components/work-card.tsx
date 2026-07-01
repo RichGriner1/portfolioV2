@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import { GLYPHS } from "@/components/motion/glyphs";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
@@ -15,17 +17,24 @@ const EASE = [0.2, 0.8, 0.2, 1] as const;
  * item has one, else its glyph centered on the surface.
  */
 function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+  const mode = mounted && resolvedTheme === "dark" ? "dark" : "light";
+
   if (item.video) {
+    const src = `${item.video}_${lang}_${mode}_thumb.mp4`;
     return (
       <video
-        key={item.video[lang]}
+        key={src}
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
         muted
         loop
         playsInline
       >
-        <source src={item.video[lang]} type="video/mp4" />
+        <source src={src} type="video/mp4" />
       </video>
     );
   }
@@ -54,9 +63,8 @@ function formatDate(item: WorkItem, locale: string): string {
 export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const { lang } = useLang();
   const locale = lang === "es" ? "es-ES" : "en-US";
-  // Video tiles read landscape; glyph tiles stay square. The mix gives the
-  // masonry its varied heights.
-  const aspect = item.video ? "aspect-[3/2]" : "aspect-square";
+  // Every tile is square; the v4 thumbnails are 1080×1080 so they fill it exactly.
+  const aspect = "aspect-square";
 
   return (
     <motion.div

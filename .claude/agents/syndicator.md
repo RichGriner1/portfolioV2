@@ -92,6 +92,18 @@ Standalones are single tweets pulled from (or adjacent to) the thread, each land
 - **Soft CTA when a long-form exists, last line.** Italic, short. Examples: *"Wrote up the full thing here: [link]"*, *"Longer version with the gory detail: [link]"*. When no long-form exists yet, skip the CTA — kicker line carries it.
 - **0–2 hashtags max**, only if natural. No `#designsystems #ux #ai` stacks.
 
+### Clarity self-check (before handoff — do this first)
+
+Voice compliance is not the same as good writing. Before the voice pass, read every line back as a skeptical editor and fix anything that fails:
+
+- **Does each sentence parse?** Read it aloud. If it's garbled or you re-read to get it, rewrite it.
+- **Is every claim credible?** No false absolutes. "one afternoon" → "one or two afternoons". Don't pin a big effect on one narrow cause.
+- **Does the logic hold?** Each beat must actually follow from the last. Do NOT manufacture a "distinct" thread by forcing a shaky premise (e.g. "no *color* strategy → capped at $20k/mo" conflates color with systems-in-general). If an angle needs a false premise to exist, cut the angle. Fewer sound angles beat more strained ones.
+- **No jargon mid-flow.** Cut insider asides (a hex/token detail) that interrupt a plain-language line, or move them to where they're earned.
+- **Parallel & plain.** Contrasts structurally parallel ("with a system: X. Without one: Y"), cause→effect explicit, not staccato fragments.
+
+If you can't make an angle credible, drop it and say so in your closing note. A short set of clean posts beats a padded set with one that "makes no sense."
+
 ### Voice rules
 
 Before finishing, do a self-check pass against the **banned phrases** list in [content/voice.md](../../content/voice.md). If you wrote any of them, rewrite the line.

@@ -28,11 +28,14 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
     return (
       <video
         key={src}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         autoPlay
         muted
         loop
         playsInline
+        ref={(el) => {
+          if (el) el.muted = true;
+        }}
       >
         <source src={src} type="video/mp4" />
       </video>
@@ -40,7 +43,7 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   }
   const Glyph = GLYPHS[item.glyph];
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-6">
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
       <Glyph active />
     </div>
   );
@@ -71,8 +74,12 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: Math.min(index, 8) * 0.06, ease: EASE }}
-      className="mb-4 break-inside-avoid"
+      transition={{
+        duration: 0.5,
+        delay: Math.min(index, 8) * 0.06,
+        ease: EASE,
+      }}
+      className="mb-6 break-inside-avoid"
     >
       <Link href={item.href} className="group block">
         {/* Media tile */}

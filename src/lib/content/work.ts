@@ -46,14 +46,13 @@ export const WORK: WorkItem[] = [
   {
     slug: "color-methodology",
     title: {
-      en: "Building color in three layers",
-      // TODO(afi-redaccion)
-      es: "Construyendo el color en tres capas",
+      en: "Building color in four layers",
+      es: "Construir el color en cuatro capas",
     },
     description: {
-      en: "A methodology for a token-based color system: primitive ramps → semantic roles → component use, so a rebrand is one token, not a hunt.",
+      en: "A methodology for a token-based color system: raw values → primitives → semantic roles → components, so a rebrand is one token, not a hunt.",
       // TODO(afi-redaccion)
-      es: "Una metodología para un sistema de color basado en tokens: rampas primitivas → roles semánticos → uso en componentes, para que un cambio de marca sea un token, no una búsqueda.",
+      es: "Una metodología para un sistema de color basado en tokens: valores en bruto → primitivos → roles semánticos → componentes, para que un cambio de marca sea un token, no una búsqueda.",
     },
     year: 2026,
     date: "2026-07-01",

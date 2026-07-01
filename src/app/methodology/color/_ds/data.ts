@@ -88,7 +88,7 @@ export const PRIMITIVE_RAMP_INFO: Record<
   { subtitle: string; overview: string; base: string; uses: string[] }
 > = {
   primary: {
-    subtitle: "Brand ramp",
+    subtitle: "Brand · actions",
     base: "800",
     overview: "The white-label hook. Every primary action derives from this scale — swap it to rebrand the whole system.",
     uses: ["Primary buttons & key CTAs (800)", "Links and active states (600)", "Hover / active steps (900 / 950)"],
@@ -100,7 +100,7 @@ export const PRIMITIVE_RAMP_INFO: Record<
     uses: ["Page, card & popover backgrounds (50)", "Foreground & muted text (600+ / 950)", "Muted / secondary surfaces (100)"],
   },
   control: {
-    subtitle: "Zinc · cool chrome",
+    subtitle: "Zinc · inputs & controls",
     base: "100",
     overview: "The grays for the lines and states around controls — input borders, dividers, the focus ring, disabled. Kept separate from the neutral ramp so a border never blends into the surface it sits on.",
     uses: ["Input borders & dividers (200)", "Focus ring (400)", "Disabled surface & text (100 / 500)"],

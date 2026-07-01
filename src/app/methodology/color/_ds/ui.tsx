@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import {
@@ -21,6 +21,30 @@ export function useDark() {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
   return { dark: mounted && resolvedTheme === "dark", setTheme };
+}
+
+/**
+ * Click / tap to pin a card open, on top of the hover-to-expand behaviour.
+ * Hover devices reveal on hover; touch devices (no hover) rely on the tap.
+ * Returns props for the card root and the grid-rows class for the reveal.
+ */
+function useExpand() {
+  const [open, setOpen] = useState(false);
+  const toggle = () => setOpen((o) => !o);
+  const rootProps = {
+    onClick: toggle,
+    role: "button" as const,
+    tabIndex: 0,
+    "aria-expanded": open,
+    onKeyDown: (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
+    },
+  };
+  const rowsClass = open ? "grid-rows-[1fr]" : "grid-rows-[0fr]";
+  return { rootProps, rowsClass };
 }
 
 export function Section({
@@ -75,10 +99,12 @@ export function SemanticCard({
   const contrastBg = ghost ? resolveSemantic("canvas", theme) : bgC;
   const ratio = contrastBg && fgC ? contrastRatio(contrastBg.hex, fgC.hex) : null;
   const level = ratio !== null ? wcagLevel(ratio) : null;
+  const { rootProps, rowsClass } = useExpand();
 
   return (
     <div
-      className={ghost || flat ? "group overflow-hidden rounded-lg" : "group overflow-hidden rounded-lg border border-border"}
+      {...rootProps}
+      className={ghost || flat ? "group cursor-pointer select-none overflow-hidden rounded-lg" : "group cursor-pointer select-none overflow-hidden rounded-lg border border-border"}
       style={
         ghost
           ? { color: `var(--${fg})`, border: `1px solid color-mix(in srgb, var(--${fg}) 45%, transparent)` }
@@ -98,7 +124,7 @@ export function SemanticCard({
             </span>
           ) : null}
         </div>
-        <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
+        <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
           <div className="overflow-hidden">
             <div className="space-y-12 pt-12 text-xs">
               <p className="leading-snug opacity-90">{overview}</p>
@@ -143,11 +169,13 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
   const info = PRIMITIVE_RAMP_INFO[ramp];
   const baseHex = primitiveHex(ramp, info.base);
   const textColor = readableOn(baseHex);
+  const { rootProps, rowsClass } = useExpand();
 
   return (
     <div
+      {...rootProps}
       className={cn(
-        "group flex min-h-[240px] flex-col justify-between overflow-hidden rounded-xl",
+        "group flex min-h-[240px] cursor-pointer select-none flex-col justify-between overflow-hidden rounded-xl",
         span && "sm:col-span-2",
       )}
       style={{ backgroundColor: `var(--${ramp}-${info.base})`, color: textColor }}
@@ -163,8 +191,8 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
         </code>
       </div>
 
-      {/* Overview + use cases + full-bleed ramp; all revealed on hover. */}
-      <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
+      {/* Overview + use cases + full-bleed ramp; revealed on hover or tap. */}
+      <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
         <div className="overflow-hidden">
           <div className="space-y-8 px-24 pb-12">
             <p className="max-w-[46ch] text-sm leading-snug opacity-90">{info.overview}</p>
@@ -223,12 +251,15 @@ export function AccessibilityCard({ span }: { span?: boolean }) {
     },
   ];
 
+  const { rootProps, rowsClass } = useExpand();
+
   return (
     <div
+      {...rootProps}
       className={cn(
         // The card IS the pure extreme: white in light, black in dark. The
         // border shows its edge against the (matching) canvas.
-        "group flex min-h-[240px] flex-col justify-between overflow-hidden rounded-xl border border-border",
+        "group flex min-h-[240px] cursor-pointer select-none flex-col justify-between overflow-hidden rounded-xl border border-border",
         "bg-[var(--accessibility-white)] text-[var(--accessibility-black)]",
         "dark:bg-[var(--accessibility-black)] dark:text-[var(--accessibility-white)]",
         span && "sm:col-span-2",
@@ -237,12 +268,12 @@ export function AccessibilityCard({ span }: { span?: boolean }) {
       <div className="p-24">
         <div className="text-[11px] font-mono uppercase tracking-wider opacity-60">Primitive</div>
         <h3 className="mt-4 text-3xl font-bold">Accessibility</h3>
-        <div className="mt-2 text-sm opacity-70">Maximum contrast · escape hatch</div>
+        <div className="mt-2 text-sm opacity-70">Maximum contrast</div>
         <code className="mt-2 block font-mono text-[11px] opacity-60">#ffffff · #000000</code>
       </div>
 
-      {/* Overview + per-color use cases; revealed on hover. */}
-      <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
+      {/* Overview + per-color use cases; revealed on hover or tap. */}
+      <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
         <div className="overflow-hidden">
           <div className="space-y-12 px-24 pb-24 text-xs">
             <p className="leading-snug opacity-75">
@@ -292,9 +323,13 @@ export function BorderRingCard({
   const light = resolveSemantic(name, "light");
   const dk = resolveSemantic(name, "dark");
   const current = dark ? dk : light;
+  const { rootProps, rowsClass } = useExpand();
 
   return (
-    <div className="group overflow-hidden rounded-lg border border-border bg-card">
+    <div
+      {...rootProps}
+      className="group cursor-pointer select-none overflow-hidden rounded-lg border border-border bg-card"
+    >
       <div className="p-16">
         <div className="flex items-center gap-12">
           <div
@@ -310,7 +345,7 @@ export function BorderRingCard({
             ) : null}
           </div>
         </div>
-        <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
+        <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
           <div className="overflow-hidden">
             <div className="space-y-12 pt-12 text-xs text-muted-foreground">
               <p className="leading-snug">{overview}</p>

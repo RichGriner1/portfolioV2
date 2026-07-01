@@ -85,6 +85,61 @@
   /* Motion */
   --default-transition-duration: var(--duration-base);
   --default-transition-timing-function: var(--ease-out-soft);
+
+  /* ------------------------------------------------------------------------
+     Design-System color bridges — used ONLY inside `.ds-scope` (the ported
+     Color methodology page). These expose the DS's extra semantic roles as
+     Tailwind utilities (`bg-canvas`, `bg-success-subtle`, …). The underlying
+     vars are defined on `.ds-scope` below, so these resolve to DS values in
+     scope and are simply unused elsewhere. Keys the portfolio already maps
+     (primary, card, muted, border, destructive, …) are intentionally omitted.
+     ------------------------------------------------------------------------ */
+  --color-canvas: var(--canvas);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-ghost-hover: var(--primary-ghost-hover);
+  --color-primary-ghost-active: var(--primary-ghost-active);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-subtle-foreground: var(--primary-subtle-foreground);
+  --color-primary-subtle-hover: var(--primary-subtle-hover);
+  --color-primary-subtle-active: var(--primary-subtle-active);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
+  --color-border-strong: var(--border-strong);
+  --color-input-border: var(--input-border);
+  --color-input-border-hover: var(--input-border-hover);
+  --color-input-placeholder: var(--input-placeholder);
+  --color-disabled: var(--disabled);
+  --color-disabled-foreground: var(--disabled-foreground);
+  --color-control: var(--control);
+  --color-control-foreground: var(--control-foreground);
+  --color-control-hover: var(--control-hover);
+  --color-control-active: var(--control-active);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-error-subtle: var(--error-subtle);
+  --color-error-subtle-foreground: var(--error-subtle-foreground);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-hover: var(--destructive-hover);
+  --color-destructive-active: var(--destructive-active);
+  --color-destructive-subtle: var(--destructive-subtle);
+  --color-destructive-subtle-foreground: var(--destructive-subtle-foreground);
+  --color-destructive-subtle-hover: var(--destructive-subtle-hover);
+  --color-destructive-subtle-active: var(--destructive-subtle-active);
+  --color-destructive-ghost-hover: var(--destructive-ghost-hover);
+  --color-destructive-ghost-active: var(--destructive-ghost-active);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-subtle-foreground: var(--success-subtle-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-subtle-foreground: var(--warning-subtle-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-subtle-foreground: var(--info-subtle-foreground);
 }
 
 /* --------------------------------------------------------------------------
@@ -201,6 +256,233 @@
     0 10px 15px -3px oklch(0 0 0 / 0.5), 0 4px 6px -4px oklch(0 0 0 / 0.4);
   --shadow-xl:
     0 20px 25px -5px oklch(0 0 0 / 0.55), 0 8px 10px -6px oklch(0 0 0 / 0.4);
+}
+
+/* ==========================================================================
+   .ds-scope — Design System token layer for the ported Color methodology page
+   --------------------------------------------------------------------------
+   The Color page was authored against the Design System Template's own tokens
+   AND its 1px spacing scale (`--spacing: 0.0625rem`, so `p-16` = 16px). Both
+   are redefined here, scoped to `.ds-scope`, so the ported page renders exactly
+   as designed while the rest of the portfolio (default 4px scale, grayscale
+   theme) is untouched. Tailwind v4 emits spacing as `calc(var(--spacing) * N)`,
+   so overriding `--spacing` in this scope rescales all descendant spacing.
+   Ramp + accessibility vars are consumed via inline `var(--…)`; semantic vars
+   back both inline styles and the `@theme` bridges above.
+   ========================================================================== */
+.ds-scope {
+  /* 1 spacing unit = 1px */
+  --spacing: 0.0625rem;
+
+  /* Primitive ramps */
+  --primary-50: #fafafa;
+  --primary-100: #f3f3f3;
+  --primary-200: #e6e6e6;
+  --primary-300: #d4d4d4;
+  --primary-400: #aaaaaa;
+  --primary-500: #828282;
+  --primary-600: #5e5e5e;
+  --primary-700: #454545;
+  --primary-800: #363636;
+  --primary-900: #2c2c2c;
+  --primary-950: #242424;
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-400: #94a3b8;
+  --neutral-500: #64748b;
+  --neutral-600: #475569;
+  --neutral-700: #334155;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
+  --neutral-950: #020617;
+  --control-50: #fafafa;
+  --control-100: #f4f4f5;
+  --control-200: #e4e4e7;
+  --control-300: #d4d4d8;
+  --control-400: #a1a1aa;
+  --control-500: #71717a;
+  --control-600: #52525b;
+  --control-700: #3f3f46;
+  --control-800: #27272a;
+  --control-900: #18181b;
+  --control-950: #09090b;
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-900: #7f1d1d;
+  --red-950: #450a0a;
+  --green-50: #f0fdf4;
+  --green-100: #dcfce7;
+  --green-200: #bbf7d0;
+  --green-300: #86efac;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --green-800: #166534;
+  --green-900: #14532d;
+  --green-950: #052e16;
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-300: #fcd34d;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
+  --amber-950: #451a03;
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a8a;
+  --blue-950: #172554;
+  --accessibility-white: #ffffff;
+  --accessibility-black: #000000;
+
+  /* Semantic — light */
+  --canvas: #ffffff;
+  --background: #f8fafc;
+  --foreground: #020617;
+  --card: #f8fafc;
+  --card-foreground: #020617;
+  --popover: #f8fafc;
+  --popover-foreground: #020617;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --primary: #363636;
+  --primary-foreground: #fafafa;
+  --primary-hover: #2c2c2c;
+  --primary-active: #242424;
+  --primary-ghost-hover: #f3f3f3;
+  --primary-ghost-active: #e6e6e6;
+  --primary-subtle: #f3f3f3;
+  --primary-subtle-foreground: #363636;
+  --primary-subtle-hover: #e6e6e6;
+  --primary-subtle-active: #d4d4d4;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #020617;
+  --secondary-hover: #e2e8f0;
+  --secondary-active: #cbd5e1;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --input: #fafafa;
+  --input-border: #e4e4e7;
+  --input-border-hover: #d4d4d8;
+  --input-placeholder: #71717a;
+  --ring: #a1a1aa;
+  --disabled: #f4f4f5;
+  --disabled-foreground: #71717a;
+  --control: #fafafa;
+  --control-foreground: #020617;
+  --control-hover: #f4f4f5;
+  --control-active: #e4e4e7;
+  --error: #f87171;
+  --error-foreground: #450a0a;
+  --error-subtle: #fef2f2;
+  --error-subtle-foreground: #b91c1c;
+  --destructive: #dc2626;
+  --destructive-foreground: #f8fafc;
+  --destructive-hover: #b91c1c;
+  --destructive-active: #991b1b;
+  --destructive-subtle: #fef2f2;
+  --destructive-subtle-foreground: #991b1b;
+  --destructive-subtle-hover: #fee2e2;
+  --destructive-subtle-active: #fecaca;
+  --destructive-ghost-hover: #fef2f2;
+  --destructive-ghost-active: #fee2e2;
+  --success: #4ade80;
+  --success-foreground: #052e16;
+  --success-subtle: #f0fdf4;
+  --success-subtle-foreground: #15803d;
+  --warning: #fbbf24;
+  --warning-foreground: #451a03;
+  --warning-subtle: #fffbeb;
+  --warning-subtle-foreground: #b45309;
+  --info: #60a5fa;
+  --info-foreground: #172554;
+  --info-subtle: #eff6ff;
+  --info-subtle-foreground: #1d4ed8;
+}
+
+.dark .ds-scope {
+  --canvas: #020617;
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --primary: #e6e6e6;
+  --primary-foreground: #242424;
+  --primary-hover: #f3f3f3;
+  --primary-active: #fafafa;
+  --primary-ghost-hover: #363636;
+  --primary-ghost-active: #454545;
+  --primary-subtle: #363636;
+  --primary-subtle-foreground: #f3f3f3;
+  --primary-subtle-hover: #454545;
+  --primary-subtle-active: #5e5e5e;
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+  --secondary-hover: #334155;
+  --secondary-active: #475569;
+  --border: #27272a;
+  --border-strong: #3f3f46;
+  --input: #18181b;
+  --input-border: #3f3f46;
+  --input-border-hover: #52525b;
+  --input-placeholder: #71717a;
+  --ring: #71717a;
+  --disabled: #27272a;
+  --disabled-foreground: #71717a;
+  --control: #18181b;
+  --control-foreground: #f8fafc;
+  --control-hover: #27272a;
+  --control-active: #3f3f46;
+  --error: #f87171;
+  --error-foreground: #450a0a;
+  --error-subtle: #450a0a;
+  --error-subtle-foreground: #f87171;
+  --destructive: #ef4444;
+  --destructive-foreground: #020617;
+  --destructive-hover: #f87171;
+  --destructive-active: #fca5a5;
+  --destructive-subtle: #450a0a;
+  --destructive-subtle-foreground: #fecaca;
+  --destructive-subtle-hover: #7f1d1d;
+  --destructive-subtle-active: #991b1b;
+  --destructive-ghost-hover: #450a0a;
+  --destructive-ghost-active: #7f1d1d;
+  --success: #4ade80;
+  --success-foreground: #052e16;
+  --success-subtle: #052e16;
+  --success-subtle-foreground: #4ade80;
+  --warning: #fbbf24;
+  --warning-foreground: #451a03;
+  --warning-subtle: #451a03;
+  --warning-subtle-foreground: #fbbf24;
+  --info: #60a5fa;
+  --info-foreground: #172554;
+  --info-subtle: #172554;
+  --info-subtle-foreground: #60a5fa;
 }
 
 /* --------------------------------------------------------------------------

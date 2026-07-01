@@ -7,7 +7,7 @@ export type WorkType =
   | "experiment"
   | "writing";
 
-export type WorkKind = "case-study" | "process" | "lab";
+export type WorkKind = "case-study" | "process" | "lab" | "methodology";
 
 export type GlyphKey =
   | "design-system"
@@ -32,6 +32,8 @@ export type WorkItem = {
   kind: WorkKind;
   href: string;
   glyph: GlyphKey;
+  /** Optional language-keyed thumbnail video, shown in place of the glyph. */
+  video?: Bilingual<string>;
   bento?: "square" | "tall" | "wide";
   bgColor?: string;
   featured?: boolean;
@@ -41,6 +43,31 @@ export type WorkItem = {
 };
 
 export const WORK: WorkItem[] = [
+  {
+    slug: "color-methodology",
+    title: {
+      en: "Building color in three layers",
+      // TODO(afi-redaccion)
+      es: "Construyendo el color en tres capas",
+    },
+    description: {
+      en: "A methodology for a token-based color system: primitive ramps → semantic roles → component use, so a rebrand is one token, not a hunt.",
+      // TODO(afi-redaccion)
+      es: "Una metodología para un sistema de color basado en tokens: rampas primitivas → roles semánticos → uso en componentes, para que un cambio de marca sea un token, no una búsqueda.",
+    },
+    year: 2026,
+    date: "2026-07-01",
+    type: "design-system",
+    kind: "methodology",
+    href: "/methodology/color",
+    glyph: "palette",
+    video: {
+      en: "/methodology/token-levels_en_thumb.mp4",
+      es: "/methodology/token-levels_es_thumb.mp4",
+    },
+    bento: "square",
+    featured: true,
+  },
   {
     slug: "afi-design-system",
     title: {
@@ -145,6 +172,8 @@ export const WORK: WorkItem[] = [
     href: "/writing/fintech-layout-grammar",
     glyph: "layout-grammar",
     bento: "square",
+    // Kept in the data but pulled from the site until the piece is refined.
+    hidden: true,
   },
   {
     slug: "page-layout-template",
@@ -242,6 +271,7 @@ export const KIND_LABELS: Record<WorkKind, Bilingual<string>> = {
   "case-study": { en: "Case study", es: "Caso de estudio" },
   process: { en: "Process", es: "Proceso" },
   lab: { en: "Lab", es: "Laboratorio" },
+  methodology: { en: "Methodology", es: "Metodología" },
 };
 
 export function sortKey(item: WorkItem): string {

@@ -11,9 +11,9 @@ type Params = Promise<{ slug: string }>;
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return WORK.filter((item) => item.kind !== "lab" && !item.hidden).map(
-    (item) => ({ slug: item.slug })
-  );
+  return WORK.filter(
+    (item) => item.kind !== "lab" && item.kind !== "methodology" && !item.hidden
+  ).map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }) {

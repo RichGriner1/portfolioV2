@@ -57,6 +57,44 @@ Reusable structural skeletons for X posts (and short LinkedIn). Distilled from M
 
 ---
 
+## More single-tweet skeletons (added 2026-07, from a fresh Matt Gray capture)
+
+Same rule: fill each with a **real, specific moment**, never a maxim. Reframes must be *earned* (see `02-voice-guide/voice-guide.md` → "Reframes — earned vs AI-y").
+
+### 7. The equation
+**Skeleton:** {Outcome} = {A} + {B} + {C}.
+**Matt:** "Great Hire = High Intelligence + High Energy + High Integrity"
+**Richard example:**
+> Clean handoff = tokens that match code + defined states + a real grid.
+
+### 8. The comparison
+**Skeleton:** {X} > {Y}. Ultra-short — one belief stated as a ranking.
+**Matt:** "Systems > Goals"
+**Richard example:**
+> Consistency > flexibility. A template every page shares beats a bespoke layout per screen.
+
+### 9. Stop X. Do Y.
+**Skeleton:** Stop {the common move}. {The better move instead}.
+**Matt:** "Stop searching for motivation. Build systems that don't require it."
+**Richard example:**
+> Stop handing engineers static frames. Hand them code.
+
+### 10. The contrarian lever
+**Skeleton:** {Result / credential}. The lever wasn't {the obvious thing}. It was {the real thing}.
+**Matt:** "I built a $15M business with a team of 12. The lever wasn't headcount. It was the content engine, the AI systems, and a calendar that stays mostly empty."
+**Richard example:**
+> We got AI to generate on-brand UI. The lever wasn't a better prompt. It was naming our tokens by function.
+
+*(Uses the "wasn't X, it was Y" reveal — allowed because it's earned and specific here. Keep it rare; hollow, it's the #1 AI-tell.)*
+
+### 11. Setup → payoff → kicker
+**Skeleton:** {The small sacrifice}. {What it buys}. {The one-line lesson}.
+**Matt:** "Saying no to 100 hires. To land 1 A-player. That's the math of a lean empire."
+**Richard example:**
+> Deleting 35 lines of CSS from three pages. To gain one shared template. Now every new page starts consistent.
+
+---
+
 ## Transitions (Seeds of Curiosity)
 
 For the rare thread, or a longer LinkedIn post — short lines that pull the reader down. Use sparingly; Richard already does this naturally ("But it wasn't scalable.").

@@ -66,33 +66,46 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       transition={{ duration: 0.5, delay: Math.min(index, 8) * 0.06, ease: EASE }}
       className="mb-4 break-inside-avoid"
     >
-      <Link
-        href={item.href}
-        className="group border-border bg-card duration-base ease-out-soft relative block overflow-hidden rounded-2xl border transition-all hover:-translate-y-1 hover:shadow-lg"
-      >
-        {/* Media fills the tile */}
+      <Link href={item.href} className="group block">
+        {/* Media tile */}
         <div
-          className={cn("relative w-full", aspect)}
+          className={cn(
+            "border-border bg-card duration-base ease-out-soft relative w-full overflow-hidden rounded-2xl border transition-all group-hover:-translate-y-1 group-hover:shadow-lg",
+            aspect
+          )}
           style={item.bgColor ? { backgroundColor: item.bgColor } : undefined}
         >
           <CardMedia item={item} lang={lang} />
-        </div>
 
-        {/* Hover panel — always visible on touch, hover-revealed on desktop */}
-        <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 flex flex-col justify-between p-4 opacity-100 backdrop-blur-md transition-opacity md:opacity-0 md:group-hover:opacity-100">
-          <div className="flex flex-col gap-1.5">
-            <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
-              {pick(KIND_LABELS[item.kind], lang)}
-            </span>
-            <h3 className="text-foreground font-display text-lg font-bold tracking-tight text-balance">
-              {pick(item.title, lang)}
-            </h3>
-            <div className="text-foreground/70 font-mono text-xs tracking-wider">
-              {formatDate(item, locale)}
+          {/* Hover devices only: glass panel revealed on hover */}
+          <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
+                {pick(KIND_LABELS[item.kind], lang)}
+              </span>
+              <h3 className="text-foreground font-display text-lg font-bold tracking-tight text-balance">
+                {pick(item.title, lang)}
+              </h3>
+              <div className="text-foreground/70 font-mono text-xs tracking-wider">
+                {formatDate(item, locale)}
+              </div>
+            </div>
+            <div className="text-foreground self-end font-mono text-xs font-medium tracking-wider">
+              {t("home.read_more", lang)} →
             </div>
           </div>
-          <div className="text-foreground self-end font-mono text-xs font-medium tracking-wider">
-            {t("home.read_more", lang)} →
+        </div>
+
+        {/* Touch devices only: title + info below the graphic */}
+        <div className="mt-3 hidden flex-col gap-1 [@media(hover:none)]:flex">
+          <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
+            {pick(KIND_LABELS[item.kind], lang)}
+          </span>
+          <h3 className="text-foreground font-display text-base font-bold tracking-tight">
+            {pick(item.title, lang)}
+          </h3>
+          <div className="text-muted-foreground font-mono text-xs tracking-wider">
+            {formatDate(item, locale)}
           </div>
         </div>
       </Link>

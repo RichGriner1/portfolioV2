@@ -115,30 +115,41 @@ export function SemanticCard({
   label,
   usage,
   dark,
+  ghost = false,
+  flat = false,
 }: {
   bg: string;
   fg: string;
   label: string;
   usage: string;
   dark: boolean;
+  ghost?: boolean;
+  flat?: boolean;
 }) {
   const { overview, examples } = parseUsage(usage);
-  const bgC = resolveSemantic(bg, dark ? "dark" : "light");
-  const fgC = resolveSemantic(fg, dark ? "dark" : "light");
-  const ratio = bgC && fgC ? contrastRatio(bgC.hex, fgC.hex) : null;
+  const theme = dark ? "dark" : "light";
+  const bgC = resolveSemantic(bg, theme);
+  const fgC = resolveSemantic(fg, theme);
+  // A ghost has no fill — it sits on the canvas, so its contrast is text-vs-canvas.
+  const contrastBg = ghost ? resolveSemantic("canvas", theme) : bgC;
+  const ratio = contrastBg && fgC ? contrastRatio(contrastBg.hex, fgC.hex) : null;
   const level = ratio !== null ? wcagLevel(ratio) : null;
 
   return (
     <div
-      className="group overflow-hidden rounded-lg border border-border"
-      style={{ backgroundColor: `var(--${bg})`, color: `var(--${fg})` }}
+      className={ghost || flat ? "group overflow-hidden rounded-lg" : "group overflow-hidden rounded-lg border border-border"}
+      style={
+        ghost
+          ? { color: `var(--${fg})`, border: `1px solid color-mix(in srgb, var(--${fg}) 45%, transparent)` }
+          : { backgroundColor: `var(--${bg})`, color: `var(--${fg})` }
+      }
     >
       <div className="p-16">
         <div className="flex items-center justify-between gap-8">
           <div className="text-sm font-medium">{label}</div>
           {ratio !== null && level ? (
             <span
-              title={`Foreground on background · WCAG ${level.label}`}
+              title={`${ghost ? "Text on canvas" : "Foreground on background"} · WCAG ${level.label}`}
               className="shrink-0 rounded-full px-8 py-1 font-mono text-[10px]"
               style={{ backgroundColor: "color-mix(in srgb, currentColor 14%, transparent)" }}
             >
@@ -161,8 +172,18 @@ export function SemanticCard({
                 className="space-y-2 pt-8 font-mono text-[10px] opacity-75"
                 style={{ borderTop: "1px solid color-mix(in srgb, currentColor 20%, transparent)" }}
               >
-                <div>bg --{bg} · {bgC?.primitive ?? "?"} · {bgC?.hex ?? ""}</div>
-                <div>fg --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
+                {ghost ? (
+                  <>
+                    <div>bg transparent — sits on canvas</div>
+                    <div>text --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
+                    <div>hover → subtle tint</div>
+                  </>
+                ) : (
+                  <>
+                    <div>bg --{bg} · {bgC?.primitive ?? "?"} · {bgC?.hex ?? ""}</div>
+                    <div>fg --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -264,39 +285,42 @@ export function AccessibilityCard({ span }: { span?: boolean }) {
   return (
     <div
       className={cn(
-        "group flex min-h-[240px] flex-col justify-between overflow-hidden rounded-xl border border-border bg-card",
+        // The card IS the pure extreme: white in light, black in dark. The
+        // border shows its edge against the (matching) canvas.
+        "group flex min-h-[240px] flex-col justify-between overflow-hidden rounded-xl border border-border",
+        "bg-[var(--accessibility-white)] text-[var(--accessibility-black)]",
+        "dark:bg-[var(--accessibility-black)] dark:text-[var(--accessibility-white)]",
         span && "sm:col-span-2",
       )}
     >
       <div className="p-24">
-        <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
-          Primitive
-        </div>
+        <div className="text-[11px] font-mono uppercase tracking-wider opacity-60">Primitive</div>
         <h3 className="mt-4 text-3xl font-bold">Accessibility</h3>
-        <div className="mt-2 text-sm text-muted-foreground">Maximum contrast · escape hatch</div>
-        <code className="mt-2 block font-mono text-[11px] text-muted-foreground">
-          #ffffff · #000000
-        </code>
+        <div className="mt-2 text-sm opacity-70">Maximum contrast · escape hatch</div>
+        <code className="mt-2 block font-mono text-[11px] opacity-60">#ffffff · #000000</code>
       </div>
 
-      {/* Overview + white/black bars with use cases; all revealed on hover. */}
+      {/* Overview + per-color use cases; revealed on hover. */}
       <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
         <div className="overflow-hidden">
-          <p className="max-w-[46ch] px-24 pb-12 text-sm leading-snug text-muted-foreground">
-            Pure #fff and #000, outside the themed ramps. Reach for them only when a semantic token
-            can&apos;t hit the contrast you need — AAA text, high-contrast mode, hairlines.
-          </p>
-          <div className="border-t border-border">
+          <div className="space-y-12 px-24 pb-24 text-xs">
+            <p className="leading-snug opacity-75">
+              Pure #fff and #000, outside the themed ramps. Reach for them only when a semantic token
+              can&apos;t hit the contrast you need.
+            </p>
             {swatches.map((s) => (
-              <div
-                key={s.name}
-                style={{ backgroundColor: `var(${s.varName})`, color: readableOn(s.hex) }}
-              >
-                <div className="flex items-center justify-between px-24 pt-3 font-mono text-[10px]">
-                  <span className="opacity-90">{s.name}</span>
-                  <span className="opacity-70">{s.hex}</span>
+              <div key={s.name}>
+                <div className="flex items-center gap-8 font-mono text-[11px]">
+                  <span
+                    className="size-10 shrink-0 rounded-full"
+                    style={{
+                      backgroundColor: `var(${s.varName})`,
+                      border: "1px solid color-mix(in srgb, currentColor 35%, transparent)",
+                    }}
+                  />
+                  {s.name} · {s.hex}
                 </div>
-                <ul className="space-y-1 px-24 pb-3 pt-2 text-[11px] leading-snug opacity-90">
+                <ul className="mt-2 space-y-1 pl-18 leading-snug opacity-70">
                   {s.uses.map((u) => (
                     <li key={u}>• {u}</li>
                   ))}

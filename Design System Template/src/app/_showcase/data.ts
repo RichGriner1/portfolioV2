@@ -130,72 +130,129 @@ export const PRIMITIVE_RAMP_INFO: Record<
   },
 };
 
-export type SemanticPair = { bg: string; fg: string; label: string; usage: string };
+export type SemanticPair = { bg: string; fg: string; label: string; usage: string; ghost?: boolean };
 
 // Semantic tokens grouped by family — each group renders as its own row.
-export const SEMANTIC_GROUPS: Array<{ label: string; pairs: SemanticPair[] }> = [
+// Each group is a set of rows. A "variant" (filled / subtle / ghost) is one row
+// of default · hover · active. Surfaces + status groups use a single row.
+// `flat` groups (actions) render non-ghost cards with no border — a filled
+// button is a solid surface, not an outlined one. Ghost keeps its border.
+export const SEMANTIC_GROUPS: Array<{ label: string; flat?: boolean; rows: SemanticPair[][] }> = [
   {
     label: "Surfaces",
-    pairs: [
-      { bg: "canvas", fg: "foreground", label: "Canvas", usage: "The outermost base layer the whole app sits on. Pure white in light, near-black slate in dark.\nExamples:\n• App shell / body background\n• The backdrop pages float on\n• Behind every surface" },
-      { bg: "background", fg: "foreground", label: "Page", usage: "The page surface that sits on the canvas.\nExamples:\n• Body background\n• Hero section background\n• Default layout color" },
-      { bg: "card", fg: "card-foreground", label: "Card", usage: "Surface color for cards sitting on the page background.\nExamples:\n• Article cards in a feed\n• Stat tiles\n• Profile boxes" },
-      { bg: "popover", fg: "popover-foreground", label: "Popover", usage: "Surface for anything that floats above the page — small or large.\nExamples:\n• Dialogs & drawers / sheets\n• Dropdown menus & command palette\n• Tooltips & date pickers" },
-      { bg: "muted", fg: "muted-foreground", label: "Muted", usage: "Quieter surface for non-active areas.\nExamples:\n• Sidebar background\n• Table row hover\n• Code block background" },
+    rows: [
+      [
+        { bg: "canvas", fg: "foreground", label: "Canvas", usage: "The outermost base layer the whole app sits on. Pure white in light, near-black slate in dark.\nExamples:\n• App shell / body background\n• The backdrop pages float on\n• Behind every surface" },
+        { bg: "background", fg: "foreground", label: "Page", usage: "The page surface that sits on the canvas.\nExamples:\n• Body background\n• Hero section background\n• Default layout color" },
+        { bg: "card", fg: "card-foreground", label: "Card", usage: "Surface color for cards sitting on the page background.\nExamples:\n• Article cards in a feed\n• Stat tiles\n• Profile boxes" },
+        { bg: "popover", fg: "popover-foreground", label: "Popover", usage: "Surface for anything that floats above the page — small or large.\nExamples:\n• Dialogs & drawers / sheets\n• Dropdown menus & command palette\n• Tooltips & date pickers" },
+        { bg: "muted", fg: "muted-foreground", label: "Muted", usage: "Quieter surface for non-active areas.\nExamples:\n• Sidebar background\n• Table row hover\n• Code block background" },
+        { bg: "disabled", fg: "disabled-foreground", label: "Disabled", usage: "The one surface + text combo used for anything non-interactive. Reach for it on any disabled control.\nExamples:\n• Greyed-out 'Submit' button\n• Disabled menu item\n• Read-only input field" },
+      ],
     ],
   },
   {
     label: "Primary action",
-    pairs: [
-      { bg: "primary", fg: "primary-foreground", label: "Default", usage: "Default primary action color.\nExamples:\n• Main 'Save' button background\n• Active tab indicator\n• Default link color" },
-      { bg: "primary-hover", fg: "primary-foreground", label: "Hover", usage: "Primary action when the cursor is over it.\nExamples:\n• Button under the mouse\n• Hovered nav link\n• Hovered active tab" },
-      { bg: "primary-active", fg: "primary-foreground", label: "Active", usage: "Primary action while being pressed.\nExamples:\n• Button mid-click\n• Pressed-down state\n• Active toggle handle" },
+    flat: true,
+    rows: [
+      [
+        { bg: "primary", fg: "primary-foreground", label: "Default", usage: "Filled — the main affirmative action.\nExamples:\n• 'Save' / 'Continue' button\n• Primary CTA\n• Active tab indicator" },
+        { bg: "primary-hover", fg: "primary-foreground", label: "Hover", usage: "Filled primary under the cursor.\nExamples:\n• Button on hover" },
+        { bg: "primary-active", fg: "primary-foreground", label: "Active", usage: "Filled primary while pressed.\nExamples:\n• Button mid-click" },
+      ],
+      [
+        { bg: "primary-subtle", fg: "primary-subtle-foreground", label: "Subtle", usage: "Low-emphasis filled — a light brand tint + brand text. (Looks grey until you rebrand primary.)\nExamples:\n• Low-emphasis primary action\n• Selected filter chip\n• Active nav item background" },
+        { bg: "primary-subtle-hover", fg: "primary-subtle-foreground", label: "Hover", usage: "Subtle primary under the cursor.\nExamples:\n• Subtle button on hover" },
+        { bg: "primary-subtle-active", fg: "primary-subtle-foreground", label: "Active", usage: "Subtle primary while pressed.\nExamples:\n• Subtle button mid-click" },
+      ],
+      [
+        { bg: "primary", fg: "primary", label: "Ghost", ghost: true, usage: "No fill — primary text on the surface; faint tint on hover. Lowest-emphasis primary.\nExamples:\n• Tertiary toolbar action\n• 'Learn more' link-button" },
+        { bg: "primary-ghost-hover", fg: "primary", label: "Hover", usage: "Ghost primary under the cursor — a faint brand tint appears.\nExamples:\n• Ghost button on hover" },
+        { bg: "primary-ghost-active", fg: "primary", label: "Active", usage: "Ghost primary while pressed — a slightly stronger tint.\nExamples:\n• Ghost button mid-click" },
+      ],
     ],
   },
   {
-    label: "Neutral action · secondary (deferred)",
-    pairs: [
-      { bg: "muted", fg: "foreground", label: "Default", usage: "Quiet, neutral action — our stand-in for a secondary button until a brand needs a dedicated token.\nExamples:\n• 'Cancel' button\n• Secondary toolbar action\n• Filter chips" },
-      { bg: "disabled", fg: "disabled-foreground", label: "Disabled", usage: "Surface and text for controls that can't be interacted with.\nExamples:\n• Greyed-out 'Submit' button\n• Disabled menu item\n• Read-only input field" },
+    label: "Neutral action · secondary",
+    flat: true,
+    rows: [
+      [
+        { bg: "secondary", fg: "secondary-foreground", label: "Default", usage: "The neutral secondary action — quiet, color-free.\nExamples:\n• 'Cancel' button\n• Secondary toolbar action\n• Filter chips" },
+        { bg: "secondary-hover", fg: "secondary-foreground", label: "Hover", usage: "Secondary under the cursor.\nExamples:\n• Cancel on hover" },
+        { bg: "secondary-active", fg: "secondary-foreground", label: "Active", usage: "Secondary while pressed.\nExamples:\n• Cancel mid-click" },
+      ],
+      [
+        { bg: "secondary", fg: "foreground", label: "Ghost", ghost: true, usage: "No fill — plain text on the surface; neutral tint on hover. The tertiary text button.\nExamples:\n• 'Skip' / 'Maybe later'\n• Overflow-menu items\n• Icon-only toolbar buttons" },
+        { bg: "secondary", fg: "foreground", label: "Hover", usage: "Ghost neutral under the cursor — a faint neutral tint.\nExamples:\n• Text button on hover" },
+        { bg: "secondary-hover", fg: "foreground", label: "Active", usage: "Ghost neutral while pressed.\nExamples:\n• Text button mid-click" },
+      ],
     ],
   },
   {
     label: "Destructive action",
-    pairs: [
-      { bg: "destructive", fg: "destructive-foreground", label: "Default", usage: "Action color for irreversible operations.\nExamples:\n• 'Delete account' button\n• 'Remove' icon button\n• Confirm dialog danger CTA" },
-      { bg: "destructive-hover", fg: "destructive-foreground", label: "Hover", usage: "Destructive action when the cursor is over it.\nExamples:\n• Delete button under the mouse\n• Hovered 'Remove' icon\n• Hovered danger CTA" },
-      { bg: "destructive-active", fg: "destructive-foreground", label: "Active", usage: "Destructive action while being pressed.\nExamples:\n• Mid-click on a delete\n• Pressed danger button" },
+    flat: true,
+    rows: [
+      [
+        { bg: "destructive", fg: "destructive-foreground", label: "Default", usage: "Filled — highest-emphasis danger action.\nExamples:\n• 'Delete account' confirm\n• Primary danger CTA in a dialog" },
+        { bg: "destructive-hover", fg: "destructive-foreground", label: "Hover", usage: "Filled destructive under the cursor.\nExamples:\n• Delete button on hover" },
+        { bg: "destructive-active", fg: "destructive-foreground", label: "Active", usage: "Filled destructive while pressed.\nExamples:\n• Delete mid-click" },
+      ],
+      [
+        { bg: "destructive-subtle", fg: "destructive-subtle-foreground", label: "Subtle", usage: "Low-emphasis filled — a quiet delete/remove.\nExamples:\n• 'Remove' in a list row\n• Secondary danger action" },
+        { bg: "destructive-subtle-hover", fg: "destructive-subtle-foreground", label: "Hover", usage: "Subtle destructive under the cursor.\nExamples:\n• 'Remove' on hover" },
+        { bg: "destructive-subtle-active", fg: "destructive-subtle-foreground", label: "Active", usage: "Subtle destructive while pressed.\nExamples:\n• 'Remove' mid-click" },
+      ],
+      [
+        { bg: "destructive", fg: "destructive-subtle-foreground", label: "Ghost", ghost: true, usage: "No fill — destructive text on the surface; tint on hover. Lowest-emphasis danger.\nExamples:\n• Tertiary 'Delete' in a menu\n• Icon-only remove" },
+        { bg: "destructive-ghost-hover", fg: "destructive-subtle-foreground", label: "Hover", usage: "Ghost destructive under the cursor — a faint red tint.\nExamples:\n• Ghost delete on hover" },
+        { bg: "destructive-ghost-active", fg: "destructive-subtle-foreground", label: "Active", usage: "Ghost destructive while pressed.\nExamples:\n• Ghost delete mid-click" },
+      ],
+    ],
+  },
+  {
+    label: "Control · form fields",
+    rows: [
+      [
+        { bg: "control", fg: "control-foreground", label: "Default", usage: "A form control at rest — the fill used for any input, select, checkbox or toggle.\nExamples:\n• Text field background\n• Checkbox / toggle track\n• Segmented control" },
+        { bg: "control-hover", fg: "control-foreground", label: "Hover", usage: "A control under the cursor.\nExamples:\n• Field on hover\n• Hovered toggle\n• Hovered segment" },
+        { bg: "control-active", fg: "control-foreground", label: "Active", usage: "A control while pressed or switched on.\nExamples:\n• Pressed segment\n• Checked toggle track\n• Active field" },
+      ],
     ],
   },
   {
     label: "Error",
-    pairs: [
-      { bg: "error", fg: "error-foreground", label: "Default", usage: "State color signalling something went wrong.\nExamples:\n• Invalid form field border\n• System-error toast\n• Failed-validation icon" },
-      { bg: "error-subtle", fg: "error-subtle-foreground", label: "Subtle", usage: "Soft tint for inline error messages.\nExamples:\n• Inline alert banner\n• Validation hint background\n• Error callout bg" },
+    rows: [
+      [
+        { bg: "error", fg: "error-foreground", label: "Default", usage: "State color signalling something went wrong.\nExamples:\n• Invalid form field border\n• System-error toast\n• Failed-validation icon" },
+        { bg: "error-subtle", fg: "error-subtle-foreground", label: "Subtle", usage: "Soft tint for inline error messages.\nExamples:\n• Inline alert banner\n• Validation hint background\n• Error callout bg" },
+      ],
     ],
   },
   {
     label: "Success",
-    pairs: [
-      { bg: "success", fg: "success-foreground", label: "Default", usage: "Affirmative color signaling a positive outcome.\nExamples:\n• 'Saved' toast\n• Success badge\n• Completed checkmark" },
-      { bg: "success-hover", fg: "success-foreground", label: "Hover", usage: "Success-tinted action when hovered.\nExamples:\n• 'Approve' button hover\n• Hovered confirm CTA" },
-      { bg: "success-subtle", fg: "success-subtle-foreground", label: "Subtle", usage: "Soft tint for inline success messages.\nExamples:\n• 'Profile updated' banner\n• Confirmation note background" },
+    rows: [
+      [
+        { bg: "success", fg: "success-foreground", label: "Default", usage: "Affirmative color signaling a positive outcome.\nExamples:\n• 'Saved' toast\n• Success badge\n• Completed checkmark" },
+        { bg: "success-subtle", fg: "success-subtle-foreground", label: "Subtle", usage: "Soft tint for inline success messages.\nExamples:\n• 'Profile updated' banner\n• Confirmation note background" },
+      ],
     ],
   },
   {
     label: "Warning",
-    pairs: [
-      { bg: "warning", fg: "warning-foreground", label: "Default", usage: "Cautionary color signaling 'pay attention but don't panic'.\nExamples:\n• Unsaved changes bar\n• Expiring-soon badge\n• Warning toast" },
-      { bg: "warning-hover", fg: "warning-foreground", label: "Hover", usage: "Warning-tinted action when hovered.\nExamples:\n• 'Acknowledge' button hover\n• Hovered warning CTA" },
-      { bg: "warning-subtle", fg: "warning-subtle-foreground", label: "Subtle", usage: "Soft tint for inline warnings.\nExamples:\n• Caution callout background\n• Soft warning banner" },
+    rows: [
+      [
+        { bg: "warning", fg: "warning-foreground", label: "Default", usage: "Cautionary color — 'pay attention but don't panic'.\nExamples:\n• Unsaved changes bar\n• Expiring-soon badge\n• Warning toast" },
+        { bg: "warning-subtle", fg: "warning-subtle-foreground", label: "Subtle", usage: "Soft tint for inline warnings.\nExamples:\n• Caution callout background\n• Soft warning banner" },
+      ],
     ],
   },
   {
     label: "Info",
-    pairs: [
-      { bg: "info", fg: "info-foreground", label: "Default", usage: "Neutral informational color.\nExamples:\n• 'New' badge\n• Info toast\n• Tip callout accent" },
-      { bg: "info-hover", fg: "info-foreground", label: "Hover", usage: "Info-tinted action when hovered.\nExamples:\n• 'Learn more' button hover\n• Hovered info CTA" },
-      { bg: "info-subtle", fg: "info-subtle-foreground", label: "Subtle", usage: "Soft tint for inline informational notes.\nExamples:\n• Tip callout background\n• 'Did you know' panel" },
+    rows: [
+      [
+        { bg: "info", fg: "info-foreground", label: "Default", usage: "Neutral informational color.\nExamples:\n• 'New' badge\n• Info toast\n• Tip callout accent" },
+        { bg: "info-subtle", fg: "info-subtle-foreground", label: "Subtle", usage: "Soft tint for inline informational notes.\nExamples:\n• Tip callout background\n• 'Did you know' panel" },
+      ],
     ],
   },
 ];

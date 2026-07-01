@@ -38,7 +38,7 @@ Posts by **other people** whose voice, structure, or hook Richard wants to learn
 ### Matt Gray (@matt_gray_) — punchy standalone posts, no threads
 
 - **Platform:** X
-- **Images:** `liked-mattgray-aphorisms.png`, `liked-mattgray-list-posts.png`, `liked-mattgray-systems.png`
+- **Images:** `liked-mattgray-aphorisms.png`, `liked-mattgray-list-posts.png`, `liked-mattgray-systems.png`, `liked-mattgray-x-shortform-1.png`…`-5.png` (2026-07 capture)
 - **What I like about it:** Compressed, confident one-liners and tight list-posts. Each says one thing and stops. High signal, no padding.
 - **⚠️ Key observation (Richard, 2026-06):** *He's not doing threads anymore.* It's all standalone aphorisms and short list-posts with a kicker. Signal that on X right now, **single sharp posts > long threads.** Lean standalone-first.
 - **Full template vault:** Matt's "Tweet Templates" Notion (Richard duplicated it into the connected workspace). The reusable *structures* are distilled into `05-content-production/tweet-frameworks.md` — translated to Richard's voice, with the guru-maxim ones flagged as avoid.
@@ -86,6 +86,22 @@ Posts by **other people** whose voice, structure, or hook Richard wants to learn
 
 > Don't build a team, build a forever team. Don't hire fast, hire A-players slow. Don't grow headcount, grow margin. Don't add layers, delete them.
 > Keep the team tight. Pay above market. Sleep at night.
+
+**Transcription (2026-07 capture — more short forms → skeletons 7–11 in `tweet-frameworks.md`):**
+
+> Great Hire = High Intelligence + High Energy + High Integrity   *(equation)*
+
+> Systems > Goals   *(comparison)*
+
+> Stop searching for motivation. Build systems that don't require it.   *(stop X / do Y)*
+
+> I built a $15M business with a team of 12. The lever wasn't headcount. It was the content engine, the AI systems, and a calendar that stays mostly empty.   *(contrarian lever — the "wasn't X, it was Y" reveal)*
+
+> Saying no to 100 hires. To land 1 A-player. That's the math of a lean empire.   *(setup → payoff → kicker)*
+
+> Your calendar tells the truth your goals can't.  ·  Worrying is just imagining the wrong future on purpose.  ·  Money rich without time rich is a trap with a better view.   *(reframes — earned, not maxims)*
+
+> it's a great time to build something you look back on with pride in 50 years.  ·  You go viral by posting consistently long enough for the algorithm to find you.   *(plain conviction / observation — no construction, just a true line)*
 
 **Richard-flavored translation (how the *structure* looks in his voice — examples, not for posting):**
 - Triad: *"First design system: you name the colors. Second: you name the roles. Third: you stop naming and let the tokens decide."*

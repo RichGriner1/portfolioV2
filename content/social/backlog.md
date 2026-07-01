@@ -98,10 +98,10 @@ Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **A
 - **LinkedIn** — MU, research-first — [LinkedIn post](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) · draft
 
 ### 2026-07-09 (Thu)
-- **AFI · rule-from-a-bug** — [Standalone D](process/2026-07-01-afi-design-system-batch.md) · draft
-  > Devs kept wiring page actions to the wrong place.
+- **AFI · placement-is-scope** — [Standalone D](process/2026-07-01-afi-design-system-batch.md) · draft
+  > Put a page action below the tab row and it reads like it belongs to the tab. Same button, wrong scope — nobody can tell what it actually controls.
   >
-  > What fixed it wasn't a better component. It was moving the actions up into the page header, inline with the title, so the scope was obvious without anyone having to think about it.
+  > What fixed it wasn't a better component. It was moving the actions up inline with the page title, so the scope was obvious: this acts on the whole page.
 
 ### 2026-07-10 (Fri)
 - **MU · vague-brief** — [Standalone A](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) · draft

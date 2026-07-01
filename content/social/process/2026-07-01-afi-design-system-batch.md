@@ -53,11 +53,11 @@ Manu opened the reworked page and asked which line was the page. That question i
 
 ---
 
-**Standalone D — the rule that came from a bug** *(§10 contrarian lever)*
+**Standalone D — placement is scope** *(§10 contrarian lever)*
 
-Devs kept wiring page actions to the wrong place.
+Put a page action below the tab row and it reads like it belongs to the tab. Same button, wrong scope — nobody can tell what it actually controls.
 
-What fixed it wasn't a better component. It was moving the actions up into the page header, inline with the title, so the scope was obvious without anyone having to think about it.
+What fixed it wasn't a better component. It was moving the actions up inline with the page title, so the scope was obvious: this acts on the whole page.
 
 ---
 

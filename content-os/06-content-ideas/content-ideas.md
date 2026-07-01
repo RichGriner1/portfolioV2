@@ -15,6 +15,8 @@ The running master list of every content idea, organized by type. This is **not*
 ## Case Studies
 
 - KT360
+- MindfulMe *(added 2026-07-01 — source: "Richard's portfolio" Figma slides)*
+- AFI Design System *(added 2026-07-01 — the layout-grammar + token-tier work)*
 - AFI Simulators
 - AFI Wealth Manager
 - Story Architect Dashboard
@@ -61,6 +63,16 @@ The running master list of every content idea, organized by type. This is **not*
 - Psychology audit
 - Build components instead of pages
 - Lessons learned from poor AI outputs
+
+### Added 2026-07-01 (this session)
+
+- B2B is boring to boring — designing for parity-over-delight users *(→ b2b standalone captured)*
+- Fintech UI/UX trends 2026 — what actually changed, from the trenches *(source: Granola Processes)*
+- Design systems for AI — tokens as structured data an agent can read (the "Adaptive" endgame)
+- The logo is a component now — logo system + component architecture
+- Responsive as tokens — breakpoints in a token system *(feeds the Dimensions methodology blog)*
+- From static to code — how the handoff actually evolved *(draft exists)*
+- The delay rule — deliberate friction as a trust signal in high-stakes fintech
 
 ## Passion Projects
 

@@ -56,9 +56,9 @@ Competent > anonymous is not how that trade actually goes. Competent *and* anony
 
 ---
 
-**Standalone C — the lever** *(§10)*
+**Standalone C — what actually fixes it** *(§10)*
 
-Every AI-built fintech demo I've opened this year looks like every other one. The lever isn't a better prompt.
+Every AI-built fintech demo I've opened this year looks like every other one. What fixes it isn't a better prompt.
 
 It's that nobody wrote down what the product stands for before generating anything.
 
@@ -344,7 +344,7 @@ Look only at fintech and you'll describe fintech. Look adjacent and you'll have 
 
 **Standalone B — Bloomberg as fintech reference** *(§10)*
 
-I wanted a fintech table that didn't look like every other fintech table. The lever wasn't a fintech competitor audit.
+I wanted a fintech table that didn't look like every other fintech table. What got me there wasn't a fintech competitor audit.
 
 It was Bloomberg Businessweek — restraint and density coexisting on the same page. Most fintech designers have never looked at a financial magazine.
 

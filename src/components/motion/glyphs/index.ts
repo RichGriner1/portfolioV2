@@ -4,6 +4,7 @@ import { BrandRulesGlyph } from "./brand-rules";
 import { BreathingGlyph } from "./breathing";
 import { CanvasGlyph } from "./canvas";
 import { DesignSystemGlyph } from "./design-system";
+import { LayoutGrammarGlyph } from "./layout-grammar";
 import { MigrationGlyph } from "./migration";
 import { MindfulmeGlyph } from "./mindfulme";
 import { PaletteGlyph } from "./palette";
@@ -24,6 +25,7 @@ export const GLYPHS: Record<GlyphKey, ComponentType<{ active?: boolean }>> = {
   canvas: CanvasGlyph,
   mindfulme: MindfulmeGlyph,
   "typo-trail": TypoTrailGlyph,
+  "layout-grammar": LayoutGrammarGlyph,
 };
 
 export {
@@ -31,6 +33,7 @@ export {
   BreathingGlyph,
   CanvasGlyph,
   DesignSystemGlyph,
+  LayoutGrammarGlyph,
   MigrationGlyph,
   MindfulmeGlyph,
   PaletteGlyph,

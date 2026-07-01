@@ -66,14 +66,43 @@ Twitter CTAs can be harder — *"Full write-up: [link]"*, *"More here: [link]"* 
 - **Soft CTA, last line.** Italic, short. Examples: *"Wrote up the full thing here: [link]"*, *"Longer version with the gory detail: [link]"*.
 - **0–2 hashtags max**, only if natural. No `#designsystems #ux #ai` stacks.
 
-### Twitter thread (5–9 tweets)
+### Twitter thread (7–9 tweets)
 
 - **Tweet 1 — the hook.** First ~7 words decide whether anyone scrolls. Open with the claim, the number, or the pointed question. Avoid *"I want to talk about…"* and *"A thread on…"* (allowed only if it's the actual register Richard uses).
-- **Tweets 2–N — one beat per tweet.** Each tweet is one observation, one number, one move. Don't pack two ideas in.
-- **Use line breaks for rhythm** within a tweet. Don't number the tweets unless Richard asks for it.
-- **Last tweet = the CTA.** Link to the long-form. Variants: *"Full write-up: [link]"*, *"More here: [link]"*.
+- **Tweets 2–N — one beat per tweet, labeled.** Each tweet header is `**Tweet N — beat**` (e.g. *Tweet 2 — failure mode*, *Tweet 3 — the rule*). Each tweet is one observation, one number, one move. Don't pack two ideas in.
+- **Use line breaks for rhythm** within a tweet. Tweets are separated by `---`.
+- **Last tweet = kicker or CTA.** When a long-form link exists, the CTA tweet goes there: *"Full write-up: [link]"*, *"More here: [link]"*. When no long-form exists yet, the last tweet is the sharpest stand-alone line of the arc — the kicker.
 - **Keep each tweet under 280 chars.** Don't lean on Twitter's premium long-tweet feature — assume the free read.
 - **No engagement bait.** No *"Follow for more"*, *"Like if you agree"*, *"Bookmark this 🧵"*.
+
+### Standalone tweets (target 6–8)
+
+Standalones are single tweets pulled from (or adjacent to) the thread, each landing on its own without context. They're sprinkled into the schedule across the 1–2 weeks after the thread drops to keep the topic alive without re-running the same arc.
+
+- **Lettered A–H.** Header is `**Standalone A — angle**` (e.g. *Standalone A — the failure mode*).
+- **Each one is self-contained.** A reader who never saw the thread should be able to react to it.
+- **Don't just re-quote thread tweets.** Pick a different cut each time — a sharper one-liner, a different example, a side-angle the thread didn't have room for, or the thread's kicker as its own post.
+- **Order isn't fixed.** Richard mixes them into the schedule per what fits each day.
+
+### LinkedIn body (150–250 words, target ~210)
+
+- **First 2 sentences = the hook.** LinkedIn truncates at "see more" around 200 chars / 3 lines. The hook decides expansion.
+- **2–4 short paragraphs**, single-line breaks between, no bold-keyword sprinkling, no emojis.
+- **Concrete detail in the body** — pull at least one number, one proper noun, or one specific decision from the source. Generic LinkedIn posts read as outsourced.
+- **Soft CTA when a long-form exists, last line.** Italic, short. Examples: *"Wrote up the full thing here: [link]"*, *"Longer version with the gory detail: [link]"*. When no long-form exists yet, skip the CTA — kicker line carries it.
+- **0–2 hashtags max**, only if natural. No `#designsystems #ux #ai` stacks.
+
+### Clarity self-check (before handoff — do this first)
+
+Voice compliance is not the same as good writing. Before the voice pass, read every line back as a skeptical editor and fix anything that fails:
+
+- **Does each sentence parse?** Read it aloud. If it's garbled or you re-read to get it, rewrite it.
+- **Is every claim credible?** No false absolutes. "one afternoon" → "one or two afternoons". Don't pin a big effect on one narrow cause.
+- **Does the logic hold?** Each beat must actually follow from the last. Do NOT manufacture a "distinct" thread by forcing a shaky premise (e.g. "no *color* strategy → capped at $20k/mo" conflates color with systems-in-general). If an angle needs a false premise to exist, cut the angle. Fewer sound angles beat more strained ones.
+- **No jargon mid-flow.** Cut insider asides (a hex/token detail) that interrupt a plain-language line, or move them to where they're earned.
+- **Parallel & plain.** Contrasts structurally parallel ("with a system: X. Without one: Y"), cause→effect explicit, not staccato fragments.
+
+If you can't make an angle credible, drop it and say so in your closing note. A short set of clean posts beats a padded set with one that "makes no sense."
 
 ### Voice rules
 
@@ -89,7 +118,11 @@ The voice-keeper agent will check this after you. Don't rely on that — get it 
 
 ## Step 5 — Output
 
-Write to `content/social/<pillar>/<slug>.md` where `<pillar>` and `<slug>` mirror the source file exactly (so a published post at `content/published/process/foo-bar.md` syndicates to `content/social/process/foo-bar.md`).
+### Two output shapes
+
+**A. Single-source syndication (default).** When the input is one published post, write to `content/social/<pillar>/<slug>.md` where `<pillar>` and `<slug>` mirror the source file (so `content/published/process/foo-bar.md` syndicates to `content/social/process/foo-bar.md`). One topic, three sections in this order: Twitter thread → Standalone tweets → LinkedIn post → optional Notes.
+
+**B. Brainstorm batch.** When the input is a planning session or multiple loose angles (no single source post), write to `content/social/<pillar>/YYYY-MM-DD-<topic>-batch.md`. Multiple ideas in one file, each as a numbered section (`## 1. Title`, `## 2. Title`, etc.) with the same Twitter thread → Standalones → LinkedIn ordering inside. Calendar rows in `content/social/backlog.md` anchor INTO the batch — do NOT split each idea into its own file. Reference [content/social/backlog.md](../../content/social/backlog.md) Workflow section for the format-check list and cadence.
 
 Frontmatter:
 
@@ -110,25 +143,52 @@ typefully_ids:
 
 Run `date +%Y-%m-%d` for `created`. Leave `posted_at` and `typefully_ids` blank — Richard fills those when posting.
 
-Body:
+Body (Shape A — single source):
 
 ```markdown
-## LinkedIn
+## Twitter thread (N tweets)
 
-<post body>
+**Tweet 1 — hook**
 
-## Twitter
+<content>
 
-<tweet 1>
+---
 
-<tweet 2>
+**Tweet 2 — beat-label**
+
+<content>
+
+---
 
 <…>
 
-<CTA tweet>
+## Standalone tweets (6–8)
+
+Each one stands on its own. Mix into the schedule across the two weeks after the thread drops. Order isn't fixed.
+
+---
+
+**Standalone A — angle**
+
+<content>
+
+---
+
+<…>
+
+## LinkedIn post (~210 words)
+
+<post body>
+
+## Notes
+
+- **Case-study tie:** <one line>
+- **Graphic concept (optional):** <one line>
 ```
 
-Tweets separated by blank lines. No "1/", "2/" prefixes unless Richard's existing posts use them.
+Body (Shape B — batch): same per-idea structure as above, but multiple ideas in one file, each as a numbered `## N. Title` section. Schedule table at the top mapping each idea to a Mon/Wed/Fri slot.
+
+Tweets separated by `---`. No "1/", "2/" prefixes unless Richard's existing posts use them.
 
 ## Rules
 

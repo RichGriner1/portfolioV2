@@ -1,0 +1,85 @@
+{
+  "$description": "Semantic tokens — light theme. Named roles that reference primitive tokens. Components only consume these (never raw primitives).",
+  "semantic": {
+    "color": {
+      "canvas":                { "$type": "color", "$value": "{color.accessibility.white}" },
+
+      "background":            { "$type": "color", "$value": "{color.neutral.50}" },
+      "foreground":            { "$type": "color", "$value": "{color.neutral.950}" },
+
+      "card":                  { "$type": "color", "$value": "{color.neutral.50}" },
+      "card-foreground":       { "$type": "color", "$value": "{color.neutral.950}" },
+
+      "popover":               { "$type": "color", "$value": "{color.neutral.50}" },
+      "popover-foreground":    { "$type": "color", "$value": "{color.neutral.950}" },
+
+      "muted":                 { "$type": "color", "$value": "{color.neutral.100}" },
+      "muted-foreground":      { "$type": "color", "$value": "{color.neutral.600}" },
+
+      "primary":               { "$type": "color", "$value": "{color.primary.800}" },
+      "primary-foreground":    { "$type": "color", "$value": "{color.primary.50}" },
+      "primary-hover":         { "$type": "color", "$value": "{color.primary.900}" },
+      "primary-active":        { "$type": "color", "$value": "{color.primary.950}" },
+      "primary-ghost-hover":   { "$type": "color", "$value": "{color.primary.100}" },
+      "primary-ghost-active":  { "$type": "color", "$value": "{color.primary.200}" },
+      "primary-subtle":            { "$type": "color", "$value": "{color.primary.100}" },
+      "primary-subtle-foreground": { "$type": "color", "$value": "{color.primary.800}" },
+      "primary-subtle-hover":      { "$type": "color", "$value": "{color.primary.200}" },
+      "primary-subtle-active":     { "$type": "color", "$value": "{color.primary.300}" },
+
+      "secondary":             { "$type": "color", "$value": "{color.neutral.100}" },
+      "secondary-foreground":  { "$type": "color", "$value": "{color.neutral.950}" },
+      "secondary-hover":       { "$type": "color", "$value": "{color.neutral.200}" },
+      "secondary-active":      { "$type": "color", "$value": "{color.neutral.300}" },
+
+      "border":                { "$type": "color", "$value": "{color.control.200}" },
+      "border-strong":         { "$type": "color", "$value": "{color.control.300}" },
+
+      "input":                 { "$type": "color", "$value": "{color.control.50}" },
+      "input-border":          { "$type": "color", "$value": "{color.control.200}" },
+      "input-border-hover":    { "$type": "color", "$value": "{color.control.300}" },
+      "input-placeholder":     { "$type": "color", "$value": "{color.control.500}" },
+
+      "ring":                  { "$type": "color", "$value": "{color.control.400}" },
+
+      "disabled":              { "$type": "color", "$value": "{color.control.100}" },
+      "disabled-foreground":   { "$type": "color", "$value": "{color.control.500}" },
+
+      "control":               { "$type": "color", "$value": "{color.control.50}" },
+      "control-foreground":    { "$type": "color", "$value": "{color.neutral.950}" },
+      "control-hover":         { "$type": "color", "$value": "{color.control.100}" },
+      "control-active":        { "$type": "color", "$value": "{color.control.200}" },
+
+      "error":                 { "$type": "color", "$value": "{color.red.400}" },
+      "error-foreground":      { "$type": "color", "$value": "{color.red.950}" },
+      "error-subtle":          { "$type": "color", "$value": "{color.red.50}" },
+      "error-subtle-foreground": { "$type": "color", "$value": "{color.red.700}" },
+
+      "destructive":           { "$type": "color", "$value": "{color.red.600}" },
+      "destructive-foreground":{ "$type": "color", "$value": "{color.neutral.50}" },
+      "destructive-hover":     { "$type": "color", "$value": "{color.red.700}" },
+      "destructive-active":    { "$type": "color", "$value": "{color.red.800}" },
+      "destructive-subtle":    { "$type": "color", "$value": "{color.red.50}" },
+      "destructive-subtle-foreground": { "$type": "color", "$value": "{color.red.800}" },
+      "destructive-subtle-hover":  { "$type": "color", "$value": "{color.red.100}" },
+      "destructive-subtle-active": { "$type": "color", "$value": "{color.red.200}" },
+      "destructive-ghost-hover":   { "$type": "color", "$value": "{color.red.50}" },
+      "destructive-ghost-active":  { "$type": "color", "$value": "{color.red.100}" },
+
+      "success":               { "$type": "color", "$value": "{color.green.400}" },
+      "success-foreground":    { "$type": "color", "$value": "{color.green.950}" },
+      "success-subtle":        { "$type": "color", "$value": "{color.green.50}" },
+      "success-subtle-foreground": { "$type": "color", "$value": "{color.green.700}" },
+
+      "warning":               { "$type": "color", "$value": "{color.amber.400}" },
+      "warning-foreground":    { "$type": "color", "$value": "{color.amber.950}" },
+      "warning-subtle":        { "$type": "color", "$value": "{color.amber.50}" },
+      "warning-subtle-foreground": { "$type": "color", "$value": "{color.amber.700}" },
+
+      "info":                  { "$type": "color", "$value": "{color.blue.400}" },
+      "info-foreground":       { "$type": "color", "$value": "{color.blue.950}" },
+      "info-subtle":           { "$type": "color", "$value": "{color.blue.50}" },
+      "info-subtle-foreground": { "$type": "color", "$value": "{color.blue.700}" }
+    }
+  }
+}

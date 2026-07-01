@@ -2,17 +2,19 @@
   "$description": "Semantic tokens — dark theme. Only the tokens that change from light; everything else inherits.",
   "semantic": {
     "color": {
-      "background":            { "$type": "color", "$value": "{color.surface.900}" },
-      "foreground":            { "$type": "color", "$value": "{color.surface.50}" },
+      "canvas":                { "$type": "color", "$value": "{color.neutral.950}" },
 
-      "card":                  { "$type": "color", "$value": "{color.surface.800}" },
-      "card-foreground":       { "$type": "color", "$value": "{color.surface.50}" },
+      "background":            { "$type": "color", "$value": "{color.neutral.900}" },
+      "foreground":            { "$type": "color", "$value": "{color.neutral.50}" },
 
-      "popover":               { "$type": "color", "$value": "{color.surface.800}" },
-      "popover-foreground":    { "$type": "color", "$value": "{color.surface.50}" },
+      "card":                  { "$type": "color", "$value": "{color.neutral.800}" },
+      "card-foreground":       { "$type": "color", "$value": "{color.neutral.50}" },
 
-      "muted":                 { "$type": "color", "$value": "{color.surface.800}" },
-      "muted-foreground":      { "$type": "color", "$value": "{color.surface.400}" },
+      "popover":               { "$type": "color", "$value": "{color.neutral.800}" },
+      "popover-foreground":    { "$type": "color", "$value": "{color.neutral.50}" },
+
+      "muted":                 { "$type": "color", "$value": "{color.neutral.800}" },
+      "muted-foreground":      { "$type": "color", "$value": "{color.neutral.400}" },
 
       "primary":               { "$type": "color", "$value": "{color.primary.200}" },
       "primary-foreground":    { "$type": "color", "$value": "{color.primary.950}" },
@@ -33,27 +35,31 @@
       "disabled-foreground":   { "$type": "color", "$value": "{color.control.500}" },
 
       "error":                 { "$type": "color", "$value": "{color.red.400}" },
-      "error-foreground":      { "$type": "color", "$value": "{color.surface.50}" },
+      "error-foreground":      { "$type": "color", "$value": "{color.red.950}" },
       "error-subtle":          { "$type": "color", "$value": "{color.red.950}" },
+      "error-subtle-foreground": { "$type": "color", "$value": "{color.red.400}" },
 
       "destructive":           { "$type": "color", "$value": "{color.red.500}" },
-      "destructive-foreground":{ "$type": "color", "$value": "{color.surface.50}" },
+      "destructive-foreground":{ "$type": "color", "$value": "{color.neutral.950}" },
       "destructive-hover":     { "$type": "color", "$value": "{color.red.400}" },
       "destructive-active":    { "$type": "color", "$value": "{color.red.300}" },
 
       "success":               { "$type": "color", "$value": "{color.green.400}" },
-      "success-foreground":    { "$type": "color", "$value": "{color.surface.950}" },
+      "success-foreground":    { "$type": "color", "$value": "{color.green.950}" },
       "success-subtle":        { "$type": "color", "$value": "{color.green.950}" },
+      "success-subtle-foreground": { "$type": "color", "$value": "{color.green.400}" },
       "success-hover":         { "$type": "color", "$value": "{color.green.300}" },
 
       "warning":               { "$type": "color", "$value": "{color.amber.400}" },
-      "warning-foreground":    { "$type": "color", "$value": "{color.surface.950}" },
+      "warning-foreground":    { "$type": "color", "$value": "{color.amber.950}" },
       "warning-subtle":        { "$type": "color", "$value": "{color.amber.950}" },
+      "warning-subtle-foreground": { "$type": "color", "$value": "{color.amber.400}" },
       "warning-hover":         { "$type": "color", "$value": "{color.amber.300}" },
 
       "info":                  { "$type": "color", "$value": "{color.blue.400}" },
-      "info-foreground":       { "$type": "color", "$value": "{color.surface.950}" },
+      "info-foreground":       { "$type": "color", "$value": "{color.blue.950}" },
       "info-subtle":           { "$type": "color", "$value": "{color.blue.950}" },
+      "info-subtle-foreground": { "$type": "color", "$value": "{color.blue.400}" },
       "info-hover":            { "$type": "color", "$value": "{color.blue.300}" }
     }
   }

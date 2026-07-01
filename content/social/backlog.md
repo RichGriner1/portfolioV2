@@ -51,7 +51,7 @@ Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **A
 - **AID2C · DS-grounding** — [Standalone A](process/2026-06-22-ai-design-to-code-flow.md) · draft
   > We got Claude Code to stop generating generic UI. What actually did it wasn't a better prompt.
   >
-  > It was loading our design system in at the start of the session. AI without context makes generic UI. AI with context makes our UI.
+  > It was loading our design system in at the start of the session. AI without context makes generic UI. AI with context makes our UI consistent and on brand.
 
 ### 2026-07-04 (Sat)
 - **MU · patterns-not-pixels** — [Standalone A](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) · draft
@@ -88,26 +88,26 @@ Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **A
 
 ### 2026-07-08 (Wed)
 - **MU · maturity** — [Standalone C](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) · draft
-  > `button-primary` is something a product manager can argue about. `#3358ff` isn't.
+  > `#3358ff` is something a product manager gets confused by. `button-primary` isn't.
   >
   > Tokens aren't a technical choice. They're the vocabulary that makes a design decision legible across the whole org.
 - **OBS · b2b** — [Standalone A](authority/2026-07-01-startup-observations.md) · draft
   > B2B: boring to boring.
   >
-  > But boring pays the bills, and it's a kinder audience than B2C. A wealth advisor won't churn because your empty state lacks whimsy. They'll churn because a table misaligned a decimal.
+  > But boring pays the bills, and it's a kinder audience than B2C. A wealth advisor won't churn because your empty state isn't pretty. They'll churn because a table misaligned a decimal.
 - **LinkedIn** — MU, research-first — [LinkedIn post](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) · draft
 
 ### 2026-07-09 (Thu)
 - **AFI · rule-from-a-bug** — [Standalone D](process/2026-07-01-afi-design-system-batch.md) · draft
-  > Devs kept wiring page actions to the wrong handler.
+  > Devs kept wiring page actions to the wrong place.
   >
   > What fixed it wasn't a better component. It was moving the actions up into the page header, inline with the title, so the scope was obvious without anyone having to think about it.
 
 ### 2026-07-10 (Fri)
 - **MU · vague-brief** — [Standalone A](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) · draft
-  > A vague brief isn't a gap in the brief. It's a diagnostic.
+  > "Make it more modern" is not a lazy brief.
   >
-  > "Make it more modern" tells you which conversation the team hasn't had yet.
+  > It's the team telling you they haven't agreed on what "modern" means for this product yet. That agreement is the real work — have it before you open Figma.
 - **VI · speed-vs-identity** — [Standalone A](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) · draft
   > Speed without identity is a race to sameness.
   >

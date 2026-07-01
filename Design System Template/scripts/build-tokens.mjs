@@ -173,7 +173,7 @@ ${themeBridge}
     @apply font-sans antialiased;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-canvas text-foreground;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight text-balance;

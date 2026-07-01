@@ -35,7 +35,7 @@ function ShowcaseHeader({
 }) {
   const { dark, setTheme } = useDark();
   return (
-    <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-background/80 px-32 py-20 backdrop-blur">
+    <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-canvas/80 px-32 py-20 backdrop-blur">
       <div className="flex items-center gap-16">
         {showBack ? (
           <Link
@@ -75,7 +75,7 @@ export function PageShell({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-canvas text-foreground">
       <ShowcaseHeader title={title} description={description} showBack={showBack} />
       <div className="mx-auto max-w-5xl space-y-64 px-32 py-48">{children}</div>
     </main>
@@ -134,7 +134,18 @@ export function SemanticCard({
       style={{ backgroundColor: `var(--${bg})`, color: `var(--${fg})` }}
     >
       <div className="p-16">
-        <div className="text-sm font-medium">{label}</div>
+        <div className="flex items-center justify-between gap-8">
+          <div className="text-sm font-medium">{label}</div>
+          {ratio !== null && level ? (
+            <span
+              title={`Foreground on background · WCAG ${level.label}`}
+              className="shrink-0 rounded-full px-8 py-1 font-mono text-[10px]"
+              style={{ backgroundColor: "color-mix(in srgb, currentColor 14%, transparent)" }}
+            >
+              {ratio.toFixed(2)}:1 {level.label} {level.pass ? "✓" : "✕"}
+            </span>
+          ) : null}
+        </div>
         <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
           <div className="overflow-hidden">
             <div className="space-y-12 pt-12 text-xs">
@@ -152,9 +163,6 @@ export function SemanticCard({
               >
                 <div>bg --{bg} · {bgC?.primitive ?? "?"} · {bgC?.hex ?? ""}</div>
                 <div>fg --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
-                {ratio !== null && level ? (
-                  <div>contrast {ratio.toFixed(2)}:1 · {level.label} {level.pass ? "✓" : "✕"}</div>
-                ) : null}
               </div>
             </div>
           </div>
@@ -191,12 +199,19 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
         <code className="mt-2 block font-mono text-[11px] opacity-70">
           {info.base} · {baseHex}
         </code>
-        <p className="mt-12 max-w-[46ch] text-sm leading-snug opacity-80">{info.overview}</p>
       </div>
 
-      {/* Full-bleed ramp attached to the bottom; expands vertically on hover. */}
+      {/* Overview + use cases + full-bleed ramp; all revealed on hover. */}
       <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
         <div className="overflow-hidden">
+          <div className="space-y-8 px-24 pb-12">
+            <p className="max-w-[46ch] text-sm leading-snug opacity-90">{info.overview}</p>
+            <ul className="space-y-1 text-xs opacity-80">
+              {info.uses.map((u) => (
+                <li key={u}>• {u}</li>
+              ))}
+            </ul>
+          </div>
           {STEPS.map((s) => {
             const stepHex = primitiveHex(ramp, s);
             return (
@@ -211,6 +226,84 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
               </div>
             );
           })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Pure black & white — the accessibility escape hatch, shown as one bento
+ * card. Instead of an 11-step ramp the attachment is two bars (white, black)
+ * that hover-expand to reveal use cases.
+ */
+export function AccessibilityCard({ span }: { span?: boolean }) {
+  const swatches = [
+    {
+      name: "white",
+      hex: "#ffffff",
+      varName: "--accessibility-white",
+      uses: [
+        "Maximum-contrast text on dark or colored surfaces",
+        "Forced high-contrast mode foreground",
+        "Knockout text over photography",
+      ],
+    },
+    {
+      name: "black",
+      hex: "#000000",
+      varName: "--accessibility-black",
+      uses: [
+        "AAA body text on light surfaces",
+        "Crisp 1px hairlines and rules",
+        "Scrims behind dialogs and sheets",
+      ],
+    },
+  ];
+
+  return (
+    <div
+      className={cn(
+        "group flex min-h-[240px] flex-col justify-between overflow-hidden rounded-xl border border-border bg-card",
+        span && "sm:col-span-2",
+      )}
+    >
+      <div className="p-24">
+        <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+          Primitive
+        </div>
+        <h3 className="mt-4 text-3xl font-bold">Accessibility</h3>
+        <div className="mt-2 text-sm text-muted-foreground">Maximum contrast · escape hatch</div>
+        <code className="mt-2 block font-mono text-[11px] text-muted-foreground">
+          #ffffff · #000000
+        </code>
+      </div>
+
+      {/* Overview + white/black bars with use cases; all revealed on hover. */}
+      <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]">
+        <div className="overflow-hidden">
+          <p className="max-w-[46ch] px-24 pb-12 text-sm leading-snug text-muted-foreground">
+            Pure #fff and #000, outside the themed ramps. Reach for them only when a semantic token
+            can&apos;t hit the contrast you need — AAA text, high-contrast mode, hairlines.
+          </p>
+          <div className="border-t border-border">
+            {swatches.map((s) => (
+              <div
+                key={s.name}
+                style={{ backgroundColor: `var(${s.varName})`, color: readableOn(s.hex) }}
+              >
+                <div className="flex items-center justify-between px-24 pt-3 font-mono text-[10px]">
+                  <span className="opacity-90">{s.name}</span>
+                  <span className="opacity-70">{s.hex}</span>
+                </div>
+                <ul className="space-y-1 px-24 pb-3 pt-2 text-[11px] leading-snug opacity-90">
+                  {s.uses.map((u) => (
+                    <li key={u}>• {u}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

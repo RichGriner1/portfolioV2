@@ -6,7 +6,7 @@ import semanticLightJson from "@/design-system/tokens/semantic-light.json";
 import semanticDarkJson from "@/design-system/tokens/semantic-dark.json";
 
 export const STEPS = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"] as const;
-export const RAMPS = ["primary", "surface", "control", "red", "green", "amber", "blue"] as const;
+export const RAMPS = ["primary", "neutral", "control", "red", "green", "amber", "blue"] as const;
 
 export type TokenNode = { $type: string; $value: string };
 export type Resolved = { primitive: string; hex: string };
@@ -52,8 +52,8 @@ function relLuminance(hex: string): number | null {
 // Returns a CSS var so it still tracks the theme.
 export function readableOn(hex: string): string {
   const L = relLuminance(hex);
-  if (L === null) return "var(--surface-950)";
-  return L > 0.45 ? "var(--surface-950)" : "var(--surface-50)";
+  if (L === null) return "var(--neutral-950)";
+  return L > 0.45 ? "var(--neutral-950)" : "var(--neutral-50)";
 }
 
 // WCAG contrast ratio between two hex colors (1–21). null if unparseable.
@@ -84,40 +84,120 @@ export function parseUsage(usage: string): { overview: string; examples: string[
 // Subtitle + overview + which step represents the ramp in the bento card.
 export const PRIMITIVE_RAMP_INFO: Record<
   string,
-  { subtitle: string; overview: string; base: string }
+  { subtitle: string; overview: string; base: string; uses: string[] }
 > = {
-  primary: { subtitle: "Brand ramp", base: "800", overview: "The white-label hook. Every primary action derives from this scale — swap it to rebrand the whole system." },
-  surface: { subtitle: "Warm neutrals", base: "50", overview: "Backgrounds, cards, popovers, and the muted text on them. Slightly warm so large areas feel softer than pure gray." },
-  control: { subtitle: "Pure neutrals", base: "100", overview: "Interactive chrome — input borders, dividers, disabled states, focus ring. Neutral so it never competes with content." },
-  red: { subtitle: "Status · danger", base: "50", overview: "Powers both error (a state) and destructive (an action) semantics." },
-  green: { subtitle: "Status · success", base: "50", overview: "Affirmative, positive outcomes — success states and confirmations." },
-  amber: { subtitle: "Status · warning", base: "50", overview: "Caution without alarm. Needs a dark foreground — amber can't carry white text." },
-  blue: { subtitle: "Status · info", base: "50", overview: "Neutral informational accents — tips, 'new' markers, info states." },
+  primary: {
+    subtitle: "Brand ramp",
+    base: "800",
+    overview: "The white-label hook. Every primary action derives from this scale — swap it to rebrand the whole system.",
+    uses: ["Primary buttons & key CTAs (800)", "Links and active states (600)", "Hover / active steps (900 / 950)"],
+  },
+  neutral: {
+    subtitle: "Slate · text + surfaces",
+    base: "50",
+    overview: "A cool blue-gray (slate) that does double duty — the surfaces you read on (page, cards, popovers) and the text on them (foreground, muted). Named neutral, not surface, because it's both.",
+    uses: ["Page, card & popover backgrounds (50)", "Foreground & muted text (600+ / 950)", "Muted / secondary surfaces (100)"],
+  },
+  control: {
+    subtitle: "Zinc · cool chrome",
+    base: "100",
+    overview: "The grays for the lines and states around controls — input borders, dividers, the focus ring, disabled. Kept separate from the neutral ramp so a border never blends into the surface it sits on.",
+    uses: ["Input borders & dividers (200)", "Focus ring (400)", "Disabled surface & text (100 / 500)"],
+  },
+  red: {
+    subtitle: "Status · danger",
+    base: "50",
+    overview: "Drives both error (a state) and destructive (an action).",
+    uses: ["Error & destructive surfaces (600)", "Subtle error tints (50)", "Destructive hover / active (700 / 800)"],
+  },
+  green: {
+    subtitle: "Status · success",
+    base: "50",
+    overview: "Positive outcomes — success states and confirmations.",
+    uses: ["Success surfaces (700, AA on white)", "Subtle success tints (50)", "Success text on a tint (700)"],
+  },
+  amber: {
+    subtitle: "Status · warning",
+    base: "50",
+    overview: "Caution without alarm. Needs a dark foreground — amber can't carry white text.",
+    uses: ["Warning surfaces (500, dark text)", "Subtle warning tints (50)", "Warning text on a tint (700)"],
+  },
+  blue: {
+    subtitle: "Status · info",
+    base: "50",
+    overview: "Informational accents — tips, 'new' markers, info states.",
+    uses: ["Info surfaces (600)", "Subtle info tints (50)", "Info hover (700)"],
+  },
 };
 
-export const SEMANTIC_PAIRS: Array<{ bg: string; fg: string; label: string; usage: string }> = [
-  { bg: "background", fg: "foreground", label: "Page", usage: "The main canvas color of the page.\nExamples:\n• Body background\n• Hero section background\n• Default layout color" },
-  { bg: "card", fg: "card-foreground", label: "Card", usage: "Surface color for cards sitting on the page background.\nExamples:\n• Article cards in a feed\n• Stat tiles\n• Profile boxes" },
-  { bg: "popover", fg: "popover-foreground", label: "Popover", usage: "Surface color for floating UI that opens over the page.\nExamples:\n• Dropdown menus\n• Date picker calendars\n• Command palette" },
-  { bg: "muted", fg: "muted-foreground", label: "Muted", usage: "Quieter surface for non-active areas.\nExamples:\n• Sidebar background\n• Table row hover\n• Code block background" },
-  { bg: "primary", fg: "primary-foreground", label: "Primary (default)", usage: "Default primary action color.\nExamples:\n• Main 'Save' button background\n• Active tab indicator\n• Default link color" },
-  { bg: "primary-hover", fg: "primary-foreground", label: "Primary hover", usage: "Primary action when the cursor is over it.\nExamples:\n• Button under the mouse\n• Hovered nav link\n• Hovered active tab" },
-  { bg: "primary-active", fg: "primary-foreground", label: "Primary active", usage: "Primary action while being pressed.\nExamples:\n• Button mid-click\n• Pressed-down state\n• Active toggle handle" },
-  { bg: "disabled", fg: "disabled-foreground", label: "Disabled", usage: "Surface and text for controls that can't be interacted with.\nExamples:\n• Greyed-out 'Submit' button\n• Disabled menu item\n• Read-only input field" },
-  { bg: "error", fg: "error-foreground", label: "Error", usage: "State color signalling something went wrong.\nExamples:\n• Invalid form field border\n• System-error toast\n• Failed-validation icon" },
-  { bg: "error-subtle", fg: "error", label: "Error subtle", usage: "Soft tint for inline error messages.\nExamples:\n• Inline alert banner\n• Validation hint background\n• Error callout bg" },
-  { bg: "destructive", fg: "destructive-foreground", label: "Destructive", usage: "Action color for irreversible operations.\nExamples:\n• 'Delete account' button\n• 'Remove' icon button\n• Confirm dialog danger CTA" },
-  { bg: "destructive-hover", fg: "destructive-foreground", label: "Destructive hover", usage: "Destructive action when the cursor is over it.\nExamples:\n• Delete button under the mouse\n• Hovered 'Remove' icon\n• Hovered danger CTA" },
-  { bg: "destructive-active", fg: "destructive-foreground", label: "Destructive active", usage: "Destructive action while being pressed.\nExamples:\n• Mid-click on a delete\n• Pressed danger button" },
-  { bg: "success", fg: "success-foreground", label: "Success", usage: "Affirmative color signaling a positive outcome.\nExamples:\n• 'Saved' toast\n• Success badge\n• Completed checkmark" },
-  { bg: "success-hover", fg: "success-foreground", label: "Success hover", usage: "Success-tinted action when hovered.\nExamples:\n• 'Approve' button hover\n• Hovered confirm CTA" },
-  { bg: "success-subtle", fg: "success", label: "Success subtle", usage: "Soft tint for inline success messages.\nExamples:\n• 'Profile updated' banner\n• Confirmation note background" },
-  { bg: "warning", fg: "warning-foreground", label: "Warning", usage: "Cautionary color signaling 'pay attention but don't panic'.\nExamples:\n• Unsaved changes bar\n• Expiring-soon badge\n• Warning toast" },
-  { bg: "warning-hover", fg: "warning-foreground", label: "Warning hover", usage: "Warning-tinted action when hovered.\nExamples:\n• 'Acknowledge' button hover\n• Hovered warning CTA" },
-  { bg: "warning-subtle", fg: "warning", label: "Warning subtle", usage: "Soft tint for inline warnings.\nExamples:\n• Caution callout background\n• Soft warning banner" },
-  { bg: "info", fg: "info-foreground", label: "Info", usage: "Neutral informational color.\nExamples:\n• 'New' badge\n• Info toast\n• Tip callout accent" },
-  { bg: "info-hover", fg: "info-foreground", label: "Info hover", usage: "Info-tinted action when hovered.\nExamples:\n• 'Learn more' button hover\n• Hovered info CTA" },
-  { bg: "info-subtle", fg: "info", label: "Info subtle", usage: "Soft tint for inline informational notes.\nExamples:\n• Tip callout background\n• 'Did you know' panel" },
+export type SemanticPair = { bg: string; fg: string; label: string; usage: string };
+
+// Semantic tokens grouped by family — each group renders as its own row.
+export const SEMANTIC_GROUPS: Array<{ label: string; pairs: SemanticPair[] }> = [
+  {
+    label: "Surfaces",
+    pairs: [
+      { bg: "canvas", fg: "foreground", label: "Canvas", usage: "The outermost base layer the whole app sits on. Pure white in light, near-black slate in dark.\nExamples:\n• App shell / body background\n• The backdrop pages float on\n• Behind every surface" },
+      { bg: "background", fg: "foreground", label: "Page", usage: "The page surface that sits on the canvas.\nExamples:\n• Body background\n• Hero section background\n• Default layout color" },
+      { bg: "card", fg: "card-foreground", label: "Card", usage: "Surface color for cards sitting on the page background.\nExamples:\n• Article cards in a feed\n• Stat tiles\n• Profile boxes" },
+      { bg: "popover", fg: "popover-foreground", label: "Popover", usage: "Surface for anything that floats above the page — small or large.\nExamples:\n• Dialogs & drawers / sheets\n• Dropdown menus & command palette\n• Tooltips & date pickers" },
+      { bg: "muted", fg: "muted-foreground", label: "Muted", usage: "Quieter surface for non-active areas.\nExamples:\n• Sidebar background\n• Table row hover\n• Code block background" },
+    ],
+  },
+  {
+    label: "Primary action",
+    pairs: [
+      { bg: "primary", fg: "primary-foreground", label: "Default", usage: "Default primary action color.\nExamples:\n• Main 'Save' button background\n• Active tab indicator\n• Default link color" },
+      { bg: "primary-hover", fg: "primary-foreground", label: "Hover", usage: "Primary action when the cursor is over it.\nExamples:\n• Button under the mouse\n• Hovered nav link\n• Hovered active tab" },
+      { bg: "primary-active", fg: "primary-foreground", label: "Active", usage: "Primary action while being pressed.\nExamples:\n• Button mid-click\n• Pressed-down state\n• Active toggle handle" },
+    ],
+  },
+  {
+    label: "Neutral action · secondary (deferred)",
+    pairs: [
+      { bg: "muted", fg: "foreground", label: "Default", usage: "Quiet, neutral action — our stand-in for a secondary button until a brand needs a dedicated token.\nExamples:\n• 'Cancel' button\n• Secondary toolbar action\n• Filter chips" },
+      { bg: "disabled", fg: "disabled-foreground", label: "Disabled", usage: "Surface and text for controls that can't be interacted with.\nExamples:\n• Greyed-out 'Submit' button\n• Disabled menu item\n• Read-only input field" },
+    ],
+  },
+  {
+    label: "Destructive action",
+    pairs: [
+      { bg: "destructive", fg: "destructive-foreground", label: "Default", usage: "Action color for irreversible operations.\nExamples:\n• 'Delete account' button\n• 'Remove' icon button\n• Confirm dialog danger CTA" },
+      { bg: "destructive-hover", fg: "destructive-foreground", label: "Hover", usage: "Destructive action when the cursor is over it.\nExamples:\n• Delete button under the mouse\n• Hovered 'Remove' icon\n• Hovered danger CTA" },
+      { bg: "destructive-active", fg: "destructive-foreground", label: "Active", usage: "Destructive action while being pressed.\nExamples:\n• Mid-click on a delete\n• Pressed danger button" },
+    ],
+  },
+  {
+    label: "Error",
+    pairs: [
+      { bg: "error", fg: "error-foreground", label: "Default", usage: "State color signalling something went wrong.\nExamples:\n• Invalid form field border\n• System-error toast\n• Failed-validation icon" },
+      { bg: "error-subtle", fg: "error-subtle-foreground", label: "Subtle", usage: "Soft tint for inline error messages.\nExamples:\n• Inline alert banner\n• Validation hint background\n• Error callout bg" },
+    ],
+  },
+  {
+    label: "Success",
+    pairs: [
+      { bg: "success", fg: "success-foreground", label: "Default", usage: "Affirmative color signaling a positive outcome.\nExamples:\n• 'Saved' toast\n• Success badge\n• Completed checkmark" },
+      { bg: "success-hover", fg: "success-foreground", label: "Hover", usage: "Success-tinted action when hovered.\nExamples:\n• 'Approve' button hover\n• Hovered confirm CTA" },
+      { bg: "success-subtle", fg: "success-subtle-foreground", label: "Subtle", usage: "Soft tint for inline success messages.\nExamples:\n• 'Profile updated' banner\n• Confirmation note background" },
+    ],
+  },
+  {
+    label: "Warning",
+    pairs: [
+      { bg: "warning", fg: "warning-foreground", label: "Default", usage: "Cautionary color signaling 'pay attention but don't panic'.\nExamples:\n• Unsaved changes bar\n• Expiring-soon badge\n• Warning toast" },
+      { bg: "warning-hover", fg: "warning-foreground", label: "Hover", usage: "Warning-tinted action when hovered.\nExamples:\n• 'Acknowledge' button hover\n• Hovered warning CTA" },
+      { bg: "warning-subtle", fg: "warning-subtle-foreground", label: "Subtle", usage: "Soft tint for inline warnings.\nExamples:\n• Caution callout background\n• Soft warning banner" },
+    ],
+  },
+  {
+    label: "Info",
+    pairs: [
+      { bg: "info", fg: "info-foreground", label: "Default", usage: "Neutral informational color.\nExamples:\n• 'New' badge\n• Info toast\n• Tip callout accent" },
+      { bg: "info-hover", fg: "info-foreground", label: "Hover", usage: "Info-tinted action when hovered.\nExamples:\n• 'Learn more' button hover\n• Hovered info CTA" },
+      { bg: "info-subtle", fg: "info-subtle-foreground", label: "Subtle", usage: "Soft tint for inline informational notes.\nExamples:\n• Tip callout background\n• 'Did you know' panel" },
+    ],
+  },
 ];
 
 export const BORDERS: Array<{ name: string; usage: string }> = [
@@ -159,13 +239,3 @@ export const BREAKPOINTS: Array<{ name: string; px: number; usage: string }> = [
   { name: "xl", px: 1280, usage: "Desktops." },
   { name: "2xl", px: 1536, usage: "Large desktops." },
 ];
-
-export const RAMP_DESCRIPTIONS: Record<string, string> = {
-  primary: "Brand ramp — the white-label hook. Currently pure grayscale.\nExamples:\n• Default button bg comes from primary-800\n• Link color comes from primary-600\n• Hover/active step through 900 / 950",
-  surface: "Warm grays used for large flat areas and surrounding text.\nExamples:\n• Page bg from surface-50 (light) / surface-900 (dark)\n• Card surface in dark mode\n• Muted foreground text",
-  control: "Pure neutral grays used for interactive chrome.\nExamples:\n• Default input border (control-200)\n• Disabled text (control-500)\n• Focus ring color",
-  red: "Status hue powering error + destructive semantics.\nExamples:\n• Error / destructive at red-500\n• Error-subtle bg at red-50\n• Destructive-hover at red-600",
-  green: "Status hue powering success semantics.\nExamples:\n• Success badge at green-500\n• Success-subtle bg at green-50\n• Dark-mode success at green-400",
-  amber: "Status hue powering warning semantics. Needs dark foreground — amber can't contrast white.\nExamples:\n• Warning bar at amber-500\n• Warning-subtle bg at amber-50\n• 'Expiring soon' chip",
-  blue: "Status hue powering info semantics.\nExamples:\n• Info badge at blue-500\n• Info-subtle callout bg\n• 'New' indicator",
-};

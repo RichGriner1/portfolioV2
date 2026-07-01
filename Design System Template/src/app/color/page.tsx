@@ -5,10 +5,11 @@ import {
   Section,
   SemanticCard,
   PrimitiveRampCard,
+  AccessibilityCard,
   BorderRingCard,
   useDark,
 } from "../_showcase/ui";
-import { BORDERS, RAMPS, SEMANTIC_PAIRS } from "../_showcase/data";
+import { BORDERS, RAMPS, SEMANTIC_GROUPS } from "../_showcase/data";
 
 export default function ColorPage() {
   const { dark } = useDark();
@@ -45,42 +46,52 @@ export default function ColorPage() {
         title="Primitives"
         description="Raw color scales — the bottom layer, with no meaning attached. Each card shows the ramp's base color, what it's for, and all 11 steps."
       >
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Two neutral ramps, on purpose.{" "}
+          <strong className="font-medium text-foreground">Neutral</strong>{" "}
+          is for the surfaces and text you read on.{" "}
+          <strong className="font-medium text-foreground">Control</strong>{" "}
+          is for the lines and states around them: borders, dividers, focus ring, disabled. Keeping them apart stops
+          neutrals from blending &mdash; a disabled button shouldn&apos;t land on the same gray as the card behind it.
+        </p>
         <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3">
           {RAMPS.map((ramp) => (
             <PrimitiveRampCard key={ramp} ramp={ramp} span={ramp === "primary"} />
           ))}
-        </div>
-      </Section>
-
-      <Section
-        title="Accessibility"
-        description="Pure black and white — an escape hatch for maximum contrast when a semantic token isn't enough (WCAG AAA text, high-contrast mode)."
-      >
-        <div className="grid max-w-md grid-cols-2 gap-16">
-          <div
-            className="rounded-xl border border-border p-24"
-            style={{ backgroundColor: "var(--accessibility-white)", color: "var(--accessibility-black)" }}
-          >
-            <h3 className="text-xl font-bold">White</h3>
-            <code className="mt-2 block font-mono text-[11px] opacity-70">--accessibility-white · #ffffff</code>
-          </div>
-          <div
-            className="rounded-xl p-24"
-            style={{ backgroundColor: "var(--accessibility-black)", color: "var(--accessibility-white)" }}
-          >
-            <h3 className="text-xl font-bold">Black</h3>
-            <code className="mt-2 block font-mono text-[11px] opacity-70">--accessibility-black · #000000</code>
-          </div>
+          <AccessibilityCard />
         </div>
       </Section>
 
       <Section
         title="Semantic tokens"
-        description="Named roles components consume. Hover a card to expand its overview, use cases, and the primitive + hex behind bg/fg."
+        description="Named roles components consume, grouped by family. Hover a card to expand its overview, use cases, and the primitive + hex behind bg/fg."
       >
-        <div className="grid grid-cols-2 items-start gap-12 md:grid-cols-3 lg:grid-cols-4">
-          {SEMANTIC_PAIRS.map(({ bg, fg, label, usage }) => (
-            <SemanticCard key={bg} bg={bg} fg={fg} label={label} usage={usage} dark={dark} />
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          <strong className="font-medium text-foreground">Canvas vs. surfaces.</strong>{" "}
+          With one flat background you can&apos;t tell the app frame from the content, and cards float with nothing
+          grounding them. Canvas is the fix: a true base layer (pure white in light, near-black in dark) that
+          everything sits on. Page, card, and popover stack on top of it, each a small step apart, so content reads
+          as raised sections instead of one flat sheet.
+        </p>
+        <div className="space-y-24">
+          {SEMANTIC_GROUPS.map((group) => (
+            <div key={group.label}>
+              <div className="mb-8 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                {group.label}
+              </div>
+              <div className="grid grid-cols-2 items-start gap-12 md:grid-cols-3 lg:grid-cols-4">
+                {group.pairs.map((p) => (
+                  <SemanticCard
+                    key={`${p.bg}-${p.fg}-${p.label}`}
+                    bg={p.bg}
+                    fg={p.fg}
+                    label={p.label}
+                    usage={p.usage}
+                    dark={dark}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </Section>

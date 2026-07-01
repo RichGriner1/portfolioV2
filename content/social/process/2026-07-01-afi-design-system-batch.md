@@ -84,7 +84,7 @@ A section header is simple.
 Don't need: an H2 on every page "for consistency."
 Do need: an H2 only when a page actually has more than one section.
 
-A floating "Resumen" heading on a single-section page isn't consistency. It's noise wearing consistency's clothes.
+A floating "Resumen" heading on a single-section page isn't consistency. It's a label for a split that never happened — the rule is headers only where content actually divides.
 
 ---
 

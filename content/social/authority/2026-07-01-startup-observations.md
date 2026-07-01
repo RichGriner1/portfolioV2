@@ -22,7 +22,7 @@ Skeleton legend: §8 comparison · §9 stop-X-do-Y · §17 one-sentence opener.
 
 B2B: boring to boring.
 
-But boring pays the bills, and it's a kinder audience than B2C. A wealth advisor won't churn because your empty state lacks whimsy. They'll churn because a table misaligned a decimal.
+But boring pays the bills, and it's a kinder audience than B2C. A wealth advisor won't churn because your empty state isn't pretty. They'll churn because a table misaligned a decimal.
 
 ---
 

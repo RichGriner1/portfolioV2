@@ -55,7 +55,7 @@ Manu opened the reworked page and asked which line was the page. That question i
 
 **Standalone D — the rule that came from a bug** *(§10 contrarian lever)*
 
-Devs kept wiring page actions to the wrong handler.
+Devs kept wiring page actions to the wrong place.
 
 What fixed it wasn't a better component. It was moving the actions up into the page header, inline with the title, so the scope was obvious without anyone having to think about it.
 

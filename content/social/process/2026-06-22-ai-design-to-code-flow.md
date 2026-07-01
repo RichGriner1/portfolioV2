@@ -38,7 +38,7 @@ Each one stands on its own. Mix into the schedule per `backlog.md`'s AI-tooling 
 
 We got Claude Code to stop generating generic UI. What actually did it wasn't a better prompt.
 
-It was loading our design system in at the start of the session. AI without context makes generic UI. AI with context makes our UI.
+It was loading our design system in at the start of the session. AI without context makes generic UI. AI with context makes our UI consistent and on brand.
 
 ---
 
@@ -156,7 +156,7 @@ Our rule: anything client-facing routes to a designer by default. Team lead can 
 
 Two other things mattered, in order of surprise. Designers need a tool that actually emits code — Figma alone hands engineers a frame to interpret, and they interpret it wrong often enough that it shows up in production. We use Paper (paper.design) for the final pass instead.
 
-And the single biggest quality jump we got wasn't from any tool. It was loading our design system into Claude Code before the first screen got built. AI without context makes generic UI. AI with context makes our UI.
+And the single biggest quality jump we got wasn't from any tool. It was loading our design system into Claude Code before the first screen got built. AI without context makes generic UI. AI with context makes our UI consistent and on brand.
 
 *Wrote up the full flow — six tools, ten steps, the routing rule, what we gave up: [link]*
 

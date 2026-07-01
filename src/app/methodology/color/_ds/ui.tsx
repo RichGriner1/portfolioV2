@@ -12,6 +12,7 @@ import {
   readableOn,
   resolveSemantic,
   wcagLevel,
+  type Lang,
 } from "./data";
 
 /** Theme state with a mount guard (next-themes resolves only after mount). */
@@ -165,7 +166,7 @@ export function SemanticCard({
  * overview, and the full 11-step ramp strip inside the card. Inspired by
  * Pantone-style swatch cards.
  */
-export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean }) {
+export function PrimitiveRampCard({ ramp, span, lang }: { ramp: string; span?: boolean; lang: Lang }) {
   const info = PRIMITIVE_RAMP_INFO[ramp];
   const baseHex = primitiveHex(ramp, info.base);
   const textColor = readableOn(baseHex);
@@ -195,9 +196,9 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
       <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
         <div className="overflow-hidden">
           <div className="space-y-8 px-24 pb-12">
-            <p className="max-w-[46ch] text-sm leading-snug opacity-90">{info.overview}</p>
+            <p className="max-w-[46ch] text-sm leading-snug opacity-90">{info.overview[lang]}</p>
             <ul className="space-y-1 text-xs opacity-80">
-              {info.uses.map((u) => (
+              {info.uses[lang].map((u) => (
                 <li key={u}>• {u}</li>
               ))}
             </ul>
@@ -227,27 +228,41 @@ export function PrimitiveRampCard({ ramp, span }: { ramp: string; span?: boolean
  * card. Instead of an 11-step ramp the attachment is two bars (white, black)
  * that hover-expand to reveal use cases.
  */
-export function AccessibilityCard({ span }: { span?: boolean }) {
+export function AccessibilityCard({ span, lang }: { span?: boolean; lang: Lang }) {
   const swatches = [
     {
       name: "white",
       hex: "#ffffff",
       varName: "--accessibility-white",
-      uses: [
-        "Maximum-contrast text on dark or colored surfaces",
-        "Forced high-contrast mode foreground",
-        "Knockout text over photography",
-      ],
+      uses: {
+        en: [
+          "Maximum-contrast text on dark or colored surfaces",
+          "Forced high-contrast mode foreground",
+          "Knockout text over photography",
+        ],
+        es: [
+          "Texto de contraste máximo sobre superficies oscuras o de color",
+          "Texto en modo de alto contraste forzado",
+          "Texto recortado sobre fotografía",
+        ],
+      },
     },
     {
       name: "black",
       hex: "#000000",
       varName: "--accessibility-black",
-      uses: [
-        "AAA body text on light surfaces",
-        "Crisp 1px hairlines and rules",
-        "Scrims behind dialogs and sheets",
-      ],
+      uses: {
+        en: [
+          "AAA body text on light surfaces",
+          "Crisp 1px hairlines and rules",
+          "Scrims behind dialogs and sheets",
+        ],
+        es: [
+          "Texto de cuerpo AAA sobre superficies claras",
+          "Filetes y líneas nítidas de 1px",
+          "Veladuras detrás de diálogos y hojas",
+        ],
+      },
     },
   ];
 
@@ -277,8 +292,9 @@ export function AccessibilityCard({ span }: { span?: boolean }) {
         <div className="overflow-hidden">
           <div className="space-y-12 px-24 pb-24 text-xs">
             <p className="leading-snug opacity-75">
-              Pure #fff and #000, outside the themed ramps. Reach for them only when a semantic token
-              can&apos;t hit the contrast you need.
+              {lang === "es"
+                ? "#fff y #000 puros, fuera de las escalas temáticas. Recurre a ellos solo cuando un token semántico no alcanza el contraste que necesitas."
+                : "Pure #fff and #000, outside the themed ramps. Reach for them only when a semantic token can’t hit the contrast you need."}
             </p>
             {swatches.map((s) => (
               <div key={s.name}>
@@ -293,7 +309,7 @@ export function AccessibilityCard({ span }: { span?: boolean }) {
                   {s.name} · {s.hex}
                 </div>
                 <ul className="mt-2 space-y-1 pl-18 leading-snug opacity-70">
-                  {s.uses.map((u) => (
+                  {s.uses[lang].map((u) => (
                     <li key={u}>• {u}</li>
                   ))}
                 </ul>

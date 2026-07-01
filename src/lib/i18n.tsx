@@ -74,6 +74,7 @@ export const UI = {
   "nav.email": { en: "Email", es: "Correo" },
   "nav.cv": { en: "CV", es: "CV" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
+  "home.read_more": { en: "Read more", es: "Leer más" },
   "kind.case_study": { en: "Case study", es: "Caso de estudio" },
   "kind.process": { en: "Process", es: "Proceso" },
   "cv.experience_heading": { en: "Experience", es: "Experiencia" },

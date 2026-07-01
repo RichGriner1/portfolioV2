@@ -7,7 +7,7 @@ export type WorkType =
   | "experiment"
   | "writing";
 
-export type WorkKind = "case-study" | "process" | "lab";
+export type WorkKind = "case-study" | "process" | "lab" | "methodology";
 
 export type GlyphKey =
   | "design-system"
@@ -19,7 +19,8 @@ export type GlyphKey =
   | "palette"
   | "canvas"
   | "mindfulme"
-  | "typo-trail";
+  | "typo-trail"
+  | "layout-grammar";
 
 export type WorkItem = {
   slug: string;
@@ -31,6 +32,9 @@ export type WorkItem = {
   kind: WorkKind;
   href: string;
   glyph: GlyphKey;
+  /** Optional thumbnail-video base path. Full src is built per language + theme:
+      `${video}_${lang}_${light|dark}_thumb.mp4`. Shown in place of the glyph. */
+  video?: string;
   bento?: "square" | "tall" | "wide";
   bgColor?: string;
   featured?: boolean;
@@ -40,6 +44,27 @@ export type WorkItem = {
 };
 
 export const WORK: WorkItem[] = [
+  {
+    slug: "color-methodology",
+    title: {
+      en: "Building color in four layers",
+      es: "Construir el color en cuatro capas",
+    },
+    description: {
+      en: "A methodology for a token-based color system: raw values → primitives → semantic roles → components, so a rebrand is one token, not a hunt.",
+      // TODO(afi-redaccion)
+      es: "Una metodología para un sistema de color basado en tokens: valores en bruto → primitivos → roles semánticos → componentes, para que un cambio de marca sea un token, no una búsqueda.",
+    },
+    year: 2026,
+    date: "2026-07-01",
+    type: "design-system",
+    kind: "methodology",
+    href: "/methodology/color",
+    glyph: "palette",
+    video: "/methodology/token-levels",
+    bento: "square",
+    featured: true,
+  },
   {
     slug: "afi-design-system",
     title: {
@@ -74,7 +99,6 @@ export const WORK: WorkItem[] = [
     href: "/work/kt360",
     glyph: "canvas",
     bento: "square",
-    ongoing: true,
   },
   {
     slug: "audemic-growth",
@@ -125,6 +149,28 @@ export const WORK: WorkItem[] = [
     glyph: "typo-trail",
     bento: "square",
     bgColor: "#ff7cba",
+  },
+  {
+    slug: "fintech-layout-grammar",
+    title: {
+      en: "A layout grammar for dense fin-tech",
+      // TODO(afi-redaccion)
+      es: "Una gramática de layout para fin-tech denso",
+    },
+    description: {
+      en: "Defining the global → page → section → content stack that keeps Wealth Manager and Wealth Planner coherent.",
+      // TODO(afi-redaccion)
+      es: "Definiendo la pila global → página → sección → contenido que mantiene Wealth Manager y Wealth Planner coherentes.",
+    },
+    year: 2026,
+    date: "2026-06-08",
+    type: "writing",
+    kind: "process",
+    href: "/writing/fintech-layout-grammar",
+    glyph: "layout-grammar",
+    bento: "square",
+    // Kept in the data but pulled from the site until the piece is refined.
+    hidden: true,
   },
   {
     slug: "page-layout-template",
@@ -222,6 +268,7 @@ export const KIND_LABELS: Record<WorkKind, Bilingual<string>> = {
   "case-study": { en: "Case study", es: "Caso de estudio" },
   process: { en: "Process", es: "Proceso" },
   lab: { en: "Lab", es: "Laboratorio" },
+  methodology: { en: "Methodology", es: "Metodología" },
 };
 
 export function sortKey(item: WorkItem): string {

@@ -103,6 +103,9 @@ Posts by **other people** whose voice, structure, or hook Richard wants to learn
 
 > it's a great time to build something you look back on with pride in 50 years.  ·  You go viral by posting consistently long enough for the algorithm to find you.   *(plain conviction / observation — no construction, just a true line)*
 
+> Life hack: When overwhelmed, build systems.   *(aphorism / maxim — @matt_gray_, 2026-07-02, 4.5k views. Image supplied in chat, not saved.)*
+> **Lesson:** this is the *maxim* form of Richard's whole SYS batch ("content systems for people with full-time jobs"). Borrow the **shape** (short, one belief), but Richard **earns** it with a lived specific instead of stating it flat — e.g. *"Posting consistently isn't discipline. It's a backlog."* A maxim asserts; a practitioner shows. Same idea, but Richard's lands because it names the concrete thing.
+
 **Richard-flavored translation (how the *structure* looks in his voice — examples, not for posting):**
 - Triad: *"First design system: you name the colors. Second: you name the roles. Third: you stop naming and let the tokens decide."*
 - List + kicker: *"3 things I check before any handoff: token layers match code · states are defined · the grid is real. Miss one and the devs design it for you."*

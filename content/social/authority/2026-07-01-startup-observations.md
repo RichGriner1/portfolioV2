@@ -18,11 +18,11 @@ Skeleton legend: §8 comparison · §9 stop-X-do-Y · §17 one-sentence opener.
 
 ---
 
-**Standalone A — boring to boring** *(§17)*
+**Standalone A — delight vs parity** *(§8 comparison)*
 
-B2B: boring to boring.
+B2C users want delight. B2B users want their numbers to line up.
 
-But boring pays the bills, and it's a kinder audience than B2C. A wealth advisor won't churn because your empty state isn't pretty. They'll churn because a table misaligned a decimal.
+One of those is the clearer brief — and it's the one that pays. A wealth advisor won't churn because your empty state isn't pretty. They'll churn because a table misaligned a decimal.
 
 ---
 

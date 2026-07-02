@@ -52,7 +52,7 @@ AI tools build a working UI in under an hour now. Every AI-built fintech demo I 
 
 Same Tailwind defaults. Same rounded cards. Same neutral chips. Same shadcn finish.
 
-Competent > anonymous is not how that trade actually goes. Competent *and* anonymous is what you get by default.
+AI hands you a UI that works and looks like everyone else's. Competent isn't the win — it's the floor. What's missing is anything that says which product this is.
 
 ---
 

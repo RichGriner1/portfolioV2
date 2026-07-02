@@ -28,9 +28,9 @@ Real scheduling lives in [`content/social/backlog.md`](../backlog.md).
 
 **Standalone A — the real cause of density** *(§17)*
 
-Dense fintech screens don't feel dense because of the table.
+A dense fintech screen isn't dense because of the data — it's dense because of how the data's presented. Every page has its own header, its own action placement, its own way of breaking up the body.
 
-They feel dense because every page around the table has its own header, its own action placement, its own way of breaking up the body. Fifteen versions of the same chrome, one product.
+Same content, fifteen different frames. Structure is what makes a packed screen feel calm instead of chaotic.
 
 ---
 
@@ -71,9 +71,9 @@ If two routes would share a title with a word tacked onto the end — "Resumen" 
 
 **Standalone F — the duplicate nobody caught** *(§17)*
 
-Two nearly identical pages sat in the product for a month before anyone noticed they were the same page twice.
+On a fintech audit, I found three screens that were basically the same page — built months apart, with no shared components tying them together.
 
-Same chrome, different content underneath. We'd built three pages because the routing was page-shaped instead of tab-shaped. The fix was one route, three tabs, one filter row that swaps with the tab.
+Same page, three slightly different versions, and no one had noticed. That's what a design system prevents: not ugly screens, duplicated ones nobody knew were there.
 
 ---
 
@@ -104,9 +104,9 @@ Coherence across two fintech products = one spine (global, page, section, conten
 
 **Standalone J — what actually changes the platform** *(§17)*
 
-ICP and Nivel de Riesgo aren't page actions and they aren't settings.
+Some values aren't page actions and aren't settings — they change how the whole product reads, not just one screen. Those belong in the global side rail.
 
-They're the two values that sit in the side rail because they change how the whole platform reads, not just one screen. That's the actual test for whether something belongs in the global rail: would three different pages all need to consult it?
+The test: would three different pages all need to consult it? If yes, it's global. If not, it stays on the screen.
 
 ---
 

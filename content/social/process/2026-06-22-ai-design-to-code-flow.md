@@ -60,7 +60,7 @@ The screens look right. They don't feel right.
 
 ---
 
-**Standalone D — Figma's gap** *(§8)*
+**Standalone D — Figma's gap** *(⚠️ RETIRED — superseded by breakdown/2026-07-02-tools-market-batch.md; Figma is closing this gap. Kept to preserve E–L lettering. Do not schedule.)*
 
 Figma can't emit code > Figma can only hand engineers a frame to interpret.
 

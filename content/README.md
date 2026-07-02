@@ -1,19 +1,26 @@
-# Content
+# Content — the live home
 
-This is where writing lives. Four stages, four pillars.
+**`content/` (this folder) is where content actually lives and ships.** There's a sibling folder, `content-os/`, at the repo root — here's the mental model so you never mix them up:
 
-## Stages (directories)
+- **`content/` = the product + the pipeline.** The real writing, and the live social system we schedule from. **This is where the action is.**
+- **`content-os/` = the factory.** Templates, frameworks, story bank, voice *examples*, prompts — *how* content gets made. It holds no live posts.
 
-- **`journal/`** — raw end-of-day brain-dumps. **Gitignored** (private, local-only).
-  Created by the `scribe` agent via `/journal`.
-- **`drafts/`** — entries with structure, not yet polished. Committed to the repo.
-- **`published/`** — ready to ship. Rendered on the portfolio site.
-- **`social/`** — short-form copy for LinkedIn + Twitter, derived from a published post.
-  Created by the `syndicator` agent via `/syndicate`.
+> **Rule of thumb:** making or scheduling a post → work in **`content/`**. Need a template or framework → grab it from `content-os/`.
 
-The voice rulebook at [voice.md](voice.md) is the source of truth for tone — every agent that writes in Richard's voice reads it before drafting. It opens with the **substance bar**: whether a post is worth posting, checked before tone. Reusable post **formats** live in the content-os system at [content-os/05-content-production/](../content-os/05-content-production/).
+## Where things live (mental model: a pipeline, capture → ship)
 
-For the step-by-step "how to actually use this" — what to type, what each agent will ask, what to do when something goes wrong — see [runbook.md](runbook.md).
+| Folder | What it is | Stage |
+|---|---|---|
+| **`social/`** ⭐ | **The live area.** Scheduled LinkedIn + X posts (the batches), `backlog.md` (the schedule), the Typefully automation, and outreach. **Start here** → [social/README.md](social/README.md). | **ship** |
+| `journal/` | Raw end-of-day brain-dumps. **Gitignored** (private, local-only). | capture |
+| `drafts/` | Long-form entries being shaped, by pillar. Committed. | shape |
+| `published/` | Long-form that's ready / rendered on the site, by pillar. | publish |
+
+## Voice — one canonical file
+
+[**`voice.md`**](voice.md) is **THE canonical voice rulebook** — the one every agent (`voice-keeper`, `syndicator`, etc.) actually reads. It opens with the **substance bar** (is it worth posting?) before tone. The expanded version with example screenshots + provenance tags lives at [content-os/02-voice-guide/](../content-os/02-voice-guide/) — that's **reference only**; if the two ever disagree, `voice.md` wins.
+
+For the step-by-step how-to (what to type, what each agent asks), see [runbook.md](runbook.md).
 
 ## Pillars (subdirectories of `drafts/` and `published/`)
 

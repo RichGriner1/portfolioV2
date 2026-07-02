@@ -1,4 +1,6 @@
-# Content OS
+# Content OS — the factory (templates & methodology)
+
+> **This folder is the *factory*, not the live content.** It holds the templates, frameworks, story bank, voice *examples*, and prompts — *how* content gets made. The actual posts, schedule, and automation live in [`content/social/`](../content/README.md), which is where you work day-to-day. Canonical voice rulebook: [`content/voice.md`](../content/voice.md) (this system's `02-voice-guide/` is example-backed reference).
 
 A local, markdown-based system for turning raw thinking into published content — without sounding like generic AI.
 

@@ -39,7 +39,7 @@ Blogs anchor each week's rotation and become that week's Wednesday LinkedIn post
 
 **Standalone-only. 2 tweets/day, Mon–Fri.** The two tweets each day come from two different source-blogs, and no source runs on consecutive posts (across day boundaries too). MU and VI sub-themes are spread apart, never back-to-back. Copy lives in the linked batch file — this table schedules, it doesn't duplicate.
 
-Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **AID2C** = ai-design-to-code-flow · **AFI** = afi-design-system · **OBS** = startup-observations · **AIWF** = ai-workflow · **BRK** = tools-market (breakdown) · **CENG** = content-engine.
+Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **AID2C** = ai-design-to-code-flow · **AFI** = afi-design-system · **OBS** = startup-observations · **AIWF** = ai-workflow · **BRK** = tools-market (breakdown) · **CENG** = content-engine · **SYS** = content-system (busy-professional).
 
 | Date | Day | Tweet 1 | Tweet 2 | LinkedIn |
 |---|---|---|---|---|
@@ -102,8 +102,14 @@ Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **A
 | 2026-09-18 | Fri | **VI** three · equation [F](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **MU** maturity · top of the ladder [G](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | |
 | 2026-09-21 | Mon | **VI** three · breakdown [G](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **CENG** taste is the bottleneck [E](process/2026-07-02-content-engine-batch.md) | |
 | 2026-09-22 | Tue | **VI** three · kicker [H](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | | |
+| 2026-09-23 | Wed | **SYS** consistency is a backlog [A](process/2026-07-02-content-system-busy-batch.md) | | |
+| 2026-09-24 | Thu | **SYS** the daily decision kills it [B](process/2026-07-02-content-system-busy-batch.md) | | |
+| 2026-09-25 | Fri | **SYS** your job is the content [C](process/2026-07-02-content-system-busy-batch.md) | | |
+| 2026-09-28 | Mon | **SYS** build ahead, refine weekly [D](process/2026-07-02-content-system-busy-batch.md) | | |
+| 2026-09-29 | Tue | **SYS** backlog outgrows posting [E](process/2026-07-02-content-system-busy-batch.md) | | |
+| 2026-09-30 | Wed | **SYS** outreach, same failure mode [F](process/2026-07-02-content-system-busy-batch.md) | | |
 
-**Programmed:** 117 tweets across weekdays (2026-07-02 → 2026-09-22), 2/day. The 2026-09-02 → 2026-09-22 run drew down the 24-tweet reserve + wove in the 5 content-engine (CENG) standalones. All `status: draft` until the weekly voice-check + `ready` lock.
+**Programmed:** 123 tweets, 2026-07-02 → 2026-09-30. Reserve is used up; the 2026-09-23 → 2026-09-30 SYS run is a themed 1/day series (slot 2 left open for future content). All `status: draft` until the weekly voice-check + `ready` lock.
 
 ### Reserve (24 — backfill / swap out weak variations)
 
@@ -158,8 +164,14 @@ Two posts/week, weekday.
 | 2027-01-11 | **CENG** | the edit is the work now | [C](process/2026-07-02-content-engine-batch.md) |
 | 2027-01-18 | **CENG** | the loop that keeps it good | [D](process/2026-07-02-content-engine-batch.md) |
 | 2027-01-25 | **CENG** | taste is the bottleneck | [E](process/2026-07-02-content-engine-batch.md) |
+| 2027-02-01 | **SYS** | consistency is a backlog | [A](process/2026-07-02-content-system-busy-batch.md) |
+| 2027-02-08 | **SYS** | the daily decision kills it | [B](process/2026-07-02-content-system-busy-batch.md) |
+| 2027-02-15 | **SYS** | your job is the content | [C](process/2026-07-02-content-system-busy-batch.md) |
+| 2027-02-22 | **SYS** | build ahead, refine weekly | [D](process/2026-07-02-content-system-busy-batch.md) |
+| 2027-03-01 | **SYS** | backlog outgrows posting | [E](process/2026-07-02-content-system-busy-batch.md) |
+| 2027-03-08 | **SYS** | outreach, same failure mode | [F](process/2026-07-02-content-system-busy-batch.md) |
 
-30 shorts, 2026-07-06 → 2027-01-25 (last 5 are a themed content-engine mini-series). Extend/adjust as new batches land, same as the tweets.
+36 shorts, 2026-07-06 → 2027-03-08 (two themed mini-series at the tail: content-engine, then content-system). Extend/adjust as new batches land, same as the tweets.
 
 ---
 

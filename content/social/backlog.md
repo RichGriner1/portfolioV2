@@ -87,8 +87,23 @@ Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **A
 | 2026-08-28 | Fri | **VI** capture · comparison [F](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | **AID2C** don't need/do need [K](process/2026-06-22-ai-design-to-code-flow.md) | |
 | 2026-08-31 | Mon | **MU** delay · document it once [F](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | **VI** steal · equation [F](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | short: dual-use (pick a ✅ LI) |
 | 2026-09-01 | Tue | **AID2C** the stop-gap that isn't [L](process/2026-06-22-ai-design-to-code-flow.md) | **MU** maturity · the harder truth [F](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | |
+| 2026-09-02 | Wed | **VI** speed · old→new [G](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | **MU** research · AI fills the gap [G](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | |
+| 2026-09-03 | Thu | **VI** speed · don't need/do need [H](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | **CENG** examples beat instructions [A](process/2026-07-02-content-engine-batch.md) | |
+| 2026-09-04 | Fri | **MU** research · brief before the brief [H](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | **VI** speed · kicker [I](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | |
+| 2026-09-07 | Mon | **MU** research · reacting vs using [I](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | **VI** client · the diagnostic [G](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | |
+| 2026-09-08 | Tue | **MU** patterns · unique products [G](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **CENG** cross-reference to find the topic [B](process/2026-07-02-content-engine-batch.md) | |
+| 2026-09-09 | Wed | **VI** client · kicker [H](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | **MU** patterns · navigation→intent [H](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | |
+| 2026-09-10 | Thu | **VI** capture · applies elsewhere [G](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | **MU** patterns · constraints brief [I](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | |
+| 2026-09-11 | Fri | **VI** capture · failure mode [H](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | **CENG** the edit is the work now [C](process/2026-07-02-content-engine-batch.md) | |
+| 2026-09-14 | Mon | **MU** vague · the diagnostic read [G](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | **VI** capture · kicker [I](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | |
+| 2026-09-15 | Tue | **MU** delay · the audit move [G](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | **VI** steal · don't need/do need [G](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | |
+| 2026-09-16 | Wed | **MU** delay · the flip [H](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | **CENG** the loop that keeps it good [D](process/2026-07-02-content-engine-batch.md) | |
+| 2026-09-17 | Thu | **VI** steal · kicker [H](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | **MU** delay · what built trust [I](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | |
+| 2026-09-18 | Fri | **VI** three · equation [F](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **MU** maturity · top of the ladder [G](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | |
+| 2026-09-21 | Mon | **VI** three · breakdown [G](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **CENG** taste is the bottleneck [E](process/2026-07-02-content-engine-batch.md) | |
+| 2026-09-22 | Tue | **VI** three · kicker [H](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | | |
 
-**Programmed:** 88 tweets across 44 weekdays (2026-07-02 → 2026-09-01), 2/day. All `status: draft` until the weekly voice-check + `ready` lock.
+**Programmed:** 117 tweets across weekdays (2026-07-02 → 2026-09-22), 2/day. The 2026-09-02 → 2026-09-22 run drew down the 24-tweet reserve + wove in the 5 content-engine (CENG) standalones. All `status: draft` until the weekly voice-check + `ready` lock.
 
 ### Reserve (24 — backfill / swap out weak variations)
 

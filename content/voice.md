@@ -30,7 +30,7 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 
 **Formats** — the reusable *shape* of a post — live in the content-os system at [content-os/05-content-production/tweet-frameworks.md](../content-os/05-content-production/tweet-frameworks.md) (and the templates beside it). A format decides structure; it never overrides this bar or the voice rules below.
 
-> **Note:** the content-os system at [content-os/](../content-os/) is now the source of truth for the content workflow (voice guide, frameworks, story bank, backlog). This file remains wired into the legacy `.claude/agents`; the two voice docs should be unified in a focused pass.
+> **Canonical:** this file (`content/voice.md`) is THE voice rulebook the agents read. The [content-os/02-voice-guide/](../content-os/02-voice-guide/) doc is the expanded, example-backed **reference** (screenshots, provenance tags, frameworks) — useful for learning the voice, but if the two ever disagree, **this file wins.** Reconciled 2026-07-02.
 
 ---
 

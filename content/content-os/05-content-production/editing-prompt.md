@@ -7,7 +7,7 @@
 - The draft(s) to edit
 - `02-voice-guide/voice-guide.md` — **always**
 - The processed Granola material (so edits stay anchored to your real words)
-- `content-os/agents.md`
+- `content/content-os/agents.md`
 
 ---
 

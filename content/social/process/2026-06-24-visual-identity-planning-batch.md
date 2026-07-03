@@ -12,7 +12,7 @@ platforms: [twitter, linkedin]
 
 Five ideas from today's planning session for a visual-identity project — the kind of demo work where an internal designer briefs leadership upward, no clear end-user research, AI tools doing more of the production.
 
-**Revised 2026-07-01 — Matt Gray pass, standalone-only.** Rewritten against `content-os/05-content-production/tweet-frameworks.md` and the swipe file in `02-voice-guide/examples/liked-posts.md`. What changed:
+**Revised 2026-07-01 — Matt Gray pass, standalone-only.** Rewritten against `content/content-os/05-content-production/tweet-frameworks.md` and the swipe file in `02-voice-guide/examples/liked-posts.md`. What changed:
 
 - **No threads.** Matt Gray's feed is all standalone aphorisms and list-posts — no threads. Every Twitter thread here has been dismantled and its material re-cast as standalone tweets. Each idea now carries a deeper bench of standalones instead of one thread.
 - **Named skeletons.** Each standalone is mapped to a framework (tagged in italics), filled with a real specific from the planning session — never a guru maxim.

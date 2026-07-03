@@ -1,28 +1,30 @@
-# Content — the live home
+# Content
 
-**`content/` (this folder) is where content actually lives and ships.** There's a sibling folder, `content-os/`, at the repo root — here's the mental model so you never mix them up:
+**Everything content-related lives under this one folder.** Two mental buckets, both subfolders here:
 
-- **`content/` = the product + the pipeline.** The real writing, and the live social system we schedule from. **This is where the action is.**
-- **`content-os/` = the factory.** Templates, frameworks, story bank, voice *examples*, prompts — *how* content gets made. It holds no live posts.
+- **The work → [`social/`](social/README.md) ⭐** — scheduled X + LinkedIn posts (the batches), `backlog.md` (the schedule), the Typefully automation, and outreach. **Start here.**
+- **The factory → `content-os/`** — the operating system: templates, frameworks, story bank, voice *examples*, prompts. *How* content gets made. It holds no live posts.
 
-> **Rule of thumb:** making or scheduling a post → work in **`content/`**. Need a template or framework → grab it from `content-os/`.
+> **Rule of thumb:** making or scheduling a post → work in **`social/`**. Need a template or framework → grab it from **`content-os/`**.
 
-## Where things live (mental model: a pipeline, capture → ship)
+## The folders (mental model: capture → ship, + the factory)
 
-| Folder | What it is | Stage |
+| Folder | What it is | Role |
 |---|---|---|
-| **`social/`** ⭐ | **The live area.** Scheduled LinkedIn + X posts (the batches), `backlog.md` (the schedule), the Typefully automation, and outreach. **Start here** → [social/README.md](social/README.md). | **ship** |
+| **`social/`** ⭐ | Scheduled LinkedIn + X posts (batches), `backlog.md` (schedule), Typefully automation, outreach. → [social/README.md](social/README.md) | **the work** |
+| **`content-os/`** | Templates, frameworks, story bank, voice examples, prompts. → [content-os/README.md](content-os/README.md) | **the factory** |
 | `journal/` | Raw end-of-day brain-dumps. **Gitignored** (private, local-only). | capture |
 | `drafts/` | Long-form entries being shaped, by pillar. Committed. | shape |
 | `published/` | Long-form that's ready / rendered on the site, by pillar. | publish |
+| `voice.md` | THE canonical voice rulebook. | rules |
 
 ## Voice — one canonical file
 
-[**`voice.md`**](voice.md) is **THE canonical voice rulebook** — the one every agent (`voice-keeper`, `syndicator`, etc.) actually reads. It opens with the **substance bar** (is it worth posting?) before tone. The expanded version with example screenshots + provenance tags lives at [content-os/02-voice-guide/](../content-os/02-voice-guide/) — that's **reference only**; if the two ever disagree, `voice.md` wins.
+[**`voice.md`**](voice.md) is **THE canonical voice rulebook** — the one every agent (`voice-keeper`, `syndicator`, etc.) actually reads. It opens with the **substance bar** (is it worth posting?) before tone. The expanded, example-backed version (screenshots, provenance tags) lives at [content-os/02-voice-guide/](content-os/02-voice-guide/) — **reference only**; if the two ever disagree, `voice.md` wins.
 
 For the step-by-step how-to (what to type, what each agent asks), see [runbook.md](runbook.md).
 
-## Pillars (subdirectories of `drafts/` and `published/`)
+## Pillars (subdirectories of `drafts/`, `published/`, and `social/`)
 
 | Pillar | What belongs here |
 |---|---|
@@ -65,12 +67,12 @@ typefully_ids:             # filled by /push when drafted/scheduled to Typefully
 
 ## Flow
 
-1. Thought strikes → run `/journal` → scribe captures it in `journal/YYYY-MM-DD-slug.md`
-2. Weeks later, revisit the journal → run `/polish journal/<file>.md` → editor agent drafts a version into `drafts/<pillar>/<slug>.md`
-3. You revise by hand → move to `published/<pillar>/<slug>.md` when ready
-4. Once published, run `/syndicate published/<pillar>/<slug>.md` → syndicator drafts LinkedIn + Twitter copy to `social/<pillar>/<slug>.md`. Voice-keeper lints; post-reviewer checks hook + stance. You revise, flip `status: ready`, post manually.
-5. For `experiment/` entries — when you're ready to actually build, spin up a dedicated repo (or ask Claude to `/spawn-experiment`, later)
+**Long-form pipeline:**
+1. Thought strikes → `/journal` → scribe captures it in `journal/YYYY-MM-DD-slug.md`
+2. Revisit → `/polish journal/<file>.md` → editor drafts into `drafts/<pillar>/<slug>.md`
+3. Revise by hand → move to `published/<pillar>/<slug>.md` when ready
+4. `experiment/` entries → when ready to build, spin up a dedicated repo
 
-For ad-hoc voice checks on any markdown file, run `/voice-check <file>` — spawns the voice-keeper without the rest of the syndication chain.
+**Social (the live system):** batches in `social/<pillar>/` hold the copy, `social/backlog.md` schedules it, and the scripts push it to Typefully. Full detail in [social/README.md](social/README.md). For ad-hoc voice checks, `/voice-check <file>`.
 
 See [`AGENTS.md`](../AGENTS.md) at the repo root for agent details.

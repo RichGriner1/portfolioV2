@@ -17,7 +17,7 @@ typefully_ids:
 
 Source: [drafts/process/ai-design-to-code-flow.md](../../drafts/process/ai-design-to-code-flow.md).
 
-**Revised 2026-07-01 — Matt Gray pass, standalone-only.** Rewritten against `content-os/05-content-production/tweet-frameworks.md` and the swipe file in `02-voice-guide/examples/liked-posts.md`. What changed:
+**Revised 2026-07-01 — Matt Gray pass, standalone-only.** Rewritten against `content/content-os/05-content-production/tweet-frameworks.md` and the swipe file in `02-voice-guide/examples/liked-posts.md`. What changed:
 
 - **No thread.** Matt Gray's feed is all standalone aphorisms and list-posts — no threads. The 7-tweet thread that used to live here has been dismantled; its material is folded into the standalone bench below (deduped against the standalones that already existed).
 - **Named skeletons.** Each standalone is mapped to a framework (tagged in italics), filled with a real specific from the flow — never a guru maxim.

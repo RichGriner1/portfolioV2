@@ -1,6 +1,6 @@
 # Content OS — the factory (templates & methodology)
 
-> **This folder is the *factory*, not the live content.** It holds the templates, frameworks, story bank, voice *examples*, and prompts — *how* content gets made. The actual posts, schedule, and automation live in [`content/social/`](../content/README.md), which is where you work day-to-day. Canonical voice rulebook: [`content/voice.md`](../content/voice.md) (this system's `02-voice-guide/` is example-backed reference).
+> **This folder is the *factory*, not the live content.** It holds the templates, frameworks, story bank, voice *examples*, and prompts — *how* content gets made. The actual posts, schedule, and automation live in [`content/social/`](../README.md), which is where you work day-to-day. Canonical voice rulebook: [`content/voice.md`](../voice.md) (this system's `02-voice-guide/` is example-backed reference).
 
 A local, markdown-based system for turning raw thinking into published content — without sounding like generic AI.
 
@@ -114,7 +114,7 @@ A one-time kickstart to fill `07-backlog/` with ~2 weeks of content so the engin
 ## File map
 
 ```
-content-os/
+content/content-os/
   README.md                  ← you are here
   agents.md                  ← roles + rules the AI plays in this system
   01-story-bank/

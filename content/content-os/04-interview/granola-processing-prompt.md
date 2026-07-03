@@ -8,7 +8,7 @@
 - The interview questions that produced it (for context)
 - The chosen Story Bank entry
 - `02-voice-guide/voice-guide.md`
-- `content-os/agents.md`
+- `content/content-os/agents.md`
 
 ---
 

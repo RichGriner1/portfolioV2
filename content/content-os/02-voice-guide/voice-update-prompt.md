@@ -6,7 +6,7 @@
 - This prompt
 - The current `02-voice-guide/voice-guide.md`
 - A sample of your real writing — finished pieces from `07-backlog/`, edited drafts, or strong Granola transcripts. The more authentic, the better.
-- `content-os/agents.md`
+- `content/content-os/agents.md`
 
 ---
 

@@ -7,7 +7,7 @@
 - The chosen Story Bank entry (or entries)
 - Relevant Granola transcripts (anything you've already said about it)
 - `02-voice-guide/voice-guide.md`
-- `content-os/agents.md`
+- `content/content-os/agents.md`
 
 ---
 

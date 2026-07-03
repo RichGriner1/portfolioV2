@@ -1,6 +1,6 @@
 # Voice Guide (reference / examples)
 
-> **Not the canonical file.** The rulebook the agents actually read is [`content/voice.md`](../../content/voice.md) — if the two disagree, that one wins. This doc is the **expanded, example-backed reference**: screenshots, provenance tags, and frameworks for *learning* the voice. Reconciled 2026-07-02.
+> **Not the canonical file.** The rulebook the agents actually read is [`content/voice.md`](../../voice.md) — if the two disagree, that one wins. This doc is the **expanded, example-backed reference**: screenshots, provenance tags, and frameworks for *learning* the voice. Reconciled 2026-07-02.
 
 An example-rich guide to how Richard sounds. If a sentence wouldn't come out of Richard's mouth, it's wrong — rewrite or cut it.
 

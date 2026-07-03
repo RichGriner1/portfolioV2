@@ -7,7 +7,7 @@
 - The chosen Story Bank entry
 - The "Interview seed" from gap analysis (`03-research/gap-analysis-prompt.md` output)
 - `02-voice-guide/voice-guide.md`
-- `content-os/agents.md`
+- `content/content-os/agents.md`
 
 ---
 

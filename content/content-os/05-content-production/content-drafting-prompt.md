@@ -9,7 +9,7 @@
 - The research brief (if any) from `03-research/`
 - `02-voice-guide/voice-guide.md` — **always**
 - The four templates in this folder
-- `content-os/agents.md`
+- `content/content-os/agents.md`
 
 ---
 

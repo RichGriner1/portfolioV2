@@ -6,7 +6,7 @@
 - This prompt
 - `01-story-bank/story-bank-template.md`
 - The current `story-bank.md` (so new entries append correctly and connect to existing ones)
-- `content-os/agents.md` (the rules)
+- `content/content-os/agents.md` (the rules)
 - Your raw Wispr notes for the day (paste them in)
 
 ---

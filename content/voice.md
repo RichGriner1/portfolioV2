@@ -28,9 +28,9 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 
 **Ownership.** The drafting agent (`syndicator`, `editor`) must clear this bar *before* writing — pick the takeaway first, draft second. `post-reviewer` enforces it as a ship-blocker, same weight as a weak hook. `voice-keeper` checks tone, not substance: a post can pass voice-keeper and still fail here.
 
-**Formats** — the reusable *shape* of a post — live in the content-os system at [content-os/05-content-production/tweet-frameworks.md](../content-os/05-content-production/tweet-frameworks.md) (and the templates beside it). A format decides structure; it never overrides this bar or the voice rules below.
+**Formats** — the reusable *shape* of a post — live in the content-os system at [content-os/05-content-production/tweet-frameworks.md](content-os/05-content-production/tweet-frameworks.md) (and the templates beside it). A format decides structure; it never overrides this bar or the voice rules below.
 
-> **Canonical:** this file (`content/voice.md`) is THE voice rulebook the agents read. The [content-os/02-voice-guide/](../content-os/02-voice-guide/) doc is the expanded, example-backed **reference** (screenshots, provenance tags, frameworks) — useful for learning the voice, but if the two ever disagree, **this file wins.** Reconciled 2026-07-02.
+> **Canonical:** this file (`content/voice.md`) is THE voice rulebook the agents read. The [content-os/02-voice-guide/](content-os/02-voice-guide/) doc is the expanded, example-backed **reference** (screenshots, provenance tags, frameworks) — useful for learning the voice, but if the two ever disagree, **this file wins.** Reconciled 2026-07-02.
 
 ---
 
@@ -214,7 +214,7 @@ These show up in his actual writing. Don't paste them verbatim, but recognize th
 ### LinkedIn
 
 - **Audience:** designers, design-system folks, fintech adjacents, ex-coworkers, recruiters. Mostly skim-readers on a phone.
-- **Length:** 150–250 words by default, but a numbered/list post (see [formats.md](formats.md)) may run **300–500 words** when each section earns it. White space does the formatting — one idea per line. Still **no emoji**. LinkedIn caps "see more" around 200 chars / 3 lines, so the hook is the first 2 sentences — they decide whether anyone clicks expand.
+- **Length:** 150–250 words by default, but a numbered/list post (see [formats.md](content-os/05-content-production/)) may run **300–500 words** when each section earns it. White space does the formatting — one idea per line. Still **no emoji**. LinkedIn caps "see more" around 200 chars / 3 lines, so the hook is the first 2 sentences — they decide whether anyone clicks expand.
 - **Hook:** state the situation or the surprising claim in the first line. Don't open with "I've been thinking…" or with a question.
 - **Body:** 2–4 short paragraphs, no bold-keyword sprinkling, no emojis. White space is the formatting.
 - **Tone:** plain-spoken POV. Observation, not pitch.
@@ -228,7 +228,7 @@ These show up in his actual writing. Don't paste them verbatim, but recognize th
 
 - **Audience:** tech, design-Twitter, devs who care about tooling. More opinionated than LinkedIn. Hard CTAs are fair game.
 - **Hook tweet:** the first ~7 words decide whether anyone scrolls. Open with the surprising claim, the pointed question, or the concrete number. *"I built a design system rulebook for an AI to read. Here's what worked and what didn't:"*
-- **Prefer the single list post over the thread.** Threads don't move the needle — a hook-colon → 3–5 item list → kicker (see [formats.md](formats.md)) packs a thread's worth into one scannable tweet. Reserve threads for when the idea genuinely needs the steps drawn out.
+- **Prefer the single list post over the thread.** Threads don't move the needle — a hook-colon → 3–5 item list → kicker (see [formats.md](content-os/05-content-production/)) packs a thread's worth into one scannable tweet. Reserve threads for when the idea genuinely needs the steps drawn out.
 - **Thread length (when you do thread):** 5–9 tweets. Fewer if the idea fits.
 - **Per tweet:** one beat — one observation, one number, one move. Don't pack two ideas into one tweet.
 - **Format:** line breaks, not numbered lists. The thread structure is implicit; numbering ("1/", "2/") is fine if it's the thread style he prefers, but don't enforce it.

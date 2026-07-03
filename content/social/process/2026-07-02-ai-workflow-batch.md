@@ -13,7 +13,7 @@ typefully_ids:
 
 # AI workflow — how I actually work with AI
 
-Standalone-only, Matt Gray frameworks (see `content-os/05-content-production/tweet-frameworks.md`). Source tag: **AIWF**. Grounded in Richard's real practice — Wispr Flow voice notes, Granola meeting transcripts, Claude Code builds, framework porting.
+Standalone-only, Matt Gray frameworks (see `content/content-os/05-content-production/tweet-frameworks.md`). Source tag: **AIWF**. Grounded in Richard's real practice — Wispr Flow voice notes, Granola meeting transcripts, Claude Code builds, framework porting.
 
 Substance gate: process posts aren't exempt from the value bar. Each of these leads with the *transferable* move (the principle), not a workflow tour. The tool is incidental; the takeaway travels.
 

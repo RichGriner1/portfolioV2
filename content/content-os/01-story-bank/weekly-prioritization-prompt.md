@@ -7,7 +7,7 @@
 - The current `story-bank.md`
 - `06-content-ideas/content-ideas.md`
 - Recent **Granola transcripts** (any meetings/notes from the week)
-- `content-os/agents.md` (the rules)
+- `content/content-os/agents.md` (the rules)
 
 ---
 

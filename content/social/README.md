@@ -33,7 +33,7 @@ content/social/
   LINKEDIN-REVIEW.md   ← generated, gitignored
 ```
 
-Related: **`content-os/`** (repo root) holds the upstream *system* — story bank, voice guide + examples, frameworks, templates. **`content/voice.md`** is the voice rulebook every draft must pass.
+Related: **`../content-os/`** (the OS / factory) holds the upstream *system* — story bank, voice guide + examples, frameworks, templates. **`content/voice.md`** is the voice rulebook every draft must pass.
 
 ## The loop (how a post gets out)
 

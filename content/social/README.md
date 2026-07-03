@@ -1,5 +1,7 @@
 # Social content system — map & how it works
 
+> **Where am I?** `content/` = home · `social/` = the work (you are here) · `content-os/` = the factory.
+
 This folder is the **social publishing pipeline**: where post copy lives, how it's scheduled, and how it gets programmed into Typefully. If you're ever unsure where something is, start here.
 
 ## The three layers
@@ -33,7 +35,7 @@ content/social/
   LINKEDIN-REVIEW.md   ← generated, gitignored
 ```
 
-Related: **`../content-os/`** (the OS / factory) holds the upstream *system* — story bank, voice guide + examples, frameworks, templates. **`content/voice.md`** is the voice rulebook every draft must pass.
+Related: **`../content-os/`** (the factory) holds the upstream *system* — story bank, voice guide + examples, frameworks, templates. **`content/voice.md`** is the voice rulebook every draft must pass.
 
 ## The loop (how a post gets out)
 

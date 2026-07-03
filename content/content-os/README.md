@@ -1,6 +1,8 @@
 # Content OS — the factory (templates & methodology)
 
-> **This folder is the *factory*, not the live content.** It holds the templates, frameworks, story bank, voice *examples*, and prompts — *how* content gets made. The actual posts, schedule, and automation live in [`content/social/`](../README.md), which is where you work day-to-day. Canonical voice rulebook: [`content/voice.md`](../voice.md) (this system's `02-voice-guide/` is example-backed reference).
+> **Where am I?** `content/` = home · `social/` = the work · `content-os/` = the factory (you are here).
+
+> **This folder is the *factory*, not the live content.** It holds the templates, frameworks, story bank, voice *examples*, and prompts — *how* content gets made. The actual posts, schedule, and automation live in [`content/social/`](../social/README.md), which is where you work day-to-day. Canonical voice rulebook: [`content/voice.md`](../voice.md) (this system's `02-voice-guide/` is example-backed reference).
 
 A local, markdown-based system for turning raw thinking into published content — without sounding like generic AI.
 
@@ -32,7 +34,7 @@ These rules govern every prompt and template in this system. If a draft violates
 | Folder | Purpose |
 |---|---|
 | `01-story-bank/` | The heart of the system. Every lived experience, lesson, or moment becomes a structured Story Bank entry. Wispr notes get processed into here daily. |
-| `02-voice-guide/` | The source of truth for how I sound. Drafting and editing prompts read this so output matches my voice. Updated as the voice clarifies. |
+| `02-voice-guide/` | Example-backed voice **reference** (screenshots, provenance tags, frameworks) for learning how I sound. The canonical rulebook is [`content/voice.md`](../voice.md) — if the two disagree, `voice.md` wins. |
 | `03-research/` | Research briefs and the workflow for gathering supporting evidence — only *after* a story is chosen. Includes gap analysis to find what's missing. |
 | `04-interview/` | Interview question generators and the prompt for processing Granola transcripts of me answering them. This is how lived detail gets pulled out. |
 | `05-content-production/` | Templates (blog, LinkedIn, X thread, standalone tweets) plus the drafting and editing prompts that combine everything into finished content. |

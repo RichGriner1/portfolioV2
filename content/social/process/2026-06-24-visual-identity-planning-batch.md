@@ -54,11 +54,7 @@ Extended dual-use of Standalone A — the tweet stays ≤280 as-is; the LinkedIn
 
 Speed without identity is a race to sameness.
 
-AI tools build a working UI in under an hour now.
-
-Every AI-built fintech product I open still looks like every other AI-built fintech product.
-
-It's why we're starting to see so many similar-looking products.
+AI tools build a working UI in under an hour now — but we're running into a problem: every product is starting to look the same.
 
 Speed stopped being the differentiator. Design strategy is.
 

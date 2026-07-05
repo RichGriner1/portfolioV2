@@ -141,9 +141,9 @@ Speed used to be the advantage. AI made it the baseline. Identity is the part th
 
 **Standalone A — the deck-carrier** *(§8)*
 
-If you design for a consultancy, the person who carries your deck into the sales room is your real client.
+If you design for a consultancy, the buyer isn't your real client.
 
-Not the buyer. The person briefing the buyer.
+Your real client is the person who presents your deck in a room you're not in. That's who the mood board has to work for.
 
 ---
 

@@ -38,7 +38,7 @@ Each one stands on its own. Mix into the schedule per `backlog.md`'s AI-tooling 
 
 We got Claude Code to stop generating generic UI. The lever wasn't a better prompt.
 
-It was granular definition first — tokens, components, skills, a design.md tying them together. Claude solved a lot. The scaling came from what we defined.
+It was granular definition first — tokens, components, skills, a design.md tying them together. Claude solved a lot. But the scaling came from what we defined.
 
 ---
 

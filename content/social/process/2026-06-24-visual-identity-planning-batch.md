@@ -44,7 +44,7 @@ Real scheduling lives in [`content/social/backlog.md`](../backlog.md) — the ma
 
 Speed without identity is a race to sameness.
 
-AI tools build a working UI in under an hour now. Every AI-built fintech demo I open still looks like every other AI-built fintech demo.
+AI tools build a working UI in under an hour now. Every AI-built fintech product I open still looks like every other AI-built fintech product.
 
 ---
 
@@ -56,7 +56,7 @@ Speed without identity is a race to sameness.
 
 AI tools build a working UI in under an hour now.
 
-Every AI-built fintech demo I open still looks like every other AI-built fintech demo.
+Every AI-built fintech product I open still looks like every other AI-built fintech product.
 
 It's why we're starting to see so many similar-looking products.
 
@@ -74,7 +74,7 @@ AI hands you a UI that works and looks like everyone else's. Competent isn't the
 
 **Standalone C — what actually fixes it** *(§10)*
 
-Every AI-built fintech demo I've opened this year looks like every other one. What fixes it isn't a better prompt.
+Every AI-built fintech product I've opened this year looks like every other one. What fixes it isn't a better prompt.
 
 It's that nobody wrote down what the product stands for before generating anything.
 
@@ -134,7 +134,7 @@ Identity is the part the AI can't make up for you.
 
 ### LinkedIn post (~200 words)
 
-AI tools build a working UI in under an hour now. The acceleration is real. So is the side effect: every AI-built fintech demo I open looks like every other AI-built fintech demo. Same Tailwind defaults. Same rounded cards. Same neutral chips. Same shadcn finish.
+AI tools build a working UI in under an hour now. The acceleration is real. So is the side effect: every AI-built fintech product I open looks like every other AI-built fintech product. Same Tailwind defaults. Same rounded cards. Same neutral chips. Same shadcn finish.
 
 It isn't the tools' fault. AI fills the gaps you didn't define. If the only thing it knows about your product is the prompt and the framework defaults, you get the framework defaults — visually and otherwise.
 
@@ -147,7 +147,7 @@ Speed used to be the advantage. AI made it the baseline. Identity is the part th
 ### Notes
 
 - **Case-study tie:** opening claim for the visual-identity case study (TBD). When that ships, the LinkedIn CTA adds the link.
-- **Graphic concept (optional, ~15 min):** six AI-generated fintech demo thumbnails in a grid, looking near-identical. Caption strip: *"Speed without identity is a race to sameness."*
+- **Graphic concept (optional, ~15 min):** six AI-generated fintech product thumbnails in a grid, looking near-identical. Caption strip: *"Speed without identity is a race to sameness."*
 - **Skeletons used:** §17, §8, §10, §9, §7, §3, §5.
 
 ---

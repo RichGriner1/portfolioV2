@@ -48,6 +48,22 @@ AI tools build a working UI in under an hour now. Every AI-built fintech demo I 
 
 ---
 
+### LinkedIn short (Monday 2026-07-06)
+
+Extended dual-use of Standalone A — the tweet stays ≤280 as-is; the LinkedIn version adds the so-what close (Richard, 2026-07-05).
+
+Speed without identity is a race to sameness.
+
+AI tools build a working UI in under an hour now.
+
+Every AI-built fintech demo I open still looks like every other AI-built fintech demo.
+
+It's why we're starting to see so many similar-looking products.
+
+Speed stopped being the differentiator. Design strategy is.
+
+---
+
 **Standalone B — the comparison** *(§8)*
 
 Same Tailwind defaults. Same rounded cards. Same neutral chips. Same shadcn finish.

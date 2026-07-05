@@ -36,9 +36,9 @@ Each one stands on its own. Mix into the schedule per `backlog.md`'s AI-tooling 
 
 **Standalone A — DS grounding** *(§10)*
 
-We got Claude Code to stop generating generic UI. What actually did it wasn't a better prompt.
+We got Claude Code to stop generating generic UI. The lever wasn't a better prompt.
 
-It was loading our design system in at the start of the session. AI without context makes generic UI. AI with context makes our UI consistent and on brand.
+It was granular definition first — tokens, components, skills, a design.md tying them together. Claude solved a lot. But the scaling came from what we defined.
 
 ---
 

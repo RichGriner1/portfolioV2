@@ -2,7 +2,7 @@
 title: "Visual-identity planning batch — June 24, 2026"
 pillar: process
 source: ../../../.claude/plans/sorry-to-interupt-but-crystalline-starfish.md
-status: draft
+status: ready
 created: 2026-06-24
 revised: 2026-07-01
 platforms: [twitter, linkedin]
@@ -38,7 +38,7 @@ Real scheduling lives in [`content/social/backlog.md`](../backlog.md) — the ma
 ---
 
 ## 1. Speed without identity is a race to sameness
-> **Status:** draft · standalones + LinkedIn
+> **Status:** LinkedIn short (7/06) ready — voice-keeper pass + post-reviewer ship, 2026-07-05 · standalones + long-form LinkedIn still draft
 
 **Standalone A — one-sentence opener** *(§17)*
 

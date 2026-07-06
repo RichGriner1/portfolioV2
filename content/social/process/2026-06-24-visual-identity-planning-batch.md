@@ -4,7 +4,7 @@ pillar: process
 source: ../../../.claude/plans/sorry-to-interupt-but-crystalline-starfish.md
 status: ready
 created: 2026-06-24
-revised: 2026-07-01
+revised: 2026-07-06
 platforms: [twitter, linkedin]
 ---
 
@@ -241,9 +241,9 @@ The buyer matters. The person briefing the buyer matters more.
 
 **Standalone A — one-sentence opener** *(§17)*
 
-Most competitor audits go slow and shallow for one reason: designers annotate while they capture.
+Competitor audits come out slow and shallow for one reason: you annotate while you collect.
 
-Two different jobs, done at the same time, both done badly.
+That's context-switching — both jobs suffer. Collect first: twelve screens, no notes. Annotate second, in one pass. Only then do the patterns across all twelve show up — the whole point.
 
 ---
 
@@ -348,9 +348,9 @@ Small move. Saves a third of the day.
 
 **Standalone A — one-sentence opener** *(§17)*
 
-Fintech has a thin visual vocabulary. Same cards, same charts, same chip colors.
+If your only references are other fintech products, you'll build another one that looks like the rest.
 
-Look only at fintech and you'll describe fintech. Look adjacent and you'll have something to say.
+Fintech has a thin visual vocabulary — same cards, charts, chip colors. Look adjacent instead: editorial, architecture, signage. A point of view fintech doesn't have yet.
 
 ---
 
@@ -438,9 +438,9 @@ Steal from outside the room.
 
 **Standalone A — one-sentence opener** *(§17)*
 
-A single polished mood board reads as "I already decided." The room is now voting on your decision.
+Bring one polished mood board and you've framed it as "I already decided." Their only move is to approve or reject you.
 
-Bring three and the room is choosing instead.
+Bring three and they're choosing between trade-offs instead. They own the pick — so they defend it later. Catch: no decoys — all three must be shippable.
 
 ---
 

@@ -124,6 +124,28 @@ Past 2026-09-01, keep the same shape: 2 standalones/weekday, two different sourc
 
 ---
 
+## Build-in-public schedule
+
+**Additive 3rd slot. Twitter-only, ~2–3/week, 11:30.** These narrate the DMV lead-gen build on Richard's personal X — the *method* (agent loops, quality gates, constraints), never the business specifics. See `content/social/process/2026-07-06-build-in-public-dmv-day1-batch.md` and memory `feedback-build-in-public-method-not-map`. They sit *between* the day's Tweet 1 (09:00) and Tweet 2 (14:00); nothing in the daily grid moves. The emitter folds this table into the X desired-state at `--time3`.
+
+Source tag: **BIP** = build-in-public-dmv-day1-batch.
+
+| Date | Post |
+|---|---|
+| 2026-07-07 | **BIP** day-one recap [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#1-i-gave-agents-a-business-to-build) |
+| 2026-07-09 | **BIP** agents take the tedium, I make the calls [B](process/2026-07-06-build-in-public-dmv-day1-batch.md#1-i-gave-agents-a-business-to-build) |
+| 2026-07-14 | **BIP** the rules I gave the agents [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#2-constraints-did-more-than-motivation) |
+| 2026-07-16 | **BIP** the gate caught the lie [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#3-the-system-reviews-its-own-work) |
+| 2026-07-21 | **BIP** better inputs beat better tools [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#4-better-inputs-beat-better-tools) |
+| 2026-07-23 | **BIP** the through-line: I design systems an AI runs inside [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#5-i-design-systems-an-ai-operates-inside) |
+| 2026-07-28 | **BIP** the loop reports on itself [C](process/2026-07-06-build-in-public-dmv-day1-batch.md#1-i-gave-agents-a-business-to-build) |
+| 2026-07-30 | **BIP** one pass, then stop [B](process/2026-07-06-build-in-public-dmv-day1-batch.md#2-constraints-did-more-than-motivation) |
+| 2026-08-04 | **BIP** the budget as a design tool [C](process/2026-07-06-build-in-public-dmv-day1-batch.md#2-constraints-did-more-than-motivation) |
+| 2026-08-06 | **BIP** separation of duties [B](process/2026-07-06-build-in-public-dmv-day1-batch.md#3-the-system-reviews-its-own-work) |
+| 2026-08-11 | **BIP** the repo is the memory [B](process/2026-07-06-build-in-public-dmv-day1-batch.md#5-i-design-systems-an-ai-operates-inside) |
+
+---
+
 ## LinkedIn schedule
 
 Two posts/week, weekday.

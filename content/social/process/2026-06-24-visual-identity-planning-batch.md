@@ -155,7 +155,7 @@ Speed used to be the advantage. AI made it the baseline. Identity is the part th
 
 If you design for a consultancy, the buyer isn't your real client.
 
-Your real client is the person who presents your mood board in a room you're not in. That's who it has to work for.
+Your real client is the person who presents your direction in a room you're not in. That's who it has to work for.
 
 ---
 

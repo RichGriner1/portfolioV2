@@ -28,6 +28,7 @@
 //   --print              print resolved tweet text and exit (no Typefully call)
 //   --time1 <HH:MM>      posting time for tweet 1 each day (default 09:00)
 //   --time2 <HH:MM>      posting time for tweet 2 each day (default 14:00)
+//   --time3 <HH:MM>      posting time for the build-in-public 3rd slot (default 11:30)
 //   --tz <±HH:MM>        timezone offset for schedule (default +02:00, Madrid CEST)
 //   --share              ask Typefully for a shareable draft URL
 
@@ -43,8 +44,8 @@ const BACKLOG = join(SOCIAL, "backlog.md");
 const PUSH = join(__dirname, "typefully-push.mjs");
 
 function parseArgs(argv) {
-  const a = { from: null, to: null, limit: Infinity, send: false, print: false,
-              time1: "09:00", time2: "14:00", tz: "+02:00",
+  const a = { from: null, to: null, limit: Infinity, send: false, print: false, emit: false,
+              time1: "09:00", time2: "14:00", time3: "11:30", tz: "+02:00",
               socialSet: process.env.TYPEFULLY_SOCIAL_SET_ID || null, platform: "x", linkedin: false };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
@@ -53,8 +54,10 @@ function parseArgs(argv) {
     else if (t === "--limit") a.limit = parseInt(argv[++i], 10);
     else if (t === "--send") a.send = true;
     else if (t === "--print") a.print = true;
+    else if (t === "--emit") a.emit = true;
     else if (t === "--time1") a.time1 = argv[++i];
     else if (t === "--time2") a.time2 = argv[++i];
+    else if (t === "--time3") a.time3 = argv[++i];
     else if (t === "--tz") a.tz = argv[++i];
     else if (t === "--social-set") a.socialSet = argv[++i];
     else if (t === "--platform") a.platform = argv[++i];
@@ -136,13 +139,14 @@ async function main() {
   const md = await readFile(BACKLOG, "utf8");
   const allLines = md.split("\n");
 
-  // Scope to one section so the tweet table and LinkedIn table never collide.
-  const header = args.linkedin ? "## LinkedIn schedule" : "## Daily posting schedule";
-  const start = allLines.findIndex(l => l.trim() === header);
-  if (start === -1) throw new Error(`section "${header}" not found in backlog.md`);
-  let end = allLines.length;
-  for (let i = start + 1; i < allLines.length; i++) if (/^## /.test(allLines[i])) { end = i; break; }
-  const lines = allLines.slice(start, end);
+  // Pull the body lines of one "## <header>" section (up to the next H2).
+  const section = (header) => {
+    const start = allLines.findIndex(l => l.trim() === header);
+    if (start === -1) throw new Error(`section "${header}" not found in backlog.md`);
+    let end = allLines.length;
+    for (let i = start + 1; i < allLines.length; i++) if (/^## /.test(allLines[i])) { end = i; break; }
+    return allLines.slice(start, end);
+  };
 
   const fileCache = new Map();
   const readBatch = async (rel) => {
@@ -151,28 +155,66 @@ async function main() {
     return fileCache.get(p);
   };
 
-  // flatten to scheduled posts (LinkedIn: one per row, blog rows have no link and are skipped)
+  // The X desired-state is TWO tables: the choreographed daily 2/day grid
+  // (Tweet 1 @time1, Tweet 2 @time2) plus an additive build-in-public 3rd slot
+  // (@time3). LinkedIn is its own single-column table. Each source declares
+  // which columns map to which times so the flattener stays uniform.
+  const sources = args.linkedin
+    ? [{ lines: section("## LinkedIn schedule"), cells: (cols, line) => [[line, args.time1]] }]
+    : [
+        { lines: section("## Daily posting schedule"),
+          cells: (cols) => [[cols[3], args.time1], [cols[4], args.time2]] },
+        { lines: section("## Build-in-public schedule"),
+          cells: (cols) => [[cols[2], args.time3]] },
+      ];
+
+  // flatten to scheduled posts (blog / empty cells have no link and are skipped)
   const jobs = [];
-  for (const line of lines) {
-    const m = line.match(/^\|\s*(\d{4}-\d{2}-\d{2})\s*\|/);
-    if (!m) continue;
-    const date = m[1];
-    if (args.from && date < args.from) continue;
-    if (args.to && date > args.to) continue;
-    const cols = line.split("|").map(c => c.trim());
-    if (args.linkedin) {
-      const c = parseCell(line);
-      if (!c) continue;
-      jobs.push({ ...c, date, when: `${date}T${args.time1}:00${args.tz}` });
-    } else {
-      for (const [cell, time] of [[cols[3], args.time1], [cols[4], args.time2]]) {
+  for (const src of sources) {
+    for (const line of src.lines) {
+      const m = line.match(/^\|\s*(\d{4}-\d{2}-\d{2})\s*\|/);
+      if (!m) continue;
+      const date = m[1];
+      if (args.from && date < args.from) continue;
+      if (args.to && date > args.to) continue;
+      const cols = line.split("|").map(c => c.trim());
+      for (const [cell, time] of src.cells(cols, line)) {
         const c = parseCell(cell || "");
         if (!c) continue;
-        jobs.push({ ...c, date, when: `${date}T${time}:00${args.tz}` });
+        jobs.push({ ...c, date, when: `${date}T${time}:00${args.tz}`, platform: args.platform });
       }
     }
   }
+  jobs.sort((a, b) => a.when.localeCompare(b.when));
   const limited = jobs.slice(0, args.limit);
+
+  // --emit: resolve copy for each job and print the desired schedule as JSON.
+  // This is the "desired state" that typefully-sync.mjs reconciles against.
+  if (args.emit) {
+    const out = [];
+    let failures = 0;
+    for (const job of limited) {
+      let text;
+      try {
+        text = extractStandalone(await readBatch(job.path), job.letter, job.anchor);
+      } catch (e) {
+        failures++;
+        process.stderr.write(`emit: resolve failed ${job.date} ${job.tag} ${job.letter}: ${e.message}\n`);
+        continue;
+      }
+      const contentKey = `${job.platform}|${job.path}|${job.anchor || ""}|${job.letter}`;
+      out.push({ contentKey, date: job.date, when: job.when, platform: job.platform,
+                 tag: job.tag, letter: job.letter, path: job.path, anchor: job.anchor, text });
+    }
+    process.stdout.write(JSON.stringify(out, null, 2) + "\n");
+    // Exit non-zero on any unresolved row so the reconciler (typefully-sync.mjs)
+    // aborts instead of treating a dropped row as an orphan to delete.
+    if (failures > 0) {
+      process.stderr.write(`emit: ${failures} row(s) failed to resolve — refusing to signal a complete desired state.\n`);
+      process.exitCode = 1;
+    }
+    return;
+  }
 
   let ok = 0, fail = 0;
   for (const job of limited) {

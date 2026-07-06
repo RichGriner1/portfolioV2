@@ -1,6 +1,6 @@
 # Social posting backlog
 
-Cadence: **weekday posting, standalone-only** — **2 standalone tweets/day, Mon–Fri** (no weekends), programmed out to 2026-09-01. **Blogs publish on Wednesdays.** LinkedIn is weekday-only, 2/week: **Wednesday = the blog post with an image; Monday = a short post (same copy as a dual-use tweet).** Once there's Twitter engagement data, the Monday LinkedIn becomes a reshare of a proven tweet. The calendar anchors INTO batch files at the specific-standalone level (e.g., `AID2C / Standalone A`); the batch is the single source of truth for copy. Older entries (pre-2026-06-24) use the legacy one-file-per-post format.
+Cadence: **weekday posting, standalone-only** — **2 standalone tweets/day, Mon–Fri** (no weekend tweets), programmed out to 2026-09-01. **Blogs publish on Saturdays.** LinkedIn is 2/week: **Saturday = the blog post with an image; Monday = a short post (same copy as a dual-use tweet).** Once there's Twitter engagement data, the Monday LinkedIn becomes a reshare of a proven tweet. The calendar anchors INTO batch files at the specific-standalone level (e.g., `AID2C / Standalone A`); the batch is the single source of truth for copy. Older entries (pre-2026-06-24) use the legacy one-file-per-post format.
 
 > **Note on the 2/day decision:** inventory supports it — 112 standalones written, 88 weekday slots to 2026-09-01. The pool is concentrated (MU + VI = 83 of 112, ~8 variations per sub-theme), so the schedule below spreads sub-themes apart and interleaves the smaller distinct pools (AID2C, AFI, OBS, AIWF) rather than clustering. 24 standalones are held in reserve. As new batches land, drop them into the rotation and push the weakest MU/VI variations to reserve.
 
@@ -15,23 +15,23 @@ Cadence: **weekday posting, standalone-only** — **2 standalone tweets/day, Mon
 | 2026-05-29 | Fri | Record yourself making decisions | [legacy file](process/2026-05-29-record-decisions.md) | draft |
 | 2026-06-01 | Mon | Hide, don't delete. Audit as you go. | [legacy file](process/2026-06-01-hide-dont-delete.md) | draft |
 
-## Weekly blog schedule (blog day = Wednesday)
+## Weekly blog schedule (blog day = Saturday)
 
-Blogs anchor each week's rotation and become that week's Wednesday LinkedIn post (with an image). The color page already went out off-cadence on a Wednesday.
+Blogs anchor each week's rotation and become that week's Saturday LinkedIn post (with an image). Moved off Wednesday to a Saturday cadence (2026-07-06) so a tight Mon–Wed week doesn't blow the blog slot — the weekend is the buffer. The color page went out off-cadence on Wednesday 2026-07-01.
 
 | Date | Blog / case study | Status |
 |---|---|---|
 | 2026-07-01 (Wed) | Building color in four layers | ✅ posted (off-cadence) |
-| 2026-07-08 (Wed) | Modern UI in 2026 (published) | go live — kicks off MU rotation |
-| 2026-07-15 (Wed) | Dimensions (methodology, built like the color page) | ✍️ to build |
-| 2026-07-22 (Wed) | AFI design system case study | social batch ready |
-| 2026-07-29 (Wed) | Design MD (published: design-md-primeng-wealth-manager) | re-feature / needs social batch |
-| 2026-08-05 (Wed) | TBD | ⛔ backlog gap — no ready blog |
-| 2026-08-12 (Wed) | TBD | ⛔ backlog gap |
-| 2026-08-19 (Wed) | KT360 case study | ⛔ blocked — pending Figma/Granola |
-| 2026-08-26 (Wed) | MindfulMe case study | ⛔ blocked — pending Figma |
+| 2026-07-11 (Sat) | Modern UI in 2026 (published) | go live — kicks off MU rotation |
+| 2026-07-18 (Sat) | Dimensions (methodology, built like the color page) | ✍️ to build |
+| 2026-07-25 (Sat) | AFI design system case study | social batch ready |
+| 2026-08-01 (Sat) | Design MD (published: design-md-primeng-wealth-manager) | re-feature / needs social batch |
+| 2026-08-08 (Sat) | TBD | ⛔ backlog gap — no ready blog |
+| 2026-08-15 (Sat) | TBD | ⛔ backlog gap |
+| 2026-08-22 (Sat) | KT360 case study | ⛔ blocked — pending Figma/Granola |
+| 2026-08-29 (Sat) | MindfulMe case study | ⛔ blocked — pending Figma |
 
-> Only 4 blogs are ready/near-ready (through 2026-07-29). 08-05 onward needs new long-form written or the blocked case studies unblocked, or drop to a blog every *other* Wednesday.
+> Only 4 blogs are ready/near-ready (through 2026-08-01). 08-08 onward needs new long-form written or the blocked case studies unblocked, or drop to a blog every *other* Saturday.
 
 ---
 
@@ -47,42 +47,42 @@ Source tags: **MU** = modern-ui-2026 · **VI** = visual-identity-planning · **A
 | 2026-07-03 | Fri | **AIWF** think in the park, build at the desk [A](process/2026-07-02-ai-workflow-batch.md) | **MU** patterns · comparison [A](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | |
 | 2026-07-06 | Mon | **VI** client · the deck-carrier [A](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | **AID2C** DS grounding [A](process/2026-06-22-ai-design-to-code-flow.md) | short: **VI A** (speed · race to sameness) |
 | 2026-07-07 | Tue | **MU** vague · one-sentence opener [A](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | **VI** capture · one-sentence opener [A](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | |
-| 2026-07-08 | Wed 🟢 | **AFI** the real cause of density [A](process/2026-07-01-afi-design-system-batch.md) | **MU** delay · the beat most skip [A](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | 🖼️ BLOG: Modern UI in 2026 |
+| 2026-07-08 | Wed | **AFI** the real cause of density [A](process/2026-07-01-afi-design-system-batch.md) | **MU** delay · the beat most skip [A](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | 🖼️ BLOG → Sat 7/11: Modern UI in 2026 |
 | 2026-07-09 | Thu | **VI** steal · one-sentence opener [A](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | **OBS** delight vs parity [A](authority/2026-07-01-startup-observations.md) | |
 | 2026-07-10 | Fri | **MU** maturity · stages ladder [A](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | **VI** three · one-sentence opener [A](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | |
 | 2026-07-13 | Mon | **AIWF** spoken reasoning > typed prompts [B](process/2026-07-02-ai-workflow-batch.md) | **MU** research · what made the difference [B](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | short: **MU A** (patterns · brand is the patterns) |
 | 2026-07-14 | Tue | **VI** speed · comparison [B](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | **AID2C** more thinking not more screens [B](process/2026-06-22-ai-design-to-code-flow.md) | |
-| 2026-07-15 | Wed 🟢 | **MU** patterns · equation [B](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **VI** client · stop/do [B](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | 🖼️ BLOG: Dimensions |
+| 2026-07-15 | Wed | **MU** patterns · equation [B](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **VI** client · stop/do [B](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | 🖼️ BLOG → Sat 7/18: Dimensions |
 | 2026-07-16 | Thu | **AFI** breakdown [B](process/2026-07-01-afi-design-system-batch.md) | **MU** vague · stop/do [B](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | |
 | 2026-07-17 | Fri | **VI** capture · stop/do [B](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | **AIWF** extract your voice, don't write it [C](process/2026-07-02-ai-workflow-batch.md) | |
 | 2026-07-20 | Mon | **MU** delay · the window [B](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | **VI** steal · Bloomberg as reference [B](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | short: **AIWF B** (spoken reasoning) |
 | 2026-07-21 | Tue | **AID2C** the failure mode [C](process/2026-06-22-ai-design-to-code-flow.md) | **MU** maturity · comparison [B](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | |
-| 2026-07-22 | Wed 🟢 | **VI** three · old→new [B](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **AFI** old→new [C](process/2026-07-01-afi-design-system-batch.md) | 🖼️ BLOG: AFI design system |
+| 2026-07-22 | Wed | **VI** three · old→new [B](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **AFI** old→new [C](process/2026-07-01-afi-design-system-batch.md) | 🖼️ BLOG → Sat 7/25: AFI design system |
 | 2026-07-23 | Thu | **MU** research · old→new [C](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | **VI** speed · what fixes it [C](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | |
 | 2026-07-24 | Fri | **AIWF** mine your folders, don't brainstorm [D](process/2026-07-02-ai-workflow-batch.md) | **MU** patterns · breakdown [C](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | |
 | 2026-07-27 | Mon | **VI** client · equation [C](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | **BRK** Figma follows the market [A](breakdown/2026-07-02-tools-market-batch.md) | short: **AID2C C** (the failure mode) |
 | 2026-07-28 | Tue | **MU** vague · comparison [C](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | **VI** capture · breakdown [C](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | |
-| 2026-07-29 | Wed 🟢 | **AFI** placement is scope [D](process/2026-07-01-afi-design-system-batch.md) | **MU** delay · stop/do [C](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | 🖼️ BLOG: Design MD |
+| 2026-07-29 | Wed | **AFI** placement is scope [D](process/2026-07-01-afi-design-system-batch.md) | **MU** delay · stop/do [C](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | 🖼️ BLOG → Sat 8/01: Design MD |
 | 2026-07-30 | Thu | **VI** steal · architecture move [C](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | **AIWF** get the AI to interview you [E](process/2026-07-02-ai-workflow-batch.md) | |
 | 2026-07-31 | Fri | **MU** maturity · the token point [C](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | **VI** three · no decoys [C](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | |
 | 2026-08-03 | Mon | **AID2C** brand's own clock [E](process/2026-06-22-ai-design-to-code-flow.md) | **MU** research · comparison [D](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | short: **MU C** (maturity · the token point) |
 | 2026-08-04 | Tue | **VI** speed · stop/do [D](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | **AFI** stop/do [E](process/2026-07-01-afi-design-system-batch.md) | |
-| 2026-08-05 | Wed | **MU** patterns · every role should understand [D](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **VI** client · the comparison wall [D](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | 🖼️ BLOG: TBD |
+| 2026-08-05 | Wed | **MU** patterns · every role should understand [D](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **VI** client · the comparison wall [D](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | 🖼️ BLOG → Sat 8/08: TBD |
 | 2026-08-06 | Thu | **AIWF** framework stopped being the wall [F](process/2026-07-02-ai-workflow-batch.md) | **MU** vague · taste vs principles [D](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | |
 | 2026-08-07 | Fri | **VI** capture · old→new [D](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | **AID2C** the load-bearing decision [F](process/2026-06-22-ai-design-to-code-flow.md) | |
 | 2026-08-10 | Mon | **MU** delay · old→new [D](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | **VI** steal · fashion→restraint [D](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | short: **AFI A** (the real cause of density) |
 | 2026-08-11 | Tue | **AFI** the duplicate nobody caught [F](process/2026-07-01-afi-design-system-batch.md) | **MU** maturity · the jump isn't personal [D](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | |
-| 2026-08-12 | Wed | **VI** three · taste vs constraint [D](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **AID2C** the routing rule [G](process/2026-06-22-ai-design-to-code-flow.md) | 🖼️ BLOG: TBD |
+| 2026-08-12 | Wed | **VI** three · taste vs constraint [D](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | **AID2C** the routing rule [G](process/2026-06-22-ai-design-to-code-flow.md) | 🖼️ BLOG → Sat 8/15: TBD |
 | 2026-08-13 | Thu | **MU** research · setup→payoff [E](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | **VI** speed · equation [E](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | |
 | 2026-08-14 | Fri | **AFI** don't need/do need [G](process/2026-07-01-afi-design-system-batch.md) | **MU** patterns · the CFO [E](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | |
 | 2026-08-17 | Mon | **VI** client · taste vs application [E](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | **AID2C** the symptom [H](process/2026-06-22-ai-design-to-code-flow.md) | short: **AIWF A** (think in the park) |
 | 2026-08-18 | Tue | **MU** vague · the research move [E](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | **VI** capture · equation [E](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | |
-| 2026-08-19 | Wed | **AFI** comparison [H](process/2026-07-01-afi-design-system-batch.md) | **MU** delay · comparison [E](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | 🖼️ BLOG: TBD |
+| 2026-08-19 | Wed | **AFI** comparison [H](process/2026-07-01-afi-design-system-batch.md) | **MU** delay · comparison [E](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | 🖼️ BLOG → Sat 8/22: TBD |
 | 2026-08-20 | Thu | **VI** steal · the sentence move [E](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | **AID2C** the six and the ten [I](process/2026-06-22-ai-design-to-code-flow.md) | |
 | 2026-08-21 | Fri | **MU** maturity · don't need/do need [E](process/2026-06-24-modern-ui-2026.md#5-maturity-as-collective-commitment) | **VI** three · ownership transfer [E](process/2026-06-24-visual-identity-planning-batch.md#5-three-directions-not-one-polished-pitch) | |
 | 2026-08-24 | Mon | **AFI** equation [I](process/2026-07-01-afi-design-system-batch.md) | **MU** research · what 'modern' is [F](process/2026-06-24-modern-ui-2026.md#1-research-first-principle) | short: **AID2C A** (DS grounding) |
 | 2026-08-25 | Tue | **VI** speed · negative-value tell [F](process/2026-06-24-visual-identity-planning-batch.md#1-speed-without-identity-is-a-race-to-sameness) | **AID2C** old→new [J](process/2026-06-22-ai-design-to-code-flow.md) | |
-| 2026-08-26 | Wed | **MU** patterns · old→new [F](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **VI** client · old→new [F](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | 🖼️ BLOG: TBD |
+| 2026-08-26 | Wed | **MU** patterns · old→new [F](process/2026-06-24-modern-ui-2026.md#2-patterns-not-pixels) | **VI** client · old→new [F](process/2026-06-24-visual-identity-planning-batch.md#2-the-real-client-carries-the-artifact-into-the-room) | 🖼️ BLOG → Sat 8/29: TBD |
 | 2026-08-27 | Thu | **AFI** what changes the platform [J](process/2026-07-01-afi-design-system-batch.md) | **MU** vague · what I brought back [F](process/2026-06-24-modern-ui-2026.md#3-the-vague-brief) | |
 | 2026-08-28 | Fri | **VI** capture · comparison [F](process/2026-06-24-visual-identity-planning-batch.md#3-capture-then-annotate-dont-mix-the-modes) | **AID2C** don't need/do need [K](process/2026-06-22-ai-design-to-code-flow.md) | |
 | 2026-08-31 | Mon | **MU** delay · document it once [F](process/2026-06-24-modern-ui-2026.md#4-the-delay-rule) | **VI** steal · equation [F](process/2026-06-24-visual-identity-planning-batch.md#4-steal-from-outside-the-room) | short: **AIWF C** (extract your voice) |
@@ -120,7 +120,7 @@ Held out of the schedule; drop in as newer, sharper batches arrive or to replace
 
 ### Extension rule
 
-Past 2026-09-01, keep the same shape: 2 standalones/weekday, two different source-blogs per day, never two consecutive from the same source, MU/VI sub-themes spread apart. When a new batch lands, interleave it and push the weakest reserve variations further back. LinkedIn stays 2/week: Wednesday blog (with image) + Monday short dual-use post; once Twitter data exists, the Monday slot becomes a reshare of a proven tweet.
+Past 2026-09-01, keep the same shape: 2 standalones/weekday, two different source-blogs per day, never two consecutive from the same source, MU/VI sub-themes spread apart. When a new batch lands, interleave it and push the weakest reserve variations further back. LinkedIn stays 2/week: Saturday blog (with image) + Monday short dual-use post; once Twitter data exists, the Monday slot becomes a reshare of a proven tweet.
 
 ---
 
@@ -133,7 +133,7 @@ Source tag: **BIP** = build-in-public-dmv-day1-batch.
 | Date | Post |
 |---|---|
 | 2026-07-07 | **BIP** day-one recap [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#1-i-gave-agents-a-business-to-build) |
-| 2026-07-09 | **BIP** agents take the tedium, I make the calls [B](process/2026-07-06-build-in-public-dmv-day1-batch.md#1-i-gave-agents-a-business-to-build) |
+| 2026-07-09 | **BIP** the content engine — my notes in, posts out [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#6-the-content-engine-writes-the-update) |
 | 2026-07-14 | **BIP** the rules I gave the agents [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#2-constraints-did-more-than-motivation) |
 | 2026-07-16 | **BIP** the gate caught the lie [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#3-the-system-reviews-its-own-work) |
 | 2026-07-21 | **BIP** better inputs beat better tools [A](process/2026-07-06-build-in-public-dmv-day1-batch.md#4-better-inputs-beat-better-tools) |
@@ -148,9 +148,9 @@ Source tag: **BIP** = build-in-public-dmv-day1-batch.
 
 ## LinkedIn schedule
 
-Two posts/week, weekday.
+Two posts/week: Monday + Saturday.
 - **Monday = short dual-use post** — programmed to Typefully LinkedIn (`--linkedin`), copy pulled from the batch, 09:00 Madrid. Diversified across sources (no two same-source in a row), running to 2026-12-21.
-- **Wednesday = blog post + your visual** — done weekly when the blog is built, NOT bulk-programmed. Blog long-form copy lives in each batch's "LinkedIn post" section. Ready near-term: 7/08 Modern UI, 7/22 AFI; 7/15 Dimensions and 7/29 Design MD get written with their blogs.
+- **Saturday = blog post + your visual** — done weekly when the blog is built, NOT bulk-programmed. Blog long-form copy lives in each batch's "LinkedIn post" section. Ready near-term: 7/11 Modern UI, 7/25 AFI; 7/18 Dimensions and 8/01 Design MD get written with their blogs.
 
 ### Monday shorts (programmable)
 
@@ -224,10 +224,10 @@ LinkedIn and Twitter share substance but differ on:
 
 ### Cadence (current: weekday model, launched 2026-07-02)
 
-- **Wed — blog day.** One long-form post per week to the portfolio, promoted from `content/drafts/<pillar>/` to `content/published/<pillar>/YYYY-MM-DD-<slug>.md` (copy, not move). The blog is also that week's Wednesday LinkedIn post (with an image).
+- **Sat — blog day.** One long-form post per week to the portfolio, promoted from `content/drafts/<pillar>/` to `content/published/<pillar>/YYYY-MM-DD-<slug>.md` (copy, not move). The blog is also that week's Saturday LinkedIn post (with an image). Moved off Wednesday (2026-07-06) so a busy Mon–Wed doesn't cost the blog.
 - **Mon–Fri — social, 2 tweets/day.** Standalone-only, no threads. Two different source-blogs each day; no source on consecutive posts.
-- **LinkedIn — 2/week, weekday-only.** Wednesday = the blog (with image). Monday = a short dual-use standalone. Once Twitter engagement data exists, the Monday slot becomes a reshare of a proven tweet.
-- **No weekend posting** (for now — revisit once the backlog runs deeper than the schedule).
+- **LinkedIn — 2/week.** Saturday = the blog (with image). Monday = a short dual-use standalone. Once Twitter engagement data exists, the Monday slot becomes a reshare of a proven tweet.
+- **No weekend tweets** — the Saturday blog + its LinkedIn post are the only weekend items (for now — revisit once the backlog runs deeper than the schedule).
 - **Edit + schedule cycle.** Friday: voice-check the coming week's rows + lock `status: ready`. Post throughout the week from the batch.
 
 ### Topic rotation (don't repeat themes back-to-back)

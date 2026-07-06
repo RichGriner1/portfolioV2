@@ -20,9 +20,9 @@ Skeleton legend: §8 comparison · §9 stop-X-do-Y · §17 one-sentence opener.
 
 **Standalone A — delight vs parity** *(§8 comparison)*
 
-B2C users want delight. B2B users want their numbers to line up.
+B2B finance taught me where to spend design effort — not where B2C spends it.
 
-One of those is the clearer brief — and it's the one that pays. A wealth advisor won't churn because your empty state isn't pretty. They'll churn because a table misaligned a decimal.
+B2C rewards delight: animation, empty states, onboarding. B2B rewards accuracy: the numbers line up, the table never lies. The work moves — less polish, more precision. Know which game you're in.
 
 ---
 

@@ -28,9 +28,9 @@ Real scheduling lives in [`content/social/backlog.md`](../backlog.md).
 
 **Standalone A — the real cause of density** *(§17)*
 
-A dense fintech screen isn't dense because of the data — it's dense because of how the data's presented. Every page has its own header, its own action placement, its own way of breaking up the body.
+A dense screen overwhelms because of structure, not the amount of data.
 
-Same content, fifteen different frames. Structure is what makes a packed screen feel calm instead of chaotic.
+When flows are underdefined, every page invents its own header, actions, and logic — and that inconsistency is what overwhelms, not the data. Lock one structure across pages and it reads calm.
 
 ---
 

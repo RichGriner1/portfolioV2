@@ -11,6 +11,8 @@ platforms: [twitter]
 
 Build-in-public posts for Richard's **personal** X (the account the portfolioV2 pipeline already feeds), narrating the build of the DMV real-estate lead-gen business — a *different* brand that lives in its own repo (`~/Code/RichGriner1/DCLead-Gen`).
 
+**Scope (broadened 2026-07-06):** this file is the home for Richard's build-in-public posts generally — *how he builds with AI*, across projects. The DMV build is the primary source, but adjacent process belongs here too: the portfolio content system that publishes these very posts, the coherence / design-token work, the way he works with Claude. Same one rule below applies to all of it — **post the machine, not the map.**
+
 **The one rule: post the machine, not the map.** These are about *how* he builds with AI — the agent loops, the quality gates, the constraints — never *what* the DMV business is (the market gap, the moat). The map is stealable; the machine isn't. A stranger should finish these learning he builds tight AI systems, not that DMV real estate has an empty content niche. See memory `feedback-build-in-public-method-not-map`.
 
 **The loop (how a report becomes posts):**
@@ -29,6 +31,7 @@ Source for this batch: DCLead-Gen `2026-07-05-daily-report.md`. Nothing here nam
 | The system reviews its own work | Quality gates | [#3](#3-the-system-reviews-its-own-work) |
 | Better inputs beat better tools | Tooling | [#4](#4-better-inputs-beat-better-tools) |
 | I design systems an AI operates inside | Positioning | [#5](#5-i-design-systems-an-ai-operates-inside) |
+| The content engine writes the update | Portfolio / content system | [#6](#6-the-content-engine-writes-the-update) |
 
 ---
 
@@ -36,11 +39,11 @@ Source for this batch: DCLead-Gen `2026-07-05-daily-report.md`. Nothing here nam
 
 **Standalone A — day-one recap**
 
-Day 1 of building a business in public — with AI agents doing the legwork.
+Build in public — day 1.
 
-Empty repo this morning. Tonight: a working model, 100+ cited sources, and a content system that reviews its own drafts. ~30 commits.
+A side hustle with family used to mean months of nights and weekends. Now the agents do the legwork — read everything, file a brief with sources — so my hours go to judgment, not busywork.
 
-The agents do the hours. I do the judgment.
+Empty repo this morning. Working model + 100+ sources tonight.
 
 ---
 
@@ -135,3 +138,13 @@ Different projects, same job: I design the system an AI operates inside. The AI 
 The AI doesn't remember yesterday. The repo does.
 
 Every decision, every source, every rule lives in the files — so the agent that shows up tomorrow inherits everything the one from today learned. The memory isn't in the model. It's in the system around it.
+
+---
+
+## 6. The content engine writes the update
+
+> Portfolio content system, not the DMV build — filed here under the broadened build-in-public scope. Method-safe: it's about how the posts get made, not any business's map.
+
+**Standalone A — the edit is the work**
+
+These posts aren't written from scratch anymore. The raw material is mine — Wispr Flow notes, AI work-chats, Granola transcripts. One agent drafts against a rulebook of how I write; a second flags every drift. My job is the edit — a fraction of the time a blank page takes.

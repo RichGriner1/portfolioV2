@@ -87,7 +87,7 @@ Cross-project skills + loops authored here (home base) and **published into user
 
 - **Publish:** `npm run claude:sync` (dry-run) → `npm run claude:sync:apply` (symlinks each entry of `.claude/lib/{skills,commands,agents}` into `~/.claude/`). Edit here → live everywhere.
 - **Why `lib/`, not `.claude/skills/`:** `.claude/skills/` auto-registers as project skills; the symlink would then double-register in this repo. `lib/` is inert locally — user scope is the single registration.
-- **Phase 1:** skills `design-principles`, `design-tokens`, `components`, `design-system` (umbrella), `writing-substance`; loops `/ds-cleanup` (DS fix loop, framework-aware) and `/content-review` (clarity/substance gate). Full details + roadmap: [.claude/lib/README.md](.claude/lib/README.md).
+- **Phase 1:** skills `design-principles`, `design-tokens`, `components`, `design-system` (umbrella), `writing-substance`; loops `/ds-cleanup` (DS checker — audit by default, `--fix` to remediate; framework-aware) and `/content-review` (clarity/substance gate). Full details + roadmap: [.claude/lib/README.md](.claude/lib/README.md).
 - The project-scoped agents/commands above (dev + content pipelines, `voice-griner`) stay project-only — they're portfolio-specific. The `lib/` items are the portable ones.
 
 ## When in doubt

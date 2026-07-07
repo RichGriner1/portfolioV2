@@ -40,6 +40,35 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 - `ds-reviewer` — read-only DS inspector.
 - `content-critic` — read-only skeptical editor.
 
+## Using `/ds-cleanup` (quick reference)
+
+**What to type:**
+
+| Command | What it does | Cost |
+|---|---|---|
+| `/ds-cleanup <path>` | **Audit** — reports DS violations, changes nothing | cheap |
+| `/ds-cleanup <path> --fix` | Audit, then **one** fix pass, then stop | small |
+| `/ds-cleanup <path> --fix --verify` | …and run the build once to confirm nothing broke | + build |
+| `/ds-cleanup <path> --fix --deep` | Auto-loop audit→fix until clean (max 2 rounds) | higher |
+
+**The flags:**
+- **`--fix`** = make the edits (one pass, then hands back to you). Without it, audit only.
+- **`--verify`** = after fixing, run the project's build/lint (e.g. `npm run build`, `ng build`) locally to prove the change compiles. Off by default because build output is the biggest token sink. Without it, build it yourself.
+- **`--deep`** = keep looping automatically until clean instead of stopping after one pass — capped at 2 rounds so it can't run away.
+
+**The normal flow (you drive it):**
+1. `/ds-cleanup <component>` → read the findings.
+2. `/ds-cleanup <component> --fix` → one pass of fixes, then it stops.
+3. Look at the diff. Run it again to re-audit (now finds less, because the fixed stuff is clean) and `--fix` the rest. Repeat until the audit comes back clean.
+
+**Keeping it cheap (why it's built this way):**
+- **Scope to one component** (a table, the nav bar) — never the whole repo. Cheaper, faster, sharper.
+- **The cost that matters is the *main* conversation's context, not total tokens.** A subagent (the reviewer) burning 50–100k reading source is fine — its context is discarded and only its ~1-page report returns. The expensive mistake is the main thread re-reading everything. The loop is built to avoid that (the reviewer returns a self-sufficient report; the fixer does its own reading in throwaway context).
+- **A fresh session ≠ a new git branch.** If a session's context is bloated, start a *new chat* (same repo/branch) to reset it.
+- There's no hard "$X and stop" on a slash command — that's a workflow feature. The levers are: audit-first, scope tight, `--fix` one pass, opt into `--verify`/`--deep` only when needed.
+
+`/content-review <file>` works the same way: audit (critique) by default; `--fix` to have it apply the fixes.
+
 ## Adding a skill or loop
 
 1. **Skill:** `mkdir skills/<name>`, add `SKILL.md` (frontmatter: `name`, `description`) + optional `references/`. Keep it focused — one responsibility.

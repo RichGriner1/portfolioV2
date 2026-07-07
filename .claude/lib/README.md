@@ -33,7 +33,7 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 - `writing-substance` — voice- and language-neutral substance + clarity + length gate (the "unclear / too short / forced" catcher).
 
 **Loops (commands)**
-- `/ds-cleanup [paths|--diff] [--fix] [--framework …]` — **audit by default** (report only, you decide); `--fix` opts into inspect → fix → verify → repeat. Uses `ds-reviewer` + reuses `code-writer` / `test-runner`. Scope to a component/folder to keep it cheap.
+- `/ds-cleanup [paths|--diff] [--fix] [--verify] [--deep] [--framework …]` — **audit by default** (report only). `--fix` = one bounded fix pass (no build, no loop); `--verify` builds once; `--deep` allows up to 2 fix→verify rounds. Bounded by default to control cost. Uses `ds-reviewer` + the repo's own fixer/verifier. Scope to one component.
 - `/content-review <file> [--fix]` — critical read against `writing-substance` + the language lens (EN → `voice-griner`, ES → `afi-redaccion`). Uses `content-critic`.
 
 **Agents**

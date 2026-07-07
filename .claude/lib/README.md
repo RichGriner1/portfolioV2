@@ -33,7 +33,7 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 - `writing-substance` — voice- and language-neutral substance + clarity + length gate (the "unclear / too short / forced" catcher).
 
 **Loops (commands)**
-- `/ds-cleanup [paths|--diff] [--audit] [--framework …]` — inspect → fix → verify → repeat until the DS is used. Uses `ds-reviewer` + reuses `code-writer` / `test-runner`.
+- `/ds-cleanup [paths|--diff] [--fix] [--framework …]` — **audit by default** (report only, you decide); `--fix` opts into inspect → fix → verify → repeat. Uses `ds-reviewer` + reuses `code-writer` / `test-runner`. Scope to a component/folder to keep it cheap.
 - `/content-review <file> [--fix]` — critical read against `writing-substance` + the language lens (EN → `voice-griner`, ES → `afi-redaccion`). Uses `content-critic`.
 
 **Agents**

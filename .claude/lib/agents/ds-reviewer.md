@@ -31,7 +31,10 @@ Detect and state **independently** (don't infer one from another):
 If `--framework` was passed, honor it but still report what you detected. (Full detail is in `discovery.md` if you need to disambiguate — open it only then.)
 
 ## Step 2 — Scan the target
-Default target: the uncommitted diff (`git diff` + `git diff --staged` + untracked UI files). If paths were given, scan those. Value checks use the matching framework tell-sheet; bespoke-vs-DS uses `components`; judgment calls pull in the principle layer per step 2 above. Respect the declared context — don't flag intentional whitespace/expressive color on a consumer/marketing surface.
+Default target: the uncommitted diff (`git diff` + `git diff --staged` + untracked UI files). If paths were given, scan those. **Read the target and only what you need to judge it — don't crawl the whole app.** Prefer `grep` for the value tells and line-ranges over reading entire large files. Value checks use the matching framework tell-sheet; bespoke-vs-DS uses `components`; judgment calls pull in the principle layer per step 2 above. Respect the declared context — don't flag intentional whitespace/expressive color on a consumer/marketing surface.
+
+## Return a report the orchestrator can act on WITHOUT re-reading
+Your report is the only thing that survives — the orchestrator should not need to re-open the source. So include, concisely: the `file:line` findings, the target's **API surface** (props/inputs/columns/slots that a fix must preserve), and the **recommended fix target** (the token/component to use, the reference pattern to mirror). Make it self-sufficient.
 
 ## Step 3 — Report
 ```

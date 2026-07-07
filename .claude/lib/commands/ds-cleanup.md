@@ -19,12 +19,20 @@ This references skills, it doesn't contain the rules — the knowledge lives in 
 
 **Keep it scoped.** Prefer a single component / file (e.g. the nav bar, one table) over `--diff` of a big change or a whole app. If a broad target is given, **say so and suggest narrowing before doing any `--fix` work.**
 
-## Cost guardrail (self-check — surface, don't silently grind)
-You can't meter tokens precisely, but you can watch the *shape* of the work. Treat these as stop-and-check points and **tell the user** when you hit one rather than pushing through:
-- **Audit** should be small. If you find yourself reading far beyond the target (whole app, many files), stop — you're over-reading. Re-scope.
-- **A `--fix` pass on one component** should be a handful of small edits. If it's turning into a large multi-file diff or a second/third round, **stop and report what's done + what remains** — don't keep going.
-- Rough sizing to internalize: a scoped audit is light; a one-component fix is a small diff. If a single table is producing a sprawling change or repeated build cycles, that's the signal to halt and hand it back, not to finish at any cost.
-- The build/verify step is the biggest token sink — that's why it's opt-in (`--verify`). Never build more than once per invocation unless `--deep`.
+## Cost guardrail — keep the MAIN thread thin
+The cost that matters is what lands in the **orchestrator (main) context** — it persists for the whole session. Work done inside a subagent (the reviewer, the builder) is **discarded** once it returns its report, so a subagent spending 50k+ reading source is *fine* — it doesn't compound. The trap is the orchestrator re-doing that reading itself.
+
+**Rules for the orchestrator (these prevent the real bloat):**
+- **Act on the reviewer's report — do NOT re-read the files it already summarized.** The report gives you `file:line` + the API surface + the recommended target. Trust it; don't re-open the source to re-derive what you were just handed.
+- **Delegate deep reading to the fixer subagent.** Hand it the reviewer's findings + *pointers* to reference patterns ("mirror the Patrimonial table / the cellTemplates example") and let **it** read those in its own (discarded) context. Give it a short spec (~20 lines + "mirror these references"), not a 200-line spec you wrote by reading everything first.
+- **Never fetch full build/log output into main context.** Use error-level / search / tail — a raw log dump (e.g. repeated Sass deprecation warnings) is often the single biggest avoidable waste.
+- **Read line-ranges, not whole files**, when you know the section.
+
+**Shape checks (surface, don't silently grind):**
+- If *you (the orchestrator)* are about to read the whole component/app to build a spec — stop, that's the fixer's job.
+- If a `--fix` on one component is becoming a large multi-file diff or a 2nd/3rd round, **stop and report what's done + what remains.**
+- The build/verify step is a big sink — that's why it's opt-in (`--verify`), and never more than once unless `--deep`.
+- Subagent spend is a proxy for over-reading (re-scope if the reviewer is crawling the whole app), but the persistent cost is always the main thread — protect that first.
 
 ## Audit (always runs first)
 Spawn the **`ds-reviewer`** subagent on the target. It discovers framework/token-source/component-library/context, checks values against the matching framework tell-sheet + `components`, pulls in principles only for judgment calls, and returns findings with `file:line` + a verdict. **Present the report.** If there's no `--fix`, stop here — done.
@@ -33,7 +41,7 @@ Spawn the **`ds-reviewer`** subagent on the target. It discovers framework/token
 
 0. **Pick this repo's fixer** (portability — don't assume portfolioV2's agents exist here): use the project's code-writing subagent if it has one (`code-writer` in portfolioV2, `builder` in Coherence, or similar; check `.claude/agents/`). If none exists, **the orchestrator applies the edits directly** (they're small and mechanical). State which you chose.
 
-1. **One fix pass.** Apply the audit's fixes: swap hard-coded values for tokens, replace bespoke elements with the project's DS components, remove flagged anti-patterns. Small diffs, no re-hard-coding on the replacement, honor documented escape hatches. Then **report what changed and what (if anything) remains, and stop.** The user re-runs `/ds-cleanup <same path> --fix` if they want another pass — this keeps every run bounded.
+1. **One fix pass.** Pass the fixer the reviewer's findings + pointers to reference patterns and let *it* read the source in its own context — **do not re-read the files yourself to write a long spec** (see the Cost guardrail). Fixes: swap hard-coded values for tokens, replace bespoke elements with the project's DS components, remove flagged anti-patterns. Small diffs, no re-hard-coding on the replacement, honor documented escape hatches. Then **report what changed and what (if anything) remains, and stop.** The user re-runs `/ds-cleanup <same path> --fix` if they want another pass — this keeps every run bounded.
 
 2. **Verify — only if `--verify`.** Pick the repo's verifier (`test-runner`/`tester`, else its own `lint`/`build`; skip if nothing to run) and run it **once**. On failure, report the failure — don't spiral into repeated build cycles. Without `--verify`, tell the user to build/verify themselves.
 

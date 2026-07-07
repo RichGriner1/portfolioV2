@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "claude:sync": "node scripts/claude-lib-sync.mjs",
+    "claude:sync:apply": "node scripts/claude-lib-sync.mjs --apply"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",

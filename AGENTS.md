@@ -78,7 +78,17 @@ content/
 .claude/
   agents/             # subagent definitions (code-writer, test-runner, code-reviewer, scribe, editor)
   commands/           # slash commands (/journal, /polish)
+  lib/                # PORTABLE library — published to ~/.claude, used in every project (see below)
 ```
+
+## Portable skill + loop library (`.claude/lib/`)
+
+Cross-project skills + loops authored here (home base) and **published into user scope** so they work in *any* project (portfolioV2, Coherence/Afi Angular, kt360, …). Model: **skills = knowledge** (`.claude/lib/skills/<name>/SKILL.md`), **loops = process** (`.claude/lib/commands/<loop>.md` — a slash command that loads skills and iterates; there is no `loops/` folder).
+
+- **Publish:** `npm run claude:sync` (dry-run) → `npm run claude:sync:apply` (symlinks each entry of `.claude/lib/{skills,commands,agents}` into `~/.claude/`). Edit here → live everywhere.
+- **Why `lib/`, not `.claude/skills/`:** `.claude/skills/` auto-registers as project skills; the symlink would then double-register in this repo. `lib/` is inert locally — user scope is the single registration.
+- **Phase 1:** skills `design-principles`, `design-tokens`, `components`, `design-system` (umbrella), `writing-substance`; loops `/ds-cleanup` (DS fix loop, framework-aware) and `/content-review` (clarity/substance gate). Full details + roadmap: [.claude/lib/README.md](.claude/lib/README.md).
+- The project-scoped agents/commands above (dev + content pipelines, `voice-griner`) stay project-only — they're portfolio-specific. The `lib/` items are the portable ones.
 
 ## When in doubt
 

@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { isValidElement } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import matter from "gray-matter";
@@ -7,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { FIGURES, type FigureKey } from "@/components/motion/figures";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { WORK } from "@/lib/content/work";
@@ -16,6 +18,9 @@ type PostFrontmatter = {
   created?: string | Date;
   tags?: string[];
 };
+
+// Pillar subdirs under content/published/ — mirrors content/README.md.
+const PILLARS = ["process", "authority", "breakdown", "experiment"] as const;
 
 function formatPostDate(input: string | Date | undefined): string | null {
   if (!input) return null;
@@ -30,21 +35,26 @@ function formatPostDate(input: string | Date | undefined): string | null {
 }
 
 async function loadPost(slug: string) {
-  const filePath = path.join(
-    process.cwd(),
-    "content",
-    "published",
-    "process",
-    `${slug}.md`
-  );
-  try {
-    const raw = await fs.readFile(filePath, "utf8");
-    const { data, content } = matter(raw);
-    const bodyContent = content.replace(/^\s*#\s[^\n]+\n+/, "");
-    return { data: data as PostFrontmatter, content: bodyContent };
-  } catch {
-    return null;
+  // Guard against path traversal — slugs are simple kebab-case names.
+  if (!/^[a-z0-9-]+$/i.test(slug)) return null;
+  for (const pillar of PILLARS) {
+    const filePath = path.join(
+      process.cwd(),
+      "content",
+      "published",
+      pillar,
+      `${slug}.md`
+    );
+    try {
+      const raw = await fs.readFile(filePath, "utf8");
+      const { data, content } = matter(raw);
+      const bodyContent = content.replace(/^\s*#\s[^\n]+\n+/, "");
+      return { data: data as PostFrontmatter, content: bodyContent };
+    } catch {
+      continue;
+    }
   }
+  return null;
 }
 
 export default async function WritingPost({
@@ -137,11 +147,36 @@ export default async function WritingPost({
                   {children}
                 </code>
               ),
-              pre: ({ children }) => (
-                <pre className="bg-muted text-foreground overflow-x-auto rounded-lg p-4 font-mono text-sm">
-                  {children}
-                </pre>
-              ),
+              pre: ({ children }) => {
+                const codeChild = Array.isArray(children)
+                  ? children[0]
+                  : children;
+
+                if (
+                  isValidElement<{ className?: string; children?: string }>(
+                    codeChild
+                  ) &&
+                  codeChild.props.className?.includes("language-figure")
+                ) {
+                  const key = String(
+                    codeChild.props.children
+                  ).trim() as FigureKey;
+                  const Figure = FIGURES[key];
+                  if (Figure) {
+                    return (
+                      <div className="my-8">
+                        <Figure />
+                      </div>
+                    );
+                  }
+                }
+
+                return (
+                  <pre className="bg-muted text-foreground overflow-x-auto rounded-lg p-4 font-mono text-sm">
+                    {children}
+                  </pre>
+                );
+              },
               blockquote: ({ children }) => (
                 <blockquote className="border-border text-muted-foreground border-l-2 pl-4 italic">
                   {children}

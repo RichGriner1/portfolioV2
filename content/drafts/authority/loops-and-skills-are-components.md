@@ -39,7 +39,7 @@ That only works if the loop doesn't assume every project is built the same. For 
 
 ## Running it for real: the table that cost 100k tokens
 
-I only shipped two loops to start, `/ds-cleanup` and `/content-review`. I have a roadmap of ten more but, I wanted to prove the idea worked on two loops before scaling to a third.
+I only shipped two loops to start, `/ds-cleanup` and `/content-review`. I have a roadmap of ten more, but I wanted to prove the idea worked on two before building anything else.
 
 `/ds-cleanup` was the first loop. Like any first build, it looked cleaner on paper than it ran in practice.
 
@@ -106,4 +106,4 @@ Then I ran `--verify`. It detected the project's build command, ran it, and filt
 
 The tool that caused the log-dump waste in the first place now avoids it by default. It applied its own lesson before I had to remind it.
 
-The takeaway isn't "AI can audit a design system." It's this: a loop is only worth building if you understand how the agent actually works — that's what lets you adjust it. The two meters are the proof. Once I understood that the main thread gets re-read on every turn, the fixes stopped being guesses: audit by default, one bounded pass, skills that load lazily. I built mine like a component — one thing, defined once, referenced everywhere. Understanding the agent is what let me get that shape right.
+The takeaway isn't "AI can audit a design system." It's this: a loop is only worth building if you understand how the agent works — that's what lets you adjust it. The two meters are the proof. Once I understood that the main thread gets re-read on every turn, the fixes stopped being guesses: audit by default, one bounded pass, skills that load lazily. I built mine like a component — one thing, defined once, referenced everywhere. Understanding the agent is what let me get that shape right.

@@ -17,7 +17,7 @@ Read a file at `content/social/<pillar>/<slug>.md` plus its source at `content/p
 
 ### The first gate — Clarity & sense (run before everything else)
 
-Read the copy as a skeptical editor, not a voice cop. For every sentence and every claim:
+**Load the `writing-substance` skill as the rubric for this gate** — it's the same substance/clarity standard `/content-review` uses, so syndication is held to it too. Read the copy as a skeptical editor, not a voice cop. For every sentence and every claim:
 
 - **Does it parse?** Read it aloud. If it's garbled, contorted, or you have to re-read to get the meaning — blocker.
 - **Is the claim credible?** Flag overclaims and false absolutes — "one afternoon", "never", "always", one narrow cause pinned to a big effect. A real range ("one or two afternoons") beats a punchy absolute that a reader won't believe.
@@ -64,7 +64,7 @@ Twitter has more latitude but apply the same logic — soft pointers to long-for
 - **Each tweet should land on its own.** A reader stopping mid-thread should still get value from the tweets they read. Flag tweets that only work because the next tweet completes them.
 - **No mid-thread sag.** If tweet 4 is filler ("Anyway, moving on…"), flag it.
 - **Last tweet has the CTA + link.** If the link is buried mid-thread or missing entirely, flag.
-- **Length.** Each tweet ≤ 280 chars. Voice-keeper already checked this — only flag if voice-keeper missed.
+- **Length (hard check — you own this gate).** Count the characters of EVERY tweet AND every standalone yourself with Bash — do not eyeball it, do not defer to voice-keeper (it doesn't count). Each must be ≤ 280. Flag every one that's over as a **blocker**, with its real count (e.g. "Standalone C: 519 chars, +239"). This is the single most-missed gate: a 400-char "tweet" cannot post. A quick way: extract each tweet body and run it through `wc -m` / a short script.
 
 ### 5. Specificity
 

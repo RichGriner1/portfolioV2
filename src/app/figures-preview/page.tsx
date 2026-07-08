@@ -1,0 +1,35 @@
+import type { Metadata } from "next";
+
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { TokenCostFigure } from "@/components/motion/figures/token-cost";
+import { UseAnywhereFigure } from "@/components/motion/figures/use-anywhere";
+
+export const metadata: Metadata = {
+  title: "Figures Preview",
+  description: "Preview surface for animated blog-post diagrams.",
+};
+
+export default function FiguresPreviewPage() {
+  return (
+    <>
+      <SiteHeader />
+      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-16 px-6 py-16">
+        <div className="flex flex-col gap-3">
+          <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+            Figure — same fix, far fewer tokens
+          </span>
+          <TokenCostFigure />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+            Figure — one home base, live in every project
+          </span>
+          <UseAnywhereFigure />
+        </div>
+      </main>
+      <SiteFooter />
+    </>
+  );
+}

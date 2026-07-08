@@ -1,3 +1,4 @@
+import type { FigureKey } from "@/components/motion/figures";
 import type { Bilingual } from "@/lib/i18n";
 
 export type WorkType =
@@ -31,10 +32,12 @@ export type WorkItem = {
   type: WorkType;
   kind: WorkKind;
   href: string;
-  glyph: GlyphKey;
+  glyph?: GlyphKey;
   /** Optional thumbnail-video base path. Full src is built per language + theme:
       `${video}_${lang}_${light|dark}_thumb.mp4`. Shown in place of the glyph. */
   video?: string;
+  /** Optional animated figure (from blog posts) shown in place of the glyph. */
+  figure?: FigureKey;
   bento?: "square" | "tall" | "wide";
   bgColor?: string;
   featured?: boolean;
@@ -44,6 +47,24 @@ export type WorkItem = {
 };
 
 export const WORK: WorkItem[] = [
+  {
+    slug: "loops-and-skills-are-components",
+    title: {
+      en: "Loops and skills are components, not folders",
+      es: "Los loops y las skills son componentes, no carpetas",
+    },
+    description: {
+      en: "Building a reusable, portable AI workflow — and what it cost me to learn how it spends while it runs.",
+      es: "Construir un flujo de trabajo de IA reutilizable y portable, y lo que me costó entender cómo gasta mientras se ejecuta.",
+    },
+    year: 2026,
+    date: "2026-07-08",
+    type: "writing",
+    kind: "process",
+    href: "/writing/loops-and-skills-are-components",
+    figure: "loop-vs-skill",
+    bento: "square",
+  },
   {
     slug: "color-methodology",
     title: {

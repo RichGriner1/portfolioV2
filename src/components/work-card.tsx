@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+import { FIGURES } from "@/components/motion/figures";
 import { GLYPHS } from "@/components/motion/glyphs";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
 import { cn } from "@/lib/utils";
@@ -41,12 +42,25 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
       </video>
     );
   }
-  const Glyph = GLYPHS[item.glyph];
-  return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
-      <Glyph active />
-    </div>
-  );
+  if (item.figure) {
+    const Figure = FIGURES[item.figure];
+    return (
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-3">
+        <div className="w-full">
+          <Figure />
+        </div>
+      </div>
+    );
+  }
+  if (item.glyph) {
+    const Glyph = GLYPHS[item.glyph];
+    return (
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
+        <Glyph active />
+      </div>
+    );
+  }
+  return null;
 }
 
 function formatDate(item: WorkItem, locale: string): string {

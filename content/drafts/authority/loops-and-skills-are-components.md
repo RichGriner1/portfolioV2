@@ -29,19 +29,17 @@ A **loop is a process** — a set of steps for the agents to follow. You start a
 
 **The loop is the worker; the skills are the manuals it opens while it works.**
 
-That's also why the `loops/` folder was the wrong answer. A loop isn't a file you file away — it's a command that reads files. ChatGPT answered a filing question when the actual question was about behavior.
-
 ## Use it anywhere, not just this repo
 
-The part I didn't know going in: Claude Code reads two places — the project you're standing in (`.claude/` in that repo) and your own machine (`~/.claude/`, your home directory). Anything sitting in your home-level folder is live in *every* project you open, not just the one it was written in.
+The part I didn't know going in: Claude Code reads two places — the project you're standing in (`.claude/` in that repo) and your own machine (`~/.claude/`, your home directory). Anything sitting in your home-level folder is available in *every* project you open, not just the one it was written in.
 
-That gave me the model I wanted. I author everything in my portfolio repo, the one place I keep as source of truth, inside a neutral `.claude/lib/` folder Claude doesn't auto-load. A small sync script then symlinks each skill and loop out into `~/.claude/`. (A symlink is a live pointer, not a copy. It stays the same single file, in two places at once.) Edit once at home base, it's live everywhere: my portfolio, our Angular product at Afi, a side project, my brother's repo. One command re-installs the whole thing on a new machine.
+That gave me the model I wanted. I author everything in my portfolio repo, the one place I keep as source of truth, inside a neutral `.claude/lib/` folder Claude doesn't auto-load. A small sync script then symlinks each skill and loop out into `~/.claude/`. (A symlink is a live pointer, not a copy. It stays the same single file, in two places at once.) Edit once at home base, it's live everywhere: my portfolio, our Angular product at Afi, other freelance projects. One command re-installs the whole thing on a new machine.
 
-That only works if the loop doesn't assume every project is built like the one it was written in. For example, my portfolio is React. But the same loop has to run on an Angular project too, and even two Angular projects can be set up completely differently: different styling systems, different building blocks. So the loop can't hard-code "this is what a project looks like." Every time it runs, it has to *look* at the project in front of it: which framework, which styling system, which components, and adapt to what it finds. Detect, don't assume.
-
-I only shipped two loops to start, `/ds-cleanup` and `/content-review`. I have a roadmap of ten more. I wanted to prove the idea worked on two loops before scaling to a third.
+That only works if the loop doesn't assume every project is built the same. For example, my portfolio is React. But the same loop has to run on an Angular project too, and even two Angular projects can be set up completely differently: different styling systems, different building blocks. So the loop can't hard-code "this is what a project looks like." Every time it runs, it has to *look* at the project in front of it: which framework, which styling system, which components, and adapt to what it finds. Detect, don't assume.
 
 ## Running it for real: the table that cost 100k tokens
+
+I only shipped two loops to start, `/ds-cleanup` and `/content-review`. I have a roadmap of ten more but, I wanted to prove the idea worked on two loops before scaling to a third.
 
 `/ds-cleanup` was the first loop. Like any first build, it looked cleaner on paper than it ran in practice.
 
@@ -83,7 +81,6 @@ Once I had the right diagnosis, the fixes followed one rule: keep the loop lean.
 - **Audit by default, fix is opt-in and bounded.** `--fix` runs one pass and stops. Run it again for more — it doesn't loop on its own.
 - **Build is opt-in too**, behind `--verify` — running the build was the single biggest token sink, so it never runs unless you ask.
 - **Looping is capped.** `--deep` repeats the fix pass, but never more than two rounds — so even the deep path can't run away.
-- **Real problems vs. nitpicks.** The loop tells apart what actually breaks a piece — no clear point, a sentence that doesn't parse — from small polish like an overused phrase. Even the keep-going mode stops the moment the real problems are gone, instead of looping forever over things I can just fix by eye.
 - **Skills load lazily.** The reviewer used to load around ten rulebook files every run. Now it loads baseline checks always, and pulls in judgment-call principles only when a judgment call comes up.
 - **The reviewer's report is self-sufficient** — findings, the API surface, the fix target. The orchestrator acts on that report and never re-reads the source itself. Deep reading, when it's needed, is delegated back down to the fixer.
 - **Logs get filtered to errors**, not dumped in full.
@@ -105,8 +102,8 @@ This time, when I left the file path blank, it asked which table instead of gues
 
 It also drew a line I hadn't told it to draw. It found leftover code for an old mobile layout — rows that used to collapse into stacked cards on a phone — but that layout wasn't used anymore, so the code was just dead weight, sitting there doing nothing. Deleting code nobody uses is safe and mechanical, so it removed it. But rebuilding that mobile layout would have been a real design decision, not a cleanup, so instead of deciding for me, it flagged it and left the call in my hands.
 
-Then I ran `--verify`. It detected the project's build command, ran it, and filtered the log down to errors only. That's the exact fix we'd just added — now working on itself, live. It also correctly attributed the one remaining warning to a pre-existing, unrelated page instead of blaming the change it had just made. Commit-clean.
+Then I ran `--verify`. It detected the project's build command, ran it, and filtered the log down to errors only, the exact fix we'd just added, now working on itself. It also correctly attributed the one remaining warning to a pre-existing, unrelated page instead of blaming the change it had just made. Commit-clean.
 
 The tool that caused the log-dump waste in the first place now avoids it by default. It applied its own lesson before I had to remind it.
 
-The takeaway isn't "AI can audit a design system." It's this: a loop is only worth building if you understand how the agent works — that's what lets you adjust it. The two meters are the proof. Once I understood that the main thread gets re-read on every turn, the fixes stopped being guesses: audit by default, one bounded pass, skills that load lazily. I built mine like a component — one thing, defined once, referenced everywhere.
+The takeaway isn't "AI can audit a design system." It's this: a loop is only worth building if you understand how the agent actually works — that's what lets you adjust it. The two meters are the proof. Once I understood that the main thread gets re-read on every turn, the fixes stopped being guesses: audit by default, one bounded pass, skills that load lazily. I built mine like a component — one thing, defined once, referenced everywhere. Understanding the agent is what let me get that shape right.

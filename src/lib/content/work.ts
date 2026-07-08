@@ -55,7 +55,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "Building a reusable, portable AI workflow — and what it cost me to learn how it spends while it runs.",
-      es: "Construir un flujo de trabajo de IA reutilizable y portable, y lo que me costó entender cómo gasta mientras se ejecuta.",
+      es: "Construir un flujo de trabajo de IA reutilizable y portable — y lo que me costó entender cómo gasta mientras se ejecuta.",
     },
     year: 2026,
     date: "2026-07-08",

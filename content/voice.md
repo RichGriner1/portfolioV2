@@ -76,7 +76,7 @@ These are extracted from his published work. Use them as positive examples, not 
 - **Opens with the situation, not the hook claim.** Example: *"I'm the sole designer at AFI, a fintech consultancy."* — sets context first, payoff later.
 - **No throat-clearing.** No *"I've been thinking about…"*, no *"It's interesting that…"*. Start where the idea actually starts.
 - **One idea per sentence.** Two ideas joined with "and" usually want to be two sentences with a period.
-- **Em-dashes carry, don't decorate.** If a sentence has an em-dash that could be a period or comma without losing meaning, it's decorative — cut it.
+- **Avoid em-dashes. They read as AI-generated.** (A teammate clocked our copy as AI partly from the dashes.) Default to a period, comma, or colon, and recast the sentence so it doesn't need one. Reserve for a genuinely necessary interruption, at most once in a whole piece.
 
 ### Vocabulary
 
@@ -92,7 +92,7 @@ These are extracted from his published work. Use them as positive examples, not 
 
 ### Punctuation
 
-- **Em-dashes for real interruption only.** Mid-sentence qualifications, parenthetical asides — yes. As a rhythm crutch in every other sentence — no. If you can swap two em-dashes for a period, do.
+- **Em-dashes are an AI tell; minimize them.** Prefer periods, commas, or colons. If a sentence can be rewritten to drop the dash, do it. Zero per piece is the target; one is the ceiling. This overrides any older "em-dashes are fine for interruption" guidance.
 - **Contractions yes.** *"I'd"*, *"doesn't"*, *"you're"*, *"won't"*. Avoiding contractions sounds like a press release.
 - **Colon after a list item, then a sentence.** *"Start with the variable panel, not the canvas. The canvas shows what you made; the variables show what you decided."* — the bullet is the headline; the next sentence does the work.
 
@@ -154,13 +154,14 @@ If any of these appear in generated copy, the voice-keeper flags them. This list
 
 - **"Not just X, but Y." / "X isn't a Y, it's a Z."** The reframe constructions. **Allowed — with taste, used rarely.** They're load-bearing in the Matt-Gray-style posts Richard likes, so they're no longer banned. But they're also the single biggest AI-tell when hollow or overused. Rule of thumb: at most one per post, and only when the turn is *true and specific* — not just symmetrical. See **Reframes — earned vs AI-y** below.
 - **Three-item lists where two would do.** LLMs default to three. If the third is filler, drop it.
-- **Em-dashes as rhythm crutch.** If a paragraph has more than two, at least one is decorative — kill it.
+- **Em-dash rhythm is a giveaway.** Leaning on dashes for cadence is one of the clearest AI tells. Minimize per the punctuation rule above; if most paragraphs carry a dash, rewrite with periods.
 
 ### Format tells
 
 - **Listicle headers.** *"5 Things I Learned"*, *"The Ultimate Guide to…"*. Headers should be descriptive, not promotional.
 - **Bold-the-keyword paragraphs** mid-flow, when the bold isn't load-bearing.
 - **Stock emoji bullets** (✅ 🚀 💡) on LinkedIn. They read as outsourced.
+- **Same format every time.** Reusing one skeleton across posts (same hook shape, same beat-by-beat arc, same length, same rhythm) is an AI tell on its own, even when each post reads fine alone. A teammate spots a template faster than a phrase. Vary it: change the opening move, the length, the shape; let some posts break the pattern entirely.
 
 ### Speech-voice tells (Richard talks like this; he doesn't write like this)
 

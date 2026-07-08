@@ -94,13 +94,15 @@ Standalones are single tweets pulled from (or adjacent to) the thread, each land
 
 ### Clarity self-check (before handoff — do this first)
 
-Voice compliance is not the same as good writing. Before the voice pass, read every line back as a skeptical editor and fix anything that fails:
+Voice compliance is not the same as good writing. **Load the `writing-substance` skill as your rubric for this self-check** (the same gate `/content-review` and post-reviewer run). Before the voice pass, read every line back as a skeptical editor and fix anything that fails:
 
 - **Does each sentence parse?** Read it aloud. If it's garbled or you re-read to get it, rewrite it.
 - **Is every claim credible?** No false absolutes. "one afternoon" → "one or two afternoons". Don't pin a big effect on one narrow cause.
 - **Does the logic hold?** Each beat must actually follow from the last. Do NOT manufacture a "distinct" thread by forcing a shaky premise (e.g. "no *color* strategy → capped at $20k/mo" conflates color with systems-in-general). If an angle needs a false premise to exist, cut the angle. Fewer sound angles beat more strained ones.
 - **No jargon mid-flow.** Cut insider asides (a hex/token detail) that interrupt a plain-language line, or move them to where they're earned.
 - **Parallel & plain.** Contrasts structurally parallel ("with a system: X. Without one: Y"), cause→effect explicit, not staccato fragments.
+- **Length (hard check).** Count every tweet and every standalone (characters). Each must be ≤ 280. If one is over, cut it down before handoff — a 400-char "tweet" can't post. This is the most-missed gate; a quick `wc -m` per tweet catches it.
+- **Vary the format across the batch.** Don't cast every standalone in the same skeleton (same hook shape, same beat arc, same length, same rhythm). Format sameness is an AI tell on its own (voice.md → Format tells). Deliberately differ the openings, lengths, and shapes; let some break the pattern.
 
 If you can't make an angle credible, drop it and say so in your closing note. A short set of clean posts beats a padded set with one that "makes no sense."
 
@@ -112,7 +114,7 @@ Specifically watch for:
 - *delve, leverage, robust, seamless, navigate (figurative), tapestry, journey, landscape*
 - *In today's fast-paced world, Let's dive in, It's worth noting, At the end of the day*
 - *"Not just X, but Y"* construction
-- Em-dashes used as a rhythm crutch (more than two per paragraph = at least one is decorative)
+- Em-dashes at all. They read as AI-generated (a teammate flagged our copy on this). Default to periods, commas, or colons; recast the sentence to drop the dash. voice.md now treats the em-dash as a tell, not a rhythm tool.
 
 The voice-keeper agent will check this after you. Don't rely on that — get it right the first time.
 

@@ -30,6 +30,10 @@ A **loop is a process** — a set of steps for the agents to follow. You start a
 
 **The loop is the worker; the skills are the manuals it opens while it works.**
 
+```figure
+loop-vs-skill
+```
+
 ## Use it anywhere, not just this repo
 
 The part I didn't know going in: Claude Code reads two places — the project you're standing in (`.claude/` in that repo) and your own machine (`~/.claude/`, your home directory). Anything sitting in your home-level folder is available in *every* project you open, not just the one it was written in.
@@ -53,6 +57,10 @@ I pointed it at a real page in an Angular wealth-management product — a framew
 The loop is the orchestrator of two helpers: a *reviewer* that audits the code and lists what's broken, and a *fixer* that applies the changes. The reviewer worked: it correctly read the project as Angular, found the right component library, flagged real issues.
 
 Then I ran the fix on that single table. The run burned roughly 102,000 tokens, nearly all of it the reviewer.
+
+```figure
+orchestrator
+```
 
 My first instinct was wrong: "it's spinning, I need a hard token cap." So I asked Claude directly whether I could set something like the $3 limit some AI research tools have. The answer was no. A hard spending cap that stops itself mid-run is a feature of a **workflow** — a heavier, self-contained system that tracks its own token budget while it works and can halt itself. A loop is a script of instructions Claude follows start to finish. It has no meter to watch. So the fix couldn't be "add a cap." It had to be structural — smaller scope, fewer optional steps, a fix phase that stops after one bounded pass instead of running until "done."
 
@@ -90,6 +98,10 @@ Once I had the right diagnosis, the fixes followed one rule: keep the loop lean.
 - **The reviewer's report is self-sufficient** — findings, the API surface, the fix target. The orchestrator acts on that report and never re-reads the source itself. Deep reading, when it's needed, is delegated back down to the fixer.
 - **Logs get filtered to errors**, not dumped in full.
 - **The loop detects the repo's own fixer** instead of assuming a tool name — my portfolio has `code-writer`, another project has `builder`. Portability lives in details like this.
+
+```figure
+bounded-loop
+```
 
 ## Cheaper model, on purpose — but not blindly
 

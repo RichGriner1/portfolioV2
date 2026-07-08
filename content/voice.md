@@ -148,6 +148,7 @@ If any of these appear in generated copy, the voice-keeper flags them. This list
 ### Filler adverbs as topic-pivots
 
 - *fundamentally*, *ultimately*, *essentially*, *basically* — banned when used as a pivot rather than a real qualifier. *"It's essentially X"* almost always hides imprecision.
+- ***actually* as filler emphasis.** Richard's most frequent crutch word — it creeps in as throwaway emphasis ("how the agent *actually* works", "the model I *actually* wanted", "what *actually* costs you"). Keep it **only** where it carries a real contrast ("check this copy is *actually* clear, not just voice-clean"); cut it everywhere it's just leaning on the sentence. If the sentence means the same with it gone, it's filler. If one piece uses it more than ~twice, that's the tell.
 
 ### Construction patterns
 

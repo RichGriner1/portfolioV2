@@ -1,8 +1,9 @@
 ---
 title: "Loops and skills are components, not folders"
 pillar: authority
-status: draft
+status: published
 created: 2026-07-07
+published_at: 2026-07-08
 tags: [ai-tools, claude-code, context-engineering, design-systems, workflow]
 seed: journal/2026-07-07-loops-vs-skills-claude-library.md
 ---
@@ -36,6 +37,10 @@ The part I didn't know going in: Claude Code reads two places — the project yo
 That gave me the model I wanted. I author everything in my portfolio repo, the one place I keep as source of truth, inside a neutral `.claude/lib/` folder Claude doesn't auto-load. A small sync script then symlinks each skill and loop out into `~/.claude/`. (A symlink is a live pointer, not a copy. It stays the same single file, in two places at once.) Edit once at home base, it's live everywhere: my portfolio, our Angular product at Afi, other freelance projects. One command re-installs the whole thing on a new machine.
 
 That only works if the loop doesn't assume every project is built the same. For example, my portfolio is React. But the same loop has to run on an Angular project too, and even two Angular projects can be set up completely differently: different styling systems, different building blocks. So the loop can't hard-code "this is what a project looks like." Every time it runs, it has to *look* at the project in front of it: which framework, which styling system, which components, and adapt to what it finds. Detect, don't assume.
+
+```figure
+use-anywhere
+```
 
 ## Running it for real: the table that cost 100k tokens
 
@@ -99,6 +104,10 @@ But it depends on the job. The reviewer isn't doing open-ended thinking — it's
 I re-ran the whole thing on a different table, in a brand-new session — a new *conversation*, same repo, same git branch — to debloat the context and shrink the scope.
 
 This time, when I left the file path blank, it asked which table instead of guessing. The fix stayed bounded: about 44,000 tokens after the audit, roughly 70,000 after the fix — against 102,000 for the fix alone, before. Then it stopped, on its own. Sonnet's findings were specific: a dead `@media` block, an unused import, an orphan SCSS rule, a stale comment, each with a file and line number.
+
+```figure
+token-cost
+```
 
 It also drew a line I hadn't told it to draw. It found leftover code for an old mobile layout — rows that used to collapse into stacked cards on a phone — but that layout wasn't used anymore, so the code was just dead weight, sitting there doing nothing. Deleting code nobody uses is safe and mechanical, so it removed it. But rebuilding that mobile layout would have been a real design decision, not a cleanup, so instead of deciding for me, it flagged it and left the call in my hands.
 

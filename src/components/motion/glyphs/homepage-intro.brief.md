@@ -149,8 +149,10 @@ first three-quarters of a second on the site.
   small literal em offset for a one-shot transient state is acceptable here (it's not a persisted design token,
   it's an animation-only intermediate value) — but keep it subtle, this is a settle, not a reveal.
 - **Font upgrade path:** if/when the display font slot loads a variable face, a follow-up could pair this with
-  a `font-variation-settings` resolve (weight/width axis) — not in scope now, static Roboto has no axes to
-  animate. Leave a short comment noting this if convenient; don't build it.
+  a `font-variation-settings` resolve (weight/width axis) — originally out of scope while the site ran static
+  Roboto. **Status: landed.** Richard approved Roboto Flex for `--font-display` in the same branch, so the
+  upgrade shipped alongside the wiring: the tagline settles `fontStretch` `100% → 125%` on the same
+  timing/ease as the tracking settle, and the skip path rests on the CSS `--font-display-width` cut exactly.
 - **Session gating:** gate the whole sequence on `sessionStorage` (pick a key, e.g. `hero-intro-played`). On
   mount, if the key is already set, render every element in its final state with **no animation start
   visible** — this likely means deciding "already played?" before the first paint rather than in a

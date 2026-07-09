@@ -186,7 +186,7 @@ The artifacts of process *are* the art direction. Token tables, before/after pai
 
 ### State of implementation
 
-`globals.css` is already the neutral monochrome field with the token architecture in place. Three slots are open, and this concept is the brief for filling them: the **chart palette** (currently placeholder grays; needs the disciplined data-viz ramp, one hue family plus semantic states), the **display font** (currently aliased to the sans), and the **accent blue** (primary is currently neutral; the one-opinion blue is defined here but not yet routed). Fill them through the token system, never inline.
+`globals.css` is already the neutral monochrome field with the token architecture in place. The **display font** slot is filled: Roboto Flex at the wide display cut (`wdth 125`, routed through `--font-display-width`), loaded in `layout.tsx` — the "one family working hard" move made literal. Two slots remain open, and this concept is the brief for filling them: the **chart palette** (currently placeholder grays; needs the disciplined data-viz ramp, one hue family plus semantic states) and the **accent blue** (primary is currently neutral; the one-opinion blue is defined here but not yet routed). Fill them through the token system, never inline.
 
 ---
 

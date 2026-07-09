@@ -191,7 +191,10 @@
   /* Display cut — approved specimen: wide + heavy (wdth 125, wght 780-800).
      Width is routed through this primitive and applied as `font-stretch` in
      the heading base-layer rule below; weight rides the existing Tailwind
-     font-weight utilities (font-bold/font-extrabold). */
+     font-weight utilities (font-bold/font-extrabold). If this value changes,
+     also update FONT_STRETCH_WIDE in src/components/hero.tsx — the intro
+     animation tweens toward a literal mirror of it (Motion can't tween a
+     var()). */
   --font-display-width: 125%;
 
   /* Radius base (all radius tokens derive from this) */

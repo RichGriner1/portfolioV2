@@ -181,9 +181,21 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Display font — aliases sans. When a distinct display face is desired,
-     load it in layout.tsx with `variable: "--font-display"` to override. */
-  --font-display: var(--font-sans);
+  /* Display font — filled by Roboto Flex (see layout.tsx), which sets this
+     custom property on <html> via next/font's `variable` option. No fallback
+     is declared here on purpose: a same-specificity :root rule would race
+     the next/font-generated rule on cascade order (both resolve to 0-1-0
+     specificity on <html>), which isn't safe to reason about statically —
+     this slot is solely owned by layout.tsx now that it's filled. */
+
+  /* Display cut — approved specimen: wide + heavy (wdth 125, wght 780-800).
+     Width is routed through this primitive and applied as `font-stretch` in
+     the heading base-layer rule below; weight rides the existing Tailwind
+     font-weight utilities (font-bold/font-extrabold). If this value changes,
+     also update FONT_STRETCH_WIDE in src/components/hero.tsx — the intro
+     animation tweens toward a literal mirror of it (Motion can't tween a
+     var()). */
+  --font-display-width: 125%;
 
   /* Radius base (all radius tokens derive from this) */
   --radius: 0.625rem;
@@ -505,6 +517,7 @@
   h5,
   h6 {
     @apply font-display tracking-tight text-balance;
+    font-stretch: var(--font-display-width);
   }
   p {
     @apply text-pretty;

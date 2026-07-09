@@ -150,9 +150,12 @@ first three-quarters of a second on the site.
   it's an animation-only intermediate value) — but keep it subtle, this is a settle, not a reveal.
 - **Font upgrade path:** if/when the display font slot loads a variable face, a follow-up could pair this with
   a `font-variation-settings` resolve (weight/width axis) — originally out of scope while the site ran static
-  Roboto. **Status: landed.** Richard approved Roboto Flex for `--font-display` in the same branch, so the
-  upgrade shipped alongside the wiring: the tagline settles `fontStretch` `100% → 125%` on the same
-  timing/ease as the tracking settle, and the skip path rests on the CSS `--font-display-width` cut exactly.
+  Roboto. **Status: landed, then removed after device verification.** Roboto Flex shipped and the
+  `fontStretch` `100% → 125%` settle went in with it — but frame captures at phone size showed the width
+  tween re-wrapping the `text-balance` multi-line headline mid-flight. The settle is tracking-only now
+  (`0em → -0.025em`), the headline rests on the CSS `--font-display-width` cut from the first frame, and
+  the rule's exit was retimed (fade at 400ms, tagline lands ~430ms) so rule and tagline visibly coexist
+  instead of the rule stranding alone on a blank screen during the tagline's old 500ms fade.
 - **Session gating:** gate the whole sequence on `sessionStorage` (pick a key, e.g. `hero-intro-played`). On
   mount, if the key is already set, render every element in its final state with **no animation start
   visible** — this likely means deciding "already played?" before the first paint rather than in a

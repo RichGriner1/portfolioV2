@@ -12,15 +12,20 @@ const DURATION_SLOW = 0.32; // --duration-slow
 
 // Tailwind's `tracking-tight` computed value (no override in globals.css) — the
 // intro settles into this exact value so the class stays the single source of
-// truth for the resting state once the animation completes.
+// truth for the resting state once the animation completes. The starting value
+// is deliberately small (not the earlier 0.01em) and there is deliberately no
+// font-stretch tween: both are layout-affecting, and on a `text-balance`
+// multi-line headline a large tween re-wraps words mid-animation. The width
+// cut comes from --font-display-width in CSS and never animates.
 const TRACKING_TIGHT = "-0.025em";
-const TRACKING_LOOSE = "0.01em"; // transient-only starting value, not a token
+const TRACKING_LOOSE = "0em"; // transient-only starting value, not a token
 
-// Mirrors --font-display-width (the approved wide display cut). Roboto Flex
-// is variable, so the tagline's resolve can settle width alongside tracking
-// — weight stays on the font-extrabold utility below rather than animating.
-const FONT_STRETCH_WIDE = "125%";
-const FONT_STRETCH_NORMAL = "100%"; // transient-only starting value, not a token
+// The tagline lands at ~430ms; the rule starts receding at 400ms so the two
+// visibly coexist. Tagline/rule overlap is the point — an earlier cut of this
+// used a 500ms tagline fade, which left the rule stranded on a blank screen
+// for the first ~250ms and read as a glitch on phones.
+const TAGLINE_DURATION = 0.35;
+const RULE_EXIT_DELAY = 0.4;
 
 const HERO_INTRO_KEY = "hero-intro-played";
 
@@ -111,7 +116,7 @@ export function Hero() {
             scaleX: { duration: DURATION_FAST, ease: EASE },
             opacity: {
               duration: DURATION_FAST,
-              delay: STAGGER + DURATION_SLOW,
+              delay: RULE_EXIT_DELAY,
               ease: EASE,
             },
           }}
@@ -122,29 +127,14 @@ export function Hero() {
         <motion.h1
           initial={
             playIntro
-              ? {
-                  opacity: 0,
-                  y: 8,
-                  letterSpacing: TRACKING_LOOSE,
-                  fontStretch: FONT_STRETCH_NORMAL,
-                }
+              ? { opacity: 0, y: 8, letterSpacing: TRACKING_LOOSE }
               : false
           }
-          animate={{
-            opacity: 1,
-            y: 0,
-            letterSpacing: TRACKING_TIGHT,
-            fontStretch: FONT_STRETCH_WIDE,
-          }}
+          animate={{ opacity: 1, y: 0, letterSpacing: TRACKING_TIGHT }}
           transition={{
-            opacity: { duration: 0.5, delay: STAGGER, ease: EASE },
-            y: { duration: 0.5, delay: STAGGER, ease: EASE },
+            opacity: { duration: TAGLINE_DURATION, delay: STAGGER, ease: EASE },
+            y: { duration: TAGLINE_DURATION, delay: STAGGER, ease: EASE },
             letterSpacing: {
-              duration: DURATION_SLOW,
-              delay: STAGGER,
-              ease: EASE,
-            },
-            fontStretch: {
               duration: DURATION_SLOW,
               delay: STAGGER,
               ease: EASE,

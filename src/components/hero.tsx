@@ -37,8 +37,8 @@ const HERO_EYEBROW: Bilingual<string> = {
 
 // TODO(afi-redaccion): polish ES copy
 const HERO_TAGLINE: Bilingual<string> = {
-  en: "Ship taste at scale",
-  es: "Llevar el gusto a escala",
+  en: "Design that holds up",
+  es: "Diseño que aguanta",
 };
 
 const HERO_SUBHEAD: Bilingual<string> = {

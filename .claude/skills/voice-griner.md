@@ -50,7 +50,7 @@ You don't apply WHAT-SO-BENEFIT to every sentence. Use it for:
 
 Don't force it onto:
 
-- The tagline itself (taglines are stance, not mechanism — e.g. "Ship taste at scale").
+- The tagline itself (taglines are stance, not mechanism — e.g. "Design that holds up").
 - The h1 (titles are nouns, not sentences).
 - Eyebrow status pills ("Currently — Designing fintech products at Afi" — these are role/context, not what/so/benefit).
 - The "Detail" sections inside bento modals (those have their own 4-beat structure: problem / what we did / solution / why it works).
@@ -61,7 +61,7 @@ These are the actual character/word budgets the design uses. If you're over budg
 
 | Surface | Budget | Notes |
 |---|---|---|
-| H1 tagline | ≤ 4 words ideally, ≤ 6 max | "Ship taste at scale" — stance, not summary |
+| H1 tagline | ≤ 4 words ideally, ≤ 6 max | "Design that holds up" — stance, not summary |
 | Hero subhead | 25–40 words | Two sentences. Stance, then how you work. |
 | Bento card label | 1–4 words | Noun-phrase headline ("Token Architecture") |
 | Bento card sublabel | 1 sentence, ≤ 20 words | The WHAT-SO-BENEFIT pattern |

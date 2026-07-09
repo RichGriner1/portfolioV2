@@ -15,7 +15,7 @@ It was derived from the published work (`published/`), the story bank (`content-
 | Piece | The line |
 |---|---|
 | **Who** | Sole designer at a fintech consultancy who builds the systems, tools, and AI workflows that ship the work |
-| **Flag** | *Ship taste at scale* |
+| **Flag** | *Design that holds up* |
 | **Positioning** | The design systems designer who writes the rulebook that humans and AI both follow |
 | **Value prop** | I turn taste into written systems that survive contact with code, clients, and AI |
 | **Universal truth** | Anything you don't decide gets decided for you |
@@ -77,7 +77,7 @@ This is the one truth every piece of the work demonstrates, and it holds far bey
 
 The corollary that makes it *his*: **writing it down is the act of deciding.** The rulebook isn't documentation of the system. The rulebook *is* the system. Everything else is storage.
 
-This truth is the thesis under the flag. "Ship taste at scale" is what you get when the decisions are written where every collaborator, human or machine, can read them.
+This truth is the thesis under the flag. "Design that holds up" is design whose decisions are written where every collaborator, human or machine, can read them. That's what holding up means: the defaults never got a vote.
 
 Use it as the deep structure of content, not a slogan to repeat. Each post proves it with a new concrete; the audience should arrive at the truth themselves, more than once, from different directions.
 
@@ -164,7 +164,7 @@ Fintech supplies the constraints (tables scan, numbers align, dark mode is real)
 Near-monochrome neutral surfaces (the OKLCH ramp already in `globals.css`), so the content and the single accent carry all the meaning. One blue as the only opinionated color, following the AzulProfundo pattern from the AFI work: a deep version in light mode, a bright version in dark mode, same role, mode picks the right one. Never two accents. If everything is an accent, nothing is.
 
 **2. Typographic confidence.**
-One family working hard across weights, in the architecture-studio sense. Roboto holds the sans and mono slots today; the `--font-display` slot is deliberately reserved. When it gets filled, fill it with the *editorial* move: a display face with genuine scale contrast for the big statements ("Ship taste at scale"), not a novelty font. Mono is not decoration: it marks the system layer. Token names, counts, code, anything the machine also reads gets set in mono.
+One family working hard across weights, in the architecture-studio sense. Roboto holds the sans and mono slots today; the `--font-display` slot is deliberately reserved. When it gets filled, fill it with the *editorial* move: a display face with genuine scale contrast for the big statements ("Design that holds up"), not a novelty font. Mono is not decoration: it marks the system layer. Token names, counts, code, anything the machine also reads gets set in mono.
 
 **3. Editorial density.**
 Dense is the brand, handled with grammar instead of whitespace. Structure comes from the four-level layout grammar and consistent chrome, so data can change without the page feeling like a different product. Tabular figures for numbers, always. The negative-value convention is a stated decision, not a default. When space is empty, it's empty on purpose.

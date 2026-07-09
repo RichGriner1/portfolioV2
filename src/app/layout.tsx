@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
+import { Roboto, Roboto_Flex, Roboto_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -20,6 +20,16 @@ const robotoMono = Roboto_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+});
+
+// Display cut — fills the --font-display slot (see globals.css). Roboto Flex
+// is variable by default (wght included), so only the extra axes it needs
+// for the wide/heavy display cut (opsz, wdth) are requested.
+const robotoFlex = Roboto_Flex({
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["opsz", "wdth"],
 });
 
 export const metadata: Metadata = {
@@ -57,7 +67,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${roboto.variable} ${robotoMono.variable} h-full`}
+      className={`${roboto.variable} ${robotoMono.variable} ${robotoFlex.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider

@@ -42,9 +42,9 @@ const HERO_TAGLINE: Bilingual<string> = {
 };
 
 const HERO_SUBHEAD: Bilingual<string> = {
-  en: "Designers are now builders. In order to create consistent products and workflows I focus on systems, building internal tools, and iterating my design process.",
+  en: "Anything you don't decide gets decided for you. I design fintech products and write the systems behind them: tokens, rules, and internal tools that humans and AI both follow.",
   // TODO(afi-redaccion)
-  es: "Los diseñadores ahora somos builders. Para crear productos y flujos de trabajo consistentes, mi foco está en los sistemas, en construir herramientas internas y en iterar mi proceso de diseño.",
+  es: "Todo lo que no decides, se decide por ti. Diseño productos fintech y escribo los sistemas que hay detrás: tokens, reglas y herramientas internas que siguen tanto humanos como IA.",
 };
 
 export function Hero() {

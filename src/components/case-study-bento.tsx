@@ -3139,8 +3139,10 @@ function TokenInspectAnimation({ active }: AnimationProps) {
 
   useEffect(() => {
     if (!active) {
-      setStage("idle");
-      return;
+      const t = setTimeout(() => {
+        setStage("idle");
+      }, 0);
+      return () => clearTimeout(t);
     }
     let cancelled = false;
     async function loop() {

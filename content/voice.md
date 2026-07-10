@@ -32,6 +32,8 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 
 > **Canonical:** this file (`content/voice.md`) is THE voice rulebook the agents read. The [content-os/02-voice-guide/](content-os/02-voice-guide/) doc is the expanded, example-backed **reference** (screenshots, provenance tags, frameworks) — useful for learning the voice, but if the two ever disagree, **this file wins.** Reconciled 2026-07-02.
 
+> **The layer above:** [brand-guide.md](brand-guide.md) is what the brand *is* — positioning, the universal truth ("anything you don't decide gets decided for you"), five personality traits (each with a test), six values. This file is how that brand *sounds*. Writers read both. The universal truth is the deep structure of content: each piece proves it with a new concrete; never repeat it as a slogan.
+
 ---
 
 ## Stance per pillar

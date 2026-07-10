@@ -54,6 +54,8 @@ The pillar dictates the stance:
 
 Twitter has more latitude but apply the same logic — soft pointers to long-form are fine, freelance pitches are not.
 
+**Brand fit** (read [content/brand-guide.md](../../content/brand-guide.md)): apply the five personality tests — practitioner (written by someone who shipped it), dry (delete the funniest line, the argument stands), specific (a competitor couldn't swap their nouns in), honest about misses, quietly convinced (conviction from evidence, not volume). The is/is-not table settles register: builder thinking out loud, never guru announcing frameworks. If a post quotes the universal truth ("anything you don't decide…") as a slogan instead of proving it with a concrete, flag it — the truth is deep structure, not copy.
+
 ### 3. CTA placement (LinkedIn-specific)
 
 - **External links should land on the last line, not the first.** LinkedIn algorithmically penalizes posts with early external links. Flag if a link appears before the final paragraph.

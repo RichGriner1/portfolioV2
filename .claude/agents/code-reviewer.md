@@ -18,8 +18,9 @@ Read `git diff` + `git diff --staged` + any untracked files. Assess the change. 
 3. **Token / DS violations** — Hard-coded colors (`#fff`, `rgb(...)`, Tailwind color utilities like `bg-zinc-50` instead of semantic `bg-background`). Hard-coded spacing/shadows/radii outside the token system.
 4. **Next.js 16 convention violations** — Old App Router patterns, missing `"use client"` on interactive components, incorrect `next/font` usage, server/client boundary leaks.
 5. **Over-engineering** — Speculative abstractions, unused exports, config for features that don't exist, wrapper functions around one call, premature type gymnastics.
-6. **Style & consistency** — Import ordering, naming conventions, function vs. arrow vs. expression choice, comment quality.
-7. **Nits** — Whitespace, trailing commas, minor typos.
+6. **Case-study copy** — If the diff touches `src/lib/content/case-studies.tsx` or `src/lib/content/work.ts`, load the `case-study` skill (`~/.claude/skills/case-study/SKILL.md`) and apply its quality bar: four-beat detail sections complete in both languages, WHAT-SO-BENEFIT sublabels, concrete numbers, `// TODO(afi-redaccion)` on new ES strings, no invented facts.
+7. **Style & consistency** — Import ordering, naming conventions, function vs. arrow vs. expression choice, comment quality.
+8. **Nits** — Whitespace, trailing commas, minor typos.
 
 ## Reporting format
 

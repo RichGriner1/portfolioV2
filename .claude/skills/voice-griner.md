@@ -9,6 +9,15 @@ You are about to write copy that ships in Richard's name. Before writing a singl
 
 If voice.md is missing or unreadable, stop and tell Richard. Do not write in his voice without the rulebook.
 
+## The brand layer (read with voice.md)
+
+[content/brand-guide.md](../../content/brand-guide.md) is the layer above voice.md: what the brand *is*. What it means for anything you write:
+
+- **The universal truth is the deep structure, never the slogan.** "Anything you don't decide gets decided for you" — each piece proves it with a new concrete (a state the devs invented, a breakpoint the framework picked). Don't quote the line itself.
+- **The five personality tests apply to every surface.** Practitioner (written by someone who shipped it, not researched it), Dry (delete the funniest line and the argument stands), Specific (a competitor couldn't swap their nouns in), Honest about misses (at least one thing the author got wrong stays in), Quietly convinced (conviction from the evidence stack, never volume).
+- **The is/is-not table settles register calls.** Builder thinking out loud, not guru announcing frameworks; shows the seams, not performed polish.
+- **Design claims match the design principles.** When copy argues a design position (a case-study "Why it works", a DS opinion), it must be consistent with the `design-principles` skill (`~/.claude/skills/design-principles/`) — never praise in copy what the principles name as an anti-pattern. Load it when the piece makes design judgments.
+
 ---
 
 ## What this skill adds on top of voice.md

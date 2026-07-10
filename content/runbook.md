@@ -10,13 +10,14 @@ For the *what* (stages, pillars, structure), see [README.md](README.md). For the
 
 ```
 idea          → /journal               → content/journal/YYYY-MM-DD-slug.md   (gitignored)
-journal       → /polish <file>         → content/drafts/<pillar>/<slug>.md
+meeting/chat  → /harvest               → content/journal/YYYY-MM-DD-slug.md   (same format, + source:)
+journal       → /polish <file>         → content/drafts/<pillar>/<slug>.md    (voice-keeper lints the draft)
 draft         → manual revise + move   → content/published/<pillar>/<slug>.md
 published     → /syndicate <file>      → content/social/<pillar>/<slug>.md
 social        → manual copy/paste      → LinkedIn + Twitter live posts
 ```
 
-Five stages. Three slash commands (`/journal`, `/polish`, `/syndicate`). Two manual moves (draft → published, social → live posts).
+Five stages. Four slash commands (`/journal`, `/harvest`, `/polish`, `/syndicate`). Two manual moves (draft → published, social → live posts). Case studies have their own loop: `/case-study <slug> --source <harvested-journal>` (see [AGENTS.md](../AGENTS.md)).
 
 ---
 
@@ -49,6 +50,31 @@ Five stages. Three slash commands (`/journal`, `/polish`, `/syndicate`). Two man
 
 ---
 
+## Stage 1b — Harvest: `/harvest` (meetings + sessions)
+
+**When:** a Granola meeting or a Claude Code session had content worth mining — a retro, a rant, a working session where you figured something out.
+
+**Run:**
+```
+/harvest                          # lists last 7 days of meetings, you pick
+/harvest "kickoff with X"         # resolves a meeting by title/query
+/harvest --source sessions --last 1   # most recent Claude Code session
+```
+
+**What happens:**
+1. The harvester agent fetches the transcript (never in the main conversation — it stays cheap).
+2. Runs the Transcript Processor pass from `content-os/04-interview/`: story in order, **Keep verbatim** (your exact words — the firewall against AI rewrites), opinions kept sharp, 3–5 **Gold** lines, **Still thin** flags.
+3. Sorts the seeds into pillar sections and writes the same journal format as `/journal`, with `source: granola:<id>` (or `session:<id>`) in the frontmatter.
+
+**Tips:**
+- The journal stays raw speech register — profanity and all. The speech→writing conversion happens at `/polish`, not here.
+- Sessions: only *your* typed messages count as verbatim; Claude's replies are context.
+- "Still thin" flags are your cue for another quick Granola pass before polishing.
+
+**Output:** a markdown file at `content/journal/<source-date>-<slug>.md` — polish it exactly like a typed journal.
+
+---
+
 ## Stage 2 — Polish: `/polish <journal-file>`
 
 **When:** revisiting a journal entry that has a real post in it. Could be the same day; usually weeks later.
@@ -68,8 +94,9 @@ If you don't supply a file, the editor will list recent journals and ask which t
    - *"What's the one thing you want a reader to walk away thinking? Here are candidate framings: A, B, C — pick or redirect."*
    - *"Who is this for — designers, design-system folks, fintech, general tech?"* (only if unclear)
 5. You answer.
-6. Editor shapes the draft (lede → body → kicker), preserving your voice, tightening rambling.
+6. Editor shapes the draft (lede → body → kicker), preserving your voice, tightening rambling. Harvested journals get the speech→writing conversion (Gold lines become lede/kicker candidates).
 7. Saves to `content/drafts/<pillar>/<slug>.md` with `status: draft`.
+8. **Voice gate:** voice-keeper lints the draft against `voice.md` (banned phrases, AI-tells, em-dashes). One correction pass max, then anything left is flagged to you.
 
 **Tips:**
 - The clarifier is your friend — answer crisp, even if your journal was loopy.

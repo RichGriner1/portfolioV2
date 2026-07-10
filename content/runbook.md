@@ -14,6 +14,8 @@ meeting/chat  → /harvest               → content/journal/YYYY-MM-DD-slug.md 
 journal       → /polish <file>         → content/drafts/<pillar>/<slug>.md    (voice-keeper lints the draft)
 draft         → manual revise + move   → content/published/<pillar>/<slug>.md
 published     → /syndicate <file>      → content/social/<pillar>/<slug>.md
+journal       → /syndicate <file>      → content/social/<pillar>/<slug>.md    (tweet-sized insight, no blog planned)
+case study    → /syndicate <slug>      → content/social/<pillar>/<slug>.md    ("I shipped this", links to /work/<slug>)
 social        → manual copy/paste      → LinkedIn + Twitter live posts
 ```
 

@@ -31,6 +31,7 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 - `components` — prefer the project's DS components over bespoke (shadcn / PrimeNG / custom / none).
 - `design-system` — thin umbrella that loads the three above + the exceptions policy.
 - `writing-substance` — voice- and language-neutral substance + clarity + length gate (the "unclear / too short / forced" catcher).
+- `case-study` — structure + quality rules for portfolio case studies: anatomy, the problem → what-we-did → solution → why-it-works pattern, WHAT-SO-BENEFIT, the specificity bar, bilingual rules. Knowledge only; the `/case-study` loop (project-scope in portfolioV2) orchestrates.
 
 **Loops (commands)**
 - `/ds-cleanup [paths|--diff] [--fix] [--verify] [--deep] [--framework …]` — **audit by default** (report only). `--fix` = one bounded fix pass (no build, no loop); `--verify` builds once; `--deep` allows up to 2 fix→verify rounds. Bounded by default to control cost. Uses `ds-reviewer` + the repo's own fixer/verifier. Scope to one component.
@@ -79,6 +80,6 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 
 Phase 1 above is a vertical slice. Next, following the Discover → Define → Design → Validate → Deliver → Improve taxonomy:
 
-- **Design phase (next):** Component Audit, UX Heuristic Review, UX Copy Review — skills `accessibility`, `ux-heuristics`, `ux-writing`, `writing-style`, `case-study`.
+- **Design phase (next):** Component Audit, UX Heuristic Review, UX Copy Review — skills `accessibility`, `ux-heuristics`, `ux-writing`, `writing-style`. (~~`case-study`~~ — done, see phase 1 skills above.)
 - **Method loops** (need an input artifact — Figma frame, research doc, analytics export): Research Synthesis, Journey / User-Flow Review, Persona, Service Blueprint, Usability, Analytics. Buildable, but they *critique/produce a document* rather than auto-fix code — add each when its input is available.
 - **Figma design-side checking** via the Figma MCP (code-side first).

@@ -41,12 +41,13 @@ The orchestrator invokes them in order. If `test-runner` fails, it routes back t
 
 ## Content workflow (writing)
 
-Five subagents + four slash commands across two stages. See [content/README.md](content/README.md) for the stage model (journal → drafts → published → social) and the four pillars (process / breakdown / authority / experiment). The voice rulebook at [content/voice.md](content/voice.md) is the source of truth for tone.
+Six subagents + six slash commands across two stages. See [content/README.md](content/README.md) for the stage model (journal → drafts → published → social) and the four pillars (process / breakdown / authority / experiment). Two canonical rulebooks: [content/brand-guide.md](content/brand-guide.md) is what the brand *is* (positioning, universal truth, personality tests, values — every writer and reviewer reads it), and [content/voice.md](content/voice.md) is how it *sounds*. Design claims in copy must be consistent with the `design-principles` skill.
 
 ### Long-form (journal → drafts → published)
 
 - **`/journal`** → spawns **`scribe`** ([.claude/agents/scribe.md](.claude/agents/scribe.md)). End-of-day capture: 2–4 structured questions, writes to `content/journal/YYYY-MM-DD-<slug>.md`. **`content/journal/` is gitignored** — raw notes are private.
-- **`/polish <journal-file>`** → spawns **`editor`** ([.claude/agents/editor.md](.claude/agents/editor.md)). Shapes the strongest section of a journal entry into a draft at `content/drafts/<pillar>/<slug>.md`. Asks 1–2 clarifier questions before drafting (Richard speaks in loops sometimes). Preserves voice. Never writes to `content/published/` — that move is manual.
+- **`/harvest [pointer] [--source granola|sessions|both]`** → spawns **`harvester`** ([.claude/agents/harvester.md](.claude/agents/harvester.md)). Transcript capture: pulls a Granola meeting (MCP) or a Claude Code session (JSONL on disk, filtered to human-origin messages) and runs the content-os Transcript Processor pass (Keep verbatim / Gold / Still thin) into the same journal format, with `source: granola:<id> | session:<id>` frontmatter. Raw speech register — voice conversion happens at `/polish`. The orchestrator never reads a transcript itself.
+- **`/polish <journal-file>`** → spawns **`editor`** ([.claude/agents/editor.md](.claude/agents/editor.md)). Shapes the strongest section of a journal entry into a draft at `content/drafts/<pillar>/<slug>.md`. Asks 1–2 clarifier questions before drafting (Richard speaks in loops sometimes). Preserves voice; harvested journals get the speech→writing conversion. Never writes to `content/published/` — that move is manual. The orchestrator then runs **`voice-keeper`** on the draft (one route-back max) — drafts no longer skip the voice lint.
 
 ### Short-form (published → social)
 
@@ -62,6 +63,10 @@ If `voice-keeper` or `post-reviewer` return non-`ship` verdicts, the orchestrato
 
 `experiment/` pillar entries are seeds for side projects. When one is ready to build, spin up a dedicated repo — the experiment doesn't live inside portfolioV2.
 
+### Case studies (`/case-study`)
+
+- **`/case-study <slug> [--new] [--source <file ...>]`** ([.claude/commands/case-study.md](.claude/commands/case-study.md)) — drafts or updates a bilingual case study in [src/lib/content/case-studies.tsx](src/lib/content/case-studies.tsx) (plus [work.ts](src/lib/content/work.ts) with `--new`). Chains the dev loop (**`code-writer` → `test-runner` → `code-reviewer`**) and then the copy gates (**`voice-keeper` → `content-critic`**) on the changed EN strings. Loads the portable `case-study` skill (structure, WHAT-SO-BENEFIT, quality bar) + `voice-griner`. New/edited ES strings get `// TODO(afi-redaccion)` for the follow-up Spanish pass. Preferred input: a harvested journal — `/harvest` the project retro, then `/case-study <slug> --source content/journal/<file>.md`. Ends at a reviewed diff; committing is manual.
+
 ## Directory layout
 
 ```
@@ -76,8 +81,8 @@ content/
   drafts/<pillar>/    # committed — editor writes here
   published/<pillar>/ # committed — manual promotion from drafts
 .claude/
-  agents/             # subagent definitions (code-writer, test-runner, code-reviewer, scribe, editor)
-  commands/           # slash commands (/journal, /polish)
+  agents/             # subagent definitions (code-writer, test-runner, code-reviewer, scribe, harvester, editor, …)
+  commands/           # slash commands (/journal, /harvest, /polish, /case-study, …)
   lib/                # PORTABLE library — published to ~/.claude, used in every project (see below)
 ```
 
@@ -87,7 +92,7 @@ Cross-project skills + loops authored here (home base) and **published into user
 
 - **Publish:** `npm run claude:sync` (dry-run) → `npm run claude:sync:apply` (symlinks each entry of `.claude/lib/{skills,commands,agents}` into `~/.claude/`). Edit here → live everywhere.
 - **Why `lib/`, not `.claude/skills/`:** `.claude/skills/` auto-registers as project skills; the symlink would then double-register in this repo. `lib/` is inert locally — user scope is the single registration.
-- **Phase 1:** skills `design-principles`, `design-tokens`, `components`, `design-system` (umbrella), `writing-substance`; loops `/ds-cleanup` (DS checker — audit by default, `--fix` to remediate; framework-aware) and `/content-review` (clarity/substance gate). Full details + roadmap: [.claude/lib/README.md](.claude/lib/README.md).
+- **Phase 1:** skills `design-principles`, `design-tokens`, `components`, `design-system` (umbrella), `writing-substance`, `case-study`; loops `/ds-cleanup` (DS checker — audit by default, `--fix` to remediate; framework-aware) and `/content-review` (clarity/substance gate). Full details + roadmap: [.claude/lib/README.md](.claude/lib/README.md).
 - The project-scoped agents/commands above (dev + content pipelines, `voice-griner`) stay project-only — they're portfolio-specific. The `lib/` items are the portable ones.
 
 ## When in doubt

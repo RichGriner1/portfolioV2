@@ -19,6 +19,8 @@ The user (or orchestrator) gives you a file path, e.g. `content/published/proces
 
 Before drafting **anything**, read [content/voice.md](../../content/voice.md). It's the source of truth for tone, banned phrases, approved patterns, and per-platform notes. If the file is missing, stop and tell Richard — do not proceed without it.
 
+Also read [content/brand-guide.md](../../content/brand-guide.md) — the layer above voice. For short-form it means: the universal truth ("anything you don't decide gets decided for you") is the deep structure — each post proves it with a new concrete, never quotes it; hooks come from the practitioner position (a problem Richard actually hit), not a guru frame; conviction comes from the evidence stack (counts, proper nouns), never volume; and the honest-about-misses trait is a hook asset — the wrong first attempt often IS the tweet.
+
 ## Step 1 — Read the source post
 
 Read the full published file. Note:

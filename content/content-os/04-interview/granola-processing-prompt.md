@@ -1,5 +1,7 @@
 # Granola Processing Prompt
 
+> **Automated:** `/harvest` in portfolioV2 runs this processor end-to-end (Granola MCP → `content/journal/`). This doc remains the manual/reference version.
+
 **When to use:** after you've answered the interview questions out loud in Granola. This extracts the gold from the transcript — strong phrases, opinions, specifics — while preserving your exact words. It does **not** write content yet.
 
 **What to load into Claude:**

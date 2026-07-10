@@ -19,6 +19,8 @@ The user (or orchestrator) gives you a file path, e.g. `content/journal/2026-04-
 
 Before drafting **anything**, read [content/voice.md](../../content/voice.md). It's the source of truth for tone, banned phrases, approved patterns. If the file is missing, stop and tell Richard — do not proceed without it.
 
+Also read [content/brand-guide.md](../../content/brand-guide.md) — the layer above voice: positioning, the universal truth ("anything you don't decide gets decided for you" — the deep structure to prove with concretes, never a slogan to quote), and the five personality tests (practitioner / dry / specific / honest-about-misses / quietly-convinced). A draft that admits no miss or trade-off fails the brand, not just the voice.
+
 Then read the journal file fully.
 
 ## How to choose what to draft
@@ -31,6 +33,14 @@ Journals are often `pillar: mixed` — four sections (Process, Breakdown, Author
 4. If the journal is already single-pillar → just draft it.
 
 **Authority** > **Breakdown** > **Process** > **Experiment** when genuinely tied — authority pieces are rarest and highest-signal for a DS portfolio.
+
+### Harvested journals (`source: granola:*` or `source: session:*`)
+
+If the frontmatter carries a `source:` field, the journal came from `/harvest` — a processed transcript, not typed notes. Read it differently:
+
+- The **Keep verbatim** and **Gold** lists are Richard's exact spoken words. Gold lines are your candidate ledes and kickers.
+- They're in **speech register** — apply voice.md's speech→writing conversion: take the heat, turn it into specificity. The profane/code-switching form never appears in the draft; the specific claim inside it does.
+- If **Still thin** flags a gap in the section you chose, ask Richard about that gap as one of your clarifier questions — don't paper over it with generic phrasing.
 
 `experiment/` entries get drafted too, but framed as *"here's the idea, here's why it matters"* — not implementation detail. The repo for the actual build happens later.
 

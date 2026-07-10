@@ -1,18 +1,23 @@
 ---
-description: Turn a published post into LinkedIn + Twitter short-form. Spawns syndicator → voice-keeper → post-reviewer.
-argument-hint: <path-to-published-file>
+description: Turn a published post, journal entry, or case study into LinkedIn + Twitter short-form. Spawns syndicator → voice-keeper → post-reviewer.
+argument-hint: <published-file | journal-file | case-study-slug>
 ---
 
-Invoke the `syndicator` subagent now with the published file path: `$ARGUMENTS`.
+Invoke the `syndicator` subagent now with the source from: `$ARGUMENTS`.
+
+Resolve the source type first:
+- Path under `content/published/` → published post (the default, unchanged).
+- Path under `content/journal/` → journal entry — for insights that are tweet-sized with no blog planned. The syndicator picks (or asks for) one seed and applies the speech→writing conversion for harvested journals.
+- Bare word matching a `CASE_STUDIES` slug (grep the keys in `src/lib/content/case-studies.tsx` — don't read the file) → case study; the post links to `/work/<slug>`.
 
 If `$ARGUMENTS` is empty, stop and ask Richard which published post to syndicate — glob `content/published/**/*.md` and list the options sorted by `created` date (most recent first) so he can pick.
 
 ## Pipeline (orchestrator runs these in order)
 
 1. **`syndicator`** ([.claude/agents/syndicator.md](../../.claude/agents/syndicator.md))
-   - Reads `content/voice.md` (mandatory).
-   - Reads the published file.
-   - Asks Richard 2–3 clarifying questions (one-takeaway for LinkedIn, Twitter hook, CTA shape).
+   - Reads `content/voice.md` + `content/brand-guide.md` (mandatory).
+   - Reads the source (published post, journal seed, or case-study object — per its Inputs rules).
+   - Asks Richard 2–3 clarifying questions (one-takeaway for LinkedIn, Twitter hook, CTA shape; for journals, which seed).
    - Drafts both platforms to `content/social/<pillar>/<slug>.md` with `status: draft`.
 2. **`voice-keeper`** ([.claude/agents/voice-keeper.md](../../.claude/agents/voice-keeper.md))
    - Lints the social file against `content/voice.md`.

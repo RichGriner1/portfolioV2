@@ -51,7 +51,7 @@ Six subagents + six slash commands across two stages. See [content/README.md](co
 
 ### Short-form (published → social)
 
-- **`/syndicate <published-file>`** → chains **`syndicator`** → **`voice-keeper`** → **`post-reviewer`**. Mirrors the dev loop (`code-writer → test-runner → code-reviewer`).
+- **`/syndicate <published-file | journal-file | case-study-slug>`** → chains **`syndicator`** → **`voice-keeper`** → **`post-reviewer`**. Mirrors the dev loop (`code-writer → test-runner → code-reviewer`). Published post is the default source; a journal file (for tweet-sized insights with no blog planned — one seed per run, speech→writing conversion for harvested journals) and a case-study slug (post links to `/work/<slug>`) also work.
   1. **`syndicator`** ([.claude/agents/syndicator.md](.claude/agents/syndicator.md)) — reads the published post + `content/voice.md`, asks 2–3 clarifier questions (one-takeaway for LI, Twitter hook, CTA shape), drafts both platforms to `content/social/<pillar>/<slug>.md`. **Never writes "DM me" or freelance pitches on LinkedIn** — Richard has a full-time job.
   2. **`voice-keeper`** ([.claude/agents/voice-keeper.md](.claude/agents/voice-keeper.md)) — read-only lint pass against `content/voice.md`. Banned phrases, AI-tells, construction patterns. Returns `pass | revise`.
   3. **`post-reviewer`** ([.claude/agents/post-reviewer.md](.claude/agents/post-reviewer.md)) — read-only review for hook quality, stance fit, CTA placement, platform conventions. Returns `ship | revise | rewrite`.

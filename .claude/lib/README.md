@@ -73,7 +73,7 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 ## Adding a skill or loop
 
 1. **Skill:** `mkdir skills/<name>`, add `SKILL.md` (frontmatter: `name`, `description`) + optional `references/`. Keep it focused — one responsibility.
-2. **Loop:** add `commands/<loop>.md` (frontmatter: `description`, `argument-hint`; body uses `$ARGUMENTS`). It should *load skills and iterate*, not embed rules. Add a reviewer/agent in `agents/` if the loop needs a read-only inspector.
+2. **Loop:** add `commands/<loop>.md` (frontmatter: `description`, `argument-hint`; body uses `$ARGUMENTS`). It should *load skills and iterate*, not embed rules. Add a reviewer/agent in `agents/` if the loop needs a read-only inspector. **Quote any `argument-hint` that starts with `[`** — unquoted, YAML parses it as an array, the frontmatter breaks, and the command silently never registers in the slash menu.
 3. Run `npm run claude:sync:apply`.
 
 ## Roadmap (Richard's design-process taxonomy)

@@ -1,6 +1,6 @@
 ---
 description: Pull content from a Granola meeting or Claude Code session into content/journal/. Spawns the harvester agent — processes the transcript (keep-verbatim, gold lines, still-thin) into a journal capture that /polish consumes.
-argument-hint: [meeting query | date | session-id] [--source granola|sessions|both] [--last N]
+argument-hint: "[meeting query | date | session-id] [--source granola|sessions|both] [--last N]"
 ---
 
 Invoke the `harvester` subagent with the source pointer from: `$ARGUMENTS`.

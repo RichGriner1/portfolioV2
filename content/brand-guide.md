@@ -176,6 +176,28 @@ Motion exists to show the system working: soft, brief, staggered reveals (the `e
 **5. Show the seams.**
 The artifacts of process *are* the art direction. Token tables, before/after pairs, annotated screenshots, figure diagrams, the variable panel itself. Photography and stock illustration are off-brand; a real diagram of a real decision is the hero image. This is also the content-graphic rule: six near-identical AI thumbnails in a grid says more than any metaphor illustration could.
 
+### Where the moves come from (personality → visuals)
+
+The five moves aren't taste; they're the personality traits doing visual work. When a new visual question comes up that the moves don't cover, derive the answer from this table rather than inventing one:
+
+| Trait / value | Visual rule | The move it drives |
+|---|---|---|
+| **Practitioner** | The artifacts of process are the art direction: token tables, annotated screenshots, real diagrams as heroes. No stock, no metaphor illustration. | Move 5 |
+| **Dry** | Restraint by default. Nothing bounces, nothing shimmers, no decoration that can't explain itself. The visual deadpan is the artifact presented flat: six near-identical AI thumbnails in a grid. | Moves 1, 4 |
+| **Specific** | Mono marks the system layer: token names, counts, code. Tabular figures always. Graphics use real data with real numbers, never placeholder data. | Moves 2, 3 |
+| **Honest about misses** | The before stays visible (rule 6 below). | Rule 6 |
+| **Quietly convinced** | One opinionated color, total. Hierarchy comes from typographic scale, never volume. No gradients, no second accent: the visual version of not shouting. | Moves 1, 2 |
+| **Serve the density** (value) | Density handled with grammar, not whitespace: consistent chrome, stated conventions, empty space only when the grammar allows it. Most designers' "clean" is whitespace; ours is structure. | Move 3 |
+| **Grant the trade-off** (value) | The rejected option gets rendered fairly (rule 7 below). | Rule 7 |
+
+Two rules the traits add to the five moves:
+
+**6. The before stays visible.**
+Process and comparison graphics keep the wrong first attempt in frame: annotated, not cropped out. The visible correction is the trust mechanism ("Honest about misses" applied to imagery). A before/after where the before has been quietly cleaned up is off-brand twice over.
+
+**7. Render the rejected option fairly.**
+In comparison graphics, the option that lost shows what it got right, labeled. A takedown diagram that strawmans the "before" breaks the same rule the breakdown pillar enforces in prose: the people who built it weren't stupid. The takedown lands harder when the diagram grants the trade-off too.
+
 ### Anti-patterns (the "what we're not" wall)
 
 - Gradient-mesh AI-startup shimmer. The brand is the antidote to that sameness; it can't wear the uniform.

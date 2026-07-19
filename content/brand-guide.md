@@ -4,6 +4,7 @@ This file is the source of truth for what the brand *is*. It sits one layer abov
 
 - **This file** — what the brand stands for (positioning, value, truth, personality, values, visual concept).
 - [`voice.md`](voice.md) — how the brand *sounds*. Nothing here overrides it.
+- [`lexicon.md`](lexicon.md) — the words the brand owns: the positive vocabulary, extracted from shipped work.
 - [`src/app/globals.css`](../src/app/globals.css) — how the brand *looks*, as tokens. The visual concept below is the brief those tokens should serve.
 
 It was derived from the published work (`published/`), the story bank (`content-os/01-story-bank/story-bank.md`), the social batches, and the site itself. Nothing here was invented; everything traces back to something Richard already shipped or said. Treat it like `voice.md`: a living doc. When the work outgrows a line here, edit the line.

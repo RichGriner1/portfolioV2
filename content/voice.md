@@ -34,6 +34,8 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 
 > **The layer above:** [brand-guide.md](brand-guide.md) is what the brand *is* — positioning, the universal truth ("anything you don't decide gets decided for you"), five personality traits (each with a test), six values. This file is how that brand *sounds*. Writers read both. The universal truth is the deep structure of content: each piece proves it with a new concrete; never repeat it as a slogan.
 
+> **The vocabulary:** [lexicon.md](lexicon.md) is the positive side of this file — the ~20 owned words (drift, chrome, grammar, earns its keep, invented consistency…) with their precise meanings, plus the signature constructions. This file bans; the lexicon supplies. Writers and agents read both before drafting.
+
 ---
 
 ## Stance per pillar

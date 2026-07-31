@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { BlurFade } from "@/components/motion/blur-fade";
-import { SPRING_SOFT } from "@/components/motion/constants";
 import { FIGURES } from "@/components/motion/figures";
 import { GLYPHS } from "@/components/motion/glyphs";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
@@ -89,11 +87,6 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   // Every tile is square; the v4 thumbnails are 1080×1080 so they fill it exactly.
   const aspect = "aspect-square";
 
-  // Shared face chrome — both sides of the flip look like the same tile.
-  const tileChrome =
-    "border-border bg-card absolute inset-0 overflow-hidden rounded-2xl border [backface-visibility:hidden]";
-  const tint = item.bgColor ? { backgroundColor: item.bgColor } : undefined;
-
   return (
     <BlurFade
       inView
@@ -102,55 +95,37 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
       className="mb-6 break-inside-avoid"
     >
       <Link href={item.href} className="group block">
-        {/* Hover flips the tile (FlipCard-style transition) — the two faces
-            keep the existing thumbnail / info-panel designs. */}
-        <motion.div
-          initial="rest"
-          whileHover="hover"
+        {/* Media tile */}
+        <div
           className={cn(
-            "duration-base ease-out-soft relative w-full transition-transform [perspective:1200px] group-hover:-translate-y-1",
+            "border-border bg-card duration-base ease-out-soft relative w-full overflow-hidden rounded-2xl border transition-all group-hover:-translate-y-1 group-hover:shadow-lg",
             aspect
           )}
+          style={item.bgColor ? { backgroundColor: item.bgColor } : undefined}
         >
-          <motion.div
-            variants={{ rest: { rotateY: 0 }, hover: { rotateY: 180 } }}
-            transition={SPRING_SOFT}
-            className="relative h-full w-full [transform-style:preserve-3d]"
-          >
-            {/* Front — the thumbnail */}
-            <div className={tileChrome} style={tint}>
-              <CardMedia item={item} lang={lang} />
-            </div>
+          <CardMedia item={item} lang={lang} />
 
-            {/* Back — the info panel (hover devices; touch keeps the block
-                below the tile) */}
-            <div
-              className={cn(
-                tileChrome,
-                "hidden [transform:rotateY(180deg)] flex-col justify-between p-4 [@media(hover:hover)]:flex"
-              )}
-              style={tint}
-            >
-              <div className="flex flex-col gap-1.5">
-                <span className="text-muted-foreground font-mono text-[10px] font-medium">
-                  {pick(KIND_LABELS[item.kind], lang)}
-                </span>
-                <h3 className="text-foreground font-display text-lg font-bold tracking-tight text-balance">
-                  {pick(item.title, lang)}
-                </h3>
-                <div className="text-foreground/70 font-mono text-xs tracking-wider">
-                  {formatDate(item, locale)}
-                </div>
-                <p className="text-foreground/80 mt-2 line-clamp-3 max-w-[36ch] text-sm leading-snug">
-                  {pick(item.description, lang)}
-                </p>
+          {/* Hover devices only: glass panel revealed on hover */}
+          <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-muted-foreground font-mono text-[10px] font-medium">
+                {pick(KIND_LABELS[item.kind], lang)}
+              </span>
+              <h3 className="text-foreground font-display text-lg font-bold tracking-tight text-balance">
+                {pick(item.title, lang)}
+              </h3>
+              <div className="text-foreground/70 font-mono text-xs tracking-wider">
+                {formatDate(item, locale)}
               </div>
-              <div className="text-foreground self-end font-mono text-xs font-medium tracking-wider">
-                {t("home.read_more", lang)} →
-              </div>
+              <p className="text-foreground/80 mt-2 line-clamp-3 max-w-[36ch] text-sm leading-snug">
+                {pick(item.description, lang)}
+              </p>
             </div>
-          </motion.div>
-        </motion.div>
+            <div className="text-foreground self-end font-mono text-xs font-medium tracking-wider">
+              {t("home.read_more", lang)} →
+            </div>
+          </div>
+        </div>
 
         {/* Touch devices only: title + info below the graphic */}
         <div className="mt-3 hidden flex-col gap-1 [@media(hover:none)]:flex">

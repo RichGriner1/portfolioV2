@@ -44,11 +44,11 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   }
   if (item.figure) {
     const Figure = FIGURES[item.figure];
-    // Frameless: the tile already brings the border + surface, so the figure
-    // scene fills it edge to edge with the same p-6 inset glyphs get.
+    // The figure's framed panel fills the standard p-6 inset, so the tile
+    // reads like every other thumbnail: content in the middle, border around.
     return (
       <div className="pointer-events-none absolute inset-0 p-6">
-        <Figure frameless />
+        <Figure />
       </div>
     );
   }

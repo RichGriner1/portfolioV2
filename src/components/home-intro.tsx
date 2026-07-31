@@ -12,13 +12,13 @@ const INTRO: Bilingual<string[]> = {
   en: [
     "Hi, I'm Richard. I'm a designer. Currently designing fintech products for Spanish banks and design systems at Afi.",
     "Coming from anthropology, I look for the deeper meaning of things and the systems that create behavior.",
-    "My master's in design opened my eyes to combining the two to improve people's lives, and to how much design covers. A morning routine, a workflow, an onboarding, a brand.",
+    "My master's in design opened my eyes to combining the two to improve people's lives and to how much design covers. A morning routine, a workflow, onboarding, a brand. Everything.",
     "I feel like a superhero with AI. Now I can document how I incorporate both in everything I do, not just a few UX/UI projects.",
   ],
   es: [
     "Hi, I'm Richard. I'm a designer. Currently designing fintech products for Spanish banks and design systems at Afi.",
     "Coming from anthropology, I look for the deeper meaning of things and the systems that create behavior.",
-    "My master's in design opened my eyes to combining the two to improve people's lives, and to how much design covers. A morning routine, a workflow, an onboarding, a brand.",
+    "My master's in design opened my eyes to combining the two to improve people's lives and to how much design covers. A morning routine, a workflow, onboarding, a brand. Everything.",
     "I feel like a superhero with AI. Now I can document how I incorporate both in everything I do, not just a few UX/UI projects.",
   ],
 };

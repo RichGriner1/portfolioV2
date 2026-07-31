@@ -5,7 +5,6 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE, EASE_SOFT } from "@/components/motion/constants";
-import { cn } from "@/lib/utils";
 
 const VB_W = 300;
 const VB_H = 190;
@@ -22,10 +21,12 @@ const toTop = (y: number) => `${(y / VB_H) * 100}%`;
 type Step = -1 | 0 | 1 | 2 | 3;
 
 /**
- * Blog figure by default; `frameless` drops the card frame so the scene can
- * fill another surface (e.g. a WorkCard tile, which brings its own border).
+ * The framed panel adapts to its container: auto height in a blog post
+ * (scene keeps its 200px floor), full height inside a WorkCard tile —
+ * so the thumbnail reads like every other card: content in the middle,
+ * border around it.
  */
-export function LoopVsSkillFigure({ frameless }: { frameless?: boolean }) {
+export function LoopVsSkillFigure() {
   const [step, setStep] = useState<Step>(-1);
 
   useEffect(() => {
@@ -60,12 +61,7 @@ export function LoopVsSkillFigure({ frameless }: { frameless?: boolean }) {
     step === 0 || step === 1 || step === 2 ? SKILLS[step] : null;
 
   const scene = (
-    <div
-      className={cn(
-        "bg-card relative overflow-hidden rounded-xl",
-        frameless ? "h-full" : "min-h-[200px]"
-      )}
-    >
+    <div className="bg-card relative min-h-[200px] flex-1 overflow-hidden rounded-xl">
       <svg
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         preserveAspectRatio="none"
@@ -166,8 +162,6 @@ export function LoopVsSkillFigure({ frameless }: { frameless?: boolean }) {
       </div>
     </div>
   );
-
-  if (frameless) return scene;
 
   return (
     <div className="group bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5">

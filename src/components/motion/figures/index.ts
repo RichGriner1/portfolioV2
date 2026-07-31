@@ -13,13 +13,7 @@ export type FigureKey =
   | "orchestrator"
   | "bounded-loop";
 
-// `frameless` drops a figure's own card frame so it can sit on a surface
-// that already provides one (e.g. a WorkCard tile). Figures that don't
-// implement it simply ignore the prop.
-export const FIGURES: Record<
-  FigureKey,
-  ComponentType<{ frameless?: boolean }>
-> = {
+export const FIGURES: Record<FigureKey, ComponentType> = {
   "token-cost": TokenCostFigure,
   "use-anywhere": UseAnywhereFigure,
   "loop-vs-skill": LoopVsSkillFigure,

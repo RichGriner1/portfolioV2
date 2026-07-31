@@ -32,7 +32,9 @@ export function MindfulmeGlyph(_props?: { active?: boolean }) {
   }, []);
 
   return (
-    <div className="flex h-full w-full items-center justify-center overflow-hidden">
+    // Inner bordered panel — the standard thumbnail style: content in the
+    // middle, border around it (the tile provides the tinted surface).
+    <div className="border-border/60 flex h-full w-full items-center justify-center overflow-hidden rounded-sm border">
       <video
         ref={videoRef}
         src="/video/mindfulme-card-flip.mp4"
@@ -40,7 +42,7 @@ export function MindfulmeGlyph(_props?: { active?: boolean }) {
         muted
         playsInline
         preload="auto"
-        className="h-full w-full object-contain"
+        className="h-full w-full object-cover"
       />
     </div>
   );

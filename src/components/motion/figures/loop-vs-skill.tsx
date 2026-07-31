@@ -164,7 +164,7 @@ export function LoopVsSkillFigure() {
   );
 
   return (
-    <div className="group bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5">
+    <div className="group bg-card border-border/60 flex h-full flex-col gap-4 rounded-sm border p-5">
       {scene}
     </div>
   );

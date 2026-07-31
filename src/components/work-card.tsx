@@ -115,7 +115,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           {/* Hover devices only: glass panel revealed on hover */}
           <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
             <div className="flex flex-col gap-1.5">
-              <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
+              <span className="text-muted-foreground font-mono text-[10px] font-medium">
                 {pick(KIND_LABELS[item.kind], lang)}
               </span>
               <h3 className="text-foreground font-display text-lg font-bold tracking-tight text-balance">
@@ -136,7 +136,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
 
         {/* Touch devices only: title + info below the graphic */}
         <div className="mt-3 hidden flex-col gap-1 [@media(hover:none)]:flex">
-          <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
+          <span className="text-muted-foreground font-mono text-[10px] font-medium">
             {pick(KIND_LABELS[item.kind], lang)}
           </span>
           <h3 className="text-foreground font-display text-base font-bold tracking-tight">

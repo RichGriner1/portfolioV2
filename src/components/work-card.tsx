@@ -44,11 +44,11 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   }
   if (item.figure) {
     const Figure = FIGURES[item.figure];
+    // Frameless: the tile already brings the border + surface, so the figure
+    // scene fills it edge to edge with the same p-6 inset glyphs get.
     return (
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-3">
-        <div className="w-full">
-          <Figure />
-        </div>
+      <div className="pointer-events-none absolute inset-0 p-6">
+        <Figure frameless />
       </div>
     );
   }

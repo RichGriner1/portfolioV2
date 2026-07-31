@@ -15,10 +15,10 @@ const PROJECTS = VISIBLE_WORK.filter((item) => item.kind === "case-study");
 const PROCESSES = VISIBLE_WORK.filter((item) => item.kind !== "case-study");
 
 // Section labels stay English in both languages for now. TODO(afi-redaccion)
-function SectionRow({ label }: { label: string }) {
+function SectionRow({ id, label }: { id: string; label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <h2 className="text-muted-foreground shrink-0 font-mono text-xs">
+      <h2 id={id} className="text-muted-foreground shrink-0 font-mono text-xs">
         {label}
       </h2>
       <div aria-hidden="true" className="bg-border h-px flex-1" />
@@ -41,12 +41,15 @@ function WorkGrid({ items }: { items: WorkItem[] }) {
 export function MyWork() {
   return (
     <div className="flex flex-col gap-10">
-      <section className="flex flex-col gap-6">
-        <SectionRow label="Projects" />
+      <section aria-labelledby="shelf-projects" className="flex flex-col gap-6">
+        <SectionRow id="shelf-projects" label="Projects" />
         <WorkGrid items={PROJECTS} />
       </section>
-      <section className="flex flex-col gap-6">
-        <SectionRow label="Processes" />
+      <section
+        aria-labelledby="shelf-processes"
+        className="flex flex-col gap-6"
+      >
+        <SectionRow id="shelf-processes" label="Processes" />
         <WorkGrid items={PROCESSES} />
       </section>
     </div>

@@ -27,9 +27,9 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   if (item.video) {
     const src = `${item.video}_${lang}_${mode}_thumb.mp4`;
     // Same inner-panel treatment as figures: content in the middle, border
-    // around it, at the standard p-6 inset.
+    // around it, at the standard p-2 inset.
     return (
-      <div className="pointer-events-none absolute inset-0 p-6">
+      <div className="pointer-events-none absolute inset-0 p-2">
         <div className="bg-card border-border/60 h-full overflow-hidden rounded-2xl border">
           <video
             key={src}
@@ -50,10 +50,10 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   }
   if (item.figure) {
     const Figure = FIGURES[item.figure];
-    // The figure's framed panel fills the standard p-6 inset, so the tile
+    // The figure's framed panel fills the standard p-2 inset, so the tile
     // reads like every other thumbnail: content in the middle, border around.
     return (
-      <div className="pointer-events-none absolute inset-0 p-6">
+      <div className="pointer-events-none absolute inset-0 p-2">
         <Figure />
       </div>
     );
@@ -61,7 +61,7 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   if (item.glyph) {
     const Glyph = GLYPHS[item.glyph];
     return (
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-2">
         <Glyph active />
       </div>
     );

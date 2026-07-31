@@ -2,6 +2,7 @@
 
 import { WorkCard } from "@/components/work-card";
 import { sortKey, WORK, type WorkItem } from "@/lib/content/work";
+import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 // Newest first. Order flows down the masonry columns.
 const VISIBLE_WORK = WORK.filter((item) => !item.hidden).sort((a, b) =>
@@ -14,12 +15,17 @@ const VISIBLE_WORK = WORK.filter((item) => !item.hidden).sort((a, b) =>
 const PROJECTS = VISIBLE_WORK.filter((item) => item.kind === "case-study");
 const PROCESSES = VISIBLE_WORK.filter((item) => item.kind !== "case-study");
 
-// Section labels stay English in both languages for now. TODO(afi-redaccion)
-function SectionRow({ id, label }: { id: string; label: string }) {
+const SHELF_LABELS: Record<"projects" | "processes", Bilingual<string>> = {
+  projects: { en: "Projects", es: "Proyectos" },
+  processes: { en: "Processes", es: "Procesos" },
+};
+
+function SectionRow({ id, label }: { id: string; label: Bilingual<string> }) {
+  const { lang } = useLang();
   return (
     <div className="flex items-center gap-3">
       <h2 id={id} className="text-muted-foreground shrink-0 font-mono text-xs">
-        {label}
+        {pick(label, lang)}
       </h2>
       <div aria-hidden="true" className="bg-border h-px flex-1" />
     </div>
@@ -42,14 +48,14 @@ export function MyWork() {
   return (
     <div className="flex flex-col gap-10">
       <section aria-labelledby="shelf-projects" className="flex flex-col gap-6">
-        <SectionRow id="shelf-projects" label="Projects" />
+        <SectionRow id="shelf-projects" label={SHELF_LABELS.projects} />
         <WorkGrid items={PROJECTS} />
       </section>
       <section
         aria-labelledby="shelf-processes"
         className="flex flex-col gap-6"
       >
-        <SectionRow id="shelf-processes" label="Processes" />
+        <SectionRow id="shelf-processes" label={SHELF_LABELS.processes} />
         <WorkGrid items={PROCESSES} />
       </section>
     </div>

@@ -1,17 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+import { BlurFade } from "@/components/motion/blur-fade";
 import { FIGURES } from "@/components/motion/figures";
 import { GLYPHS } from "@/components/motion/glyphs";
 import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
 import { cn } from "@/lib/utils";
 import { pick, t, useLang, type Lang } from "@/lib/i18n";
-
-const EASE = [0.2, 0.8, 0.2, 1] as const;
 
 /**
  * Card media. A language-keyed video (object-cover, fills the tile) when the
@@ -26,36 +24,42 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
 
   if (item.video) {
     const src = `${item.video}_${lang}_${mode}_thumb.mp4`;
+    // Same inner-panel treatment as figures: content in the middle, border
+    // around it, at the standard p-3 inset.
     return (
-      <video
-        key={src}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        ref={(el) => {
-          if (el) el.muted = true;
-        }}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+      <div className="pointer-events-none absolute inset-0 p-3">
+        <div className="bg-card border-border/60 h-full overflow-hidden rounded-xl border">
+          <video
+            key={src}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            ref={(el) => {
+              if (el) el.muted = true;
+            }}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        </div>
+      </div>
     );
   }
   if (item.figure) {
     const Figure = FIGURES[item.figure];
+    // The figure's framed panel fills the standard p-3 inset, so the tile
+    // reads like every other thumbnail: content in the middle, border around.
     return (
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-3">
-        <div className="w-full">
-          <Figure />
-        </div>
+      <div className="pointer-events-none absolute inset-0 p-3">
+        <Figure />
       </div>
     );
   }
   if (item.glyph) {
     const Glyph = GLYPHS[item.glyph];
     return (
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-3">
         <Glyph active />
       </div>
     );
@@ -84,15 +88,10 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const aspect = "aspect-square";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{
-        duration: 0.5,
-        delay: Math.min(index, 8) * 0.06,
-        ease: EASE,
-      }}
+    <BlurFade
+      inView
+      inViewMargin="-60px"
+      delay={Math.min(index, 8) * 0.06}
       className="mb-6 break-inside-avoid"
     >
       <Link href={item.href} className="group block">
@@ -109,7 +108,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           {/* Hover devices only: glass panel revealed on hover */}
           <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
             <div className="flex flex-col gap-1.5">
-              <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
+              <span className="text-muted-foreground font-mono text-[10px] font-medium">
                 {pick(KIND_LABELS[item.kind], lang)}
               </span>
               <h3 className="text-foreground font-display text-lg font-bold tracking-tight text-balance">
@@ -118,6 +117,9 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
               <div className="text-foreground/70 font-mono text-xs tracking-wider">
                 {formatDate(item, locale)}
               </div>
+              <p className="text-foreground/80 mt-2 line-clamp-3 max-w-[36ch] text-sm leading-snug">
+                {pick(item.description, lang)}
+              </p>
             </div>
             <div className="text-foreground self-end font-mono text-xs font-medium tracking-wider">
               {t("home.read_more", lang)} →
@@ -127,7 +129,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
 
         {/* Touch devices only: title + info below the graphic */}
         <div className="mt-3 hidden flex-col gap-1 [@media(hover:none)]:flex">
-          <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-wider uppercase">
+          <span className="text-muted-foreground font-mono text-[10px] font-medium">
             {pick(KIND_LABELS[item.kind], lang)}
           </span>
           <h3 className="text-foreground font-display text-base font-bold tracking-tight">
@@ -138,6 +140,6 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </BlurFade>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Flex, Roboto_Mono } from "next/font/google";
+import { Geist, Roboto, Roboto_Flex, Roboto_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -18,6 +18,13 @@ const roboto = Roboto({
 
 const robotoMono = Roboto_Mono({
   variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+// Geist — descriptions / supporting copy (per Richard's Figma direction).
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
@@ -67,7 +74,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${roboto.variable} ${robotoMono.variable} ${robotoFlex.variable} h-full`}
+      className={`${roboto.variable} ${robotoMono.variable} ${robotoFlex.variable} ${geist.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider

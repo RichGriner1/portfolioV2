@@ -64,6 +64,8 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-display: var(--font-display);
+  /* Geist — supporting/intro copy (set on <html> by next/font in layout.tsx) */
+  --font-geist: var(--font-geist);
 
   /* Radius scale — all derived from a single --radius base */
   --radius-xs: calc(var(--radius) * 0.4);

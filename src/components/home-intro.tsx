@@ -34,7 +34,10 @@ export function HomeIntro() {
       className="flex max-w-xl flex-col gap-4 pt-12 sm:pt-20"
     >
       {pick(INTRO, lang).map((p) => (
-        <p key={p.slice(0, 24)} className="text-foreground leading-relaxed">
+        <p
+          key={p.slice(0, 24)}
+          className="font-geist text-foreground leading-relaxed"
+        >
           {p}
         </p>
       ))}

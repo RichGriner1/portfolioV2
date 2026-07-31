@@ -118,6 +118,9 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
               <div className="text-foreground/70 font-mono text-xs tracking-wider">
                 {formatDate(item, locale)}
               </div>
+              <p className="text-foreground/80 mt-2 line-clamp-3 max-w-[36ch] text-sm leading-snug">
+                {pick(item.description, lang)}
+              </p>
             </div>
             <div className="text-foreground self-end font-mono text-xs font-medium tracking-wider">
               {t("home.read_more", lang)} →

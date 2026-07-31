@@ -55,8 +55,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "Building a reusable, AI workflow for meeting design system standards",
-      // TODO(afi-redaccion): EN updated 2026-07-31, re-translate
-      es: "Construir un flujo de trabajo de IA reutilizable y portable — y lo que me costó entender cómo gasta mientras se ejecuta.",
+      es: "Construyendo un flujo de trabajo de IA reutilizable para cumplir los estándares del sistema de diseño",
     },
     year: 2026,
     date: "2026-07-08",
@@ -74,8 +73,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "A methodology for a token-based color system: raw values → primitives → semantic roles → components",
-      // TODO(afi-redaccion): EN updated 2026-07-31, re-translate
-      es: "Una metodología para un sistema de color basado en tokens: valores en bruto → primitivos → roles semánticos → componentes, para que un cambio de marca sea un token, no una búsqueda.",
+      es: "Una metodología para un sistema de color basado en tokens: valores en bruto → primitivos → roles semánticos → componentes",
     },
     year: 2026,
     date: "2026-07-01",
@@ -95,8 +93,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "White label design system Figma plus vibe coding prototype environment for a full experience demo",
-      // TODO(afi-redaccion): EN updated 2026-07-31, re-translate
-      es: "Sistema de diseño white-label de Figma más entorno de prototipado vibe-coded, cambios de marca a través de tokens.",
+      es: "Sistema de diseño white-label en Figma más un entorno de prototipado con vibe coding para una demo de la experiencia completa",
     },
     year: 2026,
     type: "design-system",
@@ -141,8 +138,7 @@ export const WORK: WorkItem[] = [
     title: { en: "Mindfulme", es: "Mindfulme" },
     description: {
       en: "Brand identity and MVP experience for a mindfulness app that treats each person's journey as unique",
-      // TODO(afi-redaccion): EN updated 2026-07-31, re-translate
-      es: "Identidad de marca y experiencia MVP para una app de mindfulness que trata el camino de cada persona como único — nada de meditaciones en serie.",
+      es: "Identidad de marca y experiencia MVP para una app de mindfulness que trata el camino de cada persona como único",
     },
     year: 2024,
     type: "brand-ds",
@@ -161,8 +157,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "Markdown rulebook AI agents read to generate Wealth Manager UI, minimizing Figma to code drift.",
-      // TODO(afi-redaccion): EN updated 2026-07-31, re-translate
-      es: "Manual en markdown que los agentes de IA leen para generar la UI de Wealth Manager, cerrando el desfase entre Figma y código.",
+      es: "Manual en markdown que los agentes de IA leen para generar la UI de Wealth Manager, minimizando el desfase entre Figma y código.",
     },
     year: 2026,
     date: "2026-04-23",

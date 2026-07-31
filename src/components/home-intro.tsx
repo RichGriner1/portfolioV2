@@ -1,10 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
-
+import { BlurFade } from "@/components/motion/blur-fade";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
-
-const EASE = [0.2, 0.8, 0.2, 1] as const; // mirrors --ease-out-soft
 
 // Final copy from Richard (Figma: Story-architect 104:359) — do not rewrite.
 // TODO(afi-redaccion)
@@ -27,20 +24,12 @@ export function HomeIntro() {
   const { lang } = useLang();
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: EASE }}
-      className="flex max-w-xl flex-col gap-4 pt-12 sm:pt-20"
-    >
-      {pick(INTRO, lang).map((p) => (
-        <p
-          key={p.slice(0, 24)}
-          className="font-geist text-foreground leading-relaxed"
-        >
-          {p}
-        </p>
+    <section className="flex max-w-xl flex-col gap-4 pt-12 sm:pt-20">
+      {pick(INTRO, lang).map((p, i) => (
+        <BlurFade key={p.slice(0, 24)} delay={i * 0.08}>
+          <p className="font-geist text-foreground leading-relaxed">{p}</p>
+        </BlurFade>
       ))}
-    </motion.section>
+    </section>
   );
 }

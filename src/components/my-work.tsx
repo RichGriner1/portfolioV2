@@ -18,7 +18,7 @@ const PROCESSES = VISIBLE_WORK.filter((item) => item.kind !== "case-study");
 function SectionRow({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <h2 className="text-muted-foreground shrink-0 font-mono text-xs tracking-wider uppercase">
+      <h2 className="text-muted-foreground shrink-0 font-mono text-xs">
         {label}
       </h2>
       <div aria-hidden="true" className="bg-border h-px flex-1" />

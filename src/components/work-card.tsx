@@ -26,20 +26,26 @@ function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
 
   if (item.video) {
     const src = `${item.video}_${lang}_${mode}_thumb.mp4`;
+    // Same inner-panel treatment as figures: content in the middle, border
+    // around it, at the standard p-6 inset.
     return (
-      <video
-        key={src}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        ref={(el) => {
-          if (el) el.muted = true;
-        }}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+      <div className="pointer-events-none absolute inset-0 p-6">
+        <div className="bg-card border-border/60 h-full overflow-hidden rounded-2xl border">
+          <video
+            key={src}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            ref={(el) => {
+              if (el) el.muted = true;
+            }}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        </div>
+      </div>
     );
   }
   if (item.figure) {

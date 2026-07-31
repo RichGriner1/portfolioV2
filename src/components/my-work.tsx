@@ -9,9 +9,10 @@ const VISIBLE_WORK = WORK.filter((item) => !item.hidden).sort((a, b) =>
 );
 
 // Home is split into two labeled shelves (Figma: Story-architect 104:359):
-// Projects = the built work, Processes = the writing about how it was built.
-const PROJECTS = VISIBLE_WORK.filter((item) => item.type !== "writing");
-const PROCESSES = VISIBLE_WORK.filter((item) => item.type === "writing");
+// Projects = case studies; Processes = how the work gets made (writing,
+// methodology — e.g. "Building color in four layers" is a process).
+const PROJECTS = VISIBLE_WORK.filter((item) => item.kind === "case-study");
+const PROCESSES = VISIBLE_WORK.filter((item) => item.kind !== "case-study");
 
 // Section labels stay English in both languages for now. TODO(afi-redaccion)
 function SectionRow({ label }: { label: string }) {

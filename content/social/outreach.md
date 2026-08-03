@@ -4,7 +4,7 @@ Growth needs engagement, not just posting — especially for a small account. Th
 
 ## The rule
 
-**X is primary** (open reply culture, faster ROI). LinkedIn is secondary and **comment-only** — thoughtful comments on design/AI-fintech posts, no DMs (they read salesy, and Richard's boss is on LinkedIn). Full-time job → this is *professional networking*, not selling.
+**X is primary** (open reply culture, faster ROI). LinkedIn is secondary: thoughtful comments on design/AI-fintech posts, plus **warm DMs** *(rule change 2026-08-03 — was comment-only)*. A DM is fine when there's a real reason — you've already engaged with them publicly, you're citing their work, or you have a specific question only they can answer. No cold pitches, no freelance asks: a salesy DM from a small account burns the contact. DMs are private, so the boss-visibility concern lives where it always did — **public** post copy (the "no DM me / available for projects" rule in `voice.md` still holds). Full-time job → this is *professional networking*, not selling.
 
 ## The session (~1 hr, once/week)
 

@@ -26,6 +26,19 @@ Same tier logic on LinkedIn (~15 min of the hour), different moves:
 
 **What "value-add" means:** a reply that teaches or extends the point (a specific example, a counter-case, a number) — not "great post 🔥". The reply *is* the portfolio. Expert reply → profile visit → your pinned link.
 
+### The hour, minute by minute
+
+| Time | What | Where |
+|---|---|---|
+| 0:00–0:05 | Prep: open `outreach-targets.md`, start with Friday's 3–5 flagged accounts | — |
+| 0:05–0:20 | Top tier: 1–2 sharp replies / quote-tweets on *fresh* 10k+ posts (timing matters most here) | X |
+| 0:20–0:35 | Middle tier: 3–5 genuine peer replies; warm DM only if a real reason surfaced this week | X |
+| 0:35–0:45 | Bottom tier: follow / support / reply at your level | X |
+| 0:45–0:55 | LinkedIn block: 1–2 substantive comments on big posts, 1 connection request + note to a middle-tier peer | LinkedIn |
+| 0:55–1:00 | Log top/middle touches in `outreach-targets.md`; add accounts found while scrolling | — |
+
+LinkedIn is one block, not interleaved — switching registers (casual X vs. professional LinkedIn) mid-session wastes minutes.
+
 ## Conversion path
 
 engage → profile visit → pinned tweet / bio link → portfolio → (later) meeting CTA.
@@ -41,7 +54,7 @@ Claude can't browse X/LinkedIn live or confirm exact follower counts, so **tiers
 
 ## Tracking
 
-Log lightly in `outreach-targets.md`: who you engaged, when, and whether it landed (reply back / follow / profile visit). Over a few weeks the pattern shows which tier and which accounts actually convert — then weight the hour toward those.
+Log lightly in `outreach-targets.md`: who you engaged, when, and whether it landed (reply back / follow / profile visit). **Top and middle tier only, both platforms** — don't log 0–1k touches; that turns a light habit into a CRM chore. Over a few weeks the pattern shows which tier and which accounts actually convert — then weight the hour toward those.
 
 ## Weekly upkeep
 

@@ -16,6 +16,14 @@ Work the tiers top-down from the target list:
 | **1k–10k** | peers, adjacents | genuine replies; a warm DM only when there's a real reason | 3–5 | relationships + reciprocity |
 | **0–1k** | your level, emerging | follow / support / reply | rest of the hour | community that grows with you |
 
+Same tier logic on LinkedIn (~15 min of the hour), different moves:
+
+| Tier | LinkedIn move |
+|---|---|
+| **10k+** | Early, substantive comment — LinkedIn surfaces good comments to your network *and* theirs. Skip DMs here even under the warm-DM rule: big-account inboxes are flooded. |
+| **1k–10k** | Where warm DMs live: comment first → connection request with a short note referencing their work → real conversation after accept. Same "real reason" bar as X. |
+| **0–1k** | Connect freely with true peers (acceptance is high at this level), but don't spend time here — LinkedIn doesn't surface small accounts; community-building stays on X. |
+
 **What "value-add" means:** a reply that teaches or extends the point (a specific example, a counter-case, a number) — not "great post 🔥". The reply *is* the portfolio. Expert reply → profile visit → your pinned link.
 
 ## Conversion path

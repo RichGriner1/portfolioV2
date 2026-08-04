@@ -58,3 +58,9 @@ next-env.d.ts
 content/social/SCHEDULE-REVIEW.md
 content/social/LINKEDIN-REVIEW.md
 content/social/.typefully-state.json
+
+# HyperFrames build output (keep the composition source)
+videos/**/node_modules/
+videos/**/renders/
+videos/**/snapshots/
+videos/**/.hyperframes/

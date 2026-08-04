@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Visual Identity — "make it look more modern"</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ------------------------------------------------------------------
+         FONT — project-local IBM Plex Sans (variable, wght 100–700).
+         Explicit @font-face so the build never depends on an implicit
+         Google fetch (fail-closed in cloud renders, trips
+         `font_family_without_font_face`). Source: ~/Library/Fonts, frozen
+         into assets/fonts/ by the builder.
+      ------------------------------------------------------------------ */
+      @font-face {
+        font-family: "IBM Plex Sans";
+        src: url("assets/fonts/IBMPlexSans-Variable.ttf") format("truetype-variations");
+        font-weight: 100 700;
+        font-style: normal;
+        font-display: block;
+      }
+
+      /* ------------------------------------------------------------------
+         TOKENS — the six neutrals in the plan's palette. No hue anywhere.
+      ------------------------------------------------------------------ */
+      :root {
+        --bg: #ffffff;
+        --ink: #242424;
+        --primary: #343434;
+        --muted: #8e8e8e;
+        --border: #e5e5e5;
+        --fill: #f7f7f7;
+
+        /* Geometry — one grid drives type, columns and tiles. */
+        --inset: 64px;
+        --grid-step: 119px; /* 952 / 8 */
+        --pitch: 158.6667px; /* 952 / 6 — column pitch */
+        --base-y: 615px; /* MODERN baseline == tile floor */
+        --cap-y: 501px; /* MODERN cap line */
+        --col-top: 275px;
+        --col-h: 340px;
+        --hero-top: 471px; /* line-box top so the cap band lands on --cap-y */
+        --hero-size: 164px; /* sized so no glyph advance exceeds --pitch */
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        font-family: "IBM Plex Sans", sans-serif;
+        font-variant-ligatures: none;
+      }
+
+      /* ------------------------------------------------------------------
+         ROOT — square corners, no inset, no transparency, no radius.
+         The full-bleed fill lives on #bg (a child), never on the root:
+         the producer can drop a root background and render black.
+      ------------------------------------------------------------------ */
+      #stage {
+        position: relative;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+      }
+
+      #scene,
+      .layer {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1080px;
+      }
+
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        z-index: 0;
+      }
+
+      #layer-brief-out {
+        z-index: 1;
+        background: var(--bg);
+      }
+      #layer-system {
+        z-index: 2;
+        background: transparent;
+      }
+      #layer-brief-in {
+        z-index: 3;
+        background: var(--bg);
+        /* Held fully clipped for the whole piece; scene 5 wipes it open.
+           Matches the tween's from-state exactly (1500px > 1080px box). */
+        clip-path: inset(0px 1500px 0px 0px);
+      }
+      #wipe-band {
+        z-index: 4;
+      }
+
+      /* ------------------------------------------------------------------
+         MODULAR HAIRLINE GRID — 8 x 8 cells, inset 64px.
+         953px box so the closing 9th line at 952 still paints.
+      ------------------------------------------------------------------ */
+      .grid {
+        position: absolute;
+        left: var(--inset);
+        top: var(--inset);
+        width: 953px;
+        height: 953px;
+        background-image:
+          repeating-linear-gradient(
+            to right,
+            var(--border) 0 1px,
+            transparent 1px var(--grid-step)
+          ),
+          repeating-linear-gradient(
+            to bottom,
+            var(--border) 0 1px,
+            transparent 1px var(--grid-step)
+          );
+      }
+      .grid--dim {
+        opacity: 0.35;
+      }
+      #grid-bright {
+        opacity: 0;
+      }
+
+      /* ------------------------------------------------------------------
+         BRIEF — the borrowed caption-editorial-emphasis shape: a grey
+         sentence whose words are individual spans, one of which is later
+         promoted to a black hero word.
+      ------------------------------------------------------------------ */
+      .brief-holder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      .brief-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .brief-line {
+        font-size: 92px;
+        font-weight: 400;
+        line-height: 1.18;
+        letter-spacing: -0.01em;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .bw {
+        display: inline-block;
+      }
+      /* Quote glyphs: the plan asks for #e5e5e5, but at 1.26:1 that is a
+         gating WCAG failure in `hyperframes check`. #8e8e8e is the nearest
+         palette neutral that clears the 3:1 large-text threshold. */
+      .q {
+        color: var(--muted);
+      }
+
+      #modern-word,
+      #b-modern-word {
+        display: inline-block;
+        position: relative;
+      }
+
+      #underline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -14px;
+        height: 6px;
+        background: var(--ink);
+        display: block;
+      }
+
+      /* ------------------------------------------------------------------
+         SYSTEM LAYER — hero word, rules, columns, tiles, punch.
+         Every child starts hidden or collapsed; nothing here is visible
+         at t=0 or t=6.
+      ------------------------------------------------------------------ */
+      #hero-modern {
+        position: absolute;
+        left: var(--inset);
+        top: var(--hero-top);
+        width: 952px;
+        height: var(--hero-size);
+        display: flex;
+        font-size: var(--hero-size);
+        line-height: var(--hero-size);
+        font-weight: 600;
+        color: var(--ink);
+        opacity: 0;
+      }
+
+      /* Fixed-pitch cells: each letter's box centre IS its column centre.
+         That rhyme (letters -> columns -> tiles) is the whole idea, so the
+         cells win over natural tracking. */
+      .ltr {
+        flex: 0 0 var(--pitch);
+        width: var(--pitch);
+        text-align: center;
+        letter-spacing: 0;
+      }
+
+      .rule {
+        position: absolute;
+        left: 0;
+        width: 1080px;
+        height: 2px;
+        background: var(--muted);
+      }
+      #rule-cap {
+        top: 500px;
+      }
+      #rule-base {
+        top: 614px;
+      }
+
+      .col {
+        position: absolute;
+        top: var(--col-top);
+        width: 2px;
+        height: var(--col-h);
+        background: var(--border);
+      }
+      #col-1 {
+        left: 142.33px;
+      }
+      #col-2 {
+        left: 301px;
+      }
+      #col-3 {
+        left: 459.67px;
+      }
+      #col-4 {
+        left: 618.33px;
+      }
+      #col-5 {
+        left: 777px;
+      }
+      #col-6 {
+        left: 935.67px;
+      }
+
+      /* Component blocks — a bento LAYOUT that assembles in the field the
+         letters just vacated. Every block spans a whole number of the six
+         columns on a constant 24.67px gutter, so single-column blocks land
+         on exactly the six letter/column centres and wider blocks break on
+         the same gridlines. Uniform height per row with varied widths is
+         what keeps this a layout: bars need varying heights to read as
+         quantities, and nothing here has one. Band still 300px, still
+         bottoming out on --base-y (615).
+         8px radius here is the ONLY rounding in the piece. */
+      .tile {
+        position: absolute;
+        background: var(--fill);
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        opacity: 0;
+      }
+
+      /* Row A · hero panel + stacked side cards (y 315–481) */
+      #blk-a1 {
+        left: 76.33px;
+        top: 315px;
+        width: 610px;
+        height: 166px;
+      }
+      #blk-a2 {
+        left: 711px;
+        top: 315px;
+        width: 292.67px;
+        height: 73px;
+      }
+      #blk-a3 {
+        left: 711px;
+        top: 408px;
+        width: 292.67px;
+        height: 73px;
+      }
+
+      /* Row B · six single-column units occupying EXACTLY the band the six
+         letters occupied — top on --cap-y (501), bottom on --base-y (615),
+         same six left values. The letters don't just become columns, they
+         become these. Bracketed by the same two rules that measured them. */
+      .tile--unit {
+        top: var(--cap-y);
+        width: 134px;
+        height: 114px;
+      }
+      #blk-b1 {
+        left: 76.33px;
+      }
+      #blk-b2 {
+        left: 235px;
+      }
+      #blk-b3 {
+        left: 393.67px;
+      }
+      #blk-b4 {
+        left: 552.33px;
+      }
+      #blk-b5 {
+        left: 711px;
+      }
+      #blk-b6 {
+        left: 869.67px;
+      }
+
+      #punch {
+        position: absolute;
+        left: 0;
+        top: 705px;
+        width: 1080px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        font-size: 72px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--ink);
+      }
+      .pw {
+        display: inline-block;
+        opacity: 0;
+      }
+
+      /* ------------------------------------------------------------------
+         WIPE BAND — off-canvas at both t=0 (x -420) and t=6 (x 1080), so
+         the loop seam is invisible.
+      ------------------------------------------------------------------ */
+      #band {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 340px;
+        height: 1080px;
+        background: var(--ink);
+        border-left: 2px solid var(--bg);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="6"
+      data-fps="30"
+      data-width="1080"
+      data-height="1080"
+    >
+      <div id="scene" class="clip" data-start="0" data-duration="6" data-track-index="0">
+        <div id="bg"></div>
+
+        <!-- z1 · the opening frame, the one that animates -->
+        <div id="layer-brief-out" class="layer">
+          <div class="grid grid--dim"></div>
+          <div class="brief-holder">
+            <div
+              id="brief-a"
+              class="brief-block">
+              <div class="brief-line">
+                <span class="bw fw q">&ldquo;</span><span class="bw fw">make</span>
+                <span class="bw fw">it</span> <span class="bw fw">look</span>
+              </div>
+              <div class="brief-line">
+                <span class="bw fw">more</span>
+                <span id="modern-word" class="bw">modern<span id="underline"></span></span
+                ><span class="bw fw q">&rdquo;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- z2 · the system that replaces the word -->
+        <div id="layer-system" class="layer">
+          <div id="grid-bright" class="grid"></div>
+
+          <div id="rule-cap" class="rule"></div>
+          <div id="rule-base" class="rule"></div>
+
+          <div id="col-1" class="col"></div>
+          <div id="col-2" class="col"></div>
+          <div id="col-3" class="col"></div>
+          <div id="col-4" class="col"></div>
+          <div id="col-5" class="col"></div>
+          <div id="col-6" class="col"></div>
+
+          <div id="hero-modern">
+            <span class="ltr">M</span><span class="ltr">O</span><span class="ltr">D</span
+            ><span class="ltr">E</span><span class="ltr">R</span><span class="ltr">N</span>
+          </div>
+
+          <!-- DOM order == left edge, then top: the assemble stagger and the
+               fill sweep both read left-to-right straight off it. -->
+          <div id="blk-a1" class="tile"></div>
+          <div id="blk-b1" class="tile tile--unit"></div>
+          <div id="blk-b2" class="tile tile--unit"></div>
+          <div id="blk-b3" class="tile tile--unit"></div>
+          <div id="blk-b4" class="tile tile--unit"></div>
+          <div id="blk-a2" class="tile"></div>
+          <div id="blk-a3" class="tile"></div>
+          <div id="blk-b5" class="tile tile--unit"></div>
+          <div id="blk-b6" class="tile tile--unit"></div>
+
+          <div id="punch">
+            <span class="pw">RUNNING</span><span class="pw">IN</span
+            ><span id="pw-code" class="pw">CODE</span>
+          </div>
+        </div>
+
+        <!-- z3 · LOOP MECHANISM. An opaque, never-animated copy of the
+             opening frame. Scene 5 clip-reveals it, which restores the
+             exact t=0 image AND erases the system in one move — so no
+             bare tl.set() reset is needed anywhere and every tween in the
+             piece stays a pure fromTo (backward seeks stay correct). -->
+        <div id="layer-brief-in" class="layer">
+          <div class="grid grid--dim"></div>
+          <div class="brief-holder">
+            <div id="brief-b" class="brief-block">
+              <div class="brief-line">
+                <span class="bw q">&ldquo;</span><span class="bw">make</span>
+                <span class="bw">it</span> <span class="bw">look</span>
+              </div>
+              <div class="brief-line">
+                <span class="bw">more</span>
+                <span id="b-modern-word" class="bw">modern</span><span class="bw q">&rdquo;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- z4 · the wipe -->
+        <div id="wipe-band" class="layer" data-layout-allow-overflow>
+          <div id="band"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var tl = gsap.timeline({ paused: true });
+
+        /* ============================================================
+           SCENE 1 · brief  (0.00 – 1.20)
+           Static poster frame until 0.30 so the thumbnail is legible.
+           ============================================================ */
+
+        // 0.30–0.62 · underline_sweep — a fast black rule singles out "modern".
+        tl.fromTo(
+          "#underline",
+          { scaleX: 0, transformOrigin: "left center" },
+          { scaleX: 1, duration: 0.32, ease: "power3.out" },
+          0.3,
+        );
+
+        // 0.62–1.20 · hold_breath on the whole brief block.
+        tl.fromTo(
+          "#brief-a",
+          { scale: 1, transformOrigin: "50% 50%" },
+          { scale: 1.012, duration: 0.58, ease: "sine.inOut" },
+          0.62,
+        );
+
+        /* ============================================================
+           SCENE 2 · reduce  (1.20 – 2.10)
+           Two synchronised moves read as one continuous transform: the
+           grey lowercase word appears to BECOME the black uppercase one.
+           ============================================================ */
+
+        // 1.20+ · the four non-hero words + both quote glyphs blur away.
+        tl.fromTo(
+          "#brief-a .fw",
+          { opacity: 1, y: 0, filter: "blur(0px)" },
+          {
+            opacity: 0,
+            y: -14,
+            filter: "blur(10px)",
+            duration: 0.22,
+            ease: "power2.in",
+            stagger: 0.03,
+          },
+          1.2,
+        );
+
+        // 1.20–1.42 · the underline retracts the way it came in, from the right.
+        tl.fromTo(
+          "#underline",
+          { scaleX: 1, transformOrigin: "right center" },
+          { scaleX: 0, duration: 0.22, ease: "power2.in", immediateRender: false },
+          1.2,
+        );
+
+        // 1.30–1.55 · the grey word itself hands off. Plain crossfade, no blur
+        // or travel — it must read as BECOMING the hero word, not leaving.
+        // (Without this it stays lit behind MODERN and shows through the
+        // counters of the black glyphs.)
+        tl.fromTo(
+          "#modern-word",
+          { opacity: 1 },
+          { opacity: 0, duration: 0.25, ease: "power1.in" },
+          1.3,
+        );
+
+        // 1.30–2.10 · scale_punch in from the grey word's on-screen position
+        // and size (x +108, y +36, scale 0.42 measured off the brief line).
+        tl.fromTo(
+          "#hero-modern",
+          { opacity: 0, scale: 0.42, x: 108, y: 36, transformOrigin: "50% 50%" },
+          { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.8, ease: "back.out(1.3)" },
+          1.3,
+        );
+
+        /* ============================================================
+           SCENE 3 · define  (2.10 – 3.30)
+           The word gets pinned to a grid and given a definition.
+           ============================================================ */
+
+        // 2.10–2.42 · the system surfaces.
+        tl.fromTo("#grid-bright", { opacity: 0 }, { opacity: 1, duration: 0.32, ease: "power2.out" }, 2.1);
+
+        // 2.22–2.70 · cap-height rule, then baseline rule, draw the full width.
+        tl.fromTo(
+          ["#rule-cap", "#rule-base"],
+          { scaleX: 0, transformOrigin: "left center" },
+          { scaleX: 1, duration: 0.42, ease: "power3.out", stagger: 0.08 },
+          2.22,
+        );
+
+        // 2.55–3.05 · six columns snap up behind the six letters.
+        tl.fromTo(
+          ".col",
+          { scaleY: 0, transformOrigin: "50% 100%" },
+          { scaleY: 1, duration: 0.34, ease: "power3.out", stagger: 0.045 },
+          2.55,
+        );
+
+        // 2.85–3.25 · each letter micro-settles onto its column.
+        var LTR_OFFSET = [-7, 5, -4, 6, -5, 7];
+        tl.fromTo(
+          ".ltr",
+          {
+            x: function (i) {
+              return LTR_OFFSET[i];
+            },
+          },
+          { x: 0, duration: 0.3, ease: "power2.out", stagger: 0.03 },
+          2.85,
+        );
+
+        /* ============================================================
+           SCENE 4 · system  (3.30 – 4.90)
+           The pattern-interrupt: the word leaves, the scaffold stays,
+           a working system stands in its place.
+           ============================================================ */
+
+        // 3.30–3.58 · the letters exit; rules and columns visibly outlive them.
+        tl.fromTo(
+          ".ltr",
+          { opacity: 1, y: 0, filter: "blur(0px)" },
+          {
+            opacity: 0,
+            y: 18,
+            filter: "blur(6px)",
+            duration: 0.22,
+            ease: "power2.in",
+            stagger: 0.025,
+            immediateRender: false,
+          },
+          3.3,
+        );
+
+        // 3.45–4.17 · the nine blocks snap into place on the grid. They pop in
+        // from their own centres rather than growing off a shared baseline —
+        // growth off one floor is exactly the gesture that reads as bars.
+        tl.fromTo(
+          ".tile",
+          { opacity: 0, scale: 0.9, transformOrigin: "50% 50%" },
+          { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.2)", stagger: 0.04 },
+          3.45,
+        );
+
+        // 4.05–4.61 · the fill sweep — the layout lights up left to right.
+        // This is the beat that says the system RUNS.
+        tl.fromTo(
+          ".tile",
+          { backgroundColor: "#f7f7f7", borderColor: "#e5e5e5" },
+          {
+            backgroundColor: "#343434",
+            borderColor: "#343434",
+            duration: 0.2,
+            ease: "power2.out",
+            stagger: 0.045,
+            immediateRender: false,
+          },
+          4.05,
+        );
+
+        // 4.30–4.66 · word_reveal on RUNNING IN CODE, resolving under the
+        // sweep. Pulled earlier and tightened so CODE is fully solid well
+        // before the frame settles — on the old 4.40/0.07/0.40 timing it was
+        // still only ~39% faded in at 4.6s, which read as a grey punchline.
+        tl.fromTo(
+          ".pw",
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.28, ease: "power3.out", stagger: 0.04 },
+          4.3,
+        );
+
+        // 4.90 beat · CODE takes a finite scale_pulse and returns to rest.
+        tl.fromTo(
+          "#pw-code",
+          { scale: 1, transformOrigin: "50% 50%" },
+          {
+            scale: 1.05,
+            duration: 0.1,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: 1,
+            immediateRender: false,
+          },
+          4.9,
+        );
+
+        /* ============================================================
+           SCENE 5 · loop-close  (4.90 – 6.00)
+           One hard wipe. Same window, same ease, so the clip edge tracks
+           the band's trailing edge exactly:
+             band left edge  = -420 + 1500p
+             clip right inset = 1500 - 1500p   ->  1080 - bandLeft
+           The band appears to wipe the system away and lay the original
+           brief back down behind itself. 5.80–6.00 is completely static.
+           ============================================================ */
+        tl.fromTo("#band", { x: -420 }, { x: 1080, duration: 0.9, ease: "power2.inOut" }, 4.9);
+
+        tl.fromTo(
+          "#layer-brief-in",
+          { clipPath: "inset(0px 1500px 0px 0px)" },
+          { clipPath: "inset(0px 0px 0px 0px)", duration: 0.9, ease: "power2.inOut" },
+          4.9,
+        );
+
+        // Pin the timeline to the composition's full duration.
+        tl.to({}, { duration: 6 }, 0);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+{
+  "category": "kinetic-type",
+  "duration_s": 6,
+  "fps": 30,
+  "canvas": { "w": 1080, "h": 1080, "aspect": "1:1" },
+  "style": "Editorial design-system specimen. Swiss/grid, achromatic, high-contrast, zero ornament — the frame behaves like a type spec sheet coming alive. Energy is measured and deliberate, not bouncy: things SNAP into alignment rather than bounce. The dominant motif is a single rhyme — the six letters of MODERN become six grid columns become six component tiles. Full-bleed opaque white canvas, SQUARE CORNERS, no inset, no rounded composition edges, no drop shadow on the root (the website rounds the tile in CSS; mp4 has no alpha so any baked rounding renders as black wedges). Rounded corners are permitted ONLY on the small component tiles inside the frame (8px). No hue anywhere — strictly the six neutrals in `palette`. Legibility target: readable at 350px, so max 5 short words on screen at once and cap heights never below ~72px at 1080. No logos, no audio, no narration.",
+  "palette": ["#ffffff", "#242424", "#343434", "#8e8e8e", "#e5e5e5", "#f7f7f7"],
+  "font": "IBM Plex Sans",
+  "beats": [0.3, 1.3, 2.1, 3.45, 4.4, 4.9],
+  "export": "mp4",
+
+  "asset_needs": [],
+
+  "block": "caption-editorial-emphasis",
+  "customize": {
+    "scope": "Use the block ONLY as the source for scenes 1-2 (a grey sentence demotes to nothing while one word is promoted to a black hero word). Scenes 3-5 are gaps no caption-* block covers — hand-author them per `scenes[].motion` below. Blocks ship at fixed canvases; adapt to 1080x1080.",
+    "font": "IBM Plex Sans",
+    "palette": {
+      "bg": "#ffffff",
+      "ink": "#242424",
+      "primary": "#343434",
+      "muted": "#8e8e8e",
+      "border": "#e5e5e5",
+      "fill": "#f7f7f7"
+    },
+
+    "font_resolution": "IBM Plex Sans is NOT in the 18 pre-bundled families (only IBM Plex Mono is), but it IS a real Google font AND it is installed locally at ~/Library/Fonts/IBMPlexSans-VariableFont_wdth,wght.ttf — so a local render embeds it. Declare an explicit @font-face pointing at a project-local copy (weights 400 and 600) so the build never depends on the implicit Google fetch (which is fail-closed in cloud renders and trips `font_family_without_font_face`). Choosing this typeface is literally part of the case study, so do not substitute silently. Only if it cannot be embedded: fall back to Montserrat (bundled, not on the banned list) and say so.",
+
+    "root": "Rewrite index.html for 1:1: `<meta name=\"viewport\" content=\"width=1080, height=1080\">`, `html,body { width:1080px; height:1080px; background:#ffffff }`, root `data-composition-id=\"main\" data-start=\"0\" data-duration=\"6\" data-width=\"1080\" data-height=\"1080\"`. One full-duration `.clip` wrapping everything.",
+
+    "layers": [
+      {
+        "id": "layer-brief-out",
+        "z": 1,
+        "contents": "Full-bleed #ffffff. Modular hairline grid (1px #e5e5e5, 8 cols x 8 rows, inset 64px) at opacity 0.35. Brief text `#brief-a`: two centred lines, “make it look” / “more modern”, curly quotes, IBM Plex Sans 400, 92px, line-height 1.18, letter-spacing -0.01em, colour #8e8e8e, quote glyphs #e5e5e5. Under the word “modern” only: `#underline`, a 6px #242424 rule, scaleX 0, transformOrigin left center.",
+        "note": "Words are individual spans so they can stagger."
+      },
+      {
+        "id": "layer-system",
+        "z": 2,
+        "contents": "Transparent. Holds `#grid-bright` (same grid geometry, #e5e5e5 at opacity 1, starts opacity 0), `#hero-modern` (the word MODERN, uppercase, IBM Plex Sans 600, 208px, letter-spacing -0.02em, colour #242424, centred, six letters as individual spans `.ltr`), `#rule-cap` + `#rule-base` (2px #8e8e8e, full 1080 width, at MODERN's cap-height and baseline), `#col-1..6` (2px #e5e5e5 verticals, one centred behind each letter, spanning the type band), `#tile-1..6` (the component tiles) and `#punch` (RUNNING IN CODE).",
+        "note": "All children start hidden/collapsed; nothing here is visible at t=0 or t=6."
+      },
+      {
+        "id": "layer-brief-in",
+        "z": 3,
+        "contents": "A byte-identical copy of layer-brief-out (opaque #ffffff background, grid at 0.35, `#brief-b` grey brief text at opacity 1, no underline). Held at `clip-path: inset(0 100% 0 0)` for the whole piece and clip-revealed left-to-right in scene 5.",
+        "note": "THIS IS THE LOOP MECHANISM. A second, never-animated copy of the opening frame means scene 5 restores the exact t=0 image without any bare `tl.set()` reset — every tween in the piece stays a pure fromTo, so backward seeks re-render correctly. Because this layer is opaque and sits above layer-system, revealing it also erases the system; do NOT separately clip or fade layer-system away."
+      },
+      {
+        "id": "wipe-band",
+        "z": 4,
+        "contents": "`#band`: 340px wide, 1080px tall, solid #242424, with a 2px #ffffff strip on its LEFT (leading) edge. Positioned absolutely, x starts at -420 (fully off-canvas left).",
+        "note": "Off-canvas at both t=0 (x=-420) and t=6 (x=1120), so the seam is invisible."
+      }
+    ],
+
+    "tiles": {
+      "columns": "Six columns, canvas inset 64px each side -> 952px / 6 = 158.7px pitch. Tile width 134px, gutter 24.7px. Column centres are the same x as the six MODERN letter centres — this rhyme is the whole idea, so letter tracking must be set so the letters land on these centres.",
+      "heights_fraction_of_band": [0.55, 0.85, 0.4, 1.0, 0.62, 0.78],
+      "band_height_px": 300,
+      "anchor": "All tiles sit ON `#rule-base` (grow upward from it).",
+      "resting_style": "background #f7f7f7, 2px solid #e5e5e5 border, border-radius 8px",
+      "filled_style": "background #343434, border 2px solid #343434",
+      "no_inner_content": "Deliberately empty. Inner bars/labels mush at 350px — the fill sweep is the only detail."
+    },
+
+    "loop_contract": "t=6.000 must be pixel-identical to t=0.000. At both: white field, grid at 0.35 opacity, grey two-line brief at full opacity and zero transform, band off-canvas, every layer-system child hidden/collapsed. Additionally there is a STATIC WINDOW on both sides of the seam — nothing animates in 0.00-0.30 or 5.80-6.00 — so even easing residue cannot produce a visible hitch. Verify by diffing snapshots at 0.000 and 5.999.",
+
+    "seek_safety": "Single paused GSAP timeline on `window.__timelines['main']`, `tl.seek(0)` after build. Only fromTo tweens on interpolable properties (opacity, scale, scaleX/scaleY, x, y, clip-path inset, filter blur, background-color). `autoAlpha` only on inner non-clip elements. No bare `tl.set()` anywhere — the duplicated brief layer exists precisely so none is needed."
+  },
+
+  "content": {
+    "block": "caption-editorial-emphasis",
+    "scenes": [
+      {
+        "id": "brief",
+        "start": 0.0,
+        "end": 1.2,
+        "text": "“make it look more modern”",
+        "emphasis_words": ["modern"],
+        "emotion": "vague, second-hand, slightly dismissive — someone else's sentence",
+        "motion": "Static poster frame at t=0 so the thumbnail is legible before any motion (hook is instant). 0.00-0.30 hold. 0.30-0.62 `underline_sweep`: `#underline` fromTo scaleX 0 -> 1, transformOrigin left center, ease power3.out, dur 0.32 — a fast black rule draws under the single word `modern`, singling it out. 0.62-1.20 `hold_breath` on the whole `#brief-a` block, scale 1 -> 1.012, ease sine.inOut.",
+        "beats": [0.3]
+      },
+      {
+        "id": "reduce",
+        "start": 1.2,
+        "end": 2.1,
+        "text": "MODERN",
+        "emphasis_words": ["MODERN"],
+        "emotion": "decisive — the brief collapses to the one word nobody had defined",
+        "motion": "Two synchronised moves read as one continuous transform. (a) 1.20-1.50 the four non-hero words + both quote glyphs `fade_blur` OUT: fromTo -> opacity 0, filter blur(10px), y -14, stagger 0.05, ease power2.in; `#underline` fromTo scaleX 1 -> 0 with transformOrigin RIGHT center, dur 0.22. (b) 1.30-2.10 `#hero-modern` `scale_punch` in from the grey word's on-screen position and size: fromTo { opacity 0, scale 0.42, x/y = brief-word centre delta } -> { opacity 1, scale 1, x 0, y 0 }, ease back.out(1.3), dur 0.80. The crossfade overlap (1.30-1.50) makes the grey lowercase word appear to BECOME the black uppercase one. Do not swap text-transform mid-tween — these are two separate elements.",
+        "beats": [1.3]
+      },
+      {
+        "id": "define",
+        "start": 2.1,
+        "end": 3.3,
+        "text": "MODERN",
+        "emphasis_words": ["MODERN"],
+        "emotion": "clinical, measured — the word gets pinned to a grid and given a definition",
+        "motion": "2.10-2.42 `#grid-bright` fromTo opacity 0 -> 1, ease power2.out (the system surfaces). 2.22-2.70 `#rule-cap` then `#rule-base` draw across the full 1080 width: fromTo scaleX 0 -> 1, transformOrigin left center, stagger 0.08, dur 0.42, ease power3.out. 2.55-3.05 `#col-1..6` snap up behind the six letters: fromTo scaleY 0 -> 1, transformOrigin bottom, stagger 0.045, dur 0.34, ease power3.out. 2.85-3.25 each `.ltr` micro-settles onto its column: fromTo x -> 0 from an offset of [-7,+5,-4,+6,-5,+7]px, stagger 0.03, dur 0.30, ease power2.out. Subtle, but the eye reads it as snapping to grid.",
+        "beats": [2.1, 2.55]
+      },
+      {
+        "id": "system",
+        "start": 3.3,
+        "end": 4.9,
+        "text": "RUNNING IN CODE",
+        "emphasis_words": ["CODE"],
+        "emotion": "payoff — the word is gone and a working system stands in its place",
+        "motion": "This is the pattern-interrupt and the strongest frame of the piece. 3.30-3.58 the six `.ltr` letters exit: fromTo -> opacity 0, y +18, filter blur(6px), stagger 0.035, ease power2.in — rules and columns STAY, so the scaffold visibly outlives the word. 3.45-4.15 `#tile-1..6` grow up out of `#rule-base` inside their columns: fromTo scaleY 0 -> 1, transformOrigin bottom, stagger 0.055, dur 0.46, ease back.out(1.4); staggered varying heights read as a layout, not a bar chart. 4.05-4.58 the FILL SWEEP: each tile's background-color goes #f7f7f7 -> #343434 (and border to #343434) in sequence, stagger 0.06, dur 0.20, ease power2.out — the row lights up left to right; this is the micro-interaction beat that says the system RUNS. 4.40-4.90 `#punch` enters below the tile row, `word_reveal`: per word fromTo { opacity 0, y 22 } -> { opacity 1, y 0 }, stagger 0.07, dur 0.40, ease power3.out. Type: uppercase, IBM Plex Sans 600, 72px, letter-spacing 0.06em, #242424; the word CODE may carry a 0.10s `scale_pulse` to 1.05 on the 4.9 beat.",
+        "beats": [3.45, 4.05, 4.4, 4.9]
+      },
+      {
+        "id": "loop-close",
+        "start": 4.9,
+        "end": 6.0,
+        "text": "“make it look more modern”",
+        "emotion": "a clean deliberate reset — a spec-sheet page turn, not a rewind",
+        "motion": "A single hard wipe closes the cycle. 4.90-5.80 `#band` fromTo x -420 -> 1120, ease power2.inOut, dur 0.90 (velocity ~0 at both ends, so no snap at entry or exit). Driven by the SAME tween position, `#layer-brief-in` clip-path goes inset(0 100% 0 0) -> inset(0 0 0 0) so its trailing edge tracks the band's trailing edge exactly — the band appears to wipe the system away and lay the original brief back down behind itself. Because layer-brief-in is opaque and sits above layer-system, nothing else needs to be faded or reset. 5.80-6.00 completely static: the band is off-canvas right, the frame is identical to t=0, and the loop hands off invisibly.",
+        "beats": [4.9]
+      }
+    ]
+  }
+}

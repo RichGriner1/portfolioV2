@@ -12,7 +12,15 @@ export const dynamicParams = false;
 
 export function generateStaticParams() {
   return WORK.filter(
-    (item) => item.kind !== "lab" && item.kind !== "methodology" && !item.hidden
+    (item) =>
+      item.kind !== "lab" &&
+      item.kind !== "methodology" &&
+      !item.hidden &&
+      // "visual-identity" has its own static route at src/app/work/visual-identity/
+      // — the literal segment wins over [slug] regardless of dynamicParams, but
+      // including it here too would make the build try to statically render the
+      // same URL from both routes and fail.
+      item.slug !== "visual-identity"
   ).map((item) => ({ slug: item.slug }));
 }
 

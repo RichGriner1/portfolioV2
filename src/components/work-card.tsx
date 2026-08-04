@@ -88,12 +88,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
   const aspect = "aspect-square";
 
   return (
-    <BlurFade
-      inView
-      inViewMargin="-60px"
-      delay={Math.min(index, 8) * 0.06}
-      className="mb-6 break-inside-avoid"
-    >
+    <BlurFade inView inViewMargin="-60px" delay={Math.min(index, 8) * 0.06}>
       <Link href={item.href} className="group block">
         {/* Media tile */}
         <div

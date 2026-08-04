@@ -436,6 +436,46 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
     ],
   },
+  "visual-identity": {
+    tagline: {
+      en: "Turning a brief into an identity",
+      // TODO(afi-redaccion)
+      es: "Convertir un encargo en una identidad",
+    },
+    intro: {
+      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign started with a one-line brief: make it look more modern. The real problem sat underneath that sentence: the product ran on static Figma screens, clients lost the thread mid-presentation, and developers built screen by screen with no shared definition of what 'modern' even meant. Before opening Figma, Miguel, my design partner on this project, and I wrote the brand strategy first: a six-field positioning brief, a universal truth ('big decisions deserve a rehearsal'), and five personas that the demos model with real numbers. From there: a shared definition of modern, two rounds of moodboarding, and nine design principles the team could finally cite in review. What started as one line is now a token vocabulary, a typeface, and a bento layout system running in the live product.",
+      // TODO(afi-redaccion)
+      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 empezó con un encargo de una línea: que parezca más moderno. El problema de fondo estaba debajo de esa frase: el producto funcionaba sobre pantallas estáticas de Figma, los clientes perdían el hilo durante las presentaciones y los desarrolladores construían pantalla a pantalla sin una definición compartida de qué significaba «moderno». Antes de abrir Figma, Miguel, mi compañero de diseño en este proyecto, y yo escribimos primero la estrategia de marca: un brief de posicionamiento con seis campos, una verdad universal («las grandes decisiones merecen un ensayo») y cinco personas que las demos modelan con cifras reales. A partir de ahí: una definición compartida de moderno, dos rondas de moodboards y nueve principios de diseño que el equipo por fin podía citar en cada revisión. Lo que empezó como una línea es hoy un vocabulario de tokens, una tipografía y un sistema de layout en bento que corre en el producto en vivo.",
+    },
+    role: {
+      en: "Brand & Visual Identity Lead",
+      // TODO(afi-redaccion)
+      es: "Líder de marca e identidad visual",
+    },
+    contributions: {
+      en: [
+        "Brand strategy",
+        "Persona definition",
+        "Design principles",
+        "Typography & tokens",
+        "Micro-interaction design",
+        "Layout & charts",
+      ],
+      // TODO(afi-redaccion)
+      es: [
+        "Estrategia de marca",
+        "Definición de personas",
+        "Principios de diseño",
+        "Tipografía y tokens",
+        "Diseño de microinteracciones",
+        "Layout y gráficas",
+      ],
+    },
+    // The visual-identity page is a full mirrored article (src/app/work/visual-identity/),
+    // not the bento template — it reads tagline/intro/role/contributions from this entry
+    // and renders its own sections, so there are no bento cards here.
+    bento: [],
+  },
   "story-architect": {
     tagline: {
       en: "Agency-quality design for a two-person brand consultancy",

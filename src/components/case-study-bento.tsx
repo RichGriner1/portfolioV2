@@ -96,15 +96,15 @@ function LayersAnimation({ active }: AnimationProps) {
                 transition={{ duration: 0.4, ease: EASE }}
               >
                 {isButton ? (
-                  <motion.button
-                    type="button"
-                    tabIndex={-1}
-                    className="bg-primary text-primary-foreground rounded-md px-2 py-1 font-mono text-[10px] font-medium"
+                  // Decorative button mock, not interactive — a <span> so it can
+                  // legally render inside the bento card, which is itself a <button>.
+                  <motion.span
+                    className="bg-primary text-primary-foreground inline-block rounded-md px-2 py-1 font-mono text-[10px] font-medium"
                     animate={{ scale: isActive ? 1.06 : 1 }}
                     transition={{ duration: 0.35, ease: EASE }}
                   >
                     {token.label}
-                  </motion.button>
+                  </motion.span>
                 ) : (
                   <>
                     <div className="flex h-5 w-5 items-center justify-center">

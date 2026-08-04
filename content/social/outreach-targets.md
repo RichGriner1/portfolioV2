@@ -19,6 +19,7 @@ Living list for the weekly outreach session (see [`outreach.md`](outreach.md)). 
 | Granola | `(verify)` | 1k–10k | Your capture tool; the workflow posts are relevant to them | — |
 | Wispr Flow | `(verify)` | 1k–10k | Your voice-capture tool; ties to the AI-workflow posts | — |
 | Anthropic / Claude | `@AnthropicAI` | 10k+ | You build with Claude Code; workflow content overlaps their audience | — |
+| Zayn Hao | `@ZaynHao` | 10k+ (17k, confirmed) | Design/motion curation — recommends components (Antalik's beam/orbs); your motion-usability lane | 8/4 replied to motion-components rec (visuals-vs-usable + reduced-motion q) — watch for reply back |
 
 ## Suggested from the space (design systems / AI / fintech)
 

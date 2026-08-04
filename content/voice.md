@@ -26,6 +26,8 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 
 **Process / build-in-public posts are not exempt.** "Here's my workflow" is not automatically valuable. The value is the *transferable* part — the principle, the trade-off, the thing that broke and what it taught. A workflow tour with no extractable lesson fails the bar even when every sentence sounds like Richard.
 
+**Sentence level: every claim names something that exists.** The bar above is post-level — it catches a piece with no point. It does not catch a hollow *sentence* inside a good piece, because that sentence breaks no rule. *"Take someone from a first input to a finished plan"* has no banned phrase, no dash, no AI-tell, and says nothing. The tell is reaching for a **shape** when there's no **fact** to hand: balanced clauses, an A-to-B arc, abstraction dressed as specifics. Get the concrete first — the token inspector, `design.md`, five personas, 20 qualified leads — then write. If a sentence can't name a thing that exists, cut it rather than smooth it. (Added 2026-08-04, after Richard clocked exactly this in copy that passed every other rule in this file.)
+
 **Ownership.** The drafting agent (`syndicator`, `editor`) must clear this bar *before* writing — pick the takeaway first, draft second. `post-reviewer` enforces it as a ship-blocker, same weight as a weak hook. `voice-keeper` checks tone, not substance: a post can pass voice-keeper and still fail here.
 
 **Formats** — the reusable *shape* of a post — live in the content-os system at [content-os/05-content-production/tweet-frameworks.md](content-os/05-content-production/tweet-frameworks.md) (and the templates beside it). A format decides structure; it never overrides this bar or the voice rules below.
@@ -33,6 +35,31 @@ When a post fails the bar, the fix is almost never *more words*. It's finding th
 > **Canonical:** this file (`content/voice.md`) is THE voice rulebook the agents read. The [content-os/02-voice-guide/](content-os/02-voice-guide/) doc is the expanded, example-backed **reference** (screenshots, provenance tags, frameworks) — useful for learning the voice, but if the two ever disagree, **this file wins.** Reconciled 2026-07-02.
 
 > **The layer above:** [brand-guide.md](brand-guide.md) is what the brand *is* — positioning, the universal truth ("anything you don't decide gets decided for you"), five personality traits (each with a test), six values. This file is how that brand *sounds*. Writers read both. The universal truth is the deep structure of content: each piece proves it with a new concrete; never repeat it as a slogan.
+
+---
+
+## Style north stars — Matt Gray + Seth Godin
+
+Two writers calibrate the register. Neither is a template; they're the poles the writing sits between. (Added 2026-07-10 after a batch of syndicated posts passed every gate and still read as superficial AI copy.)
+
+- **Matt Gray — the lesson is actionable.** His posts are systems: here's the exact thing I do, here's why it works, take it. What to take: the generosity of real specifics (actual steps, actual numbers), teaching directly instead of hinting, the reader leaves with something to *do*. What to leave: the hustle framing, the volume, the emoji scaffolding.
+- **Seth Godin — the lesson is a shift in seeing.** One idea per post. Short, plain, zero hype. A small concrete observation opens onto a principle bigger than the example, and the last line changes how the reader looks at their own work. What to take: the one-idea discipline, the generalizable turn, respect for the reader's time. Where Richard differs: Godin can float abstract; Richard keeps the fintech/design-system concrete attached all the way through.
+
+**Every post is a lesson.** Not an observation, not a status update, not a flex about Richard's situation. Before drafting, the writer must answer: *what does the reader know how to do, or see differently, after this?* If the answer is "they know something about Richard's project," the post isn't ready. The hook promises the lesson; the body earns it; the kicker generalizes it.
+
+**Anti-example (real, killed in review 2026-07-10):**
+
+> "Every fintech tool I audit wants to look like Shopify. Mine can't, and the reason isn't taste."
+
+Why it fails, in order: it performs a practice that isn't real ("I audit" — he designs, he doesn't run audits); it teases ("the reason isn't taste") instead of teaching; and it's about *his* tool, with nothing yet for the reader. It's a hook-shaped sentence with no lesson behind it — superficial, AI-cadenced, and on a first read it doesn't quite make sense. The fix is never to sharpen the tease. It's to lead with the lesson: what should the reader stop copying, start asking, or decide differently?
+
+**The lesson test (apply to the hook alone):** can a stranger say in one sentence what they're about to learn? If the hook only tells them what happened to Richard, rewrite it.
+
+**The reader (calibrate every line against this person).** A tech, design-Twitter, or dev reader who cares about tooling and systems. They already know what a design token, a component, a handoff, and a codebase are, so you don't define the fundamentals; stopping to explain them reads as condescending. Do still gloss a genuinely niche term (a specific PrimeNG API, an OKLCH detail) in the same breath. The bar is clarity, not simplicity: the lesson still can't hide inside vocabulary or a clever construction, but you can assume a working practitioner's baseline. (Updated 2026-07-15: target audience confirmed as the technical reader, superseding the earlier non-technical-founder definition. Now consistent with the Twitter/X audience note below, which always said the same thing.)
+
+**Clear beats clever.** When a line can either sound sharp or be understood, be understood. The round-2 failure mode was compression posing as insight: turns the reader had to decode, contrasts that only make sense if you already know the domain. Tests: read the line aloud to the reader above — do they nod, or squint? Does the sentence survive being said plainly, without the construction? If a tweet needs a second read, it's not a good tweet, it's a puzzle. Plain statement of a true thing beats a clever arrangement of it, every time.
+
+**Lead positive.** The brand is a builder showing what works, not a critic listing what's wrong. Hooks and openers point at the opportunity or the move ("spend your polish where it earns the most") rather than the prohibition ("stop trying to make X exciting") or the put-down ("your screens are boring"). Naming a problem is fine — that's half of teaching — but get to the constructive turn fast, and end on what the reader can do, not on what's broken. This doesn't soften the `breakdown` pillar's "critic, not cynic" stance; it tunes the default emotional register everywhere: optimistic, generous, forward-looking. (Added 2026-07-10 — a draft opened on "stop trying" + "some screens just aren't the fun part," which reads more negative than the brand wants.)
 
 ---
 
@@ -232,7 +259,8 @@ These show up in his actual writing. Don't paste them verbatim, but recognize th
 
 - **Audience:** tech, design-Twitter, devs who care about tooling. More opinionated than LinkedIn. Hard CTAs are fair game.
 - **Hook tweet:** the first ~7 words decide whether anyone scrolls. Open with the surprising claim, the pointed question, or the concrete number. *"I built a design system rulebook for an AI to read. Here's what worked and what didn't:"*
-- **Prefer the single list post over the thread.** Threads don't move the needle — a hook-colon → 3–5 item list → kicker (see [formats.md](content-os/05-content-production/)) packs a thread's worth into one scannable tweet. Reserve threads for when the idea genuinely needs the steps drawn out.
+- **Mix formats and lengths on purpose.** A batch where every tweet runs the same length and shape reads as templated, even when each one is fine alone (2026-07-10 feedback: "it's too uniform"). Within one file and across a batch: some tweets should be a single short line, some should run close to the limit, and the shapes should differ (a plain statement, a list, a two-beat setup/payoff). Uniformity is the tell.
+- **Threads earn their place on process content.** "Here's what I did, step by step" is what a thread is for — adopt it freely for `process/` material and anything where the steps carry the value. For a single opinion or observation, the single list post (hook-colon → 3–5 items → kicker, see [formats.md](content-os/05-content-production/)) still beats a padded thread.
 - **Thread length (when you do thread):** 5–9 tweets. Fewer if the idea fits.
 - **Per tweet:** one beat — one observation, one number, one move. Don't pack two ideas into one tweet.
 - **Format:** line breaks, not numbered lists. The thread structure is implicit; numbering ("1/", "2/") is fine if it's the thread style he prefers, but don't enforce it.

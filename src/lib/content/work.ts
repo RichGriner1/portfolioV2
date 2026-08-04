@@ -105,6 +105,28 @@ export const WORK: WorkItem[] = [
     ongoing: true,
   },
   {
+    slug: "visual-identity",
+    title: {
+      en: "Afi Visual Identity",
+      // TODO(afi-redaccion)
+      es: "Identidad visual de Afi",
+    },
+    description: {
+      en: "Brand strategy, five personas, and a shared definition of modern: the design judgment behind Afi Wealth Planner's visual identity, before a single token got picked.",
+      // TODO(afi-redaccion)
+      es: "Estrategia de marca, cinco personas y una definición compartida de moderno: el criterio de diseño detrás de la identidad visual del Wealth Planner de Afi, antes de elegir un solo token.",
+    },
+    year: 2026,
+    type: "brand-ds",
+    kind: "case-study",
+    href: "/work/visual-identity",
+    // Thumbnail mirrors the `proceso` thumb on Coherence's blog landing.
+    figure: "visual-identity-process",
+    bento: "square",
+    featured: true,
+    ongoing: true,
+  },
+  {
     slug: "kt360",
     title: { en: "KnowThyself360", es: "KnowThyself360" },
     description: {
@@ -147,6 +169,7 @@ export const WORK: WorkItem[] = [
     glyph: "mindfulme",
     bento: "square",
     bgColor: "#e6f5f6",
+    featured: true,
   },
   {
     slug: "design-md-primeng-wealth-manager",

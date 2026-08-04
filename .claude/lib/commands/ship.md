@@ -15,7 +15,7 @@ Ship = get the current task's work onto the default branch, pushed, with local i
 
 ## Hard rules
 1. **Commit only the task's files.** The working tree may hold unrelated dirty files (drafts, local notes, other work-in-progress). Commit what this session's task actually touched — nothing else. When unsure whether a dirty file belongs to the task, leave it out and mention it in the report. Never `git add -A` / `git add .`.
-2. **Check for repo-specific remote rules before pushing.** Read the project's CLAUDE.md/AGENTS.md and recalled memories: some repos push to multiple remotes or forbid one (e.g. Coherence pushes to `github` AND `origin-afi`, never `origin`). Default is the branch's upstream, else `origin`.
+2. **Remote policy comes from the repo you are standing in — never from another project.** Read THIS project's CLAUDE.md/AGENTS.md for push rules before pushing: work repos may push to multiple remotes or forbid one; personal repos usually just use `origin`. If the project documents nothing, default to the branch's upstream, else `origin`. Never carry one repo's remote rules into another (personal vs company repos especially).
 3. **Fetch before deciding anything.** A stale local default branch produces work built on a deleted design. `git fetch --all --prune` first, always.
 4. **Never force-push. Never delete a branch that isn't fully merged.** If `-d` refuses, stop and report — don't escalate to `-D`.
 5. **Report the true end state.** If a step was already done (nothing to commit, branch already gone, already in sync), say exactly that instead of inventing work.

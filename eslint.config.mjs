@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // HyperFrames motion projects — self-contained node projects with their
+    // own tooling; they are authoring sources, not app code.
+    "videos/**",
   ]),
 ]);
 

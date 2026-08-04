@@ -5,3 +5,6 @@ package-lock.json
 *.md
 content/journal
 src/components/motion/glyphs/*.lottie.json
+
+# HyperFrames motion projects (own tooling)
+videos

@@ -58,9 +58,12 @@ const CV: {
       },
       company: "Independent",
       period: { en: "2022 — present", es: "2022 — actualidad" },
+      // Story Architect was removed 2026-08-05: it was cited here as delivered
+      // work, but the site never shipped and its URL 404s. Don't re-add it
+      // without a live link.
       description: {
-        en: "Visual strategy, design systems, and AI-assisted development for startups and small businesses. Projects include KT360 (brand identity + AI-powered team environment) and Story Architect (visual strategy + AI-built website).",
-        es: "Estrategia visual, sistemas de diseño y desarrollo asistido por IA para startups y pequeñas empresas. Los proyectos incluyen KT360 (identidad de marca + entorno de equipo impulsado por IA) y Story Architect (estrategia visual + web construida con IA).",
+        en: "Visual strategy, design systems, and AI-assisted development for startups and small businesses. Projects include KT360 (brand identity + AI-powered team environment).",
+        es: "Estrategia visual, sistemas de diseño y desarrollo asistido por IA para startups y pequeñas empresas. Los proyectos incluyen KT360 (identidad de marca + entorno de equipo impulsado por IA).",
       },
     },
   ],
@@ -85,7 +88,7 @@ const CV: {
         es: "Máster en UX y diseño de servicios",
       },
       school: "IED Madrid",
-      year: "2022",
+      year: "2021",
     },
     {
       degree: {
@@ -93,7 +96,7 @@ const CV: {
         es: "Grado en Antropología",
       },
       school: "University of Maryland, College Park",
-      year: "2020",
+      year: "2016",
     },
   ],
 };

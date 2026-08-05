@@ -89,7 +89,7 @@ export const UI = {
     en: "Richard Griner Design Portfolio",
     es: "Portfolio de diseño de Richard Griner",
   },
-  "nav.resources": { en: "Resources", es: "Recursos" },
+  "nav.socials": { en: "Socials", es: "Redes sociales" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },
   "kind.case_study": { en: "Case study", es: "Caso de estudio" },

@@ -211,7 +211,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Display font — filled by Roboto Flex (see layout.tsx), which sets this
+  /* Display font — Geist (see layout.tsx). Was Roboto Flex, which set this
      custom property on <html> via next/font's `variable` option. No fallback
      is declared here on purpose: a same-specificity :root rule would race
      the next/font-generated rule on cascade order (both resolve to 0-1-0
@@ -224,7 +224,11 @@
      font-weight utilities (font-bold/font-extrabold). This value never
      animates: a font-stretch tween re-wraps balanced multi-line headlines
      mid-flight (verified on the hero intro, then removed). */
-  --font-display-width: 125%;
+  /* 100%, not 125%: `font-stretch` only does anything on a face with a width
+     axis, and Geist has none — Roboto Flex did. The plumbing stays so a
+     variable-width display cut can be reintroduced without re-threading it, but
+     the value is inert today and 125% claimed a widening that never happened. */
+  --font-display-width: 100%;
 
   /* Radius base (all radius tokens derive from this) */
   --radius: 0.625rem;
@@ -400,24 +404,11 @@
 .bento-frame {
   --radius: calc(16px / 1.8);
 
-  /* Geist only, everywhere text appears in this composition. Done by pointing
-     the three family slots at Geist rather than editing every `font-mono` /
-     `font-display` call site, so it also catches type inside the card glyphs and
-     figures (the SKILL / LOOP labels, the terminal chrome) without touching how
-     those same components render on other pages. The `@theme inline` bridge
-     emits `var(--font-sans)` etc., so redefining them in this scope is enough.
-     NOTE: the site header and footer sit outside `main`, so they are not in this
-     scope and still use Roboto. */
-  --font-sans: var(--font-geist);
-  --font-mono: var(--font-geist);
-  --font-display: var(--font-geist);
-
-  /* Redefining the slots above only reaches elements that actually use a
-     `font-*` utility. Anything that simply inherits would still pick up Roboto
-     from the `html` rule in the base layer, because inheritance passes the
-     resolved stack rather than the variable. So set the family on the scope root
-     too, and everything below inherits Geist unless it opts out. */
-  font-family: var(--font-geist);
+  /* The Geist override that used to live here is gone: layout.tsx now points
+     --font-sans, --font-display and --font-mono at Geist (and Geist Mono) for the
+     whole site, so scoping it to the bento is redundant. The note it carried —
+     that the header and footer sat outside this scope and still rendered Roboto —
+     was the reason to make it global. */
 }
 
 /* ==========================================================================

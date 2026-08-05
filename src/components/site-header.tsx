@@ -140,7 +140,11 @@ export function SiteHeader() {
 
   return (
     // `relative` so the panel hangs off the bar instead of pushing the page down.
-    <header className="relative w-full">
+    // `mt-2` rather than padding: an absolutely positioned child is placed against
+    // the padding box, so `pt-2` here would drop the bar 8px and leave the panel
+    // behind at the old top edge, misaligning the bar phase that grows over the row.
+    // A margin moves the header and the panel's origin together.
+    <header className="relative mt-2 w-full">
       {/* `relative z-40` so the row rides ON TOP of the panel, which grows out from
           under it. While open the row's ink flips to `--primary-foreground`, because
           by then it's sitting on the panel's inverted surface. */}
@@ -279,7 +283,7 @@ export function SiteHeader() {
                 <BlurFade delay={0.46} offset={4}>
                   <div className="border-primary-foreground/20 mt-4 border-t pt-4">
                     <div className="text-primary-foreground/45 mb-2 font-mono text-[10px] tracking-widest uppercase">
-                      {t("nav.resources", lang)}
+                      {t("nav.socials", lang)}
                     </div>
                     <div className="flex flex-col gap-1">
                       {RESOURCES.map((r) => (

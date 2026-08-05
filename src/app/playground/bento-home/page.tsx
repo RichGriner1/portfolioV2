@@ -15,7 +15,7 @@ export const metadata = {
 export default function BentoHomePage() {
   return (
     <>
-      <SiteHeader brand="adaptive" />
+      <SiteHeader />
       <BentoHome />
       <SiteFooter />
     </>

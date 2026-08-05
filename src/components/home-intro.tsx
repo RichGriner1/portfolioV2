@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 
-import { BlurFade } from "@/components/motion/blur-fade";
 import { IntroPreviewLink } from "@/components/intro-preview-link";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -97,7 +96,7 @@ const INTRO: Bilingual<ReactNode[]> = {
  * `--prose-body`. Size and weight steps were tried and removed — three signals
  * doing one job.
  */
-export const INTRO_BODY = "text-[14px] leading-[17.5px] tracking-[-0.0002em]";
+const INTRO_BODY = "text-[14px] leading-[17.5px] tracking-[-0.0002em]";
 
 /**
  * Prose ink. Paragraphs default to `--prose-body`; the opening clause and the
@@ -106,22 +105,9 @@ export const INTRO_BODY = "text-[14px] leading-[17.5px] tracking-[-0.0002em]";
  */
 const PROSE = "text-prose-body";
 
-export function HomeIntro() {
-  const { lang } = useLang();
-
-  return (
-    <section className="flex max-w-xl flex-col gap-4 pt-12 sm:pt-20">
-      {pick(INTRO, lang).map((p, i) => (
-        <BlurFade key={`${lang}-${i}`} delay={i * 0.08}>
-          <p className={cn("font-geist", INTRO_BODY, PROSE)}>{p}</p>
-        </BlurFade>
-      ))}
-    </section>
-  );
-}
-
-// The intro copy, reusable outside the standalone section (e.g. as a bento
-// tile). Same content, caller owns spacing and the body type scale.
+// The intro copy. `HomeIntro` — the standalone stacked section this file used to
+// export — was deleted on 2026-08-05 when the bento replaced it; the copy itself
+// and this renderer are what the bento consumes.
 export function IntroParagraphs({ className }: { className?: string }) {
   const { lang } = useLang();
   return (

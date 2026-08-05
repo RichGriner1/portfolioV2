@@ -113,7 +113,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "Modernizing a wealth planner's UI for live demos to sell to Spanish banks.",
-      es: "Modernizar la UI de un wealth planner para venderlo a la banca española con demos en directo.",
+      es: "Modernizar la UI de un wealth planner para venderlo a bancos españoles.",
     },
     year: 2026,
     type: "brand-ds",

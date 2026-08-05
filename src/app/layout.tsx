@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Roboto, Roboto_Flex, Roboto_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -9,35 +9,43 @@ import { LangProvider } from "@/lib/i18n";
 import "./globals.css";
 
 // Typography — self-hosted via next/font, no external Google requests.
-// Roboto serves both body and display; heavier weights (700, 900) give the
-// memorisely-style confident headers. Mono stays in its own family.
-const roboto = Roboto({
+//
+// Geist everywhere. Roboto served --font-sans, Roboto Flex --font-display and
+// Roboto Mono --font-mono, with Geist scoped to the bento only; the site now uses
+// one family across all three slots. The slots stay as separate variables rather
+// than collapsing to one, because every `font-sans` / `font-display` / `font-mono`
+// utility in the codebase points at them — swapping what they resolve to changes
+// the whole site without touching a call site, and leaves the seams in place if a
+// display or mono cut is ever reintroduced.
+//
+// Geist Mono, not Geist, fills the mono slot: code blocks in the blog need real
+// monospace, and the eyebrow labels that use `font-mono` decoratively want the
+// same family's mono cut rather than a proportional face pretending to be one.
+const geist = Geist({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const robotoMono = Roboto_Mono({
+const geistMono = Geist_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
 
-// Geist — descriptions / supporting copy (per Richard's Figma direction).
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
-// Display cut — fills the --font-display slot (see globals.css). Roboto Flex
-// is variable by default (wght included), so only the extra axes it needs
-// for the wide/heavy display cut (opsz, wdth) are requested.
-const robotoFlex = Roboto_Flex({
+// --font-display and --font-geist both resolve to Geist. `--font-geist` is kept
+// because components reference `font-geist` directly (the header, the bento copy),
+// and pointing it at the same face is a smaller change than renaming every use.
+const geistDisplay = Geist({
   variable: "--font-display",
   subsets: ["latin"],
-  display: "swap",
-  axes: ["opsz", "wdth"],
+  weight: ["500", "600", "700", "900"],
+});
+
+const geistNamed = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -75,7 +83,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${roboto.variable} ${robotoMono.variable} ${robotoFlex.variable} ${geist.variable} h-full`}
+      className={`${geist.variable} ${geistMono.variable} ${geistDisplay.variable} ${geistNamed.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider

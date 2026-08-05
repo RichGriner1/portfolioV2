@@ -8,9 +8,10 @@ export function SiteFooter() {
 
   return (
     <footer className="border-border/60 border-t">
-      {/* Geist across the whole footer, on every page. The place line below
-          dropped its `font-mono` for the same reason — it would have overridden
-          this back to Roboto Mono. */}
+      {/* `font-geist` is redundant now — layout.tsx points every family slot at
+          Geist site-wide — but kept as the explicit statement of intent for a
+          surface that sits outside `main`. It used to be load-bearing: the footer
+          was outside the bento's font scope and rendered Roboto without it. */}
       <div className="text-muted-foreground font-geist mx-auto flex max-w-5xl flex-col gap-4 px-6 py-8 text-sm sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {year} Richard Griner. {t("footer.rights", lang)}

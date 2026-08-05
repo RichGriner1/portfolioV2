@@ -53,12 +53,14 @@ export function IntroPreviewLink({
               1×1 bento tile. */}
           {/* popup-extrude is the shared panel-enter (see globals.css) — the
               Coherence menu animation, direction driven by data-side. */}
-          {/* font-geist is set here explicitly, not inherited. The Portal mounts
-              to document.body, so this popup renders OUTSIDE `main.bento-frame`
-              and never sees that scope's font override — the labels below came
-              out in Roboto. Same reason the radii are spelled as literals: the
-              scope's --radius tweak doesn't reach here either. */}
-          <PreviewCard.Popup className="popup-extrude border-border bg-card font-geist w-[380px] overflow-hidden rounded-[16px] border p-3 shadow-lg">
+          {/* The radii are spelled as literals because this popup Portals to
+              document.body, so it renders OUTSIDE `main.bento-frame` and the
+              scope's `--radius` tweak never reaches it.
+              `font-geist` used to be here for the same reason — the scope also
+              overrode the font families and the labels came out in Roboto without
+              it. That override is gone; layout.tsx points every family slot at
+              Geist site-wide, so the class is now redundant and dropped. */}
+          <PreviewCard.Popup className="popup-extrude border-border bg-card w-[380px] overflow-hidden rounded-[16px] border p-3 shadow-lg">
             {/* No border here on purpose. CardMedia already frames its own
                 content (video and figure panels, the glyph's bordered box), so
                 a border on this wrapper made three concentric frames. Rounding

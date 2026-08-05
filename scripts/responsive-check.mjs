@@ -58,7 +58,11 @@ const ROUTES = [
   "/",
   "/projects",
   "/writing",
+  // Two different case-study shells, not one. /work/visual-identity is a bespoke
+  // route with its own figures; /work/[slug] renders CaseStudyPage, which nothing
+  // here covered until a change to its "More case studies" grid went unchecked.
   "/work/visual-identity",
+  "/work/mindfulme",
   "/writing/loops-and-skills-are-components",
 ];
 

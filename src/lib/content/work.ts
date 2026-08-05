@@ -120,8 +120,9 @@ export const WORK: WorkItem[] = [
     type: "brand-ds",
     kind: "case-study",
     href: "/work/visual-identity",
-    // Thumbnail mirrors the `proceso` thumb on Coherence's blog landing.
-    figure: "visual-identity-process",
+    // Thumbnail: the six-stage process loop, rendered per lang × theme by
+    // videos/process-stages-motion/gen.mjs (HyperFrames).
+    video: "/work/visual-identity/process-stages",
     bento: "square",
     featured: true,
     ongoing: true,

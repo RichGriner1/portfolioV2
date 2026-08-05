@@ -100,8 +100,10 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
         >
           <CardMedia item={item} lang={lang} />
 
-          {/* Hover devices only: glass panel revealed on hover */}
-          <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
+          {/* Hover devices only: glass panel revealed on hover. z-10 keeps it
+              above media content whose internals carry their own z-index
+              (e.g. figure dots), which would otherwise punch through it. */}
+          <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 z-10 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
             <div className="flex flex-col gap-1.5">
               <span className="text-muted-foreground font-mono text-[10px] font-medium">
                 {pick(KIND_LABELS[item.kind], lang)}

@@ -362,7 +362,13 @@ export function BentoHome() {
         </div>
 
         {/* Row 3 — Afi DS takes the wide, the two brand/process squares follow */}
-        <div className="col-span-2 row-span-1">
+        {/* `row-span-2` below `sm`, back to a wide from `sm` up. A 2-col span on a
+            phone is only ~272–327px across, and these two figures are authored at
+            fixed sizes, so a single row cut the bank list off after "Bankinter" and
+            the loop scene off after its second skill. Two rows gives them the same
+            footprint as the visual-identity tile above, which is the one that
+            always had enough room. */}
+        <div className="col-span-2 row-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("afi-design-system")}
             index={1}
@@ -403,7 +409,7 @@ export function BentoHome() {
         <div className="order-last col-span-2 row-span-2 sm:order-none">
           <TalkTile />
         </div>
-        <div className="col-span-2 row-span-1">
+        <div className="col-span-2 row-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("loops-and-skills-are-components")}
             index={4}

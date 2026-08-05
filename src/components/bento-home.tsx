@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
 
@@ -121,11 +121,16 @@ function TalkTile() {
   const parts = pick(TALK_PARTS, lang);
   const href = `mailto:${EMAIL}?subject=${encodeURIComponent(pick(SUBJECT, lang))}`;
 
+  useEffect(() => {
+    if (!copied) return;
+    const id = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(id);
+  }, [copied]);
+
   async function copy() {
     try {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     } catch {
       // Clipboard blocked: the address is select-all, so it's still copyable.
     }
@@ -150,7 +155,7 @@ function TalkTile() {
       <div className="pointer-events-none relative z-10 flex h-full flex-col items-center justify-center gap-3 p-6">
         {/* No flex gap between the words. The clip slot IS the word space: at
             rest it's 0.28em wide (about a space at this size) and empty, and on
-            hover it grows to 0.95em with the clip fading in. So the words slide
+            hover it grows to 1.7em with the clip fading in. So the words slide
             apart to make room rather than the clip appearing on top of them.
             Width has to be the animated property for that push to happen —
             scaling wouldn't move the words, since transforms don't affect
@@ -161,8 +166,14 @@ function TalkTile() {
             tile meant it clipped rather than scrolled — the arrow and the tail of
             "¿Hablamos?" were simply gone. It also ran 2px over at 1024+, where ES
             is the long string ("¿Hablamos?" against "Let's talk"). Sizes are
-            Tailwind scale steps, not a clamp, so they stay on the type ramp. */}
-        <span className="flex items-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+            Tailwind scale steps, not a clamp, so they stay on the type ramp.
+
+            The last step is `lg`, not `md`, because the tile is NARROWER at 768
+            than at 1024: the bento goes 4-col at `sm`, so a 2-col span is 354px on
+            a 768 viewport but 482px on a 1024 one. Stepping the type at `md` put
+            48px text in the narrowest tile the layout ever produces, and ES ran
+            37px past the frame. */}
+        <span className="flex items-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
           {/* Each word is its own element: adjacent bare text nodes collapse into
               one anonymous flex item, which is how this once read "Let'stalk". */}
           <span>{parts[0]}</span>
@@ -171,18 +182,20 @@ function TalkTile() {
               `[@media(hover:none)]` split WorkCard already uses.
 
               Bounce comes from ease-spring, whose curve overshoots past 1: the
-              slot opens a hair wider than 0.95em and settles back. That's
-              follow-through — a pure ease-out just glides to a stop. The 3px side
+              slot opens a hair wider than 1.7em and settles back. That's
+              follow-through — a pure ease-out just glides to a stop. The 6px side
               margins only exist while open, so the clip gets air on both sides
               instead of the words butting against it; margin is in the transition
-              too, or the gap would snap in. And the clip itself scales in on a
+              too, or the gap would snap in. 6px, not the original 3px — the clip
+              is 1.7em now rather than 0.95em, and at 82px a 3px gap read as the
+              type touching the image. And the clip itself scales in on a
               60ms delay — secondary action, staged after the slot starts moving
               rather than everything travelling as one block. */}
           {TALK_CLIP ? (
             // No overflow-hidden, and z-10: the clip has to escape this slot to
             // read as rising from behind the line and landing on top of it. The
             // rounding moves onto the video itself for the same reason.
-            <span className="ease-spring relative z-10 inline-block w-[0.28em] shrink-0 align-middle transition-[width,margin] duration-[var(--duration-base)] group-hover:mx-[3px] group-hover:w-[0.95em] [@media(hover:none)]:mx-[3px] [@media(hover:none)]:w-[0.95em]">
+            <span className="ease-spring relative z-10 inline-block w-[0.28em] shrink-0 align-middle transition-[width,margin] duration-[var(--duration-base)] group-hover:mx-[6px] group-hover:w-[1.7em] [@media(hover:none)]:mx-[6px] [@media(hover:none)]:w-[1.7em]">
               <video
                 // Starts tucked below the line and rises into place. A fixed size
                 // rather than w-full, so it can overlap the words while the slot
@@ -190,7 +203,7 @@ function TalkTile() {
                 // max-w-none is load-bearing: Tailwind's preflight sets
                 // `max-width:100%` on media, so the narrow slot was clamping the
                 // clip to 16.8px wide and it rendered as a sliver.
-                className="ease-spring size-[0.95em] max-w-none translate-y-[45%] scale-90 rounded-md object-cover opacity-0 shadow-lg transition-[opacity,transform] delay-[60ms] duration-[var(--duration-base)] group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:scale-100 [@media(hover:none)]:opacity-100"
+                className="ease-spring size-[1.7em] max-w-none translate-y-[45%] scale-90 rounded-md object-cover opacity-0 shadow-lg transition-[opacity,transform] delay-[60ms] duration-[var(--duration-base)] group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:scale-100 [@media(hover:none)]:opacity-100"
                 src={TALK_CLIP}
                 autoPlay
                 muted
@@ -204,64 +217,44 @@ function TalkTile() {
           <span>{parts[1]}</span>
           <ArrowUpRight className="ml-3 size-6 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
+        {/* The address never leaves, and the only thing that changes on copy is
+            the icon. Two earlier attempts swapped it for a "Correo copiado"
+            string and both broke on the same geometry.
+
+            Hugging whichever string showed (`motion.span layout` + an `absolute`
+            toggle) meant `perspective: 600px` with `rotateX` inflated the measured
+            box — the 180px address reported 387px mid-flip — so the projection
+            sprang at a distorted target, landing in steps with a ~300ms plateau,
+            and since the row is centred, shrinking to the shorter string dragged
+            the whole label 48px sideways.
+
+            Pinning both strings in one grid cell held the width still, but the
+            cell stays address-width, so the checkmark sat stranded ~90px right of
+            the short confirmation.
+
+            No arrangement lets a centred row swap two different-width strings
+            without moving either the text or the icon. So it doesn't swap: the
+            address stays (it's the mailto fallback, its whole job), brightens to
+            full opacity for the 2s window, and the icon flips Copy→Check. Nothing
+            reflows, the checkmark stays tight against the address, and the
+            confirmation reaches screen readers via the live region below. */}
         <span className="text-primary-foreground/70 flex items-center gap-1.5 text-xs">
-          {/* Flip + blur, from animate-ui's flip button: the two strings are
-              stacked in one grid cell so they rotate past each other at the same
-              time. That's also the fix for it feeling slow — the old version used
-              AnimatePresence mode="wait", which ran exit and enter in sequence
-              and doubled the duration. The spring lands quicker than the 250ms
-              tween did, despite covering more distance. */}
-          {/* Only the ACTIVE string is in flow; the outgoing one is taken out
-              with `absolute`. Otherwise the grid stays as wide as the longest
-              string (the address), so the shorter "Email copied" sat centred in
-              an address-width box and the icon ended up ~40px away from it while
-              sitting 6px from the address. Now the container hugs whichever
-              string is showing and the gap is the same 6px either way. */}
-          {/* pointer-events-auto is required, not cosmetic: this whole content
-              layer is pointer-events-none so clicks reach the mailto anchor
-              behind it. Without it the address can't be selected — the click
-              falls through and opens mail instead, which defeats the one job the
-              printed address has (the fallback when mailto does nothing). */}
           <motion.span
-            layout
-            transition={FLIP}
-            className="pointer-events-auto relative grid [perspective:600px]"
+            className="pointer-events-auto cursor-text whitespace-nowrap select-all"
+            animate={{ opacity: copied ? 1 : 0.7 }}
+            transition={{ duration: 0.2 }}
           >
-            <motion.span
-              className={cn(
-                "cursor-text whitespace-nowrap select-all [grid-area:1/1]",
-                copied && "absolute top-0 left-0"
-              )}
-              animate={
-                copied
-                  ? { opacity: 0, rotateX: 90, y: "50%", filter: "blur(4px)" }
-                  : { opacity: 1, rotateX: 0, y: "0%", filter: "blur(0px)" }
-              }
-              transition={FLIP}
-            >
-              {EMAIL}
-            </motion.span>
-            <motion.span
-              aria-live="polite"
-              className={cn(
-                "whitespace-nowrap [grid-area:1/1]",
-                !copied && "absolute top-0 left-0"
-              )}
-              animate={
-                copied
-                  ? { opacity: 1, rotateX: 0, y: "0%", filter: "blur(0px)" }
-                  : { opacity: 0, rotateX: -90, y: "-50%", filter: "blur(4px)" }
-              }
-              transition={FLIP}
-            >
-              {pick(COPIED, lang)}
-            </motion.span>
+            {EMAIL}
           </motion.span>
+          {/* `p-1.5 -m-1.5` takes the 14px icon to a 26px hit area for the WCAG
+              2.5.8 floor the header now holds, with the negative margin cancelling
+              the padding's effect on layout so the row's metrics don't move.
+              Without it this was the smallest target on the page at 14×14. */}
           <button
             type="button"
             onClick={copy}
             aria-label={pick(COPY_LABEL, lang)}
-            className="text-primary-foreground/70 hover:text-primary-foreground pointer-events-auto cursor-pointer transition-colors"
+            className="text-primary-foreground/70 hover:text-primary-foreground pointer-events-auto -m-1.5 cursor-pointer p-1.5 transition-colors"
           >
             {/* animate-ui's copy button, values taken from their source:
                 scale 0 → 1, opacity 0.4 → 1, blur 4px → 0, 250ms. */}
@@ -282,6 +275,12 @@ function TalkTile() {
               </motion.span>
             </AnimatePresence>
           </button>
+          {/* The confirmation the copy button owes a screen reader. Empty until the
+              copy lands, so it actually announces — an aria-live region on the
+              address itself never fires, since its content never changes. */}
+          <span role="status" aria-live="polite" className="sr-only">
+            {copied ? pick(COPIED, lang) : ""}
+          </span>
         </span>
       </div>
     </div>
@@ -367,7 +366,13 @@ export function BentoHome() {
             keeping "Building color in four layers" off the home leaves /writing
             something of its own. The home now carries only current, highest-value
             work; everything else is a click away from the footer index. */}
-        <div className="col-span-2 row-span-2">
+        {/* `order-last` below `sm` only. Stacked into one column, the bento reads
+            top to bottom as a single sequence, and a contact CTA sitting in the
+            middle of it asks for the decision before the work that earns it —
+            there were still two tiles below it. On `sm` and up the grid is 4-col
+            and this tile shares a row with the two wides beside it, so the reading
+            order is no longer purely vertical and the authored position stands. */}
+        <div className="order-last col-span-2 row-span-2 sm:order-none">
           <TalkTile />
         </div>
         <div className="col-span-2 row-span-1">

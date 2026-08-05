@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-
 import { CaseStudyBento } from "@/components/case-study-bento";
-import { CardMedia } from "@/components/work-card";
+import { WorkGrid } from "@/components/my-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
 import { WORK, type WorkItem } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
@@ -89,36 +87,23 @@ export function CaseStudyPage({ item, study }: Props) {
               <h2 className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
                 {t("work.more", lang)}
               </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {otherCaseStudies.map((w) => (
-                  <Link
-                    key={w.slug}
-                    href={w.href}
-                    className="group border-border bg-card hover:border-foreground/30 flex items-center justify-between gap-4 rounded-2xl border p-5 transition-all hover:shadow-md"
-                    style={
-                      w.bgColor ? { backgroundColor: w.bgColor } : undefined
-                    }
-                  >
-                    <div
-                      className="border-border bg-card relative size-24 shrink-0 overflow-hidden rounded-xl border"
-                      style={
-                        w.bgColor ? { backgroundColor: w.bgColor } : undefined
-                      }
-                    >
-                      <CardMedia item={w} lang={lang} />
-                    </div>
-                    <div className="flex flex-1 flex-col gap-1">
-                      <span className="text-foreground font-display text-lg font-bold tracking-tight">
-                        {pick(w.title, lang)}
-                      </span>
-                      <span className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-                        {pick(w.description, lang)}
-                      </span>
-                    </div>
-                    <ArrowRight className="text-muted-foreground group-hover:text-foreground size-5 shrink-0 transition-colors" />
-                  </Link>
-                ))}
-              </div>
+              {/* The same WorkGrid of WorkCards that /projects and /writing use,
+                  which is the same card the home bento is built from.
+
+                  This was a bespoke row — a 96px square thumbnail beside the
+                  title and description. CardMedia can't be shrunk into 96px: its
+                  figures and glyphs are authored at fixed pixel sizes (the loop
+                  figure's nodes are 366px wide), so a small frame crops the
+                  composition instead of scaling it. The row rendered a
+                  meaningless corner: "BBVA / Caix" sliced mid-word, the KT360
+                  terminal cut off after the first path. intro-preview-link.tsx
+                  documents the same failure twice and fixes it by giving the
+                  figure its 316px.
+
+                  So rather than a fourth bespoke treatment of the same media, this
+                  is the card that already works — full-size square media, hover
+                  panel for the title and description, touch caption underneath. */}
+              <WorkGrid items={otherCaseStudies} />
             </section>
           )}
         </>

@@ -36,6 +36,7 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-prose-body: var(--prose-body);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
@@ -87,6 +88,18 @@
   /* Motion */
   --default-transition-duration: var(--duration-base);
   --default-transition-timing-function: var(--ease-out-soft);
+
+  /* Bridge the easing curves into the `--ease-*` namespace so `ease-out-soft`,
+     `ease-in-out-soft`, `ease-spring` and `ease-enter` are real utilities.
+     Declaring them only in :root did NOT do this — Tailwind generates utilities
+     from @theme, so those classes were silently dropped and every transition
+     fell back to --default-transition-timing-function. It looked correct only
+     because that default happens to be --ease-out-soft. There is no matching
+     `--duration-*` namespace, so durations use duration-[var(--duration-*)]. */
+  --ease-out-soft: var(--ease-out-soft);
+  --ease-in-out-soft: var(--ease-in-out-soft);
+  --ease-spring: var(--ease-spring);
+  --ease-enter: var(--ease-enter);
 
   /* ------------------------------------------------------------------------
      Design-System color bridges — used ONLY inside `.ds-scope` (the ported
@@ -161,6 +174,11 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
+  /* Body copy in a prose block (#565656). Sits between --foreground and
+     --muted-foreground: paragraphs need to recede from the emphasis and links
+     above them, but --muted-foreground is tuned for labels and captions and
+     reads too weak at paragraph length. Three prose tiers, not two. */
+  --prose-body: oklch(0.454 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -217,6 +235,17 @@
   --duration-base: 200ms;
   --duration-slow: 320ms;
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Panel-enter curve, ported from Coherence's --motion-easing-enter. Paired
+     with --duration-enter (its --motion-duration-fast) for the extrude that
+     every popup on this site uses. Kept as its own token rather than reusing
+     --ease-out-soft: this curve is far more front-loaded, which is what makes
+     the reveal land rather than glide. */
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-enter: 150ms;
+  /* Rows inside a panel rise after the container lands (Coherence's
+     --motion-reveal-rise-light / --motion-reveal-stagger-light). */
+  --reveal-rise: 6px;
+  --reveal-stagger: 40ms;
   --ease-in-out-soft: cubic-bezier(0.45, 0.05, 0.15, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -237,6 +266,10 @@
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
+  /* Same job, mirrored: in light it's 25% of the way from --muted-foreground
+     toward --foreground, so this holds that ratio on the dark ramp instead of
+     inverting the hex, which would have landed below --muted-foreground. */
+  --prose-body: oklch(0.78 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
@@ -269,6 +302,84 @@
     0 10px 15px -3px oklch(0 0 0 / 0.5), 0 4px 6px -4px oklch(0 0 0 / 0.4);
   --shadow-xl:
     0 20px 25px -5px oklch(0 0 0 / 0.55), 0 8px 10px -6px oklch(0 0 0 / 0.4);
+}
+
+/* ==========================================================================
+   .popup-extrude — the shared panel-enter animation
+   --------------------------------------------------------------------------
+   Ported from Coherence's afi-menu-v2 extrude. The principle from that file:
+   container first, contents second. The panel grows out of its trigger via
+   `clip-path` rather than `scaleY`, so the radius, border, shadow and text are
+   never distorted mid-flight — scaleY squashes the type. The 2px tuck is what
+   makes it read as *emerging from* the trigger instead of *appearing beside* it.
+
+   Direction follows Base UI's `data-side`, so one class serves every popup on
+   the site (preview card, CV modal, menus) and they all move the same way.
+   Reduced motion keeps the appearance and drops only the travel — respect as
+   respect, not disable, same as the original.
+   ========================================================================== */
+.popup-extrude {
+  clip-path: inset(0 0 0 0);
+  transition:
+    clip-path var(--duration-enter) var(--ease-enter),
+    transform var(--duration-enter) var(--ease-enter);
+}
+
+.popup-extrude[data-side="bottom"][data-starting-style],
+.popup-extrude[data-side="bottom"][data-ending-style] {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(-2px);
+}
+
+.popup-extrude[data-side="top"][data-starting-style],
+.popup-extrude[data-side="top"][data-ending-style] {
+  clip-path: inset(100% 0 0 0);
+  transform: translateY(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup-extrude {
+    transition: none;
+    clip-path: none;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   .bento-frame — tighter card geometry for the bento composition
+   --------------------------------------------------------------------------
+   The bento wants a 16px tile with a 12px content panel inside it. The global
+   radius base (10px) lands on 18/14 at those two steps, which reads too soft
+   once the gutters drop to 8px. Rather than hard-code radii in the tiles, this
+   scope moves the base so the two steps the card frame already consumes land
+   where the bento wants them — `rounded-2xl` (tile) = 16px, `rounded-xl`
+   (content panel) = 12.4px. WorkCard, its glyphs and its figures pick the
+   tighter geometry up with no component changes, and everything outside the
+   bento keeps 18/14. The whole scale shifts together, which is the point of a
+   single base; overriding `--radius-2xl` directly would not work, because the
+   `@theme inline` bridge inlines the `calc()` rather than emitting a var.
+   ========================================================================== */
+.bento-frame {
+  --radius: calc(16px / 1.8);
+
+  /* Geist only, everywhere text appears in this composition. Done by pointing
+     the three family slots at Geist rather than editing every `font-mono` /
+     `font-display` call site, so it also catches type inside the card glyphs and
+     figures (the SKILL / LOOP labels, the terminal chrome) without touching how
+     those same components render on other pages. The `@theme inline` bridge
+     emits `var(--font-sans)` etc., so redefining them in this scope is enough.
+     NOTE: the site header and footer sit outside `main`, so they are not in this
+     scope and still use Roboto. */
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist);
+  --font-display: var(--font-geist);
+
+  /* Redefining the slots above only reaches elements that actually use a
+     `font-*` utility. Anything that simply inherits would still pick up Roboto
+     from the `html` rule in the base layer, because inheritance passes the
+     resolved stack rather than the variable. So set the family on the scope root
+     too, and everything below inherits Geist unless it opts out. */
+  font-family: var(--font-geist);
 }
 
 /* ==========================================================================

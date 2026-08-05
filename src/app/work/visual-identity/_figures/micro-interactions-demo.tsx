@@ -16,7 +16,7 @@ import { useReducedMotion } from "./use-reduced-motion";
 type SendState = "idle" | "sending" | "sent";
 
 const TRANSITION =
-  "transition-all duration-base ease-out-soft motion-reduce:transition-none";
+  "transition-all duration-[var(--duration-base)] ease-out-soft motion-reduce:transition-none";
 
 const COPY = {
   realEstate: { en: "Include real estate", es: "Incluir inmuebles" },

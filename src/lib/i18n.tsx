@@ -70,6 +70,11 @@ export function pick<T>(bi: Bilingual<T>, lang: Lang): T {
 
 // Centralized UI strings (everything that isn't content-specific)
 export const UI = {
+  // Index links. They live in the footer rather than the home grid: the home
+  // carries the current, highest-value work, and these are how you get to
+  // everything else. Plain nouns — footer nav doesn't say "All".
+  "nav.projects": { en: "Projects", es: "Proyectos" },
+  "nav.writing": { en: "Writing", es: "Textos" },
   "nav.linkedin": { en: "LinkedIn", es: "LinkedIn" },
   "nav.email": { en: "Email", es: "Correo" },
   "nav.cv": { en: "CV", es: "CV" },

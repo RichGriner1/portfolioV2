@@ -3,32 +3,108 @@
 import type { ReactNode } from "react";
 
 import { BlurFade } from "@/components/motion/blur-fade";
+import { IntroPreviewLink } from "@/components/intro-preview-link";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
-// Final copy from Richard, updated 2026-08-04 — supersedes Figma Story-architect 104:359. Do not rewrite.
-// ES reviewed 2026-08-04 (afi-redaccion pass: la banca, generan, matutina, colon).
+// Inline case-study links inside the intro: dotted underline, emphasis ink, and
+// the linked project's thumbnail on hover (see intro-preview-link.tsx).
+// "a brand" → Mindfulme, "a workflow" → loops.
+
+// Intro copy. Iterated with Richard directly — no "final" marker, because this
+// keeps improving. Reference: Figma 3340:17900.
+//
+// 2026-08-05, after a teammate's read: paragraph two used to be two clauses
+// about schooling, which read as credentials rather than method. And the closer
+// used to end "they are all designed" — a claim about the world, when the point
+// is that Richard brings a design mindset to things that don't arrive designed.
+// Both now say the mindset thing outright.
+//
+// The italic "Everything." pivot is gone: the new third paragraph already says
+// "I approach everything the same way", so the standalone line repeated the word
+// and no longer answered anything. The closing list survives as a fragment —
+// it's the concrete part, and it carries the two preview links.
 const INTRO: Bilingual<ReactNode[]> = {
   en: [
-    "Hi, I'm Richard.",
     <>
-      <strong>{"I'm a designer"}</strong>
-      {", currently designing fintech products for Spanish banks and design systems at Afi."}
+      <span className="text-foreground">{"I'm Richard, a designer"}</span>
+      {
+        " currently working on fintech products for Spanish banks and design systems at Afi."
+      }
     </>,
-    "Studying anthropology taught me to deeply understand the systems that create behavior. My master's in design opened my eyes to combining the two to improve people's lives and to how much design covers.",
-    <em key="en-everything">Everything.</em>,
-    "A morning routine, an onboarding, a brand, a team workflow, they are all designed.",
+    "Anthropology taught me to understand behavior. Design gave me the tools to build experiences that fit it.",
+    <>
+      {
+        "Working across banks, startups, and on both B2B and B2C products, I learned that "
+      }
+      <em>design is a mindset</em>
+      {", not just a profession."}
+    </>,
+    "Because of that I approach everything the same way: understand, build, test, and iterate.",
+    <>
+      {"A morning routine, an onboarding, "}
+      <IntroPreviewLink slug="mindfulme">a brand</IntroPreviewLink>
+      {", "}
+      <IntroPreviewLink slug="loops-and-skills-are-components">
+        a workflow
+      </IntroPreviewLink>
+      {"."}
+    </>,
   ],
   es: [
-    "Hola, soy Richard.",
+    // ES reviewed 2026-08-05 (afi-redaccion pass). Three fixes, all calques:
+    // "Trabajando con…" → "Tras trabajar con…" (sentence-initial gerund is an
+    // English construction, not Peninsular); "lo enfoco todo" → "lo abordo todo"
+    // ("enfocar" means to focus, not to approach — that's "abordar"); and the
+    // mixed prepositions in the bancos/startups/productos list.
+    // "onboarding" stays: no clean Spanish equivalent, and the reader is technical.
     <>
-      <strong>Soy diseñador</strong>
-      {" y ahora mismo diseño productos fintech para bancos españoles y sistemas de diseño en Afi."}
+      <span className="text-foreground">{"Soy Richard, diseñador."}</span>
+      {
+        " Ahora mismo trabajo en productos fintech para bancos españoles y sistemas de diseño en Afi."
+      }
     </>,
-    "Estudiar antropología me enseñó a entender profundamente los sistemas que generan comportamiento. Mi máster en diseño me abrió los ojos a combinar ambas disciplinas para mejorar la vida de la gente y a todo lo que abarca el diseño.",
-    <em key="es-todo">Todo.</em>,
-    "Una rutina matutina, un onboarding, una marca, un flujo de trabajo de equipo: todo está diseñado.",
+    "La antropología me enseñó a entender el comportamiento. El diseño me dio las herramientas para crear experiencias que encajen con él.",
+    <>
+      {
+        "Tras trabajar con bancos y startups, y en productos tanto B2B como B2C, he aprendido que "
+      }
+      <em>el diseño es una mentalidad</em>
+      {", no solo una profesión."}
+    </>,
+    "Por eso lo abordo todo igual: entender, construir, probar e iterar.",
+    <>
+      {"Una rutina matutina, un onboarding, "}
+      <IntroPreviewLink slug="mindfulme">una marca</IntroPreviewLink>
+      {", "}
+      <IntroPreviewLink slug="loops-and-skills-are-components">
+        un flujo de trabajo
+      </IntroPreviewLink>
+      {"."}
+    </>,
   ],
 };
+
+/**
+ * One type size for the whole block, specified by Richard from Figma
+ * (2026-08-05): Geist 14px / 17.5px (1.25) / -0.02% tracking. Arbitrary values
+ * on purpose — measured from the design, and 14px/17.5px isn't a step on the
+ * Tailwind scale. Figma states tracking as a percentage of font size, which
+ * converts straight to `em` (-0.02% → -0.0002em).
+ *
+ * There is deliberately no lead size and no bold. Hierarchy is carried by colour
+ * alone: the opening clause sits at `--foreground`, everything after it at
+ * `--prose-body`. Size and weight steps were tried and removed — three signals
+ * doing one job.
+ */
+export const INTRO_BODY = "text-[14px] leading-[17.5px] tracking-[-0.0002em]";
+
+/**
+ * Prose ink. Paragraphs default to `--prose-body`; the opening clause and the
+ * inline links opt up to `--foreground` themselves. Semantic tokens, so the ramp
+ * inverts in dark rather than pinning a hex.
+ */
+const PROSE = "text-prose-body";
 
 export function HomeIntro() {
   const { lang } = useLang();
@@ -37,9 +113,24 @@ export function HomeIntro() {
     <section className="flex max-w-xl flex-col gap-4 pt-12 sm:pt-20">
       {pick(INTRO, lang).map((p, i) => (
         <BlurFade key={`${lang}-${i}`} delay={i * 0.08}>
-          <p className="font-geist text-foreground leading-relaxed">{p}</p>
+          <p className={cn("font-geist", INTRO_BODY, PROSE)}>{p}</p>
         </BlurFade>
       ))}
     </section>
+  );
+}
+
+// The intro copy, reusable outside the standalone section (e.g. as a bento
+// tile). Same content, caller owns spacing and the body type scale.
+export function IntroParagraphs({ className }: { className?: string }) {
+  const { lang } = useLang();
+  return (
+    <>
+      {pick(INTRO, lang).map((p, i) => (
+        <p key={`${lang}-${i}`} className={cn(className, INTRO_BODY, PROSE)}>
+          {p}
+        </p>
+      ))}
+    </>
   );
 }

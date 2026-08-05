@@ -112,9 +112,9 @@ export const WORK: WorkItem[] = [
       es: "Identidad visual de Afi",
     },
     description: {
-      en: "Modernizing a wealth planner's UI for the live demos that sell it to Spanish banks.",
+      en: "Modernizing a wealth planner's UI for live demos to sell it to Spanish banks.",
       // TODO(afi-redaccion)
-      es: "Modernizar la UI de un wealth planner para las demos en vivo con las que se vende a bancos españoles.",
+      es: "Modernizar la UI de un wealth planner para demos en vivo con las que venderlo a bancos españoles.",
     },
     year: 2026,
     type: "brand-ds",

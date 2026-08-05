@@ -9,17 +9,26 @@
  * controls 17px off the right edge at 320. Nothing in lint, build, or a desktop
  * screenshot catches that — only geometry at a narrow width does.
  *
- * What it asserts, per route × width:
- *   1. The page does not scroll horizontally.
- *   2. No visible box is clipped by its own container (scrollWidth > clientWidth
- *      on a container that isn't opted into scrolling).
+ * Once, up front:
+ *   0. Every header nav link resolves (HTTP < 400). A link can lay out perfectly
+ *      at all six widths and still 404 — which `/writing` did, because the
+ *      `[slug]` route was committed and the index `page.tsx` was not.
+ *
+ * Then per route × width:
+ *   1. The page does not scroll horizontally, and the layout viewport hasn't
+ *      stretched past the device (the mobile tell for the same bug).
+ *   2. No visible box is clipped by its own `overflow: hidden|clip`.
  *   3. No visible element extends past the left or right viewport edge.
- *   4. Every nav target is present, in-bounds, and big enough to tap.
+ *   4. Every nav target is present, in-bounds, and — on touch widths — big
+ *      enough to tap. The CV modal is opened and measured too.
+ *
+ * Findings are `error` (blocking) or `warn` (tap-target judgement calls).
  *
  * Usage:
- *   node scripts/responsive-check.mjs                 # starts its own dev server
- *   node scripts/responsive-check.mjs --url http://localhost:3000
- *   node scripts/responsive-check.mjs --shots         # also write screenshots
+ *   npm run check:responsive                          # starts its own dev server
+ *   npm run check:responsive -- --url http://localhost:3000
+ *   npm run check:responsive -- --shots               # also write screenshots
+ *   npm run check:responsive -- --widths 320,375 --routes /,/writing
  *
  * Uses the system Chrome via Playwright's `channel: "chrome"`, so CI/dev boxes
  * don't need a 130MB browser download. Set CHROME_CHANNEL to override.
@@ -76,7 +85,9 @@ const opt = (name, fallback) => {
   return i !== -1 && args[i + 1] ? args[i + 1] : fallback;
 };
 
-const SHOTS_DIR = ".responsive-shots";
+// Matches the .gitignore entry — keep the two in step or the shots show up as
+// untracked files after every run.
+const SHOTS_DIR = "responsive-check-shots";
 
 // Narrowing the sweep while chasing one bug: the full run is 5 routes × 6 widths
 // and takes a few minutes, which is too slow to iterate against.
@@ -113,7 +124,10 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
       typeof el.className === "string" && el.className
         ? `.${el.className.trim().split(/\s+/).slice(0, 3).join(".")}`
         : "";
-    const text = (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 40);
+    const text = (el.textContent || "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .slice(0, 40);
     return `${el.tagName.toLowerCase()}${id}${cls}${text ? ` "${text}"` : ""}`;
   };
 
@@ -138,7 +152,11 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
    * exemption the check reported five findings for a figure that is correct.
    */
   const inScroller = (el) => {
-    for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+    for (
+      let p = el.parentElement;
+      p && p !== document.body;
+      p = p.parentElement
+    ) {
       if (scrollableX(getComputedStyle(p))) return true;
     }
     return false;
@@ -208,9 +226,7 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
 
   // Outermost offender only.
   const outermost = (list) =>
-    list.filter(
-      (a) => !list.some((b) => b.el !== a.el && b.el.contains(a.el))
-    );
+    list.filter((a) => !list.some((b) => b.el !== a.el && b.el.contains(a.el)));
 
   for (const { el, detail } of outermost(clipped)) {
     findings.push({
@@ -273,6 +289,16 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
   return findings;
 }
 
+/** Kills the whole process group, not just the npm wrapper. */
+function stopServer(server) {
+  if (!server) return;
+  try {
+    process.kill(-server.pid, "SIGTERM");
+  } catch {
+    server.kill("SIGTERM");
+  }
+}
+
 async function waitForServer(url, timeoutMs = 90_000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
@@ -297,12 +323,15 @@ async function main() {
     // makes Next pick port 3001 and the check would test nothing.
     if (!(await waitForServer(url, 1200))) {
       console.log("· no server on :3000, starting `next dev`…");
+      // `detached` so it gets its own process group: `npm run dev` forks `next
+      // dev`, and killing only npm leaves Next holding :3000 — the next run then
+      // "reuses" a server from a stale build.
       server = spawn("npm", ["run", "dev"], {
         stdio: "ignore",
-        detached: false,
+        detached: true,
       });
       if (!(await waitForServer(url))) {
-        server.kill();
+        stopServer(server);
         throw new Error("dev server never came up on :3000");
       }
     } else {
@@ -315,10 +344,37 @@ async function main() {
   });
   const failures = [];
   const warned = [];
+  const deadLinks = [];
   const shots = flag("shots");
   if (shots) await mkdir(SHOTS_DIR, { recursive: true });
 
   try {
+    /**
+     * Before measuring anything: do the header's own links actually resolve?
+     * A nav item can be laid out perfectly at all six widths and still be
+     * broken, and the geometry sweep would pass it every time.
+     *
+     * This caught `/writing` — the header linked to it, `[slug]` was committed
+     * but the index `page.tsx` was not, so the link rendered fine locally and
+     * would have 404'd the moment it deployed.
+     */
+    const navHrefs = [
+      ...new Set(
+        NAV_TARGETS.map((t) => /href="([^"]+)"/.exec(t.selector)?.[1]).filter(
+          Boolean
+        )
+      ),
+    ];
+    for (const href of navHrefs) {
+      const res = await fetch(`${url}${href}`, { redirect: "follow" });
+      if (!res.ok) {
+        deadLinks.push({ href, status: res.status });
+        console.log(`✗ nav link ${href} → HTTP ${res.status}`);
+      } else {
+        console.log(`✓ nav link ${href} → HTTP ${res.status}`);
+      }
+    }
+
     for (const width of widths) {
       const context = await browser.newContext({
         viewport: { width, height: 900 },
@@ -385,7 +441,9 @@ async function main() {
           failures.push({ route, width, findings: errors });
           console.log(`✗ ${label} — ${errors.length} finding(s)`);
         } else {
-          console.log(`✓ ${label}${warnings.length ? ` (${warnings.length} warning(s))` : ""}`);
+          console.log(
+            `✓ ${label}${warnings.length ? ` (${warnings.length} warning(s))` : ""}`
+          );
         }
         for (const f of errors) {
           console.log(
@@ -399,6 +457,13 @@ async function main() {
 
         if (shots) {
           const name = `${route === "/" ? "home" : route.slice(1).replace(/\//g, "-")}-${width}.png`;
+          // `fullPage: false` is deliberate — do not "fix" this. Under mobile
+          // emulation a full-page capture resizes the viewport to the page
+          // height, and Chrome widens the layout viewport with it: a 375px run
+          // reported innerWidth 528 mid-capture. The resulting image shows a
+          // layout no phone renders — a truncated header and tiles whose
+          // inView graphics never fired — and reads as two bugs that aren't
+          // there. Scroll and take viewport shots instead.
           await page.screenshot({
             path: `${SHOTS_DIR}/${name}`,
             fullPage: false,
@@ -410,21 +475,33 @@ async function main() {
     }
   } finally {
     await browser.close();
-    if (server) server.kill();
+    stopServer(server);
   }
 
   if (shots) {
     console.log(`\n· screenshots in ${SHOTS_DIR}/`);
   }
 
-  if (failures.length) {
-    const total = failures.reduce((n, f) => n + f.findings.length, 0);
-    console.error(
-      `\n✗ responsive check failed: ${total} finding(s) across ${failures.length} route/width combination(s)`
-    );
+  if (deadLinks.length || failures.length) {
+    if (deadLinks.length) {
+      console.error(
+        `\n✗ ${deadLinks.length} nav link(s) do not resolve: ` +
+          deadLinks.map((d) => `${d.href} (${d.status})`).join(", ")
+      );
+      console.error(
+        "  A 404 here usually means the route's page file exists on disk but was\n" +
+          "  never committed — check `git status` for untracked files under src/app."
+      );
+    }
+    if (failures.length) {
+      const total = failures.reduce((n, f) => n + f.findings.length, 0);
+      console.error(
+        `\n✗ responsive check failed: ${total} finding(s) across ${failures.length} route/width combination(s)`
+      );
+    }
     await writeFile(
       "responsive-check-report.json",
-      JSON.stringify(failures, null, 2)
+      JSON.stringify({ deadLinks, failures }, null, 2)
     );
     console.error("  full report: responsive-check-report.json");
     process.exit(1);

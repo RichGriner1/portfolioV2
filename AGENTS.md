@@ -34,10 +34,25 @@ The `code-reviewer` agent blocks PRs that violate these rules.
 Three subagents hand off automatically when you ask the orchestrator (main Claude session) for a code change:
 
 1. **`code-writer`** ([.claude/agents/code-writer.md](.claude/agents/code-writer.md)) — implements the change. Reads before writing. Small diffs. Respects token layering. Defers to shadcn components.
-2. **`test-runner`** ([.claude/agents/test-runner.md](.claude/agents/test-runner.md)) — runs `npm run lint` → `npm run build` → `npm test` (if present) → `npm run format:check`. Read-only. Reports `file:line` failures.
+2. **`test-runner`** ([.claude/agents/test-runner.md](.claude/agents/test-runner.md)) — runs `npm run lint` → `npm run build` → `npm test` (if present) → `npm run format:check`. Read-only. Reports `file:line` failures. **If the change touches layout, add `npm run check:responsive`** (see below) — lint and build cannot see a broken breakpoint.
 3. **`code-reviewer`** ([.claude/agents/code-reviewer.md](.claude/agents/code-reviewer.md)) — reviews the uncommitted diff for correctness, security, token/DS violations, Next.js 16 convention violations, and over-engineering. Read-only. Returns `ship | revise | rewrite`.
 
 The orchestrator invokes them in order. If `test-runner` fails, it routes back to `code-writer` with the failure. If `code-reviewer` returns `revise` or `rewrite`, same. Do not skip steps.
+
+### Ship gates — every UI change gets checked at every breakpoint
+
+**`npm run check:responsive`** ([scripts/responsive-check.mjs](scripts/responsive-check.mjs)) loads each route shell at 320 / 375 / 390 / 768 / 1024 / 1440px and fails on horizontal page scroll, a box clipped by its own `overflow: hidden`, anything past a viewport edge, or a nav target that is missing, off-screen, or under the 24px tap minimum. It opens the CV modal too, since a closed overlay isn't in the DOM to measure.
+
+This exists because three overflow bugs shipped on 2026-08-05 in one afternoon — the header pushing its controls 17px off the right edge at 320px, the CV modal's unconditional `grid-cols-3`, the contact tile's type overflowing its frame by 41px — and every one of them looked correct at 1280px. **Desktop-only verification does not count as verification.**
+
+Any npm script named `check:*` is a ship gate: `/ship` discovers and runs them before it commits, and a failure stops the ship. Add checks under that prefix and they wire themselves in.
+
+Notes for running it:
+- Needs Chrome installed — it drives the system browser via Playwright's `channel: "chrome"` so there's no browser download. `CHROME_CHANNEL=chromium` overrides.
+- It reuses a dev server on `:3000` if one is up, otherwise starts its own.
+- `-- --widths 320 --routes /` narrows the sweep while chasing one bug; `-- --shots` writes screenshots to `responsive-check-shots/`.
+- Findings are `error` (blocking) or `warn` (tap-target judgement calls, mobile widths only, non-blocking).
+- Add a route to `ROUTES` when you add a page with a **new layout shell** — not for every case study, since they share one.
 
 ## Content workflow (writing)
 

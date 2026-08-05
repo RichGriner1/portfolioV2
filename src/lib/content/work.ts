@@ -113,8 +113,7 @@ export const WORK: WorkItem[] = [
     },
     description: {
       en: "Modernizing a wealth planner's UI for live demos to sell to Spanish banks.",
-      // TODO(afi-redaccion)
-      es: "Modernizar la UI de un wealth planner para demos en vivo con las que vender a bancos españoles.",
+      es: "Modernizar la UI de un wealth planner para venderlo a la banca española con demos en directo.",
     },
     year: 2026,
     type: "brand-ds",

@@ -56,7 +56,7 @@ Notes for running it:
 
 ## Content workflow (writing)
 
-Six subagents + six slash commands across two stages. See [content/README.md](content/README.md) for the stage model (journal → drafts → published → social) and the four pillars (process / breakdown / authority / experiment). Two canonical rulebooks: [content/brand-guide.md](content/brand-guide.md) is what the brand *is* (positioning, universal truth, personality tests, values — every writer and reviewer reads it), and [content/voice.md](content/voice.md) is how it *sounds*. Design claims in copy must be consistent with the `design-principles` skill.
+Six subagents + six slash commands across two stages. See [content/README.md](content/README.md) for the stage model (journal → drafts → published → social) and the four pillars (process / breakdown / authority / experiment). Three canonical rulebooks: [content/brand-guide.md](content/brand-guide.md) is what the brand *is* (positioning, universal truth, personality tests, values — every writer and reviewer reads it), [content/voice.md](content/voice.md) is how it *sounds*, and [content/lexicon.md](content/lexicon.md) is the vocabulary it *owns* (the positive lexicon + signature constructions; voice.md bans, lexicon supplies). Design claims in copy must be consistent with the `design-principles` skill.
 
 ### Long-form (journal → drafts → published)
 

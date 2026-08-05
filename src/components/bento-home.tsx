@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
 
+import { BlurFade } from "@/components/motion/blur-fade";
 import { IntroParagraphs } from "@/components/home-intro";
 import { WorkCard } from "@/components/work-card";
 import { WORK } from "@/lib/content/work";
@@ -295,21 +296,30 @@ export function BentoHome() {
             reads as breathing room; slack above the first line reads as a
             mistake. pt is a step tighter than the sides so the first line sits
             near the media panel edge of the tile beside it. */}
-        <Tile className="col-span-2 row-span-2 flex flex-col justify-start gap-3 p-6 pt-5 sm:p-8 sm:pt-6">
-          {/* Colour and the type scale both come from the component now — the
-              sizes are Figma-specified, so they live next to the copy. */}
-          <IntroParagraphs className="font-geist" />
-          {/* The place line lives here, not in the footer — it's identity, so it
-              belongs with the intro. The footer took the socials instead.
-              mt-auto pins it so it reads as a signature under the prose. */}
-          {/* 13px, a step under the 14px copy: this is a caption, not prose, so
-              it's the one place a size step earns its keep. Same 1.25 ratio and
-              tracking as the body, and --muted-foreground puts it a tier below
-              --prose-body on the ink ramp too. */}
-          <p className="text-muted-foreground mt-auto text-[13px] leading-[16.25px] tracking-[-0.0002em]">
-            {t("footer.built", lang)}
-          </p>
-        </Tile>
+        {/* Same load-in as the card beside it: WorkCard's own BlurFade with the
+            identical props, and delay 0 to match the index={0} tile so the two
+            2×2s arrive together rather than the copy simply being there while
+            its neighbour animates. */}
+        <div className="col-span-2 row-span-2">
+          <BlurFade inView inViewMargin="-60px" className="h-full">
+            <Tile className="flex h-full flex-col justify-start gap-3 p-6 pt-5 sm:p-8 sm:pt-6">
+              {/* Colour and the type scale both come from the component now —
+                  the sizes are Figma-specified, so they live next to the copy. */}
+              <IntroParagraphs className="font-geist" />
+              {/* The place line lives here, not in the footer — it's identity,
+                  so it belongs with the intro. The footer took the socials.
+                  mt-auto pins it as a signature under the prose.
+
+                  13px, a step under the 14px copy: a caption, not prose, so it's
+                  the one place a size step earns its keep. Same 1.25 ratio and
+                  tracking as the body, and --muted-foreground puts it a tier
+                  below --prose-body on the ink ramp too. */}
+              <p className="text-muted-foreground mt-auto text-[13px] leading-[16.25px] tracking-[-0.0002em]">
+                {t("footer.built", lang)}
+              </p>
+            </Tile>
+          </BlurFade>
+        </div>
         <div className="col-span-2 row-span-2">
           <WorkCard item={bySlug("visual-identity")} index={0} />
         </div>

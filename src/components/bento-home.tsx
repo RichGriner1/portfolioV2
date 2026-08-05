@@ -362,13 +362,13 @@ export function BentoHome() {
         </div>
 
         {/* Row 3 — Afi DS takes the wide, the two brand/process squares follow */}
-        {/* `row-span-2` below `sm`, back to a wide from `sm` up. A 2-col span on a
-            phone is only ~272–327px across, and these two figures are authored at
-            fixed sizes, so a single row cut the bank list off after "Bankinter" and
-            the loop scene off after its second skill. Two rows gives them the same
-            footprint as the visual-identity tile above, which is the one that
-            always had enough room. */}
-        <div className="col-span-2 row-span-2 sm:row-span-1">
+        {/* Stays one row. It briefly got `row-span-2` alongside the loop tile, but
+            the bank list was never what clipped — measurement only ever showed the
+            loop scene overflowing (47px at 375px). Two rows just gave the list a
+            cell far taller than four rows of content need, and the figure centres
+            itself in it, so the extra height showed up as white space above the
+            list. Only the tile that actually overflows gets the taller cell. */}
+        <div className="col-span-2 row-span-1">
           <WorkCard
             item={bySlug("afi-design-system")}
             index={1}

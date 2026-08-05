@@ -64,3 +64,7 @@ videos/**/node_modules/
 videos/**/renders/
 videos/**/snapshots/
 videos/**/.hyperframes/
+
+# Responsive check output (regenerate with `npm run check:responsive`)
+responsive-check-report.json
+responsive-check-shots/

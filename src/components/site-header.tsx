@@ -31,8 +31,18 @@ export function SiteHeader() {
     <header className="w-full">
       {/* Three columns so the nav is centred on the viewport, not on whatever is
           left over between the logo and the controls. `1fr auto 1fr` keeps it put
-          however wide the sides get. */}
-      <div className="font-geist mx-auto grid h-14 max-w-5xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-6">
+          however wide the sides get.
+
+          That grid only holds from `sm` up. Below it the three intrinsic widths
+          plus two 24px gaps and 48px of padding came to 361px, so at 320px the
+          CV / language / theme controls sat 17px off the right edge — the header
+          is `overflow: visible`, so nothing scrolled and nothing looked wrong on
+          desktop. Mobile is plain flex + `justify-between` instead: it spreads
+          the same three groups across whatever width there is and can't push a
+          column out of the box. The nav loses its viewport-centring there, which
+          is the trade — reachable beats centred. Guarded by
+          `npm run check:responsive`, which measures this header at 320px. */}
+      <div className="font-geist mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:gap-6 sm:px-6">
         <Link
           href="/"
           aria-label={WORDMARK}
@@ -52,25 +62,30 @@ export function SiteHeader() {
           </span>
         </Link>
 
+        {/* `py-1.5` rather than a min-height: it takes the links from a 20px-tall
+            text box to a 32px hit area for WCAG 2.5.8, and vertical padding is
+            free here where horizontal padding is not — the whole row only has
+            ~11px of slack at 320px, so widening each link would put the controls
+            back off the edge. Both labels are already past 24px wide. */}
         <nav
           aria-label="Site"
-          className="text-muted-foreground flex items-center gap-6 justify-self-center text-sm"
+          className="text-muted-foreground flex items-center gap-4 justify-self-center text-sm sm:gap-6"
         >
           <Link
             href="/projects"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
+            className="hover:text-foreground py-1.5 underline-offset-4 transition-colors hover:underline"
           >
             {t("nav.projects", lang)}
           </Link>
           <Link
             href="/writing"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
+            className="hover:text-foreground py-1.5 underline-offset-4 transition-colors hover:underline"
           >
             {t("nav.writing", lang)}
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4 justify-self-end">
+        <div className="flex items-center gap-3 justify-self-end sm:gap-4">
           <div className="text-muted-foreground text-sm">
             <CvModal />
           </div>

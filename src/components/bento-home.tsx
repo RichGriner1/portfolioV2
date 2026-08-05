@@ -302,9 +302,25 @@ export function BentoHome() {
 
   return (
     <main className="bento-frame mx-auto w-full max-w-5xl flex-1 px-6 pt-10 pb-24">
-      {/* Row height = cell width at the max-w-5xl content width (976 − 3×8
-          gutters over 4 cols = 238), so 1×1 tiles are true squares and the
-          spans align with the WorkCard's square media. */}
+      {/* Desktop keeps the module's original rule — row height = column width, so
+          at the max-w-5xl content width 976 − 3×8 gutters over 4 cols = 238 and a
+          2×2 span is exactly as tall as it is wide.
+
+          Mobile can't hold that rule, and must not try. A column there is only
+          ~132–167px, while the figures are authored at fixed sizes — the loop scene
+          wants a 300×190 canvas, the bank list needs four rows — so rows stay
+          content-driven at `minmax(150px,1fr)`, which resolves to ~232px at 320px.
+          Two wrong turns are worth naming: matching the row to the column width cut
+          "Bankinter" and the LOOP card off their tiles, and pinning rows to a flat
+          190px clipped the intro paragraph by 83px. The row height was never the
+          problem.
+
+          That gives up the square, so every card takes `fill`: it stretches to its
+          cell rather than sitting square inside a taller one, which is what left
+          58px of dead space under the visual-identity card and 29px under each 1×1
+          and read as uneven gutters. `fill` costs nothing on desktop, where the cell
+          IS square, so the two are identical there. The gutters were always 8px; the
+          slack was inside the cells. */}
       <div className="grid auto-rows-[minmax(150px,1fr)] grid-cols-2 gap-2 sm:auto-rows-[238px] sm:grid-cols-4">
         {/* Rows 1–2 — locked: intro and flagship at equal 2×2 weight */}
         {/* Top-aligned, not centred: the copy fills ~300px of a 484px tile, and
@@ -340,6 +356,7 @@ export function BentoHome() {
           <WorkCard
             item={bySlug("visual-identity")}
             index={0}
+            fill
             caption={false}
           />
         </div>
@@ -354,12 +371,13 @@ export function BentoHome() {
           />
         </div>
         <div className="col-span-1 row-span-1">
-          <WorkCard item={bySlug("mindfulme")} index={2} caption={false} />
+          <WorkCard item={bySlug("mindfulme")} index={2} fill caption={false} />
         </div>
         <div className="col-span-1 row-span-1">
           <WorkCard
             item={bySlug("design-md-primeng-wealth-manager")}
             index={3}
+            fill
             caption={false}
           />
         </div>

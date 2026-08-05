@@ -75,11 +75,25 @@ const ROUTES = [
  * header are 32px, so this is a floor with headroom, not a tight fit.
  */
 const MIN_TAP = 24;
+
+/**
+ * Selectors, not elements — each one is resolved to its FIRST VISIBLE match at
+ * probe time, because the header renders two layouts and hides one.
+ *
+ * Below `sm` the crab is a menu button and Projects / Writing / CV live inside
+ * the panel it opens; from `sm` up the crab is a home link and those three sit in
+ * the bar. Both sets are inside <header>, so `header a[href="/projects"]` can
+ * match a display:none desktop link AND a live menu row at the same time. Taking
+ * the visible one keeps a single target list honest for both layouts.
+ */
 const NAV_TARGETS = [
-  { name: "logo / home link", selector: 'header a[href="/"]' },
+  {
+    name: "logo (home link, or menu button on mobile)",
+    selector: 'header a[href="/"], header button[aria-controls="site-menu"]',
+  },
   { name: "projects link", selector: 'header a[href="/projects"]' },
   { name: "writing link", selector: 'header a[href="/writing"]' },
-  { name: "CV button", selector: "header button:nth-of-type(1)" },
+  { name: "CV button", selector: "header button", text: "CV" },
 ];
 
 const args = process.argv.slice(2);
@@ -250,26 +264,27 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
   }
 
   // 4. Nav reachability.
-  for (const { name, selector } of navTargets) {
-    const el = document.querySelector(selector);
+  const firstVisible = (selector, text) => {
+    for (const el of document.querySelectorAll(selector)) {
+      if (text !== undefined && el.textContent.trim() !== text) continue;
+      const cs = getComputedStyle(el);
+      if (cs.display === "none" || cs.visibility === "hidden") continue;
+      if (el.getBoundingClientRect().width === 0) continue;
+      return el;
+    }
+    return null;
+  };
+  for (const { name, selector, text } of navTargets) {
+    const el = firstVisible(selector, text);
     if (!el) {
       findings.push({
         severity: "error",
         kind: "nav-missing",
-        detail: `${name} (${selector}) is not in the DOM`,
+        detail: `${name} (${selector}) has no visible instance`,
       });
       continue;
     }
     const rect = el.getBoundingClientRect();
-    const cs = getComputedStyle(el);
-    if (cs.display === "none" || cs.visibility === "hidden") {
-      findings.push({
-        severity: "error",
-        kind: "nav-hidden",
-        detail: `${name} is ${cs.display}/${cs.visibility}`,
-      });
-      continue;
-    }
     if (rect.right > vw + 1 || rect.left < -1) {
       findings.push({
         severity: "error",
@@ -417,15 +432,34 @@ async function main() {
             deviceWidth: width,
           });
 
+        /**
+         * Below `sm` the nav is behind the crab menu, so it has to be opened
+         * before the targets exist. Opened via the real control rather than by
+         * forcing state — if the toggle is broken, this check should fail.
+         */
+        const menuBtn = page.locator(
+          'header button[aria-controls="site-menu"]'
+        );
+        const usesMenu = width < 768 && (await menuBtn.isVisible());
+        if (usesMenu) {
+          await menuBtn.click();
+          await page.waitForTimeout(500);
+        }
+
         const findings = await probe();
 
         /**
          * Overlays have to be opened to be measured. The CV modal shipped as an
          * unconditional `grid-cols-3` and no static sweep would ever have seen
          * it, because a closed modal isn't in the DOM at all.
+         *
+         * `:visible` matters: the header renders a desktop CV button and a mobile
+         * menu one, and the hidden instance is the first in DOM order.
          */
         if (route === "/") {
-          const cv = page.locator("header button", { hasText: /^CV$/ });
+          const cv = page
+            .locator("header button:visible")
+            .filter({ hasText: /^CV$/ });
           if (await cv.count()) {
             await cv.first().click();
             await page.waitForTimeout(600);
@@ -435,6 +469,11 @@ async function main() {
             await page.keyboard.press("Escape");
             await page.waitForTimeout(300);
           }
+        }
+
+        if (usesMenu) {
+          await page.keyboard.press("Escape");
+          await page.waitForTimeout(250);
         }
 
         const errors = findings.filter((f) => f.severity !== "warn");

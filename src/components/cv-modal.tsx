@@ -14,10 +14,16 @@ type CvExperience = {
   description: Bilingual<string>;
 };
 
+/**
+ * No `year`. Dates came off on 2026-08-05: the correct ones (BA 2016, master's
+ * 2021) left a visible 2016–2022 gap on a CV whose earliest listed role starts
+ * in 2022. Richard was teaching English through that period — it just isn't on
+ * here. Degrees and schools stand on their own; add dates back only alongside
+ * the roles that fill the gap, or the gap is the thing the reader notices.
+ */
 type CvEducation = {
   degree: Bilingual<string>;
   school: string;
-  year: string;
 };
 
 const CV: {
@@ -88,7 +94,6 @@ const CV: {
         es: "Máster en UX y diseño de servicios",
       },
       school: "IED Madrid",
-      year: "2021",
     },
     {
       degree: {
@@ -96,7 +101,6 @@ const CV: {
         es: "Grado en Antropología",
       },
       school: "University of Maryland, College Park",
-      year: "2016",
     },
   ],
 };
@@ -227,13 +231,10 @@ export function CvModal() {
                     <div className="flex flex-col gap-2">
                       {CV.education.map((e) => (
                         <div key={e.school}>
-                          <div className="flex items-baseline justify-between gap-2">
-                            <span className="text-foreground text-sm">
-                              {pick(e.degree, lang)}
-                            </span>
-                            <span className="text-muted-foreground shrink-0 font-mono text-xs">
-                              {e.year}
-                            </span>
+                          {/* No year. Degrees are listed without dates on
+                              purpose — see the CvEducation type. */}
+                          <div className="text-foreground text-sm">
+                            {pick(e.degree, lang)}
                           </div>
                           <div className="text-muted-foreground font-mono text-xs">
                             {e.school}

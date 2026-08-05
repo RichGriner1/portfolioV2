@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
@@ -213,9 +213,42 @@ const CV: {
   ],
 };
 
-export function CvModal() {
+/**
+ * Uncontrolled by default: renders its own "CV" trigger and owns `open`.
+ *
+ * The optional controlled form exists because the site menu can't contain this
+ * component. The menu panel animates `max-width`/`height` with `overflow: hidden`,
+ * and its rows animate `filter`, either of which makes an ancestor the containing
+ * block for `position: fixed` descendants — so the modal stopped escaping the panel
+ * and got clipped to its 304px width (measured: 488px of modal inside a 304px box).
+ * Passing `open`/`onOpenChange` lets the trigger live inside the panel while the
+ * modal itself renders as a sibling outside it, and `triggerless` drops the built-in
+ * button for that case.
+ */
+export function CvModal({
+  open: controlledOpen,
+  onOpenChange,
+  triggerless = false,
+}: {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  /** Render only the dialog, no trigger — for the controlled form. */
+  triggerless?: boolean;
+} = {}) {
   const { lang } = useLang();
-  const [open, setOpen] = useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : uncontrolledOpen;
+  // `useCallback` so the effects below can depend on it honestly — it's a real
+  // function now, not a stable setState, so omitting it from a dep array would be a
+  // stale-closure waiting to happen.
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (!isControlled) setUncontrolledOpen(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -223,7 +256,7 @@ export function CvModal() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [setOpen]);
 
   useEffect(() => {
     if (open) {
@@ -260,12 +293,14 @@ export function CvModal() {
           WCAG 2.5.8 minimum in both directions, and the smallest target in the
           header. `px-1 py-1.5` gets it to roughly 27×32 for 8px of width, which
           the 320px row can afford where a larger pad could not. */}
-      <button
-        onClick={() => setOpen(true)}
-        className="hover:text-foreground px-1 py-1.5 underline-offset-4 transition-colors hover:underline"
-      >
-        {t("nav.cv", lang)}
-      </button>
+      {triggerless ? null : (
+        <button
+          onClick={() => setOpen(true)}
+          className="hover:text-foreground px-1 py-1.5 underline-offset-4 transition-colors hover:underline"
+        >
+          {t("nav.cv", lang)}
+        </button>
+      )}
 
       <AnimatePresence>
         {open && (

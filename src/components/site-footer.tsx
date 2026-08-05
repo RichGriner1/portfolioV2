@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { t, useLang } from "@/lib/i18n";
 
 export function SiteFooter() {
@@ -17,23 +15,6 @@ export function SiteFooter() {
         <p>
           © {year} Richard Griner. {t("footer.rights", lang)}
         </p>
-        {/* Index links, moved out of the home grid. The home carries the current
-            work; these are the way through to everything else, which is footer
-            work rather than a tile competing with the case studies. */}
-        <nav aria-label="Site index" className="flex items-center gap-4">
-          <Link
-            href="/projects"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-          >
-            {t("nav.projects", lang)}
-          </Link>
-          <Link
-            href="/writing"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-          >
-            {t("nav.writing", lang)}
-          </Link>
-        </nav>
         <nav aria-label="Social links" className="flex items-center gap-4">
           <a
             href="https://www.linkedin.com/in/richardgriner"

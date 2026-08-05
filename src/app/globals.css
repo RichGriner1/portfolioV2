@@ -101,6 +101,16 @@
   --ease-spring: var(--ease-spring);
   --ease-enter: var(--ease-enter);
 
+  /* Header wordmark reveal. Three stops rather than a transition with a
+     back-out curve, because the overshoot has to be a specific 2px: a curve's
+     overshoot is a fraction of the distance travelled, so it drifts whenever the
+     6px start offset changes. Keyframes state it outright — exaggeration, and
+     the anticipation of arriving before settling. Removing the class on
+     hover-out drops the animation and the element returns to its base state via
+     the transition already on it, so the exit stays smooth. */
+  --animate-wordmark-in: wordmark-in var(--duration-base) var(--ease-out-soft)
+    both;
+
   /* ------------------------------------------------------------------------
      Design-System color bridges — used ONLY inside `.ds-scope` (the ported
      Color methodology page). These expose the DS's extra semantic roles as
@@ -302,6 +312,34 @@
     0 10px 15px -3px oklch(0 0 0 / 0.5), 0 4px 6px -4px oklch(0 0 0 / 0.4);
   --shadow-xl:
     0 20px 25px -5px oklch(0 0 0 / 0.55), 0 8px 10px -6px oklch(0 0 0 / 0.4);
+}
+
+/* Wordmark reveal: in from the left, 2px past the mark, then settles. */
+@keyframes wordmark-in {
+  0% {
+    translate: -6px 0;
+    opacity: 0;
+    filter: blur(4px);
+  }
+  60% {
+    translate: 2px 0;
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    translate: 0 0;
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-wordmark-in {
+    animation: none;
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
+  }
 }
 
 /* ==========================================================================

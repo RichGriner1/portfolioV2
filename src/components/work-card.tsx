@@ -86,12 +86,28 @@ export function WorkCard({
   item,
   index,
   fill = false,
+  caption = true,
 }: {
   item: WorkItem;
   index: number;
   /** Fill the parent's height (for bento spans) instead of forcing a square.
       Square media (1080×1080 thumbs) center-crops via object-cover. */
   fill?: boolean;
+  /**
+   * Render the touch-device caption under the tile. On in the index grids
+   * (/projects, /writing), off in the bento.
+   *
+   * The caption exists because the title panel is hover-only, so a touch device
+   * would otherwise get an unlabelled graphic. In a list that's the only label
+   * there is, and it has room to sit under a square. The bento has neither: its
+   * rows are a fixed 238px track and the caption's height lands *outside* the
+   * tile, so every captioned card grew taller than its grid cell and the whole
+   * composition stopped lining up. That's the "straight bento" the home wants.
+   *
+   * Defaults to on so the failure mode of forgetting it is a visible layout
+   * break rather than a silently unlabelled link.
+   */
+  caption?: boolean;
 }) {
   const { lang } = useLang();
   const locale = lang === "es" ? "es-ES" : "en-US";
@@ -104,7 +120,16 @@ export function WorkCard({
       delay={Math.min(index, 8) * 0.06}
       className={fill ? "h-full" : undefined}
     >
-      <Link href={item.href} className={cn("group block", fill && "h-full")}>
+      {/* Explicit accessible name, not left to whichever visual layer happens to
+          be showing. The title panel is hover-only and the caption is touch-only,
+          so with `caption={false}` a touch device has no text in the link at all
+          — display:none keeps it out of the accessibility tree too. Naming the
+          link here means it reads the same at every width. */}
+      <Link
+        href={item.href}
+        aria-label={`${pick(KIND_LABELS[item.kind], lang)}: ${pick(item.title, lang)}`}
+        className={cn("group block", fill && "h-full")}
+      >
         {/* Media tile */}
         <div
           className={cn(
@@ -140,17 +165,19 @@ export function WorkCard({
         </div>
 
         {/* Touch devices only: title + info below the graphic */}
-        <div className="mt-3 hidden flex-col gap-1 [@media(hover:none)]:flex">
-          <span className="text-muted-foreground font-mono text-[10px] font-medium">
-            {pick(KIND_LABELS[item.kind], lang)}
-          </span>
-          <h3 className="text-foreground font-display text-base font-bold tracking-tight">
-            {pick(item.title, lang)}
-          </h3>
-          <div className="text-muted-foreground font-mono text-xs tracking-wider">
-            {formatDate(item, locale)}
+        {caption ? (
+          <div className="mt-3 hidden flex-col gap-1 [@media(hover:none)]:flex">
+            <span className="text-muted-foreground font-mono text-[10px] font-medium">
+              {pick(KIND_LABELS[item.kind], lang)}
+            </span>
+            <h3 className="text-foreground font-display text-base font-bold tracking-tight">
+              {pick(item.title, lang)}
+            </h3>
+            <div className="text-muted-foreground font-mono text-xs tracking-wider">
+              {formatDate(item, locale)}
+            </div>
           </div>
-        </div>
+        ) : null}
       </Link>
     </BlurFade>
   );

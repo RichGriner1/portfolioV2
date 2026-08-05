@@ -328,20 +328,30 @@ export function BentoHome() {
           </BlurFade>
         </div>
         <div className="col-span-2 row-span-2">
-          <WorkCard item={bySlug("visual-identity")} index={0} />
+          <WorkCard
+            item={bySlug("visual-identity")}
+            index={0}
+            caption={false}
+          />
         </div>
 
         {/* Row 3 — Afi DS takes the wide, the two brand/process squares follow */}
         <div className="col-span-2 row-span-1">
-          <WorkCard item={bySlug("afi-design-system")} index={1} fill />
+          <WorkCard
+            item={bySlug("afi-design-system")}
+            index={1}
+            fill
+            caption={false}
+          />
         </div>
         <div className="col-span-1 row-span-1">
-          <WorkCard item={bySlug("mindfulme")} index={2} />
+          <WorkCard item={bySlug("mindfulme")} index={2} caption={false} />
         </div>
         <div className="col-span-1 row-span-1">
           <WorkCard
             item={bySlug("design-md-primeng-wealth-manager")}
             index={3}
+            caption={false}
           />
         </div>
 
@@ -365,10 +375,11 @@ export function BentoHome() {
             item={bySlug("loops-and-skills-are-components")}
             index={4}
             fill
+            caption={false}
           />
         </div>
         <div className="col-span-2 row-span-1">
-          <WorkCard item={bySlug("kt360")} index={5} fill />
+          <WorkCard item={bySlug("kt360")} index={5} fill caption={false} />
         </div>
       </div>
     </main>

@@ -144,7 +144,7 @@ function TalkTile() {
     <div
       className={cn(
         FRAME,
-        "group bg-primary border-primary text-primary-foreground h-full w-full"
+        "group bg-primary border-primary text-primary-foreground aspect-square w-full sm:aspect-auto sm:h-full"
       )}
     >
       <a
@@ -302,26 +302,24 @@ export function BentoHome() {
 
   return (
     <main className="bento-frame mx-auto w-full max-w-5xl flex-1 px-6 pt-10 pb-24">
-      {/* Desktop keeps the module's original rule — row height = column width, so
-          at the max-w-5xl content width 976 − 3×8 gutters over 4 cols = 238 and a
-          2×2 span is exactly as tall as it is wide.
+      {/* Two layouts, not one that stretches. From `sm` up it's the authored
+          module: 4 columns, 8px gutters, 238px rows, so row height = column width
+          and a 2×2 span is exactly as tall as it is wide.
 
-          Mobile can't hold that rule, and must not try. A column there is only
-          ~132–167px, while the figures are authored at fixed sizes — the loop scene
-          wants a 300×190 canvas, the bank list needs four rows — so rows stay
-          content-driven at `minmax(150px,1fr)`, which resolves to ~232px at 320px.
-          Two wrong turns are worth naming: matching the row to the column width cut
-          "Bankinter" and the LOOP card off their tiles, and pinning rows to a flat
-          190px clipped the intro paragraph by 83px. The row height was never the
-          problem.
+          Below `sm` it's a single column, and every span is dropped. The module
+          doesn't survive being squeezed: a 1×1 tile on a phone is ~160px across,
+          and these figures are authored at fixed sizes — the design.md glyph came
+          out mangled and the Mindfulme eye swam in a box far bigger than it. Every
+          attempt to fix that by adjusting the grid moved the problem somewhere
+          else: matching row height to column width cut "Bankinter" off, a flat
+          190px clipped the intro paragraph by 83px, and giving the bank list two
+          rows left white space above it.
 
-          That gives up the square, so every card takes `fill`: it stretches to its
-          cell rather than sitting square inside a taller one, which is what left
-          58px of dead space under the visual-identity card and 29px under each 1×1
-          and read as uneven gutters. `fill` costs nothing on desktop, where the cell
-          IS square, so the two are identical there. The gutters were always 8px; the
-          slack was inside the cells. */}
-      <div className="grid auto-rows-[minmax(150px,1fr)] grid-cols-2 gap-2 sm:auto-rows-[238px] sm:grid-cols-4">
+          One column gives every figure the full content width — 272px at 320, 342px
+          at 390 — which is the width they were drawn for. Rows are `auto`, so each
+          tile is as tall as its own content needs and the page simply gets longer.
+          The composition is a desktop composition; on a phone it's a stack. */}
+      <div className="grid auto-rows-auto grid-cols-1 gap-2 sm:auto-rows-[238px] sm:grid-cols-4">
         {/* Rows 1–2 — locked: intro and flagship at equal 2×2 weight */}
         {/* Top-aligned, not centred: the copy fills ~300px of a 484px tile, and
             centring split the slack above and below. Slack under a text block
@@ -332,9 +330,9 @@ export function BentoHome() {
             identical props, and delay 0 to match the index={0} tile so the two
             2×2s arrive together rather than the copy simply being there while
             its neighbour animates. */}
-        <div className="col-span-2 row-span-2">
-          <BlurFade inView inViewMargin="-60px" className="h-full">
-            <Tile className="flex h-full flex-col justify-start gap-3 p-6 pt-5 sm:p-8 sm:pt-6">
+        <div className="sm:col-span-2 sm:row-span-2">
+          <BlurFade inView inViewMargin="-60px" className="sm:h-full">
+            <Tile className="flex flex-col justify-start gap-3 p-6 pt-5 sm:h-full sm:p-8 sm:pt-6">
               {/* Colour and the type scale both come from the component now —
                   the sizes are Figma-specified, so they live next to the copy. */}
               <IntroParagraphs className="font-geist" />
@@ -352,7 +350,7 @@ export function BentoHome() {
             </Tile>
           </BlurFade>
         </div>
-        <div className="col-span-2 row-span-2">
+        <div className="sm:col-span-2 sm:row-span-2">
           <WorkCard
             item={bySlug("visual-identity")}
             index={0}
@@ -368,7 +366,7 @@ export function BentoHome() {
             cell far taller than four rows of content need, and the figure centres
             itself in it, so the extra height showed up as white space above the
             list. Only the tile that actually overflows gets the taller cell. */}
-        <div className="col-span-2 row-span-1">
+        <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("afi-design-system")}
             index={1}
@@ -376,10 +374,10 @@ export function BentoHome() {
             caption={false}
           />
         </div>
-        <div className="col-span-1 row-span-1">
+        <div className="sm:col-span-1 sm:row-span-1">
           <WorkCard item={bySlug("mindfulme")} index={2} fill caption={false} />
         </div>
-        <div className="col-span-1 row-span-1">
+        <div className="sm:col-span-1 sm:row-span-1">
           <WorkCard
             item={bySlug("design-md-primeng-wealth-manager")}
             index={3}
@@ -406,10 +404,10 @@ export function BentoHome() {
             there were still two tiles below it. On `sm` and up the grid is 4-col
             and this tile shares a row with the two wides beside it, so the reading
             order is no longer purely vertical and the authored position stands. */}
-        <div className="order-last col-span-2 row-span-2 sm:order-none">
+        <div className="order-last sm:order-none sm:col-span-2 sm:row-span-2">
           <TalkTile />
         </div>
-        <div className="col-span-2 row-span-2 sm:row-span-1">
+        <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("loops-and-skills-are-components")}
             index={4}
@@ -417,7 +415,7 @@ export function BentoHome() {
             caption={false}
           />
         </div>
-        <div className="col-span-2 row-span-1">
+        <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard item={bySlug("kt360")} index={5} fill caption={false} />
         </div>
       </div>

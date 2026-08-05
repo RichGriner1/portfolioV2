@@ -111,14 +111,23 @@ export function WorkCard({
 }) {
   const { lang } = useLang();
   const locale = lang === "es" ? "es-ES" : "en-US";
-  const aspect = fill ? "h-full" : "aspect-square";
+  /**
+   * `fill` only means "fill the cell" from `sm` up. Below that the bento is a
+   * single column with `auto` rows, so there is no cell height to fill — `h-full`
+   * would resolve against an auto-height row and collapse the tile. A square at
+   * full column width is both the right proportion there and the most room these
+   * fixed-size figures can get.
+   */
+  const aspect = fill
+    ? "aspect-square sm:aspect-auto sm:h-full"
+    : "aspect-square";
 
   return (
     <BlurFade
       inView
       inViewMargin="-60px"
       delay={Math.min(index, 8) * 0.06}
-      className={fill ? "h-full" : undefined}
+      className={fill ? "sm:h-full" : undefined}
     >
       {/* Explicit accessible name, not left to whichever visual layer happens to
           be showing. The title panel is hover-only and the caption is touch-only,
@@ -128,7 +137,7 @@ export function WorkCard({
       <Link
         href={item.href}
         aria-label={`${pick(KIND_LABELS[item.kind], lang)}: ${pick(item.title, lang)}`}
-        className={cn("group block", fill && "h-full")}
+        className={cn("group block", fill && "sm:h-full")}
       >
         {/* Media tile */}
         <div

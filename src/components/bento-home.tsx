@@ -188,7 +188,17 @@ function TalkTile() {
               instead of the words butting against it; margin is in the transition
               too, or the gap would snap in. 6px, not the original 3px — the clip
               is 1.7em now rather than 0.95em, and at 82px a 3px gap read as the
-              type touching the image. And the clip itself scales in on a
+              type touching the image.
+
+              The clip's own transition lists `translate` and `scale`, NOT
+              `transform`. Tailwind v4 compiles the translate-y and scale
+              utilities to the separate `translate` and `scale` CSS properties, so
+              `transition-[opacity,transform]` matched nothing and this animation
+              never ran: the clip snapped 41px into place while only the opacity
+              faded, and on mouse-out it dropped 41px at full opacity before
+              fading — a visible dip that got worse when the clip grew to 1.7em.
+              site-header.tsx uses the same `transition-[opacity,translate,...]`
+              form for the same reason. And the clip itself scales in on a
               60ms delay — secondary action, staged after the slot starts moving
               rather than everything travelling as one block. */}
           {TALK_CLIP ? (
@@ -203,7 +213,7 @@ function TalkTile() {
                 // max-w-none is load-bearing: Tailwind's preflight sets
                 // `max-width:100%` on media, so the narrow slot was clamping the
                 // clip to 16.8px wide and it rendered as a sliver.
-                className="ease-spring size-[1.7em] max-w-none translate-y-[45%] scale-90 rounded-md object-cover opacity-0 shadow-lg transition-[opacity,transform] delay-[60ms] duration-[var(--duration-base)] group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:scale-100 [@media(hover:none)]:opacity-100"
+                className="ease-spring size-[1.7em] max-w-none translate-y-[45%] scale-90 rounded-md object-cover opacity-0 shadow-lg transition-[opacity,translate,scale] delay-[60ms] duration-[var(--duration-base)] group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:scale-100 [@media(hover:none)]:opacity-100"
                 src={TALK_CLIP}
                 autoPlay
                 muted

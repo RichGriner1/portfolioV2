@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
@@ -15,8 +16,8 @@ import { EASE_SOFT } from "@/components/motion/constants";
  *
  * So the two are split by the space they get:
  *
- * - `DotToggle` is 9×9. At 32px that's ~3.5px per dot, which reads. It carries the
- *   open/close state, so it has to survive small.
+ * - `DotToggle` is 3×3, matching the reference. It carries the open/close state, so
+ *   it has to survive the bar's ~20px.
  * - `CrabDots` is the detailed 29×19 crab and is only used where there's room for
  *   it (the menu panel, at ~88px).
  */
@@ -98,48 +99,97 @@ function DotField({
   );
 }
 
-/* ---------------------------------------------------------------- toggle (9×9) */
+/* ---------------------------------------------------------------- toggle (3×3) */
 
-/** A tidy lattice — the "dot grid" the crab dissolves into before it becomes an X. */
-const LATTICE = [
-  "#.#.#.#.#",
-  ".........",
-  "#.#.#.#.#",
-  ".........",
-  "#.#.#.#.#",
-  ".........",
-  "#.#.#.#.#",
-  ".........",
-  "#.#.#.#.#",
-];
+/**
+ * 3×3, matching the reference exactly. Nine dots at rest; opening drops the four
+ * edge-centre dots and leaves the corners plus the middle, which is an X at this
+ * size. Deliberately this coarse — a 9×9 grid was tried and at the bar's ~20px it
+ * was a smudge, because a dot needs ~3px and 9 columns would want ~27px of dot
+ * alone. Three columns into 20px is a ~6px cell, which reads.
+ */
+const GRID_3 = ["###", "###", "###"];
+const CROSS_3 = ["#.#", ".#.", "#.#"];
 
-const CROSS = [
-  "#.......#",
-  ".#.....#.",
-  "..#...#..",
-  "...#.#...",
-  "....#....",
-  "...#.#...",
-  "..#...#..",
-  ".#.....#.",
-  "#.......#",
-];
+/** Dim floor for a dot the pointer is far from. */
+const FAR_OPACITY = 0.3;
+/** How far the spotlight reaches, in multiples of the mark's own width. */
+const REACH = 0.9;
 
 export function DotToggle({
   open,
   className,
 }: {
-  /** `false` shows the lattice, `true` shows the X. */
+  /** `false` shows the full grid, `true` shows the X. */
   open: boolean;
   className?: string;
 }) {
+  const art = open ? CROSS_3 : GRID_3;
+  const rows = art.length;
+  const cols = art[0].length;
+
+  /**
+   * Proximity spotlight, copied from the reference's behaviour: dots near the
+   * pointer hold full opacity and distant ones fall back to `FAR_OPACITY`, so the
+   * grid appears to light up under the cursor and settles when it leaves.
+   *
+   * Tracked here rather than on the parent button because the distances that matter
+   * are to the dots, and this element is the dots' own box. Events still bubble, so
+   * the button keeps its click.
+   */
+  const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null);
+
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Pointer-driven, so a touch tap doesn't leave the grid stuck half-lit.
+    if (e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    setPointer({
+      x: (e.clientX - r.left) / r.width,
+      y: (e.clientY - r.top) / r.height,
+    });
+  };
+
   return (
-    <DotField
-      rows={9}
-      states={{ lattice: LATTICE, cross: CROSS }}
-      active={open ? "cross" : "lattice"}
+    <div
+      aria-hidden
       className={className}
-    />
+      onPointerMove={onMove}
+      onPointerLeave={() => setPointer(null)}
+      style={{ position: "relative", aspectRatio: `${cols} / ${rows}` }}
+    >
+      {Array.from({ length: rows * cols }, (_, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const on = art[row][col] === "#";
+
+        // Dot centre in the same normalised space as the pointer.
+        const cx = (col + 0.5) / cols;
+        const cy = (row + 0.5) / rows;
+        const near = pointer
+          ? Math.max(0, 1 - Math.hypot(pointer.x - cx, pointer.y - cy) / REACH)
+          : 1;
+        const lit = FAR_OPACITY + (1 - FAR_OPACITY) * near;
+
+        return (
+          <motion.span
+            key={i}
+            className="bg-current"
+            style={{
+              position: "absolute",
+              left: `${(col / cols) * 100}%`,
+              top: `${(row / rows) * 100}%`,
+              width: `${(1 / cols) * 100}%`,
+              height: `${(1 / rows) * 100}%`,
+              transform: "scale(0.42)",
+              borderRadius: "9999px",
+            }}
+            initial={false}
+            animate={{ opacity: on ? lit : 0 }}
+            transition={{ duration: 0.2, ease: EASE_SOFT }}
+          />
+        );
+      })}
+    </div>
   );
 }
 

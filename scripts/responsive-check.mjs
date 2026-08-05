@@ -80,17 +80,17 @@ const MIN_TAP = 24;
  * Selectors, not elements — each one is resolved to its FIRST VISIBLE match at
  * probe time, because the header renders two layouts and hides one.
  *
- * Below `sm` the crab is a menu button and Projects / Writing / CV live inside
- * the panel it opens; from `sm` up the crab is a home link and those three sit in
- * the bar. Both sets are inside <header>, so `header a[href="/projects"]` can
- * match a display:none desktop link AND a live menu row at the same time. Taking
- * the visible one keeps a single target list honest for both layouts.
+ * The crab is a menu button at every width and Home / Projects / Writing / CV live
+ * inside the panel it opens, so the runner has to open the menu before these
+ * resolve. First-visible still matters: the panel is mounted only while open, and
+ * anything left hidden by a breakpoint must not be mistaken for the live instance.
  */
 const NAV_TARGETS = [
   {
-    name: "logo (home link, or menu button on mobile)",
-    selector: 'header a[href="/"], header button[aria-controls="site-menu"]',
+    name: "menu button (the crab)",
+    selector: 'header button[aria-controls="site-menu"]',
   },
+  { name: "home link", selector: 'header a[href="/"]' },
   { name: "projects link", selector: 'header a[href="/projects"]' },
   { name: "writing link", selector: 'header a[href="/writing"]' },
   { name: "CV button", selector: "header button", text: "CV" },
@@ -433,14 +433,15 @@ async function main() {
           });
 
         /**
-         * Below `sm` the nav is behind the crab menu, so it has to be opened
-         * before the targets exist. Opened via the real control rather than by
-         * forcing state — if the toggle is broken, this check should fail.
+         * The nav lives behind the crab menu at EVERY width now, not just mobile,
+         * so it has to be opened before the targets exist. Opened via the real
+         * control rather than by forcing state — if the toggle is broken, this
+         * check should fail rather than quietly skip the nav.
          */
         const menuBtn = page.locator(
           'header button[aria-controls="site-menu"]'
         );
-        const usesMenu = width < 768 && (await menuBtn.isVisible());
+        const usesMenu = await menuBtn.isVisible();
         if (usesMenu) {
           await menuBtn.click();
           await page.waitForTimeout(500);

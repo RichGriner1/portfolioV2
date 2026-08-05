@@ -81,6 +81,15 @@ export const UI = {
   "nav.home": { en: "Home", es: "Inicio" },
   "nav.menu_open": { en: "Open menu", es: "Abrir menú" },
   "nav.menu_close": { en: "Close menu", es: "Cerrar menú" },
+  // Spanish takes sentence case, not the English title case — only the first word
+  // and proper nouns are capitalised. Keeps the loanword "portfolio", which is what
+  // Spanish design practice uses; "portafolios" in Spain reads as a briefcase.
+  // TODO(afi-redaccion): confirm the ES wording reads as Peninsular, not translated.
+  "nav.wordmark": {
+    en: "Richard Griner Design Portfolio",
+    es: "Portfolio de diseño de Richard Griner",
+  },
+  "nav.resources": { en: "Resources", es: "Recursos" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },
   "kind.case_study": { en: "Case study", es: "Caso de estudio" },

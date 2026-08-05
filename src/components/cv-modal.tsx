@@ -35,41 +35,77 @@ const CV: {
 } = {
   name: "Richard Griner",
   email: "richardgrinerdesigns@gmail.com",
+  /**
+   * Reconciled against LinkedIn on 2026-08-05. Titles, companies and dates are
+   * LinkedIn's — the CV had drifted badly: Afi was listed as "UX/UI Designer"
+   * from 2024 (actually Digital Product Designer from May 2025), Audemic as
+   * "Product Manager & UX Designer, 2023—2024" (actually Senior Digital Product
+   * Manager, Jan 2024—May 2025), and the freelance entry as "Independent" from
+   * 2022 (actually RG Designs from Mar 2021).
+   *
+   * Descriptions are deliberately a fraction of LinkedIn's length — one short
+   * paragraph each, keeping the concrete numbers and named artefacts and dropping
+   * the bullet lists. Years only, no months, matching the existing format.
+   *
+   * Story Architect stays off: cited as delivered work, but the site never
+   * shipped. Don't re-add it without a live link.
+   */
   experience: [
     {
-      role: { en: "UX/UI Designer", es: "Diseñador UX/UI" },
+      role: {
+        en: "Digital Product Designer",
+        es: "Diseñador de producto digital",
+      },
       company: "Afi",
-      period: { en: "2024 — present", es: "2024 — actualidad" },
+      period: { en: "2025 — present", es: "2025 — actualidad" },
       description: {
-        en: "Designing fintech products for banks and financial institutions at a leading Spanish consultancy. Building a design system from the ground up — architecting a custom token system, building an AI-assisted platform for white-label products across banking clients, and turning every new client into another pass at sharpening the system.",
-        es: "Diseñando productos fintech para bancos e instituciones financieras en una consultora española de referencia. Construyendo un sistema de diseño desde cero — arquitectando un sistema de tokens a medida, creando una plataforma asistida por IA para productos white-label entre clientes bancarios, y convirtiendo cada nuevo cliente en otra pasada para afinar el sistema.",
+        en: "Sole full-time designer on white-label financial products for leading Spanish institutions — wealth management tools, planning simulators, mortgage calculators. Built a three-tier token architecture across Figma and code, so a client rebrand is a token swap rather than twenty files, and wrote design.md, the rulebook AI agents read before generating product UI. Led brand and visual identity for the 2026 Wealth Planner redesign.",
+        es: "Único diseñador a tiempo completo en productos financieros white-label para las principales entidades españolas: herramientas de gestión patrimonial, simuladores de planificación y calculadoras hipotecarias. Construí una arquitectura de tokens en tres niveles entre Figma y código, de modo que un cambio de marca de cliente es un cambio de tokens y no de veinte archivos, y escribí design.md, el manual que los agentes de IA leen antes de generar la UI del producto. Dirigí la marca y la identidad visual del rediseño de Wealth Planner 2026.",
       },
     },
     {
       role: {
-        en: "Product Manager & UX Designer",
-        es: "Product manager y diseñador UX",
+        en: "Senior Digital Product Manager",
+        es: "Senior digital product manager",
       },
       company: "Audemic",
-      period: { en: "2023 — 2024", es: "2023 — 2024" },
+      period: { en: "2024 — 2025", es: "2024 — 2025" },
       description: {
-        en: "Led product and UX across two sister products under one brand. Defined the product roadmap, ran user research, and built sibling design systems that kept both products visually consistent while serving different user needs.",
-        es: "Lideré producto y UX en dos productos hermanos bajo una misma marca. Definí la hoja de ruta de producto, realicé investigación con usuarios y construí sistemas de diseño hermanos que mantuvieron ambos productos visualmente consistentes mientras atendían necesidades distintas.",
+        en: "Led the pivot from a B2C research app to B2B enterprise. Ran discovery with UN analysts and vaccine researchers, launched the B2B beta and the acquisition funnel behind it — 20 qualified leads in a single week from paid ads — and contributed to a 2× increase in revenue.",
+        es: "Lideré el giro de una app de investigación B2C hacia B2B enterprise. Hice el discovery con analistas de la ONU e investigadores de vacunas, lancé la beta B2B y el embudo de captación que la sostenía —20 leads cualificados en una sola semana con publicidad de pago— y contribuí a duplicar los ingresos.",
       },
     },
     {
       role: {
-        en: "Freelance Designer & AI Builder",
-        es: "Diseñador freelance y constructor de IA",
+        en: "UX Designer & Brand Strategist",
+        es: "Diseñador UX y estratega de marca",
       },
-      company: "Independent",
-      period: { en: "2022 — present", es: "2022 — actualidad" },
-      // Story Architect was removed 2026-08-05: it was cited here as delivered
-      // work, but the site never shipped and its URL 404s. Don't re-add it
-      // without a live link.
+      company: "Home Genius Exteriors",
+      period: { en: "2023", es: "2023" },
       description: {
-        en: "Visual strategy, design systems, and AI-assisted development for startups and small businesses. Projects include KT360 (brand identity + AI-powered team environment).",
-        es: "Estrategia visual, sistemas de diseño y desarrollo asistido por IA para startups y pequeñas empresas. Los proyectos incluyen KT360 (identidad de marca + entorno de equipo impulsado por IA).",
+        en: "Brand strategy and content for a US exteriors company, including a personal brand for the co-founder. Ran video production for Instagram: reach up 2,000% in two months and followers up 292.6%.",
+        es: "Estrategia de marca y contenido para una empresa estadounidense de reformas exteriores, incluida la marca personal del cofundador. Me encargué de la producción de vídeo para Instagram: el alcance subió un 2.000 % en dos meses y los seguidores, un 292,6 %.",
+      },
+    },
+    {
+      role: { en: "UX Designer", es: "Diseñador UX" },
+      company: "Denteel Marketing",
+      period: { en: "2023 — 2024", es: "2023 — 2024" },
+      description: {
+        en: "Design audits plus AI and SEO research for a dental marketing agency in Madrid. Organic traffic up 40%, and monthly revenue doubled from $15K to $30K by tailoring content to client geography.",
+        es: "Auditorías de diseño e investigación de IA y SEO para una agencia de marketing dental en Madrid. El tráfico orgánico subió un 40 % y los ingresos mensuales se duplicaron, de 15.000 a 30.000 dólares, adaptando el contenido a la geografía de cada cliente.",
+      },
+    },
+    {
+      role: {
+        en: "Product & Brand Designer",
+        es: "Diseñador de producto y marca",
+      },
+      company: "RG Designs",
+      period: { en: "2021 — present", es: "2021 — actualidad" },
+      description: {
+        en: "Startups and small teams with no designer: the brand, the system, and the environment they need to keep shipping after I'm gone. KT360 — brand identity plus a no-code environment where brand rules and component specs are read by an AI, so a marketer publishing a post and a developer shipping a page produce work from the same hand. Mindfulme — brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
+        es: "Startups y equipos pequeños sin diseñador: la marca, el sistema y el entorno que necesitan para seguir lanzando cuando yo ya no estoy. KT360: identidad de marca y un entorno no-code donde las reglas de marca y las especificaciones de componentes las lee una IA, de modo que un perfil de marketing que publica un post y un desarrollador que lanza una página produzcan trabajo de la misma mano. Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
       },
     },
   ],
@@ -81,11 +117,14 @@ const CV: {
     { en: "Product Design", es: "Diseño de producto" },
     { en: "Visual Strategy", es: "Estrategia visual" },
     { en: "Tailwind CSS", es: "Tailwind CSS" },
-    { en: "AI Workflow Design", es: "Diseño de flujos de IA" },
     { en: "Brand Strategy", es: "Estrategia de marca" },
     { en: "White-label Products", es: "Productos white-label" },
-    { en: "PrimeNG", es: "PrimeNG" },
+    // Tools named on LinkedIn's Afi entry. "AI Workflow Design" came off — a
+    // capability claim, where these are things you either use or don't.
+    { en: "TypeScript", es: "TypeScript" },
+    { en: "Angular (PrimeNG)", es: "Angular (PrimeNG)" },
     { en: "shadcn/ui", es: "shadcn/ui" },
+    { en: "Claude Code", es: "Claude Code" },
   ],
   education: [
     {

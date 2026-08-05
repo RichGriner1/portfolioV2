@@ -155,7 +155,14 @@ function TalkTile() {
             Width has to be the animated property for that push to happen —
             scaling wouldn't move the words, since transforms don't affect
             layout. */}
-        <span className="flex items-center text-5xl font-bold tracking-tight sm:text-6xl">
+        {/* The type scale steps with the tile, because the tile is narrower than
+            the line wanted at both ends. `text-5xl sm:text-6xl` overflowed the
+            frame by 41px at 320 and 14px at 375, and `overflow-hidden` on the
+            tile meant it clipped rather than scrolled — the arrow and the tail of
+            "¿Hablamos?" were simply gone. It also ran 2px over at 1024+, where ES
+            is the long string ("¿Hablamos?" against "Let's talk"). Sizes are
+            Tailwind scale steps, not a clamp, so they stay on the type ramp. */}
+        <span className="flex items-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
           {/* Each word is its own element: adjacent bare text nodes collapse into
               one anonymous flex item, which is how this once read "Let'stalk". */}
           <span>{parts[0]}</span>

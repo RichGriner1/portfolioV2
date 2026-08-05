@@ -9,6 +9,7 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check:responsive": "node scripts/responsive-check.mjs",
     "claude:sync": "node scripts/claude-lib-sync.mjs",
     "claude:sync:apply": "node scripts/claude-lib-sync.mjs --apply"
   },
@@ -39,6 +40,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "playwright": "^1.62.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",

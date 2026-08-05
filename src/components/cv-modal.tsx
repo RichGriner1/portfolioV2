@@ -256,9 +256,13 @@ export function CvModal() {
 
   return (
     <>
+      {/* "CV" is two glyphs, so the bare text box was 19×20px — under the 24px
+          WCAG 2.5.8 minimum in both directions, and the smallest target in the
+          header. `px-1 py-1.5` gets it to roughly 27×32 for 8px of width, which
+          the 320px row can afford where a larger pad could not. */}
       <button
         onClick={() => setOpen(true)}
-        className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
+        className="hover:text-foreground px-1 py-1.5 underline-offset-4 transition-colors hover:underline"
       >
         {t("nav.cv", lang)}
       </button>
@@ -276,7 +280,7 @@ export function CvModal() {
             />
 
             <motion.div
-              className="bg-card border-border fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-3xl border p-8 pb-10 shadow-xl"
+              className="bg-card border-border fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-3xl border p-6 pb-8 shadow-xl sm:p-8 sm:pb-10"
               style={{ maxHeight: "85vh" }}
               initial={{ opacity: 0, scale: 0.97, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -304,8 +308,15 @@ export function CvModal() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-3 gap-8">
-                <div className="col-span-2 flex flex-col gap-6">
+              {/* One column on phones, three from `sm` up. `grid-cols-3` was
+                  unconditional: at 375px the panel is 343px wide and `p-8` takes
+                  64 of it, so the three tracks plus two 32px gaps left the skills
+                  rail 72px wide — every pill ("White-label Products", "Token
+                  Architecture") wrapped to three or four lines, and experience
+                  read in a 143px gutter. Stacked, skills sit under experience at
+                  full width. */}
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+                <div className="flex flex-col gap-6 sm:col-span-2">
                   <div>
                     <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
                       {t("cv.experience_heading", lang)}

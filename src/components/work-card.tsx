@@ -13,9 +13,10 @@ import { pick, t, useLang, type Lang } from "@/lib/i18n";
 
 /**
  * Card media. A language-keyed video (object-cover, fills the tile) when the
- * item has one, else its glyph centered on the surface.
+ * item has one, else its glyph centered on the surface. Exported so other
+ * surfaces (e.g. the "More case studies" tiles) resolve media the same way.
  */
-function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
+export function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   // eslint-disable-next-line react-hooks/set-state-in-effect

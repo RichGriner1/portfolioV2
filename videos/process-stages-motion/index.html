@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Process Stages</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px; height: 1080px; overflow: hidden; background: #ffffff;
+        font-family: Inter, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- root: square corners, no inset (mp4 has no alpha) --- */
+      #root { position: relative; width: 1080px; height: 1080px; overflow: hidden; border-radius: 0; }
+
+      /* --- ground + ambient washes (the only soft thing in the piece) --- */
+      #wash { position: absolute; inset: 0; }
+      #ground { position: absolute; inset: 0; background: #ffffff; }
+      .wash { position: absolute; inset: 0; opacity: 1; }
+
+      /* --- rail --- */
+      #rail-layer { position: absolute; inset: 0; }
+      #rail { position: absolute; left: 360px; top: 0; width: 360px; height: 1080px; }
+      #rail-col {
+        position: absolute; left: 0; top: -1600px; width: 360px; height: 4400px;
+        background: #ffffff; border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5;
+        z-index: 0;
+      }
+
+      /* --- unfocused cards --- */
+      .scard {
+        position: absolute; left: 30px; width: 300px; height: 220px;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 3px; z-index: 1;
+      }
+      .sc-bar { position: absolute; left: 16px; top: 16px; height: 7px; background: #8e8e8e; border-radius: 2px; }
+      .sc-preview {
+        position: absolute; left: 16px; top: 34px; width: 268px; height: 124px;
+        background: #e5e5e5; border-radius: 2px;
+      }
+      .sc-num {
+        position: absolute; right: 16px; bottom: 10px; font-size: 36px; font-weight: 700;
+        color: #8e8e8e; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+      }
+
+      /* --- focused card --- */
+      .fwrap {
+        position: absolute; left: -100px; width: 560px; height: 560px;
+        z-index: 5; opacity: 1;
+      }
+      .fcard {
+        position: absolute; inset: 0; background: #ffffff;
+        border: 1px solid #e5e5e5; border-radius: 4px; overflow: hidden;
+      }
+      .fc-title {
+        position: absolute; left: 36px; top: 34px; font-size: 21px; font-weight: 600;
+        color: #343434; letter-spacing: 0.01em; line-height: 1; white-space: nowrap;
+      }
+      .fc-sub { position: absolute; left: 36px; top: 66px; width: 94px; height: 6px; background: #e5e5e5; border-radius: 3px; }
+      .fc-panel {
+        position: absolute; left: 36px; top: 96px; width: 488px; height: 428px;
+        background: #f7f7f7; border: 1px solid #e5e5e5; border-radius: 3px; overflow: hidden;
+      }
+      .fc-num {
+        position: absolute; right: 26px; bottom: 8px; font-size: 112px; font-weight: 700;
+        color: #242424; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;
+      }
+      .mini { position: absolute; left: 28px; top: 30px; width: 432px; height: 288px; }
+      .mini i { display: block; }
+
+      /* --- Figma-style selection --- */
+      .sel { position: absolute; inset: 0; opacity: 1; }
+      .sel::before { content: ""; position: absolute; inset: 0; border: 1px solid #343434; }
+      .h { position: absolute; width: 14px; height: 14px; background: #ffffff; border: 2px solid #343434; }
+      .h-tl { left: -7px; top: -7px; }
+      .h-tr { right: -7px; top: -7px; }
+      .h-bl { left: -7px; bottom: -7px; }
+      .h-br { right: -7px; bottom: -7px; }
+
+      /* --- flanking labels --- */
+      #labels { position: absolute; inset: 0; }
+      .lab-col { position: absolute; top: 480px; height: 120px; width: 254px; }
+      .lab-left { left: 0; }
+      .lab-right { left: 826px; }
+      .lab {
+        position: absolute; inset: 0; display: flex; align-items: center;
+        font-size: 36px; font-weight: 500; color: #242424; letter-spacing: -0.005em;
+        white-space: nowrap; opacity: 1;
+      }
+      .lab-left .lab { justify-content: flex-end; padding-right: 20px; }
+      .lab-right .lab { justify-content: flex-start; padding-left: 20px; }
+
+      /* --- mini 01: one-line brief unfolds into six fields --- */
+      .br-line { position: absolute; left: 116px; top: 18px; width: 200px; height: 10px; background: #8e8e8e; border-radius: 3px; }
+      .br-field {
+        position: absolute; width: 200px; height: 64px;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 3px;
+      }
+      .br-lab { position: absolute; left: 12px; top: 12px; width: 46px; height: 6px; background: #8e8e8e; border-radius: 3px; }
+      .br-val { position: absolute; left: 12px; top: 32px; width: 148px; height: 9px; background: #343434; border-radius: 3px; transform-origin: left center; }
+      .br-personas {
+        position: absolute; left: 8px; top: 208px; width: 416px; height: 64px;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 3px;
+      }
+      .br-p { position: absolute; top: 17px; width: 30px; height: 30px; background: #8e8e8e; border-radius: 50%; }
+      .br-p.p2 { background: #343434; }
+
+      /* --- mini 02: Mobbin search --- */
+      .srch {
+        position: absolute; left: 8px; top: 12px; width: 416px; height: 46px;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 23px;
+      }
+      .srch-ico { position: absolute; left: 16px; top: 14px; width: 16px; height: 16px; border: 2px solid #8e8e8e; border-radius: 50%; }
+      .srch-q { position: absolute; left: 46px; top: 0; height: 46px; display: flex; align-items: center; font-size: 20px; font-weight: 500; color: #242424; letter-spacing: 0.01em; }
+      .q { display: inline-block; }
+      .caret { position: absolute; top: 12px; width: 2px; height: 22px; background: #242424; }
+      .caret-a { left: 46px; opacity: 0; }
+      .caret-b { left: 130px; opacity: 1; }
+      .grid-tile { position: absolute; width: 128px; height: 80px; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 3px; }
+      .btn-spec { position: absolute; left: 22px; top: 25px; width: 84px; height: 30px; }
+      .spec-fill { background: #343434; }
+      .spec-line { border: 2px solid #8e8e8e; }
+      .grid-hi { position: absolute; inset: 0; border: 2px solid #343434; border-radius: 3px; opacity: 1; }
+
+      /* --- mini 03: rules + a comment pin citing rule 4 --- */
+      .rule-row { position: absolute; left: 16px; width: 240px; height: 12px; opacity: 1; z-index: 1; }
+      .rule-tick { position: absolute; left: 0; top: 0; width: 14px; height: 12px; background: #343434; border-radius: 2px; }
+      .rule-line { position: absolute; left: 26px; top: 4px; height: 4px; background: #8e8e8e; border-radius: 2px; transform-origin: left center; }
+      .cite-hi {
+        position: absolute; left: 8px; top: 76px; width: 256px; height: 32px;
+        background: #ffffff; border: 1px solid #343434; border-radius: 3px; z-index: 0;
+      }
+      .cite-pin {
+        position: absolute; left: 236px; top: 52px; width: 26px; height: 26px;
+        background: #343434; border-radius: 50% 50% 50% 3px; z-index: 2;
+      }
+      .cite-dot { position: absolute; left: 9px; top: 9px; width: 8px; height: 8px; background: #ffffff; border-radius: 50%; }
+      .demo-card {
+        position: absolute; left: 276px; top: 26px; width: 148px; height: 152px;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 3px;
+      }
+      .demo-bar { position: absolute; bottom: 18px; width: 16px; border-radius: 2px; background: #e5e5e5; transform-origin: bottom center; }
+      .demo-bar.db3 { background: #242424; }
+
+      /* --- mini 04: token cascade --- */
+      .cas-pill {
+        position: absolute; left: 30px; width: 240px; height: 54px;
+        background: #ffffff; border: 1px solid #e5e5e5; border-radius: 27px;
+      }
+      .cas-dim { position: absolute; left: 14px; top: 25px; width: 40px; height: 4px; background: #343434; border-radius: 1px; }
+      .dt { position: absolute; top: -4px; width: 2px; height: 12px; background: #343434; }
+      .dt-l { left: 0; }
+      .dt-r { right: 0; }
+      .cas-lab { position: absolute; left: 76px; top: 23px; width: 110px; height: 8px; background: #e5e5e5; border-radius: 3px; }
+      .cas-link { position: absolute; left: 148px; width: 2px; height: 32px; background: #e5e5e5; transform-origin: top center; }
+      .cas-wire { position: absolute; left: 270px; top: 218px; width: 30px; height: 2px; background: #e5e5e5; transform-origin: left center; }
+      .cas-btn {
+        position: absolute; left: 300px; top: 192px; width: 124px; height: 54px;
+        background: #343434; border-radius: 8px;
+      }
+      .cas-bpill { position: absolute; left: 32px; top: 23px; width: 60px; height: 8px; background: #ffffff; border-radius: 4px; }
+
+      /* --- mini 05: a base component and its variant set --- */
+      .vt-base {
+        position: absolute; left: 128px; top: 18px; width: 176px; height: 56px;
+        background: #343434; border-radius: 8px;
+      }
+      .vt-icon { position: absolute; left: 28px; top: 18px; width: 20px; height: 20px; background: #ffffff; border-radius: 4px; }
+      .vt-pill { position: absolute; left: 62px; top: 24px; width: 84px; height: 8px; background: #ffffff; border-radius: 4px; }
+      .vt-stem { position: absolute; left: 215px; top: 78px; width: 2px; height: 22px; background: #e5e5e5; transform-origin: top center; }
+      .vt-spine { position: absolute; left: 79px; top: 100px; width: 274px; height: 2px; background: #e5e5e5; transform-origin: center center; }
+      .vt-drop { position: absolute; top: 102px; width: 2px; height: 18px; background: #e5e5e5; transform-origin: top center; }
+      .vt-var { position: absolute; top: 124px; width: 128px; height: 48px; border-radius: 8px; }
+      .vt-filled { background: #343434; }
+      .vt-filled .vt-vpill { background: #ffffff; }
+      .vt-outline { background: #ffffff; border: 2px solid #343434; }
+      .vt-outline .vt-vpill { background: #343434; }
+      .vt-muted { background: #e5e5e5; }
+      .vt-muted .vt-vpill { background: #8e8e8e; }
+      .vt-vpill { position: absolute; left: 34px; top: 20px; width: 60px; height: 8px; border-radius: 4px; }
+
+      /* --- mini 06: adaptive reflow, bars draw up --- */
+      .bn-cell { position: absolute; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 4px; opacity: 1; }
+      .bn-bar { position: absolute; bottom: 26px; width: 28px; background: #343434; border-radius: 3px; transform-origin: bottom center; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="12"
+      data-width="1080"
+      data-height="1080"
+    >
+      <div id="wash" class="clip" data-start="0" data-duration="12" data-track-index="0">
+        <div id="ground"></div>
+        <div class="wash" id="wash-0" style="background:radial-gradient(150% 130% at 30% 16%, #ffffff 0%, #f7f7f7 55%, #e5e5e5 110%)"></div>
+        <div class="wash" id="wash-1" style="background:radial-gradient(145% 125% at 80% 24%, #ffffff 0%, #f7f7f7 42%, #e5e5e5 92%, #8e8e8e 190%)"></div>
+        <div class="wash" id="wash-2" style="background:radial-gradient(140% 120% at 20% 84%, #ffffff 0%, #f7f7f7 34%, #e5e5e5 78%, #8e8e8e 165%)"></div>
+        <div class="wash" id="wash-3" style="background:radial-gradient(130% 115% at 50% 26%, #ffffff 0%, #f7f7f7 26%, #e5e5e5 62%, #8e8e8e 140%)"></div>
+        <div class="wash" id="wash-4" style="background:radial-gradient(145% 125% at 82% 80%, #ffffff 0%, #f7f7f7 40%, #e5e5e5 88%, #8e8e8e 185%)"></div>
+        <div class="wash" id="wash-5" style="background:radial-gradient(155% 135% at 46% 94%, #ffffff 0%, #f7f7f7 52%, #e5e5e5 108%)"></div>
+      </div>
+
+      <div
+        id="rail-layer"
+        class="clip"
+        data-start="0"
+        data-duration="12"
+        data-track-index="1"
+      >
+        <div id="rail" data-layout-allow-overflow="true">
+          <div id="rail-col" data-layout-allow-overflow="true"></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:-610px"><i class="sc-bar" style="width:108px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">03</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:-350px"><i class="sc-bar" style="width:88px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">04</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:-90px"><i class="sc-bar" style="width:118px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">05</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:170px"><i class="sc-bar" style="width:84px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">06</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:430px"><i class="sc-bar" style="width:96px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">01</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:690px"><i class="sc-bar" style="width:74px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">02</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:950px"><i class="sc-bar" style="width:108px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">03</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:1210px"><i class="sc-bar" style="width:88px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">04</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:1470px"><i class="sc-bar" style="width:118px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">05</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:1730px"><i class="sc-bar" style="width:84px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">06</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:1990px"><i class="sc-bar" style="width:96px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">01</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:2250px"><i class="sc-bar" style="width:74px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">02</span></div>
+          <div class="scard" data-layout-allow-overflow="true" style="top:2510px"><i class="sc-bar" style="width:108px"></i><i class="sc-preview"></i><span class="sc-num" data-layout-allow-occlusion="true" data-layout-allow-overflow="true">03</span></div>
+          <div class="fwrap" id="fc-p" data-layout-allow-overflow="true" style="top:0px">
+        <div class="fcard">
+          <span class="fc-title">Layout &amp; Charts</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="bn-cell bn-cell-0" style="left:0px;top:0px;width:264px;height:288px"><i class="bn-bar" style="left:30px;height:96px"></i><i class="bn-bar" style="left:98px;height:152px"></i><i class="bn-bar" style="left:166px;height:118px"></i><i class="bn-bar" style="left:234px;height:204px"></i></i><i class="bn-cell bn-cell-1" style="left:276px;top:0px;width:156px;height:136px"></i><i class="bn-cell bn-cell-2" style="left:276px;top:148px;width:74px;height:140px"></i><i class="bn-cell bn-cell-3" style="left:358px;top:148px;width:74px;height:140px"></i></div>
+            <span class="fc-num">06</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+          <div class="fwrap" id="fc-0" data-layout-allow-overflow="true" style="top:260px">
+        <div class="fcard">
+          <span class="fc-title">Brand Strategy</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="br-line"></i><i class="br-field bf0" style="left:8px;top:52px"><i class="br-lab"></i><i class="br-val"></i></i><i class="br-field bf1" style="left:224px;top:52px"><i class="br-lab"></i><i class="br-val"></i></i><i class="br-field bf2" style="left:8px;top:130px"><i class="br-lab"></i><i class="br-val"></i></i><i class="br-field bf3" style="left:224px;top:130px"><i class="br-lab"></i><i class="br-val"></i></i><i class="br-personas"><i class="br-p p0" style="left:30px"></i><i class="br-p p1" style="left:106px"></i><i class="br-p p2" style="left:182px"></i><i class="br-p p3" style="left:258px"></i><i class="br-p p4" style="left:334px"></i></i></div>
+            <span class="fc-num">01</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+          <div class="fwrap" id="fc-1" data-layout-allow-overflow="true" style="top:520px">
+        <div class="fcard">
+          <span class="fc-title">Mood Boards</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="srch"><i class="srch-ico"></i><span class="srch-q"><span class="q q0">b</span><span class="q q1">u</span><span class="q q2">t</span><span class="q q3">t</span><span class="q q4">o</span><span class="q q5">n</span><span class="q q6">s</span></span><i class="caret caret-a"></i><i class="caret caret-b"></i></i><i class="grid-tile g0" style="left:8px;top:78px"><i class="btn-spec spec-fill" style="border-radius:15px"></i></i><i class="grid-tile g1" style="left:152px;top:78px"><i class="btn-spec spec-fill" style="border-radius:6px"></i><i class="grid-hi"></i></i><i class="grid-tile g2" style="left:296px;top:78px"><i class="btn-spec spec-fill" style="border-radius:1px"></i></i><i class="grid-tile g3" style="left:8px;top:168px"><i class="btn-spec spec-line" style="border-radius:15px"></i></i><i class="grid-tile g4" style="left:152px;top:168px"><i class="btn-spec spec-line" style="border-radius:6px"></i><i class="grid-hi"></i></i><i class="grid-tile g5" style="left:296px;top:168px"><i class="btn-spec spec-line" style="border-radius:1px"></i></i></div>
+            <span class="fc-num">02</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+          <div class="fwrap" id="fc-2" data-layout-allow-overflow="true" style="top:780px">
+        <div class="fcard">
+          <span class="fc-title">Design Principles</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="rule-row" style="top:34px"><i class="rule-tick"></i><i class="rule-line" style="width:214px"></i></i><i class="rule-row" style="top:86px"><i class="rule-tick"></i><i class="rule-line" style="width:178px"></i></i><i class="rule-row" style="top:138px"><i class="rule-tick"></i><i class="rule-line" style="width:196px"></i></i><i class="cite-hi"></i><i class="cite-pin"><i class="cite-dot"></i></i><i class="demo-card"><i class="demo-bar db0" style="left:22px;height:52px"></i><i class="demo-bar db1" style="left:52px;height:84px"></i><i class="demo-bar db2" style="left:82px;height:64px"></i><i class="demo-bar db3" style="left:112px;height:100px"></i></i></div>
+            <span class="fc-num">03</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+          <div class="fwrap" id="fc-3" data-layout-allow-overflow="true" style="top:1040px">
+        <div class="fcard">
+          <span class="fc-title">Design Tokens</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="cas-pill cp0" style="top:20px"><i class="cas-dim"><i class="dt dt-l"></i><i class="dt dt-r"></i></i><i class="cas-lab"></i></i><i class="cas-pill cp1" style="top:106px"><i class="cas-dim"><i class="dt dt-l"></i><i class="dt dt-r"></i></i><i class="cas-lab"></i></i><i class="cas-pill cp2" style="top:192px"><i class="cas-dim"><i class="dt dt-l"></i><i class="dt dt-r"></i></i><i class="cas-lab"></i></i><i class="cas-link" style="top:74px"></i><i class="cas-link" style="top:160px"></i><i class="cas-wire"></i><i class="cas-btn"><i class="cas-bpill"></i></i></div>
+            <span class="fc-num">04</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+          <div class="fwrap" id="fc-4" data-layout-allow-overflow="true" style="top:1300px">
+        <div class="fcard">
+          <span class="fc-title">Components in Code</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="vt-base"><i class="vt-icon"></i><i class="vt-pill"></i></i><i class="vt-stem"></i><i class="vt-spine"></i><i class="vt-drop" style="left:79px"></i><i class="vt-drop" style="left:215px"></i><i class="vt-drop" style="left:351px"></i><i class="vt-var vv0 vt-filled" style="left:16px"><i class="vt-vpill"></i></i><i class="vt-var vv1 vt-outline" style="left:152px"><i class="vt-vpill"></i></i><i class="vt-var vv2 vt-muted" style="left:288px"><i class="vt-vpill"></i></i></div>
+            <span class="fc-num">05</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+          <div class="fwrap" id="fc-5" data-layout-allow-overflow="true" style="top:1560px">
+        <div class="fcard">
+          <span class="fc-title">Layout &amp; Charts</span>
+          <i class="fc-sub"></i>
+          <div class="fc-panel">
+            <div class="mini"><i class="bn-cell bn-cell-0" style="left:0px;top:0px;width:264px;height:288px"><i class="bn-bar" style="left:30px;height:96px"></i><i class="bn-bar" style="left:98px;height:152px"></i><i class="bn-bar" style="left:166px;height:118px"></i><i class="bn-bar" style="left:234px;height:204px"></i></i><i class="bn-cell bn-cell-1" style="left:276px;top:0px;width:156px;height:136px"></i><i class="bn-cell bn-cell-2" style="left:276px;top:148px;width:74px;height:140px"></i><i class="bn-cell bn-cell-3" style="left:358px;top:148px;width:74px;height:140px"></i></div>
+            <span class="fc-num">06</span>
+          </div>
+        </div>
+        <div class="sel"><i class="h h-tl"></i><i class="h h-tr"></i><i class="h h-bl"></i><i class="h h-br"></i></div>
+      </div>
+        </div>
+      </div>
+
+      <div id="labels" class="clip" data-start="0" data-duration="12" data-track-index="2">
+        <div class="lab-col lab-left">
+          <span class="lab" id="lab-l-0">Brand</span>
+        <span class="lab" id="lab-l-1">Mood</span>
+        <span class="lab" id="lab-l-2">Design</span>
+        <span class="lab" id="lab-l-3">Design</span>
+        <span class="lab" id="lab-l-4">Components</span>
+        <span class="lab" id="lab-l-5">Layout</span>
+        </div>
+        <div class="lab-col lab-right">
+          <span class="lab" id="lab-r-0">Strategy</span>
+        <span class="lab" id="lab-r-1">Boards</span>
+        <span class="lab" id="lab-r-2">Principles</span>
+        <span class="lab" id="lab-r-3">Tokens</span>
+        <span class="lab" id="lab-r-4">in Code</span>
+        <span class="lab" id="lab-r-5">& Charts</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* Spec ease: cubic-bezier(0.45, 0.05, 0.15, 1) — solved analytically,
+         no plugin, fully deterministic. Zero spring, zero overshoot. */
+      function bezierEase(x1, y1, x2, y2) {
+        var cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+        var cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+        function sx(t) { return ((ax * t + bx) * t + cx) * t; }
+        function sy(t) { return ((ay * t + by) * t + cy) * t; }
+        function dx(t) { return (3 * ax * t + 2 * bx) * t + cx; }
+        return function (p) {
+          if (p <= 0) return 0;
+          if (p >= 1) return 1;
+          var t = p, i, d, x;
+          for (i = 0; i < 8; i++) {
+            x = sx(t) - p;
+            if (x < 0 ? -x < 1e-7 : x < 1e-7) return sy(t);
+            d = dx(t);
+            if (d < 0 ? -d < 1e-7 : d < 1e-7) break;
+            t -= x / d;
+          }
+          var lo = 0, hi = 1;
+          t = p;
+          for (i = 0; i < 30; i++) {
+            x = sx(t);
+            if (x > p) hi = t; else lo = t;
+            t = (lo + hi) / 2;
+          }
+          return sy(t);
+        };
+      }
+      gsap.registerEase("stage", bezierEase(0.45, 0.05, 0.15, 1));
+      var E = "stage";
+
+      var STAGE_DUR = 2.0;
+      var ARRIVE = 0.45;
+      var PLAY = 0.45;
+      var SLOT = 260;
+      var MIN_SCALE = 0.42;
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* First tween added for a given target+property owns immediateRender;
+         every later tween on the same channel must not re-assert its start. */
+      var seen = Object.create(null);
+      function ft(target, from, to, at, key) {
+        if (seen[key]) to.immediateRender = false;
+        seen[key] = 1;
+        to.ease = to.ease || E;
+        tl.fromTo(target, from, to, at);
+        return tl;
+      }
+
+      var SR_ORDER = [1, 4, 0, 3, 5, 2];
+      var SR_SAVED = [1, 4];
+      /* caret x offsets per typed glyph, from .caret-a's 46px base */
+      var CARET_X = [0, 12, 24, 32, 40, 52, 64, 76];
+      var BN_FROM = [{"left":0,"top":0,"w":208,"h":140},{"left":224,"top":0,"w":208,"h":140},{"left":0,"top":148,"w":208,"h":140},{"left":224,"top":148,"w":208,"h":140}];
+      var BN_TO = [{"left":0,"top":0,"w":264,"h":288},{"left":276,"top":0,"w":156,"h":136},{"left":276,"top":148,"w":74,"h":140},{"left":358,"top":148,"w":74,"h":140}];
+
+      /* Each mini plays once inside its ~1.10s "play" beat, then rests. */
+      function buildMini(k, t0) {
+        var s = "#fc-" + k + " ", i, a;
+
+        // 01 — the one-line brief unfolds into four fields + five personas
+        if (k === 0) {
+          ft(s + ".br-line", { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, t0, "brl");
+          for (i = 0; i < 4; i++) {
+            a = s + ".bf" + i;
+            ft(a, { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 }, t0 + 0.2 + i * 0.09, "bf" + i);
+            ft(a + " .br-val", { scaleX: 0 }, { scaleX: 1, duration: 0.3 }, t0 + 0.3 + i * 0.09, "bv" + i);
+          }
+          ft(s + ".br-personas", { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 }, t0 + 0.58, "brp");
+          for (i = 0; i < 5; i++) {
+            ft(s + ".br-p.p" + i, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22 }, t0 + 0.72 + i * 0.06, "pp" + i);
+          }
+        }
+
+        // 02 — search field, "buttons" types, results cascade, two saved
+        if (k === 1) {
+          ft(s + ".srch", { y: -8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.26 }, t0, "srch");
+          /* caret-a blinks at the left, then hands off to the typed word */
+          ft(s + ".caret-a", { opacity: 0 }, { opacity: 1, duration: 0.02 }, t0 + 0.08, "ca");
+          ft(s + ".caret-a", { opacity: 1 }, { opacity: 0, duration: 0.02 }, t0 + 0.24, "ca");
+          /* letters pop in typed order; caret-a's x steps along with them */
+          for (i = 0; i < 7; i++) {
+            ft(s + ".q" + i, { opacity: 0 }, { opacity: 1, duration: 0.02 }, t0 + 0.28 + i * 0.07, "q" + i);
+          }
+          /* caret-b appears at the word's end and blinks to rest visible */
+          ft(s + ".caret-b", { opacity: 0 }, { opacity: 1, duration: 0.02 }, t0 + 0.77, "cb");
+          ft(s + ".caret-b", { opacity: 1 }, { opacity: 0, duration: 0.02 }, t0 + 0.92, "cb");
+          ft(s + ".caret-b", { opacity: 0 }, { opacity: 1, duration: 0.02 }, t0 + 1.04, "cb");
+          for (i = 0; i < 6; i++) {
+            ft(
+              s + ".g" + SR_ORDER[i],
+              { y: 10, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.3 },
+              t0 + 0.42 + i * 0.07,
+              "gt" + i,
+            );
+          }
+          for (i = 0; i < 2; i++) {
+            ft(s + ".g" + SR_SAVED[i] + " .grid-hi", { opacity: 0 }, { opacity: 1, duration: 0.2 }, t0 + 0.92 + i * 0.08, "gh" + i);
+          }
+        }
+
+        // 03 — rules stack; the pin cites rule 2; the demo card applies it
+        if (k === 2) {
+          for (i = 0; i < 3; i++) {
+            a = s + ".rule-row:nth-of-type(" + (i + 1) + ")";
+            ft(a, { opacity: 0 }, { opacity: 1, duration: 0.18 }, t0 + i * 0.08, "rr" + i);
+            ft(a + " .rule-line", { scaleX: 0 }, { scaleX: 1, duration: 0.28 }, t0 + i * 0.08, "rl" + i);
+          }
+          ft(s + ".demo-card", { opacity: 0 }, { opacity: 1, duration: 0.24 }, t0 + 0.1, "dmc");
+          for (i = 0; i < 4; i++) {
+            ft(s + ".db" + i, { scaleY: 0 }, { scaleY: 1, duration: 0.26 }, t0 + 0.2 + i * 0.05, "db" + i);
+          }
+          ft(s + ".cite-pin", { y: -14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22 }, t0 + 0.5, "pin");
+          ft(s + ".cite-hi", { opacity: 0 }, { opacity: 1, duration: 0.22 }, t0 + 0.6, "chi");
+          ft(s + ".cite-dot", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.12 }, t0 + 0.74, "cdot");
+          /* the cited rule applies: series drop to quiet grey, one stays ink */
+          for (i = 0; i < 4; i++) {
+            if (i === 3) {
+              ft(s + ".db" + i, { backgroundColor: "#e5e5e5" }, { backgroundColor: "#242424", duration: 0.22 }, t0 + 0.86, "dbc" + i);
+            } else {
+              ft(s + ".db" + i, { backgroundColor: "#8e8e8e" }, { backgroundColor: "#e5e5e5", duration: 0.22 }, t0 + 0.86, "dbc" + i);
+            }
+          }
+        }
+
+        // 04 — cascade: pills land, then the value ripples primitive->semantic->component
+        if (k === 3) {
+          for (i = 0; i < 3; i++) {
+            ft(s + ".cp" + i, { opacity: 0 }, { opacity: 1, duration: 0.22 }, t0 + i * 0.08, "cp" + i);
+          }
+          ft(s + ".cas-link:nth-of-type(4)", { scaleY: 0 }, { scaleY: 1, duration: 0.2 }, t0 + 0.12, "lk0");
+          ft(s + ".cas-link:nth-of-type(5)", { scaleY: 0 }, { scaleY: 1, duration: 0.2 }, t0 + 0.2, "lk1");
+          ft(s + ".cas-wire", { scaleX: 0 }, { scaleX: 1, duration: 0.2 }, t0 + 0.28, "wire");
+          ft(s + ".cas-btn", { opacity: 0 }, { opacity: 1, duration: 0.22 }, t0 + 0.3, "comp");
+          /* the ripple: the DIMENSION widens at the primitive and flows down,
+             and the component's padding visibly grows with it */
+          for (i = 0; i < 3; i++) {
+            ft(
+              s + ".cp" + i + " .cas-dim",
+              { width: 24 },
+              { width: 40, duration: 0.22 },
+              t0 + 0.52 + i * 0.16,
+              "dim" + i,
+            );
+          }
+          ft(s + ".cas-btn", { width: 96 }, { width: 124, duration: 0.24 }, t0 + 1.0, "cbw");
+          ft(s + ".cas-bpill", { x: -14 }, { x: 0, duration: 0.24 }, t0 + 1.0, "cbp");
+        }
+
+        // 05 — the base component lands, the tree draws, three variants pop in
+        if (k === 4) {
+          ft(s + ".vt-base", { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.26 }, t0, "vb");
+          ft(s + ".vt-icon", { opacity: 0 }, { opacity: 1, duration: 0.16 }, t0 + 0.16, "vi");
+          ft(s + ".vt-pill", { opacity: 0 }, { opacity: 1, duration: 0.16 }, t0 + 0.24, "vp");
+          ft(s + ".vt-stem", { scaleY: 0 }, { scaleY: 1, duration: 0.16 }, t0 + 0.34, "vs");
+          ft(s + ".vt-spine", { scaleX: 0 }, { scaleX: 1, duration: 0.22 }, t0 + 0.46, "vsp");
+          for (i = 0; i < 3; i++) {
+            ft(s + ".vt-drop:nth-of-type(" + (i + 4) + ")", { scaleY: 0 }, { scaleY: 1, duration: 0.14 }, t0 + 0.62 + i * 0.05, "vd" + i);
+            ft(s + ".vv" + i, { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.26 }, t0 + 0.72 + i * 0.09, "vv" + i);
+          }
+        }
+
+        // 06 — uniform grid re-packs into the bento, then the series draws
+        if (k === 5) {
+          for (i = 0; i < 4; i++) {
+            a = s + ".bn-cell-" + i;
+            ft(a, { opacity: 0 }, { opacity: 1, duration: 0.2 }, t0 + i * 0.05, "bo" + i);
+            ft(
+              a,
+              { left: BN_FROM[i].left, top: BN_FROM[i].top, width: BN_FROM[i].w, height: BN_FROM[i].h },
+              { left: BN_TO[i].left, top: BN_TO[i].top, width: BN_TO[i].w, height: BN_TO[i].h, duration: 0.5 },
+              t0 + 0.35 + i * 0.05,
+              "bg" + i,
+            );
+          }
+          for (i = 0; i < 4; i++) {
+            ft(s + ".bn-bar:nth-of-type(" + (i + 1) + ")", { scaleY: 0 }, { scaleY: 1, duration: 0.3 }, t0 + 0.78 + i * 0.05, "bb" + i);
+          }
+        }
+      }
+
+      /* Rail advances exactly one slot per stage burst; stack is periodic
+         mod 6, so the rest state at the tail draws the same pixels as t=0. */
+      ft("#rail", { y: 260 }, { y: 0, duration: 0.45 }, 0, "rail");
+      ft("#rail", { y: 0 }, { y: -260, duration: 0.45 }, 2, "rail");
+      ft("#rail", { y: -260 }, { y: -520, duration: 0.45 }, 4, "rail");
+      ft("#rail", { y: -520 }, { y: -780, duration: 0.45 }, 6, "rail");
+      ft("#rail", { y: -780 }, { y: -1040, duration: 0.45 }, 8, "rail");
+      ft("#rail", { y: -1040 }, { y: -1300, duration: 0.45 }, 10, "rail");
+
+      for (var k = 0; k < 6; k++) {
+        var T = k * STAGE_DUR;
+
+        var prev = k === 0 ? "#fc-p" : "#fc-" + (k - 1);
+        ft(prev, { scale: 1, opacity: 1 }, { scale: MIN_SCALE, opacity: 0, duration: ARRIVE }, T, "f" + prev);
+
+        ft("#fc-" + k, { scale: MIN_SCALE, opacity: 0 }, { scale: 1, opacity: 1, duration: ARRIVE }, T, "f#fc-" + k);
+        ft("#fc-" + k + " .sel", { opacity: 0 }, { opacity: 1, duration: 0.27 }, T + 0.18, "sel" + k);
+
+        var out = (k + 5) % 6;
+        ft("#lab-l-" + out + ", #lab-r-" + out, { opacity: 1 }, { opacity: 0, duration: ARRIVE }, T, "lab" + out);
+        ft("#lab-l-" + k + ", #lab-r-" + k, { opacity: 0 }, { opacity: 1, duration: ARRIVE }, T, "lab" + k);
+        ft("#wash-" + out, { opacity: 1 }, { opacity: 0, duration: ARRIVE }, T, "wash" + out);
+        ft("#wash-" + k, { opacity: 0 }, { opacity: 1, duration: ARRIVE }, T, "wash" + k);
+
+        buildMini(k, T + PLAY);
+      }
+
+      tl.seek(0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

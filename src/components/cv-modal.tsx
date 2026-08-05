@@ -82,9 +82,17 @@ const CV: {
       },
       company: "Home Genius Exteriors",
       period: { en: "2023", es: "2023" },
+      // 0-to-1 applies to the content function, which didn't exist — not to the
+      // follower count, which didn't start at zero. Said as "from nothing" rather
+      // than the jargon. Leads with the starting follower count because "under
+      // 1,000 to nearly four times that" is checkable where a bare +292.6% could
+      // sit on any base.
+      // TODO(richard): LinkedIn says this personal brand was for the company
+      // Co-Founder; this says VP. One of the two is wrong and the profile is
+      // public — confirm which.
       description: {
-        en: "Brand strategy and content for a US exteriors company, including a personal brand for the co-founder. Ran video production for Instagram: reach up 2,000% in two months and followers up 292.6%.",
-        es: "Estrategia de marca y contenido para una empresa estadounidense de reformas exteriores, incluida la marca personal del cofundador. Me encargué de la producción de vídeo para Instagram: el alcance subió un 2.000 % en dos meses y los seguidores, un 292,6 %.",
+        en: "Built the content function from nothing at a $70M exteriors company — brand strategy, video production, and a personal brand for the VP. Took the company Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, with reach up 2,000% in two months.",
+        es: "Creé la función de contenido desde cero en una empresa de reformas exteriores de 70 millones de dólares: estrategia de marca, producción de vídeo y la marca personal del vicepresidente. Llevé el Instagram de la empresa de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
       },
     },
     {
@@ -129,8 +137,8 @@ const CV: {
   education: [
     {
       degree: {
-        en: "Master's in UX & Service Design",
-        es: "Máster en UX y diseño de servicios",
+        en: "Master's in Digital Product & Service Design",
+        es: "Máster en diseño de producto digital y de servicios",
       },
       school: "IED Madrid",
     },

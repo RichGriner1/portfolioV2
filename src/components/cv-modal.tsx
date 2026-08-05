@@ -57,9 +57,9 @@ const CV: {
         es: "Diseñador de producto digital",
       },
       company: "Afi",
-      period: { en: "2025 — present", es: "2025 — actualidad" },
+      period: { en: "2025 – present", es: "2025 – actualidad" },
       description: {
-        en: "Sole full-time designer on white-label financial products for leading Spanish institutions — wealth management tools, planning simulators, mortgage calculators. Built a three-tier token architecture across Figma and code, so a client rebrand is a token swap rather than twenty files, and wrote design.md, the rulebook AI agents read before generating product UI. Led brand and visual identity for the 2026 Wealth Planner redesign.",
+        en: "Sole full-time designer on white-label financial products for leading Spanish institutions: wealth management tools, planning simulators, mortgage calculators. Built a three-tier token architecture across Figma and code, so a client rebrand is a token swap rather than twenty files, and wrote design.md, the rulebook AI agents read before generating product UI. Led brand and visual identity for the 2026 Wealth Planner redesign.",
         es: "Único diseñador a tiempo completo en productos financieros white-label para las principales entidades españolas: herramientas de gestión patrimonial, simuladores de planificación y calculadoras hipotecarias. Construí una arquitectura de tokens en tres niveles entre Figma y código, de modo que un cambio de marca de cliente es un cambio de tokens y no de veinte archivos, y escribí design.md, el manual que los agentes de IA leen antes de generar la UI del producto. Dirigí la marca y la identidad visual del rediseño de Wealth Planner 2026.",
       },
     },
@@ -69,10 +69,10 @@ const CV: {
         es: "Senior digital product manager",
       },
       company: "Audemic",
-      period: { en: "2024 — 2025", es: "2024 — 2025" },
+      period: { en: "2024 – 2025", es: "2024 – 2025" },
       description: {
-        en: "Led the pivot from a B2C research app to B2B enterprise. Ran discovery with UN analysts and vaccine researchers, launched the B2B beta and the acquisition funnel behind it — 20 qualified leads in a single week from paid ads — and contributed to a 2× increase in revenue.",
-        es: "Lideré el giro de una app de investigación B2C hacia B2B enterprise. Hice el discovery con analistas de la ONU e investigadores de vacunas, lancé la beta B2B y el embudo de captación que la sostenía —20 leads cualificados en una sola semana con publicidad de pago— y contribuí a duplicar los ingresos.",
+        en: "Led the pivot from a B2C research app to B2B enterprise. Ran discovery with UN analysts and vaccine researchers, then launched the B2B beta and the acquisition funnel behind it: 20 qualified leads in a single week from paid ads. Contributed to a 2× increase in revenue.",
+        es: "Lideré el giro de una app de investigación B2C hacia B2B enterprise. Hice el discovery con analistas de la ONU e investigadores de vacunas y lancé la beta B2B y el embudo de captación que la sostenía: 20 leads cualificados en una sola semana con publicidad de pago. Contribuí a duplicar los ingresos.",
       },
     },
     {
@@ -87,18 +87,19 @@ const CV: {
       // than the jargon. Leads with the starting follower count because "under
       // 1,000 to nearly four times that" is checkable where a bare +292.6% could
       // sit on any base.
-      // TODO(richard): LinkedIn says this personal brand was for the company
-      // Co-Founder; this says VP. One of the two is wrong and the profile is
-      // public — confirm which.
+      // "co-founder" rather than VP: he holds both, and it's the title LinkedIn
+      // already uses publicly, so the two don't contradict each other.
+      // $70M is what the company turned over that year, not growth attributed to
+      // this work — the prior year's figure isn't known.
       description: {
-        en: "Built the content function from nothing at a $70M exteriors company — brand strategy, video production, and a personal brand for the VP. Took the company Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, with reach up 2,000% in two months.",
-        es: "Creé la función de contenido desde cero en una empresa de reformas exteriores de 70 millones de dólares: estrategia de marca, producción de vídeo y la marca personal del vicepresidente. Llevé el Instagram de la empresa de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
+        en: "Built the content function from nothing at a US exteriors company that turned over $70M the year I was there. Brand strategy, video production, and a personal brand for the co-founder. Took the company Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, reach up 2,000% in two months.",
+        es: "Creé la función de contenido desde cero en una empresa estadounidense de reformas exteriores que facturó 70 millones de dólares el año en que trabajé allí. Estrategia de marca, producción de vídeo y la marca personal del cofundador. Llevé el Instagram de la empresa de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
       },
     },
     {
       role: { en: "UX Designer", es: "Diseñador UX" },
       company: "Denteel Marketing",
-      period: { en: "2023 — 2024", es: "2023 — 2024" },
+      period: { en: "2023 – 2024", es: "2023 – 2024" },
       description: {
         en: "Design audits plus AI and SEO research for a dental marketing agency in Madrid. Organic traffic up 40%, and monthly revenue doubled from $15K to $30K by tailoring content to client geography.",
         es: "Auditorías de diseño e investigación de IA y SEO para una agencia de marketing dental en Madrid. El tráfico orgánico subió un 40 % y los ingresos mensuales se duplicaron, de 15.000 a 30.000 dólares, adaptando el contenido a la geografía de cada cliente.",
@@ -110,10 +111,10 @@ const CV: {
         es: "Diseñador de producto y marca",
       },
       company: "RG Designs",
-      period: { en: "2021 — present", es: "2021 — actualidad" },
+      period: { en: "2021 – present", es: "2021 – actualidad" },
       description: {
-        en: "Startups and small teams with no designer: the brand, the system, and the environment they need to keep shipping after I'm gone. KT360 — brand identity plus a no-code environment where brand rules and component specs are read by an AI, so a marketer publishing a post and a developer shipping a page produce work from the same hand. Mindfulme — brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
-        es: "Startups y equipos pequeños sin diseñador: la marca, el sistema y el entorno que necesitan para seguir lanzando cuando yo ya no estoy. KT360: identidad de marca y un entorno no-code donde las reglas de marca y las especificaciones de componentes las lee una IA, de modo que un perfil de marketing que publica un post y un desarrollador que lanza una página produzcan trabajo de la misma mano. Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
+        en: "Brand, design system and build environment for startups with no designer, so they keep shipping after I leave. KT360: brand identity plus a no-code environment where an AI reads the brand rules and component specs. Mindfulme: brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
+        es: "Marca, sistema de diseño y entorno de desarrollo para startups sin diseñador, para que sigan lanzando cuando yo ya no esté. KT360: identidad de marca y un entorno no-code donde una IA lee las reglas de marca y las especificaciones de componentes. Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
       },
     },
   ],

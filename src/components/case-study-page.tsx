@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { CaseStudyBento } from "@/components/case-study-bento";
+import { CardMedia } from "@/components/work-card";
 import type { CaseStudy } from "@/lib/content/case-studies";
 import { WORK, type WorkItem } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
@@ -98,7 +99,15 @@ export function CaseStudyPage({ item, study }: Props) {
                       w.bgColor ? { backgroundColor: w.bgColor } : undefined
                     }
                   >
-                    <div className="flex flex-col gap-1">
+                    <div
+                      className="border-border bg-card relative size-24 shrink-0 overflow-hidden rounded-xl border"
+                      style={
+                        w.bgColor ? { backgroundColor: w.bgColor } : undefined
+                      }
+                    >
+                      <CardMedia item={w} lang={lang} />
+                    </div>
+                    <div className="flex flex-1 flex-col gap-1">
                       <span className="text-foreground font-display text-lg font-bold tracking-tight">
                         {pick(w.title, lang)}
                       </span>

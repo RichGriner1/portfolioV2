@@ -82,19 +82,33 @@ function formatDate(item: WorkItem, locale: string): string {
   return String(item.year);
 }
 
-export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
+export function WorkCard({
+  item,
+  index,
+  fill = false,
+}: {
+  item: WorkItem;
+  index: number;
+  /** Fill the parent's height (for bento spans) instead of forcing a square.
+      Square media (1080×1080 thumbs) center-crops via object-cover. */
+  fill?: boolean;
+}) {
   const { lang } = useLang();
   const locale = lang === "es" ? "es-ES" : "en-US";
-  // Every tile is square; the v4 thumbnails are 1080×1080 so they fill it exactly.
-  const aspect = "aspect-square";
+  const aspect = fill ? "h-full" : "aspect-square";
 
   return (
-    <BlurFade inView inViewMargin="-60px" delay={Math.min(index, 8) * 0.06}>
-      <Link href={item.href} className="group block">
+    <BlurFade
+      inView
+      inViewMargin="-60px"
+      delay={Math.min(index, 8) * 0.06}
+      className={fill ? "h-full" : undefined}
+    >
+      <Link href={item.href} className={cn("group block", fill && "h-full")}>
         {/* Media tile */}
         <div
           className={cn(
-            "border-border bg-card duration-base ease-out-soft relative w-full overflow-hidden rounded-2xl border transition-all group-hover:-translate-y-1 group-hover:shadow-lg",
+            "border-border bg-card ease-out-soft relative w-full overflow-hidden rounded-2xl border transition-all duration-[var(--duration-base)] group-hover:-translate-y-1 group-hover:shadow-lg",
             aspect
           )}
           style={item.bgColor ? { backgroundColor: item.bgColor } : undefined}
@@ -104,7 +118,7 @@ export function WorkCard({ item, index }: { item: WorkItem; index: number }) {
           {/* Hover devices only: glass panel revealed on hover. z-10 keeps it
               above media content whose internals carry their own z-index
               (e.g. figure dots), which would otherwise punch through it. */}
-          <div className="bg-background/60 duration-base ease-out-soft absolute inset-0 z-10 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100 [@media(hover:hover)]:flex">
+          <div className="bg-background/60 ease-out-soft absolute inset-0 z-10 hidden flex-col justify-between p-4 opacity-0 backdrop-blur-md transition-opacity duration-[var(--duration-base)] group-hover:opacity-100 [@media(hover:hover)]:flex">
             <div className="flex flex-col gap-1.5">
               <span className="text-muted-foreground font-mono text-[10px] font-medium">
                 {pick(KIND_LABELS[item.kind], lang)}

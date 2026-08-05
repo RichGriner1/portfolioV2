@@ -3878,7 +3878,7 @@ function BentoCardItem({
                 <img
                   src={src}
                   alt=""
-                  className="duration-slow ease-out-soft h-full w-full object-cover transition-transform group-hover:scale-[1.05]"
+                  className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.05]"
                 />
               </div>
             ))}
@@ -3887,7 +3887,7 @@ function BentoCardItem({
           <img
             src={card.image}
             alt={pick(card.label, lang)}
-            className="duration-slow ease-out-soft h-full w-full object-contain transition-transform group-hover:scale-[1.03]"
+            className="ease-out-soft h-full w-full object-contain transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
           />
         ) : Animation ? (
           <Animation active={isMobile ? mobileVariant === "hover" : active} />

@@ -62,7 +62,7 @@ export function Section({
       <div>
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
         {description ? (
-          <p className="mt-4 text-sm text-muted-foreground">{description}</p>
+          <p className="text-muted-foreground mt-4 text-sm">{description}</p>
         ) : null}
       </div>
       {children}
@@ -98,17 +98,25 @@ export function SemanticCard({
   const fgC = resolveSemantic(fg, theme);
   // A ghost has no fill — it sits on the canvas, so its contrast is text-vs-canvas.
   const contrastBg = ghost ? resolveSemantic("canvas", theme) : bgC;
-  const ratio = contrastBg && fgC ? contrastRatio(contrastBg.hex, fgC.hex) : null;
+  const ratio =
+    contrastBg && fgC ? contrastRatio(contrastBg.hex, fgC.hex) : null;
   const level = ratio !== null ? wcagLevel(ratio) : null;
   const { rootProps, rowsClass } = useExpand();
 
   return (
     <div
       {...rootProps}
-      className={ghost || flat ? "group cursor-pointer select-none overflow-hidden rounded-lg" : "group cursor-pointer select-none overflow-hidden rounded-lg border border-border"}
+      className={
+        ghost || flat
+          ? "group cursor-pointer overflow-hidden rounded-lg select-none"
+          : "group border-border cursor-pointer overflow-hidden rounded-lg border select-none"
+      }
       style={
         ghost
-          ? { color: `var(--${fg})`, border: `1px solid color-mix(in srgb, var(--${fg}) 45%, transparent)` }
+          ? {
+              color: `var(--${fg})`,
+              border: `1px solid color-mix(in srgb, var(--${fg}) 45%, transparent)`,
+            }
           : { backgroundColor: `var(--${bg})`, color: `var(--${fg})` }
       }
     >
@@ -119,13 +127,21 @@ export function SemanticCard({
             <span
               title={`${ghost ? "Text on canvas" : "Foreground on background"} · WCAG ${level.label}`}
               className="shrink-0 rounded-full px-8 py-1 font-mono text-[10px]"
-              style={{ backgroundColor: "color-mix(in srgb, currentColor 14%, transparent)" }}
+              style={{
+                backgroundColor:
+                  "color-mix(in srgb, currentColor 14%, transparent)",
+              }}
             >
               {ratio.toFixed(2)}:1 {level.label} {level.pass ? "✓" : "✕"}
             </span>
           ) : null}
         </div>
-        <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+            rowsClass
+          )}
+        >
           <div className="overflow-hidden">
             <div className="space-y-12 pt-12 text-xs">
               <p className="leading-snug opacity-90">{overview}</p>
@@ -138,18 +154,27 @@ export function SemanticCard({
               ) : null}
               <div
                 className="space-y-2 pt-8 font-mono text-[10px] opacity-75"
-                style={{ borderTop: "1px solid color-mix(in srgb, currentColor 20%, transparent)" }}
+                style={{
+                  borderTop:
+                    "1px solid color-mix(in srgb, currentColor 20%, transparent)",
+                }}
               >
                 {ghost ? (
                   <>
                     <div>bg transparent — sits on canvas</div>
-                    <div>text --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
+                    <div>
+                      text --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}
+                    </div>
                     <div>hover → subtle tint</div>
                   </>
                 ) : (
                   <>
-                    <div>bg --{bg} · {bgC?.primitive ?? "?"} · {bgC?.hex ?? ""}</div>
-                    <div>fg --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}</div>
+                    <div>
+                      bg --{bg} · {bgC?.primitive ?? "?"} · {bgC?.hex ?? ""}
+                    </div>
+                    <div>
+                      fg --{fg} · {fgC?.primitive ?? "?"} · {fgC?.hex ?? ""}
+                    </div>
                   </>
                 )}
               </div>
@@ -166,7 +191,15 @@ export function SemanticCard({
  * overview, and the full 11-step ramp strip inside the card. Inspired by
  * Pantone-style swatch cards.
  */
-export function PrimitiveRampCard({ ramp, span, lang }: { ramp: string; span?: boolean; lang: Lang }) {
+export function PrimitiveRampCard({
+  ramp,
+  span,
+  lang,
+}: {
+  ramp: string;
+  span?: boolean;
+  lang: Lang;
+}) {
   const info = PRIMITIVE_RAMP_INFO[ramp];
   const baseHex = primitiveHex(ramp, info.base);
   const textColor = readableOn(baseHex);
@@ -176,13 +209,16 @@ export function PrimitiveRampCard({ ramp, span, lang }: { ramp: string; span?: b
     <div
       {...rootProps}
       className={cn(
-        "group flex min-h-[240px] cursor-pointer select-none flex-col justify-between overflow-hidden rounded-xl",
-        span && "sm:col-span-2",
+        "group flex min-h-[240px] cursor-pointer flex-col justify-between overflow-hidden rounded-xl select-none",
+        span && "sm:col-span-2"
       )}
-      style={{ backgroundColor: `var(--${ramp}-${info.base})`, color: textColor }}
+      style={{
+        backgroundColor: `var(--${ramp}-${info.base})`,
+        color: textColor,
+      }}
     >
       <div className="p-24">
-        <div className="text-[11px] font-mono uppercase tracking-wider opacity-70">
+        <div className="font-mono text-[11px] tracking-wider uppercase opacity-70">
           Primitive ramp
         </div>
         <h3 className="mt-4 text-3xl font-bold capitalize">{ramp}</h3>
@@ -193,10 +229,17 @@ export function PrimitiveRampCard({ ramp, span, lang }: { ramp: string; span?: b
       </div>
 
       {/* Overview + use cases + full-bleed ramp; revealed on hover or tap. */}
-      <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+          rowsClass
+        )}
+      >
         <div className="overflow-hidden">
           <div className="space-y-8 px-24 pb-12">
-            <p className="max-w-[46ch] text-sm leading-snug opacity-90">{info.overview[lang]}</p>
+            <p className="max-w-[46ch] text-sm leading-snug opacity-90">
+              {info.overview[lang]}
+            </p>
             <ul className="space-y-1 text-xs opacity-80">
               {info.uses[lang].map((u) => (
                 <li key={u}>• {u}</li>
@@ -210,7 +253,10 @@ export function PrimitiveRampCard({ ramp, span, lang }: { ramp: string; span?: b
                 key={s}
                 title={`--${ramp}-${s} · ${stepHex}`}
                 className="flex items-center justify-between px-24 py-2 font-mono text-[10px]"
-                style={{ backgroundColor: `var(--${ramp}-${s})`, color: readableOn(stepHex) }}
+                style={{
+                  backgroundColor: `var(--${ramp}-${s})`,
+                  color: readableOn(stepHex),
+                }}
               >
                 <span className="opacity-90">{s}</span>
                 <span className="opacity-70">{stepHex}</span>
@@ -228,7 +274,13 @@ export function PrimitiveRampCard({ ramp, span, lang }: { ramp: string; span?: b
  * card. Instead of an 11-step ramp the attachment is two bars (white, black)
  * that hover-expand to reveal use cases.
  */
-export function AccessibilityCard({ span, lang }: { span?: boolean; lang: Lang }) {
+export function AccessibilityCard({
+  span,
+  lang,
+}: {
+  span?: boolean;
+  lang: Lang;
+}) {
   const swatches = [
     {
       name: "white",
@@ -274,21 +326,30 @@ export function AccessibilityCard({ span, lang }: { span?: boolean; lang: Lang }
       className={cn(
         // The card IS the pure extreme: white in light, black in dark. The
         // border shows its edge against the (matching) canvas.
-        "group flex min-h-[240px] cursor-pointer select-none flex-col justify-between overflow-hidden rounded-xl border border-border",
+        "group border-border flex min-h-[240px] cursor-pointer flex-col justify-between overflow-hidden rounded-xl border select-none",
         "bg-[var(--accessibility-white)] text-[var(--accessibility-black)]",
         "dark:bg-[var(--accessibility-black)] dark:text-[var(--accessibility-white)]",
-        span && "sm:col-span-2",
+        span && "sm:col-span-2"
       )}
     >
       <div className="p-24">
-        <div className="text-[11px] font-mono uppercase tracking-wider opacity-60">Primitive</div>
+        <div className="font-mono text-[11px] tracking-wider uppercase opacity-60">
+          Primitive
+        </div>
         <h3 className="mt-4 text-3xl font-bold">Accessibility</h3>
         <div className="mt-2 text-sm opacity-70">Maximum contrast</div>
-        <code className="mt-2 block font-mono text-[11px] opacity-60">#ffffff · #000000</code>
+        <code className="mt-2 block font-mono text-[11px] opacity-60">
+          #ffffff · #000000
+        </code>
       </div>
 
       {/* Overview + per-color use cases; revealed on hover or tap. */}
-      <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+          rowsClass
+        )}
+      >
         <div className="overflow-hidden">
           <div className="space-y-12 px-24 pb-24 text-xs">
             <p className="leading-snug opacity-75">
@@ -303,7 +364,8 @@ export function AccessibilityCard({ span, lang }: { span?: boolean; lang: Lang }
                     className="size-10 shrink-0 rounded-full"
                     style={{
                       backgroundColor: `var(${s.varName})`,
-                      border: "1px solid color-mix(in srgb, currentColor 35%, transparent)",
+                      border:
+                        "1px solid color-mix(in srgb, currentColor 35%, transparent)",
                     }}
                   />
                   {s.name} · {s.hex}
@@ -344,26 +406,31 @@ export function BorderRingCard({
   return (
     <div
       {...rootProps}
-      className="group cursor-pointer select-none overflow-hidden rounded-lg border border-border bg-card"
+      className="group border-border bg-card cursor-pointer overflow-hidden rounded-lg border select-none"
     >
       <div className="p-16">
         <div className="flex items-center gap-12">
           <div
-            className="size-40 shrink-0 rounded-md bg-background"
+            className="bg-background size-40 shrink-0 rounded-md"
             style={{ border: `2px solid var(--${name})` }}
           />
           <div className="min-w-0">
             <div className="text-sm font-medium">{name}</div>
             {current ? (
-              <code className="font-mono text-[10px] text-muted-foreground">
+              <code className="text-muted-foreground font-mono text-[10px]">
                 {current.primitive} · {current.hex}
               </code>
             ) : null}
           </div>
         </div>
-        <div className={cn("grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]", rowsClass)}>
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+            rowsClass
+          )}
+        >
           <div className="overflow-hidden">
-            <div className="space-y-12 pt-12 text-xs text-muted-foreground">
+            <div className="text-muted-foreground space-y-12 pt-12 text-xs">
               <p className="leading-snug">{overview}</p>
               {examples.length ? (
                 <ul className="space-y-2">
@@ -372,10 +439,14 @@ export function BorderRingCard({
                   ))}
                 </ul>
               ) : null}
-              <div className="space-y-2 border-t border-border pt-8 font-mono text-[10px]">
+              <div className="border-border space-y-2 border-t pt-8 font-mono text-[10px]">
                 <div>--{name}</div>
-                <div>light · {light?.primitive ?? "?"} · {light?.hex ?? ""}</div>
-                <div>dark · {dk?.primitive ?? "?"} · {dk?.hex ?? ""}</div>
+                <div>
+                  light · {light?.primitive ?? "?"} · {light?.hex ?? ""}
+                </div>
+                <div>
+                  dark · {dk?.primitive ?? "?"} · {dk?.hex ?? ""}
+                </div>
               </div>
             </div>
           </div>

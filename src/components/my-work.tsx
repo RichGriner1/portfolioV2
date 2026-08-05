@@ -55,7 +55,7 @@ function SectionRow({
       {cta && (
         <Link
           href={cta.href}
-          className="text-muted-foreground hover:text-foreground duration-base ease-out-soft shrink-0 font-mono text-xs transition-colors"
+          className="text-muted-foreground hover:text-foreground ease-out-soft shrink-0 font-mono text-xs transition-colors duration-[var(--duration-base)]"
         >
           {pick(cta.label, lang)} →
         </Link>

@@ -673,3 +673,25 @@
     @apply text-pretty;
   }
 }
+
+/* --------------------------------------------------------------- dot cursor
+   Toggled by `DotCursor`, which adds `.dot-cursor-active` to <html> only on
+   `(hover: hover) and (pointer: fine)`. Outside `@layer` on purpose: it has to beat
+   Tailwind's `cursor-*` utilities, and utilities in a layer always lose to
+   unlayered rules regardless of specificity.
+
+   The native cursor is hidden so the dot can stand in for it — but NOT where the
+   cursor carries information the dot can't. Over a text field or selectable prose
+   the I-beam tells you where the caret lands and that the text can be selected; a
+   10px dot says neither. The printed email address on the contact tile is exactly
+   that case, which is why the utility classes are listed alongside the elements. */
+.dot-cursor-active,
+.dot-cursor-active *:not(:is(input, textarea, [contenteditable="true"])) {
+  cursor: none;
+}
+
+.dot-cursor-active :is(input, textarea, [contenteditable="true"]),
+.dot-cursor-active .cursor-text,
+.dot-cursor-active .select-all {
+  cursor: text;
+}

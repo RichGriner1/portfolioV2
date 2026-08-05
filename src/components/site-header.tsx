@@ -4,13 +4,11 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BlurFade } from "@/components/motion/blur-fade";
-import { CrabMark } from "@/components/motion/crab-mark";
 import { CrabDots, DotToggle } from "@/components/motion/crab-dots";
 import { CvModal } from "@/components/cv-modal";
 import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { t, useLang } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/", key: "nav.home" as const },
@@ -54,9 +52,9 @@ export function SiteHeader() {
    * effect — the state change is caused by a click, not by a render, and an effect
    * that sets state on every open trips react-hooks/set-state-in-effect.
    *
-   * Opening: the dots mount as a lattice and only become an X 150ms later, so the
-   * change reads as two events instead of one blur. Closing: the lattice returns
-   * first, then hands back to the solid crab.
+   * Opening: the grid holds for 150ms and only then collapses into the X, so the
+   * change reads as the grid rearranging rather than a single blur. Closing runs the
+   * same beat in reverse.
    */
   const close = useCallback(() => {
     if (phase.current) clearTimeout(phase.current);
@@ -103,25 +101,17 @@ export function SiteHeader() {
           aria-expanded={menuOpen}
           aria-controls="site-menu"
           aria-label={`${wordmark} — ${t(menuOpen ? "nav.menu_close" : "nav.menu_open", lang)}`}
-          className="group order-2 flex w-fit items-center transition-opacity hover:opacity-70 sm:order-1"
+          // `p-1.5 -m-1.5`: the mark is the reference's 20px, and the padding lifts the
+          // button's own box to 32px for WCAG 2.5.8 while the negative margin keeps
+          // the row's metrics unchanged. On the button, not an inner span — an inner
+          // `w-5 p-1.5` collapses to an 8px content box under border-box, which left
+          // the real target 8×20 and the button's rect lying about it.
+          className="group order-2 -m-1.5 flex w-fit items-center p-1.5 transition-opacity hover:opacity-70 sm:order-1"
         >
-          <span className="relative block size-8 shrink-0">
-            <CrabMark
-              className={cn(
-                "text-foreground ease-spring absolute inset-0 size-8 transition-[opacity,scale,rotate] duration-[var(--duration-base)]",
-                menuOpen ? "opacity-0" : "opacity-100",
-                "[@media(hover:hover)]:group-hover:scale-[1.06] [@media(hover:hover)]:group-hover:rotate-[8deg]"
-              )}
-            />
-            {/* Overflows the 32px box a little so the 9×9 dots clear 3px each. */}
-            <DotToggle
-              open={dotsCross}
-              className={cn(
-                "text-foreground absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[var(--duration-base)]",
-                menuOpen ? "opacity-100" : "opacity-0"
-              )}
-            />
-          </span>
+          <DotToggle
+            open={dotsCross}
+            className="text-foreground w-5 shrink-0"
+          />
 
           {/* Hover-only, and hover-capable devices only — on touch a tap sticks the
               state and the name would sit half-revealed. Translated, and in Spanish

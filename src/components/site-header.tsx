@@ -1,183 +1,230 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { BlurFade } from "@/components/motion/blur-fade";
 import { CrabMark } from "@/components/motion/crab-mark";
+import { CrabDots, DotToggle } from "@/components/motion/crab-dots";
 import { CvModal } from "@/components/cv-modal";
 import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { t, useLang } from "@/lib/i18n";
-
-/**
- * The crab carries no information on its own, so the reveal says what the site
- * IS rather than only whose it is. Also the link's accessible name, so the
- * visible and announced names match.
- */
-const WORDMARK = "Richard Griner Design Portfolio";
+import { cn } from "@/lib/utils";
 
 const NAV = [
+  { href: "/", key: "nav.home" as const },
   { href: "/projects", key: "nav.projects" as const },
   { href: "/writing", key: "nav.writing" as const },
 ];
 
+/** Same set the footer carries — Richard wants them in both places. */
+const RESOURCES = [
+  { href: "https://www.linkedin.com/in/richardgriner", label: "LinkedIn" },
+  { href: "https://x.com/poppa_richhh", label: "X" },
+  { href: "mailto:richardgrinerdesigns@gmail.com", key: "nav.email" as const },
+];
+
 /**
- * One header for every page. It used to take a `brand` prop so only the home got
- * the crab — which meant every case study and post still showed the old wordmark
- * and the site looked like two different sites. There is no variant now.
+ * One header for every page, and one menu for every breakpoint.
  *
- * Hover behaviour is guarded with `[@media(hover:hover)]` throughout. On touch a
- * tap fires the hover state and iOS holds it until the user taps elsewhere, which
- * left the logo stuck mid-tilt with a half-revealed wordmark on every page.
+ * The nav used to live in the bar on desktop and behind a menu on mobile. It's the
+ * menu everywhere now: the bar carries only the mark and the two toggles, and
+ * Home / Projects / Writing / CV plus a Resources group live in a panel.
  *
- * Two layouts, split at `sm`:
+ * Sides are deliberately mirrored. The mark sits top-RIGHT below `sm` — a phone is
+ * held one-handed and the reachable corner is the thumb's side — and top-LEFT from
+ * `sm` up, where it also carries the hover wordmark, so the left is not empty. The
+ * panel hangs off whichever corner the mark is in.
  *
- * - `sm` and up: crab-as-home-link on the left, nav centred on the viewport,
- *   CV / language / theme on the right.
- * - below `sm`: the crab IS the menu button, and it holds Home, Projects,
- *   Writing and CV. Language and theme stay out in the bar — they're one tap
- *   each and burying a theme switch behind a menu makes it feel broken.
- *
- * The mobile split exists because all six items in one row came to 361px of
- * intrinsic content at a 320px viewport. The earlier fix squeezed them into a
- * flex row with ~11px of slack, which held but left no room for another item
- * ever. A menu is the version that doesn't need re-solving next time.
+ * The mark's open/close state is a three-step dissolve rather than a rotation: the
+ * solid crab fades out, a dot lattice fades in, and the lattice collapses into an X.
+ * `DotToggle` is only 9×9 because a dot needs ~3px to read and the bar gives it 32
+ * — the detailed 29-column dotted crab needs ~88px, so it appears in the panel
+ * instead, where there's room. See `crab-dots.tsx`.
  */
 export function SiteHeader() {
   const { lang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dotsCross, setDotsCross] = useState(false);
+  const phase = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /**
+   * The middle beat of the dissolve, scheduled from the interaction rather than an
+   * effect — the state change is caused by a click, not by a render, and an effect
+   * that sets state on every open trips react-hooks/set-state-in-effect.
+   *
+   * Opening: the dots mount as a lattice and only become an X 150ms later, so the
+   * change reads as two events instead of one blur. Closing: the lattice returns
+   * first, then hands back to the solid crab.
+   */
+  const close = useCallback(() => {
+    if (phase.current) clearTimeout(phase.current);
+    phase.current = null;
+    setDotsCross(false);
+    setMenuOpen(false);
+  }, []);
+
+  const toggle = useCallback(() => {
+    if (menuOpen) {
+      close();
+      return;
+    }
+    setMenuOpen(true);
+    phase.current = setTimeout(() => setDotsCross(true), 150);
+  }, [menuOpen, close]);
 
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
+  }, [menuOpen, close]);
+
+  useEffect(
+    () => () => {
+      if (phase.current) clearTimeout(phase.current);
+    },
+    []
+  );
+
+  const wordmark = t("nav.wordmark", lang);
 
   return (
-    // `relative` so the mobile panel can hang off the bar rather than push the
-    // page down — an expanding menu that reflows the content under it reads as
-    // the layout breaking.
+    // `relative` so the panel hangs off the bar instead of pushing the page down.
     <header className="relative w-full">
-      {/* Three columns so the nav is centred on the viewport, not on whatever is
-          left over between the logo and the controls. `1fr auto 1fr` keeps it put
-          however wide the sides get. That grid only holds from `sm` up; below it
-          the row is plain flex with `justify-between`, since three intrinsic
-          widths plus two 24px gaps and 48px of padding overflowed 320px. */}
-      <div className="font-geist mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:gap-6 sm:px-6">
-        {/* Below `sm` the crab is a menu toggle, not a link. Two separate
-            elements rather than one that changes behaviour: a control that is
-            sometimes a link and sometimes a button can't be described honestly to
-            a screen reader, and the desktop version carries a hover reveal the
-            button has no use for. */}
+      <div className="font-geist mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4 sm:px-6">
+        {/* `order` flips the sides: mark right on mobile, left from `sm`. */}
         <button
           type="button"
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={toggle}
           aria-expanded={menuOpen}
           aria-controls="site-menu"
-          aria-label={t(menuOpen ? "nav.menu_close" : "nav.menu_open", lang)}
-          className="group flex w-fit items-center transition-opacity hover:opacity-70 sm:hidden"
+          aria-label={`${wordmark} — ${t(menuOpen ? "nav.menu_close" : "nav.menu_open", lang)}`}
+          className="group order-2 flex w-fit items-center transition-opacity hover:opacity-70 sm:order-1"
         >
-          <CrabMark
-            className={`text-foreground ease-spring size-8 shrink-0 transition-transform duration-[var(--duration-base)] ${
-              menuOpen ? "scale-[1.06] rotate-[8deg]" : ""
-            }`}
-          />
-        </button>
+          <span className="relative block size-8 shrink-0">
+            <CrabMark
+              className={cn(
+                "text-foreground ease-spring absolute inset-0 size-8 transition-[opacity,scale,rotate] duration-[var(--duration-base)]",
+                menuOpen ? "opacity-0" : "opacity-100",
+                "[@media(hover:hover)]:group-hover:scale-[1.06] [@media(hover:hover)]:group-hover:rotate-[8deg]"
+              )}
+            />
+            {/* Overflows the 32px box a little so the 9×9 dots clear 3px each. */}
+            <DotToggle
+              open={dotsCross}
+              className={cn(
+                "text-foreground absolute top-1/2 left-1/2 w-10 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-[var(--duration-base)]",
+                menuOpen ? "opacity-100" : "opacity-0"
+              )}
+            />
+          </span>
 
-        <Link
-          href="/"
-          aria-label={WORDMARK}
-          className="group hidden w-fit items-center justify-self-start transition-opacity hover:opacity-70 sm:flex"
-        >
-          <CrabMark className="text-foreground ease-spring size-8 shrink-0 transition-transform duration-[var(--duration-base)] [@media(hover:hover)]:group-hover:scale-[1.06] [@media(hover:hover)]:group-hover:rotate-[8deg]" />
-          {/* In flow, not absolute. It reserves its own width so the link's hover
-              box covers the space the name appears in — positioned outside the
-              box, moving the cursor toward the name you just revealed left the
-              link and collapsed it. `hidden` on touch: a hover-only reveal has no
-              job there and can only get stuck. */}
+          {/* Hover-only, and hover-capable devices only — on touch a tap sticks the
+              state and the name would sit half-revealed. Translated, and in Spanish
+              sentence case, which differs from the English title case. */}
           <span
             aria-hidden
-            className="text-foreground group-hover:animate-wordmark-in ml-2 hidden -translate-x-[var(--reveal-rise)] text-base font-medium whitespace-nowrap opacity-0 blur-[4px] transition-[opacity,translate,filter] duration-[var(--duration-enter)] ease-[var(--ease-enter)] [@media(hover:hover)]:block"
+            className="text-foreground group-hover:animate-wordmark-in ml-2 hidden -translate-x-[var(--reveal-rise)] text-base font-medium whitespace-nowrap opacity-0 blur-[4px] transition-[opacity,translate,filter] duration-[var(--duration-enter)] ease-[var(--ease-enter)] sm:[@media(hover:hover)]:block"
           >
-            {WORDMARK}
+            {wordmark}
           </span>
-        </Link>
+        </button>
 
-        {/* Desktop nav. Below `sm` these live in the menu instead. */}
-        <nav
-          aria-label="Site"
-          className="text-muted-foreground hidden items-center gap-4 justify-self-center text-sm sm:flex sm:gap-6"
-        >
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="hover:text-foreground py-1.5 underline-offset-4 transition-colors hover:underline"
-            >
-              {t(item.key, lang)}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3 justify-self-end sm:gap-4">
-          {/* CV lives in the menu on mobile, so this instance is desktop-only.
-              Two instances rather than one lifted into shared state: CvModal owns
-              its own open state and body-scroll lock, and rewiring that from here
-              would mean changing its API for a layout concern. The hidden one's
-              trigger is `display: none`, so it can't be reached or opened. */}
-          <div className="text-muted-foreground hidden text-sm sm:block">
-            <CvModal />
-          </div>
+        <div className="order-1 flex items-center gap-3 sm:order-2 sm:gap-4">
           <LangToggle />
           <ThemeToggle />
         </div>
       </div>
 
-      {/* Mobile panel. Mounted on open rather than hidden with CSS, because the
-          BlurFade entrance runs on mount — that's what gives each row its stagger.
-          `z-30` keeps it under the CV modal's z-40 backdrop, so tapping CV covers
-          the menu instead of fighting it, and the menu is still there underneath
-          when the modal closes.
+      {/* The panel. `bg-primary` is the inverted surface, so it reads as the dark
+          card in light mode and a light one in dark mode — the reference's site is
+          light-only, and a permanently dark panel would fight our dark theme.
 
-          No click-outside backdrop on purpose: one would have to sit over the page
-          at a z-index between the panel and the header, and it would swallow taps
-          meant for the language and theme buttons still in the bar. Escape, a
-          second tap on the crab, and tapping any row all close it. */}
+          Mounted on open rather than hidden with CSS: BlurFade animates on mount,
+          which is what staggers the rows. `z-30` keeps it under the CV modal's
+          z-40 backdrop, so tapping CV covers the panel rather than fighting it, and
+          the panel is still there when the modal closes — closing it would unmount
+          the CvModal instance and take the modal with it.
+
+          No click-outside backdrop: it would have to sit between the panel and the
+          bar, and would swallow taps meant for the language and theme buttons.
+          Escape, a second tap on the mark, and tapping any row all close it. */}
       {menuOpen && (
-        <div
-          id="site-menu"
-          className="border-border bg-background/95 absolute inset-x-0 top-14 z-30 flex flex-col border-b px-2 pt-1 pb-3 backdrop-blur-md sm:hidden"
-        >
-          {[
-            { href: "/", key: "nav.home" as const },
-            ...NAV,
-            { href: null, key: "nav.cv" as const },
-          ].map((item, i) => (
-            // 40ms apart, and `offset` a touch smaller than BlurFade's default:
-            // the rows are 40px tall and 20px apart, so the stock 6px rise reads
-            // as a jolt at this density.
-            <BlurFade key={item.key} delay={i * 0.04} offset={4}>
-              {item.href ? (
-                <Link
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-foreground hover:bg-muted/60 block rounded-md px-3 py-3 text-base transition-colors"
-                >
-                  {t(item.key, lang)}
-                </Link>
-              ) : (
-                // The menu stays open behind the modal — closing it here would
-                // unmount this CvModal instance and take the modal with it.
-                <div className="text-foreground [&_button]:hover:bg-muted/60 [&_button]:block [&_button]:w-full [&_button]:rounded-md [&_button]:px-3 [&_button]:py-3 [&_button]:text-left [&_button]:text-base [&_button]:no-underline">
-                  <CvModal />
-                </div>
+        // The wrapper repeats the bar's own box — `mx-auto max-w-5xl` with the same
+        // padding — so the panel lines up under the mark instead of against the
+        // viewport edge. `ml-auto` puts it on the right below `sm`, where the mark
+        // is; `sm:ml-0` moves it left with the mark from `sm` up. The wrapper is
+        // pointer-events-none so its empty half doesn't cover the page.
+        <div className="pointer-events-none absolute inset-x-0 top-14 z-30 mx-auto max-w-5xl px-4 sm:px-6">
+          <div
+            id="site-menu"
+            className="bg-primary text-primary-foreground pointer-events-auto ml-auto w-[min(19rem,100%)] rounded-2xl p-5 shadow-xl sm:ml-0"
+          >
+            <nav aria-label="Site" className="flex flex-col">
+              {[...NAV, { href: null, key: "nav.cv" as const }].map(
+                (item, i) => (
+                  <BlurFade key={item.key} delay={i * 0.04} offset={4}>
+                    {item.href ? (
+                      <Link
+                        href={item.href}
+                        onClick={close}
+                        className="text-primary-foreground/55 hover:text-primary-foreground block py-1 text-2xl font-semibold tracking-tight transition-colors"
+                      >
+                        {t(item.key, lang)}
+                      </Link>
+                    ) : (
+                      // Left open behind the modal on purpose — see the note above.
+                      <div className="[&_button]:text-primary-foreground/55 [&_button]:hover:text-primary-foreground [&_button]:!m-0 [&_button]:block [&_button]:!px-0 [&_button]:py-1 [&_button]:text-2xl [&_button]:font-semibold [&_button]:tracking-tight [&_button]:no-underline">
+                        <CvModal />
+                      </div>
+                    )}
+                  </BlurFade>
+                )
               )}
+            </nav>
+
+            <BlurFade delay={0.2} offset={4}>
+              <div className="border-primary-foreground/20 mt-4 border-t pt-4">
+                <div className="text-primary-foreground/45 mb-2 font-mono text-[10px] tracking-widest uppercase">
+                  {t("nav.resources", lang)}
+                </div>
+                <div className="flex flex-col gap-1">
+                  {RESOURCES.map((r) => (
+                    <a
+                      key={r.href}
+                      href={r.href}
+                      // mailto stays in this tab: a blank tab that hands off to a
+                      // mail client just leaves an empty one behind.
+                      target={
+                        r.href.startsWith("mailto:") ? undefined : "_blank"
+                      }
+                      rel={
+                        r.href.startsWith("mailto:")
+                          ? undefined
+                          : "noopener noreferrer"
+                      }
+                      onClick={close}
+                      className="text-primary-foreground/70 hover:text-primary-foreground text-sm transition-colors"
+                    >
+                      {r.key ? t(r.key, lang) : r.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
             </BlurFade>
-          ))}
+
+            {/* The detailed crab, at the size it needs. 88px was on the floor — 29
+              columns into 88 is 3px a dot with nothing spare — so it gets 120 here,
+              which the 304px panel has room for. The bar can't show it at 32px at
+              all, so the panel is where the artwork actually lands. */}
+            <BlurFade delay={0.26} offset={4}>
+              <CrabDots className="text-primary-foreground/40 mt-5 ml-auto w-[120px]" />
+            </BlurFade>
+          </div>
         </div>
       )}
     </header>

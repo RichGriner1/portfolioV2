@@ -15,9 +15,14 @@ export function SiteFooter() {
         <p>
           © {year} Richard Griner. {t("footer.rights", lang)}
         </p>
+        {/* Off-site links open in a new tab; the mailto below deliberately does
+            not — a blank tab that immediately hands off to a mail client just
+            leaves an empty tab behind. `rel="noopener noreferrer"` was already
+            here, which only ever mattered alongside the target it was missing. */}
         <nav aria-label="Social links" className="flex items-center gap-4">
           <a
             href="https://www.linkedin.com/in/richardgriner"
+            target="_blank"
             rel="noopener noreferrer"
             className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
           >
@@ -25,6 +30,7 @@ export function SiteFooter() {
           </a>
           <a
             href="https://x.com/poppa_richhh"
+            target="_blank"
             rel="noopener noreferrer"
             className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
           >

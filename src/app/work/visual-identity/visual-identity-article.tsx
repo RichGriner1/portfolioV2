@@ -131,7 +131,7 @@ export function VisualIdentityArticle() {
         {/* 1. Context and objectives */}
         <section className="flex flex-col gap-4">
           <H2>
-            {es ? `1. Contexto y objetivos` : `1. Context and objectives`}
+            {es ? `Contexto y objetivos` : `Context and objectives`}
           </H2>
 
           {es ? (
@@ -219,7 +219,7 @@ export function VisualIdentityArticle() {
 
         {/* 2. Defining "modern" */}
         <section className="flex flex-col gap-4">
-          <H2>{es ? `2. Definir «moderno»` : `2. Defining "modern"`}</H2>
+          <H2>{es ? `Definir «moderno»` : `Defining "modern"`}</H2>
           {es ? (
             <>
               <P>{`Antes de abrir Figma quisimos definir qué significa «moderno». Si no, cada revisión se convierte en un debate sobre lo que gusta y lo que no; sin una definición compartida, el gusto discute con el gusto y no se decide nada.`}</P>
@@ -299,8 +299,8 @@ export function VisualIdentityArticle() {
         <section className="flex flex-col gap-4">
           <H2>
             {es
-              ? `3. Moodboards y una lista corta`
-              : `3. Moodboards, then a shortlist`}
+              ? `Moodboards y una lista corta`
+              : `Moodboards, then a shortlist`}
           </H2>
           {es ? (
             <>
@@ -356,7 +356,7 @@ export function VisualIdentityArticle() {
         {/* 4. Principles for the team */}
         <section className="flex flex-col gap-4">
           <H2>
-            {es ? `4. Principios para el equipo` : `4. Principles for the team`}
+            {es ? `Principios para el equipo` : `Principles for the team`}
           </H2>
           {es ? (
             <>
@@ -491,8 +491,8 @@ export function VisualIdentityArticle() {
         <section className="flex flex-col gap-4">
           <H2>
             {es
-              ? `5. Fundamentos en blanco y negro`
-              : `5. Foundations in black and white`}
+              ? `Fundamentos en blanco y negro`
+              : `Foundations in black and white`}
           </H2>
           {es ? (
             <>
@@ -515,8 +515,8 @@ export function VisualIdentityArticle() {
         <section className="flex flex-col gap-4">
           <H2>
             {es
-              ? `6. Componentes en código, documentación en Figma`
-              : `6. Components in code, documentation in Figma`}
+              ? `Componentes en código, documentación en Figma`
+              : `Components in code, documentation in Figma`}
           </H2>
           {es ? (
             <>
@@ -569,7 +569,7 @@ export function VisualIdentityArticle() {
 
         {/* 7. Micro-interactions */}
         <section className="flex flex-col gap-4">
-          <H2>{es ? `7. Microinteracciones` : `7. Micro-interactions`}</H2>
+          <H2>{es ? `Microinteracciones` : `Micro-interactions`}</H2>
           {es ? (
             <>
               <P>{`Con los componentes primitivos terminados, el movimiento pasó a ser la siguiente capa. El principio ya estaba fijado: el movimiento explica estados. Eso no significaba que no pudiéramos ser creativos.`}</P>
@@ -599,7 +599,7 @@ export function VisualIdentityArticle() {
 
         {/* 8. The structure */}
         <section className="flex flex-col gap-4">
-          <H2>{es ? `8. La estructura` : `8. The structure`}</H2>
+          <H2>{es ? `La estructura` : `The structure`}</H2>
           {es ? (
             <>
               <P>{`Durante el descubrimiento vimos que la mayoría de los productos financieros no tienen una sola gráfica o tabla flotando en blanco, como nos pasa a nosotros. La mayoría van directos a la conclusión: una lectura rápida de un vistazo, con espacio para profundizar bajo demanda.`}</P>
@@ -619,8 +619,8 @@ export function VisualIdentityArticle() {
         <section className="flex flex-col gap-4">
           <H2>
             {es
-              ? `9. Dónde estamos ahora: layout y gráficas`
-              : `9. Where we are now: layout and charts`}
+              ? `Dónde estamos ahora: layout y gráficas`
+              : `Where we are now: layout and charts`}
           </H2>
           {es ? (
             <>

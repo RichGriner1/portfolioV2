@@ -112,9 +112,9 @@ export const WORK: WorkItem[] = [
       es: "Identidad visual de Afi",
     },
     description: {
-      en: "Brand strategy, five personas, and a shared definition of modern: the design judgment behind Afi Wealth Planner's visual identity, before a single token got picked.",
+      en: "Modernizing a wealth planner's UI for the live demos that sell it to Spanish banks.",
       // TODO(afi-redaccion)
-      es: "Estrategia de marca, cinco personas y una definición compartida de moderno: el criterio de diseño detrás de la identidad visual del Wealth Planner de Afi, antes de elegir un solo token.",
+      es: "Modernizar la UI de un wealth planner para las demos en vivo con las que se vende a bancos españoles.",
     },
     year: 2026,
     type: "brand-ds",

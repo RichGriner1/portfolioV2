@@ -7,11 +7,21 @@ import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
+/**
+ * `lead` sets the scope in one sentence; `bullets` carry the evidence. Exactly
+ * two bullets per role, each holding one number or one named artefact.
+ *
+ * Two, not four: a CV is scanned rather than read, and a bullet puts a figure at
+ * a line start where a paragraph buries it mid-sentence. But five roles at four
+ * bullets each is twenty fragments, which stops being scannable, and voice.md
+ * treats same-shape-every-time as its own tell.
+ */
 type CvExperience = {
   role: Bilingual<string>;
   company: string;
   period: Bilingual<string>;
-  description: Bilingual<string>;
+  lead: Bilingual<string>;
+  bullets: Bilingual<string[]>;
 };
 
 /**
@@ -58,9 +68,19 @@ const CV: {
       },
       company: "Afi",
       period: { en: "2025 – present", es: "2025 – actualidad" },
-      description: {
-        en: "Sole full-time designer on white-label financial products for leading Spanish institutions: wealth management tools, planning simulators, mortgage calculators. Built a three-tier token architecture across Figma and code, so a client rebrand is a token swap rather than twenty files, and wrote design.md, the rulebook AI agents read before generating product UI. Led brand and visual identity for the 2026 Wealth Planner redesign.",
-        es: "Único diseñador a tiempo completo en productos financieros white-label para las principales entidades españolas: herramientas de gestión patrimonial, simuladores de planificación y calculadoras hipotecarias. Construí una arquitectura de tokens en tres niveles entre Figma y código, de modo que un cambio de marca de cliente es un cambio de tokens y no de veinte archivos, y escribí design.md, el manual que los agentes de IA leen antes de generar la UI del producto. Dirigí la marca y la identidad visual del rediseño de Wealth Planner 2026.",
+      lead: {
+        en: "Sole full-time designer on white-label financial products for leading Spanish institutions, and lead on brand and visual identity for the 2026 Wealth Planner redesign.",
+        es: "Único diseñador a tiempo completo en productos financieros white-label para las principales entidades españolas y responsable de la marca y la identidad visual del rediseño de Wealth Planner 2026.",
+      },
+      bullets: {
+        en: [
+          "Built a three-tier token architecture across Figma and code, so a client rebrand is a token swap rather than twenty files.",
+          "Wrote design.md, the rulebook AI agents read before generating product UI, so what they produce matches the system's real tokens.",
+        ],
+        es: [
+          "Construí una arquitectura de tokens en tres niveles entre Figma y código: un cambio de marca de cliente se resuelve en los tokens, no en veinte archivos.",
+          "Escribí design.md, el manual que los agentes de IA leen antes de generar la UI, para que lo que producen coincida con los tokens reales del sistema.",
+        ],
       },
     },
     {
@@ -70,9 +90,19 @@ const CV: {
       },
       company: "Audemic",
       period: { en: "2024 – 2025", es: "2024 – 2025" },
-      description: {
-        en: "Led the pivot from a B2C research app to B2B enterprise. Ran discovery with UN analysts and vaccine researchers, then launched the B2B beta and the acquisition funnel behind it: 20 qualified leads in a single week from paid ads. Contributed to a 2× increase in revenue.",
-        es: "Lideré el giro de una app de investigación B2C hacia B2B enterprise. Hice el discovery con analistas de la ONU e investigadores de vacunas y lancé la beta B2B y el embudo de captación que la sostenía: 20 leads cualificados en una sola semana con publicidad de pago. Contribuí a duplicar los ingresos.",
+      lead: {
+        en: "Led the pivot from a B2C research app to B2B enterprise, after discovery with UN analysts and vaccine researchers.",
+        es: "Lideré el giro de una app de investigación B2C hacia B2B enterprise, tras el discovery con analistas de la ONU e investigadores de vacunas.",
+      },
+      bullets: {
+        en: [
+          "Launched the B2B beta and the acquisition funnel behind it: 20 qualified leads in a single week from paid ads.",
+          "Contributed to a 2× increase in revenue through product and UX work across the platform.",
+        ],
+        es: [
+          "Lancé la beta B2B y el embudo de captación que la sostenía: 20 leads cualificados en una sola semana con publicidad de pago.",
+          "Contribuí a duplicar los ingresos con trabajo de producto y UX en toda la plataforma.",
+        ],
       },
     },
     {
@@ -91,18 +121,38 @@ const CV: {
       // already uses publicly, so the two don't contradict each other.
       // $70M is what the company turned over that year, not growth attributed to
       // this work — the prior year's figure isn't known.
-      description: {
-        en: "Built the content function from nothing at a US exteriors company that turned over $70M the year I was there. Brand strategy, video production, and a personal brand for the co-founder. Took the company Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, reach up 2,000% in two months.",
-        es: "Creé la función de contenido desde cero en una empresa estadounidense de reformas exteriores que facturó 70 millones de dólares el año en que trabajé allí. Estrategia de marca, producción de vídeo y la marca personal del cofundador. Llevé el Instagram de la empresa de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
+      lead: {
+        en: "Built the content function from nothing at a US exteriors company that turned over $70M the year I was there.",
+        es: "Creé la función de contenido desde cero en una empresa estadounidense de reformas exteriores que facturó 70 millones de dólares el año en que trabajé allí.",
+      },
+      bullets: {
+        en: [
+          "Took the company Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, reach up 2,000% in two months.",
+          "Built a personal brand for the co-founder alongside the company's own, running strategy and video production for both.",
+        ],
+        es: [
+          "Llevé el Instagram de la empresa de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
+          "Construí la marca personal del cofundador junto a la de la empresa, con la estrategia y la producción de vídeo de las dos.",
+        ],
       },
     },
     {
       role: { en: "UX Designer", es: "Diseñador UX" },
       company: "Denteel Marketing",
       period: { en: "2023 – 2024", es: "2023 – 2024" },
-      description: {
-        en: "Design audits plus AI and SEO research for a dental marketing agency in Madrid. Organic traffic up 40%, and monthly revenue doubled from $15K to $30K by tailoring content to client geography.",
-        es: "Auditorías de diseño e investigación de IA y SEO para una agencia de marketing dental en Madrid. El tráfico orgánico subió un 40 % y los ingresos mensuales se duplicaron, de 15.000 a 30.000 dólares, adaptando el contenido a la geografía de cada cliente.",
+      lead: {
+        en: "Design audits plus AI and SEO research for a dental marketing agency in Madrid.",
+        es: "Auditorías de diseño e investigación de IA y SEO para una agencia de marketing dental en Madrid.",
+      },
+      bullets: {
+        en: [
+          "Doubled monthly revenue from $15K to $30K by tailoring content to client geography.",
+          "Grew organic traffic 40% and the Instagram following 345% through content and video optimisation.",
+        ],
+        es: [
+          "Dupliqué los ingresos mensuales, de 15.000 a 30.000 dólares, adaptando el contenido a la geografía de cada cliente.",
+          "Aumenté el tráfico orgánico un 40 % y los seguidores de Instagram un 345 % con optimización de contenido y vídeo.",
+        ],
       },
     },
     {
@@ -112,9 +162,19 @@ const CV: {
       },
       company: "RG Designs",
       period: { en: "2021 – present", es: "2021 – actualidad" },
-      description: {
-        en: "Brand, design system and build environment for startups with no designer, so they keep shipping after I leave. KT360: brand identity plus a no-code environment where an AI reads the brand rules and component specs. Mindfulme: brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
-        es: "Marca, sistema de diseño y entorno de desarrollo para startups sin diseñador, para que sigan lanzando cuando yo ya no esté. KT360: identidad de marca y un entorno no-code donde una IA lee las reglas de marca y las especificaciones de componentes. Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
+      lead: {
+        en: "Brand, design system and build environment for startups with no designer, so they keep shipping after I leave.",
+        es: "Marca, sistema de diseño y entorno de desarrollo para startups sin diseñador, para que sigan lanzando cuando yo ya no esté.",
+      },
+      bullets: {
+        en: [
+          "KT360: brand identity plus a no-code environment where an AI reads the brand rules and component specs.",
+          "Mindfulme: brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
+        ],
+        es: [
+          "KT360: identidad de marca y un entorno no-code donde una IA lee las reglas de marca y las especificaciones de componentes.",
+          "Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
+        ],
       },
     },
   ],
@@ -265,8 +325,22 @@ export function CvModal() {
                             {e.company}
                           </div>
                           <p className="text-muted-foreground text-xs leading-relaxed">
-                            {pick(e.description, lang)}
+                            {pick(e.lead, lang)}
                           </p>
+                          {/* Two bullets per role. A hiring manager scans for
+                              numbers, and a paragraph buries them mid-sentence
+                              where a bullet puts them at a line start. Capped at
+                              two so five roles don't become twenty fragments. */}
+                          <ul className="text-muted-foreground mt-1.5 flex flex-col gap-1 text-xs leading-relaxed">
+                            {pick(e.bullets, lang).map((b) => (
+                              <li key={b} className="flex gap-2">
+                                <span aria-hidden className="shrink-0">
+                                  ·
+                                </span>
+                                <span>{b}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       ))}
                     </div>

@@ -54,6 +54,12 @@ next-env.d.ts
 # Personal notes
 /Because tools make competence cheap.md
 
+# Local-only files (outreach leads, session handoffs with client names)
+*.local.md
+
+# Machine-local runtime state
+.claude/scheduled_tasks.lock
+
 /Animation thumbnails/
 content/social/SCHEDULE-REVIEW.md
 content/social/LINKEDIN-REVIEW.md

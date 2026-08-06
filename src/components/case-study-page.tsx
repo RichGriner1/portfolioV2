@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { CaseStudyBento } from "@/components/case-study-bento";
-import { WorkGrid } from "@/components/my-work";
+import { MoreWork } from "@/components/more-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
-import { WORK, type WorkItem, formatYears } from "@/lib/content/work";
+import { type WorkItem, formatYears } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
 
 type Props = {
@@ -14,10 +14,6 @@ type Props = {
 
 export function CaseStudyPage({ item, study }: Props) {
   const { lang } = useLang();
-  const otherCaseStudies = WORK.filter(
-    (w) => w.slug !== item.slug && !w.hidden && w.kind === "case-study"
-  );
-
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24">
       <Link
@@ -82,30 +78,7 @@ export function CaseStudyPage({ item, study }: Props) {
 
           <CaseStudyBento cards={study.bento} gallery={study.gallery} />
 
-          {otherCaseStudies.length > 0 && (
-            <section className="border-border/60 flex flex-col gap-6 border-t pt-12">
-              <h2 className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                {t("work.more", lang)}
-              </h2>
-              {/* The same WorkGrid of WorkCards that /projects and /writing use,
-                  which is the same card the home bento is built from.
-
-                  This was a bespoke row — a 96px square thumbnail beside the
-                  title and description. CardMedia can't be shrunk into 96px: its
-                  figures and glyphs are authored at fixed pixel sizes (the loop
-                  figure's nodes are 366px wide), so a small frame crops the
-                  composition instead of scaling it. The row rendered a
-                  meaningless corner: "BBVA / Caix" sliced mid-word, the KT360
-                  terminal cut off after the first path. intro-preview-link.tsx
-                  documents the same failure twice and fixes it by giving the
-                  figure its 316px.
-
-                  So rather than a fourth bespoke treatment of the same media, this
-                  is the card that already works — full-size square media, hover
-                  panel for the title and description, touch caption underneath. */}
-              <WorkGrid items={otherCaseStudies} />
-            </section>
-          )}
+          <MoreWork excludeSlug={item.slug} />
         </>
       ) : (
         <>

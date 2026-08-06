@@ -64,6 +64,11 @@ const ROUTES = [
   "/work/visual-identity",
   "/work/mindfulme",
   "/writing/loops-and-skills-are-components",
+  // Same writing shell as the post above, but it carries six figures that exist
+  // nowhere else — a side-by-side tree comparison, a 4-column bento, and a
+  // three-layer token cascade, all of which are the kind of horizontal layout that
+  // breaks at 320px. The shell is covered; these layouts weren't.
+  "/writing/modern-ui-2026",
 ];
 
 /**

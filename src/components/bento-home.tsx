@@ -365,9 +365,15 @@ export function BentoHome() {
             cell far taller than four rows of content need, and the figure centres
             itself in it, so the extra height showed up as white space above the
             list. Only the tile that actually overflows gets the taller cell. */}
+        {/* Modern UI in 2026 took this slot from the Afi Design System case study
+            on 2026-08-06. The DS case study is the deeper piece, but it was the
+            third Afi tile on a home that already leads with Afi Visual Identity,
+            and it's one click away from /projects. The research post earns the
+            slot by being the only thing here that shows the thinking BEFORE the
+            design — everything else on the page is an outcome. */}
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
-            item={bySlug("afi-design-system")}
+            item={bySlug("modern-ui-2026")}
             index={1}
             fill
             caption={false}
@@ -406,16 +412,30 @@ export function BentoHome() {
         <div className="order-last sm:order-none sm:col-span-2 sm:row-span-2">
           <TalkTile />
         </div>
+        {/* The Afi Design System case study lands here rather than coming off the
+            home altogether — it moved out of the row-3 slot when Modern UI took it,
+            and took KT360's place on 2026-08-06. KT360 is the weaker of the two for
+            this page: the DS work is the current, ongoing thing and the one the
+            other Afi tiles build toward. KT360 stays on /projects.
+
+            It sits ABOVE the loops tile: the case study is the stronger of the two,
+            and stacked on mobile this block reads top to bottom, so the weaker tile
+            takes the last position rather than the case study getting buried. */}
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
-            item={bySlug("loops-and-skills-are-components")}
+            item={bySlug("afi-design-system")}
             index={4}
             fill
             caption={false}
           />
         </div>
         <div className="sm:col-span-2 sm:row-span-1">
-          <WorkCard item={bySlug("kt360")} index={5} fill caption={false} />
+          <WorkCard
+            item={bySlug("loops-and-skills-are-components")}
+            index={5}
+            fill
+            caption={false}
+          />
         </div>
       </div>
     </main>

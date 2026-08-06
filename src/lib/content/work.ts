@@ -8,7 +8,17 @@ export type WorkType =
   | "experiment"
   | "writing";
 
-export type WorkKind = "case-study" | "process" | "lab" | "methodology";
+// "blog" is a piece written to be read on its own — research, an argument, a
+// point of view. "process" is a note about how a specific piece of work got made.
+// The distinction is the reader's, not the pillar taxonomy's: content/ still files
+// everything under a pillar, and a post can be pillar `process` while reading as a
+// blog. Both surface on /writing.
+export type WorkKind =
+  | "case-study"
+  | "blog"
+  | "process"
+  | "lab"
+  | "methodology";
 
 export type GlyphKey =
   | "design-system"
@@ -47,6 +57,40 @@ export type WorkItem = {
 };
 
 export const WORK: WorkItem[] = [
+  {
+    slug: "modern-ui-2026",
+    title: {
+      en: "Modern UI in 2026",
+      es: "UI moderno en 2026",
+    },
+    // Shows on the card's hover panel, which is `line-clamp-3` at `max-w-[36ch]` —
+    // about 105 characters before it truncates mid-word. The first draft ran 137 and
+    // lost its own last clause, so this is written to the budget.
+    //
+    // Leads with the method (desk research) and names the stake: the defaults get set
+    // for you if you don't set them. "Investigación documental" is the Peninsular term
+    // for desk research; "de escritorio" would be the calque.
+    description: {
+      en: "Desk research to stay current as AI resets the defaults: what modern UI actually means in 2026",
+      es: "Investigación documental: qué significa UI moderno en 2026 mientras la IA redefine lo básico",
+    },
+    year: 2026,
+    date: "2026-06-24",
+    type: "writing",
+    kind: "blog",
+    href: "/writing/modern-ui-2026",
+    // Richard's own kinetic-type clip, the same one Coherence uses for this post.
+    // `video` wins over `figure` in CardMedia, so this is the thumbnail on both the
+    // home and /writing; the `maturity-stages` figure still opens the post body.
+    //
+    // Four files, per the convention above: en/es × light/dark. Derived from two
+    // source clips — letterboxed 1440×1080 → 1080² so nothing is cropped, and the
+    // dark pair is the light frame inverted with its black point lifted to #222,
+    // which is where process-stages_*_dark sits. Re-export from the source if the
+    // wording changes; the ES clip still reads "Ui moderno" and wants "UI moderno".
+    video: "/writing/modern-ui-2026",
+    bento: "square",
+  },
   {
     slug: "loops-and-skills-are-components",
     title: {
@@ -307,6 +351,7 @@ export const WORK: WorkItem[] = [
 
 export const KIND_LABELS: Record<WorkKind, Bilingual<string>> = {
   "case-study": { en: "Case study", es: "Caso de estudio" },
+  blog: { en: "Blog", es: "Blog" },
   process: { en: "Process", es: "Proceso" },
   lab: { en: "Lab", es: "Laboratorio" },
   methodology: { en: "Methodology", es: "Metodología" },

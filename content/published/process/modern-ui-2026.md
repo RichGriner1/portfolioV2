@@ -26,7 +26,7 @@ So the first thing I did was desk research.
 
 Measures how widely design language is shared across a team, not how skilled the designers are.
 
-Colors and fonts matter, but vocabulary the whole team can use is what keeps momentum after launch. The research puts a scale under it — five stages:
+Colors and fonts matter, but vocabulary the whole team can use is what keeps momentum after launch. [The research](https://dsruptr.com/2026/01/19/the-ultimate-design-maturity-guide-for-tech-leaders/) puts a scale under it — five stages:
 
 - **Chaos** (my own name for it). Design happens screen by screen; every decision is personal, and there's no collaboration until after high fidelity is made.
 - **Managed.** Reusable pieces exist, but the rules live in designers' heads. There is no shared design language.
@@ -38,7 +38,7 @@ Colors and fonts matter, but vocabulary the whole team can use is what keeps mom
 maturity-stages
 ```
 
-The Velvetum study (*UX/UI Design Tools 2026*) shows that a fourteen-designer team's productivity rose 38% when the rest of the organization adopted the same stack and the same protocols.
+The [Velvetum study (*UX/UI Design Tools 2026*)](https://velvetum.com/en/journal/ux-ui-design-tools-2026) shows that a fourteen-designer team's productivity rose 38% when the rest of the organization adopted the same stack and the same protocols.
 
 ## Learning 2: Build around user intent
 
@@ -50,7 +50,7 @@ UI in 2026 starts from intent. The interface should recognize what the user is t
 static-vs-intent
 ```
 
-Google PAIR distinguishes explicit intent (what the user names) from implicit intent (what the system infers from behavior). Both feed the decision about what gets shown first. For a product with no conversational layer, this doesn't mean bolting on a chat. It means designing forms and screens so the system infers intent before the user has to state it.
+[Google PAIR](https://pair.withgoogle.com/guidebook/) distinguishes explicit intent (what the user names) from implicit intent (what the system infers from behavior). Both feed the decision about what gets shown first. For a product with no conversational layer, this doesn't mean bolting on a chat. It means designing forms and screens so the system infers intent before the user has to state it.
 
 So we don't need to rearrange the whole dashboard. We can use set patterns with fixed slots — page actions, section actions, filter rows, modal previews — and change which module occupies the lead slot. The structure stays; the emphasis changes.
 
@@ -62,7 +62,7 @@ tree-vs-intent
 
 For a decade engineers chased instant response on every interaction. Designers in 2026 are deliberately adding delays back in.
 
-Emil Kowalski compared two identical buttons for a high-impact action: one confirms the millisecond it's clicked, the other inserts a short processing animation before the same confirmation. Users overwhelmingly trusted the delayed version.
+[Emil Kowalski](https://emilkowal.ski/) compared two identical buttons for a high-impact action: one confirms the millisecond it's clicked, the other inserts a short processing animation before the same confirmation. Users overwhelmingly trusted the delayed version.
 
 It's called perceived reliability. For a high-stakes action — authorizing a payment, moving funds, rebalancing a portfolio — the brain doesn't believe a system that responded too fast had time to do the work. Optimistic UI, where you show success instantly and do the work in the background, damages trust in this context.
 
@@ -74,19 +74,19 @@ The window is narrow: 150–250 milliseconds. Long enough to register that somet
 
 ## Learning 4: Trust is a formula
 
-Stan Vision (*Fintech UX in 2026*) defines trust in financial products as **transparency + consistency + responsiveness**. In practice:
+[Stan Vision (*Fintech UX in 2026*)](https://www.stan.vision/journal/fintech-ux-in-2026-what-users-expect-from-modern-financial-products) defines trust in financial products as **transparency + consistency + responsiveness**. In practice:
 
 - **Predict, but always announce.** Pre-filling a transfer is welcome; executing it without confirmation crosses the line. And when the app pre-fills, it says why: *"based on your last three transfers to this payee…"*. Silent prefill reads as surveillance. Announced prefill reads as competence.
 - **Friction where it earns it.** The 150–250ms beat from Learning 3.
 - **Biometrics** like Face ID, fingerprint and voice aren't only security any more, they're an emotional cue. *We know it's you, your environment is secure, let's continue.*
 
-Don Norman's three levels frame the rest: **visceral** (the first-impression reaction), **behavioral** (pleasure and effectiveness during use), **reflective** (how it sits with the user afterwards). An interface that only wins the visceral level doesn't last. In a product people open daily, the reflective level is where the relationship lives — by day 30, the user stops re-checking the numbers because the product has been right for a month.
+[Don Norman's three levels](https://www.nngroup.com/books/emotional-design/) frame the rest: **visceral** (the first-impression reaction), **behavioral** (pleasure and effectiveness during use), **reflective** (how it sits with the user afterwards). An interface that only wins the visceral level doesn't last. In a product people open daily, the reflective level is where the relationship lives — by day 30, the user stops re-checking the numbers because the product has been right for a month.
 
 ## Learning 5: Stylish but minimalist
 
 The *Liquid Glass* trend has matured. Professional tools now adopt *Anti-Liquid Glass*: they keep blur and depth as a spatial cue, so a panel visibly floats above the content, but they remove the refractive distortion that hurts legibility in dense interfaces.
 
-**Dark mode.** It stops being a nice-to-have; in a lot of products it's the default state, with 60–80% of users preferring it (Tubik, Merveilleux). You don't need an all-dark product, but you do need to build with it in mind. One critical detail: never pure black. Absolute black under white text produces *halation*, where the white glows and bleeds at the edges, so the text reads as blurry.
+**Dark mode.** It stops being a nice-to-have; in a lot of products it's the default state, with 60–80% of users preferring it ([Tubik](https://tubikstudio.com/blog/ui-design-trends-2026/), [Merveilleux](https://www.merveilleux.design/en/blog/article/ui-ux-trends-2026)). You don't need an all-dark product, but you do need to build with it in mind. One critical detail: never pure black. Absolute black under white text produces *halation*, where the white glows and bleeds at the edges, so the text reads as blurry.
 
 **Color communicates, it doesn't decorate.** Surfaces stay neutral, which gives accents meaning. When color is used for communication, users learn to recognize it without thinking. When everything is colorful, nothing stands out.
 
@@ -102,7 +102,7 @@ list-vs-bento
 
 AI has moved from generative (producing content) to *agentic* (executing work).
 
-For an agent to build on a system without breaking its identity, it needs clear design language to know the difference between `blue-500` (descriptive) and `button-primary` (functional). Figma calls this *TokenOps*: maintaining machine-readable token rules so an AI produces consistent output. Ask an agent for a confirmation dialog and it reads the system's dialog, spacing and color tokens, then ships a component that matches the rest of the product without inventing a single hex value.
+For an agent to build on a system without breaking its identity, it needs clear design language to know the difference between `blue-500` (descriptive) and `button-primary` (functional). [Figma calls this *TokenOps*](https://www.figma.com/blog/the-future-of-design-systems-is-semantic/): maintaining machine-readable token rules so an AI produces consistent output. Ask an agent for a confirmation dialog and it reads the system's dialog, spacing and color tokens, then ships a component that matches the rest of the product without inventing a single hex value.
 
 ```figure
 token-cascade

@@ -23,7 +23,7 @@ Así que lo primero que hice fue investigación documental.
 
 Mide hasta qué punto el lenguaje de diseño se comparte en el equipo, no la habilidad de los diseñadores.
 
-Los colores y las tipografías importan, pero lo que mantiene el impulso después del lanzamiento es un vocabulario que todo el equipo pueda usar. La investigación pone una escala debajo: cinco etapas.
+Los colores y las tipografías importan, pero lo que mantiene el impulso después del lanzamiento es un vocabulario que todo el equipo pueda usar. [La investigación](https://dsruptr.com/2026/01/19/the-ultimate-design-maturity-guide-for-tech-leaders/) pone una escala debajo: cinco etapas.
 
 - **Caos** (mi propio nombre para esta etapa). El diseño ocurre pantalla a pantalla, cada decisión es personal y no hay colaboración hasta después de tener el alta fidelidad.
 - **Gestionado.** Existen componentes reutilizables, pero las reglas viven en la cabeza de los diseñadores. No hay un lenguaje de diseño compartido.
@@ -35,7 +35,7 @@ Los colores y las tipografías importan, pero lo que mantiene el impulso despué
 maturity-stages
 ```
 
-El estudio de Velvetum (*UX/UI Design Tools 2026*) muestra que la productividad de un equipo de catorce diseñadores subió un 38 % cuando el resto de la organización adoptó el mismo stack y los mismos protocolos.
+El [estudio de Velvetum (*UX/UI Design Tools 2026*)](https://velvetum.com/en/journal/ux-ui-design-tools-2026) muestra que la productividad de un equipo de catorce diseñadores subió un 38 % cuando el resto de la organización adoptó el mismo stack y los mismos protocolos.
 
 ## Aprendizaje 2: Diseñar en torno a la intención
 
@@ -47,7 +47,7 @@ La UI de 2026 parte de la intención. La interfaz debería reconocer qué intent
 static-vs-intent
 ```
 
-Google PAIR distingue la intención explícita (la que el usuario nombra) de la implícita (la que el sistema infiere del comportamiento). Ambas alimentan la decisión de qué se muestra primero. En un producto sin capa conversacional, esto no significa añadir un chat: significa diseñar formularios y pantallas para que el sistema infiera la intención antes de que el usuario tenga que enunciarla.
+[Google PAIR](https://pair.withgoogle.com/guidebook/) distingue la intención explícita (la que el usuario nombra) de la implícita (la que el sistema infiere del comportamiento). Ambas alimentan la decisión de qué se muestra primero. En un producto sin capa conversacional, esto no significa añadir un chat: significa diseñar formularios y pantallas para que el sistema infiera la intención antes de que el usuario tenga que enunciarla.
 
 Así que no hace falta reorganizar el dashboard entero. Podemos usar patrones fijos con huecos definidos —acciones de página, acciones de sección, filas de filtros, vistas previas en modal— y cambiar qué módulo ocupa el hueco principal. La estructura se queda; el énfasis cambia.
 
@@ -59,7 +59,7 @@ tree-vs-intent
 
 Durante una década los ingenieros persiguieron la respuesta instantánea en cada interacción. Los diseñadores de 2026 están reintroduciendo esperas deliberadas.
 
-Emil Kowalski comparó dos botones idénticos para una acción de alto impacto: uno confirma en el mismo milisegundo del clic, el otro inserta una breve animación de procesamiento antes de la misma confirmación. Los usuarios confiaron de forma abrumadora en la versión con espera.
+[Emil Kowalski](https://emilkowal.ski/) comparó dos botones idénticos para una acción de alto impacto: uno confirma en el mismo milisegundo del clic, el otro inserta una breve animación de procesamiento antes de la misma confirmación. Los usuarios confiaron de forma abrumadora en la versión con espera.
 
 Se llama **fiabilidad percibida**. En una acción sensible —autorizar un pago, mover fondos, reequilibrar una cartera— el cerebro no se cree que un sistema que respondió demasiado rápido haya tenido tiempo de hacer el trabajo. La UI optimista, donde muestras el éxito al instante y haces el trabajo por detrás, destruye la confianza en este contexto.
 
@@ -71,19 +71,19 @@ La ventana es estrecha: 150-250 milisegundos. Lo bastante larga para registrar q
 
 ## Aprendizaje 4: La confianza es una fórmula
 
-Stan Vision (*Fintech UX in 2026*) define la confianza en productos financieros como **transparencia + consistencia + capacidad de respuesta**. En la práctica:
+[Stan Vision (*Fintech UX in 2026*)](https://www.stan.vision/journal/fintech-ux-in-2026-what-users-expect-from-modern-financial-products) define la confianza en productos financieros como **transparencia + consistencia + capacidad de respuesta**. En la práctica:
 
 - **Predecir, pero avisar siempre.** Precargar una transferencia es bienvenido; ejecutarla sin confirmación cruza la línea. Y cuando la aplicación precarga, explica por qué: *«según tus tres últimas transferencias a este destinatario…»*. La precarga silenciosa se lee como vigilancia. La anunciada, como competencia.
 - **Fricción donde se la gana.** El compás de 150-250 ms del Aprendizaje 3.
 - **La biometría** —Face ID, huella y voz— ya no es solo seguridad: es una señal emocional. *Sabemos que eres tú, tu entorno es seguro, sigamos.*
 
-Los tres niveles de Don Norman enmarcan el resto: **visceral** (la reacción de la primera impresión), **conductual** (placer y eficacia durante el uso) y **reflexivo** (cómo queda después). Una interfaz que solo gana en el nivel visceral no dura. En un producto que se abre a diario, el nivel reflexivo es donde vive la relación: a los treinta días el usuario deja de comprobar las cifras porque el producto lleva un mes acertando.
+[Los tres niveles de Don Norman](https://www.nngroup.com/books/emotional-design/) enmarcan el resto: **visceral** (la reacción de la primera impresión), **conductual** (placer y eficacia durante el uso) y **reflexivo** (cómo queda después). Una interfaz que solo gana en el nivel visceral no dura. En un producto que se abre a diario, el nivel reflexivo es donde vive la relación: a los treinta días el usuario deja de comprobar las cifras porque el producto lleva un mes acertando.
 
 ## Aprendizaje 5: Con estilo, pero minimalista
 
 La tendencia *Liquid Glass* ha madurado. Las herramientas profesionales adoptan ahora el *Anti-Liquid Glass*: mantienen el desenfoque y la profundidad como señal espacial, para que un panel flote visiblemente sobre el contenido, pero eliminan la distorsión refractiva que perjudica la legibilidad en interfaces densas.
 
-**Modo oscuro.** Deja de ser un extra y en muchos productos es ya el estado por defecto: entre el 60 % y el 80 % de los usuarios lo prefieren (Tubik, Merveilleux). No hace falta un producto todo en oscuro, pero sí construir teniéndolo en cuenta. Un detalle crítico: nunca negro puro. El negro absoluto bajo texto blanco produce *halación*, el blanco brilla y sangra por los bordes, y el texto se lee borroso.
+**Modo oscuro.** Deja de ser un extra y en muchos productos es ya el estado por defecto: entre el 60 % y el 80 % de los usuarios lo prefieren ([Tubik](https://tubikstudio.com/blog/ui-design-trends-2026/), [Merveilleux](https://www.merveilleux.design/en/blog/article/ui-ux-trends-2026)). No hace falta un producto todo en oscuro, pero sí construir teniéndolo en cuenta. Un detalle crítico: nunca negro puro. El negro absoluto bajo texto blanco produce *halación*, el blanco brilla y sangra por los bordes, y el texto se lee borroso.
 
 **El color comunica, no decora.** En 2026 el color deja de decorar y pasa a comunicar. Las superficies se mantienen neutras, y eso da significado a los acentos. Cuando un color se reserva para comunicar, el usuario aprende a reconocerlo sin pensar. Cuando todo es colorido, nada destaca.
 
@@ -99,7 +99,7 @@ list-vs-bento
 
 La IA ha pasado de generativa (producir contenido) a *agéntica* (ejecutar trabajo).
 
-Para que un agente construya sobre un sistema sin romper su identidad, necesita un lenguaje de diseño claro que le permita distinguir entre `blue-500` (descriptivo) y `button-primary` (funcional). Figma lo llama *TokenOps*: mantener reglas de tokens legibles por máquinas para que una IA produzca resultados consistentes. Pídele a un agente un diálogo de confirmación y lee los tokens de diálogo, espaciado y color del sistema, y entrega un componente que encaja con el resto del producto sin inventarse un solo valor hexadecimal.
+Para que un agente construya sobre un sistema sin romper su identidad, necesita un lenguaje de diseño claro que le permita distinguir entre `blue-500` (descriptivo) y `button-primary` (funcional). [Figma lo llama *TokenOps*](https://www.figma.com/blog/the-future-of-design-systems-is-semantic/): mantener reglas de tokens legibles por máquinas para que una IA produzca resultados consistentes. Pídele a un agente un diálogo de confirmación y lee los tokens de diálogo, espaciado y color del sistema, y entrega un componente que encaja con el resto del producto sin inventarse un solo valor hexadecimal.
 
 ```figure
 token-cascade

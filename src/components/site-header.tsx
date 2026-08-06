@@ -94,6 +94,9 @@ export function SiteHeader() {
   const [dotsCross, setDotsCross] = useState(false);
   const [cvOpen, setCvOpen] = useState(false);
   const phase = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** The header row and the panel — the two boxes that count as "inside". */
+  const row = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
 
   /**
    * The middle beat of the dissolve, scheduled from the interaction rather than an
@@ -129,6 +132,43 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen, close]);
 
+  /**
+   * Click-outside close. A document listener rather than a backdrop element: a
+   * backdrop would have to sit between the panel and the header row, where it
+   * swallows the taps meant for the language and theme buttons. Listening at the
+   * document leaves every real target clickable and only adds the close.
+   *
+   * `pointerdown`, not `click`, so the panel starts retreating on press rather
+   * than on release.
+   *
+   * Three things count as inside:
+   * - the panel itself;
+   * - the whole header row, including the mark and both toggles. The row sits ON
+   *   the black panel while open, so it reads as part of the menu — closing on a
+   *   theme change there would feel like a misfire. The mark also has to be
+   *   excluded or its own onClick would toggle a menu this listener just closed;
+   * - anything in a portalled overlay (`[role="menu"]`, `[role="dialog"]`) — the
+   *   theme dropdown and the CV modal both render outside the panel's DOM, and
+   *   are open BECAUSE of the menu.
+   */
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onDown = (e: PointerEvent) => {
+      const target = e.target;
+      if (!(target instanceof Node)) return;
+      if (panel.current?.contains(target)) return;
+      if (row.current?.contains(target)) return;
+      if (
+        target instanceof Element &&
+        target.closest('[role="menu"], [role="dialog"]')
+      )
+        return;
+      close();
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [menuOpen, close]);
+
   useEffect(
     () => () => {
       if (phase.current) clearTimeout(phase.current);
@@ -149,6 +189,7 @@ export function SiteHeader() {
           under it. While open the row's ink flips to `--primary-foreground`, because
           by then it's sitting on the panel's inverted surface. */}
       <div
+        ref={row}
         className={cn(
           "font-geist relative z-40 mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4 transition-colors duration-[var(--duration-base)] sm:px-6",
           menuOpen ? "text-primary-foreground" : "text-foreground"
@@ -158,6 +199,11 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={toggle}
+          // Only the MARK inverts with the panel, not the whole row: the row runs
+          // the full 976px content width while the panel is 304px, so the language
+          // and theme buttons at the far end sit over the white page even while
+          // open. The mark is the only part of the row the bar actually grows under.
+          data-cursor-invert={menuOpen ? "" : undefined}
           aria-expanded={menuOpen}
           aria-controls="site-menu"
           aria-label={`${wordmark} — ${t(menuOpen ? "nav.menu_close" : "nav.menu_open", lang)}`}
@@ -178,10 +224,21 @@ export function SiteHeader() {
               header would read as a glitch. `animate-wordmark-in` is the hover
               path; while open it's simply held visible, and it inherits the row's
               inverted ink so it reads light on the panel. */}
+          {/* 14px at normal weight, matching the intro copy's step on the ramp.
+              It was 16px/medium, which read as the boldest text on the page while
+              sitting beside 14px prose.
+
+              The size is also load-bearing for a second reason: the wordmark turns
+              light while the menu is open, so any part of it that reaches past the
+              panel's right edge is white on the white page and reads as the name
+              being cut off. At 16px/medium the ES string ("Portfolio de diseño de
+              Richard Griner", the long one) measured 274px and ended 12px past the
+              304px panel; at 14px/normal it lands ~29px inside it. Anything longer
+              than the current ES string needs the panel widened to match. */}
           <span
             aria-hidden
             className={cn(
-              "ml-2 hidden text-base font-medium whitespace-nowrap transition-[opacity,translate,filter] duration-[var(--duration-enter)] ease-[var(--ease-enter)] sm:block",
+              "ml-2 hidden text-sm whitespace-nowrap transition-[opacity,translate,filter] duration-[var(--duration-enter)] ease-[var(--ease-enter)] sm:block",
               menuOpen
                 ? "blur-0 translate-x-0 opacity-100 delay-[120ms]"
                 : "group-hover:animate-wordmark-in -translate-x-[var(--reveal-rise)] opacity-0 blur-[4px]"
@@ -219,9 +276,9 @@ export function SiteHeader() {
           closes — closing it would unmount that CvModal instance and take the modal
           with it.
 
-          No click-outside backdrop: it would have to sit between the panel and the
-          bar, and would swallow taps meant for the language and theme buttons.
-          Escape, a second tap on the mark, and tapping any row all close it. */}
+          Escape, a second tap on the mark, tapping any row, and a press anywhere
+          outside all close it — the last one via a document listener rather than a
+          backdrop element, for the reason in the effect above. */}
       <AnimatePresence>
         {menuOpen && (
           // The wrapper repeats the bar's own box — `mx-auto max-w-5xl`, same padding
@@ -239,8 +296,13 @@ export function SiteHeader() {
           // pointer-events-none so the empty half of the wrapper doesn't cover the
           // page.
           <div className="pointer-events-none absolute inset-x-0 top-0 z-30 mx-auto max-w-5xl px-4 sm:px-6">
+            {/* `data-cursor-invert` flips the dot cursor to the inverted ink over
+                this surface — see dot-cursor.tsx. The panel is `bg-primary`, so a
+                `--foreground` dot would be black on black here. */}
             <motion.div
+              ref={panel}
               id="site-menu"
+              data-cursor-invert
               variants={PANEL}
               initial="closed"
               animate="open"
@@ -282,7 +344,15 @@ export function SiteHeader() {
 
                 <BlurFade delay={0.46} offset={4}>
                   <div className="border-primary-foreground/20 mt-4 border-t pt-4">
-                    <div className="text-primary-foreground/45 mb-2 font-mono text-[10px] tracking-widest uppercase">
+                    {/* Sentence case, not the mono-uppercase label idiom the rest
+                        of the site uses. 10px + `tracking-widest` + all caps is
+                        the least readable combination available, and it showed:
+                        "REDES SOCIALES" is 14 letters of spaced-out capitals in a
+                        304px panel. Mono stays — it's still a label, and the
+                        string itself is already sentence case in i18n. Size steps
+                        to `text-xs` (a scale step, not another arbitrary px) and
+                        the ink comes up from /45 to /55. */}
+                    <div className="text-primary-foreground/55 mb-2 font-mono text-xs tracking-wide">
                       {t("nav.socials", lang)}
                     </div>
                     <div className="flex flex-col gap-1">
@@ -313,9 +383,24 @@ export function SiteHeader() {
                 {/* The detailed crab, at the size it needs. 88px was on the floor —
                     29 columns into 88 is 3px a dot with nothing spare — so it gets
                     120 here, which the panel has room for. The bar can't show it at
-                    20px at all, so this is where the artwork actually lands. */}
+                    20px at all, so this is where the artwork actually lands. The
+                    redraw kept the column count and grew the rows (29×28, near
+                    square), so the mark is ~116px tall here rather than the old 79.
+
+                    `tint` mixes a Maryland red→gold ramp into the dots (see
+                    crab-dots.tsx). Presence is `opacity-55` on the BOX rather than
+                    `/55` on the ink, because the tint is a `color-mix` against
+                    `currentColor`: mixing an opaque flag colour into a part-alpha
+                    white lifts the result's alpha and the crab would brighten as a
+                    side effect of the hue. Full-alpha ink + box opacity keeps the
+                    mix purely about hue and leaves the weight controllable here.
+                    55%, not the original 40: the ramp is what carries the Maryland
+                    reference and at 40 it flattened back into a warm cast. */}
                 <BlurFade delay={0.52} offset={4}>
-                  <CrabDots className="text-primary-foreground/40 mt-5 ml-auto w-[120px]" />
+                  <CrabDots
+                    tint
+                    className="text-primary-foreground mt-5 ml-auto w-[120px] opacity-55"
+                  />
                 </BlurFade>
               </div>
             </motion.div>

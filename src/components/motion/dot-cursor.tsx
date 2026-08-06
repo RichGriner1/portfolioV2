@@ -31,6 +31,8 @@ export function DotCursor() {
   const dot = useRef<HTMLDivElement>(null);
   const target = useRef({ x: -100, y: -100 });
   const current = useRef({ x: -100, y: -100 });
+  /** Last ink written, so a boundary crossing is one assignment and not one a frame. */
+  const ink = useRef("var(--foreground)");
   const [enabled, setEnabled] = useState(false);
   const [reduced, setReduced] = useState(false);
 
@@ -61,6 +63,10 @@ export function DotCursor() {
   useEffect(() => {
     if (!enabled) return;
 
+    // Re-mounting gives a fresh element carrying only the `bg-foreground` class, so
+    // the cache has to start there too or the first crossing could be skipped.
+    ink.current = "var(--foreground)";
+
     const onMove = (e: PointerEvent) => {
       target.current = { x: e.clientX, y: e.clientY };
     };
@@ -75,7 +81,45 @@ export function DotCursor() {
       c.x += (t.x - c.x) * k;
       c.y += (t.y - c.y) * k;
       const el = dot.current;
-      if (el) el.style.translate = `${c.x}px ${c.y}px`;
+      if (!el) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+      el.style.translate = `${c.x}px ${c.y}px`;
+
+      /**
+       * The dot has to survive both surfaces it crosses. On the page it's
+       * `--foreground`; on an inverted surface — the nav panel and the "Let's talk"
+       * tile, both `bg-primary` — a `--foreground` dot is black on black and simply
+       * disappears. Those surfaces mark themselves with `data-cursor-invert` and the
+       * dot takes `--primary-foreground`, the ink they already use for their own
+       * text. Both tokens flip with the theme, so this is right in dark mode too,
+       * where `--primary` is the light surface.
+       *
+       * Hit-tested in the frame loop rather than on `pointermove`, for two reasons:
+       *
+       * - The surface can change while the pointer is perfectly still. Opening the
+       *   nav is exactly that — you press the mark and a black panel grows out from
+       *   under a stationary cursor. On a move-only hit test the dot kept the ink it
+       *   computed before the press and sat invisible on the panel until you moved.
+       * - The dot TRAILS the pointer by design, so the pointer's position is the
+       *   wrong thing to sample. `c` is where the dot actually is, which is what has
+       *   to match the surface under it — otherwise it flips ink early on the way in
+       *   and late on the way out.
+       *
+       * `elementFromPoint` is a real hit test, so this is the one non-trivial cost
+       * in the loop; it stays cheap because the write is guarded by `ink` and the dot
+       * itself is `pointer-events-none`, so it can never hit-test itself.
+       */
+      const over = document
+        .elementFromPoint(c.x, c.y)
+        ?.closest("[data-cursor-invert]");
+      const next = over ? "var(--primary-foreground)" : "var(--foreground)";
+      if (next !== ink.current) {
+        ink.current = next;
+        el.style.backgroundColor = next;
+      }
+
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
@@ -94,6 +138,11 @@ export function DotCursor() {
       aria-hidden
       // `-ml/-mt` centre the dot on the pointer, so `translate` can carry the raw
       // client coordinates and stay readable.
+      //
+      // `bg-foreground` is the starting ink only — from the first pointermove the
+      // colour is written inline (see above), and an inline style outranks the
+      // utility. It still has to be here, or the dot is transparent until the
+      // pointer first moves.
       className="bg-foreground pointer-events-none fixed top-0 left-0 z-[100] -mt-[5px] -ml-[5px] size-[10px] rounded-full"
     />
   );

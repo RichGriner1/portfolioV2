@@ -90,6 +90,7 @@
   --shadow-xl: var(--shadow-xl);
 
   /* Motion */
+  --duration-sweep: var(--duration-sweep);
   --default-transition-duration: var(--duration-base);
   --default-transition-timing-function: var(--ease-out-soft);
 
@@ -265,6 +266,12 @@
   --duration-fast: 120ms;
   --duration-base: 200ms;
   --duration-slow: 320ms;
+  /* Full-viewport travel only — currently just the theme wipe. Deliberately past
+     the --duration-slow ceiling: those three are tuned for an element moving a few
+     dozen pixels, and the same speed across 1440px reads as a flinch rather than a
+     sweep. Don't reach for this on a component; if a local transition seems to need
+     550ms, the distance is usually the thing to fix. */
+  --duration-sweep: 550ms;
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
   /* Panel-enter curve, ported from Coherence's --motion-easing-enter. Paired
      with --duration-enter (its --motion-duration-fast) for the extrude that
@@ -680,6 +687,21 @@
   p {
     @apply text-pretty;
   }
+}
+
+/* --------------------------------------------------- theme sweep (view transition)
+   The UA gives `::view-transition-old/new(root)` a default cross-fade. It has to be
+   cancelled, or it plays UNDERNEATH the clip-path wipe in `use-theme-sweep.ts` and the
+   two together read as a smear rather than one edge travelling down the page.
+   `mix-blend-mode: normal` matters for the same reason — the default `plus-lighter`
+   makes the overlap of the two snapshots glow while they cross.
+
+   Outside `@layer` deliberately: these are UA pseudo-elements, and a layered rule
+   loses to the UA's own animation shorthand. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 /* --------------------------------------------------------------- dot cursor

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { IntroPreviewLink } from "@/components/intro-preview-link";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
 import {
@@ -44,6 +45,12 @@ const WIP = {
   },
 } as const satisfies Record<string, Bilingual>;
 
+/**
+ * Points at the Modern UI research post via `IntroPreviewLink`, which resolves the
+ * href from the WORK entry rather than holding a literal path. It held
+ * "/writing/2026-06-24-modern-ui-2026" until 2026-08-06 and quietly 404'd the day
+ * that post's filename lost its date prefix — a slug can't rot if nothing spells it.
+ */
 const PART_ONE_LINK = {
   en: "Part 1 of this series",
   es: "primera parte de esta serie",
@@ -130,9 +137,7 @@ export function VisualIdentityArticle() {
       <article className="flex flex-col gap-16">
         {/* 1. Context and objectives */}
         <section className="flex flex-col gap-4">
-          <H2>
-            {es ? `Contexto y objetivos` : `Context and objectives`}
-          </H2>
+          <H2>{es ? `Contexto y objetivos` : `Context and objectives`}</H2>
 
           {es ? (
             <>
@@ -225,12 +230,9 @@ export function VisualIdentityArticle() {
               <P>{`Antes de abrir Figma quisimos definir qué significa «moderno». Si no, cada revisión se convierte en un debate sobre lo que gusta y lo que no; sin una definición compartida, el gusto discute con el gusto y no se decide nada.`}</P>
               <P>
                 {`Sintetizamos la investigación en la `}
-                <Link
-                  href="/writing/2026-06-24-modern-ui-2026"
-                  className="text-primary underline underline-offset-4 hover:no-underline"
-                >
+                <IntroPreviewLink slug="modern-ui-2026" newTab>
                   {pick(PART_ONE_LINK, lang)}
-                </Link>
+                </IntroPreviewLink>
                 {`. La versión corta:`}
               </P>
               <UL>
@@ -261,12 +263,9 @@ export function VisualIdentityArticle() {
               <P>{`Before opening Figma, we wanted to define what "modern" meant. Otherwise every review turns into a debate about what people like versus what they don't; without a shared definition, taste argues with taste and nothing gets decided.`}</P>
               <P>
                 {`We synthesized the research in `}
-                <Link
-                  href="/writing/2026-06-24-modern-ui-2026"
-                  className="text-primary underline underline-offset-4 hover:no-underline"
-                >
+                <IntroPreviewLink slug="modern-ui-2026" newTab>
                   {pick(PART_ONE_LINK, lang)}
-                </Link>
+                </IntroPreviewLink>
                 {`. The short version:`}
               </P>
               <UL>

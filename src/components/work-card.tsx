@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { BlurFade } from "@/components/motion/blur-fade";
 import { FIGURES } from "@/components/motion/figures";
 import { GLYPHS } from "@/components/motion/glyphs";
-import { KIND_LABELS, type WorkItem } from "@/lib/content/work";
+import { formatYears, KIND_LABELS, type WorkItem } from "@/lib/content/work";
 import { cn } from "@/lib/utils";
 import { pick, t, useLang, type Lang } from "@/lib/i18n";
 
@@ -79,7 +79,7 @@ function formatDate(item: WorkItem, locale: string): string {
       timeZone: "UTC",
     });
   }
-  return String(item.year);
+  return formatYears(item);
 }
 
 export function WorkCard({

@@ -22,7 +22,10 @@ import { EASE_SOFT } from "@/components/motion/constants";
  * repeating prose the reader has just read. Dropping it fits both contexts.
  */
 const STAGES = [
-  { name: "Ad hoc", height: 22 },
+  // "Chaos" is Richard's name for the stage the research calls "Ad hoc" — his post
+  // says so outright, and it's the more honest label for design happening screen by
+  // screen with no collaboration until after high fidelity.
+  { name: "Chaos", height: 22 },
   { name: "Managed", height: 40 },
   { name: "Defined", height: 58 },
   { name: "Optimized", height: 78 },
@@ -100,8 +103,8 @@ export function MaturityStagesFigure() {
       </div>
 
       <p className="text-muted-foreground border-border/60 border-t pt-3 text-[11px] leading-snug">
-        Past <span className="text-foreground">Defined</span>, the climb
-        isn&apos;t the design team&apos;s to make.
+        Vocabulary the whole team shares is what carries a system past{" "}
+        <span className="text-foreground">Defined</span>.
       </p>
     </div>
   );

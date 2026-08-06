@@ -3,7 +3,7 @@
  * Miguel each saved, ported as-is from Coherence's moodboard-slides.ts.
  *
  * Order is deliberate, not the export order: Wise first (the fintech that set
- * the black-and-white-with-colour-in-data direction), then the products the
+ * the black-and-white-with-color-in-data direction), then the products the
  * post names as references (Cursor, Stack AI, Clerk, Shopify, Notion, Linear),
  * then the rest of the board.
  *

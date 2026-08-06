@@ -1,10 +1,10 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import matter from "gray-matter";
 
 import { MoreWork } from "@/components/more-work";
+import { BackLink } from "@/components/back-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { PostArticle, type PostFrontmatter } from "./post-article";
@@ -69,12 +69,7 @@ export default async function WritingPost({
     <>
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 pt-8 pb-24 sm:pt-12">
-        <Link
-          href="/"
-          className="text-muted-foreground hover:text-foreground w-fit font-mono text-xs tracking-wider uppercase transition-colors"
-        >
-          ← Back
-        </Link>
+        <BackLink />
 
         <PostArticle en={en} es={es} />
 

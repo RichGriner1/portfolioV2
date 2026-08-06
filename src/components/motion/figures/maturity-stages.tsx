@@ -34,7 +34,7 @@ const STAGES = [
 
 /**
  * The last stage the design team can reach on its own. Everything past *Defined* is
- * won by the rest of the organisation adopting the vocabulary, which is why the bars
+ * won by the rest of the organization adopting the vocabulary, which is why the bars
  * beyond it are drawn at a lighter weight.
  */
 const PIVOT = 2;

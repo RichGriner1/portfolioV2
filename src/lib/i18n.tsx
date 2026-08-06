@@ -85,6 +85,7 @@ export const UI = {
   "nav.socials": { en: "Socials", es: "Redes sociales" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },
+  "home.read_less": { en: "Show less", es: "Ver menos" },
   "kind.case_study": { en: "Case study", es: "Caso de estudio" },
   "kind.process": { en: "Process", es: "Proceso" },
   "cv.experience_heading": { en: "Experience", es: "Experiencia" },

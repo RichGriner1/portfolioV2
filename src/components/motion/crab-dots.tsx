@@ -23,7 +23,7 @@ import { EASE_SOFT } from "@/components/motion/constants";
  */
 
 /**
- * How much Maryland reaches the dots: over half a flag colour mixed into the mark's
+ * How much Maryland reaches the dots: over half a flag color mixed into the mark's
  * own ink, so one claw reads red and the opposite legs read gold.
  *
  * Tuned by measuring, because the mix is against WHITE ink and white dominates the
@@ -40,13 +40,13 @@ const TINT = 0.58;
  *
  * The ramp runs on the diagonal (`col + row`), not straight across. Horizontally
  * the crab is symmetrical — pincer, shell, pincer — so a left-to-right ramp put
- * matching colours on both claws and read as two-tone rather than as a gradient.
+ * matching colors on both claws and read as two-tone rather than as a gradient.
  * The diagonal crosses the silhouette instead of mirroring it.
  *
  * `currentColor` is the outer operand on purpose: the mark's ink stays whatever the
  * caller set (a semantic token), and these primitives only bend its hue. The caller
  * must pass ink at full alpha and carry any transparency on the box — mixing an
- * opaque colour into a translucent one raises the result's alpha and would brighten
+ * opaque color into a translucent one raises the result's alpha and would brighten
  * the mark. See the note at the call site in site-header.tsx.
  */
 function tintFor(col: number, row: number, cols: number, rows: number) {
@@ -167,7 +167,7 @@ function DotField({
 
 /**
  * 3×3, matching the reference exactly. Nine dots at rest; opening drops the four
- * edge-centre dots and leaves the corners plus the middle, which is an X at this
+ * edge-center dots and leaves the corners plus the middle, which is an X at this
  * size. Deliberately this coarse — a 9×9 grid was tried and at the bar's ~20px it
  * was a smudge, because a dot needs ~3px and 9 columns would want ~27px of dot
  * alone. Three columns into 20px is a ~6px cell, which reads.
@@ -193,7 +193,7 @@ export function DotToggle({
   const cols = art[0].length;
 
   /**
-   * Proximity spotlight, copied from the reference's behaviour: dots near the
+   * Proximity spotlight, copied from the reference's behavior: dots near the
    * pointer hold full opacity and distant ones fall back to `FAR_OPACITY`, so the
    * grid appears to light up under the cursor and settles when it leaves.
    *
@@ -226,7 +226,7 @@ export function DotToggle({
         const col = i % cols;
         const on = art[row][col] === "#";
 
-        // Dot centre in the same normalised space as the pointer.
+        // Dot center in the same normalized space as the pointer.
         const cx = (col + 0.5) / cols;
         const cy = (row + 0.5) / rows;
         const near = pointer

@@ -56,6 +56,11 @@ next-env.d.ts
 
 # Local-only files (outreach leads, session handoffs with client names)
 *.local.md
+# The cold-outreach handoff. Added 2026-07-16, removed the same day for being in a
+# public repo, restored sanitized, and untracked here on 2026-08-06 so future edits
+# stay local. NOTE: the sanitized version is still reachable in history (699aaf4) —
+# untracking stops new leaks, it doesn't erase the old ones.
+/SESSION-HANDOFF.md
 
 # Machine-local runtime state
 .claude/scheduled_tasks.lock

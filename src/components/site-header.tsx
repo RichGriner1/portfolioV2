@@ -97,6 +97,7 @@ export function SiteHeader() {
   /** The header row and the panel — the two boxes that count as "inside". */
   const row = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
 
   /**
    * The middle beat of the dissolve, scheduled from the interaction rather than an
@@ -176,15 +177,66 @@ export function SiteHeader() {
     []
   );
 
+  /**
+   * The bar's bottom rule only exists once the page has moved. Parked at the top
+   * there is nothing behind the nav for a line to separate it from, so the rule reads
+   * as a seam across the page; the moment content starts passing underneath, the same
+   * line is what stops the bar dissolving into it.
+   *
+   * The 4px threshold rather than `> 0` keeps iOS rubber-band scroll and a restored
+   * scroll position from flickering the rule on and off around zero.
+   *
+   * The updater returns the previous value unchanged when the threshold hasn't been
+   * crossed, which React bails out of — so this listener runs on every scroll frame
+   * but only ever re-renders twice: once entering the page, once leaving the top.
+   */
+  useEffect(() => {
+    const onScroll = () => {
+      const past = window.scrollY > 4;
+      setScrolled((prev) => (prev === past ? prev : past));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const wordmark = t("nav.wordmark", lang);
 
   return (
-    // `relative` so the panel hangs off the bar instead of pushing the page down.
-    // `mt-2` rather than padding: an absolutely positioned child is placed against
-    // the padding box, so `pt-2` here would drop the bar 8px and leave the panel
-    // behind at the old top edge, misaligning the bar phase that grows over the row.
-    // A margin moves the header and the panel's origin together.
-    <header className="relative mt-2 w-full">
+    // `sticky top-0` so the nav is reachable at any scroll depth, at every width.
+    //
+    // The 8px `mt-2` that used to lower the header is gone with it. A sticky bar has
+    // to be flush: an 8px gap above a pinned bar shows a strip of the page scrolling
+    // past ABOVE the nav, which reads as a rendering fault rather than as a float.
+    // The row keeps its own h-14, so only the outer offset changed.
+    //
+    // `z-40` makes this a stacking context, which is the point — it settles the order
+    // that used to be global. Inside it the row (z-40) still rides over the panel
+    // (z-30), and the CV modal (backdrop z-40, dialog z-50) still covers both.
+    // Anything on the page that genuinely should cover the nav — the case-study
+    // lightbox at z-50 — still does, because it lives outside this header.
+    <header className="sticky top-0 z-40 w-full">
+      {/* The glass. A separate layer, NOT a `backdrop-blur` on the <header>, and that
+          is load-bearing: `backdrop-filter` makes an element the containing block for
+          any `position: fixed` descendant, so blurring the header itself would size
+          the CV modal's `fixed inset-0` backdrop to this 56px bar. Exactly the trap
+          the panel's `overflow`/`filter` note below describes. As a sibling behind
+          the row it blurs the page without capturing anything.
+
+          `-z-10` keeps it behind the row inside the header's context. `bg-background`
+          at 70% is the same glass recipe the work cards and modals already use.
+
+          The border is always declared and only its COLOUR animates — swapping
+          `border-b` on and off would change the element's box by 1px and nudge the
+          bar as the rule appeared. `border-transparent` holds the space. */}
+      <div
+        aria-hidden
+        className={cn(
+          "bg-background/70 absolute inset-0 -z-10 border-b backdrop-blur-md transition-colors duration-[var(--duration-base)] ease-[var(--ease-out-soft)]",
+          scrolled ? "border-border/60" : "border-transparent"
+        )}
+      />
+
       {/* `relative z-40` so the row rides ON TOP of the panel, which grows out from
           under it. While open the row's ink flips to `--primary-foreground`, because
           by then it's sitting on the panel's inverted surface. */}

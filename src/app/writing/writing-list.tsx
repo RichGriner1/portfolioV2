@@ -6,11 +6,15 @@ import { WorkGrid } from "@/components/my-work";
 import { sortKey, WORK } from "@/lib/content/work";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
-// Every published piece of writing and methodology, newest first — the same
-// pool the home's Processes shelf curates from.
+// Every published piece of writing, newest first — the same pool the home curates
+// from. Three kinds land here: `blog` (reads on its own), `process` (how a specific
+// piece got made) and `methodology`. Miss one off this list and the post exists at
+// its URL but appears in no index, which is how it goes unnoticed.
+const WRITING_KINDS = ["blog", "process", "methodology"] as const;
+
 const ALL_WRITING = WORK.filter(
   (item) =>
-    (item.kind === "process" || item.kind === "methodology") && !item.hidden
+    (WRITING_KINDS as readonly string[]).includes(item.kind) && !item.hidden
 ).sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
 
 const TITLE: Bilingual<string> = {

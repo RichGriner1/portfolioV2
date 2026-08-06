@@ -79,3 +79,7 @@ videos/**/.hyperframes/
 # Responsive check output (regenerate with `npm run check:responsive`)
 responsive-check-report.json
 responsive-check-shots/
+
+# Copy drafts pasted in from outside the repo — kept so Richard can keep editing
+# them, not published. The published copy lives in content/published/.
+/Modern ui update (partial)

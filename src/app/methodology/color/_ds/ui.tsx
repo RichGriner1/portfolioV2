@@ -25,7 +25,7 @@ export function useDark() {
 }
 
 /**
- * Click / tap to pin a card open, on top of the hover-to-expand behaviour.
+ * Click / tap to pin a card open, on top of the hover-to-expand behavior.
  * Hover devices reveal on hover; touch devices (no hover) rely on the tap.
  * Returns props for the card root and the grid-rows class for the reveal.
  */

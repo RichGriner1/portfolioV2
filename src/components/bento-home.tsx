@@ -238,14 +238,14 @@ function TalkTile() {
             toggle) meant `perspective: 600px` with `rotateX` inflated the measured
             box — the 180px address reported 387px mid-flip — so the projection
             sprang at a distorted target, landing in steps with a ~300ms plateau,
-            and since the row is centred, shrinking to the shorter string dragged
+            and since the row is centered, shrinking to the shorter string dragged
             the whole label 48px sideways.
 
             Pinning both strings in one grid cell held the width still, but the
             cell stays address-width, so the checkmark sat stranded ~90px right of
             the short confirmation.
 
-            No arrangement lets a centred row swap two different-width strings
+            No arrangement lets a centered row swap two different-width strings
             without moving either the text or the icon. So it doesn't swap: the
             address stays (it's the mailto fallback, its whole job), brightens to
             full opacity for the 2s window, and the icon flips Copy→Check. Nothing
@@ -322,8 +322,8 @@ export function BentoHome() {
           The composition is a desktop composition; on a phone it's a stack. */}
       <div className="grid auto-rows-auto grid-cols-1 gap-2 sm:auto-rows-[238px] sm:grid-cols-4">
         {/* Rows 1–2 — locked: intro and flagship at equal 2×2 weight */}
-        {/* Top-aligned, not centred: the copy fills ~300px of a 484px tile, and
-            centring split the slack above and below. Slack under a text block
+        {/* Top-aligned, not centered: the copy fills ~300px of a 484px tile, and
+            centering split the slack above and below. Slack under a text block
             reads as breathing room; slack above the first line reads as a
             mistake. pt is a step tighter than the sides so the first line sits
             near the media panel edge of the tile beside it. */}
@@ -343,7 +343,7 @@ export function BentoHome() {
                 mistaken for. The footer's socials came off in the same move; the
                 nav panel already carries them. */}
             <Tile className="flex flex-col justify-start gap-3 p-6 pt-5 sm:h-full sm:p-8 sm:pt-6">
-              {/* Colour and the type scale both come from the component now —
+              {/* Color and the type scale both come from the component now —
                   the sizes are Figma-specified, so they live next to the copy. */}
               <IntroParagraphs className="font-geist" />
             </Tile>
@@ -362,7 +362,7 @@ export function BentoHome() {
         {/* Stays one row. It briefly got `row-span-2` alongside the loop tile, but
             the bank list was never what clipped — measurement only ever showed the
             loop scene overflowing (47px at 375px). Two rows just gave the list a
-            cell far taller than four rows of content need, and the figure centres
+            cell far taller than four rows of content need, and the figure centers
             itself in it, so the extra height showed up as white space above the
             list. Only the tile that actually overflows gets the taller cell. */}
         {/* Modern UI in 2026 took this slot from the Afi Design System case study
@@ -429,9 +429,14 @@ export function BentoHome() {
             caption={false}
           />
         </div>
+        {/* The color methodology took this slot from the loops post on 2026-08-06.
+            It's the stronger of the two here: it's Part 1 of the design-system series,
+            it's the only interactive piece on the home, and it argues the thing the
+            portfolio is positioned on. The loops post is about AI workflow — good, but
+            narrower, and it stays on /writing. */}
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
-            item={bySlug("loops-and-skills-are-components")}
+            item={bySlug("color-methodology")}
             index={5}
             fill
             caption={false}

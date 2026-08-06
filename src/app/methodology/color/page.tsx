@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
-
 import { ArticleHeader } from "@/components/article-header";
+import { BackLink } from "@/components/back-link";
+import { TokenLevelsFigure } from "@/components/motion/figures";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { useLang, t } from "@/lib/i18n";
+import { useLang } from "@/lib/i18n";
 
 import {
   AccessibilityCard,
@@ -31,30 +31,26 @@ function B({ children }: { children: React.ReactNode }) {
   return <strong className="text-foreground font-medium">{children}</strong>;
 }
 
-function HeroVideo() {
-  const { lang } = useLang();
-  const { dark } = useDark();
-  const mode = dark ? "dark" : "light";
-  const src = `/methodology/token-levels_${lang}_${mode}_hero.mp4`;
+/**
+ * The four-level diagram, coded rather than the four `token-levels_*.mp4` recordings this
+ * hero used to load. The figure already ran in the work bento tile; the page was the last
+ * thing still on video. Coded means it reflows instead of scaling, the token names stay
+ * legible at any width, both themes come from one render, and the chain it walks is built
+ * from this page's own tokens.
+ *
+ * It sits OUTSIDE `ds-scope` on purpose. That scope redefines `--spacing` to 1px, which
+ * would collapse the figure's own Tailwind padding and gaps to a few pixels. Its chrome
+ * follows the site's tokens; the colors it teaches are carried in the figure itself.
+ */
+function Hero() {
   return (
-    <div className="border-border w-full rounded-2xl border p-6 sm:p-8">
-      <video
-        key={src}
-        className="block w-full rounded-lg"
-        autoPlay
-        muted
-        loop
-        playsInline
-        ref={(el) => {
-          if (el) el.muted = true;
-        }}
-        onLoadedMetadata={(e) => {
-          // Slow the token-levels animation a touch for a calmer read.
-          e.currentTarget.playbackRate = 0.85;
-        }}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+    // No width of its own — the page container is the one measure everything on this
+    // page shares (hero, prose, cards, table). The figure and the text line up by
+    // default. No frame of its own either: the video needed one to sit in, but the
+    // figure brings its own card, and two rounded borders 32px apart read as a box in
+    // a box once the content is 190px tall instead of 660.
+    <div className="w-full">
+      <TokenLevelsFigure />
     </div>
   );
 }
@@ -67,19 +63,20 @@ export default function ColorMethodologyPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 pt-8 pb-24 sm:pt-12">
-        <Link
-          href="/"
-          className="text-muted-foreground hover:text-foreground w-fit font-mono text-xs tracking-wider uppercase transition-colors"
-        >
-          {t("work.back", lang)}
-        </Link>
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 pt-8 pb-24 sm:pt-12">
+        <BackLink />
 
         <ArticleHeader dateISO="2026-07-01" title={TITLE} tags={TAGS} />
 
-        <HeroVideo />
+        <Hero />
 
-        {/* Ported Color page. Scoped so the Design System's own token layer and
+        {/* One measure for the whole page: `max-w-3xl`, centered — the same container
+            as a /writing post. It used to be `max-w-5xl` with the prose capped at
+            `max-w-3xl` inside it, which read as a left-aligned column against the
+            wider cards. The card grids lose a column at `lg` to keep their measure
+            workable at 768px.
+
+            Ported Color page. Scoped so the Design System's own token layer and
             1px spacing scale live here without touching the rest of the site.
             Body copy is bilingual; the interactive card micro-copy in _ds/ stays
             English for now. TODO(afi-redaccion): translate the card strings. */}
@@ -198,7 +195,7 @@ export default function ColorMethodologyPage() {
                 </>
               )}
             </p>
-            <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-16 sm:grid-cols-2">
               {RAMPS.map((ramp) => (
                 <PrimitiveRampCard
                   key={ramp}
@@ -275,7 +272,7 @@ export default function ColorMethodologyPage() {
                     {group.rows.map((row, i) => (
                       <div
                         key={i}
-                        className="grid grid-cols-1 items-start gap-12 sm:grid-cols-2 lg:grid-cols-3"
+                        className="grid grid-cols-1 items-start gap-12 sm:grid-cols-2 md:grid-cols-3"
                       >
                         {row.map((p) => (
                           <SemanticCard
@@ -305,7 +302,7 @@ export default function ColorMethodologyPage() {
                 : "Hover or tap a card to see its use cases and the primitive + hex behind it."
             }
           >
-            <div className="grid grid-cols-1 items-start gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 items-start gap-12 sm:grid-cols-2 md:grid-cols-3">
               {BORDERS.map(({ name, usage }) => (
                 <BorderRingCard
                   key={name}

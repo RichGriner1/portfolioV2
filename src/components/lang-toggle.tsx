@@ -52,7 +52,7 @@ export function LangToggle() {
           />
         }
       >
-        {/* No colour of its own — it inherits the Button's ink, which is what makes
+        {/* No color of its own — it inherits the Button's ink, which is what makes
             this and the theme control read as one pair. The old standalone button
             was `text-muted-foreground`; carried over here that left the code at
             lab(48) beside a lab(3) sun icon and the language looked disabled. */}

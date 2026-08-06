@@ -226,7 +226,7 @@ export function SiteHeader() {
           `-z-10` keeps it behind the row inside the header's context. `bg-background`
           at 70% is the same glass recipe the work cards and modals already use.
 
-          The border is always declared and only its COLOUR animates — swapping
+          The border is always declared and only its COLOR animates — swapping
           `border-b` on and off would change the element's box by 1px and nudge the
           bar as the rule appeared. `border-transparent` holds the space. */}
       <div
@@ -442,7 +442,7 @@ export function SiteHeader() {
                     `tint` mixes a Maryland red→gold ramp into the dots (see
                     crab-dots.tsx). Presence is `opacity-55` on the BOX rather than
                     `/55` on the ink, because the tint is a `color-mix` against
-                    `currentColor`: mixing an opaque flag colour into a part-alpha
+                    `currentColor`: mixing an opaque flag color into a part-alpha
                     white lifts the result's alpha and the crab would brighten as a
                     side effect of the hue. Full-alpha ink + box opacity keeps the
                     mix purely about hue and leaves the weight controllable here.

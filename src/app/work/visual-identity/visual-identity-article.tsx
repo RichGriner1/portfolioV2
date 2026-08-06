@@ -1,11 +1,11 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { BackLink } from "@/components/back-link";
 import { IntroPreviewLink } from "@/components/intro-preview-link";
-import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
+import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 import {
   ComponentsDemoFigure,
@@ -117,12 +117,7 @@ export function VisualIdentityArticle() {
 
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 pt-8 pb-24 sm:pt-12">
-      <Link
-        href="/"
-        className="text-muted-foreground hover:text-foreground w-fit font-mono text-xs tracking-wider uppercase transition-colors"
-      >
-        {t("work.back", lang)}
-      </Link>
+      <BackLink />
 
       {/* Same hero as the source post: title + standfirst, nothing else. */}
       <header className="flex flex-col gap-4">

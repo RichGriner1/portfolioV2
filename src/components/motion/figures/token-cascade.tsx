@@ -10,7 +10,7 @@ import { EASE_SOFT } from "@/components/motion/constants";
  * Diagram 6 — one primitive decision cascading through semantic tokens into every
  * component that reads them.
  *
- * The source SVG made this point by recolouring a blue swatch, which this figure
+ * The source SVG made this point by recoloring a blue swatch, which this figure
  * deliberately does NOT do: a hard-coded hex is the exact thing the post argues
  * against, and inventing an accent token just to animate it would break the repo's
  * token rule for a decoration. So the cascade is shown as PROPAGATION instead of hue
@@ -18,7 +18,7 @@ import { EASE_SOFT } from "@/components/motion/constants";
  * yet) to `bg-primary` (took the decision) as it arrives.
  *
  * That turns out to be the more accurate picture anyway. What matters isn't that the
- * colour changed; it's that nobody edited a component file for it to change.
+ * color changed; it's that nobody edited a component file for it to change.
  *
  * The primitive is labelled `brand-500`, not the post's `blue-500`: the swatch renders
  * as `--primary`, so a label promising blue over a black square just read as a bug.

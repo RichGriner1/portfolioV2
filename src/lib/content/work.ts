@@ -126,7 +126,11 @@ export const WORK: WorkItem[] = [
     kind: "methodology",
     href: "/methodology/color",
     glyph: "palette",
-    video: "/methodology/token-levels",
+    // The coded figure, not the 1080² mp4. A video can only be cropped or shrunk to
+    // fit a tile, and both broke this diagram — see token-levels.tsx. The methodology
+    // page's hero runs the same figure now, so the eight mp4s in public/methodology/
+    // are unreferenced.
+    figure: "token-levels",
     bento: "square",
     featured: true,
   },
@@ -148,7 +152,8 @@ export const WORK: WorkItem[] = [
     glyph: "palette",
     bento: "square",
     featured: true,
-    ongoing: true,
+    // No `ongoing` — the coded rollout paused when Modern UI took priority, so the
+    // live-pulse badge would be claiming active work. Visual Identity carries it.
   },
   {
     slug: "visual-identity",

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { CaseStudyBento } from "@/components/case-study-bento";
+import { BackLink } from "@/components/back-link";
 import { MoreWork } from "@/components/more-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
 import { type WorkItem, formatYears } from "@/lib/content/work";
@@ -15,13 +15,9 @@ type Props = {
 export function CaseStudyPage({ item, study }: Props) {
   const { lang } = useLang();
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24">
-      <Link
-        href="/"
-        className="text-muted-foreground hover:text-foreground font-mono text-xs tracking-wider uppercase transition-colors"
-      >
-        {t("work.back", lang)}
-      </Link>
+    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24 sm:pt-12">
+      {/* mb-0: this main already gaps 64px, which is the target. */}
+      <BackLink className="mb-0" />
 
       {study ? (
         <>
@@ -50,9 +46,22 @@ export function CaseStudyPage({ item, study }: Props) {
             </div>
 
             <div className="flex flex-col gap-6">
-              <p className="text-foreground text-base leading-relaxed">
-                {pick(study.intro, lang)}
-              </p>
+              {/* Split on blank lines: an intro is written in beats, and squeezing
+                  three of them into one paragraph is how a context section turns into
+                  a wall. The field stays a single string so the content file reads as
+                  prose rather than an array. */}
+              <div className="flex flex-col gap-4">
+                {pick(study.intro, lang)
+                  .split(/\n\s*\n/)
+                  .map((para, i) => (
+                    <p
+                      key={i}
+                      className="text-foreground text-base leading-relaxed"
+                    >
+                      {para.trim()}
+                    </p>
+                  ))}
+              </div>
               <div className="flex flex-col gap-2">
                 <p className="text-base">
                   <span className="text-muted-foreground">

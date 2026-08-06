@@ -136,11 +136,11 @@ export function DotCursor() {
     <div
       ref={dot}
       aria-hidden
-      // `-ml/-mt` centre the dot on the pointer, so `translate` can carry the raw
+      // `-ml/-mt` center the dot on the pointer, so `translate` can carry the raw
       // client coordinates and stay readable.
       //
       // `bg-foreground` is the starting ink only — from the first pointermove the
-      // colour is written inline (see above), and an inline style outranks the
+      // color is written inline (see above), and an inline style outranks the
       // utility. It still has to be here, or the dot is transparent until the
       // pointer first moves.
       className="bg-foreground pointer-events-none fixed top-0 left-0 z-[100] -mt-[5px] -ml-[5px] size-[10px] rounded-full"

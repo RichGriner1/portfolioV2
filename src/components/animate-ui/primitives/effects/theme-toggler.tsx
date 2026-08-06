@@ -53,7 +53,7 @@ function getClipKeyframes(direction: Direction): [string, string] {
 }
 
 /**
- * CSS time → milliseconds. Tailwind normalises `700ms` in `@theme` down to `.7s`, so a
+ * CSS time → milliseconds. Tailwind normalizes `700ms` in `@theme` down to `.7s`, so a
  * bare `parseFloat` returns 0.7 and the wipe runs for under a millisecond — present in
  * the animation list, invisible on screen. Anything not explicitly `ms` is seconds.
  */

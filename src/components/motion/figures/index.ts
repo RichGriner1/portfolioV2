@@ -9,6 +9,7 @@ import { PauseConfidenceFigure } from "./pause-confidence";
 import { StaticVsIntentFigure } from "./static-vs-intent";
 import { TokenCascadeFigure } from "./token-cascade";
 import { TokenCostFigure } from "./token-cost";
+import { TokenLevelsFigure } from "./token-levels";
 import { TreeVsIntentFigure } from "./tree-vs-intent";
 import { UseAnywhereFigure } from "./use-anywhere";
 import { VisualIdentityProcessFigure } from "./visual-identity-process";
@@ -26,7 +27,8 @@ export type FigureKey =
   | "tree-vs-intent"
   | "pause-confidence"
   | "list-vs-bento"
-  | "token-cascade";
+  | "token-cascade"
+  | "token-levels";
 
 export const FIGURES: Record<FigureKey, ComponentType> = {
   "token-cost": TokenCostFigure,
@@ -41,6 +43,7 @@ export const FIGURES: Record<FigureKey, ComponentType> = {
   "pause-confidence": PauseConfidenceFigure,
   "list-vs-bento": ListVsBentoFigure,
   "token-cascade": TokenCascadeFigure,
+  "token-levels": TokenLevelsFigure,
 };
 
 export {
@@ -56,4 +59,5 @@ export {
   PauseConfidenceFigure,
   ListVsBentoFigure,
   TokenCascadeFigure,
+  TokenLevelsFigure,
 };

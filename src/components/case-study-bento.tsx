@@ -7,12 +7,11 @@ import {
   type Transition,
 } from "motion/react";
 import { useEffect, useRef, useState, type JSX } from "react";
-import { Maximize2, X } from "lucide-react";
+import { ArrowRight, Maximize2, X } from "lucide-react";
 
-import { BentoCardModal } from "@/components/bento-card-modal";
 import type { BentoCard } from "@/lib/content/case-studies";
 import { useIsMobile } from "@/lib/hooks";
-import { pick, useLang, type Bilingual } from "@/lib/i18n";
+import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const EASE_SOFT = [0.32, 0.72, 0.18, 1] as const;
@@ -27,9 +26,22 @@ const SPRING_SNAP: Transition = {
   damping: 20,
 };
 
+/**
+ * The three tiers, named the way the color methodology names them.
+ *
+ * Straight off that page's own worked example: a primitive is "a raw value given a
+ * name and a slot in a scale (primary-800)", the semantic layer binds it to a role,
+ * and "primary + primary-foreground become the default button". So the chain the
+ * card draws is the chain the blog describes.
+ *
+ * It used to read blue/500 → --color-primary → Button, which got both conventions
+ * wrong: the methodology writes steps with a hyphen (primary-800, blue-500), never a
+ * slash, and it never names a role as a CSS custom property. The primary ramp isn't
+ * blue either — in semantic-light.json `primary` resolves to {color.primary.800}.
+ */
 const TOKEN_CHAIN = [
-  { label: "blue/500", sub: "primitive" },
-  { label: "--color-primary", sub: "semantic" },
+  { label: "primary-800", sub: "primitive" },
+  { label: "primary", sub: "semantic" },
   { label: "Button", sub: "component" },
 ];
 
@@ -294,12 +306,16 @@ const OUTER_NODES: {
   ly: number;
   anchor: NodeAnchor;
 }[] = [
-  { id: 0, sx: 18, sy: 14, label: ".md", lx: 18, ly: 6, anchor: "middle" },
-  { id: 1, sx: 102, sy: 10, label: "design", lx: 102, ly: 4, anchor: "middle" },
-  { id: 2, sx: 118, sy: 48, label: ".svg", lx: 126, ly: 50, anchor: "end" },
+  // Every label clears its circle by ≥2px in the scattered phase. The side labels
+  // (dev, .svg) used to sit BESIDE their circles at the same y, and the r=4 circle
+  // landed on the text when the nodes flew out; they live above their circles now,
+  // like the top row's.
+  { id: 0, sx: 18, sy: 14, label: ".md", lx: 18, ly: 5, anchor: "middle" },
+  { id: 1, sx: 102, sy: 14, label: "design", lx: 102, ly: 4, anchor: "middle" },
+  { id: 2, sx: 118, sy: 48, label: ".svg", lx: 118, ly: 38, anchor: "middle" },
   { id: 3, sx: 95, sy: 82, label: "ai", lx: 95, ly: 92, anchor: "middle" },
   { id: 4, sx: 22, sy: 80, label: ".tokens", lx: 22, ly: 92, anchor: "middle" },
-  { id: 5, sx: 8, sy: 46, label: "dev", lx: 2, ly: 48, anchor: "start" },
+  { id: 5, sx: 8, sy: 46, label: "dev", lx: 8, ly: 36, anchor: "middle" },
 ];
 const HUB = { x: 63, y: 48 };
 
@@ -335,7 +351,9 @@ function NodesAnimation({ active }: AnimationProps) {
   }, [active]);
 
   return (
-    <svg viewBox="0 0 130 110" className="w-full" aria-hidden>
+    /* Capped: the viewBox is square-ish, so an uncapped w-full made the figure as
+       tall as the card was wide — a wide card turned it into a 1000px hub. */
+    <svg viewBox="0 0 130 110" className="w-full max-w-[280px]" aria-hidden>
       {OUTER_NODES.map((n) => (
         <motion.line
           key={`line-${n.id}`}
@@ -748,14 +766,30 @@ function PulseAnimation({ active }: AnimationProps) {
   );
 }
 
+/**
+ * Default brand list for the palette animation.
+ *
+ * Afi's own brand plus the two client brands the MVP actually runs — nothing more.
+ *
+ * It used to hardcode Santander / BBVA / CaixaBank / Bankinter. Those are real Afi
+ * clients, but they were never added to THIS system: the rollout paused when the
+ * Modern UI project took priority. On a public page a white-label figure naming them
+ * would be claiming work that doesn't exist, so the list stays at what shipped.
+ * Anything asserting a client relationship gets checked with Richard first.
+ *
+ * `visual-identity` reuses this animation and may want a different list, which is
+ * why it's a prop with a default rather than a module constant.
+ */
 const BANKS = [
-  { name: "Santander", color: "#EC0000" },
-  { name: "BBVA", color: "#004481" },
-  { name: "CaixaBank", color: "#007BC4" },
-  { name: "Bankinter", color: "#FF6B35" },
+  { name: "Afi", color: "#004481" },
+  { name: "Laboral Kutxa", color: "#D52B1E" },
+  { name: "Unicaja", color: "#0F8C4C" },
 ];
 
-export function PaletteAnimation({ active: activeProp }: AnimationProps) {
+export function PaletteAnimation({
+  active: activeProp,
+  banks = BANKS,
+}: AnimationProps & { banks?: { name: string; color: string }[] }) {
   const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
@@ -767,16 +801,20 @@ export function PaletteAnimation({ active: activeProp }: AnimationProps) {
     async function loop() {
       while (!cancelled) {
         await new Promise((r) => setTimeout(r, 1400));
-        if (!cancelled) setActiveIdx((p) => (p + 1) % BANKS.length);
+        if (!cancelled) setActiveIdx((p) => (p + 1) % banks.length);
       }
     }
     void loop();
     return () => {
       cancelled = true;
     };
-  }, [activeProp]);
+    // `banks.length` and not `banks`: a caller passing an inline array would give a
+    // new reference every render and restart the cycle on each one.
+  }, [activeProp, banks.length]);
 
-  const bank = BANKS[activeIdx];
+  // Guard the index — a shorter list than the one the cycle started on would read
+  // past the end and render undefined.
+  const bank = banks[activeIdx % banks.length];
 
   return (
     <motion.div
@@ -784,7 +822,7 @@ export function PaletteAnimation({ active: activeProp }: AnimationProps) {
       animate={{ backgroundColor: bank.color + "20" }}
       transition={{ duration: 0.5, ease: EASE }}
     >
-      {BANKS.map((b, i) => (
+      {banks.map((b, i) => (
         <motion.div
           key={b.name}
           className="flex items-center gap-2.5 rounded-lg px-3 py-2"
@@ -3809,10 +3847,21 @@ function BentoCardItem({
   const { lang } = useLang();
   const Animation = card.animation ? ANIMATIONS[card.animation] : null;
   const [active, setActive] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
   const [iframeOpen, setIframeOpen] = useState(false);
+  /**
+   * The live demo mounts on click, not on page load.
+   *
+   * The embedded app focuses an element when it routes, and a focused element inside
+   * an iframe scrolls the PARENT document to bring it into view — so arriving at the
+   * case study jumped you straight past the context to the demo. `loading="lazy"`
+   * doesn't help; the scroll comes from focus, not from fetch. Deferring the mount
+   * also means a third-party Angular app isn't booted for every visitor who never
+   * clicks it.
+   */
+  const [iframeMounted, setIframeMounted] = useState(false);
 
   useEffect(() => {
     if (!iframeOpen) return;
@@ -3852,13 +3901,34 @@ function BentoCardItem({
       <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
         {card.iframe ? (
           <div className="relative h-[640px] w-full bg-white">
-            <iframe
-              src={card.iframe}
-              title={pick(card.label, lang)}
-              loading="lazy"
-              sandbox="allow-scripts allow-same-origin allow-forms"
-              className="h-full w-full border-0"
-            />
+            {iframeMounted ? (
+              <iframe
+                src={card.iframe}
+                title={pick(card.label, lang)}
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                className="h-full w-full border-0"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIframeMounted(true);
+                }}
+                className="bg-muted/40 text-muted-foreground hover:bg-muted/60 hover:text-foreground absolute inset-0 flex flex-col items-center justify-center gap-2 transition-colors"
+              >
+                <span className="text-foreground text-sm font-medium">
+                  {lang === "es"
+                    ? "Cargar la demo en vivo"
+                    : "Load the live demo"}
+                </span>
+                <span className="max-w-[38ch] text-center text-xs">
+                  {lang === "es"
+                    ? "Se abre la app real dentro de la página."
+                    : "Loads the real app inside this page."}
+                </span>
+              </button>
+            )}
             <button
               type="button"
               onClick={openIframeModal}
@@ -3912,28 +3982,88 @@ function BentoCardItem({
   if (card.details) {
     return (
       <>
-        <motion.button
-          type="button"
-          className={`${baseClass} hover:ring-border focus-visible:ring-border w-full cursor-pointer text-left transition-shadow hover:ring-1 focus-visible:ring-1 focus-visible:outline-none`}
+        {/* A detail card is clickable and has to look it. The home page's WorkCard
+            makes that obvious by swapping its media for a glass panel on hover, but
+            the same treatment here would cover the animation the reader is hovering
+            to watch. So it borrows the chrome instead of the panel: the same ring and
+            shadow lift.
+
+            The detail copy expands IN the card — it used to open a dialog. Only the
+            playground demo opens one now, so a click means one thing everywhere: this
+            card grows, that card launches the live app. Collapsed, the first beat is
+            clipped under a gradient so there's visibly more to read.
+
+            The card is a DIV, not a <button>, because detail copy can carry an inline
+            IntroPreviewLink (the token beat backlinks the color methodology) and a
+            link inside a button is invalid HTML — browsers won't reliably fire it.
+            The whole card still toggles on click for pointer users (skipping clicks
+            that land on a link); the "read more" row below is the real <button>, so
+            keyboard and screen-reader users get a proper disclosure control. */}
+        <motion.div
+          className={`${baseClass} hover:ring-border group relative w-full cursor-pointer text-left transition-all hover:shadow-md hover:ring-1`}
           initial="rest"
           whileHover={!isMobile ? "hover" : undefined}
           animate={isMobile ? mobileVariant : "rest"}
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
-          onFocus={() => setActive(true)}
-          onBlur={() => setActive(false)}
           onTouchStart={() => setActive(true)}
-          onClick={() => setModalOpen(true)}
-          aria-haspopup="dialog"
-          aria-label={pick(card.label, lang)}
+          onClick={(e) => {
+            if ((e.target as HTMLElement).closest("a, button")) return;
+            setExpanded((v) => !v);
+          }}
         >
           {inner}
-        </motion.button>
-        <BentoCardModal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          card={card}
-        />
+
+          <div className="relative">
+            <motion.div
+              initial={false}
+              animate={{ height: expanded ? "auto" : 44 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="overflow-hidden"
+            >
+              <div className="flex flex-col gap-3">
+                {card.details.sections.map((section, i) => (
+                  <div key={i} className="flex flex-col gap-1">
+                    {section.label ? (
+                      <h3 className="text-foreground text-[10px] font-semibold tracking-wider uppercase">
+                        {pick(section.label, lang)}
+                      </h3>
+                    ) : null}
+                    <p className="text-muted-foreground text-xs leading-relaxed">
+                      {pick(section.body, lang)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* from-card, so the fade lands on the card's own surface in both themes. */}
+            <motion.div
+              aria-hidden
+              initial={false}
+              animate={{ opacity: expanded ? 0 : 1 }}
+              transition={{ duration: 0.25 }}
+              className="from-card pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t to-transparent"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            onFocus={() => setActive(true)}
+            onBlur={() => setActive(false)}
+            aria-expanded={expanded}
+            aria-label={pick(card.label, lang)}
+            className="text-muted-foreground group-hover:text-foreground focus-visible:ring-border flex w-fit cursor-pointer items-center gap-1 rounded-sm font-mono text-[10px] tracking-wider transition-colors duration-[var(--duration-base)] focus-visible:ring-1 focus-visible:outline-none"
+          >
+            {expanded ? t("home.read_less", lang) : t("home.read_more", lang)}
+            <ArrowRight
+              className={`size-3 transition-transform duration-[var(--duration-base)] ${
+                expanded ? "-rotate-90" : "rotate-90"
+              }`}
+            />
+          </button>
+        </motion.div>
       </>
     );
   }

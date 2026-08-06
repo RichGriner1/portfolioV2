@@ -147,7 +147,7 @@ const CV: {
       bullets: {
         en: [
           "Doubled monthly revenue from $15K to $30K by tailoring content to client geography.",
-          "Grew organic traffic 40% and the Instagram following 345% through content and video optimisation.",
+          "Grew organic traffic 40% and the Instagram following 345% through content and video optimization.",
         ],
         es: [
           "Dupliqué los ingresos mensuales, de 15.000 a 30.000 dólares, adaptando el contenido a la geografía de cada cliente.",

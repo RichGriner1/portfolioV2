@@ -69,6 +69,10 @@ const ROUTES = [
   // three-layer token cascade, all of which are the kind of horizontal layout that
   // breaks at 320px. The shell is covered; these layouts weren't.
   "/writing/modern-ui-2026",
+  // Its own shell: `ds-scope` swaps in the Design System's token layer and 1px
+  // spacing scale, and the page is built from card grids and a table that
+  // switches to stacked cards. Nothing else here exercises either.
+  "/methodology/color",
 ];
 
 /**

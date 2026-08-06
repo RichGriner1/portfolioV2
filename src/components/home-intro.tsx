@@ -91,7 +91,7 @@ const INTRO: Bilingual<ReactNode[]> = {
  * Tailwind scale. Figma states tracking as a percentage of font size, which
  * converts straight to `em` (-0.02% → -0.0002em).
  *
- * There is deliberately no lead size and no bold. Hierarchy is carried by colour
+ * There is deliberately no lead size and no bold. Hierarchy is carried by color
  * alone: the opening clause sits at `--foreground`, everything after it at
  * `--prose-body`. Size and weight steps were tried and removed — three signals
  * doing one job.

@@ -88,8 +88,7 @@ export const WORK: WorkItem[] = [
     // Four files, per the convention above: en/es × light/dark. Derived from two
     // source clips — letterboxed 1440×1080 → 1080² so nothing is cropped, and the
     // dark pair is the light frame inverted with its black point lifted to #222,
-    // which is where process-stages_*_dark sits. Re-export from the source if the
-    // wording changes; the ES clip still reads "Ui moderno" and wants "UI moderno".
+    // which is where process-stages_*_dark sits.
     video: "/writing/modern-ui-2026",
     bento: "square",
   },

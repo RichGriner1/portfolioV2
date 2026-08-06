@@ -24,9 +24,18 @@ import { pick, useLang } from "@/lib/i18n";
 export function IntroPreviewLink({
   slug,
   children,
+  newTab = false,
 }: {
   slug: string;
   children: ReactNode;
+  /**
+   * Open in a new tab. Off by default: inside the home intro these links are part
+   * of a sentence you're reading, and a new tab there loses your place for no
+   * reason. On when the link is an aside from a long piece — the visual-identity
+   * case study pointing back at its own Part 1 — where you're meant to keep the
+   * article you're in.
+   */
+  newTab?: boolean;
 }) {
   const { lang } = useLang();
   const item = WORK.find((w) => w.slug === slug);
@@ -38,6 +47,8 @@ export function IntroPreviewLink({
         render={
           <Link
             href={item.href}
+            target={newTab ? "_blank" : undefined}
+            rel={newTab ? "noopener noreferrer" : undefined}
             className="text-foreground decoration-muted-foreground/70 hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-colors"
           />
         }

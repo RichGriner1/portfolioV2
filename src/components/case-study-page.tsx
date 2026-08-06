@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CaseStudyBento } from "@/components/case-study-bento";
 import { WorkGrid } from "@/components/my-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
-import { WORK, type WorkItem } from "@/lib/content/work";
+import { WORK, type WorkItem, formatYears } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
 
 type Props = {
@@ -33,7 +33,7 @@ export function CaseStudyPage({ item, study }: Props) {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                  {item.year}
+                  {formatYears(item)}
                 </div>
                 {item.ongoing && (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-emerald-700 uppercase dark:text-emerald-400">
@@ -112,7 +112,7 @@ export function CaseStudyPage({ item, study }: Props) {
           <header className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
               <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                {item.year}
+                {formatYears(item)}
               </div>
               {item.ongoing && (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-emerald-700 uppercase dark:text-emerald-400">

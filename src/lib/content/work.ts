@@ -37,7 +37,13 @@ export type WorkItem = {
   slug: string;
   title: Bilingual<string>;
   description: Bilingual<string>;
+  /** The year the work is dated to, and the one it sorts by. */
   year: number;
+  /**
+   * Set when the work spans more than one year — renders as "2025–2026". `year`
+   * stays the END of the span, so sorting is unaffected.
+   */
+  yearStart?: number;
   date?: string;
   type: WorkType;
   kind: WorkKind;
@@ -63,16 +69,12 @@ export const WORK: WorkItem[] = [
       en: "Modern UI in 2026",
       es: "UI moderno en 2026",
     },
-    // Shows on the card's hover panel, which is `line-clamp-3` at `max-w-[36ch]` —
-    // about 105 characters before it truncates mid-word. The first draft ran 137 and
-    // lost its own last clause, so this is written to the budget.
-    //
-    // Leads with the method (desk research) and names the stake: the defaults get set
-    // for you if you don't set them. "Investigación documental" is the Peninsular term
-    // for desk research; "de escritorio" would be the calque.
+    // Trimmed to the question the post answers, at Richard's call. The card already
+    // shows the title, the kind and the date above this line, so the earlier version
+    // spent its three clamped lines re-establishing context the reader has.
     description: {
-      en: "Desk research to stay current as AI resets the defaults: what modern UI actually means in 2026",
-      es: "Investigación documental: qué significa UI moderno en 2026 mientras la IA redefine lo básico",
+      en: "What modern UI means in 2026",
+      es: "Qué significa UI moderno en 2026",
     },
     year: 2026,
     date: "2026-06-24",
@@ -140,6 +142,7 @@ export const WORK: WorkItem[] = [
       es: "Sistema de diseño white-label en Figma más un entorno de prototipado con vibe coding para una demo de la experiencia completa",
     },
     year: 2026,
+    yearStart: 2025,
     type: "design-system",
     kind: "case-study",
     href: "/work/afi-design-system",
@@ -359,4 +362,19 @@ export const KIND_LABELS: Record<WorkKind, Bilingual<string>> = {
 
 export function sortKey(item: WorkItem): string {
   return item.date ?? `${item.year}-01-01`;
+}
+
+/**
+ * The year line for a work item: "2026", or "2025–2026" when it spans a range.
+ *
+ * Lives here rather than in a component because three surfaces render it — the card's
+ * hover panel and both year slots on the case-study page — and they drifted apart
+ * once already.
+ *
+ * En dash, not a hyphen: this is a range, and a hyphen reads as a compound.
+ */
+export function formatYears(item: WorkItem): string {
+  return item.yearStart && item.yearStart !== item.year
+    ? `${item.yearStart}\u2013${item.year}`
+    : String(item.year);
 }

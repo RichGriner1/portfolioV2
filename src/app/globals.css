@@ -44,6 +44,10 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  /* Maryland flag accents — see the primitives in :root */
+  --color-md-red: var(--md-red);
+  --color-md-gold: var(--md-gold);
+
   /* Charts — placeholder grays; swap to a branded palette when ready */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -195,6 +199,19 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+
+  /* Maryland flag — the only chromatic accents in an otherwise neutral palette.
+     The crab mark is Maryland, quietly (crab-mark.tsx), and these are the
+     Crossland quarters' gules and or: #E03A3E and #FFD200.
+
+     Deliberately NOT themed — they are not surface roles, they're a flag, so the
+     same two values serve light and dark. Nothing consumes them directly either:
+     the only use is a `color-mix` against `currentColor` in crab-dots.tsx, which
+     keeps the mark's ink theme-driven and lets these supply hue alone. Treat them
+     as decoration primitives, not semantic roles — don't reach for them for text
+     or a surface without adding a proper semantic token first. */
+  --md-red: oklch(0.593 0.2 25.4);
+  --md-gold: oklch(0.876 0.177 92.4);
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);

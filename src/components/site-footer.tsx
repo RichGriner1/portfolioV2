@@ -16,34 +16,17 @@ export function SiteFooter() {
         <p>
           © {year} Richard Griner. {t("footer.rights", lang)}
         </p>
-        {/* Off-site links open in a new tab; the mailto below deliberately does
-            not — a blank tab that immediately hands off to a mail client just
-            leaves an empty tab behind. `rel="noopener noreferrer"` was already
-            here, which only ever mattered alongside the target it was missing. */}
-        <nav aria-label="Social links" className="flex items-center gap-4">
-          <a
-            href="https://www.linkedin.com/in/richardgriner"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-          >
-            {t("nav.linkedin", lang)}
-          </a>
-          <a
-            href="https://x.com/poppa_richhh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-          >
-            X
-          </a>
-          <a
-            href="mailto:richardgrinerdesigns@gmail.com"
-            className="hover:text-foreground underline-offset-4 transition-colors hover:underline"
-          >
-            {t("nav.email", lang)}
-          </a>
-        </nav>
+        {/* The place line, back here as of 2026-08-06. It spent a day closing the
+            bento's intro tile, where on mobile it read as one more sentence of the
+            intro rather than a signature — see the note in bento-home.tsx.
+            Here it has the footer rule above it and sits opposite the copyright,
+            which is the register it belongs in.
+
+            The socials that were in this row came off in the same move. They were
+            duplicated from the nav panel, and on mobile they stacked directly under
+            the intro tile, which is what made the whole footer read as a tail on
+            the intro. One home for them, in the menu. */}
+        <p>{t("footer.built", lang)}</p>
       </div>
     </footer>
   );

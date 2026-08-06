@@ -8,7 +8,7 @@ import { BlurFade } from "@/components/motion/blur-fade";
 import { IntroParagraphs } from "@/components/home-intro";
 import { WorkCard } from "@/components/work-card";
 import { WORK } from "@/lib/content/work";
-import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
+import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
@@ -141,7 +141,10 @@ function TalkTile() {
     // invalid, and its click would bubble into the mailto. So the anchor is a
     // full-bleed overlay behind the content, and only the copy button opts back
     // into pointer events. Standard "card link with a secondary action" shape.
+    // `data-cursor-invert`: this tile is `bg-primary`, so the dot cursor's default
+    // `--foreground` ink would be black on black here. See dot-cursor.tsx.
     <div
+      data-cursor-invert
       className={cn(
         FRAME,
         "group bg-primary border-primary text-primary-foreground aspect-square w-full sm:aspect-auto sm:h-full"
@@ -298,8 +301,6 @@ function TalkTile() {
 }
 
 export function BentoHome() {
-  const { lang } = useLang();
-
   return (
     <main className="bento-frame mx-auto w-full max-w-5xl flex-1 px-6 pt-10 pb-24">
       {/* Two layouts, not one that stretches. From `sm` up it's the authored
@@ -332,21 +333,19 @@ export function BentoHome() {
             its neighbour animates. */}
         <div className="sm:col-span-2 sm:row-span-2">
           <BlurFade inView inViewMargin="-60px" className="sm:h-full">
+            {/* The place line ("Born and raised in DC…") used to close this tile
+                as a signature under the prose. It's back in the footer as of
+                2026-08-06: stacked into one column on mobile the tile has no
+                visible bottom edge to anchor it, so a muted line directly under
+                the last paragraph read as a sixth sentence of the intro — a
+                non-sequitur about Maryland at the end of a paragraph about
+                iterating. The footer gives it a rule above it and nothing to be
+                mistaken for. The footer's socials came off in the same move; the
+                nav panel already carries them. */}
             <Tile className="flex flex-col justify-start gap-3 p-6 pt-5 sm:h-full sm:p-8 sm:pt-6">
               {/* Colour and the type scale both come from the component now —
                   the sizes are Figma-specified, so they live next to the copy. */}
               <IntroParagraphs className="font-geist" />
-              {/* The place line lives here, not in the footer — it's identity,
-                  so it belongs with the intro. The footer took the socials.
-                  mt-auto pins it as a signature under the prose.
-
-                  13px, a step under the 14px copy: a caption, not prose, so it's
-                  the one place a size step earns its keep. Same 1.25 ratio and
-                  tracking as the body, and --muted-foreground puts it a tier
-                  below --prose-body on the ink ramp too. */}
-              <p className="text-muted-foreground mt-auto text-[13px] leading-[16.25px] tracking-[-0.0002em]">
-                {t("footer.built", lang)}
-              </p>
             </Tile>
           </BlurFade>
         </div>

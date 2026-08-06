@@ -13,10 +13,12 @@ import {
 export type Lang = "en" | "es";
 export type Bilingual<T = string> = { en: T; es: T };
 
+// `toggle()` came off on 2026-08-06 with the two-state language button — the
+// selector is a radio group now and sets a language outright, so nothing flipped
+// between them any more. Add it back if a keyboard shortcut ever wants it.
 type LangContextValue = {
   lang: Lang;
   setLang: (l: Lang) => void;
-  toggle: () => void;
 };
 
 const LangContext = createContext<LangContextValue | null>(null);
@@ -42,18 +44,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("lang", l);
   }, []);
 
-  const toggle = useCallback(() => {
-    setLangState((prev) => {
-      const next: Lang = prev === "en" ? "es" : "en";
-      localStorage.setItem("lang", next);
-      return next;
-    });
-  }, []);
-
-  const value = useMemo(
-    () => ({ lang, setLang, toggle }),
-    [lang, setLang, toggle]
-  );
+  const value = useMemo(() => ({ lang, setLang }), [lang, setLang]);
 
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
@@ -75,7 +66,9 @@ export const UI = {
   // everything else. Plain nouns — footer nav doesn't say "All".
   "nav.projects": { en: "Projects", es: "Proyectos" },
   "nav.writing": { en: "Writing", es: "Textos" },
-  "nav.linkedin": { en: "LinkedIn", es: "LinkedIn" },
+  // "nav.linkedin" came off on 2026-08-06 with the footer's socials. It was the
+  // same string in both languages anyway, which is why the nav panel's own list
+  // hard-codes "LinkedIn" and "X" and only translates "Email".
   "nav.email": { en: "Email", es: "Correo" },
   "nav.cv": { en: "CV", es: "CV" },
   "nav.home": { en: "Home", es: "Inicio" },

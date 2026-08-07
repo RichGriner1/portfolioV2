@@ -93,6 +93,12 @@ export const UI = {
   "nav.socials": { en: "Socials", es: "Redes sociales" },
   // The canvas board's escape hatch out of a section and into the real index page.
   "nav.see_all": { en: "See all", es: "Ver todo" },
+  // The board's zoom menu. `zoom` names the trigger for anyone who can't see it —
+  // the visible label is the current percentage, so the aria label can't just repeat
+  // it. Same split `LangToggle` makes between its code and "Select language".
+  "canvas.zoom": { en: "Zoom", es: "Zoom" },
+  "canvas.zoom_in": { en: "Zoom in", es: "Acercar" },
+  "canvas.zoom_out": { en: "Zoom out", es: "Alejar" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },
   "home.read_less": { en: "Show less", es: "Ver menos" },

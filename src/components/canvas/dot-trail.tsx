@@ -40,7 +40,19 @@ const TAIL_R = 10;
 /** How hard the head chases the pointer. Lower lags further and smears more. */
 const LERP = 0.5;
 
-export function DotTrail({ tile }: { tile: number }) {
+/**
+ * `scale` is the board's zoom, and it multiplies BOTH the tile and the dot — the
+ * trail has to be the same grid as the field underneath it at every zoom level, and
+ * scaling the spacing without the ink would turn the lit dots into a second, finer
+ * pattern the moment you zoomed. One number so the two can't be set apart.
+ */
+export function DotTrail({
+  tile,
+  scale = 1,
+}: {
+  tile: number;
+  scale?: number;
+}) {
   const layer = useRef<HTMLDivElement>(null);
   const target = useRef({ x: -9999, y: -9999 });
   const head = useRef({ x: -9999, y: -9999 });
@@ -137,9 +149,9 @@ export function DotTrail({ tile }: { tile: number }) {
           the theme, which is what makes the trail read as the dots turning ON
           rather than a light being laid over them. */}
       <DotPattern
-        width={tile}
-        height={tile}
-        cr={1.15}
+        width={tile * scale}
+        height={tile * scale}
+        cr={1.15 * scale}
         className="fill-foreground/70"
       />
     </div>

@@ -86,9 +86,17 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${geistDisplay.variable} ${geistNamed.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
+        {/* Dark by default, from the 2026-08-06 portfolio review: everything on the
+            site is light-on-light, and the work simply doesn't pop against it — the
+            reviewer called the difference on the colour methodology piece "abysmal".
+
+            Note what this does and doesn't change. A returning visitor keeps their
+            stored choice. A NEW visitor now gets dark rather than their OS setting —
+            that's the actual point, not a side effect. `enableSystem` stays on so
+            "System" remains a real option in the toggle for anyone who wants it. */}
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

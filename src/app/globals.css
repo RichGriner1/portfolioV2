@@ -48,6 +48,11 @@
   --color-md-red: var(--md-red);
   --color-md-gold: var(--md-gold);
 
+  /* Component chrome on the /canvas board — see the semantic note in :root */
+  --color-canvas-component: var(--canvas-component);
+  --color-canvas-component-fill: var(--canvas-component-fill);
+  --color-canvas-component-foreground: var(--canvas-component-foreground);
+
   /* Charts — placeholder grays; swap to a branded palette when ready */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -115,6 +120,22 @@
      the transition already on it, so the exit stays smooth. */
   --animate-wordmark-in: wordmark-in var(--duration-base) var(--ease-out-soft)
     both;
+
+  /* Shimmer button rim spark (components/magicui/shimmer-button.tsx). Two
+     animations rather than one: the spark travels the width of the button while
+     the conic gradient inside it rotates, and the pair is what makes light look
+     like it's going AROUND an edge rather than sliding across a face. Both take
+     their tempo from `--shimmer-speed`, set per instance on the button, so a
+     single prop re-times the whole effect. Durations live outside the
+     --duration-* scale on purpose: those are tuned for a control responding to
+     you in a few hundred ms, and this is ambient.
+
+     One utility carrying both, rather than two classes on the element: an
+     `animate-*` utility sets the whole `animation` shorthand, so a second one
+     would replace the first rather than add to it. */
+  --animate-shimmer-spark:
+    shimmer-slide var(--shimmer-speed, 3s) ease-in-out infinite alternate,
+    spin-around calc(var(--shimmer-speed, 3s) * 2) infinite linear;
 
   /* ------------------------------------------------------------------------
      Design-System color bridges — used ONLY inside `.ds-scope` (the ported
@@ -213,6 +234,39 @@
      or a surface without adding a proper semantic token first. */
   --md-red: oklch(0.593 0.2 25.4);
   --md-gold: oklch(0.876 0.177 92.4);
+
+  /* Figma's component violet (#9747FF), as a primitive.
+     Two steps rather than one because a single value can't serve both themes:
+     500 is right on white and muddies against the near-black board, so dark
+     lifts to 400. Nothing consumes these directly — see --canvas-component.
+
+     50 is the ink for type sitting ON the violet — the apron chip. A tint of the
+     same hue rather than flat white, so the chip reads as one object.
+
+     600 exists because neither of the other two could hold that ink: measured,
+     50-on-400 is 2.68:1 and 50-on-500 is 4.04:1, both under AA for the 10px the
+     chip is set in. 600 is 4.93:1. Line and text chrome keep 400/500 — they sit
+     on the page, not under type. */
+  --violet-50: oklch(0.977 0.014 304.5);
+  --violet-400: oklch(0.702 0.198 304.5);
+  --violet-500: oklch(0.606 0.243 304.5);
+  --violet-600: oklch(0.56 0.243 304.5);
+
+  /* Component chrome on the /canvas board — the glyph, frame border and corner
+     handles that mark the claim as a component rather than a plain frame.
+
+     Scoped to the canvas on purpose. The board is the one place in the site that
+     quotes a design tool's own UI, and violet only means anything there; naming
+     it for the surface keeps it from drifting out as a general-purpose accent in
+     a palette that is otherwise entirely neutral. */
+  --canvas-component: var(--violet-500);
+  /* The filled variant — the apron chip. Same value in both themes, and its own
+     token rather than a reuse of --canvas-component, because the two are solving
+     different problems: that one has to stay visible against the page, this one
+     has to stay legible under type. Follow the theme and the chip fails AA in
+     dark; see the primitive note. */
+  --canvas-component-fill: var(--violet-600);
+  --canvas-component-foreground: var(--violet-50);
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -316,6 +370,10 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
 
+  /* Lifted a step — see the primitive note. 500 sits too close to the board's
+     own darkness to read as chrome. */
+  --canvas-component: var(--violet-400);
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -359,6 +417,47 @@
     translate: 0 0;
     opacity: 1;
     filter: blur(0);
+  }
+}
+
+/* Shimmer spark: across the button, then back. `100cqw` is the button's own
+   width — see the container-type note in shimmer-button.tsx. */
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+
+/* The spark's own rotation, as an angle rather than a transform.
+ *
+ * A custom property is only animatable if the browser knows its type, so this
+ * has to be registered — an unregistered `--shimmer-angle` would jump between
+ * keyframes instead of sweeping. Registering it is also what lets the gradient
+ * turn while its box stays exactly the size of the button; see the geometry note
+ * in components/magicui/shimmer-button.tsx.
+ *
+ * It rests at each quarter turn rather than sweeping evenly, so the light reads
+ * as catching an edge and holding there. */
+@property --shimmer-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes spin-around {
+  0% {
+    --shimmer-angle: 0deg;
+  }
+  15%,
+  35% {
+    --shimmer-angle: 90deg;
+  }
+  65%,
+  85% {
+    --shimmer-angle: 270deg;
+  }
+  100% {
+    --shimmer-angle: 360deg;
   }
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { MorphingText } from "@/components/magicui/morphing-text";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 /**
@@ -45,7 +46,7 @@ export function ArticleHeader({
       </div>
 
       <h1 className="text-foreground font-display text-5xl font-black tracking-tight text-balance md:text-6xl lg:text-7xl">
-        {pick(title, lang)}
+        <MorphingText>{pick(title, lang)}</MorphingText>
       </h1>
     </header>
   );

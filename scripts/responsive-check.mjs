@@ -73,6 +73,13 @@ const ROUTES = [
   // spacing scale, and the page is built from card grids and a table that
   // switches to stacked cards. Nothing else here exercises either.
   "/methodology/color",
+  // Two shells in one route, swapped at `lg`: the pannable board and the stacked
+  // column that replaces it below. The `data-canvas` exemption further down only
+  // spares the board's off-viewport geometry — everything else here, including
+  // the whole mobile layout, is measured like any other page. It's the one route
+  // where a breakpoint changes what the page IS, so leaving it out meant the
+  // switch itself was never checked.
+  "/canvas",
 ];
 
 /**
@@ -93,16 +100,35 @@ const MIN_TAP = 24;
  * inside the panel it opens, so the runner has to open the menu before these
  * resolve. First-visible still matters: the panel is mounted only while open, and
  * anything left hidden by a breakpoint must not be mistaken for the live instance.
+ *
+ * Each target lists CANDIDATES rather than one selector, because the question is
+ * whether a navigation affordance is reachable — not where it happens to live in
+ * the markup. The canvas home page has no `<header>` at all: its navigation is the
+ * rail, and CV opens from a frame on the board. Requiring `header a[href=...]` made
+ * that page fail five checks while every one of those destinations was reachable.
+ * First matching candidate wins.
  */
 const NAV_TARGETS = [
   {
-    name: "menu button (the crab)",
-    selector: 'header button[aria-controls="site-menu"]',
+    name: "menu toggle",
+    candidates: [
+      { selector: 'header button[aria-controls="site-menu"]' },
+      { selector: "[data-rail] button[aria-expanded]" },
+    ],
   },
-  { name: "home link", selector: 'header a[href="/"]' },
-  { name: "projects link", selector: 'header a[href="/projects"]' },
-  { name: "writing link", selector: 'header a[href="/writing"]' },
-  { name: "CV button", selector: "header button", text: "CV" },
+  {
+    name: "home link",
+    candidates: [{ selector: 'a[href="/"]' }, { selector: "[data-nav-home]" }],
+  },
+  { name: "projects link", candidates: [{ selector: 'a[href="/projects"]' }] },
+  { name: "writing link", candidates: [{ selector: 'a[href="/writing"]' }] },
+  {
+    name: "CV control",
+    candidates: [
+      { selector: "header button", text: "CV" },
+      { selector: "[data-cv-open]" },
+    ],
+  },
 ];
 
 const args = process.argv.slice(2);
@@ -225,6 +251,26 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
      * out-of-bounds checks catch it there, correctly described. Scrollable boxes
      * are exempt for the obvious reason.
      */
+    /**
+     * A pannable canvas is EXEMPT from both geometry checks below.
+     *
+     * The board on `/` is deliberately larger than the viewport — that's what a
+     * canvas is — and it is clamped and `overflow: hidden`, so "content extends
+     * past the edge" is its resting state rather than a bug. Left unexempt it
+     * produced 18 findings describing the feature working correctly, which is worse
+     * than no check: real breakage would be buried in the noise.
+     *
+     * What this gives up: accidental overflow INSIDE the board goes unreported. What
+     * it keeps, and what actually matters, is the page-level horizontal-scroll check
+     * above — that runs on the document and is not exempt, so a board that escapes
+     * its container and drags the page sideways still fails.
+     *
+     * Scoped to the marker, not the route, so it applies wherever a board appears
+     * and nowhere else. The rail, the CV modal and the stacked mobile layout all sit
+     * outside it and are still fully checked.
+     */
+    if (el.closest("[data-canvas]")) continue;
+
     const clips = ["hidden", "clip"].includes(cs.overflowX);
     if (clips && !scrollable(cs) && el.scrollWidth > el.clientWidth + 1) {
       clipped.push({
@@ -283,18 +329,34 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
     }
     return null;
   };
-  for (const { name, selector, text } of navTargets) {
-    const el = firstVisible(selector, text);
+  for (const { name, candidates } of navTargets) {
+    let el = null;
+    for (const c of candidates) {
+      el = firstVisible(c.selector, c.text);
+      if (el) break;
+    }
     if (!el) {
+      const tried = candidates.map((c) => c.selector).join(" | ");
       findings.push({
         severity: "error",
         kind: "nav-missing",
-        detail: `${name} (${selector}) has no visible instance`,
+        detail: `${name} (${tried}) has no visible instance`,
       });
       continue;
     }
     const rect = el.getBoundingClientRect();
-    if (rect.right > vw + 1 || rect.left < -1) {
+    /**
+     * On a canvas, "off-screen" is not "unreachable".
+     *
+     * Broadening the selectors above means the first match for a destination can now
+     * be an instance sitting ON the board — the "See all" link inside a section, say
+     * — which is off-viewport until you pan to it. That's the board working, and the
+     * rail guarantees every section is one click away regardless. So inside a canvas
+     * the target only has to EXIST; the bounds assertion is for chrome that is
+     * supposed to be statically on screen.
+     */
+    const onCanvas = !!el.closest("[data-canvas]");
+    if (!onCanvas && (rect.right > vw + 1 || rect.left < -1)) {
       findings.push({
         severity: "error",
         kind: "nav-unreachable",
@@ -388,9 +450,9 @@ async function main() {
      */
     const navHrefs = [
       ...new Set(
-        NAV_TARGETS.map((t) => /href="([^"]+)"/.exec(t.selector)?.[1]).filter(
-          Boolean
-        )
+        NAV_TARGETS.flatMap((t) =>
+          t.candidates.map((c) => /href="([^"]+)"/.exec(c.selector)?.[1])
+        ).filter(Boolean)
       ),
     ];
     for (const href of navHrefs) {
@@ -454,6 +516,19 @@ async function main() {
         if (usesMenu) {
           await menuBtn.click();
           await page.waitForTimeout(500);
+        }
+
+        /**
+         * The canvas board has no header — its navigation is the rail, which starts
+         * collapsed. Same principle as the crab above: open it through its real
+         * control so a broken toggle fails the check instead of skipping it.
+         */
+        const railBtn = page.locator(
+          '[data-rail] button[aria-expanded="false"]'
+        );
+        if (await railBtn.isVisible().catch(() => false)) {
+          await railBtn.click();
+          await page.waitForTimeout(400);
         }
 
         const findings = await probe();

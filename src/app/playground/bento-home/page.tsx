@@ -3,9 +3,12 @@ import { SiteHeader } from "@/components/site-header";
 import { BentoHome } from "@/components/bento-home";
 
 /**
- * Kept as a noindex alias of `/` now that this composition IS the home page, so
- * any bookmark or link to the old prototype URL still resolves. Renders the same
- * component — there is no second copy to keep in sync. Safe to delete.
+ * The bento composition, which used to be `/`.
+ *
+ * The canvas board took over the home page; Richard wants this kept as a
+ * composition to work from rather than deleted, so it stays a real route. Still
+ * noindex — it isn't a destination for visitors, and two indexed pages presenting
+ * the same work would compete with each other.
  */
 export const metadata = {
   title: "Bento home (prototype)",

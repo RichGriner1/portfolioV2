@@ -315,6 +315,11 @@ export function CvModal({
             />
 
             <motion.div
+              // Marks the panel itself, as opposed to the backdrop behind it. The
+              // canvas's cursor reads this to decide whether to show its close
+              // affordance: clicking the backdrop dismisses, clicking the panel does
+              // not, so an "×" over the panel would be promising something false.
+              data-cv-dialog
               className="bg-card border-border fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-3xl border p-6 pb-8 shadow-xl sm:p-8 sm:pb-10"
               style={{ maxHeight: "85vh" }}
               initial={{ opacity: 0, scale: 0.97, y: 12 }}

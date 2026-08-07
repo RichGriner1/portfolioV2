@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { WritingList } from "./writing-list";
 
 export const metadata = {
-  title: "Writing",
+  title: "Blog",
   description: "Process notes and methodology: how the work gets made.",
 };
 

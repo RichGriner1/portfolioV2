@@ -65,13 +65,21 @@ export const UI = {
   // carries the current, highest-value work, and these are how you get to
   // everything else. Plain nouns — footer nav doesn't say "All".
   "nav.projects": { en: "Projects", es: "Proyectos" },
-  "nav.writing": { en: "Writing", es: "Textos" },
+  // "Blog" in both languages. ES was "Textos", which reads wrong to a Peninsular
+  // reader — it's the word for written texts, not for a body of posts, and it was
+  // flagged on sight in the 2026-08-06 portfolio review. "Blog" is standard loaned
+  // usage in Spain. EN moved off "Writing" to match, so the two languages name the
+  // same destination the same way. The route stays /writing; this is the label only.
+  "nav.writing": { en: "Blog", es: "Blog" },
   // "nav.linkedin" came off on 2026-08-06 with the footer's socials. It was the
   // same string in both languages anyway, which is why the nav panel's own list
   // hard-codes "LinkedIn" and "X" and only translates "Email".
   "nav.email": { en: "Email", es: "Correo" },
   "nav.cv": { en: "CV", es: "CV" },
   "nav.home": { en: "Home", es: "Inicio" },
+  // The visible label on the canvas rail. `menu_open`/`menu_close` are the aria
+  // labels for the toggle; this is the word a visitor actually reads next to it.
+  "nav.menu": { en: "Menu", es: "Menú" },
   "nav.menu_open": { en: "Open menu", es: "Abrir menú" },
   "nav.menu_close": { en: "Close menu", es: "Cerrar menú" },
   // Spanish takes sentence case, not the English title case — only the first word
@@ -83,6 +91,8 @@ export const UI = {
     es: "Portfolio de diseño de Richard Griner",
   },
   "nav.socials": { en: "Socials", es: "Redes sociales" },
+  // The canvas board's escape hatch out of a section and into the real index page.
+  "nav.see_all": { en: "See all", es: "Ver todo" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },
   "home.read_less": { en: "Show less", es: "Ver menos" },

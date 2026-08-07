@@ -2,7 +2,7 @@
 
 import { WorkGrid } from "@/components/my-work";
 import { BackLink } from "@/components/back-link";
-import { MorphingText } from "@/components/magicui/morphing-text";
+import { HyperText } from "@/components/magicui/hyper-text";
 import { sortKey, WORK } from "@/lib/content/work";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
@@ -31,7 +31,7 @@ export function ProjectsList() {
 
       <header className="flex flex-col gap-4">
         <h1 className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
-          <MorphingText>{pick(TITLE, lang)}</MorphingText>
+          <HyperText>{pick(TITLE, lang)}</HyperText>
         </h1>
         <p className="text-muted-foreground max-w-xl text-lg leading-relaxed">
           {pick(INTRO, lang)}

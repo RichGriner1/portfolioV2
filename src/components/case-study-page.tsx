@@ -2,7 +2,7 @@
 
 import { CaseStudyBento } from "@/components/case-study-bento";
 import { BackLink } from "@/components/back-link";
-import { MorphingText } from "@/components/magicui/morphing-text";
+import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
 import { type WorkItem, formatYears } from "@/lib/content/work";
@@ -39,11 +39,12 @@ export function CaseStudyPage({ item, study }: Props) {
                 )}
               </div>
               <h1 className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
-                {/* The project name morphs; the tagline beside it doesn't. The name
-                    is the constant — it's usually the same word in both languages —
-                    so morphing it is the part that reads as one heading holding
-                    still while the sentence around it changes. */}
-                <MorphingText>{pick(item.title, lang)}</MorphingText>{" "}
+                {/* The project name scrambles; the tagline beside it doesn't. Two
+                    runs of different lengths in one heading resolve at different
+                    moments and the h1 reads as two competing animations — and the
+                    name is the part that changes least between languages, so it's
+                    where the effect is doing work. */}
+                <HyperText>{pick(item.title, lang)}</HyperText>{" "}
                 <span className="text-muted-foreground font-normal">
                   — {pick(study.tagline, lang)}
                 </span>
@@ -112,7 +113,7 @@ export function CaseStudyPage({ item, study }: Props) {
               )}
             </div>
             <h1 className="font-display text-4xl tracking-tight sm:text-5xl">
-              <MorphingText>{pick(item.title, lang)}</MorphingText>
+              <HyperText>{pick(item.title, lang)}</HyperText>
             </h1>
           </header>
           <section className="border-border/60 text-muted-foreground rounded-xl border border-dashed p-8 text-sm">

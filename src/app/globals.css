@@ -52,6 +52,8 @@
   --color-canvas-component: var(--canvas-component);
   --color-canvas-component-fill: var(--canvas-component-fill);
   --color-canvas-component-foreground: var(--canvas-component-foreground);
+  --color-canvas-devmode: var(--canvas-devmode);
+  --color-canvas-devmode-foreground: var(--canvas-devmode-foreground);
 
   /* Charts — placeholder grays; swap to a branded palette when ready */
   --color-chart-1: var(--chart-1);
@@ -252,6 +254,15 @@
   --violet-500: oklch(0.606 0.243 304.5);
   --violet-600: oklch(0.56 0.243 304.5);
 
+  /* Figma's Dev Mode green, the counterpart to the component violet: violet says
+     "this is a component", green says "there's code behind it".
+
+     Deepened from Figma's own #14AE5C for the same reason 600 exists above —
+     the published green carries the near-white glyph at 2.72:1. 0.52 lands at
+     4.67:1 and still reads as the Dev Mode green rather than a different colour. */
+  --green-50: oklch(0.977 0.014 155);
+  --green-600: oklch(0.52 0.15 155);
+
   /* Component chrome on the /canvas board — the glyph, frame border and corner
      handles that mark the claim as a component rather than a plain frame.
 
@@ -267,6 +278,10 @@
      dark; see the primitive note. */
   --canvas-component-fill: var(--violet-600);
   --canvas-component-foreground: var(--violet-50);
+  /* The Dev Mode chip beside it. Same shape as the pair above — a fill that
+     doesn't invert, and its own ink — because it has the same job. */
+  --canvas-devmode: var(--green-600);
+  --canvas-devmode-foreground: var(--green-50);
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);

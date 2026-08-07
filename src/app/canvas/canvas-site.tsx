@@ -429,11 +429,21 @@ export function CanvasSite() {
    * canvas stopped responding until you moved back onto it and clicked. The board
    * is the whole page here; the wheel should move it from anywhere on that page.
    *
-   * The two guards are what the narrower scope used to give for free. `offsetParent`
-   * is null while the board is `hidden` below `lg`, where the stacked layout is
-   * showing and scrolling is exactly what a wheel should do. And an overlay owns its
-   * own scrolling — the CV dialog scrolls its content, a menu scrolls its list —
-   * so neither gets stolen and turned into a pan behind it.
+   * The guards are what the narrower scope used to give for free.
+   *
+   * `offsetParent` is null while the board is `hidden` below `lg`, where the stacked
+   * layout is showing and scrolling is exactly what a wheel should do.
+   *
+   * `cvOpen` covers the CV, and it covers the whole viewport rather than the panel:
+   * while a modal is up, nothing behind it should move, including the backdrop.
+   *
+   * The scrollable-ancestor walk is the general form of "an overlay owns its own
+   * scrolling". This used to test `closest('[role="dialog"], [role="menu"]')`, which
+   * matched nothing — the CV is a hand-rolled motion panel with no role, so the board
+   * panned behind an open overlay while its content sat still. Asking whether the
+   * pointer is over something that scrolls is the question that was actually being
+   * asked, and no overlay has to be tagged for it: a menu, a code block, or anything
+   * added later all answer for themselves.
    */
   useEffect(() => {
     const el = root.current;
@@ -442,10 +452,31 @@ export function CanvasSite() {
     const clamp = (v: number, limit: number) =>
       Math.min(Math.max(v, -limit), limit);
 
+    /**
+     * Overflow alone, not "has room left to scroll in this direction" — otherwise
+     * hitting the end of the panel hands the wheel back to the board and the page
+     * lurches out from under whatever you were reading. That's the chaining
+     * `overscroll-contain` exists to stop.
+     */
+    const overScroller = (target: EventTarget | null) => {
+      let node = target instanceof HTMLElement ? target : null;
+      while (node && node !== document.body) {
+        const s = getComputedStyle(node);
+        if (
+          (/auto|scroll/.test(s.overflowY) &&
+            node.scrollHeight > node.clientHeight) ||
+          (/auto|scroll/.test(s.overflowX) &&
+            node.scrollWidth > node.clientWidth)
+        )
+          return true;
+        node = node.parentElement;
+      }
+      return false;
+    };
+
     const onWheel = (e: WheelEvent) => {
-      if (!el.offsetParent) return;
-      const t = e.target as HTMLElement | null;
-      if (t?.closest('[role="dialog"], [role="menu"]')) return;
+      if (!el.offsetParent || cvOpen) return;
+      if (overScroller(e.target)) return;
       e.preventDefault();
       const dx = e.shiftKey ? e.deltaY : e.deltaX;
       const dy = e.shiftKey ? 0 : e.deltaY;
@@ -455,7 +486,7 @@ export function CanvasSite() {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [drag, x, y]);
+  }, [drag, x, y, cvOpen]);
 
   /**
    * Space-to-grab, Figma's hand tool.
@@ -811,12 +842,24 @@ export function CanvasSite() {
                * component — the colour IS the statement that this is one, so
                * splitting it (violet mark, neutral name) said half of it. Four words
                * is short enough that the accent stays chrome. */}
-              <div className="absolute -top-5 right-0 left-0 flex items-center justify-between gap-4 font-mono text-[11px] leading-none">
+              {/* -7, not -5. The row used to be bare 11px type; the Dev Mode chip
+                  is 19px tall, so the old offset left it sitting on the border and
+                  fouling the top-right handle. Both aprons now clear the frame by
+                  the same 9px. */}
+              <div className="absolute -top-7 right-0 left-0 flex items-center justify-between gap-4 font-mono text-[11px] leading-none">
                 <span className="text-canvas-component flex items-center gap-1.5 whitespace-nowrap">
                   <ComponentGlyph />
                   {pick(COMPONENT_NAME, lang)}
                 </span>
-                <span aria-hidden className="text-muted-foreground">
+                {/* Dev Mode, as its own filled chip. It's the green half of the
+                    same idea the violet carries: the frame is a component, and
+                    this is the toggle that says there's code behind it. As bare
+                    muted type it read as a stray glyph in the corner; the fill is
+                    what makes it the button Figma actually puts there. */}
+                <span
+                  aria-hidden
+                  className="bg-canvas-devmode text-canvas-devmode-foreground rounded-[3px] px-1.5 py-1 leading-none"
+                >
                   &lt;/&gt;
                 </span>
               </div>
@@ -825,7 +868,7 @@ export function CanvasSite() {
                   distinguishes the slot: the name floats, the measurement sits in a
                   chip. Centred under the frame, same as the readout it's standing
                   in for. */}
-              <span className="bg-canvas-component-fill text-canvas-component-foreground absolute -bottom-6 left-1/2 -translate-x-1/2 rounded-[3px] px-2 py-1 font-mono text-[10px] leading-none whitespace-nowrap">
+              <span className="bg-canvas-component-fill text-canvas-component-foreground absolute -bottom-7 left-1/2 -translate-x-1/2 rounded-[3px] px-2 py-1 font-mono text-[10px] leading-none whitespace-nowrap">
                 {pick(PLACE, lang)}
               </span>
               <div className="flex flex-col items-center gap-6">

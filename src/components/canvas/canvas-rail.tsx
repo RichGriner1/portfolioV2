@@ -2,11 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { Minus, Plus } from "lucide-react";
 
 import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EASE_SOFT } from "@/components/motion/constants";
 import { DotToggle } from "@/components/motion/crab-dots";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { t, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -74,14 +85,129 @@ const LABEL = {
 
 export type RailStop = { id: string; label: string };
 
+/**
+ * The board's zoom controls, when the board is the thing being shown.
+ *
+ * Optional because the rail is shared with the stacked layout below `lg`, where
+ * there is no board to zoom — a page that scrolls has the browser's own zoom and
+ * nothing this widget could honestly do. The caller passes this only when the board
+ * is live, so absence is the gate rather than a second media query in here.
+ */
+export type RailZoom = {
+  /** Current scale, where 1 is 100%. */
+  value: number;
+  onIn: () => void;
+  onOut: () => void;
+  /** Jump straight to a level, for the presets. */
+  onSet: (value: number) => void;
+};
+
+/**
+ * The levels the menu offers directly.
+ *
+ * Three, not a ladder: 50% is the whole board at a glance, 100% is the composition
+ * as drawn, 200% is a frame filling the screen. Anything between them is what the
+ * wheel and the +/− are for — a preset list long enough to scan is a list you have
+ * to read, and the point of a preset is not reading it.
+ */
+const ZOOM_PRESETS = [0.5, 1, 2];
+
+/**
+ * Zoom, as one control rather than three.
+ *
+ * The percentage IS the trigger, which is what Figma does and, more to the point,
+ * what the two controls beside it already do: theme and language are both a single
+ * 32px button that opens a menu stating the current value. An inline `− 100% +` was
+ * the odd one out in that row and the widest thing in the bar — this reads as the
+ * third member of a set.
+ *
+ * `+`/`−` live at the top of the menu rather than being replaced by the presets.
+ * They're the relative move, and someone who wants "a bit closer" shouldn't have to
+ * pick an absolute number to get it.
+ */
+function ZoomMenu({ zoom }: { zoom: RailZoom }) {
+  const { lang } = useLang();
+  const pct = Math.round(zoom.value * 100);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            // `hidden lg:inline-flex`, because the rail is shared with the stacked
+            // layout below `lg` and there is no board to zoom there. The prop is
+            // already gated on the board being PANNABLE, which is a pointer test —
+            // a fine pointer on a narrow window still gets the stacked page.
+            className="hidden w-12 justify-center px-0 font-mono text-[11px] tabular-nums lg:inline-flex"
+            aria-label={t("canvas.zoom", lang)}
+          />
+        }
+      >
+        {/* Fixed width and `tabular-nums`: the bar sizes to its content, so a
+            proportional 25% → 100% → 200% would shove the whole toolbar sideways
+            while you were zooming. */}
+        {pct}%
+      </DropdownMenuTrigger>
+      {/* `text-xs` on the content, inherited by every row, rather than repeated on
+          each one. The menu's default `text-sm` is the size for a menu you read —
+          theme and language spell out words — but this one is five short rows of
+          numbers and verbs hanging off a 11px readout, and at 14px it arrived
+          heavier than the control that opened it. */}
+      <DropdownMenuContent align="end" className="text-xs">
+        {/* `closeOnClick={false}` — stepping is something you do more than once, and
+            a menu that dismissed itself after each press would make `+` a four-click
+            round trip to cross the range. */}
+        <DropdownMenuItem
+          closeOnClick={false}
+          onClick={zoom.onIn}
+          className="text-xs"
+        >
+          <Plus />
+          {t("canvas.zoom_in", lang)}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          closeOnClick={false}
+          onClick={zoom.onOut}
+          className="text-xs"
+        >
+          <Minus />
+          {t("canvas.zoom_out", lang)}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {/* A radio group, not more items: these are states of one value and one of
+            them is always current, which is the same reading `LangToggle` makes.
+            The check mark is then the answer to "where am I", so the menu says it
+            without the trigger having to. */}
+        <DropdownMenuRadioGroup
+          value={String(zoom.value)}
+          onValueChange={(value) => zoom.onSet(Number(value))}
+        >
+          {ZOOM_PRESETS.map((level) => (
+            <DropdownMenuRadioItem
+              key={level}
+              value={String(level)}
+              className="text-xs"
+            >
+              {level * 100}%
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export function CanvasRail({
   stops,
   active,
   onSelect,
+  zoom,
 }: {
   stops: RailStop[];
   active: string;
   onSelect: (id: string) => void;
+  zoom?: RailZoom;
 }) {
   const { lang } = useLang();
   /**
@@ -255,9 +381,18 @@ export function CanvasRail({
         />
         {/* `data-tools` is what the hover close reads to tell "the pointer moved
             into a menu I opened" from "the pointer left". */}
+        {/* Zoom sits INSIDE `data-tools`, with theme and language, and that placement
+            is load-bearing twice over. It's a tool by the same definition they are —
+            something you operate while looking at the board, which is why none of the
+            three are behind the collapse. And the hover-close above tests
+            `[data-tools] [aria-expanded="true"]` to tell "the pointer moved into a
+            menu I opened" from "the pointer left": a zoom menu outside that scope
+            would collapse the bar out from under itself the moment you reached for a
+            preset. */}
         <div data-tools className="flex shrink-0 items-center gap-1">
           <ThemeToggle />
           <LangToggle />
+          {zoom ? <ZoomMenu zoom={zoom} /> : null}
         </div>
       </div>
     </div>

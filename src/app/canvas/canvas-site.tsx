@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   animate,
   motion,
@@ -19,7 +19,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { CvModal } from "@/components/cv-modal";
 import { TalkTile } from "@/components/talk-tile";
 import { WorkCard } from "@/components/work-card";
-import { WORK, type WorkItem } from "@/lib/content/work";
+import { sortKey, WORK, type WorkItem } from "@/lib/content/work";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -45,8 +45,49 @@ import { cn } from "@/lib/utils";
 
 const TILE = 24;
 
-/** How far the board can travel from origin. Sized to reach the outermost section. */
+/**
+ * How far the board can travel from origin, at 100%. Sized to reach the outermost
+ * section.
+ *
+ * Multiplied by the zoom everywhere it's used, because the offset is in SCREEN pixels
+ * while the sections it has to reach are in BOARD pixels: bringing a section at board
+ * x=-900 to the middle of the viewport takes 900px of travel at 100% and 1800 at
+ * 200%. A fixed limit would be the same board extent only at one zoom level — it
+ * would pin the far sections out of reach zoomed in, and let you drag the whole board
+ * off into empty space zoomed out. See `panLimit`.
+ */
 const CLAMP = { x: 1250, y: 800 };
+
+/**
+ * Zoom range and step, as scale factors where 1 is 100%.
+ *
+ * Narrower than Figma's 2%–256%, deliberately: this board is a composition with a
+ * known extent, not an open file. 25% is the point where all four sections and the
+ * claim are on screen at once — the overview this exists to give — and past 200% the
+ * frames are just large, since there's no fine detail under them to inspect. A range
+ * you can't get lost in doesn't need a "zoom to fit" to rescue you from it.
+ */
+const ZOOM = { min: 0.25, max: 2 };
+
+/** One press of the rail's + / −. 1.25 is four presses across the range. */
+const ZOOM_STEP = 1.25;
+
+/**
+ * Scale change per pixel of wheel delta, as an exponent.
+ *
+ * Exponential rather than linear, so a notch is the same PROPORTIONAL change wherever
+ * you already are — linear zoom crawls at 200% and lurches at 25%. At 0.002, a mouse
+ * wheel's ±100 notch is a factor of 1.22, near enough Figma's step that ⌘-wheel and
+ * the rail buttons feel like the same control; a trackpad pinch arrives in deltas of
+ * a few px per frame and lands somewhere continuous.
+ */
+const ZOOM_RATE = 0.002;
+
+const clampTo = (v: number, limit: number) =>
+  Math.min(Math.max(v, -limit), limit);
+
+/** The board's travel limit on an axis at a given zoom. See CLAMP. */
+const panLimit = (axis: "x" | "y", zoom: number) => CLAMP[axis] * zoom;
 
 type Section = {
   id: string;
@@ -71,6 +112,31 @@ type Section = {
   contact?: boolean;
 };
 
+/** Frames a content section carries. Both sections use it, so they stay a pair. */
+const PER_SECTION = 4;
+
+/**
+ * The kinds /writing gathers. Duplicated from writing-list.tsx rather than imported
+ * because that module is a page component — pulling it in here would drag the whole
+ * route's tree into the board's bundle for the sake of a three-string array.
+ */
+const WRITING_KINDS: readonly string[] = ["blog", "process", "methodology"];
+
+/**
+ * The newest few of a kind, picked the way the index page behind them picks.
+ *
+ * Derived rather than listed by hand. A hand-written slug list is a second place to
+ * remember: publish something and the board keeps showing last month's work until
+ * someone edits this file, and the "See all" underneath is then lying about what it
+ * leads to. Same filter and same sort as projects-list.tsx and writing-list.tsx, so
+ * the frames on the board are literally the first four of the page they link to.
+ */
+const newest = (match: (item: WorkItem) => boolean) =>
+  WORK.filter((item) => match(item) && !item.hidden)
+    .sort((a, b) => sortKey(b).localeCompare(sortKey(a)))
+    .slice(0, PER_SECTION)
+    .map((item) => item.slug);
+
 /**
  * Sections placed around the claim rather than in a line: the board reads as a
  * workspace someone actually arranged, and each direction from centre leads
@@ -83,8 +149,8 @@ const SECTIONS: Section[] = [
     x: -900,
     y: 520,
     href: "/projects",
-    slugs: ["visual-identity", "afi-design-system", "mindfulme"],
-    cols: 3,
+    slugs: newest((item) => item.kind === "case-study"),
+    cols: PER_SECTION,
   },
   {
     id: "writing",
@@ -92,12 +158,8 @@ const SECTIONS: Section[] = [
     x: 880,
     y: 520,
     href: "/writing",
-    slugs: [
-      "modern-ui-2026",
-      "color-methodology",
-      "loops-and-skills-are-components",
-    ],
-    cols: 3,
+    slugs: newest((item) => WRITING_KINDS.includes(item.kind)),
+    cols: PER_SECTION,
   },
   /**
    * Contact sits top-left, opposite Settings, so the two utility destinations
@@ -165,9 +227,19 @@ const LABEL_ROW = 32;
  */
 function sectionSize(section: Section) {
   const cols = section.cols ?? 1;
-  const rows = Math.ceil((section.slugs?.length ?? 0) / cols);
+  const count = section.slugs?.length ?? 0;
+  const rows = Math.ceil(count / cols);
+  /**
+   * Width follows what's actually IN the section, not the column count it's allowed.
+   *
+   * `cols` is a ceiling now that the slugs are derived — Blog has three published
+   * pieces against a four-frame allowance, and sizing to the allowance would draw a
+   * 1360px surface with a 315px hole where the fourth frame isn't. A section should
+   * look full, and this one widens by itself the day a fourth post lands.
+   */
+  const used = Math.max(1, Math.min(cols, count));
   return {
-    w: section.contact ? CONTACT_W : sectionWidth(cols),
+    w: section.contact ? CONTACT_W : sectionWidth(used),
     h: section.contact ? CONTACT_H : rows * FRAME + (rows - 1) * GAP + GAP * 2,
   };
 }
@@ -182,20 +254,55 @@ function sectionSize(section: Section) {
  *
  * The box is grown upward by the label row so clicking a section's NAME does the
  * same thing as clicking its surface. That's the part a visitor reads first.
+ *
+ * The claim is in here too, as `home`. It's the one object on the board that
+ * wasn't a snap target, which made it the one object you could pan away from and
+ * not click your way back to — the rail's Start button was the only route, and
+ * "click the thing to go to the thing" is the rule everything else follows.
+ *
+ * Its size is measured rather than derived, because unlike a section it has no
+ * grid to compute from — the height falls out of a headline that rewraps per
+ * language and breakpoint. `hero` is a ref value, read here rather than in
+ * render, so this stays the pure arithmetic the note above insists on: one
+ * measurement taken when the box changes, not a DOM read mid-pan.
  */
-function sectionAt(px: number, py: number, bx: number, by: number) {
+const HOME_STOP = { id: "home", x: 0, y: 0 } as const;
+
+function sectionAt(
+  px: number,
+  py: number,
+  bx: number,
+  by: number,
+  z: number,
+  hero: { w: number; h: number } | null
+) {
   const cx = window.innerWidth / 2 + bx;
   const cy = window.innerHeight / 2 + by;
-  return (
+  // Every board measurement below goes through the zoom, including the label row.
+  // The row is a board object — it scales with the section it names — so a fixed
+  // 32px reach above the box would be a generous margin at 25% and a dead strip at
+  // 200%, where the name has moved further up than the test is looking.
+  const pad = LABEL_ROW * z;
+  const hit =
     SECTIONS.find((s) => {
-      const { w, h } = sectionSize(s);
-      const left = cx + s.x - w / 2;
-      const top = cy + s.y - h / 2;
-      return (
-        px >= left && px <= left + w && py >= top - LABEL_ROW && py <= top + h
-      );
-    }) ?? null
-  );
+      const box = sectionSize(s);
+      const w = box.w * z;
+      const h = box.h * z;
+      const left = cx + (s.x - box.w / 2) * z;
+      const top = cy + (s.y - box.h / 2) * z;
+      return px >= left && px <= left + w && py >= top - pad && py <= top + h;
+    }) ?? null;
+  if (hit) return hit as { id: string; x: number; y: number };
+  if (!hero) return null;
+  // Grown at BOTH ends: the claim wears its name above and its apron below, and
+  // both are part of the object rather than decoration beside it.
+  const w = hero.w * z;
+  const h = hero.h * z;
+  const left = cx - w / 2;
+  const top = cy - h / 2;
+  return px >= left && px <= left + w && py >= top - pad && py <= top + h + pad
+    ? (HOME_STOP as { id: string; x: number; y: number })
+    : null;
 }
 
 const bySlug = (slug: string): WorkItem => {
@@ -314,6 +421,14 @@ const HOME_LABEL: Bilingual<string> = { en: "Start", es: "Inicio" };
  * (h-9), which is a toolbar height — correct in a header, undersized under a
  * 48px headline. Both CTAs take the same bump so the pair stays matched.
  *
+ * The bump is to the BOX, not the type. `text-base` set the labels at 16px, a
+ * third larger than the 12px subtitle directly above them — so the loudest type
+ * in the frame after the claim was two nav words, and a heavy 16px label on a
+ * wide fill is the shape of a generic template CTA. Back to the button scale's
+ * own 14px, which still reads as a control under a 48px headline without
+ * out-ranking the sentence that explains it, and h-10 so the box follows the
+ * label down instead of leaving it swimming.
+ *
  * Only the primary carries motion now. The secondary used to run a light sweep
  * across its own label and rim, and two animated buttons side by side left
  * nothing for the eye to land on: the shimmer stopped reading as emphasis because
@@ -328,7 +443,7 @@ const HOME_LABEL: Bilingual<string> = { en: "Start", es: "Inicio" };
  * /writing. That split is the rule the rail already follows: the board moves you
  * around itself, the header row is the way out.
  */
-const CTA = "h-11 px-6 text-base";
+const CTA = "h-10 px-5 text-sm";
 
 /** Which section each half of the hero pair lands on, in NAV's order. */
 const HERO_TARGETS = ["case-studies", "writing"] as const;
@@ -383,8 +498,64 @@ export function CanvasSite() {
   const field = useRef<HTMLDivElement>(null);
   /** Where the pointer went down, to tell a click from the end of a pan. */
   const press = useRef<{ x: number; y: number } | null>(null);
+  /** The claim's frame, so the hit test knows how big the `home` target is. */
+  const hero = useRef<HTMLDivElement>(null);
+  const heroBox = useRef<{ w: number; h: number } | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  /**
+   * The board's scale, and the whole model the zoom rests on.
+   *
+   * Motion composes `style={{ x, y, scale }}` as `translate(x, y) scale(k)` from a
+   * centred origin, and the board fills the viewport — so a point `p` in board
+   * coordinates lands at `viewportCentre + (x, y) + k · p`. Two things follow, and
+   * every calculation below is one of them:
+   *
+   *   1. `x`/`y` stay in SCREEN pixels. A drag of 100px is 100px of offset at any
+   *      zoom, which is why the drag gesture needed no arithmetic at all.
+   *   2. Board coordinates go through `k`. Anything that converts between the two —
+   *      the hit test, the on-screen test, the rail's snap — multiplies by it.
+   */
+  const k = useMotionValue(1);
+  /**
+   * The scale as React state, for the two things that can't read a motion value:
+   * the rail's percentage, and the drag constraints, which are props rather than
+   * a live subscription.
+   *
+   * A render per zoom frame, where the pan deliberately costs none. That's the right
+   * trade here and not a slip: a pan is continuous and can run for seconds, while a
+   * zoom is a short bounded gesture — and the two consumers are a number a visitor
+   * reads and a limit that's only sampled when a drag starts. The transform itself
+   * still comes off the motion value, so the board never waits for React.
+   */
+  const [zoom, setZoom] = useState(1);
+  useEffect(() => k.on("change", setZoom), [k]);
+  /**
+   * Where the zoom is going, as opposed to where it is. Only the stepped controls
+   * read it — see `zoomBy`. Every path through `zoomTo` writes it, including the
+   * wheel, so a pinch immediately after a button press steps from the pinch.
+   */
+  const zoomAim = useRef(1);
+
+  /**
+   * Measure the claim once per size change rather than per pointer event.
+   *
+   * `offsetWidth`/`offsetHeight` and not `getBoundingClientRect`: the frame is
+   * inside the transformed board, so the rect would come back scaled and
+   * translated by whatever the pan is doing at that instant. The offset pair is
+   * the untransformed layout box, which is the space the hit test works in.
+   */
+  useEffect(() => {
+    const el = hero.current;
+    if (!el) return;
+    const measure = () => {
+      heroBox.current = { w: el.offsetWidth, h: el.offsetHeight };
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [lang]);
 
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -394,21 +565,104 @@ export function CanvasSite() {
     return () => mq.removeEventListener("change", apply);
   }, []);
 
-  // Dots move by shifting the pattern origin, not the element — see the same note
-  // in hero-canvas.tsx. Modulo the tile, so nothing ever grows.
+  /**
+   * Dots move by shifting the pattern origin, not the element — see the same note
+   * in hero-canvas.tsx. Modulo the tile, so nothing ever grows.
+   *
+   * The tile is the ZOOMED one, because the grid is the surface the board sits on
+   * and a surface that didn't scale would read as the frames floating over a
+   * fixed-size texture rather than the whole canvas moving toward you. Spacing and
+   * ink both come off `zoom` in the render below; only the origin is set here,
+   * because it changes on every frame of a pan and a prop would mean a render.
+   *
+   * `querySelectorAll`, not `querySelector`. The trail lays a second copy of this
+   * grid over the first and its whole premise is that the lit dots land on the dim
+   * ones — but only the first pattern in the field was ever being offset, so any pan
+   * that wasn't a whole multiple of the tile slid the two grids apart. Zoom makes
+   * that visible at a glance; the fix is the plural.
+   */
   useEffect(() => {
     const shift = () => {
-      const pattern = field.current?.querySelector("pattern");
-      if (!pattern) return;
-      pattern.setAttribute("x", String(((x.get() % TILE) + TILE) % TILE));
-      pattern.setAttribute("y", String(((y.get() % TILE) + TILE) % TILE));
+      const tile = TILE * k.get();
+      const px = ((x.get() % tile) + tile) % tile;
+      const py = ((y.get() % tile) + tile) % tile;
+      field.current?.querySelectorAll("pattern").forEach((pattern) => {
+        pattern.setAttribute("x", String(px));
+        pattern.setAttribute("y", String(py));
+      });
     };
     shift();
-    const stops = [x.on("change", shift), y.on("change", shift)];
+    const stops = [
+      x.on("change", shift),
+      y.on("change", shift),
+      k.on("change", shift),
+    ];
     return () => stops.forEach((stop) => stop());
-  }, [x, y]);
+  }, [x, y, k]);
 
   const drag = pannable && !reduced;
+
+  /**
+   * Zoom to `next`, holding the board point under (px, py) still.
+   *
+   * The anchor is the whole of it. A board point `p` sits at `centre + t + k · p`,
+   * so keeping it under the same screen point across a scale change means solving
+   * that equation twice and taking the difference:
+   *
+   *     u  = anchor, measured from the viewport centre
+   *     t' = u − (k'/k) · (u − t)
+   *
+   * With `u = 0` — the viewport centre, which is what the rail's buttons use — it
+   * collapses to `t' = (k'/k) · t`, so the same line serves both callers.
+   *
+   * Animating is exact rather than approximate, which is why the buttons can use it:
+   * `t` is linear in `k'/k`, so easing all three values over the same duration keeps
+   * the anchor pinned on every intermediate frame, not just at the ends.
+   */
+  const zoomTo = useCallback(
+    (next: number, px: number, py: number, animated = false) => {
+      const from = k.get();
+      const to = Math.min(Math.max(next, ZOOM.min), ZOOM.max);
+      if (to === from) return;
+      zoomAim.current = to;
+      const ratio = to / from;
+      const ux = px - window.innerWidth / 2;
+      const uy = py - window.innerHeight / 2;
+      const nx = clampTo(ux - ratio * (ux - x.get()), panLimit("x", to));
+      const ny = clampTo(uy - ratio * (uy - y.get()), panLimit("y", to));
+
+      // The wheel is already continuous — easing each event would fight the next one
+      // and lag the pointer. Only the discrete jumps get a transition.
+      if (!animated || reduced) {
+        k.set(to);
+        x.set(nx);
+        y.set(ny);
+        return;
+      }
+      const opts = { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] as const };
+      animate(k, to, opts);
+      animate(x, nx, opts);
+      animate(y, ny, opts);
+    },
+    [k, x, y, reduced]
+  );
+
+  /**
+   * The menu's + / −, which zoom about the middle of the viewport.
+   *
+   * Stepped from where the zoom is HEADED, not from where it currently is. The step
+   * animates over 0.28s, so two presses inside that window both read the same live
+   * scale and compute the same destination — press + twice quickly and you get one
+   * step, not two. Compounding off the last target makes a rapid press-press-press
+   * land where the presses said, which is the only reading of that gesture.
+   */
+  const zoomBy = (factor: number) =>
+    zoomTo(
+      zoomAim.current * factor,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      true
+    );
 
   /**
    * Wheel and trackpad panning — Figma's primary navigation, and the thing that was
@@ -449,9 +703,6 @@ export function CanvasSite() {
     const el = root.current;
     if (!el || !drag) return;
 
-    const clamp = (v: number, limit: number) =>
-      Math.min(Math.max(v, -limit), limit);
-
     /**
      * Overflow alone, not "has room left to scroll in this direction" — otherwise
      * hitting the end of the panel hands the wheel back to the board and the page
@@ -478,15 +729,34 @@ export function CanvasSite() {
       if (!el.offsetParent || cvOpen) return;
       if (overScroller(e.target)) return;
       e.preventDefault();
+      /**
+       * ⌘-wheel zooms; a bare wheel pans. Figma's split exactly, and the modifier is
+       * what keeps it from being a choice between the two — plain scroll still moves
+       * the board, so nothing was taken away to add this.
+       *
+       * `ctrlKey` alongside `metaKey` is not a Windows courtesy, or not only that: a
+       * TRACKPAD PINCH arrives as a wheel event with `ctrlKey` forced true, which is
+       * how every browser reports one. Reading it here is what makes pinch-to-zoom
+       * work on the hardware most likely to be looking at this board, and it comes
+       * for free with the modifier the platform already wanted.
+       *
+       * Anchored on the POINTER, not the viewport centre. Zooming toward the cursor
+       * is the difference between a canvas you steer and one you zoom-then-hunt: the
+       * frame you were looking at is the frame that stays put.
+       */
+      if (e.metaKey || e.ctrlKey) {
+        zoomTo(k.get() * Math.exp(-e.deltaY * ZOOM_RATE), e.clientX, e.clientY);
+        return;
+      }
       const dx = e.shiftKey ? e.deltaY : e.deltaX;
       const dy = e.shiftKey ? 0 : e.deltaY;
-      x.set(clamp(x.get() - dx, CLAMP.x));
-      y.set(clamp(y.get() - dy, CLAMP.y));
+      x.set(clampTo(x.get() - dx, panLimit("x", k.get())));
+      y.set(clampTo(y.get() - dy, panLimit("y", k.get())));
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [drag, x, y, cvOpen]);
+  }, [drag, x, y, k, cvOpen, zoomTo]);
 
   /**
    * Space-to-grab, Figma's hand tool.
@@ -544,8 +814,12 @@ export function CanvasSite() {
    */
   useEffect(() => {
     const sync = () => {
-      const cx = -x.get();
-      const cy = -y.get();
+      // The viewport centre in BOARD coordinates. Inverting the transform means
+      // undoing the scale as well as the offset — without the divide, zooming out
+      // makes every stop look further away than it is and the rail starts naming
+      // whichever section happens to sit nearest the origin.
+      const cx = -x.get() / k.get();
+      const cy = -y.get() / k.get();
       /**
        * Nearest stop, always — no proximity threshold.
        *
@@ -584,10 +858,17 @@ export function CanvasSite() {
        */
       const vw = window.innerWidth;
       const vh = window.innerHeight;
+      const z = k.get();
       const live = SECTIONS.filter((s) => {
-        const { w, h } = sectionSize(s);
-        const left = vw / 2 + x.get() + s.x - w / 2;
-        const top = vh / 2 + y.get() + s.y - h / 2;
+        // On screen is a question about pixels, so the box is measured in them: the
+        // section's board size scaled, at its board position scaled. Half of a
+        // section zoomed to 25% is a quarter of the area it was at 100%, and a clip
+        // that starts when a thumbnail is 80px wide is a clip nobody can see.
+        const box = sectionSize(s);
+        const w = box.w * z;
+        const h = box.h * z;
+        const left = vw / 2 + x.get() + (s.x - box.w / 2) * z;
+        const top = vh / 2 + y.get() + (s.y - box.h / 2) * z;
         const ox = Math.max(0, Math.min(left + w, vw) - Math.max(left, 0));
         const oy = Math.max(0, Math.min(top + h, vh) - Math.max(top, 0));
         return (ox * oy) / (w * h) >= 0.5;
@@ -597,9 +878,13 @@ export function CanvasSite() {
       setOnscreen(live.join(","));
     };
     sync();
-    const off = [x.on("change", sync), y.on("change", sync)];
+    const off = [
+      x.on("change", sync),
+      y.on("change", sync),
+      k.on("change", sync),
+    ];
     return () => off.forEach((f) => f());
-  }, [x, y]);
+  }, [x, y, k]);
 
   /**
    * Bring keyboard focus into view.
@@ -620,34 +905,53 @@ export function CanvasSite() {
   useEffect(() => {
     const el = root.current;
     if (!el) return;
-    const clamp = (v: number, limit: number) =>
-      Math.min(Math.max(v, -limit), limit);
 
     const onFocus = (e: FocusEvent) => {
       const t = e.target as HTMLElement | null;
       if (!t?.closest("[data-board]")) return;
       if (!t.matches(":focus-visible")) return;
+      // No zoom arithmetic here, and that's the point of keeping the offset in
+      // screen pixels: `getBoundingClientRect` already reports the scaled box, so
+      // the correction it implies is a screen-space delta and `x`/`y` take it neat.
       const r = t.getBoundingClientRect();
       const dx = window.innerWidth / 2 - (r.left + r.width / 2);
       const dy = window.innerHeight / 2 - (r.top + r.height / 2);
       if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
       const opts = reduced ? { duration: 0 } : { duration: 0.45 };
-      animate(x, clamp(x.get() + dx, CLAMP.x), opts);
-      animate(y, clamp(y.get() + dy, CLAMP.y), opts);
+      animate(x, clampTo(x.get() + dx, panLimit("x", k.get())), opts);
+      animate(y, clampTo(y.get() + dy, panLimit("y", k.get())), opts);
     };
 
     el.addEventListener("focusin", onFocus);
     return () => el.removeEventListener("focusin", onFocus);
-  }, [x, y, reduced]);
+  }, [x, y, k, reduced]);
 
-  /** Move the board so a section lands in the middle of the viewport. */
+  /**
+   * Move the board so a section lands in the middle of the viewport, at 100%.
+   *
+   * Arriving is a composed move: the zoom goes home as the board travels, so a jump
+   * from anywhere lands on the section at the size it was drawn. The alternative —
+   * keeping whatever zoom you were on — meant a rail click could deposit you on a
+   * section at 40%, where its frames are unreadable, and leave the correction as
+   * homework. Choosing a destination is a request to LOOK at it, and 100% is what
+   * looking at it means.
+   *
+   * It also makes the arithmetic disappear. The offset is in screen pixels and the
+   * target is a board coordinate, so centring generally costs a `-tx * k`; with the
+   * destination zoom fixed at 1, `k` is 1 and the offset is just `-tx`.
+   *
+   * `zoomAim` moves with it, so a `+` pressed straight after landing steps from
+   * 100% rather than from wherever the visitor had been before the jump.
+   */
   function goTo(id: string, tx: number, ty: number) {
     setActive(id);
     const opts = reduced
       ? { duration: 0 }
       : { duration: 0.75, ease: [0.2, 0.8, 0.2, 1] as const };
-    animate(x, -tx, opts);
-    animate(y, -ty, opts);
+    zoomAim.current = 1;
+    animate(k, 1, opts);
+    animate(x, clampTo(-tx, panLimit("x", 1)), opts);
+    animate(y, clampTo(-ty, panLimit("y", 1)), opts);
   }
 
   const stops = [
@@ -713,7 +1017,14 @@ export function CanvasSite() {
             setHovered(null);
             return;
           }
-          const hit = sectionAt(e.clientX, e.clientY, x.get(), y.get());
+          const hit = sectionAt(
+            e.clientX,
+            e.clientY,
+            x.get(),
+            y.get(),
+            k.get(),
+            heroBox.current
+          );
           setHovered(hit?.id ?? null);
         }}
         onPointerLeave={() => setHovered(null)}
@@ -736,11 +1047,16 @@ export function CanvasSite() {
          * board back to that section's centre. */}
         <motion.div
           drag={drag}
+          // Constraints are the one place the zoom has to arrive as a PROP rather
+          // than a motion value — Motion resolves them when a drag begins, not per
+          // frame. `zoom` state is what makes them current by then, and a gesture
+          // can't start mid-pinch, so a value that's a render behind is still the
+          // value the drag needs.
           dragConstraints={{
-            left: -CLAMP.x,
-            right: CLAMP.x,
-            top: -CLAMP.y,
-            bottom: CLAMP.y,
+            left: -panLimit("x", zoom),
+            right: panLimit("x", zoom),
+            top: -panLimit("y", zoom),
+            bottom: panLimit("y", zoom),
           }}
           dragMomentum={false}
           dragElastic={0.05}
@@ -749,7 +1065,14 @@ export function CanvasSite() {
             press.current = { x: e.clientX, y: e.clientY };
           }}
           onPointerMove={(e) => {
-            const hit = sectionAt(e.clientX, e.clientY, x.get(), y.get());
+            const hit = sectionAt(
+              e.clientX,
+              e.clientY,
+              x.get(),
+              y.get(),
+              k.get(),
+              heroBox.current
+            );
             setHovered(hit?.id ?? null);
           }}
           onPointerLeave={() => setHovered(null)}
@@ -759,7 +1082,14 @@ export function CanvasSite() {
             if (!start) return;
             if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > 6)
               return;
-            const hit = sectionAt(e.clientX, e.clientY, x.get(), y.get());
+            const hit = sectionAt(
+              e.clientX,
+              e.clientY,
+              x.get(),
+              y.get(),
+              k.get(),
+              heroBox.current
+            );
             if (hit) goTo(hit.id, hit.x, hit.y);
           }}
           className={cn("absolute inset-0", hovered && "cursor-pointer")}
@@ -774,18 +1104,26 @@ export function CanvasSite() {
             be findable on a small hero card; across a full viewport the same value
             reads as a busy texture competing with the type. `/16` gives the surface
             grain without asking to be looked at. */}
+          {/* Tile and ink both scale, so the field is the same grid seen from
+              closer or further away rather than a texture the board slides over.
+              Scaling only the spacing would hold the dots at 1px while the gaps
+              shrank, and at 25% that's a haze instead of a grid. The origin is set
+              imperatively — see the shift effect. */}
           <DotPattern
-            width={TILE}
-            height={TILE}
-            cr={1}
+            width={TILE * zoom}
+            height={TILE * zoom}
+            cr={zoom}
             className="fill-muted-foreground/16"
           />
-          <DotTrail tile={TILE} />
+          <DotTrail tile={TILE} scale={zoom} />
         </div>
 
-        {/* The board. One layer, everything on it, all sharing the pan. */}
+        {/* The board. One layer, everything on it, all sharing the pan and the zoom.
+          The scale rides here, on the same element as the offset, which is what makes
+          `translate(x, y) scale(k)` from a centred origin the one transform every
+          calculation in this file inverts. */}
         <motion.div
-          style={{ x, y }}
+          style={{ x, y, scale: k }}
           // `data-board` marks everything pinned to the canvas, so the focus watcher
           // can tell board content from viewport-fixed chrome like the rail.
           data-board
@@ -817,7 +1155,18 @@ export function CanvasSite() {
              * headroom that a font swap or a copy edit doesn't push it back. It
              * stays under a section's 1025px so the claim is still the smaller
              * object on the board. */}
-            <div className="pointer-events-auto relative w-[min(90vw,960px)] px-14 py-12 text-center">
+            {/* `pointer-events-none`, matching a section's surface, so a click on
+                the claim falls through to the drag layer underneath and the hit
+                test snaps it home. It's the same trade a section makes: the
+                surface gives up its own events so the board can be dragged from
+                inside it, and the things you actually operate — here the CTA pair
+                — opt back in individually. The cost is that the headline is no
+                longer selectable, which is already true of every section label on
+                the board. */}
+            <div
+              ref={hero}
+              className="pointer-events-none relative w-[min(90vw,960px)] px-14 py-12 text-center"
+            >
               <div className="border-canvas-component pointer-events-none absolute inset-0 rounded-[2px] border" />
               {[
                 "-top-1 -left-1",
@@ -893,10 +1242,10 @@ export function CanvasSite() {
           <motion.div
             drag
             dragConstraints={{
-              left: -CLAMP.x,
-              right: CLAMP.x,
-              top: -CLAMP.y,
-              bottom: CLAMP.y,
+              left: -panLimit("x", zoom),
+              right: panLimit("x", zoom),
+              top: -panLimit("y", zoom),
+              bottom: panLimit("y", zoom),
             }}
             dragMomentum={false}
             dragElastic={0.05}
@@ -923,6 +1272,27 @@ export function CanvasSite() {
         stops={stops.map((s) => ({ id: s.id, label: s.label }))}
         active={active}
         onSelect={goToStop}
+        // Passed only when the board is actually pannable, which is the same gate
+        // the wheel and the hand tool sit behind: no zoom controls on a device that
+        // gets the stacked layout, and none under `prefers-reduced-motion`, where
+        // the board doesn't move at all and a scale control would be offering a
+        // journey the page has already declined to take.
+        zoom={
+          drag
+            ? {
+                value: zoom,
+                onIn: () => zoomBy(ZOOM_STEP),
+                onOut: () => zoomBy(1 / ZOOM_STEP),
+                onSet: (v) =>
+                  zoomTo(
+                    v,
+                    window.innerWidth / 2,
+                    window.innerHeight / 2,
+                    true
+                  ),
+              }
+            : undefined
+        }
       />
     </>
   );
@@ -945,7 +1315,10 @@ function SectionBlock({
   onOpenCv: () => void;
 }) {
   const items = (section.slugs ?? []).map(bySlug);
-  const cols = section.cols ?? 1;
+  // Clamped to what's actually here, matching the width `sectionSize` computes from
+  // the same figure. Laying out the full column allowance inside a box sized to
+  // three items would push the grid past its own surface.
+  const cols = Math.max(1, Math.min(section.cols ?? 1, items.length));
   // Panels are authored at a fixed size rather than derived from a frame grid —
   // they hold controls and copy, not a row of work. Contact is square so the tile
   // inside keeps its own proportions rather than being squashed into a letterbox.

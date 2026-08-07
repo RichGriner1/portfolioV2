@@ -2,6 +2,7 @@
 
 import { WorkGrid } from "@/components/my-work";
 import { BackLink } from "@/components/back-link";
+import { MorphingText } from "@/components/magicui/morphing-text";
 import { sortKey, WORK } from "@/lib/content/work";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
@@ -16,9 +17,11 @@ const ALL_WRITING = WORK.filter(
     (WRITING_KINDS as readonly string[]).includes(item.kind) && !item.hidden
 ).sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
 
+// Matches nav.writing in i18n.tsx — the page heading and the link that reaches it
+// have to say the same word. See that entry for why ES moved off "Textos".
 const TITLE: Bilingual<string> = {
-  en: "Writing",
-  es: "Textos",
+  en: "Blog",
+  es: "Blog",
 };
 
 const INTRO: Bilingual<string> = {
@@ -35,7 +38,7 @@ export function WritingList() {
 
       <header className="flex flex-col gap-4">
         <h1 className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
-          {pick(TITLE, lang)}
+          <MorphingText>{pick(TITLE, lang)}</MorphingText>
         </h1>
         <p className="text-muted-foreground max-w-xl text-lg leading-relaxed">
           {pick(INTRO, lang)}

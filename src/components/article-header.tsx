@@ -1,5 +1,6 @@
 "use client";
 
+import { HyperText } from "@/components/magicui/hyper-text";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 /**
@@ -44,8 +45,11 @@ export function ArticleHeader({
         ))}
       </div>
 
+      {/* No hover replay on an article title — it's the largest type on the site,
+          and a pointer crossing it on the way down the page would set the whole
+          thing churning. The mount and language-change runs are the point. */}
       <h1 className="text-foreground font-display text-5xl font-black tracking-tight text-balance md:text-6xl lg:text-7xl">
-        {pick(title, lang)}
+        <HyperText animateOnHover={false}>{pick(title, lang)}</HyperText>
       </h1>
     </header>
   );

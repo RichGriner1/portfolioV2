@@ -111,9 +111,23 @@ export function DotCursor() {
        * in the loop; it stays cheap because the write is guarded by `ink` and the dot
        * itself is `pointer-events-none`, so it can never hit-test itself.
        */
-      const over = document
-        .elementFromPoint(c.x, c.y)
-        ?.closest("[data-cursor-invert]");
+      const hit = document.elementFromPoint(c.x, c.y);
+
+      /**
+       * Surfaces that bring their own cursor mark themselves `data-cursor-hide` and
+       * the dot steps aside. Same hit test as the invert check below, for the same
+       * reasons — the surface can appear under a stationary pointer, and it's the
+       * DOT's position that has to be tested, not the pointer's.
+       *
+       * Opacity rather than unmounting: the rAF loop keeps running, so the dot is
+       * already in the right place when it comes back rather than flying in from
+       * wherever it was left.
+       */
+      const hidden = !!hit?.closest("[data-cursor-hide]");
+      const nextOpacity = hidden ? "0" : "1";
+      if (el.style.opacity !== nextOpacity) el.style.opacity = nextOpacity;
+
+      const over = hit?.closest("[data-cursor-invert]");
       const next = over ? "var(--primary-foreground)" : "var(--foreground)";
       if (next !== ink.current) {
         ink.current = next;

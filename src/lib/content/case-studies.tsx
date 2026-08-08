@@ -405,9 +405,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Convertir un encargo en una identidad",
     },
     intro: {
-      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign started with a one-line brief: make it look more modern. The real problem sat underneath that sentence: the product ran on static Figma screens, clients lost the thread mid-presentation, and developers built screen by screen with no shared definition of what 'modern' even meant. Before opening Figma, Miguel, my design partner on this project, and I wrote the brand strategy first: a six-field positioning brief, a universal truth ('big decisions deserve a rehearsal'), and five personas that the demos model with real numbers. From there: a shared definition of modern, two rounds of moodboarding, and nine design principles the team could finally cite in review. What started as one line is now a token vocabulary, a typeface, and a bento layout system running in the live product.",
+      /**
+       * Cut to a context paragraph, not a summary of the whole project.
+       *
+       * The long version told the entire arc — strategy, personas, moodboards,
+       * principles, tokens — before a visitor had seen a single card. That's the
+       * cards' job now. What's left is the only thing they need to read the cards
+       * at all: what the product is, what was actually wrong, and what came out.
+       */
+      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief — make it look more modern — on a product built from static Figma screens, where developers worked screen by screen and nobody shared a definition of the word. So we wrote the definition first. What started as one line is now a token vocabulary, a typeface and a layout system running in the live product.",
       // TODO(afi-redaccion)
-      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 empezó con un encargo de una línea: que parezca más moderno. El problema de fondo estaba debajo de esa frase: el producto funcionaba sobre pantallas estáticas de Figma, los clientes perdían el hilo durante las presentaciones y los desarrolladores construían pantalla a pantalla sin una definición compartida de qué significaba «moderno». Antes de abrir Figma, Miguel, mi compañero de diseño en este proyecto, y yo escribimos primero la estrategia de marca: un brief de posicionamiento con seis campos, una verdad universal («las grandes decisiones merecen un ensayo») y cinco personas que las demos modelan con cifras reales. A partir de ahí: una definición compartida de moderno, dos rondas de moodboards y nueve principios de diseño que el equipo por fin podía citar en cada revisión. Lo que empezó como una línea es hoy un vocabulario de tokens, una tipografía y un sistema de layout en bento que corre en el producto en vivo.",
+      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea — que parezca más moderno — sobre un producto hecho de pantallas estáticas de Figma, donde los desarrolladores trabajaban pantalla a pantalla y nadie compartía una definición de esa palabra. Así que escribimos la definición primero. Lo que empezó como una línea es hoy un vocabulario de tokens, una tipografía y un sistema de layout que corre en el producto en vivo.",
     },
     role: {
       en: "Brand & Visual Identity Lead",

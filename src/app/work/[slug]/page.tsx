@@ -19,12 +19,7 @@ export function generateStaticParams() {
       // for it too would publish a second URL for the same piece, rendering the
       // no-case-study fallback.
       item.kind !== "blog" &&
-      !item.hidden &&
-      // "visual-identity" has its own static route at src/app/work/visual-identity/
-      // — the literal segment wins over [slug] regardless of dynamicParams, but
-      // including it here too would make the build try to statically render the
-      // same URL from both routes and fail.
-      item.slug !== "visual-identity"
+      !item.hidden
   ).map((item) => ({ slug: item.slug }));
 }
 

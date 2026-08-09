@@ -132,7 +132,7 @@ const WRITING_KINDS: readonly string[] = ["blog", "process", "methodology"];
  * the frames on the board are literally the first four of the page they link to.
  */
 const newest = (match: (item: WorkItem) => boolean) =>
-  WORK.filter((item) => match(item) && !item.hidden)
+  WORK.filter((item) => match(item) && !item.hidden && !item.homeHidden)
     .sort((a, b) => sortKey(b).localeCompare(sortKey(a)))
     .slice(0, PER_SECTION)
     .map((item) => item.slug);

@@ -335,6 +335,11 @@
   --duration-fast: 120ms;
   --duration-base: 200ms;
   --duration-slow: 320ms;
+  /* Long colour crossfade, ported from Coherence's --motion-duration-slower
+     (their Animate UI checkbox recipe). Colour-only: a fill can dissolve for
+     500ms and read as a soft "bloom", where anything that MOVES for 500ms
+     reads as lag — spatial transitions stay on the three durations above. */
+  --duration-slower: 500ms;
   /* Full-viewport travel only — currently just the theme wipe. Deliberately past
      the --duration-slow ceiling: those three are tuned for an element moving a few
      dozen pixels, and the same speed across 1440px reads as a flinch rather than a

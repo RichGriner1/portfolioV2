@@ -76,7 +76,24 @@ export type BentoCard = {
     | "playground"
     | "ai-teammate"
     | "port-diff"
-    | "motion-tokens";
+    | "motion-tokens"
+    // visual-identity only — the real figures built for that case study
+    // (src/components/motion/figures/visual-identity/), not the generic
+    // looping animations the keys above render. Kept distinct from
+    // "moodboard" / "code-to-site" / "token-inspect" / "motion-tokens",
+    // which other case studies still use.
+    | "vi-moodboard"
+    | "vi-type-test"
+    | "vi-components"
+    | "vi-micro"
+    | "vi-nine-principles";
+  /**
+   * A looping thumbnail video on the card face, given as the base path without
+   * the variant suffix — `/work/visual-identity/process-stages` resolves to
+   * `<base>_<lang>_<theme>_thumb.mp4`, the same four-variant convention
+   * `WorkItem.video` uses so a card and its work tile can share one clip.
+   */
+  video?: string;
 };
 
 export type CaseStudy = {
@@ -413,9 +430,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
        * cards' job now. What's left is the only thing they need to read the cards
        * at all: what the product is, what was actually wrong, and what came out.
        */
-      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief — make it look more modern — on a product built from static Figma screens, where developers worked screen by screen and nobody shared a definition of the word. So we wrote the definition first. What started as one line is now a token vocabulary, a typeface and a layout system running in the live product.",
+      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief: make it look more modern. The product underneath was static Figma screens, developers working screen by screen, and nobody sharing a definition of the word. So we wrote the definition first. What started as one line is now a token vocabulary, a typeface and a layout system running in the live product.",
       // TODO(afi-redaccion)
-      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea — que parezca más moderno — sobre un producto hecho de pantallas estáticas de Figma, donde los desarrolladores trabajaban pantalla a pantalla y nadie compartía una definición de esa palabra. Así que escribimos la definición primero. Lo que empezó como una línea es hoy un vocabulario de tokens, una tipografía y un sistema de layout que corre en el producto en vivo.",
+      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea: que parezca más moderno. Debajo había un producto hecho de pantallas estáticas de Figma, donde los desarrolladores trabajaban pantalla a pantalla y nadie compartía una definición de esa palabra. Así que escribimos la definición primero. Lo que empezó como una línea es hoy un vocabulario de tokens, una tipografía y un sistema de layout que corre en el producto en vivo.",
     },
     role: {
       en: "Brand & Visual Identity Lead",
@@ -462,9 +479,10 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Wealth Planner, en vivo",
         },
         span: "full",
-        // TODO(demo): point this at the live prototype or a recording, the way
-        // afi-design-system's first card does. Left empty on purpose — the card is
-        // the reserved slot, so wiring it later is one line and no layout change.
+        // The identity-v2 workbench on the live Coherence deployment: tokens,
+        // type and components from this case study, running as real code. Same
+        // click-to-load embed treatment as afi-design-system's first card.
+        iframe: "https://coherence-wealth-manager.vercel.app/workbench",
       },
       {
         label: { en: "Defining modern", es: "Definir moderno" },
@@ -473,7 +491,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Una definición compartida, antes de Figma",
         },
-        animation: "guideline",
+        // The process-stages clip the work tile already uses. An abstract
+        // glyph for "we defined what modern means" kept coming out as a
+        // diagram about something else; the real design work reads better
+        // than a metaphor for it.
+        video: "/work/visual-identity/process-stages",
         details: {
           heading: {
             en: "Taste arguing with taste decides nothing",
@@ -483,16 +505,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Before opening Figma we wanted to define what 'modern' meant. Otherwise every review turns into a debate about what people like versus what they don't — without a shared definition, taste argues with taste and nothing gets decided.",
+                en: "Before opening Figma we wanted to define what 'modern' meant. Otherwise every review turns into a debate about what people like versus what they don't. Without a shared definition, taste argues with taste and nothing gets decided.",
                 // TODO(afi-redaccion)
-                es: "Antes de abrir Figma queríamos definir qué significaba «moderno». Si no, cada revisión se convierte en un debate sobre lo que gusta y lo que no — sin una definición compartida, el gusto discute con el gusto y no se decide nada.",
+                es: "Antes de abrir Figma queríamos definir qué significaba «moderno». Si no, cada revisión se convierte en un debate sobre lo que gusta y lo que no. Sin una definición compartida, el gusto discute con el gusto y no se decide nada.",
               },
             },
             {
               body: {
                 en: (
                   <>
-                    The research behind that definition became its own piece —{" "}
+                    The research behind that definition became its own piece:{" "}
                     <IntroPreviewLink slug="modern-ui-2026" newTab>
                       Modern UI in 2026
                     </IntroPreviewLink>
@@ -503,7 +525,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 es: (
                   <>
                     La investigación detrás de esa definición acabó siendo su
-                    propia pieza —{" "}
+                    propia pieza:{" "}
                     <IntroPreviewLink slug="modern-ui-2026" newTab>
                       UI moderno en 2026
                     </IntroPreviewLink>
@@ -522,7 +544,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Dos tableros, una lista corta",
         },
-        animation: "moodboard",
+        animation: "vi-moodboard",
         details: {
           heading: {
             en: "The same names kept surfacing",
@@ -532,14 +554,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Miguel noticed the pattern first: \"We kept choosing the same apps over and over again. Maybe this is the vibe we want to go for.\" The same names surfaced in both boards, and that became the shortlist — Wise, Cursor, Shopify, Clerk, Notion, Granola.",
+                en: 'Miguel noticed the pattern first: "We kept choosing the same apps over and over again. Maybe this is the vibe we want to go for." The same names surfaced in both boards, and that became the shortlist: Wise, Cursor, Shopify, Clerk, Notion, Granola.',
                 // TODO(afi-redaccion)
-                es: "Miguel vio el patrón primero: «Elegíamos las mismas apps una y otra vez. Quizá este es el rollo que buscamos». Los mismos nombres salían en ambos tableros, y eso fue la lista corta — Wise, Cursor, Shopify, Clerk, Notion, Granola.",
+                es: "Miguel vio el patrón primero: «Elegíamos las mismas apps una y otra vez. Quizá este es el rollo que buscamos». Los mismos nombres salían en ambos tableros, y esa fue la lista corta: Wise, Cursor, Shopify, Clerk, Notion, Granola.",
               },
             },
             {
               body: {
-                en: "Wise was the only reference from our own domain. It's the proof that a fintech can run almost entirely black and white and put colour only where the data needs it.",
+                en: "Wise was the only reference from our own domain. It's proof that a fintech can run almost entirely black and white and put colour only where the data needs it.",
                 // TODO(afi-redaccion)
                 es: "Wise era la única referencia de nuestro propio sector. Es la prueba de que una fintech puede funcionar casi entera en blanco y negro y poner color solo donde los datos lo piden.",
               },
@@ -554,7 +576,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Algo que el equipo puede citar en una revisión",
         },
-        animation: "rules",
+        animation: "vi-nine-principles",
         details: {
           heading: {
             en: "Principles for the team",
@@ -564,7 +586,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Show the essential first and reveal detail when the user asks for it — everything else is one click away, not on the first screen. Keep the user where they are: drawers, inline editing and expandable cards instead of sending them to another page.",
+                en: "Show the essential first and reveal detail when the user asks for it. Everything else is one click away, not on the first screen. Keep the user where they are: drawers, inline editing and expandable cards instead of sending them to another page.",
                 // TODO(afi-redaccion)
                 es: "Mostrar primero lo esencial y revelar el detalle cuando el usuario lo pide: todo lo demás queda a un clic, no en la primera pantalla. Mantener al usuario donde está: drawers, edición en línea y tarjetas expandibles en lugar de mandarlo a otra página.",
               },
@@ -586,7 +608,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Tokens como roles, y una tipografía que aguantó",
         },
-        animation: "token-inspect",
+        animation: "vi-type-test",
         details: {
           heading: {
             en: "Black and white first",
@@ -596,14 +618,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "A token is a role — 'background canvas', 'background elevated'. Defining that vocabulary before the palette means choosing colours later is a quick change: update the primitive and every screen moves with it.",
+                en: "A token is a role: 'background canvas', 'background elevated'. Defining that vocabulary before the palette means choosing colours later is a quick change. Update the primitive and every screen moves with it.",
                 // TODO(afi-redaccion)
-                es: "Un token es un rol — «background canvas», «background elevated». Definir ese vocabulario antes que la paleta hace que elegir colores después sea un cambio rápido: actualizas la primitiva y todas las pantallas se mueven con ella.",
+                es: "Un token es un rol: «background canvas», «background elevated». Definir ese vocabulario antes que la paleta hace que elegir colores después sea un cambio rápido: actualizas la primitiva y todas las pantallas se mueven con ella.",
               },
             },
             {
               body: {
-                en: "For typography we tested Space Grotesk, Fira Sans and Geist, and none passed the width test across number patterns (0000 vs 4444). IBM Plex Sans held consistent, so it became the type family.",
+                en: "For typography we tested Space Grotesk, Fira Sans and Geist, and none passed the width test across number patterns (0000 vs 4444). IBM Plex Sans held the same widths, so it became the type family.",
                 // TODO(afi-redaccion)
                 es: "En tipografía probamos Space Grotesk, Fira Sans y Geist, y ninguna pasó la prueba de ancho entre patrones numéricos (0000 vs 4444). IBM Plex Sans se mantuvo constante, así que fue la familia elegida.",
               },
@@ -618,7 +640,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Construidos en código, documentados en Figma",
         },
-        animation: "code-to-site",
+        animation: "vi-components",
         details: {
           heading: {
             en: "Primitives first, patterns on demand",
@@ -628,16 +650,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "With foundations set we listed the primitive components and split them — I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. Buttons, inputs, checkboxes and toggles we built together, to work out a shared workflow and get similar output.",
+                en: "With foundations set we listed the primitive components and split them: I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. Buttons, inputs, checkboxes and toggles we built together, to work out a shared workflow and get similar output.",
                 // TODO(afi-redaccion)
                 es: "Con los fundamentos fijados listamos los componentes primitivos y los repartimos: yo cogí chip, badge, card y table; Miguel tag, dialog, navbar y tabs. Botones, inputs, checkboxes y toggles los hicimos juntos, para afinar un flujo compartido y obtener resultados parecidos.",
               },
             },
             {
               body: {
-                en: "Primitives first because they're what everything else assembles from. The complex patterns only get built when we actually need them.",
+                en: "Primitives first because they're what everything else assembles from. The complex patterns only get built when we need them.",
                 // TODO(afi-redaccion)
-                es: "Primitivas primero porque son de lo que se ensambla todo lo demás. Los patrones complejos solo se construyen cuando de verdad hacen falta.",
+                es: "Primitivas primero porque son de lo que se ensambla todo lo demás. Los patrones complejos solo se construyen cuando hacen falta.",
               },
             },
           ],
@@ -650,7 +672,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Analizadas y luego portadas",
         },
-        animation: "motion-tokens",
+        animation: "vi-micro",
         details: {
           heading: {
             en: "We didn't invent most of the motion",
@@ -663,39 +685,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 en: "We reverse-engineered the animations that inspired us, or took a React animation library, ported the code to Angular and iterated from there.",
                 // TODO(afi-redaccion)
                 es: "Analizamos las animaciones que nos inspiraban, o cogimos una librería de animación de React, portamos el código a Angular e iteramos desde ahí.",
-              },
-            },
-          ],
-        },
-      },
-      {
-        label: { en: "Structure", es: "Estructura" },
-        sublabel: {
-          en: "Organised by value, not by build order",
-          // TODO(afi-redaccion)
-          es: "Organizado por valor, no por orden de construcción",
-        },
-        span: "wide",
-        animation: "canvas",
-        details: {
-          heading: {
-            en: "Insight-driven, not screen-by-screen",
-            // TODO(afi-redaccion)
-            es: "Guiado por insight, no pantalla a pantalla",
-          },
-          sections: [
-            {
-              body: {
-                en: "In discovery we found that most financial products weren't a single chart floating in whitespace. They were insight-driven: a quick read at a glance, with room to dig deeper on demand.",
-                // TODO(afi-redaccion)
-                es: "En el discovery vimos que la mayoría de productos financieros no eran una gráfica suelta flotando en blanco. Eran guiados por insight: una lectura rápida de un vistazo, con espacio para profundizar bajo demanda.",
-              },
-            },
-            {
-              body: {
-                en: "So we organised the product around the value each page delivers rather than the order a plan gets built in, mapping all ~15 screens to a user-value statement. Conclusiones is the clearest case: Diagnóstico and Plan de acción are two pages today, but the value statement is one question — 'what's my situation and what do I do about it?' — so it becomes one dashboard.",
-                // TODO(afi-redaccion)
-                es: "Así que organizamos el producto por el valor que entrega cada página en lugar del orden en que se construye un plan, mapeando las ~15 pantallas a una declaración de valor. Conclusiones es el caso más claro: hoy Diagnóstico y Plan de acción son dos páginas, pero la declaración de valor es una sola pregunta — «¿cuál es mi situación y qué hago con ella?» — así que se convierte en un único dashboard.",
               },
             },
           ],

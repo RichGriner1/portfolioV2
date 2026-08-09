@@ -491,11 +491,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Una definición compartida, antes de Figma",
         },
-        // The process-stages clip the work tile already uses. An abstract
-        // glyph for "we defined what modern means" kept coming out as a
-        // diagram about something else; the real design work reads better
-        // than a metaphor for it.
-        video: "/work/visual-identity/process-stages",
+        // The Modern UI in 2026 thumbnail — the kinetic-type clip for the very
+        // post this card links to, so the card face and the piece it points at
+        // are the same object. An abstract glyph for "we defined what modern
+        // means" kept coming out as a diagram about something else.
+        video: "/writing/modern-ui-2026",
         details: {
           heading: {
             en: "Taste arguing with taste decides nothing",

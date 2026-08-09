@@ -107,7 +107,8 @@
      from @theme, so those classes were silently dropped and every transition
      fell back to --default-transition-timing-function. It looked correct only
      because that default happens to be --ease-out-soft. There is no matching
-     `--duration-*` namespace, so durations use duration-[var(--duration-*)]. */
+     `--duration-*` namespace, so durations use the arbitrary-value syntax
+     instead, e.g. `duration-[var(--duration-base)]`. */
   --ease-out-soft: var(--ease-out-soft);
   --ease-in-out-soft: var(--ease-in-out-soft);
   --ease-spring: var(--ease-spring);

@@ -4,17 +4,31 @@ import {
   AnimatePresence,
   motion,
   useAnimationControls,
+  useReducedMotion,
   type Transition,
 } from "motion/react";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { ArrowRight, Maximize2, X } from "lucide-react";
+import { useTheme } from "next-themes";
 
+import {
+  ComponentsDemoFigure,
+  MicroInteractionsDemoFigure,
+  MoodboardGalleryFigure,
+  TypeTestFigure,
+} from "@/components/motion/figures/visual-identity";
 import type { BentoCard } from "@/lib/content/case-studies";
 import { useIsMobile } from "@/lib/hooks";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const EASE_SOFT = [0.32, 0.72, 0.18, 1] as const;
+// The other two named easing curves from globals.css, bridged into Motion's array
+// form the same way EASE/EASE_SOFT above already bridge --ease-out-soft.
+// vi-nine-principles (travel, its one confirm-pulse) and vi-defining-modern
+// (bar tweens, the guideline's confirm snap) are the only two using these so far.
+const EASE_IN_OUT_SOFT = [0.45, 0.05, 0.15, 1] as const;
+const EASE_SPRING = [0.34, 1.56, 0.64, 1] as const;
 const SPRING_SOFT: Transition = {
   type: "spring",
   stiffness: 180,
@@ -973,6 +987,256 @@ function RulesAnimation({ active }: AnimationProps) {
 
       <div className="text-muted-foreground font-mono text-[9px]">
         rules/ enforcing consistency
+      </div>
+    </div>
+  );
+}
+
+type NinePrinciplesPhase = "hidden" | "enter" | "travel" | "cross";
+
+/**
+ * Three real research inputs (the Modern UI benchmarks, competitor notes,
+ * reference PDFs), one scan pass each. Tilt (degrees) holds for a paper's whole
+ * trip — it never straightens. Strokes are relative widths of dense, uneven
+ * notes. Hand-set per the brief, not randomized.
+ */
+const NP_PAPERS = [
+  { tilt: -6, strokes: [85, 60, 90, 40] },
+  { tilt: 5, strokes: [70, 95, 50] },
+  { tilt: -4, strokes: [55, 80, 35, 75] },
+] as const;
+
+/**
+ * Every chip travels out from the same crossing point, so only the vertical fan
+ * changes between rows: up-right for row 1, straight for row 2, down-right for
+ * row 3 — the pixel offset a chip starts from before travelling into its slot.
+ */
+const NP_CHIP_ORIGIN = [
+  { x: -30, y: 10 },
+  { x: -30, y: 0 },
+  { x: -30, y: -10 },
+] as const;
+
+const NP_LANE_PERCENT = 37; // input lane width == the beam's `left` — keep in sync
+const NP_PAPER_TRAVEL = 36; // px, resting spot in the lane to the beam
+
+// Motion's `transition.duration` takes seconds, not a CSS custom property, so
+// these mirror globals.css's --duration-fast/base/slow by value — the same
+// bridge EASE/EASE_SOFT above already do for easing.
+const NP_FAST = 0.12;
+const NP_BASE = 0.2;
+const NP_SLOW = 0.32;
+const NP_STAGGER = 0.08; // ~80ms between a pass's 3 chips, per the brief
+
+/**
+ * "Nine principles" card — research papers scan through a fixed beam and
+ * dissolve into findings. Detached from RulesAnimation (above): that one is
+ * kt360's "off-brand caught, then fixed" story, this one is "raw research in,
+ * nine principles out." Brief at
+ * src/components/motion/glyphs/vi-nine-principles.brief.md.
+ */
+function VINinePrinciplesAnimation({ active }: AnimationProps) {
+  const reduced = useReducedMotion();
+  const running = active && !reduced;
+
+  const [pass, setPass] = useState(0);
+  const [paperPhase, setPaperPhase] = useState<NinePrinciplesPhase>("hidden");
+  const [passesLanded, setPassesLanded] = useState([true, true, true]);
+  const [resetting, setResetting] = useState(false);
+  const [pulsing, setPulsing] = useState(false);
+
+  useEffect(() => {
+    if (!running) {
+      const t = setTimeout(() => {
+        setPass(0);
+        setPaperPhase("hidden");
+        setPassesLanded([true, true, true]);
+        setResetting(false);
+        setPulsing(false);
+      }, 0);
+      return () => clearTimeout(t);
+    }
+    let cancelled = false;
+    async function loop() {
+      while (!cancelled) {
+        setPassesLanded([false, false, false]);
+        setResetting(false);
+
+        for (let p = 0; p < 3; p++) {
+          if (cancelled) return;
+          setPass(p);
+          setPaperPhase("enter");
+          await new Promise((r) => setTimeout(r, 200)); // --duration-base
+
+          if (cancelled) return;
+          setPaperPhase("travel");
+          await new Promise((r) => setTimeout(r, 320)); // --duration-slow
+
+          if (cancelled) return;
+          setPaperPhase("cross");
+          setPassesLanded((prev) => {
+            const next = [...prev];
+            next[p] = true;
+            return next;
+          });
+          await new Promise((r) => setTimeout(r, 200)); // paper dissolves, beam holds bright
+
+          if (cancelled) return;
+          setPaperPhase("hidden");
+          // This pass's last chip lands: 2 staggers (~80ms) + its own travel
+          // (320ms), minus the 200ms already waited above for the dissolve.
+          await new Promise((r) => setTimeout(r, 280));
+
+          if (cancelled) return;
+          if (p === 2) {
+            setPulsing(true);
+            await new Promise((r) => setTimeout(r, 120)); // --duration-fast
+            if (cancelled) return;
+            setPulsing(false);
+          }
+
+          await new Promise((r) => setTimeout(r, 200)); // beat before the next pass
+        }
+
+        if (cancelled) return;
+        await new Promise((r) => setTimeout(r, 1100)); // hold, full grid visible
+
+        if (cancelled) return;
+        setResetting(true);
+        await new Promise((r) => setTimeout(r, 200)); // all 9 chips fade out together
+      }
+    }
+    void loop();
+    return () => {
+      cancelled = true;
+    };
+  }, [running]);
+
+  const crossing = paperPhase === "cross";
+
+  return (
+    <div
+      className="pointer-events-none mx-auto flex w-full max-w-[140px] items-center justify-center"
+      aria-hidden
+    >
+      <div className="relative aspect-[4/3] w-full">
+        {/* The beam — stationary; brightens only while a paper crosses it.
+            Color rides a CSS class transition, not Motion's
+            `animate.backgroundColor`. This project's tokens are OKLCH, and
+            `hsl()` can't wrap another color function, so the
+            `"hsl(var(--foreground))"` string other animations in this file
+            pass to Motion computes to `transparent` — the beam was invisible.
+            Only `opacity` (a plain number) stays on Motion. */}
+        <motion.div
+          className={`ease-out-soft absolute inset-y-0 w-px transition-colors ${
+            running ? "duration-[var(--duration-fast)]" : "duration-0"
+          } ${crossing ? "bg-foreground" : "bg-muted-foreground"}`}
+          style={{ left: `${NP_LANE_PERCENT}%` }}
+          animate={{ opacity: crossing ? 1 : 0.3 }}
+          transition={
+            running ? { duration: NP_FAST, ease: EASE } : { duration: 0 }
+          }
+        />
+
+        <div className="flex h-full w-full items-center">
+          {/* Input lane — one paper at a time travels here, left to right. */}
+          <div
+            className="relative h-full shrink-0"
+            style={{ width: `${NP_LANE_PERCENT}%` }}
+          >
+            {paperPhase !== "hidden" && (
+              <motion.div
+                key={pass}
+                // rounded-[2px]: deliberately below the token scale's smallest
+                // radius (rounded-xs, 4px) — a raw cut sheet, crisper-cornered
+                // than the "finished token" chips it produces. See the brief's
+                // Visual vocabulary section.
+                className="border-muted-foreground/50 absolute top-1/2 left-1.5 h-4 w-3 -translate-y-1/2 rounded-[2px] border p-px"
+                style={{ rotate: NP_PAPERS[pass].tilt }}
+                initial={{ opacity: 0, x: -6 }}
+                animate={
+                  crossing
+                    ? { opacity: 0, x: NP_PAPER_TRAVEL, scale: 0.85 }
+                    : paperPhase === "travel"
+                      ? { opacity: 1, x: NP_PAPER_TRAVEL, scale: 1 }
+                      : { opacity: 1, x: 0, scale: 1 }
+                }
+                transition={
+                  crossing
+                    ? { duration: NP_BASE, ease: EASE }
+                    : paperPhase === "travel"
+                      ? { duration: NP_SLOW, ease: EASE_IN_OUT_SOFT }
+                      : { duration: NP_BASE, ease: EASE }
+                }
+              >
+                <div className="flex h-full flex-col justify-center gap-px">
+                  {NP_PAPERS[pass].strokes.map((w, i) => (
+                    <div
+                      key={i}
+                      className="bg-muted-foreground/50 h-px rounded-full"
+                      style={{ width: `${w}%` }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Output grid — 3×3, one row per pass: 2 filled + 1 hollow each. */}
+          <div className="relative flex h-full flex-1 items-center justify-center">
+            <div className="grid grid-cols-3 gap-1.5">
+              {Array.from({ length: 9 }, (_, i) => {
+                const chipPass = Math.floor(i / 3);
+                const isAvoid = i % 3 === 2;
+                const isLastChip = i === 8;
+                const origin = NP_CHIP_ORIGIN[chipPass];
+                const state = resetting
+                  ? "leaving"
+                  : passesLanded[chipPass]
+                    ? "landed"
+                    : "pending";
+
+                return (
+                  <motion.div
+                    key={i}
+                    className={
+                      isAvoid
+                        ? "border-foreground h-3.5 w-3.5 rounded-xs border"
+                        : "bg-primary h-3.5 w-3.5 rounded-xs"
+                    }
+                    animate={
+                      state === "landed"
+                        ? {
+                            opacity: 1,
+                            x: 0,
+                            y: 0,
+                            scale: isLastChip && pulsing ? [1, 1.03, 1] : 1,
+                          }
+                        : state === "leaving"
+                          ? { opacity: 0, x: 0, y: 0, scale: 1 }
+                          : { opacity: 0, x: origin.x, y: origin.y, scale: 1 }
+                    }
+                    transition={
+                      !running
+                        ? { duration: 0 }
+                        : state === "leaving"
+                          ? { duration: NP_BASE, ease: EASE }
+                          : state === "landed"
+                            ? isLastChip && pulsing
+                              ? { duration: NP_FAST, ease: EASE_SPRING }
+                              : {
+                                  duration: NP_SLOW,
+                                  ease: EASE_IN_OUT_SOFT,
+                                  delay: (i % 3) * NP_STAGGER,
+                                }
+                            : { duration: 0 }
+                    }
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -3803,6 +4067,53 @@ function MotionTokensAnimation({ active }: AnimationProps) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// vi-* — visual-identity's own figures, not generic loops. Each was built for
+// a specific beat of that case study (the Mobbin moodboard, the digit-width
+// test, the live component demo, the micro-interaction demo) and is fully
+// interactive on its own, so these adapters just read `lang` and render it —
+// no `active`-driven loop like the animations above. `w-full` matches how
+// every animation above sizes itself to the card; these figures don't set it
+// on their own root because they were authored for article width, not a card
+// face.
+// ---------------------------------------------------------------------------
+
+function VIMoodboardAnimation() {
+  const { lang } = useLang();
+  return (
+    <div className="w-full p-3">
+      <MoodboardGalleryFigure lang={lang} />
+    </div>
+  );
+}
+
+function VITypeTestAnimation({ active }: AnimationProps) {
+  const { lang } = useLang();
+  return (
+    <div className="w-full p-3">
+      <TypeTestFigure lang={lang} active={active} />
+    </div>
+  );
+}
+
+function VIComponentsAnimation() {
+  const { lang } = useLang();
+  return (
+    <div className="w-full p-3">
+      <ComponentsDemoFigure lang={lang} />
+    </div>
+  );
+}
+
+function VIMicroAnimation() {
+  const { lang } = useLang();
+  return (
+    <div className="w-full p-3">
+      <MicroInteractionsDemoFigure lang={lang} />
+    </div>
+  );
+}
+
 const ANIMATIONS: Record<
   NonNullable<BentoCard["animation"]>,
   (props: AnimationProps) => JSX.Element
@@ -3835,6 +4146,11 @@ const ANIMATIONS: Record<
   "ai-teammate": AITeammateAnimation,
   "port-diff": PortDiffAnimation,
   "motion-tokens": MotionTokensAnimation,
+  "vi-moodboard": VIMoodboardAnimation,
+  "vi-type-test": VITypeTestAnimation,
+  "vi-components": VIComponentsAnimation,
+  "vi-micro": VIMicroAnimation,
+  "vi-nine-principles": VINinePrinciplesAnimation,
 };
 
 function BentoCardItem({
@@ -3848,6 +4164,14 @@ function BentoCardItem({
   const Animation = card.animation ? ANIMATIONS[card.animation] : null;
   const [active, setActive] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  // Theme for `card.video`'s variant suffix. Light until mounted, matching
+  // CardMedia — the resolved theme isn't known on the server, and guessing
+  // dark would flash the wrong clip on a light page.
+  const { resolvedTheme } = useTheme();
+  const [videoMounted, setVideoMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setVideoMounted(true), []);
+  const mode = videoMounted && resolvedTheme === "dark" ? "dark" : "light";
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
   const [iframeOpen, setIframeOpen] = useState(false);
@@ -3953,6 +4277,26 @@ function BentoCardItem({
               </div>
             ))}
           </div>
+        ) : card.video ? (
+          <video
+            // Keyed on the resolved src so a language or theme change swaps the
+            // file — React reuses a <video> element across prop changes and a
+            // <source> swap alone doesn't reload it.
+            key={`${card.video}_${lang}_${mode}`}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            ref={(el) => {
+              if (el) el.muted = true;
+            }}
+          >
+            <source
+              src={`${card.video}_${lang}_${mode}_thumb.mp4`}
+              type="video/mp4"
+            />
+          </video>
         ) : card.image ? (
           <img
             src={card.image}
@@ -3997,8 +4341,10 @@ function BentoCardItem({
             IntroPreviewLink (the token beat backlinks the color methodology) and a
             link inside a button is invalid HTML — browsers won't reliably fire it.
             The whole card still toggles on click for pointer users (skipping clicks
-            that land on a link); the "read more" row below is the real <button>, so
-            keyboard and screen-reader users get a proper disclosure control. */}
+            that land on a link or a form control — the visual-identity components
+            demo has a real text input on its face); the "read more" row below is the
+            real <button>, so keyboard and screen-reader users get a proper
+            disclosure control. */}
         <motion.div
           className={`${baseClass} hover:ring-border group relative w-full cursor-pointer text-left transition-all hover:shadow-md hover:ring-1`}
           initial="rest"
@@ -4008,7 +4354,12 @@ function BentoCardItem({
           onMouseLeave={() => setActive(false)}
           onTouchStart={() => setActive(true)}
           onClick={(e) => {
-            if ((e.target as HTMLElement).closest("a, button")) return;
+            if (
+              (e.target as HTMLElement).closest(
+                "a, button, input, textarea, select, label"
+              )
+            )
+              return;
             setExpanded((v) => !v);
           }}
         >

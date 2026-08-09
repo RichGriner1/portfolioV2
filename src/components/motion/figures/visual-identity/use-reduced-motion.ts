@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-// Local copy of the useIsMobile pattern in @/lib/hooks — kept inside
-// _figures so these figures stay self-contained. Lets animated figures
+// Local copy of the useIsMobile pattern in @/lib/hooks — kept alongside
+// these figures so they stay self-contained. Lets animated figures
 // (micro-interactions demo) skip motion for prefers-reduced-motion.
 export function useReducedMotion(): boolean {
   const [reduced, setReduced] = useState(() =>

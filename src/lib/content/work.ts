@@ -59,6 +59,12 @@ export type WorkItem = {
   featured?: boolean;
   revamp?: boolean;
   hidden?: boolean;
+  /**
+   * Kept off the home board only. `/projects` and `/writing` still list the
+   * item — home curates, the index pages are the full record. Distinct from
+   * `hidden`, which removes an item everywhere.
+   */
+  homeHidden?: boolean;
   ongoing?: boolean;
 };
 
@@ -191,6 +197,7 @@ export const WORK: WorkItem[] = [
     href: "/work/kt360",
     glyph: "canvas",
     bento: "square",
+    homeHidden: true,
   },
   {
     slug: "audemic-growth",
@@ -241,6 +248,7 @@ export const WORK: WorkItem[] = [
     glyph: "typo-trail",
     bento: "square",
     bgColor: "#ff7cba",
+    homeHidden: true,
   },
   {
     slug: "fintech-layout-grammar",

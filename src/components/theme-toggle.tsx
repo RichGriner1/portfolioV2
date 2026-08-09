@@ -46,15 +46,18 @@ export function ThemeToggle() {
 
   return (
     <ThemeToggler
-      theme={(theme as ThemeSelection) ?? "system"}
-      resolvedTheme={(resolvedTheme as Resolved) ?? "light"}
+      // Both fall back to dark, matching `defaultTheme` in layout.tsx. These only
+      // apply for the tick before next-themes reports, and guessing light there
+      // put a sun in the header of a page rendering dark.
+      theme={(theme as ThemeSelection) ?? "dark"}
+      resolvedTheme={(resolvedTheme as Resolved) ?? "dark"}
       setTheme={setTheme}
       direction="ltr"
     >
       {({ effective, toggleTheme }) => {
-        // Before mount there is no resolved theme, so render the neutral icon rather
-        // than guessing and flipping on hydration.
-        const Icon = mounted ? ICONS[effective] : Sun;
+        // Before mount there is no resolved theme, so render the default mode's icon
+        // rather than guessing and flipping on hydration.
+        const Icon = mounted ? ICONS[effective] : Moon;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger

@@ -471,19 +471,25 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
      * references, agree the rules, build the foundations, then what got made on top.
      */
     bento: [
-      {
-        label: { en: "The product", es: "El producto" },
-        sublabel: {
-          en: "Wealth Planner, running live",
-          // TODO(afi-redaccion)
-          es: "Wealth Planner, en vivo",
-        },
-        span: "full",
-        // The identity-v2 workbench on the live Coherence deployment: tokens,
-        // type and components from this case study, running as real code. Same
-        // click-to-load embed treatment as afi-design-system's first card.
-        iframe: "https://coherence-wealth-manager.vercel.app/workbench",
-      },
+      /* The "The product" card is pulled while the Coherence deployment is
+         misbehaving. It was a full-width click-to-load embed of the identity-v2
+         workbench and nothing else — no detail copy — so hiding the embed means
+         removing the card rather than leaving an empty full-width frame above
+         the real ones. To restore, put back:
+
+           {
+             label: { en: "The product", es: "El producto" },
+             sublabel: {
+               en: "Wealth Planner, running live",
+               // TODO(afi-redaccion)
+               es: "Wealth Planner, en vivo",
+             },
+             span: "full",
+             iframe: "https://coherence-wealth-manager.vercel.app/workbench",
+           },
+
+         afi-design-system's first card embeds the same deployment on a different
+         route, so check that one too before restoring this. */
       {
         label: { en: "Defining modern", es: "Definir moderno" },
         sublabel: {

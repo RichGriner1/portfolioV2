@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   animate,
   motion,
   useMotionValue,
   useReducedMotion,
+  useTransform,
 } from "motion/react";
 
 import { CanvasCursor } from "@/components/canvas/canvas-cursor";
@@ -241,6 +248,58 @@ function sectionSize(section: Section) {
   return {
     w: section.contact ? CONTACT_W : sectionWidth(used),
     h: section.contact ? CONTACT_H : rows * FRAME + (rows - 1) * GAP + GAP * 2,
+  };
+}
+
+/**
+ * Padding, in screen px, held clear on every side when the intro frames the whole
+ * composition — see `overviewFraming`. Big enough that the outermost section's
+ * border isn't touching the viewport edge, small enough it doesn't eat into the fit.
+ */
+const OVERVIEW_PAD = 80;
+
+/**
+ * The camera position and scale that frames the entire composition — the shot the
+ * intro opens on before flying in to home. See the intro effect in CanvasSite.
+ *
+ * Derived from SECTIONS rather than a hardcoded number (~0.42 was tried and is
+ * wrong): sections get added and moved, and a fixed fit silently stops matching
+ * the composition the day one of them does. The hero itself never widens the box
+ * — it sits at the origin, enclosed by the sections that surround it, so the
+ * box's extremes are always a section's corner, never the claim's.
+ */
+function overviewFraming(vw: number, vh: number) {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  for (const s of SECTIONS) {
+    const { w, h } = sectionSize(s);
+    minX = Math.min(minX, s.x - w / 2);
+    maxX = Math.max(maxX, s.x + w / 2);
+    minY = Math.min(minY, s.y - h / 2 - LABEL_ROW);
+    maxY = Math.max(maxY, s.y + h / 2);
+  }
+  const bboxW = maxX - minX;
+  const bboxH = maxY - minY;
+  const fit = Math.min(
+    (vw - OVERVIEW_PAD * 2) / bboxW,
+    (vh - OVERVIEW_PAD * 2) / bboxH
+  );
+  const scale = Math.min(Math.max(fit, ZOOM.min), 1);
+  // Centres the BBOX's centre, not the origin: Contact sits at y −520 and the two
+  // grids sit at y +520, so the box isn't symmetric about the claim — centring on
+  // the origin instead would leave the composition sitting low in the frame.
+  const cx = (minX + maxX) / 2;
+  const cy = (minY + maxY) / 2;
+  // Run through the same clamp every other camera path in the file respects.
+  // The fit never overflows CLAMP at realistic viewports today, but nothing
+  // stops a future SECTIONS edit from pushing it past that — this is the
+  // invariant, not an optional extra.
+  return {
+    x: clampTo(-cx * scale, panLimit("x", scale)),
+    y: clampTo(-cy * scale, panLimit("y", scale)),
+    k: scale,
   };
 }
 
@@ -483,6 +542,22 @@ const STOPS = [
   ...SECTIONS.map((s) => ({ id: s.id, x: s.x, y: s.y })),
 ];
 
+/** Session flag: the opening shot plays once per session, not on every route visit. */
+const INTRO_KEY = "canvas-intro";
+/** How long the overview holds before the camera starts moving home — long enough
+ *  to read as a place the board opened on, short enough not to feel like a wait. */
+const INTRO_HOLD = 500;
+/** The flight home, in seconds. Longer than `goTo`'s 0.75s: this trip covers the
+ *  whole board rather than one section, and should read as a deliberate opening
+ *  move rather than a snap. */
+const INTRO_FLIGHT = 1.1;
+/** The board's fade-in, in seconds — the numeric form of `--duration-base`
+ *  (200ms) from globals.css. An animation script value, not a CSS variable
+ *  reference: `animate()` can't read a custom property, which is why every
+ *  camera move in this file (`goTo`, `zoomTo`, the intro flight above) already
+ *  states its duration and ease as plain numbers rather than tokens. */
+const REVEAL_DURATION = 0.2;
+
 export function CanvasSite() {
   const { lang } = useLang();
   const reduced = useReducedMotion();
@@ -536,6 +611,253 @@ export function CanvasSite() {
    * wheel, so a pinch immediately after a button press steps from the pinch.
    */
   const zoomAim = useRef(1);
+
+  /**
+   * Motion blur for the intro's flight home — see the intro effect below.
+   *
+   * A dedicated value and an explicit keyframe run, not `useVelocity(k)`. A
+   * velocity subscription would stay alive for the life of the page, costing
+   * work on every ordinary pan and pinch afterward, and it wouldn't guarantee
+   * landing on exactly 0 — a blurred final frame is what would make this read
+   * cheap instead of deliberate.
+   */
+  const blur = useMotionValue(0);
+  /**
+   * `"none"` at zero, not `"blur(0px)"`. `motion.div` applies `style` values
+   * imperatively and never removes a key once it's been set, so a filter that
+   * ever resolved to `blur(0px)` would stay in the inline style permanently —
+   * paying the compositor's raster-layer cost for the rest of the session for
+   * an effect nobody can see. `none` is the documented way to actually turn a
+   * filter off, so this can stay bound to the style for good instead of being
+   * conditionally applied — see the two call sites below, neither of which
+   * gates it on `introRunning` any more.
+   */
+  const blurFilter = useTransform(blur, (b) =>
+    b === 0 ? "none" : `blur(${b}px)`
+  );
+  /**
+   * Whether the opening shot is currently running. Only gates the `onscreen`
+   * prop that starts section video now — see the call site below and the note
+   * on why the overview scale would otherwise start three clips at once. The
+   * blur filter above no longer depends on it; see `blurFilter`.
+   */
+  const [introRunning, setIntroRunning] = useState(false);
+  /**
+   * The board layer's visibility — see the fade-in on its `motion.div` below.
+   * Starts at 0 in server HTML on purpose, same as `blur` above.
+   *
+   * `useLayoutEffect` alone cannot stop the visitor seeing the home framing
+   * before the overview: it runs at hydration, which is necessarily after
+   * the browser's first paint of the server HTML, and the server has no way
+   * to know the overview ahead of time. What it CAN do is keep that first
+   * paint from being invisible — the board starts transparent, and this
+   * animates to 1 in the same pre-paint pass that sets the overview framing,
+   * so the first frame anyone actually sees is the overview fading in, never
+   * the home position popping out to it.
+   *
+   * A motion value animated with `animate()`, not a CSS class toggle. A
+   * class-based `opacity-0`/`opacity-100` swap looked like the obvious fit —
+   * Tailwind's `transition-opacity` is what the rest of the file reaches for
+   * — but measured on a real page load, the swap at the hydration boundary
+   * never produced an animated frame: the class flips from one committed
+   * style straight to the other with no rendering opportunity in between for
+   * the browser to register a "before" state to transition from, so it reads
+   * as an instant cut rather than a fade. `animate()` drives the value itself
+   * frame by frame, the same way it already does for `blur`/`x`/`y`/`k`, so
+   * it doesn't depend on that timing at all.
+   *
+   * The dot field is NOT gated by this — see its own note — so the surface
+   * still reads as present while the composition arrives.
+   */
+  const opacity = useMotionValue(0);
+
+  /**
+   * The opening camera move: the board opens on an overview of the whole
+   * composition, holds a beat, then flies in to home. This is the board's own
+   * camera doing the same kind of move `goTo` does, at a longer duration and
+   * on a bigger trip — not a load screen, and not an overlay; the board is
+   * real and interactive from the first frame.
+   *
+   * Every early return below still has to reveal the board — see `opacity`.
+   * A visitor who skips the shot outright (reduced motion, the board hidden
+   * below `lg`, or a session that's already played it) must not be left
+   * looking at a permanently transparent board; only the camera choreography
+   * is conditional here, not the board's visibility.
+   */
+  useLayoutEffect(() => {
+    // Instant under `reduced`, matching every other transition in this file
+    // (`zoomTo`, `goTo`, the focus pan, `goToStop`'s scroll) — this is the
+    // only one that would otherwise still animate.
+    const reveal = () =>
+      animate(opacity, 1, {
+        duration: reduced ? 0 : REVEAL_DURATION,
+        ease: [0.2, 0.8, 0.2, 1] as const,
+      });
+
+    if (reduced) {
+      reveal();
+      return;
+    }
+    // Same test `goToStop` uses for the stacked layout — `offsetParent` is
+    // null while the board is `hidden` below `lg`. A camera move on a
+    // subtree nobody can see is wasted work, and revealing it anyway (rather
+    // than leaving `opacity`/`introRunning` at their defaults) is what keeps
+    // the board visible and its video playback working if the visitor later
+    // resizes past `lg`.
+    if (root.current?.offsetParent === null) {
+      reveal();
+      return;
+    }
+    let alreadyPlayed = false;
+    try {
+      alreadyPlayed = Boolean(sessionStorage.getItem(INTRO_KEY));
+    } catch {
+      // Thrown in some privacy modes. Treat it as "hasn't played" rather than
+      // skipping the shot over a storage quirk.
+    }
+    if (alreadyPlayed) {
+      reveal();
+      return;
+    }
+
+    const overview = overviewFraming(window.innerWidth, window.innerHeight);
+    x.set(overview.x);
+    y.set(overview.y);
+    k.set(overview.k);
+    // `zoom` state mirrors `k` through the PASSIVE effect below —
+    // `useEffect(() => k.on("change", setZoom), [k])` — which hasn't
+    // subscribed yet: layout effects on mount all run before any passive
+    // effect does, so `k.set` above fires with nobody listening. Setting
+    // `zoom` here by hand is what keeps the rail's readout, `DotPattern`'s
+    // tile size, and the drag constraints from reporting scale 1 while the
+    // board is actually sitting at the overview — don't drop this as
+    // "redundant" with the subscription; the subscription is exactly what's
+    // too late to cover this one frame.
+    setZoom(overview.k);
+    zoomAim.current = overview.k;
+    setIntroRunning(true);
+    // Same pass as the framing above, not a separate effect — see `opacity`.
+    const opacityCtrl = reveal();
+
+    // Written at the START, not on completion — an aborted run still counts
+    // as played, so interrupting it doesn't replay the shot on the next load.
+    try {
+      sessionStorage.setItem(INTRO_KEY, "1");
+    } catch {}
+
+    let xCtrl: ReturnType<typeof animate> | null = null;
+    let yCtrl: ReturnType<typeof animate> | null = null;
+    let kCtrl: ReturnType<typeof animate> | null = null;
+    let blurCtrl: ReturnType<typeof animate> | null = null;
+    let finishTimer: ReturnType<typeof setTimeout> | null = null;
+    /**
+     * How this run ended, if it did — `null` until an abort or a natural
+     * finish actually happens. The cleanup below reads it to tell "this run
+     * reached an end state" from "this run got torn down before it did", which
+     * is the distinction Strict Mode's dev-only mount→cleanup→mount makes
+     * matter: the synthetic cleanup after pass 1 has neither, so it must not
+     * be treated the same as a visitor cancelling or the flight completing.
+     */
+    let outcome: "aborted" | "finished" | null = null;
+
+    const detach = () => {
+      window.removeEventListener("wheel", onInput);
+      window.removeEventListener("pointerdown", onInput);
+      window.removeEventListener("keydown", onInput);
+    };
+
+    const holdTimer = setTimeout(() => {
+      const opts = {
+        duration: INTRO_FLIGHT,
+        ease: [0.2, 0.8, 0.2, 1] as const,
+      };
+      xCtrl = animate(x, 0, opts);
+      yCtrl = animate(y, 0, opts);
+      kCtrl = animate(k, 1, opts);
+      blurCtrl = animate(blur, [0, 6, 0], {
+        duration: INTRO_FLIGHT,
+        times: [0, 0.35, 0.8],
+        ease: "linear",
+      });
+      finishTimer = setTimeout(() => {
+        if (outcome) return;
+        outcome = "finished";
+        zoomAim.current = 1;
+        setIntroRunning(false);
+        detach();
+      }, INTRO_FLIGHT * 1000);
+    }, INTRO_HOLD);
+
+    /**
+     * Any input takes over. Cancels in place rather than snapping to home:
+     * someone reaching for the wheel wants to look around, and yanking the
+     * camera to a destination they didn't ask for would fight the gesture
+     * they just made. Stopping where the camera is hands them a working
+     * board wherever the flight got to.
+     */
+    const onInput = () => {
+      if (outcome) return;
+      outcome = "aborted";
+      clearTimeout(holdTimer);
+      if (finishTimer) clearTimeout(finishTimer);
+      xCtrl?.stop();
+      yCtrl?.stop();
+      kCtrl?.stop();
+      blurCtrl?.stop();
+      blur.set(0);
+      zoomAim.current = k.get();
+      setIntroRunning(false);
+      detach();
+    };
+    window.addEventListener("wheel", onInput, { passive: true });
+    window.addEventListener("pointerdown", onInput, { passive: true });
+    window.addEventListener("keydown", onInput);
+
+    return () => {
+      clearTimeout(holdTimer);
+      if (finishTimer) clearTimeout(finishTimer);
+      xCtrl?.stop();
+      yCtrl?.stop();
+      kCtrl?.stop();
+      blurCtrl?.stop();
+      detach();
+      // No abort and no finish means this cleanup is a teardown, not a
+      // viewing — in dev, Strict Mode's mount→cleanup→mount runs exactly this
+      // cleanup mid-flight, with neither having happened yet. Releasing the
+      // sessionStorage claim and putting the camera back where a mount
+      // without an intro would have left it is what lets pass 2 re-claim the
+      // slot and actually play the shot, instead of finding the flag already
+      // set and skipping the intro for the rest of the session. A real
+      // unmount mid-flight hits this same branch and gets the same honest
+      // answer: nobody saw this, so nothing here should look like they did.
+      if (outcome) return;
+      try {
+        sessionStorage.removeItem(INTRO_KEY);
+      } catch {}
+      x.set(0);
+      y.set(0);
+      k.set(1);
+      zoomAim.current = 1;
+      blur.set(0);
+      opacityCtrl.stop();
+      opacity.set(0);
+      // `zoom` too, for the same "everything this branch touches agrees with
+      // k=1" reason, even though tracing the two ways this branch runs makes
+      // it arguably unreachable: Strict Mode's synthetic cleanup is followed,
+      // in the same synchronous pass, by a pass-2 mount that calls
+      // `setZoom(overview.k)` again and self-corrects; a genuine unmount
+      // discards this component's state outright, so nothing is left to read
+      // a stale `zoom` from an instance that no longer exists. Setting it
+      // anyway means this block's story stays "the intro never started," not
+      // "matches, except the one value whose staleness happens not to matter
+      // today" — cheaper to keep true than to keep re-deriving.
+      setZoom(1);
+      setIntroRunning(false);
+    };
+    // Mount-only: this is a one-time opening move, not something that should
+    // restart if `reduced` were to flip mid-session.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /**
    * Measure the claim once per size change rather than per pointer event.
@@ -1031,6 +1353,16 @@ export function CanvasSite() {
       >
         <CanvasCursor closeMode={cvOpen} />
 
+        {/* Without JS, `opacity` never leaves its default 0 — there's no hydration
+          to animate it. The board is already inert with no JS (it can't pan or
+          zoom), but it should still render as a static picture of the
+          composition rather than nothing. `<noscript>` content is inert markup
+          while scripting is enabled and live markup when it isn't, which is
+          exactly the "only without JS" switch this needs. */}
+        <noscript>
+          <style>{`[data-board] { opacity: 1 !important; }`}</style>
+        </noscript>
+
         {/* Drag surface. Empty and full-bleed, underneath everything, so the board can
           be grabbed from any gap between frames.
          *
@@ -1095,10 +1427,14 @@ export function CanvasSite() {
           className={cn("absolute inset-0", hovered && "cursor-pointer")}
         />
 
-        <div
+        <motion.div
           ref={field}
           aria-hidden
           className="pointer-events-none absolute inset-0"
+          // The dot field carries the intro's motion blur alongside the board
+          // layer below — see `blurFilter`. Bound permanently rather than
+          // gated on `introRunning`, because it resolves to `"none"` at rest.
+          style={{ filter: blurFilter }}
         >
           {/* Back to the quieter original weight. `--muted-foreground/35` was tuned to
             be findable on a small hero card; across a full viewport the same value
@@ -1116,14 +1452,20 @@ export function CanvasSite() {
             className="fill-muted-foreground/16"
           />
           <DotTrail tile={TILE} scale={zoom} />
-        </div>
+        </motion.div>
 
         {/* The board. One layer, everything on it, all sharing the pan and the zoom.
           The scale rides here, on the same element as the offset, which is what makes
           `translate(x, y) scale(k)` from a centred origin the one transform every
-          calculation in this file inverts. */}
+          calculation in this file inverts. `filter` carries the same permanently-bound
+          blur as the dot field above — see `blurFilter`. Opacity fades in via
+          `opacity` — see that value's own note for why the board starts invisible
+          at all and why it's animated rather than a CSS class toggle. The dot
+          field behind it is NOT gated the same way: hiding everything would read
+          as a blank page, where this fade reads as the composition arriving on a
+          surface that was already there. */}
         <motion.div
-          style={{ x, y, scale: k }}
+          style={{ x, y, scale: k, filter: blurFilter, opacity }}
           // `data-board` marks everything pinned to the canvas, so the focus watcher
           // can tell board content from viewport-fixed chrome like the rail.
           data-board
@@ -1135,7 +1477,14 @@ export function CanvasSite() {
               section={section}
               lang={lang}
               hovered={hovered === section.id}
-              onscreen={onscreen.split(",").includes(section.id)}
+              // The overview scale clears every section's on-screen threshold
+              // at once, so unconditional `onscreen` would start three clips
+              // during the most expensive frames of the flight. Suppressed
+              // here rather than in the watcher, so the watcher stays the one
+              // honest read of what's actually on screen.
+              onscreen={
+                !introRunning && onscreen.split(",").includes(section.id)
+              }
               onOpenCv={() => setCvOpen(true)}
             />
           ))}

@@ -542,11 +542,11 @@ const STOPS = [
   ...SECTIONS.map((s) => ({ id: s.id, x: s.x, y: s.y })),
 ];
 
-/** Session flag: the opening shot plays once per session, not on every route visit. */
-const INTRO_KEY = "canvas-intro";
-/** How long the overview holds before the camera starts moving home — long enough
- *  to read as a place the board opened on, short enough not to feel like a wait. */
-const INTRO_HOLD = 500;
+/** How long the overview holds before the camera starts moving home. Sized for a
+ *  first-time visitor to actually read the shot — four sections and the claim —
+ *  not for pace; a hold tuned for rhythm rather than comprehension would be
+ *  shorter than this. */
+const INTRO_HOLD = 900;
 /** The flight home, in seconds. Longer than `goTo`'s 0.75s: this trip covers the
  *  whole board rather than one section, and should read as a deliberate opening
  *  move rather than a snap. */
@@ -678,11 +678,18 @@ export function CanvasSite() {
    * on a bigger trip — not a load screen, and not an overlay; the board is
    * real and interactive from the first frame.
    *
+   * Plays on every load, including a client-side navigation back to `/` —
+   * there's deliberately no session flag gating it. Richard's call: the shot
+   * is cheap to sit through (~2.0s hold + flight, and any input cancels it
+   * instantly — see `onInput`), so replaying it is "cool", not a bug to be
+   * fixed by remembering the visitor already saw it once. Don't reintroduce a
+   * `sessionStorage`/localStorage claim here without that call changing.
+   *
    * Every early return below still has to reveal the board — see `opacity`.
-   * A visitor who skips the shot outright (reduced motion, the board hidden
-   * below `lg`, or a session that's already played it) must not be left
-   * looking at a permanently transparent board; only the camera choreography
-   * is conditional here, not the board's visibility.
+   * A visitor who skips the shot outright (reduced motion, or the board
+   * hidden below `lg`) must not be left looking at a permanently transparent
+   * board; only the camera choreography is conditional here, not the board's
+   * visibility.
    */
   useLayoutEffect(() => {
     // Instant under `reduced`, matching every other transition in this file
@@ -708,17 +715,6 @@ export function CanvasSite() {
       reveal();
       return;
     }
-    let alreadyPlayed = false;
-    try {
-      alreadyPlayed = Boolean(sessionStorage.getItem(INTRO_KEY));
-    } catch {
-      // Thrown in some privacy modes. Treat it as "hasn't played" rather than
-      // skipping the shot over a storage quirk.
-    }
-    if (alreadyPlayed) {
-      reveal();
-      return;
-    }
 
     const overview = overviewFraming(window.innerWidth, window.innerHeight);
     x.set(overview.x);
@@ -737,13 +733,11 @@ export function CanvasSite() {
     zoomAim.current = overview.k;
     setIntroRunning(true);
     // Same pass as the framing above, not a separate effect — see `opacity`.
+    // Captured, not fire-and-forget: the cleanup below stops it alongside
+    // `xCtrl`/`yCtrl`/`kCtrl`/`blurCtrl` so Strict Mode's pass 1 doesn't leave
+    // a tween writing to `opacity` while pass 2 starts a second one on the
+    // same value underneath it.
     const opacityCtrl = reveal();
-
-    // Written at the START, not on completion — an aborted run still counts
-    // as played, so interrupting it doesn't replay the shot on the next load.
-    try {
-      sessionStorage.setItem(INTRO_KEY, "1");
-    } catch {}
 
     let xCtrl: ReturnType<typeof animate> | null = null;
     let yCtrl: ReturnType<typeof animate> | null = null;
@@ -751,14 +745,13 @@ export function CanvasSite() {
     let blurCtrl: ReturnType<typeof animate> | null = null;
     let finishTimer: ReturnType<typeof setTimeout> | null = null;
     /**
-     * How this run ended, if it did — `null` until an abort or a natural
-     * finish actually happens. The cleanup below reads it to tell "this run
-     * reached an end state" from "this run got torn down before it did", which
-     * is the distinction Strict Mode's dev-only mount→cleanup→mount makes
-     * matter: the synthetic cleanup after pass 1 has neither, so it must not
-     * be treated the same as a visitor cancelling or the flight completing.
+     * Guards `onInput` and the finish callback below against running twice.
+     * Not against running each OTHER: `onInput` clears `finishTimer` and the
+     * finish callback calls `detach()`, so each already rules the other out
+     * mechanically. This is cheap insurance so a future edit that loosens
+     * either of those doesn't quietly reopen a double-run.
      */
-    let outcome: "aborted" | "finished" | null = null;
+    let done = false;
 
     const detach = () => {
       window.removeEventListener("wheel", onInput);
@@ -780,8 +773,8 @@ export function CanvasSite() {
         ease: "linear",
       });
       finishTimer = setTimeout(() => {
-        if (outcome) return;
-        outcome = "finished";
+        if (done) return;
+        done = true;
         zoomAim.current = 1;
         setIntroRunning(false);
         detach();
@@ -796,8 +789,8 @@ export function CanvasSite() {
      * board wherever the flight got to.
      */
     const onInput = () => {
-      if (outcome) return;
-      outcome = "aborted";
+      if (done) return;
+      done = true;
       clearTimeout(holdTimer);
       if (finishTimer) clearTimeout(finishTimer);
       xCtrl?.stop();
@@ -813,6 +806,20 @@ export function CanvasSite() {
     window.addEventListener("pointerdown", onInput, { passive: true });
     window.addEventListener("keydown", onInput);
 
+    // Unconditional, and safe whether or not `onInput`/the finish callback
+    // above already ran: every line here is idempotent (clearing an
+    // already-fired timer, stopping an already-stopped animation, removing an
+    // already-removed listener are all no-ops). There's no state left to
+    // restore on top of that — no session claim to release now, and every
+    // motion value and `useState` this effect touches belongs to THIS
+    // component instance and is discarded with it on a real unmount; a later
+    // remount starts fresh regardless of what this cleanup does or doesn't
+    // reset. In dev, Strict Mode's mount→cleanup→mount runs this cleanup
+    // synchronously, before the 900ms hold can possibly have elapsed, so
+    // `holdTimer` is always still pending here and gets cancelled before the
+    // flight ever starts — pass 2 then re-runs the whole effect and
+    // recomputes the overview itself, which is what makes restoring "home"
+    // unnecessary rather than merely harmless.
     return () => {
       clearTimeout(holdTimer);
       if (finishTimer) clearTimeout(finishTimer);
@@ -820,39 +827,8 @@ export function CanvasSite() {
       yCtrl?.stop();
       kCtrl?.stop();
       blurCtrl?.stop();
-      detach();
-      // No abort and no finish means this cleanup is a teardown, not a
-      // viewing — in dev, Strict Mode's mount→cleanup→mount runs exactly this
-      // cleanup mid-flight, with neither having happened yet. Releasing the
-      // sessionStorage claim and putting the camera back where a mount
-      // without an intro would have left it is what lets pass 2 re-claim the
-      // slot and actually play the shot, instead of finding the flag already
-      // set and skipping the intro for the rest of the session. A real
-      // unmount mid-flight hits this same branch and gets the same honest
-      // answer: nobody saw this, so nothing here should look like they did.
-      if (outcome) return;
-      try {
-        sessionStorage.removeItem(INTRO_KEY);
-      } catch {}
-      x.set(0);
-      y.set(0);
-      k.set(1);
-      zoomAim.current = 1;
-      blur.set(0);
       opacityCtrl.stop();
-      opacity.set(0);
-      // `zoom` too, for the same "everything this branch touches agrees with
-      // k=1" reason, even though tracing the two ways this branch runs makes
-      // it arguably unreachable: Strict Mode's synthetic cleanup is followed,
-      // in the same synchronous pass, by a pass-2 mount that calls
-      // `setZoom(overview.k)` again and self-corrects; a genuine unmount
-      // discards this component's state outright, so nothing is left to read
-      // a stale `zoom` from an instance that no longer exists. Setting it
-      // anyway means this block's story stays "the intro never started," not
-      // "matches, except the one value whose staleness happens not to matter
-      // today" — cheaper to keep true than to keep re-deriving.
-      setZoom(1);
-      setIntroRunning(false);
+      detach();
     };
     // Mount-only: this is a one-time opening move, not something that should
     // restart if `reduced` were to flip mid-session.

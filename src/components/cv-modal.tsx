@@ -39,12 +39,17 @@ type CvEducation = {
 const CV: {
   name: string;
   email: string;
+  profile: Bilingual<string>;
   experience: CvExperience[];
   skills: Bilingual<string>[];
   education: CvEducation[];
 } = {
   name: "Richard Griner",
   email: "richardgrinerdesigns@gmail.com",
+  profile: {
+    en: "I work between Figma and production code, building design systems and components and prototyping interactions.",
+    es: "Trabajo entre Figma y código de producción, construyendo sistemas de diseño y componentes y prototipando interacciones.",
+  },
   /**
    * Reconciled against LinkedIn on 2026-08-05. Titles, companies and dates are
    * LinkedIn's — the CV had drifted badly: Afi was listed as "UX/UI Designer"
@@ -339,6 +344,9 @@ export function CvModal({
                   </p>
                   <p className="text-muted-foreground text-sm">
                     {t("cv.location", lang)} · {CV.email}
+                  </p>
+                  <p className="text-foreground mt-3 max-w-lg text-sm leading-relaxed">
+                    {pick(CV.profile, lang)}
                   </p>
                 </div>
                 <button

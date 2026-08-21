@@ -430,9 +430,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
        * cards' job now. What's left is the only thing they need to read the cards
        * at all: what the product is, what was actually wrong, and what came out.
        */
-      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief: make it look more modern. The product underneath was static Figma screens, developers working screen by screen, and nobody sharing a definition of the word. So we wrote the definition first. What started as one line is now a token vocabulary, a typeface and a layout system running in the live product.",
+      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief: make it look more modern. The product was built from static Figma screens, developers worked screen by screen, and nobody shared a definition of the word. I'm leading the work with Miguel, a freelance designer working with us part-time. We wrote the definition first, then turned it into a token vocabulary, a typeface and a layout system for the live product.",
       // TODO(afi-redaccion)
-      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea: que parezca más moderno. Debajo había un producto hecho de pantallas estáticas de Figma, donde los desarrolladores trabajaban pantalla a pantalla y nadie compartía una definición de esa palabra. Así que escribimos la definición primero. Lo que empezó como una línea es hoy un vocabulario de tokens, una tipografía y un sistema de layout que corre en el producto en vivo.",
+      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea: que parezca más moderno. El producto estaba hecho de pantallas estáticas de Figma, los desarrolladores trabajaban pantalla a pantalla y nadie compartía una definición de esa palabra. Lidero el trabajo con Miguel, un diseñador freelance que colabora con nosotros a tiempo parcial. Primero escribimos la definición y después la convertimos en un vocabulario de tokens, una tipografía y un sistema de layout para el producto en vivo.",
     },
     role: {
       en: "Brand & Visual Identity Lead",
@@ -493,9 +493,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Defining modern", es: "Definir moderno" },
         sublabel: {
-          en: "A shared definition, before Figma",
+          en: "A shared definition that guides design reviews",
           // TODO(afi-redaccion)
-          es: "Una definición compartida, antes de Figma",
+          es: "Una definición compartida que guía las revisiones de diseño",
         },
         // The Modern UI in 2026 thumbnail — the kinetic-type clip for the very
         // post this card links to, so the card face and the piece it points at
@@ -504,23 +504,40 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         video: "/writing/modern-ui-2026",
         details: {
           heading: {
-            en: "Taste arguing with taste decides nothing",
+            en: "Defining what modern means",
             // TODO(afi-redaccion)
-            es: "El gusto discutiendo con el gusto no decide nada",
+            es: "Definir qué significa moderno",
           },
           sections: [
             {
-              body: {
-                en: "Before opening Figma we wanted to define what 'modern' meant. Otherwise every review turns into a debate about what people like versus what they don't. Without a shared definition, taste argues with taste and nothing gets decided.",
+              label: {
+                en: "The problem",
                 // TODO(afi-redaccion)
-                es: "Antes de abrir Figma queríamos definir qué significaba «moderno». Si no, cada revisión se convierte en un debate sobre lo que gusta y lo que no. Sin una definición compartida, el gusto discute con el gusto y no se decide nada.",
+                es: "El problema",
+              },
+              body: {
+                en: "The brief was one line: “Make it look more modern.” In one review, that could mean a different typeface; in another, more colour, more space or more motion. Wealth Planner was built from static Figma screens and developers worked screen by screen, so each interpretation could enter the product independently. We needed to turn the word into choices the team could see and discuss before those choices became another set of disconnected screens.",
+                // TODO(afi-redaccion)
+                es: "El encargo era una sola línea: «Que parezca más moderno». En una revisión podía significar otra tipografía; en otra, más color, más espacio o más movimiento. Wealth Planner estaba construido con pantallas estáticas de Figma y los desarrolladores trabajaban pantalla a pantalla, así que cada interpretación podía entrar en el producto por separado. Necesitábamos convertir esa palabra en decisiones que el equipo pudiera ver y debatir antes de que se convirtieran en otro conjunto de pantallas desconectadas.",
               },
             },
             {
+              label: {
+                en: "What we did",
+                // TODO(afi-redaccion)
+                es: "Lo que hicimos",
+              },
               body: {
                 en: (
                   <>
-                    The research behind that definition became its own piece:{" "}
+                    We compared current product interfaces and research on
+                    trust, accessibility and AI-assisted UI. The same choices
+                    kept appearing: essential information first, detail on
+                    demand, restrained colour around dense data, visible system
+                    feedback and motion tied to a state change. Those findings
+                    gave us specific things to look for in Wealth Planner rather
+                    than a collection of fashionable surfaces. The full research
+                    became{" "}
                     <IntroPreviewLink slug="modern-ui-2026" newTab>
                       Modern UI in 2026
                     </IntroPreviewLink>
@@ -530,8 +547,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 // TODO(afi-redaccion)
                 es: (
                   <>
-                    La investigación detrás de esa definición acabó siendo su
-                    propia pieza:{" "}
+                    Comparamos interfaces de producto actuales e investigación
+                    sobre confianza, accesibilidad y UI asistida por IA. Se
+                    repetían las mismas decisiones: información esencial
+                    primero, detalle bajo demanda, color contenido alrededor de
+                    datos densos, feedback visible del sistema y movimiento
+                    ligado a un cambio de estado. Esos hallazgos nos dieron
+                    aspectos concretos que buscar en Wealth Planner, no una
+                    colección de superficies de moda. La investigación completa
+                    se convirtió en{" "}
                     <IntroPreviewLink slug="modern-ui-2026" newTab>
                       UI moderno en 2026
                     </IntroPreviewLink>
@@ -540,36 +564,94 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 ),
               },
             },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "Our definition of modern became a short set of observable qualities: information is easy to scan, detail appears when it is useful, feedback makes state changes clear and the visual system remains restrained around financial data. Those qualities became the bridge from the brief to the nine principles. They also gave the foundations and components a purpose: typography supports scanning, colour carries meaning, and interaction explains what changed after a person acts.",
+                // TODO(afi-redaccion)
+                es: "Nuestra definición de moderno se convirtió en un conjunto breve de cualidades observables: la información se escanea con facilidad, el detalle aparece cuando resulta útil, el feedback aclara los cambios de estado y el sistema visual se mantiene contenido alrededor de los datos financieros. Esas cualidades conectaron el encargo con los nueve principios. También dieron un propósito a los fundamentos y componentes: la tipografía facilita la lectura, el color comunica significado y la interacción explica qué cambió después de una acción.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "A review can now test a choice against the intended experience. A dashboard with every value competing for attention fails the scan test, even if its styling feels current. A colour added to decorate a card has a weaker case than colour that marks negative data. A transition that delays the task has a weaker case than one that confirms a state change. The conversation stays tied to how Wealth Planner should work, not which reference someone prefers.",
+                // TODO(afi-redaccion)
+                es: "Una revisión puede comprobar una decisión frente a la experiencia buscada. Un dashboard donde todos los valores compiten por atención falla la prueba de lectura, aunque su estilo parezca actual. Un color añadido para decorar una tarjeta tiene menos sentido que uno que señala datos negativos. Una transición que retrasa la tarea tiene menos sentido que una que confirma un cambio de estado. La conversación se mantiene ligada a cómo debe funcionar Wealth Planner, no a qué referencia prefiere cada persona.",
+              },
+            },
           ],
         },
       },
       {
         label: { en: "Moodboards", es: "Moodboards" },
         sublabel: {
-          en: "Two boards, one shortlist",
+          en: "A reference set for consistent design decisions",
           // TODO(afi-redaccion)
-          es: "Dos tableros, una lista corta",
+          es: "Un conjunto de referencias para tomar decisiones de diseño coherentes",
         },
         animation: "vi-moodboard",
         details: {
           heading: {
-            en: "The same names kept surfacing",
+            en: "Finding the visual direction",
             // TODO(afi-redaccion)
-            es: "Los mismos nombres aparecían una y otra vez",
+            es: "Encontrar la dirección visual",
           },
           sections: [
             {
-              body: {
-                en: 'Miguel noticed the pattern first: "We kept choosing the same apps over and over again. Maybe this is the vibe we want to go for." The same names surfaced in both boards, and that became the shortlist: Wise, Cursor, Shopify, Clerk, Notion, Granola.',
+              label: {
+                en: "The problem",
                 // TODO(afi-redaccion)
-                es: "Miguel vio el patrón primero: «Elegíamos las mismas apps una y otra vez. Quizá este es el rollo que buscamos». Los mismos nombres salían en ambos tableros, y esa fue la lista corta: Wise, Cursor, Shopify, Clerk, Notion, Granola.",
+                es: "El problema",
+              },
+              body: {
+                en: "A broad set of references gave us plenty to react to, but it did not yet define a direction for Wealth Planner. A moodboard can collect attractive interfaces without explaining which qualities belong in the product or why. The references also came from different categories, so copying a complete visual treatment would ignore the fintech context. We needed to identify the repeated choices across the boards and separate useful commonality from details that belonged only to one reference.",
+                // TODO(afi-redaccion)
+                es: "Un conjunto amplio de referencias nos daba mucho que valorar, pero todavía no definía una dirección para Wealth Planner. Un moodboard puede reunir interfaces atractivas sin explicar qué cualidades pertenecen al producto ni por qué. Las referencias también procedían de categorías distintas, así que copiar un tratamiento visual completo habría ignorado el contexto fintech. Necesitábamos identificar las decisiones repetidas entre los tableros y separar los puntos comunes útiles de los detalles que solo pertenecían a una referencia.",
               },
             },
             {
-              body: {
-                en: "Wise was the only reference from our own domain. It's proof that a fintech can run almost entirely black and white and put colour only where the data needs it.",
+              label: {
+                en: "What we did",
                 // TODO(afi-redaccion)
-                es: "Wise era la única referencia de nuestro propio sector. Es la prueba de que una fintech puede funcionar casi entera en blanco y negro y poner color solo donde los datos lo piden.",
+                es: "Lo que hicimos",
+              },
+              body: {
+                en: "Miguel noticed that we kept choosing the same references: Wise, Cursor, Shopify, Clerk, Notion and Granola. We used that repetition as a signal and compared what we were responding to in each interface. The set included products outside finance as well as Wise, the only reference from our own domain. Looking across the group let us discuss recurring qualities rather than selecting one product to imitate. The boards remained reference material, not a specification for a finished screen.",
+                // TODO(afi-redaccion)
+                es: "Miguel vio que seguíamos eligiendo las mismas referencias: Wise, Cursor, Shopify, Clerk, Notion y Granola. Usamos esa repetición como señal y comparamos qué nos atraía de cada interfaz. El conjunto incluía productos ajenos a las finanzas y también Wise, la única referencia de nuestro sector. Mirar el grupo completo nos permitió hablar de cualidades recurrentes en lugar de elegir un producto para imitar. Los tableros siguieron siendo material de referencia, no una especificación de una pantalla terminada.",
+              },
+            },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "The recurring products became a focused reference set for the visual direction. Wise gave us the closest example from fintech: an interface that can remain mostly black and white while reserving colour for data that needs emphasis. Cursor, Shopify, Clerk, Notion and Granola showed how other product teams handled typography, hierarchy and interaction. We documented the specific qualities we wanted to discuss from each reference, giving the team examples to compare without treating any one product as a template.",
+                // TODO(afi-redaccion)
+                es: "Los productos recurrentes se convirtieron en un conjunto acotado de referencias para la dirección visual. Wise nos dio el ejemplo más cercano en fintech: una interfaz que puede mantenerse casi enteramente en blanco y negro y reservar el color para los datos que necesitan énfasis. Cursor, Shopify, Clerk, Notion y Granola mostraban cómo otros equipos resolvían la tipografía, la jerarquía y la interacción. Documentamos las cualidades concretas que queríamos debatir de cada referencia para poder compararlas sin convertir un producto en plantilla.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "The repeated references revealed a pattern we could use. Wise showed that a financial interface can stay mostly black and white and reserve colour for data. Across Cursor, Shopify, Clerk, Notion and Granola, we kept finding clear hierarchy, restrained surfaces and small interaction details that explain state. Seeing those choices recur gave each one more weight than a single screenshot. The principles then translated them for Wealth Planner, including when colour, disclosure or motion should earn a place.",
+                // TODO(afi-redaccion)
+                es: "Las referencias repetidas revelaron un patrón que podíamos usar. Wise mostró que una interfaz financiera puede mantenerse casi enteramente en blanco y negro y reservar el color para los datos. En Cursor, Shopify, Clerk, Notion y Granola seguíamos encontrando jerarquía clara, superficies contenidas y pequeños detalles de interacción que explican el estado. Ver esas decisiones repetirse les dio más peso que una sola captura. Después, los principios las tradujeron para Wealth Planner, incluido cuándo el color, la revelación o el movimiento se ganan un lugar.",
               },
             },
           ],
@@ -578,30 +660,64 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Nine principles", es: "Nueve principios" },
         sublabel: {
-          en: "Something a team can cite in review",
+          en: "Shared criteria for design and review",
           // TODO(afi-redaccion)
-          es: "Algo que el equipo puede citar en una revisión",
+          es: "Criterios compartidos para diseñar y revisar",
         },
         animation: "vi-nine-principles",
         details: {
           heading: {
-            en: "Principles for the team",
+            en: "Nine decisions the team can reuse",
             // TODO(afi-redaccion)
-            es: "Principios para el equipo",
+            es: "Nueve decisiones que el equipo puede reutilizar",
           },
           sections: [
             {
-              body: {
-                en: "Show the essential first and reveal detail when the user asks for it. Everything else is one click away, not on the first screen. Keep the user where they are: drawers, inline editing and expandable cards instead of sending them to another page.",
+              label: {
+                en: "The problem",
                 // TODO(afi-redaccion)
-                es: "Mostrar primero lo esencial y revelar el detalle cuando el usuario lo pide: todo lo demás queda a un clic, no en la primera pantalla. Mantener al usuario donde está: drawers, edición en línea y tarjetas expandibles en lugar de mandarlo a otra página.",
+                es: "El problema",
+              },
+              body: {
+                en: "A definition of modern could guide the visual direction, but it did not tell the team how to make repeated product decisions. Wealth Planner still needed rules for information density, disclosure, navigation and interaction. Without those rules, two screens could both look modern while handling the same situation differently. The gap was practical: a designer or developer reviewing a drawer, an expandable card or an editing flow needed criteria that went beyond resemblance to the moodboards.",
+                // TODO(afi-redaccion)
+                es: "Una definición de moderno podía orientar la dirección visual, pero no indicaba al equipo cómo tomar decisiones de producto recurrentes. Wealth Planner todavía necesitaba reglas para la densidad de información, la revelación progresiva, la navegación y la interacción. Sin esas reglas, dos pantallas podían parecer modernas y resolver de forma distinta la misma situación. La necesidad era práctica: quien revisara un drawer, una tarjeta expandible o un flujo de edición necesitaba criterios que fueran más allá del parecido con los moodboards.",
               },
             },
             {
-              body: {
-                en: "We also wrote down what to avoid, because knowing what you are is incomplete without knowing what you are not.",
+              label: {
+                en: "What we did",
                 // TODO(afi-redaccion)
-                es: "También escribimos qué evitar, porque saber qué somos está incompleto sin saber qué no somos.",
+                es: "Lo que hicimos",
+              },
+              body: {
+                en: "We wrote nine principles that translate the visual direction into product decisions. They cover choices such as showing essential information first, revealing detail on demand and preserving context with drawers, inline editing and expandable cards. We also wrote down what to avoid. Each principle therefore includes both a preferred direction and a boundary. The principles do not describe one page; they provide questions the team can apply while designing or reviewing different parts of the product.",
+                // TODO(afi-redaccion)
+                es: "Escribimos nueve principios que traducen la dirección visual en decisiones de producto. Cubren elecciones como mostrar primero la información esencial, revelar el detalle bajo demanda y conservar el contexto con drawers, edición en línea y tarjetas expandibles. También escribimos qué evitar. Así, cada principio incluye una dirección preferida y un límite. Los principios no describen una sola página; ofrecen preguntas que el equipo puede aplicar al diseñar o revisar distintas partes del producto.",
+              },
+            },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "The nine principles turn the direction into questions a reviewer can answer on a real screen. If a dashboard shows every detail at once, the principle of essential information first points toward a summary with detail on demand. If editing opens a separate page and breaks context, the team can compare that choice with inline editing or a drawer. The guidance on what to avoid marks the other edge, so each review can connect a component or flow to an agreed product behaviour.",
+                // TODO(afi-redaccion)
+                es: "Los nueve principios convierten la dirección en preguntas que se pueden responder sobre una pantalla real. Si un dashboard muestra todo el detalle a la vez, el principio de información esencial primero orienta hacia un resumen con detalle bajo demanda. Si la edición abre otra página y rompe el contexto, el equipo puede comparar esa opción con la edición en línea o un drawer. La guía sobre qué evitar marca el otro límite, para que cada revisión conecte un componente o flujo con un comportamiento acordado.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "The principles give designers and developers the same questions at different layers of the product. On a dashboard: can someone find the essential information first? On an expandable card: is the hidden detail available when it becomes useful? In an editing flow: can the person make the change without losing context? A principle earns its place by helping answer those decisions repeatedly. When an edge case produces a different answer, the team can discuss the rule itself instead of improvising inside one screen.",
+                // TODO(afi-redaccion)
+                es: "Los principios dan a diseño e ingeniería las mismas preguntas en distintas capas del producto. En un dashboard: ¿se encuentra primero la información esencial? En una tarjeta expandible: ¿aparece el detalle cuando resulta útil? En un flujo de edición: ¿se puede hacer el cambio sin perder el contexto? Un principio se gana su lugar cuando ayuda a responder esas decisiones repetidamente. Si un caso límite produce otra respuesta, el equipo puede debatir la regla en lugar de improvisar dentro de una sola pantalla.",
               },
             },
           ],
@@ -610,30 +726,64 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Foundations", es: "Fundamentos" },
         sublabel: {
-          en: "Tokens as roles, and a typeface that held",
+          en: "Tokens and typography that keep screens consistent",
           // TODO(afi-redaccion)
-          es: "Tokens como roles, y una tipografía que aguantó",
+          es: "Tokens y tipografía que mantienen la consistencia",
         },
         animation: "vi-type-test",
         details: {
           heading: {
-            en: "Black and white first",
+            en: "Decisions that carry across screens",
             // TODO(afi-redaccion)
-            es: "Primero blanco y negro",
+            es: "Decisiones que se mantienen entre pantallas",
           },
           sections: [
             {
-              body: {
-                en: "A token is a role: 'background canvas', 'background elevated'. Defining that vocabulary before the palette means choosing colours later is a quick change. Update the primitive and every screen moves with it.",
+              label: {
+                en: "The problem",
                 // TODO(afi-redaccion)
-                es: "Un token es un rol: «background canvas», «background elevated». Definir ese vocabulario antes que la paleta hace que elegir colores después sea un cambio rápido: actualizas la primitiva y todas las pantallas se mueven con ella.",
+                es: "El problema",
+              },
+              body: {
+                en: "Screen-by-screen design left foundational choices open to interpretation. A colour could be selected for one screen without naming the role it should play elsewhere. Typography created a separate issue for a financial product: when number patterns occupy visibly different widths, values and columns do not align as consistently. The 0000 and 4444 specimen makes that difference observable under each typeface's default figures. We needed foundations that constrained both colour usage and repeated numerical content before building larger components.",
+                // TODO(afi-redaccion)
+                es: "El diseño pantalla a pantalla dejaba abiertas a interpretación las decisiones fundamentales. Un color podía elegirse para una pantalla sin nombrar el rol que debía cumplir en las demás. La tipografía planteaba otro problema para un producto financiero: cuando los patrones numéricos ocupan anchos visiblemente distintos, los valores y las columnas no se alinean con la misma consistencia. La muestra de 0000 y 4444 hace observable esa diferencia con las cifras predeterminadas de cada tipografía. Necesitábamos fundamentos que limitaran el uso del color y del contenido numérico repetido antes de construir componentes mayores.",
               },
             },
             {
-              body: {
-                en: "For typography we tested Space Grotesk, Fira Sans and Geist, and none passed the width test across number patterns (0000 vs 4444). IBM Plex Sans held the same widths, so it became the type family.",
+              label: {
+                en: "What we did",
                 // TODO(afi-redaccion)
-                es: "En tipografía probamos Space Grotesk, Fira Sans y Geist, y ninguna pasó la prueba de ancho entre patrones numéricos (0000 vs 4444). IBM Plex Sans se mantuvo constante, así que fue la familia elegida.",
+                es: "Lo que hicimos",
+              },
+              body: {
+                en: "We defined tokens by role, using names such as 'background canvas' and 'background elevated' before assigning final colour values. For typography, we compared Space Grotesk, Fira Sans, Geist and IBM Plex Sans with the same number patterns, including 0000 and 4444. The specimen used each font's default figures, so it records the behaviour a screen would receive without enabling a separate numeral feature. We compared the visible alignment rather than claiming a measured typographic property.",
+                // TODO(afi-redaccion)
+                es: "Definimos los tokens por rol, usando nombres como «background canvas» y «background elevated» antes de asignar valores de color finales. Para la tipografía, comparamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans con los mismos patrones numéricos, incluidos 0000 y 4444. La muestra usó las cifras predeterminadas de cada fuente, por lo que registra el comportamiento que recibiría una pantalla sin activar una función numérica aparte. Comparamos la alineación visible sin afirmar una propiedad tipográfica medida.",
+              },
+            },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "The colour foundation is a role-based token vocabulary. A screen asks for a canvas or elevated background rather than selecting an isolated colour, and the assigned primitive can change without renaming the role. IBM Plex Sans became the type family because its default figures kept the tested number patterns most consistently aligned in the specimen. That choice is scoped to what the comparison showed; the test did not enable tabular numerals or measure every possible number, size and weight.",
+                // TODO(afi-redaccion)
+                es: "La base de color es un vocabulario de tokens basado en roles. Una pantalla pide un fondo canvas o elevado en lugar de elegir un color aislado, y la primitiva asignada puede cambiar sin renombrar el rol. IBM Plex Sans se convirtió en la familia tipográfica porque sus cifras predeterminadas mantuvieron los patrones probados alineados con mayor consistencia en la muestra. La elección se limita a lo observado: la prueba no activó cifras tabulares ni midió cada número, tamaño y peso posibles.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "Role-based tokens separate what a colour does from its raw value. Updating a primitive can therefore carry the change to every place that uses the semantic role, while the screen-level decision remains stable. The type specimen applies the same logic to repeated financial content: IBM Plex Sans kept the tested patterns more consistently aligned with its default figures, which supports scanning rows and columns. These foundations constrain future component choices; they do not remove the need to review real tables and states as the system grows.",
+                // TODO(afi-redaccion)
+                es: "Los tokens basados en roles separan lo que hace un color de su valor bruto. Actualizar una primitiva puede llevar el cambio a cada lugar que usa el rol semántico, mientras la decisión de pantalla permanece estable. La muestra tipográfica aplica la misma lógica al contenido financiero repetido: IBM Plex Sans mantuvo los patrones probados alineados con mayor consistencia usando sus cifras predeterminadas, lo que ayuda a leer filas y columnas. Estos fundamentos limitan futuras decisiones de componentes; no eliminan la necesidad de revisar tablas y estados reales a medida que crece el sistema.",
               },
             },
           ],
@@ -642,30 +792,64 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Components", es: "Componentes" },
         sublabel: {
-          en: "Built in code, documented in Figma",
+          en: "Reusable atoms for larger product patterns",
           // TODO(afi-redaccion)
-          es: "Construidos en código, documentados en Figma",
+          es: "Átomos reutilizables para patrones de producto",
         },
         animation: "vi-components",
         details: {
           heading: {
-            en: "Primitives first, patterns on demand",
+            en: "Building from shared components",
             // TODO(afi-redaccion)
-            es: "Primero primitivas, patrones bajo demanda",
+            es: "Construir desde componentes compartidos",
           },
           sections: [
             {
-              body: {
-                en: "With foundations set we listed the primitive components and split them: I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. Buttons, inputs, checkboxes and toggles we built together, to work out a shared workflow and get similar output.",
+              label: {
+                en: "The problem",
                 // TODO(afi-redaccion)
-                es: "Con los fundamentos fijados listamos los componentes primitivos y los repartimos: yo cogí chip, badge, card y table; Miguel tag, dialog, navbar y tabs. Botones, inputs, checkboxes y toggles los hicimos juntos, para afinar un flujo compartido y obtener resultados parecidos.",
+                es: "El problema",
+              },
+              body: {
+                en: "The foundations defined colour and typography decisions, but they did not define a usable interface on their own. Wealth Planner still needed buttons, inputs, tables, dialogs and other parts with repeatable states and behaviours. Building those parts independently inside each screen would leave the same decisions open again: how a control changes state, how information is grouped and which visual rules it inherits. The next layer had to turn the foundations into reusable interface primitives before larger workflows were assembled.",
+                // TODO(afi-redaccion)
+                es: "Los fundamentos definían decisiones de color y tipografía, pero no creaban por sí solos una interfaz utilizable. Wealth Planner todavía necesitaba botones, inputs, tablas, diálogos y otras piezas con estados y comportamientos repetibles. Construirlas de manera independiente dentro de cada pantalla habría vuelto a dejar abiertas las mismas decisiones: cómo cambia de estado un control, cómo se agrupa la información y qué reglas visuales hereda. La siguiente capa debía convertir los fundamentos en primitivas de interfaz reutilizables antes de ensamblar flujos mayores.",
               },
             },
             {
-              body: {
-                en: "Primitives first because they're what everything else assembles from. The complex patterns only get built when we need them.",
+              label: {
+                en: "What we did",
                 // TODO(afi-redaccion)
-                es: "Primitivas primero porque son de lo que se ensambla todo lo demás. Los patrones complejos solo se construyen cuando hacen falta.",
+                es: "Lo que hicimos",
+              },
+              body: {
+                en: "We listed the primitive components and divided the work. I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. We built buttons, inputs, checkboxes and toggles together to establish a shared workflow and compare the output directly. The existing figure shows live components rather than screenshots, including their interactive states. This kept the work focused on components that can run in code while the corresponding documentation remains available in Figma for design and review.",
+                // TODO(afi-redaccion)
+                es: "Listamos los componentes primitivos y repartimos el trabajo. Yo cogí chip, badge, card y table; Miguel cogió tag, dialog, navbar y tabs. Construimos juntos botones, inputs, checkboxes y toggles para establecer un flujo compartido y comparar directamente el resultado. La figura existente muestra componentes en vivo, no capturas, incluidos sus estados interactivos. Así el trabajo se centra en componentes que funcionan en código mientras la documentación correspondiente permanece disponible en Figma para diseñar y revisar.",
+              },
+            },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "The resulting layer consists of reusable chips, badges, cards, tables, tags, dialogs, navigation, tabs and form controls. Each primitive carries the relevant foundation choices and defines the states or behaviours visible in the live component. Larger patterns can combine these parts when a product need appears instead of starting with a one-off screen. The current library covers the atoms we have designed and tested so far. Complex Wealth Planner patterns will be added as the redesign reaches them.",
+                // TODO(afi-redaccion)
+                es: "La capa resultante reúne chips, badges, cards, tablas, tags, diálogos, navegación, tabs y controles de formulario reutilizables. Cada primitiva lleva las decisiones de fundamentos que le corresponden y define los estados o comportamientos visibles en el componente en vivo. Los patrones mayores pueden combinar estas piezas cuando aparece una necesidad de producto, en lugar de empezar con una pantalla aislada. La librería actual cubre los átomos diseñados y probados hasta ahora. Los patrones complejos de Wealth Planner se añadirán a medida que el rediseño llegue a ellos.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "A larger pattern built from the shared primitives inherits decisions that have already been made in the buttons, inputs, tables and dialogs it contains. The states and behaviours travel with the component rather than being redefined for each workflow. That makes consistency concrete: the same checkbox state, dialog structure or table treatment can recur wherever the primitive is used. It also gives the team a smaller unit to review and adjust before that decision appears across several product patterns.",
+                // TODO(afi-redaccion)
+                es: "Un patrón mayor construido con las primitivas compartidas hereda decisiones ya tomadas en los botones, inputs, tablas y diálogos que contiene. Los estados y comportamientos viajan con el componente en lugar de redefinirse para cada flujo. Así la consistencia se vuelve concreta: el mismo estado de checkbox, la misma estructura de diálogo o el mismo tratamiento de tabla pueden repetirse donde se use la primitiva. También ofrece al equipo una unidad menor que revisar y ajustar antes de que la decisión aparezca en varios patrones de producto.",
               },
             },
           ],
@@ -674,23 +858,131 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Micro-interactions", es: "Microinteracciones" },
         sublabel: {
-          en: "Reverse-engineered, then ported",
+          en: "Shared motion behaviours across the product",
           // TODO(afi-redaccion)
-          es: "Analizadas y luego portadas",
+          es: "Comportamientos de movimiento compartidos",
         },
         animation: "vi-micro",
         details: {
           heading: {
-            en: "We didn't invent most of the motion",
+            en: "Defining how the product responds",
             // TODO(afi-redaccion)
-            es: "No inventamos casi ningún movimiento",
+            es: "Definir cómo responde el producto",
           },
           sections: [
             {
-              body: {
-                en: "We reverse-engineered the animations that inspired us, or took a React animation library, ported the code to Angular and iterated from there.",
+              label: {
+                en: "The problem",
                 // TODO(afi-redaccion)
-                es: "Analizamos las animaciones que nos inspiraban, o cogimos una librería de animación de React, portamos el código a Angular e iteramos desde ahí.",
+                es: "El problema",
+              },
+              body: {
+                en: "A static component can show its resting appearance without explaining what happens when a user acts. It does not specify how a checkbox confirms selection, how a toggle moves between states or how a send action communicates progress and completion. If those responses are decided separately inside each feature, timing and feedback can drift even when the components share colour and typography. The interaction layer therefore needed rules for state changes as well as visual foundations for the states themselves.",
+                // TODO(afi-redaccion)
+                es: "Un componente estático puede mostrar su apariencia en reposo sin explicar qué ocurre cuando una persona actúa. No especifica cómo confirma la selección un checkbox, cómo cambia de estado un toggle ni cómo una acción de envío comunica progreso y finalización. Si esas respuestas se deciden por separado dentro de cada funcionalidad, los tiempos y el feedback pueden desviarse aunque los componentes compartan color y tipografía. La capa de interacción necesitaba reglas para los cambios de estado además de fundamentos visuales para los propios estados.",
+              },
+            },
+            {
+              label: {
+                en: "What we did",
+                // TODO(afi-redaccion)
+                es: "Lo que hicimos",
+              },
+              body: {
+                en: "We reverse-engineered animations from the interfaces that informed the visual direction. In other cases, we started with a React animation library, ported the code to Angular and iterated from there. The visible figure makes the resulting interaction cases inspectable: a checkbox draws its check, a radio fills, a toggle changes position and a send button moves through sending and sent. These examples let us discuss feedback, timing and state changes as product rules rather than decorative motion.",
+                // TODO(afi-redaccion)
+                es: "Analizamos las animaciones de las interfaces que orientaron la dirección visual. En otros casos partimos de una librería de animación de React, portamos el código a Angular e iteramos desde ahí. La figura visible permite inspeccionar los casos resultantes: un checkbox dibuja su marca, un radio se rellena, un toggle cambia de posición y un botón de envío pasa por enviando y enviado. Estos ejemplos permiten debatir el feedback, los tiempos y los cambios de estado como reglas de producto y no como movimiento decorativo.",
+              },
+            },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "The interaction layer documents reusable feedback, timing and state-change rules through concrete controls. Selection is shown by the checkbox draw and radio fill. A toggle links its movement to the change between off and on. The send action exposes a short sequence from the initial action to sending and then sent. These examples define how a component acknowledges input and communicates state. They establish the first interaction rules; transitions for larger workflows will be defined as those flows are built.",
+                // TODO(afi-redaccion)
+                es: "La capa de interacción documenta reglas reutilizables de feedback, tiempos y cambios de estado mediante controles concretos. La selección se muestra con el trazo del checkbox y el relleno del radio. Un toggle vincula su movimiento al cambio entre apagado y encendido. La acción de envío expone una secuencia breve desde la acción inicial hasta enviando y después enviado. Estos ejemplos definen cómo un componente reconoce una entrada y comunica su estado. Establecen las primeras reglas; las transiciones de flujos mayores se definirán al construirlos.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "When a larger pattern includes one of these controls, it can reuse the established response instead of inventing new feedback. A checkbox can draw its check in the same way across forms, a toggle can communicate its state with the same movement, and a send action can expose progress through the same sequence. The benefit is behavioural consistency at a visible level. Reuse also makes later review more focused because timing or feedback can be discussed at the interaction rule rather than rediscovered in each workflow.",
+                // TODO(afi-redaccion)
+                es: "Cuando un patrón mayor incluye uno de estos controles, puede reutilizar la respuesta establecida en lugar de inventar un feedback nuevo. Un checkbox puede dibujar su marca de la misma forma en distintos formularios, un toggle puede comunicar su estado con el mismo movimiento y una acción de envío puede mostrar el progreso mediante la misma secuencia. El beneficio es una consistencia de comportamiento visible. La reutilización también centra las revisiones posteriores: los tiempos o el feedback se debaten en la regla de interacción y no se redescubren en cada flujo.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: { en: "Structure", es: "Estructura" },
+        sublabel: {
+          en: "Product structure based on user value",
+          // TODO(afi-redaccion)
+          es: "Estructura de producto basada en el valor para el usuario",
+        },
+        span: "wide",
+        animation: "canvas",
+        details: {
+          heading: {
+            en: "Organising the product around user value",
+            // TODO(afi-redaccion)
+            es: "Organizar el producto en torno al valor para el usuario",
+          },
+          sections: [
+            {
+              label: {
+                en: "The problem",
+                // TODO(afi-redaccion)
+                es: "El problema",
+              },
+              body: {
+                en: "The existing structure followed the order in which a financial plan was built. That sequence separated Diagnóstico from Plan de acción even though both contribute to the user's understanding of their situation and what to do next. Organising around production order can make each page internally valid while leaving the relationship between pages implicit. The redesign needed a structure that named the value of each area and kept related information together without removing the ability to reveal deeper detail when required.",
+                // TODO(afi-redaccion)
+                es: "La estructura existente seguía el orden en el que se construía un plan financiero. Esa secuencia separaba Diagnóstico de Plan de acción aunque ambos contribuyen a que la persona entienda su situación y qué hacer después. Organizar por orden de producción puede hacer que cada página sea válida por separado y dejar implícita la relación entre ellas. El rediseño necesitaba una estructura que nombrara el valor de cada área y mantuviera junta la información relacionada sin eliminar la posibilidad de revelar más detalle cuando hiciera falta.",
+              },
+            },
+            {
+              label: {
+                en: "What we did",
+                // TODO(afi-redaccion)
+                es: "Lo que hicimos",
+              },
+              body: {
+                en: "During discovery we reviewed comparable financial products and found structures that support a quick read at a glance with deeper information available on demand. We then mapped all ~15 Wealth Planner screens to a statement describing the value each one gives the user. The exercise shifted the unit of discussion from the order used to build a plan to the question a person is trying to answer. It also made overlaps between existing pages visible before we proposed a new grouping.",
+                // TODO(afi-redaccion)
+                es: "Durante discovery revisamos productos financieros comparables y encontramos estructuras que permiten una lectura rápida de un vistazo con información más profunda disponible bajo demanda. Después mapeamos las ~15 pantallas de Wealth Planner a una declaración del valor que cada una aporta al usuario. El ejercicio cambió la unidad de debate: pasó del orden usado para construir un plan a la pregunta que una persona intenta responder. También hizo visibles los solapamientos entre páginas existentes antes de proponer una nueva agrupación.",
+              },
+            },
+            {
+              label: {
+                en: "The solution",
+                // TODO(afi-redaccion)
+                es: "La solución",
+              },
+              body: {
+                en: "We organised the proposed product structure around those value statements. Conclusiones brings Diagnóstico and Plan de acción into one dashboard because both contribute to the same user question: 'what's my situation and what do I do about it?' The dashboard provides the quick read identified during discovery, while the broader principle of revealing detail on demand leaves room for deeper information. This is the first proposed grouping from the map. The remaining screens still need the same content-level evaluation before their structure is settled.",
+                // TODO(afi-redaccion)
+                es: "Organizamos la estructura propuesta del producto en torno a esas declaraciones de valor. Conclusiones reúne Diagnóstico y Plan de acción en un único dashboard porque ambos contribuyen a responder la misma pregunta del usuario: «¿cuál es mi situación y qué hago con ella?». El dashboard ofrece la lectura rápida identificada durante discovery, mientras el principio de revelar detalle bajo demanda deja espacio para información más profunda. Esta es la primera agrupación propuesta a partir del mapa. Las pantallas restantes aún necesitan la misma evaluación de contenido antes de cerrar su estructura.",
+              },
+            },
+            {
+              label: {
+                en: "Why it works",
+                // TODO(afi-redaccion)
+                es: "Por qué funciona",
+              },
+              body: {
+                en: "A value statement gives each area a reason to exist that can be checked independently of the old build sequence. Related information can be grouped when it answers the same question, as with Diagnóstico and Plan de acción inside Conclusiones. The quick-read layer supports orientation, and detail on demand preserves access to the underlying information without putting everything on the first view. This reasoning can be applied to the remaining mapped screens while the work continues, but each grouping still needs to be evaluated against its specific content.",
+                // TODO(afi-redaccion)
+                es: "Una declaración de valor da a cada área una razón de existir que puede comprobarse al margen de la antigua secuencia de construcción. La información relacionada puede agruparse cuando responde a la misma pregunta, como Diagnóstico y Plan de acción dentro de Conclusiones. La capa de lectura rápida facilita la orientación y el detalle bajo demanda conserva el acceso a la información subyacente sin colocarlo todo en la primera vista. Este razonamiento puede aplicarse al resto de pantallas mapeadas mientras continúa el trabajo, pero cada agrupación debe evaluarse según su contenido específico.",
               },
             },
           ],

@@ -17,7 +17,7 @@ export function WorkGrid({ items }: { items: WorkItem[] }) {
   return (
     // Every tile is square, so a real grid beats masonry: three per row on
     // desktop, with rows staying aligned instead of packing ragged columns.
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
       {items.map((item, index) => (
         <WorkCard key={item.slug} item={item} index={index} />
       ))}

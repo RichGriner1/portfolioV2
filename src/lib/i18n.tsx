@@ -108,11 +108,11 @@ export const UI = {
   "cv.skills_heading": { en: "Skills", es: "Habilidades" },
   "cv.education_heading": { en: "Education", es: "Formación" },
   "cv.close": { en: "Close", es: "Cerrar" },
-  // Matches the LinkedIn title. "AI Builder" came off — it was a capability
-  // claim, and the work below shows the AI rather than announcing it.
+  // The two disciplines the CV demonstrates across Afi and RG Designs. The
+  // current Afi role below keeps the exact LinkedIn title.
   "cv.title": {
-    en: "Digital Product Designer",
-    es: "Diseñador de producto digital",
+    en: "Product Designer, Design Systems",
+    es: "Diseñador de producto y sistemas de diseño",
   },
   "cv.location": { en: "Madrid, Spain", es: "Madrid, España" },
   "work.back": { en: "← back", es: "← volver" },

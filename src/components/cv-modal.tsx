@@ -69,17 +69,17 @@ const CV: {
       company: "Afi",
       period: { en: "2025 – present", es: "2025 – actualidad" },
       lead: {
-        en: "Sole full-time designer on white-label financial products for leading Spanish institutions, and lead on brand and visual identity for the 2026 Wealth Planner redesign.",
-        es: "Único diseñador a tiempo completo en productos financieros white-label para las principales entidades españolas y responsable de la marca y la identidad visual del rediseño de Wealth Planner 2026.",
+        en: "Sole full-time designer across two white-label financial products, working with engineers from product flows and visual direction through to the live interface.",
+        es: "Único diseñador a tiempo completo en dos productos financieros white-label, trabajando con ingeniería desde los flujos de producto y la dirección visual hasta la interfaz en vivo.",
       },
       bullets: {
         en: [
-          "Built a three-tier token architecture across Figma and code, so a client rebrand is a token swap rather than twenty files.",
-          "Wrote design.md, the rulebook AI agents read before generating product UI, so what they produce matches the system's real tokens.",
+          "Built a three-tier token architecture in Figma and Angular, then a live playground where engineers can inspect component states and copy code.",
+          "Documented tokens, responsive rules and component usage in design.md, and prototyped motion patterns for controls and state changes.",
         ],
         es: [
-          "Construí una arquitectura de tokens en tres niveles entre Figma y código: un cambio de marca de cliente se resuelve en los tokens, no en veinte archivos.",
-          "Escribí design.md, el manual que los agentes de IA leen antes de generar la UI, para que lo que producen coincida con los tokens reales del sistema.",
+          "Construí una arquitectura de tokens en tres niveles en Figma y Angular, y después un playground en vivo donde ingeniería puede inspeccionar estados y copiar código.",
+          "Documenté tokens, reglas responsive y uso de componentes en design.md, y prototipé patrones de movimiento para controles y cambios de estado.",
         ],
       },
     },
@@ -163,16 +163,16 @@ const CV: {
       company: "RG Designs",
       period: { en: "2021 – present", es: "2021 – actualidad" },
       lead: {
-        en: "Brand, design system and build environment for startups with no designer, so they keep shipping after I leave.",
-        es: "Marca, sistema de diseño y entorno de desarrollo para startups sin diseñador, para que sigan lanzando cuando yo ya no esté.",
+        en: "Brand identities, component specifications and build environments for early-stage teams without a full-time designer.",
+        es: "Identidades de marca, especificaciones de componentes y entornos de desarrollo para equipos en fase inicial sin diseñador a tiempo completo.",
       },
       bullets: {
         en: [
-          "KT360: brand identity plus a no-code environment where an AI reads the brand rules and component specs.",
+          "KT360: encoded brand rules, component specs and motion tokens in a build environment that AI agents can read and enforce.",
           "Mindfulme: brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
         ],
         es: [
-          "KT360: identidad de marca y un entorno no-code donde una IA lee las reglas de marca y las especificaciones de componentes.",
+          "KT360: codifiqué reglas de marca, especificaciones de componentes y tokens de movimiento en un entorno de desarrollo que los agentes de IA pueden leer y aplicar.",
           "Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
         ],
       },
@@ -181,19 +181,21 @@ const CV: {
   skills: [
     { en: "Design Systems", es: "Sistemas de diseño" },
     { en: "Token Architecture", es: "Arquitectura de tokens" },
+    { en: "Component Systems", es: "Sistemas de componentes" },
     { en: "Figma", es: "Figma" },
-    { en: "UX Research", es: "Investigación UX" },
+    { en: "Prototyping in Code", es: "Prototipado en código" },
     { en: "Product Design", es: "Diseño de producto" },
-    { en: "Visual Strategy", es: "Estrategia visual" },
-    { en: "Tailwind CSS", es: "Tailwind CSS" },
-    { en: "Brand Strategy", es: "Estrategia de marca" },
-    { en: "White-label Products", es: "Productos white-label" },
-    // Tools named on LinkedIn's Afi entry. "AI Workflow Design" came off — a
-    // capability claim, where these are things you either use or don't.
+    { en: "Motion & Interaction", es: "Movimiento e interacción" },
+    { en: "Accessibility", es: "Accesibilidad" },
+    { en: "React", es: "React" },
     { en: "TypeScript", es: "TypeScript" },
+    { en: "Tailwind CSS", es: "Tailwind CSS" },
+    // Additional technologies and product-design capabilities used in the Afi work.
     { en: "Angular (PrimeNG)", es: "Angular (PrimeNG)" },
     { en: "shadcn/ui", es: "shadcn/ui" },
     { en: "Claude Code", es: "Claude Code" },
+    { en: "UX Research", es: "Investigación UX" },
+    { en: "White-label Products", es: "Productos white-label" },
   ],
   education: [
     {

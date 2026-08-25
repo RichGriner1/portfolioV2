@@ -13,6 +13,19 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start", "--", "-p", "3100"],
       "port": 3100
+    },
+    {
+      "name": "coherence-site",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "start",
+        "--prefix",
+        "/Users/richardgriner/Desktop/Code/Coherence/apps/site",
+        "--",
+        "--port",
+        "4207"
+      ],
+      "port": 4207
     }
   ]
 }

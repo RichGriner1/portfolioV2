@@ -140,8 +140,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     bento: [
       {
         label: {
-          en: "Playground: try the live component",
-          es: "Playground: prueba el componente en vivo",
+          en: "Playground: switch the brand, read the tokens",
+          // TODO(afi-redaccion)
+          es: "Playground: cambia la marca, lee los tokens",
         },
         // TODO(afi-redaccion)
         sublabel: {
@@ -149,8 +150,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           // TODO(afi-redaccion)
           es: "Esta página es el MVP v1: se construyó para poner el concepto delante de los equipos y recoger las primeras reacciones. Existe una versión más desarrollada de uso interno que no es pública, así que no se muestra aquí. La app entera está protegida por contraseña: escríbeme a richardgrinerdesigns@gmail.com para un recorrido.",
         },
+        /**
+         * `?embed=1` strips the docs chrome — breadcrumb, title, description,
+         * use-cases, accessibility, dos-and-donts — leaving the controls row, the
+         * live preview and the `Tokens consumidos` table. Without it the first
+         * screenful of a 640px card is a docs header, so the brand picker and the
+         * token table both sit below a fold a cross-origin frame cannot be scrolled
+         * past from here. See EmbedService in the Coherence repo.
+         *
+         * Inert until that branch deploys: Angular ignores an unrecognized query
+         * param, so this renders the normal page until then. NOTE the deployment is
+         * also stale — its bundle has no /workbench route — so redeploy before
+         * trusting what this card shows.
+         */
         iframe:
-          "https://coherence-wealth-manager.vercel.app/componentes/segmented-control",
+          "https://coherence-wealth-manager.vercel.app/componentes/button?embed=1",
         span: "full",
       },
       {
@@ -1114,81 +1128,491 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
     ],
   },
-  "audemic-growth": {
+  /**
+   * `hours-stat`, `leads-funnel` and `model-iteration` went unused when these
+   * studies moved to the deck's structure on 2026-08-25. All three were built for
+   * Audemic and they still render — the earlier version of this study used them as
+   * card faces for the 20-hours figure, the 20-leads figure and the OpenAI/Claude
+   * iteration. Each of those beats now lives on a Process card whose face is the
+   * image the deck pairs it with, and a card can carry one or the other, not both.
+   * They're in the registry in case-study-bento.tsx if you want them back.
+   */
+  "audemic-business-growth": {
     tagline: {
-      en: "Pivoting a B2C research app to B2B enterprise",
-      es: "Pivotando una app de investigación B2C hacia B2B enterprise",
+      en: "A loyal B2C base, and nowhere to grow",
+      // TODO(afi-redaccion)
+      es: "Una base B2C fiel y ningún sitio donde crecer",
     },
     intro: {
-      en: "Audemic Scholar had built a loyal B2C user base at $8K/month — but students graduate, and investors were right to worry about where growth was coming from. We ran discovery interviews with UN analysts and vaccine researchers and found a bigger story: researchers lose 20 hours a month to information retrieval, costing organizations like NIH close to $10M monthly. We launched a Beta — a 24/7 junior analyst powered by AI — and captured 20 qualified leads in a single week through paid ads. From there, iteration: better summaries on OpenAI and Claude, an audio redesign built around how researchers actually work, and a prioritization framework that kept the roadmap honest.",
-      es: "Audemic Scholar había construido una base de usuarios B2C fiel en torno a los 8 K $/mes — pero los estudiantes se gradúan, y los inversores hacían bien en preocuparse por de dónde vendría el crecimiento. Realizamos entrevistas de descubrimiento con analistas de la ONU e investigadores de vacunas y encontramos una historia mayor: los investigadores pierden 20 horas al mes en recuperar información, lo que cuesta a organizaciones como el NIH cerca de 10 M $ mensuales. Lanzamos una beta — un analista junior 24/7 impulsado por IA — y captamos 20 leads cualificados en una sola semana con anuncios de pago. A partir de ahí, iteración: mejores resúmenes en OpenAI y Claude, un rediseño del audio construido alrededor de cómo trabajan realmente los investigadores, y un marco de priorización que mantuvo honesta la hoja de ruta.",
+      en: "A B2C product with a loyal base and a structural ceiling: students graduate, so the users you win you lose on a schedule. The question was never how to make Scholar better. It was who else reads research for a living, and whether they'd pay.",
+      // TODO(afi-redaccion)
+      es: "Un producto B2C con una base fiel y un techo estructural: los estudiantes se graduan, así que a los usuarios que ganas los pierdes con calendario. La pregunta nunca fue cómo mejorar Scholar, sino quién más lee investigación para ganarse la vida y si pagaría por ello.",
     },
     role: {
-      en: "Product Manager & UX Designer",
-      es: "Product manager y diseñador UX",
+      en: "Senior Digital Product Manager",
+      // TODO(afi-redaccion)
+      es: "Senior digital product manager",
     },
     contributions: {
       en: [
         "Product strategy",
-        "User research",
-        "AI prompting",
+        "Discovery research",
+        "Journey mapping",
         "Growth experiments",
-        "Prototype design",
+        "Roadmap prioritization",
       ],
+      // TODO(afi-redaccion)
       es: [
         "Estrategia de producto",
-        "Investigación con usuarios",
-        "Prompting de IA",
+        "Investigación de descubrimiento",
+        "Mapa de experiencia",
         "Experimentos de crecimiento",
-        "Diseño de prototipos",
+        "Priorización de la hoja de ruta",
       ],
     },
     bento: [
       {
-        label: {
-          en: "B2C → B2B Pivot",
-          es: "Pivote de B2C a B2B",
-        },
+        label: { en: "Context", es: "Contexto" },
         sublabel: {
-          en: "Students were the loyal base. Professionals were the market.",
-          es: "Los estudiantes eran la base fiel. Los profesionales eran el mercado.",
+          en: "$8,000 a month since 2022, and a user base with an expiry date.",
+          // TODO(afi-redaccion)
+          es: "8.000 $ al mes desde 2022 y una base de usuarios con fecha de caducidad.",
         },
+        // The Context slide's own photo. It stays on the Context card rather than
+        // moving to the intro, which has no image slot — the deck pairs this text
+        // with this picture and the pairing is the point.
+        image: "/work/audemic-business-growth/context-workshop.webp",
+        span: "wide",
+        details: {
+          heading: {
+            en: "A ceiling, not a product problem",
+            // TODO(afi-redaccion)
+            es: "Un techo, no un problema de producto",
+          },
+          sections: [
+            {
+              body: {
+                en: "Audemic Scholar is a web app that allows university students to listen to the full text research paper and reports. Since 2022, Scholar has established a loyal user base in the B2C market, generating $8,000 per month in revenue.",
+                // TODO(afi-redaccion)
+                es: "Audemic Scholar es una aplicación web que permite a los estudiantes universitarios escuchar artículos de investigación e informes completos. Desde 2022, Scholar había consolidado una base de usuarios fiel en el mercado B2C, con unos ingresos de 8.000 $ al mes.",
+              },
+            },
+            {
+              body: {
+                en: "But investors raised concerns about the product's scalability due to the lifecycle of undergraduate and post graduate students.",
+                // TODO(afi-redaccion)
+                es: "Pero los inversores plantearon dudas sobre la escalabilidad del producto por el ciclo de vida de los estudiantes de grado y posgrado.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: { en: "The challenge", es: "El reto" },
+        sublabel: {
+          en: "A user need, a business need, and one product vision holding them together.",
+          // TODO(afi-redaccion)
+          es: "Una necesidad de usuario, una de negocio y una visión de producto que las une.",
+        },
+        // No image: the Challenge slide is a diagram of the three statements, so
+        // the card draws rather than photographs. `audience-pivot` rather than
+        // `nodes` — it was built for this project and it draws the actual move
+        // (one audience to another), where `nodes` is the Afi
+        // one-repo-everyone-reads-from figure and means nothing here.
         animation: "audience-pivot",
+        details: {
+          heading: {
+            en: "Three statements, written before any design",
+            // TODO(afi-redaccion)
+            es: "Tres afirmaciones, escritas antes de cualquier diseño",
+          },
+          sections: [
+            {
+              body: {
+                en: "The user need: give busy professionals tools that cut the workload of finding and organizing information. The business need: expand into new markets using the insights we already had, and define a clear ideal customer profile. Early hypotheses focused on the social sciences, because 60% of Scholar users came from that field.",
+                // TODO(afi-redaccion)
+                es: "La necesidad de usuario: dar a profesionales ocupados herramientas que reduzcan el trabajo de encontrar y organizar información. La necesidad de negocio: expandirse a nuevos mercados con las conclusiones que ya teníamos y definir un perfil de cliente ideal claro. Las primeras hipótesis se centraron en las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
+              },
+            },
+            {
+              body: {
+                en: "Both roll up into one product vision: create a solution that empowers professionals in fast-paced industries by streamlining access to critical information, so they can focus on impactful work.",
+                // TODO(afi-redaccion)
+                es: "Ambas se resumen en una visión de producto: crear una solución que dé poder a los profesionales de sectores acelerados simplificando el acceso a la información crítica, para que puedan centrarse en el trabajo que tiene impacto.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "01 — Discovery interviews",
+          es: "01 — Entrevistas de descubrimiento",
+        },
+        sublabel: {
+          en: "20 hours a month per researcher, before any analysis starts.",
+          // TODO(afi-redaccion)
+          es: "20 horas al mes por investigador, antes de empezar cualquier análisis.",
+        },
+        image:
+          "/work/audemic-business-growth/process-01-interview-patterns.webp",
+        details: {
+          heading: {
+            en: "Costing an NIH-sized organization $10M a month",
+            // TODO(afi-redaccion)
+            es: "Le cuesta 10 M $ al mes a una organización del tamaño del NIH",
+          },
+          sections: [
+            {
+              body: {
+                en: "By interviewing UN analysts and vaccine researchers, we discovered researchers lose 20 hours a month searching for information, costing organizations like NIH nearly $10 million monthly in lost productivity.",
+                // TODO(afi-redaccion)
+                es: "Entrevistando a analistas de la ONU e investigadores de vacunas descubrimos que los investigadores pierden 20 horas al mes buscando información, lo que cuesta a organizaciones como el NIH cerca de 10 millones de dólares mensuales en productividad perdida.",
+              },
+            },
+            {
+              body: {
+                en: "Every interview was cut into four columns: the job as it stands, pains, current solutions, and the motivation underneath. The pattern only shows up when you can read one column straight down.",
+                // TODO(afi-redaccion)
+                es: "Cada entrevista se repartió en cuatro columnas: el trabajo tal y como es, los dolores, las soluciones actuales y la motivación de fondo. El patrón solo aparece cuando puedes leer una columna de arriba abajo.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "02 — Co-creation & testing",
+          es: "02 — Cocreación y testing",
+        },
+        sublabel: {
+          en: "Mapped the as-is journey, then launched a beta against it.",
+          // TODO(afi-redaccion)
+          es: "Mapeamos el recorrido tal cual y lanzamos una beta contra él.",
+        },
+        image: "/work/audemic-business-growth/process-02-journey-map.webp",
+        details: {
+          heading: {
+            en: "20 quality leads in one week",
+            // TODO(afi-redaccion)
+            es: "20 leads de calidad en una semana",
+          },
+          sections: [
+            {
+              body: {
+                en: "After mapping the as-is customer journey, we launched a Beta 24/7 junior analyst solution to help researchers stay informed. Within a week, we captured 20 quality leads through paid ads.",
+                // TODO(afi-redaccion)
+                es: "Después de mapear el recorrido de cliente tal y como era, lanzamos una beta de analista junior 24/7 para ayudar a los investigadores a estar al día. En una semana captamos 20 leads de calidad con publicidad de pago.",
+              },
+            },
+            {
+              body: {
+                en: "Stage one is where the time goes. Scanning dozens of reports from 70+ analysts, reading external publications alongside their own research, skimming summaries selectively — across company databases, analyst reports, subscriptions like WSJ and Foreign Policy, and Ground News for bias checking.",
+                // TODO(afi-redaccion)
+                es: "La etapa uno es donde se va el tiempo. Revisar decenas de informes de más de 70 analistas, leer publicaciones externas junto a su propia investigación, repasar resúmenes de forma selectiva: entre bases de datos internas, informes de analistas, suscripciones como WSJ y Foreign Policy, y Ground News para contrastar sesgos.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "03 — Beta-user iterations",
+          es: "03 — Iteraciones con usuarios beta",
+        },
+        sublabel: {
+          en: "Summaries lacked the context that made them worth reading.",
+          // TODO(afi-redaccion)
+          es: "A los resúmenes les faltaba el contexto que los hacía valer la pena.",
+        },
+        image: "/work/audemic-business-growth/process-03-user-interview.webp",
+        details: {
+          heading: {
+            en: "The gist, and nothing past it",
+            // TODO(afi-redaccion)
+            es: "La idea general, y nada más allá",
+          },
+          sections: [
+            {
+              body: {
+                en: "We learned from users that summaries lacked critical context, such as societal impact and effects on studied groups, limiting deeper understanding. Users struggled to move beyond a superficial understanding.",
+                // TODO(afi-redaccion)
+                es: "Los usuarios nos hicieron ver que a los resúmenes les faltaba contexto crítico, como el impacto social y los efectos sobre los grupos estudiados, lo que limitaba una comprensión más profunda. Les costaba pasar de un entendimiento superficial.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "04 — Launch & roadmap",
+          es: "04 — Lanzamiento y hoja de ruta",
+        },
+        sublabel: {
+          en: "Reach × Impact × Confidence ÷ Effort, scored on the wall.",
+          // TODO(afi-redaccion)
+          es: "Alcance × Impacto × Confianza ÷ Esfuerzo, puntuado en la pared.",
+        },
+        image: "/work/audemic-business-growth/process-04-prioritization.webp",
+        details: {
+          heading: {
+            en: "A number you can disagree with",
+            // TODO(afi-redaccion)
+            es: "Un número con el que se puede discrepar",
+          },
+          sections: [
+            {
+              body: {
+                en: "We aligned beta-user feedback with our roadmap, prioritizing pain points to position the product for B2B clients. Equation for prioritization: Reach × Impact × Confidence ÷ Effort.",
+                // TODO(afi-redaccion)
+                es: "Alineamos el feedback de los usuarios beta con nuestra hoja de ruta, priorizando los puntos de dolor para posicionar el producto ante clientes B2B. Ecuación de priorización: Alcance × Impacto × Confianza ÷ Esfuerzo.",
+              },
+            },
+            {
+              body: {
+                en: "Mark-read-on-papers scored 11160, renaming boards and files 7440, drag-and-drop upload 5115, the note-taking MVP 4133. Writing the arithmetic on the sticky note is the point: an argument about whether renaming matters more than uploading goes nowhere, an argument about whether its reach is really 620 goes somewhere.",
+                // TODO(afi-redaccion)
+                es: "Marcar como leído en la pestaña de papers puntuó 11160, renombrar tableros y archivos 7440, la subida por arrastre 5115 y el MVP de notas 4133. Escribir la aritmética en el post-it es justo el objetivo: discutir si renombrar importa más que subir archivos no lleva a ninguna parte; discutir si su alcance es de verdad 620, sí.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: { en: "The solution", es: "La solución" },
+        sublabel: {
+          en: "Paper-view redesign: summaries on full text, and feedback that doesn't interrupt.",
+          // TODO(afi-redaccion)
+          es: "Rediseño de la vista de paper: resúmenes sobre el texto completo y feedback que no interrumpe.",
+        },
+        image: "/work/audemic-business-growth/solution-paper-view.webp",
         span: "wide",
+        details: {
+          heading: {
+            en: "Three changes, one screen",
+            // TODO(afi-redaccion)
+            es: "Tres cambios, una pantalla",
+          },
+          sections: [
+            {
+              body: {
+                en: "Summary iteration: using our insights we started iterating on OpenAI and Claude models and getting quick feedback through surveys and interviews.",
+                // TODO(afi-redaccion)
+                es: "Iteración de resúmenes: con nuestras conclusiones empezamos a iterar sobre modelos de OpenAI y Claude, recogiendo feedback rápido con encuestas y entrevistas.",
+              },
+            },
+            {
+              body: {
+                en: "Redesigned audio page: adding a summary to full-text papers allowed users to quickly understand new research, helping them get more work done while staying aligned with their team.",
+                // TODO(afi-redaccion)
+                es: "Página de audio rediseñada: añadir un resumen a los papers completos permitió entender rápido la investigación nueva, sacar más trabajo adelante y seguir alineados con el equipo.",
+              },
+            },
+            {
+              body: {
+                en: "Scalable in-app feedback: for real-time feedback we introduced in-app feedback, allowing users to provide insights passively without interrupting workflows.",
+                // TODO(afi-redaccion)
+                es: "Feedback escalable dentro de la app: para tener feedback en tiempo real introdujimos feedback in-app, que permite al usuario aportar información de forma pasiva sin interrumpir su flujo de trabajo.",
+              },
+            },
+          ],
+        },
       },
+    ],
+  },
+  "audemic-onboarding": {
+    tagline: {
+      en: "Show the value before making the ask",
+      // TODO(afi-redaccion)
+      es: "Enseñar el valor antes de pedir nada",
+    },
+    intro: {
+      en: "Audemic Insights is a mobile app: a 24/7 junior analyst for the intellectually curious that finds and extracts key insights from research papers and reports, and turns them into audio summaries personalized to your goals. Retention was the problem. Users came for a seamless AI experience, met a form, and left before the app had shown them anything.",
+      // TODO(afi-redaccion)
+      es: "Audemic Insights es una app móvil: un analista junior 24/7 para gente intelectualmente curiosa que encuentra y extrae las ideas clave de artículos de investigación e informes, y las convierte en resúmenes de audio personalizados según tus objetivos. El problema era la retención. Los usuarios venían por una experiencia de IA fluida, se encontraban un formulario y se iban antes de que la app les hubiera enseñado nada.",
+    },
+    role: {
+      en: "Senior Digital Product Manager",
+      // TODO(afi-redaccion)
+      es: "Senior digital product manager",
+    },
+    contributions: {
+      en: [
+        "Product design",
+        "Expert interviews",
+        "Funnel analysis",
+        "Prototyping",
+        "Usability testing",
+      ],
+      // TODO(afi-redaccion)
+      es: [
+        "Diseño de producto",
+        "Entrevistas con expertos",
+        "Análisis del embudo",
+        "Prototipado",
+        "Test de usabilidad",
+      ],
+    },
+    bento: [
       {
-        label: {
-          en: "20 Hours Lost a Month",
-          es: "20 horas perdidas al mes",
-        },
+        label: { en: "The problem", es: "El problema" },
         sublabel: {
-          en: "Per researcher. ~$10M monthly for NIH-sized orgs.",
-          es: "Por investigador. ~10 M $ mensuales para organizaciones del tamaño del NIH.",
+          en: "Unmet expectations, frustrating onboarding, imprecise results — three ways to lose the same user.",
+          // TODO(afi-redaccion)
+          es: "Expectativas incumplidas, onboarding frustrante y resultados imprecisos: tres formas de perder al mismo usuario.",
         },
-        animation: "hours-stat",
-      },
-      {
-        label: {
-          en: "20 Leads in 7 Days",
-          es: "20 leads en 7 días",
-        },
-        sublabel: {
-          en: "Paid ads validated the new direction in a week.",
-          es: "Los anuncios de pago validaron la nueva dirección en una semana.",
-        },
-        animation: "leads-funnel",
-      },
-      {
-        label: {
-          en: "AI Summary Refinement",
-          es: "Refinamiento de resúmenes con IA",
-        },
-        sublabel: {
-          en: "Iterating between OpenAI and Claude models based on user feedback.",
-          es: "Iterando entre los modelos de OpenAI y Claude a partir del feedback de los usuarios.",
-        },
-        animation: "model-iteration",
+        animation: "user-feedback",
         span: "wide",
+        details: {
+          heading: {
+            en: "Audemic Insights struggled with retention",
+            // TODO(afi-redaccion)
+            es: "Audemic Insights tenía problemas de retención",
+          },
+          sections: [
+            {
+              body: {
+                en: "One sentence with three causes underlined: unmet user expectations, frustrating onboarding, and imprecise search and summary results.",
+                // TODO(afi-redaccion)
+                es: "Una frase con tres causas subrayadas: expectativas de usuario incumplidas, un onboarding frustrante y resultados de búsqueda y resumen imprecisos.",
+              },
+            },
+            {
+              body: {
+                en: "Users anticipated a seamless AI-driven experience but encountered manual tasks that felt annoying. Search results lacked precision and relevance, falling short of user expectations. And friction, from an excessive number of steps during onboarding, led to user drop-off.",
+                // TODO(afi-redaccion)
+                es: "Los usuarios esperaban una experiencia fluida guiada por IA y se encontraban tareas manuales que resultaban molestas. Los resultados de búsqueda carecían de precisión y relevancia, por debajo de lo que esperaban. Y la fricción de un número excesivo de pasos en el onboarding provocaba abandono.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "01 — Expert interviews",
+          es: "01 — Entrevistas con expertos",
+        },
+        sublabel: {
+          en: "An Oxford AI professor, a White House Correspondent, and a vaccine researcher.",
+          // TODO(afi-redaccion)
+          es: "Un catedrático de IA de Oxford, un corresponsal de la Casa Blanca y un investigador de vacunas.",
+        },
+        image: "/work/audemic-onboarding/process-01-user-testing.webp",
+        details: {
+          heading: {
+            en: "Showcase value before making an ask",
+            // TODO(afi-redaccion)
+            es: "Enseñar el valor antes de pedir algo",
+          },
+          sections: [
+            {
+              body: {
+                en: "An Oxford AI professor, a White House Correspondent, and a vaccine researcher highlighted the importance of showcasing value before making an ask from the user, and revealed that Google Scholar lacked 'real world' search scenarios like learning methodologies.",
+                // TODO(afi-redaccion)
+                es: "Un catedrático de IA de Oxford, un corresponsal de la Casa Blanca y un investigador de vacunas señalaron la importancia de enseñar el valor antes de pedirle algo al usuario, y revelaron que Google Scholar no cubría escenarios de búsqueda «del mundo real», como aprender una metodología.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "02 — Mixpanel analysis",
+          es: "02 — Análisis en Mixpanel",
+        },
+        sublabel: {
+          en: "Sub-topic selection reached 18.29% of sign-ups. 38.49% skipped onboarding outright.",
+          // TODO(afi-redaccion)
+          es: "La selección de subtemas llegaba al 18,29 % de los registros. El 38,49 % se saltaba el onboarding directamente.",
+        },
+        image: "/work/audemic-onboarding/process-02-mixpanel.webp",
+        details: {
+          heading: {
+            en: "The drop-off had a location",
+            // TODO(afi-redaccion)
+            es: "El abandono tenía una ubicación",
+          },
+          sections: [
+            {
+              body: {
+                en: "Mix panel analysis revealed significant drop-offs during sub-topic searches, pointing to gaps in relevance and user alignment.",
+                // TODO(afi-redaccion)
+                es: "El análisis en Mixpanel reveló abandonos significativos durante las búsquedas de subtemas, lo que apuntaba a carencias de relevancia y de alineación con el usuario.",
+              },
+            },
+            {
+              body: {
+                en: "Sign-up at 100%, the first interest question at 37.8%, continue-onboarding at 36.59%, sub-topic selection at 18.29%. Meanwhile 38.49% skipped onboarding entirely. More people skipping the flow than finishing it isn't a copy problem.",
+                // TODO(afi-redaccion)
+                es: "Registro al 100 %, la primera pregunta de intereses al 37,8 %, continuar el onboarding al 36,59 % y la selección de subtemas al 18,29 %. Mientras tanto, el 38,49 % se saltaba el onboarding por completo. Que más gente se salte el flujo de la que lo termina no es un problema de textos.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "03 — Prototyping & testing",
+          es: "03 — Prototipado y testing",
+        },
+        sublabel: {
+          en: "Three hypotheses, then cycles of testing and refinement.",
+          // TODO(afi-redaccion)
+          es: "Tres hipótesis y luego ciclos de prueba y refinamiento.",
+        },
+        image: "/work/audemic-onboarding/process-03-testing-screens.webp",
+        details: {
+          heading: {
+            en: "Written as hypotheses so they could fail",
+            // TODO(afi-redaccion)
+            es: "Formuladas como hipótesis para que pudieran fallar",
+          },
+          sections: [
+            {
+              body: {
+                en: "We hypothesized that advanced filters, prioritizing search, and enriching metadata in summaries would better meet user needs. To validate, we used an iterative approach with cycles of testing and refinement.",
+                // TODO(afi-redaccion)
+                es: "Planteamos como hipótesis que unos filtros avanzados, dar prioridad a la búsqueda y enriquecer los metadatos de los resúmenes responderían mejor a las necesidades del usuario. Para validarlo usamos un enfoque iterativo con ciclos de prueba y refinamiento.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: { en: "The solution", es: "La solución" },
+        sublabel: {
+          en: "Simplified onboarding by minimizing inputs while preserving personalization.",
+          // TODO(afi-redaccion)
+          es: "Onboarding simplificado: menos campos, la misma personalización.",
+        },
+        images: [
+          "/work/audemic-onboarding/solution-subtopics.webp",
+          "/work/audemic-onboarding/solution-recommendation.webp",
+        ],
+        span: "wide",
+        details: {
+          heading: {
+            en: "Search usability, and value up front",
+            // TODO(afi-redaccion)
+            es: "Usabilidad de la búsqueda y valor por delante",
+          },
+          sections: [
+            {
+              body: {
+                en: "Search usability: improved sub-topic search accuracy by linking initial searches to engaging topics, reducing drop-offs, and integrated new metadata to make results actionable and user-focused.",
+                // TODO(afi-redaccion)
+                es: "Usabilidad de la búsqueda: mejoramos la precisión de la búsqueda de subtemas ligando las búsquedas iniciales a temas que engancharan, lo que reduce el abandono, e integramos metadatos nuevos para que los resultados sean accionables y centrados en el usuario.",
+              },
+            },
+            {
+              body: {
+                en: "Early value: during onboarding, we prioritized search functionality to let users explore relevant topics instantly, and added five personalized summaries to showcase the platform's value and relevance.",
+                // TODO(afi-redaccion)
+                es: "Valor temprano: durante el onboarding dimos prioridad a la búsqueda para que el usuario explore temas relevantes al instante, y añadimos cinco resúmenes personalizados para mostrar el valor y la relevancia de la plataforma.",
+              },
+            },
+          ],
+        },
       },
     ],
   },

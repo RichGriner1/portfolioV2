@@ -50,6 +50,11 @@ next-env.d.ts
 /mindfulme_casestudy/
 /old_casestudy_assets/
 /growth-audit/
+# The Audemic deck exports. 17MB of source PNGs; the shipped versions are webp at
+# 1920px under public/work/audemic-*, about 2.8MB. Also holds the two photos that
+# stay unpublished — one has colleagues' names rendered into it, one shows an
+# identifiable face.
+/Cast studie/
 
 # Personal notes
 /Because tools make competence cheap.md

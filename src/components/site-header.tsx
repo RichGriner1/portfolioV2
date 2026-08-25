@@ -63,8 +63,17 @@ const PANEL = {
   },
 } as const;
 
-/** Same set the footer carries — Richard wants them in both places. */
+/**
+ * The socials used to be duplicated in the footer too; they live only in this
+ * panel now (see the note in site-footer.tsx).
+ *
+ * GitHub added 2026-08-25, when portfolioV2 went public. It sits first because
+ * it's the link a design-engineering reviewer looks for and the site had no path
+ * to any code at all — which, for a portfolio whose strongest artifact IS the
+ * repo, was the gap.
+ */
 const RESOURCES = [
+  { href: "https://github.com/RichGriner1/portfolioV2", label: "GitHub" },
   { href: "https://www.linkedin.com/in/richardgriner", label: "LinkedIn" },
   { href: "https://x.com/poppa_richhh", label: "X" },
   { href: "mailto:richardgrinerdesigns@gmail.com", key: "nav.email" as const },

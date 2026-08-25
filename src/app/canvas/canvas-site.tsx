@@ -80,6 +80,23 @@ const ZOOM = { min: 0.25, max: 2 };
 const ZOOM_STEP = 1.25;
 
 /**
+ * Screen px the board travels per arrow press, and the multiplier Shift adds.
+ *
+ * 32 reads as a deliberate nudge on a single tap, and at a held key's ~30 repeats a
+ * second it glides at roughly 950px/s — near enough a comfortable drag. 10x on Shift
+ * is Figma's own nudge ratio, which puts a neighbouring section two presses away
+ * instead of thirty.
+ */
+const PAN_STEP = 32;
+const PAN_BIG = 10;
+
+/**
+ * PageUp / PageDown travel, as a fraction of the viewport. Short of a full screen on
+ * purpose: the sliver of overlap is what tells you the two views are the same board.
+ */
+const PAN_PAGE = 0.9;
+
+/**
  * Scale change per pixel of wheel delta, as an exponent.
  *
  * Exponential rather than linear, so a notch is the same PROPORTIONAL change wherever
@@ -967,13 +984,16 @@ export function CanvasSite() {
    * step, not two. Compounding off the last target makes a rapid press-press-press
    * land where the presses said, which is the only reading of that gesture.
    */
-  const zoomBy = (factor: number) =>
-    zoomTo(
-      zoomAim.current * factor,
-      window.innerWidth / 2,
-      window.innerHeight / 2,
-      true
-    );
+  const zoomBy = useCallback(
+    (factor: number) =>
+      zoomTo(
+        zoomAim.current * factor,
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        true
+      ),
+    [zoomTo]
+  );
 
   /**
    * Wheel and trackpad panning — Figma's primary navigation, and the thing that was
@@ -1111,6 +1131,138 @@ export function CanvasSite() {
       window.removeEventListener("keyup", up);
     };
   }, [drag]);
+
+  /**
+   * Keyboard navigation — arrows pan, +/- zoom. Figma's canvas shortcuts.
+   *
+   * The gap this closes is a MOUSE one. A trackpad's two-finger gesture arrives as a
+   * wheel event carrying both deltas, so it already pans freely in two axes; a wheel
+   * reports deltaY alone, which left side-to-side travel behind Shift+wheel or a drag
+   * from the gaps between frames. Neither is discoverable. Arrows are the direct
+   * control and the one a visitor tries first.
+   *
+   * Instant `set` rather than `animate`, for the same reason the wheel isn't eased: a
+   * held arrow repeats around thirty times a second, so easing each press would fight
+   * the next one and the board would swim behind the key. A tap is a nudge, a hold is
+   * a glide. The zoom keys DO animate — those are discrete, one press is one step,
+   * and that's the path `zoomTo`'s `animated` flag already serves.
+   *
+   * `pannable` is the gate, not `drag`. `drag` is off under reduced motion, but a
+   * keyboard pan has no motion to reduce — it's the same instant `set` either way,
+   * and taking navigation away from that visitor is the opposite of what the setting
+   * asks for. The animated paths stay honest because `zoomTo` reads `reduced` itself.
+   *
+   * The digit shortcuts go through `e.code`, the rest through `e.key`, and the split
+   * is not arbitrary. `e.key` for Shift+1 is "!" on a US layout and something else
+   * again on the Spanish one half this site is written in, so a digit has to be read
+   * as the physical key. "+" is the mirror image: Shift+= here, its own key on a
+   * numpad, AltGr elsewhere — the character is the stable thing about it.
+   *
+   * Cmd+ / Cmd- are deliberately NOT taken, which is the one place this stops
+   * matching Figma. Figma is an app you commit to; this is a page, and someone who
+   * presses Cmd+ because they need things bigger should get the browser's zoom. Board
+   * zoom would leave the rail and the toolbar exactly as they were — they're fixed to
+   * the viewport, not on the board — so hijacking it would fail the request while
+   * looking like it worked.
+   *
+   * Guards mirror the wheel handler: `offsetParent` for the stacked layout below `lg`,
+   * `cvOpen` for the modal. The focus test is the one the wheel doesn't need, because
+   * a key can be meant for whatever holds focus — a field owns its caret and a Base UI
+   * menu walks its items with the arrows. Anything focused that reads these keys keeps
+   * them.
+   */
+  useEffect(() => {
+    if (!pannable) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      const el = root.current;
+      if (!el?.offsetParent || cvOpen) return;
+      // Modified presses belong to the browser and the OS. See the Cmd+ note above.
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const focused = document.activeElement;
+      if (
+        focused instanceof HTMLElement &&
+        (focused.isContentEditable ||
+          focused.closest(
+            'input, textarea, select, [role="menu"], [role="listbox"], [role="combobox"]'
+          ))
+      )
+        return;
+
+      // Zoom is anchored on the middle of the viewport rather than the pointer: a key
+      // press has no position, and the wheel's "keep the frame under the cursor" trick
+      // has nothing to hold on to.
+      if (e.key === "+" || e.key === "=") {
+        e.preventDefault();
+        zoomBy(ZOOM_STEP);
+        return;
+      }
+      if (e.key === "-" || e.key === "_") {
+        e.preventDefault();
+        zoomBy(1 / ZOOM_STEP);
+        return;
+      }
+      if (e.shiftKey && e.code === "Digit0") {
+        e.preventDefault();
+        zoomTo(1, window.innerWidth / 2, window.innerHeight / 2, true);
+        return;
+      }
+      // Shift+1 is zoom-to-fit, and the shot it flies to is the one the intro opens
+      // on — `overviewFraming` is already the file's answer to "frame everything", so
+      // this is the same camera move on demand rather than a second definition of it.
+      if (e.shiftKey && e.code === "Digit1") {
+        e.preventDefault();
+        const fit = overviewFraming(window.innerWidth, window.innerHeight);
+        const opts = reduced
+          ? { duration: 0 }
+          : { duration: 0.45, ease: [0.2, 0.8, 0.2, 1] as const };
+        zoomAim.current = fit.k;
+        animate(k, fit.k, opts);
+        animate(x, fit.x, opts);
+        animate(y, fit.y, opts);
+        return;
+      }
+
+      /**
+       * Screen-space deltas added straight to the offset — the wheel's convention, and
+       * the reason neither handler contains any zoom arithmetic. A press moves the VIEW
+       * a fixed visual distance, so at 25% it crosses four times the board it does at
+       * 100%. That's the right reading of "nudge it left a bit" at that scale.
+       */
+      const step = PAN_STEP * (e.shiftKey ? PAN_BIG : 1);
+      let dx = 0;
+      let dy = 0;
+      switch (e.key) {
+        case "ArrowLeft":
+          dx = step;
+          break;
+        case "ArrowRight":
+          dx = -step;
+          break;
+        case "ArrowUp":
+          dy = step;
+          break;
+        case "ArrowDown":
+          dy = -step;
+          break;
+        case "PageUp":
+          dy = window.innerHeight * PAN_PAGE;
+          break;
+        case "PageDown":
+          dy = -window.innerHeight * PAN_PAGE;
+          break;
+        default:
+          return;
+      }
+      e.preventDefault();
+      x.set(clampTo(x.get() + dx, panLimit("x", k.get())));
+      y.set(clampTo(y.get() + dy, panLimit("y", k.get())));
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [pannable, cvOpen, reduced, x, y, k, zoomTo, zoomBy]);
 
   /**
    * Keep the rail honest.

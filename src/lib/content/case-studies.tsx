@@ -92,6 +92,11 @@ export type BentoCard = {
    * the variant suffix — `/work/visual-identity/process-stages` resolves to
    * `<base>_<lang>_<theme>_thumb.mp4`, the same four-variant convention
    * `WorkItem.video` uses so a card and its work tile can share one clip.
+   *
+   * A path that already ends in `.mp4` is used verbatim, no variants. That's for
+   * captured footage rather than a rendered thumbnail: a screen recording of a
+   * Spanish-only, light-only app has no four ways to be, and four copies of one
+   * file would be four times the bytes for nothing.
    */
   video?: string;
 };
@@ -140,17 +145,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     bento: [
       {
         label: {
-          en: "Playground: switch the brand, read the tokens",
-          // TODO(afi-redaccion)
-          es: "Playground: cambia la marca, lee los tokens",
+          en: "Component Playground",
+          es: "Playground de componentes",
         },
         // TODO(afi-redaccion)
         sublabel: {
-          en: "This page is the v1 MVP: built to put the concept in front of the teams and collect the first round of feedback. A more developed version exists internally and isn't public, so it isn't shown here. The full app is password-protected. Email richardgrinerdesigns@gmail.com for a walkthrough.",
+          en: "One page per component: every state, the tokens it uses and a brand picker. Nobody rebuilds the same thing in Figma to check how it behaves, and the token names on the page become the language the team uses for it.",
           // TODO(afi-redaccion)
-          es: "Esta página es el MVP v1: se construyó para poner el concepto delante de los equipos y recoger las primeras reacciones. Existe una versión más desarrollada de uso interno que no es pública, así que no se muestra aquí. La app entera está protegida por contraseña: escríbeme a richardgrinerdesigns@gmail.com para un recorrido.",
+          es: "Una página por componente: todos sus estados, los tokens que usa y un selector de marca. Nadie vuelve a montar lo mismo en Figma para ver cómo se comporta, y los nombres de los tokens de esa página pasan a ser el lenguaje con el que el equipo habla de él.",
         },
         /**
+         * The segmented control, not the button: it carries a `Marca` picker, an
+         * appearance and size row and an options count, so one card demonstrates
+         * both halves of the system — a component in isolation, and the same
+         * component re-skinned by a brand swap.
+         *
          * `?embed=1` strips the docs chrome — breadcrumb, title, description,
          * use-cases, accessibility, dos-and-donts — leaving the controls row, the
          * live preview and the `Tokens consumidos` table. Without it the first
@@ -158,23 +167,56 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
          * token table both sit below a fold a cross-origin frame cannot be scrolled
          * past from here. See EmbedService in the Coherence repo.
          *
-         * Inert until that branch deploys: Angular ignores an unrecognized query
-         * param, so this renders the normal page until then. NOTE the deployment is
-         * also stale — its bundle has no /workbench route — so redeploy before
-         * trusting what this card shows.
+         * The route is live on the deployment, but the param is not: the deployed
+         * bundle carries no EmbedService, so this renders the full docs page until
+         * coherence-wealth-manager redeploys from RichGriner1/Coherence main. The
+         * commit that added `?embed=1` is pushed; the build is behind it.
          */
         iframe:
-          "https://coherence-wealth-manager.vercel.app/componentes/button?embed=1",
+          "https://coherence-wealth-manager.vercel.app/componentes/segmented-control?embed=1",
         span: "full",
+        details: {
+          heading: {
+            en: "Components on their own",
+            es: "Componentes por separado",
+          },
+          sections: [
+            {
+              body: {
+                en: "Programmers have different permissions to Figma, so handoffs were inconsistent because they saw different things. They also wouldn't use the components in Figma, just the flows, but then would ask me component-specific questions. It was because we didn't have time to properly document the Figma for them.",
+                // TODO(afi-redaccion)
+                es: "Los programadores tienen permisos distintos en Figma, así que las entregas eran inconsistentes porque cada uno veía cosas distintas. Tampoco usaban los componentes de Figma, solo los flujos, pero luego me hacían preguntas específicas de componentes. Era porque no habíamos tenido tiempo de documentarles bien el Figma.",
+              },
+            },
+            {
+              body: {
+                en: "Now I made the component playground to look at states, interactions, tokens in an isolated place.",
+                // TODO(afi-redaccion)
+                es: "Ahora he montado el playground de componentes para ver estados, interacciones y tokens en un sitio aislado.",
+              },
+            },
+          ],
+        },
       },
+      /**
+       * Token architecture and white-label were two cards until 2026-08-25. They
+       * read as one: the tokens are tiered the way they are so that a brand swap
+       * happens in a single layer, and the white-label card's argument depends on
+       * the architecture the other card described. Merged, the four beats run in
+       * order — how the Figmas used to be made, what we built instead, what that
+       * buys, and where it still falls short. The `palette` animation comes from
+       * the white-label half; `layers`, the token half's, is now unused here.
+       */
       {
         label: {
-          en: "Token Architecture",
-          es: "Arquitectura de tokens",
+          en: "Token Architecture & White-label",
+          es: "Arquitectura de tokens y white-label",
         },
+        // TODO(afi-redaccion)
         sublabel: {
-          en: "Three tiers: primitive, semantic, component. A brand change happens at the token, not in twenty files.",
-          es: "Tres niveles: primitivo, semántico y componente. Un cambio de marca ocurre en el token, no en veinte archivos.",
+          en: "Changing a client's brand meant editing colors across twenty files by hand. The values sit in three tiers now, primitive, semantic and component, so a new brand is a token swap and the components never change.",
+          // TODO(afi-redaccion)
+          es: "Cambiar la marca de un cliente significaba editar los colores en veinte archivos a mano. Ahora los valores están en tres niveles, primitivo, semántico y componente, así que una marca nueva es un cambio de tokens y los componentes no se tocan.",
         },
         details: {
           heading: {
@@ -216,25 +258,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 ),
               },
             },
-          ],
-        },
-        animation: "layers",
-      },
-      {
-        label: {
-          en: "White-label at Scale",
-          es: "White-label a escala",
-        },
-        sublabel: {
-          en: "Swap the tokens, ship the next bank. The components don't change, the brand does.",
-          es: "Intercambia los tokens, lanza el siguiente banco. Los componentes no cambian, la marca sí.",
-        },
-        details: {
-          heading: {
-            en: "Quick to re-skin, but the patterns get lost",
-            es: "Rápido de cambiar de skin, pero los patrones se pierden",
-          },
-          sections: [
             {
               body: {
                 en: "Swapping tokens is good for quick changes when a concept has to go out to a client, but the patterns and the visual essence get lost.",
@@ -255,12 +278,63 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       {
         label: {
-          en: "Designer Handoff & Feedback Tool",
-          es: "Herramienta de entrega y feedback de diseño",
+          en: "Documentation & Downloadable Brand Assets",
+          es: "Documentación y recursos de marca descargables",
+        },
+        // TODO(afi-redaccion)
+        sublabel: {
+          en: "Documented, with the brand assets and token sets downloadable. Five teams and one designer means the answer has to sit somewhere they can reach without me.",
+          // TODO(afi-redaccion)
+          es: "Documentado, con los recursos de marca y los sets de tokens descargables. Cinco equipos y un diseñador obligan a que la respuesta esté en algún sitio al que lleguen sin mí.",
+        },
+        // `nodes` — the one-repo-everyone-reads-from animation, which came free when
+        // the Unified Design Platform card was cut. It's the better fit: this card is
+        // about one shared source reaching every team, which is what that figure draws.
+        // `asset-portal` was a download tray, and drew the mechanism rather than the point.
+        animation: "nodes",
+        // The one row of two on this page: the two drawn figures sit together,
+        // and the three cards carrying real footage — the live playground above,
+        // the two recordings below — each take a full row so the app inside them
+        // is big enough to follow. Nothing is `wide`: two wide cards stack
+        // instead of sitting next to each other.
+        details: {
+          heading: {
+            en: "One designer, forty programmers, five teams",
+            es: "Un diseñador, cuarenta programadores, cinco equipos",
+          },
+          // Richard's own beats, verbatim. No section labels: this is how he writes
+          // it, and the four-heading frame is what invited invented filler. His
+          // 2026-08-06 rewrite of the closing paragraph absorbed the old standalone
+          // "Documented everything..." beat word for word, so that beat went — its
+          // sentence now lives inside the closer.
+          sections: [
+            {
+              body: {
+                en: "A designer makes a million decisions across a project, big and small. As the only full-time designer, my attention splits across forty programmers, so insights land with one team and never reach the others, and in a preference-first culture that means defending the same call repeatedly.",
+                // TODO(afi-redaccion)
+                es: "Un diseñador toma un millón de decisiones a lo largo de un proyecto, grandes y pequeñas. Como único diseñador a tiempo completo, mi atención se reparte entre cuarenta programadores, así que una conclusión aterriza en un equipo y no llega al resto, y en una cultura donde manda la preferencia eso significa defender la misma decisión una y otra vez.",
+              },
+            },
+            {
+              body: {
+                en: "A shared design language only exists if everyone has the same access to it. So, I documented everything and made assets like token sets and skills downloadable.",
+                // TODO(afi-redaccion)
+                es: "Un lenguaje de diseño compartido solo existe si todo el mundo tiene el mismo acceso a él. Así que lo documenté todo e hice descargables recursos como los sets de tokens y las skills.",
+              },
+            },
+          ],
+        },
+      },
+      {
+        label: {
+          en: "Designer Feedback Tool",
+          // TODO(afi-redaccion)
+          es: "Herramienta de feedback de diseño",
         },
         sublabel: {
-          en: "Pin feedback to the design where the work is, so nothing lives in a chat thread anymore.",
-          es: "Fija el feedback sobre el diseño donde está el trabajo, para que nada se quede atrapado en un hilo de chat.",
+          en: "Feedback arrived in chat threads and I couldn't tell which screen or component it was about. Now anyone can click the element and comment on it, and I export those comments as a file to work from.",
+          // TODO(afi-redaccion)
+          es: "El feedback llegaba en hilos de chat y yo no sabía de qué pantalla o componente hablaba. Ahora cualquiera puede hacer clic en el elemento y comentarlo, y yo exporto esos comentarios a un archivo con el que trabajar.",
         },
         details: {
           heading: {
@@ -299,54 +373,22 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           ],
         },
-        animation: "comment-pins",
-      },
-      {
-        label: {
-          en: "Documentation & Downloadable Brand Assets",
-          es: "Documentación y recursos de marca descargables",
-        },
-        // TODO(afi-redaccion)
-        sublabel: {
-          en: "Brand assets and token sets anyone can download, so a decision made once doesn't get re-litigated with the next team.",
-          es: "Recursos de marca y sets de tokens que cualquiera puede descargar, para que una decisión tomada una vez no se vuelva a discutir con el siguiente equipo.",
-        },
-        // `nodes` — the one-repo-everyone-reads-from animation, which came free when
-        // the Unified Design Platform card was cut. It's the better fit: this card is
-        // about one shared source reaching every team, which is what that figure draws.
-        // `asset-portal` was a download tray, and drew the mechanism rather than the point.
-        animation: "nodes",
-        // Pairs with the handoff card on the same row — the two halves of the same
-        // idea, feedback coming back and the artifact going out. Neither is `wide`:
-        // two wide cards stack instead of sitting side by side, and dropping both
-        // spans leaves six single columns, which is three clean rows of two.
-        details: {
-          heading: {
-            en: "One designer, forty programmers, five teams",
-            es: "Un diseñador, cuarenta programadores, cinco equipos",
-          },
-          // Richard's own beats, verbatim. No section labels: this is how he writes
-          // it, and the four-heading frame is what invited invented filler. His
-          // 2026-08-06 rewrite of the closing paragraph absorbed the old standalone
-          // "Documented everything..." beat word for word, so that beat went — its
-          // sentence now lives inside the closer.
-          sections: [
-            {
-              body: {
-                en: "A designer makes a million decisions across a project, big and small. As the only full-time designer, my attention splits across forty programmers, so insights land with one team and never reach the others, and in a preference-first culture that means defending the same call repeatedly.",
-                // TODO(afi-redaccion)
-                es: "Un diseñador toma un millón de decisiones a lo largo de un proyecto, grandes y pequeñas. Como único diseñador a tiempo completo, mi atención se reparte entre cuarenta programadores, así que una conclusión aterriza en un equipo y no llega al resto, y en una cultura donde manda la preferencia eso significa defender la misma decisión una y otra vez.",
-              },
-            },
-            {
-              body: {
-                en: "A shared design language only exists if everyone has the same access to it. So, I documented everything and made assets like token sets and skills downloadable.",
-                // TODO(afi-redaccion)
-                es: "Un lenguaje de diseño compartido solo existe si todo el mundo tiene el mismo acceso a él. Así que lo documenté todo e hice descargables recursos como los sets de tokens y las skills.",
-              },
-            },
-          ],
-        },
+        // Captured from the demo shell on 2026-08-25, on Familia: comment mode
+        // on, click the `Residencia fiscal` select, type, publish, hold on the
+        // comment landing in the rail with the selector it pinned to and the .md
+        // export beside it.
+        //
+        // Recorded with the panel docked right. `PanelMode` defaults to
+        // `floating`, which puts the comments panel in a box over the top-left of
+        // the canvas; the shell remembers the choice in localStorage, so the
+        // capture script sets `coherence-demo-panel-mode` before the app boots.
+        // Docked, it reads as the same rail Inspección uses.
+        video: "/work/afi-design-system/handoff-comment.mp4",
+        // Full width, like the inspector below it. A screen recording in a
+        // half-width card is a thumbnail of an app — legible as a shape, not as
+        // a thing anyone can follow. Across the full row the composer, the
+        // selector it pinned to and the typed comment are all readable.
+        span: "full",
       },
       {
         label: {
@@ -354,8 +396,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Inspector de tokens",
         },
         sublabel: {
-          en: "Hover any component on the demo to reveal the tokens behind it, so developers code against the same variables the system enforces.",
-          es: "Pasa el cursor sobre cualquier componente en la demo para revelar los tokens que hay detrás, para que los desarrolladores codifiquen contra las mismas variables que el sistema impone.",
+          en: "In a user test I watched programmers skip the primitives and go straight for the raw value. So the inspector shows both, which means the set-up underneath stays best practice while what they read matches how they already work.",
+          // TODO(afi-redaccion)
+          es: "En un test con usuarios vi a los programadores saltarse los primitivos e ir directos al valor en crudo. Por eso el inspector enseña los dos: el montaje de debajo sigue siendo buena práctica y lo que ellos leen encaja con cómo ya trabajan.",
         },
         details: {
           heading: {
@@ -392,40 +435,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           ],
         },
-        animation: "token-inspect",
-      },
-      {
-        label: {
-          en: "Component Playground",
-          es: "Playground de componentes",
-        },
-        sublabel: {
-          en: "Every component, every state, with copyable code, so a developer grabs the snippet and ships.",
-          es: "Cada componente, cada estado, con código copiable, para que un desarrollador coja el snippet y lo lance.",
-        },
-        details: {
-          heading: {
-            en: "Components on their own",
-            es: "Componentes por separado",
-          },
-          sections: [
-            {
-              body: {
-                en: "Programmers have different permissions to Figma, so handoffs were inconsistent because they saw different things. They also wouldn't use the components in Figma, just the flows, but then would ask me component-specific questions. It was because we didn't have time to properly document the Figma for them.",
-                // TODO(afi-redaccion)
-                es: "Los programadores tienen permisos distintos en Figma, así que las entregas eran inconsistentes porque cada uno veía cosas distintas. Tampoco usaban los componentes de Figma, solo los flujos, pero luego me hacían preguntas específicas de componentes. Era porque no habíamos tenido tiempo de documentarles bien el Figma.",
-              },
-            },
-            {
-              body: {
-                en: "Now I made the component playground to look at states, interactions, tokens in an isolated place.",
-                // TODO(afi-redaccion)
-                es: "Ahora he montado el playground de componentes para ver estados, interacciones y tokens en un sitio aislado.",
-              },
-            },
-          ],
-        },
-        animation: "playground",
+        // Shot on Familia rather than Patrimonio, and on components rather than
+        // on text. The inspector reads the exact node under the cursor, so
+        // clicking a figure returns the single type token that figure consumes
+        // and reads as though the tool only knows about fonts. The text input
+        // returns what a real control is made of — height, radius, transition,
+        // background, border, border width, type — and the tabs beside it return
+        // a different six, which is the point the card is making.
+        video: "/work/afi-design-system/token-inspector.mp4",
+        span: "full",
       },
     ],
   },

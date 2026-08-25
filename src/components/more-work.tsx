@@ -24,16 +24,24 @@ import { t, useLang } from "@/lib/i18n";
 export function MoreWork({
   /** Omit the piece being read, so the shelf never points back at this page. */
   excludeSlug,
+  /**
+   * Cap the shelf. A case study passes 3: the reader has just finished a long
+   * page, and a full grid of everything else reads as a second board rather
+   * than a suggestion. Left open elsewhere.
+   */
+  limit,
   className,
 }: {
   excludeSlug?: string;
+  limit?: number;
   className?: string;
 }) {
   const { lang } = useLang();
 
-  const items = WORK.filter(
+  const all = WORK.filter(
     (w) => !w.hidden && w.kind === "case-study" && w.slug !== excludeSlug
   );
+  const items = limit ? all.slice(0, limit) : all;
 
   if (items.length === 0) return null;
 

@@ -1925,13 +1925,28 @@ function CvFrame({ onOpen }: { onOpen: () => void }) {
       // Marks this as the CV entry point. The header's CV button is found by its
       // text; this one carries a blurb, so it needs a marker the check can match.
       data-cv-open
-      className="border-border bg-card ease-out-soft pointer-events-auto flex size-full flex-col justify-between rounded-2xl border p-6 text-left transition-shadow duration-[var(--duration-base)] hover:shadow-lg"
+      className="border-border bg-card ease-out-soft pointer-events-auto relative flex size-full flex-col justify-between overflow-hidden rounded-2xl border p-6 text-left transition-shadow duration-[var(--duration-base)] hover:shadow-lg"
     >
+      {/* The card was an empty rectangle with two lines of type in it. The photo
+          fills the middle, where nothing was, and the gradient is opaque at both
+          ends because that is where the type sits — the title at the top, "read
+          more" at the bottom. It reads as a surface with something behind it,
+          not as a picture with a caption. */}
+      <img
+        src="/cv-photo.webp"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute inset-0 size-full object-cover opacity-60"
+      />
+      <span
+        aria-hidden
+        className="from-card via-card/55 to-card pointer-events-none absolute inset-0 bg-gradient-to-b"
+      />
       {/* No mono eyebrow above the title. On a work card that slot carries the
           kind ("Process", "Methodology") — a different word from the title, which
           is what makes it worth the line. Here both strings were `nav.cv`, so the
           frame opened by saying CV twice and the second one looked like a bug. */}
-      <span className="flex flex-col gap-2">
+      <span className="relative flex flex-col gap-2">
         <span className="text-foreground text-xl font-bold">
           {t("nav.cv", lang)}
         </span>
@@ -1939,7 +1954,7 @@ function CvFrame({ onOpen }: { onOpen: () => void }) {
           {pick(CV_COPY, lang)}
         </span>
       </span>
-      <span className="text-muted-foreground font-mono text-[11px]">
+      <span className="text-muted-foreground relative font-mono text-[11px]">
         {t("home.read_more", lang)} →
       </span>
     </button>

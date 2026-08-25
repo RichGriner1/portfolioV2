@@ -93,7 +93,7 @@ export function CaseStudyPage({ item, study }: Props) {
 
           <CaseStudyBento cards={study.bento} gallery={study.gallery} />
 
-          <MoreWork excludeSlug={item.slug} />
+          <MoreWork excludeSlug={item.slug} limit={3} />
         </>
       ) : (
         <>

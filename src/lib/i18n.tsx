@@ -26,17 +26,21 @@ const LangContext = createContext<LangContextValue | null>(null);
 export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");
 
+  /**
+   * English until someone asks for Spanish.
+   *
+   * This used to fall back to `navigator.language`, so a Spanish browser landed
+   * on the Spanish site. That's the wrong default here: the portfolio is written
+   * in English first, the Spanish is a translation that trails it, and half the
+   * people opening it from Madrid are reading it in English anyway. Only an
+   * explicit choice, stored by the toggle, switches it.
+   */
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Lang | null;
     if (stored === "en" || stored === "es") {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setLangState(stored);
-      return;
     }
-    const browser = navigator.language?.toLowerCase().startsWith("es")
-      ? "es"
-      : "en";
-    setLangState(browser);
   }, []);
 
   const setLang = useCallback((l: Lang) => {

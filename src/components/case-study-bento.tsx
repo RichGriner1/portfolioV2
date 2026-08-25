@@ -4114,6 +4114,17 @@ function VIMicroAnimation() {
   );
 }
 
+/**
+ * Resolve `card.video` to a file.
+ *
+ * The four-variant convention (`<base>_<lang>_<theme>_thumb.mp4`) is for clips
+ * rendered per language and theme. A path that already names an `.mp4` is a
+ * single file used as-is — see the `video` doc on BentoCard.
+ */
+function videoSrc(base: string, lang: string, mode: string) {
+  return base.endsWith(".mp4") ? base : `${base}_${lang}_${mode}_thumb.mp4`;
+}
+
 const ANIMATIONS: Record<
   NonNullable<BentoCard["animation"]>,
   (props: AnimationProps) => JSX.Element
@@ -4174,23 +4185,44 @@ function BentoCardItem({
   const mode = videoMounted && resolvedTheme === "dark" ? "dark" : "light";
   const isMobile = useIsMobile();
   const [mobileVariant, setMobileVariant] = useState<"idle" | "hover">("idle");
-  const [iframeOpen, setIframeOpen] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
   /**
-   * The live demo mounts on click, not on page load.
+   * The live demo mounts when the card scrolls into view, not on page load and
+   * no longer on a click.
    *
-   * The embedded app focuses an element when it routes, and a focused element inside
-   * an iframe scrolls the PARENT document to bring it into view — so arriving at the
-   * case study jumped you straight past the context to the demo. `loading="lazy"`
-   * doesn't help; the scroll comes from focus, not from fetch. Deferring the mount
-   * also means a third-party Angular app isn't booted for every visitor who never
-   * clicks it.
+   * It used to need the click because the embedded app focuses an element when
+   * it routes, and a focused element inside an iframe scrolls the PARENT
+   * document to bring it into view — so arriving at the case study jumped you
+   * past the context and down to the demo. `loading="lazy"` doesn't help; the
+   * scroll comes from focus, not from fetch. Mounting on intersection keeps
+   * both things that mattered: a visitor who never reaches the card never boots
+   * a third-party Angular app, and by the time it does boot the card is already
+   * on screen, so a scroll toward it isn't a jump away from anything.
    */
   const [iframeMounted, setIframeMounted] = useState(false);
+  const iframeSlot = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!iframeOpen) return;
+    if (!card.iframe || iframeMounted) return;
+    const el = iframeSlot.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setIframeMounted(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [card.iframe, iframeMounted]);
+
+  useEffect(() => {
+    if (!zoomOpen) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIframeOpen(false);
+      if (e.key === "Escape") setZoomOpen(false);
     };
     document.addEventListener("keydown", handler);
     document.body.style.overflow = "hidden";
@@ -4198,11 +4230,11 @@ function BentoCardItem({
       document.removeEventListener("keydown", handler);
       document.body.style.overflow = "";
     };
-  }, [iframeOpen]);
+  }, [zoomOpen]);
 
-  const openIframeModal = (e: React.MouseEvent) => {
+  const openZoom = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIframeOpen(true);
+    setZoomOpen(true);
   };
 
   useEffect(() => {
@@ -4224,7 +4256,7 @@ function BentoCardItem({
     <>
       <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
         {card.iframe ? (
-          <div className="relative h-[640px] w-full bg-white">
+          <div ref={iframeSlot} className="relative h-[640px] w-full bg-white">
             {iframeMounted ? (
               <iframe
                 src={card.iframe}
@@ -4233,29 +4265,12 @@ function BentoCardItem({
                 className="h-full w-full border-0"
               />
             ) : (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIframeMounted(true);
-                }}
-                className="bg-muted/40 text-muted-foreground hover:bg-muted/60 hover:text-foreground absolute inset-0 flex flex-col items-center justify-center gap-2 transition-colors"
-              >
-                <span className="text-foreground text-sm font-medium">
-                  {lang === "es"
-                    ? "Cargar la demo en vivo"
-                    : "Load the live demo"}
-                </span>
-                <span className="max-w-[38ch] text-center text-xs">
-                  {lang === "es"
-                    ? "Se abre la app real dentro de la página."
-                    : "Loads the real app inside this page."}
-                </span>
-              </button>
+              // Placeholder for the moment before intersection, not a control.
+              <div className="bg-muted/40 absolute inset-0" />
             )}
             <button
               type="button"
-              onClick={openIframeModal}
+              onClick={openZoom}
               aria-label="Open demo in fullscreen"
               className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
             >
@@ -4278,25 +4293,35 @@ function BentoCardItem({
             ))}
           </div>
         ) : card.video ? (
-          <video
-            // Keyed on the resolved src so a language or theme change swaps the
-            // file — React reuses a <video> element across prop changes and a
-            // <source> swap alone doesn't reload it.
-            key={`${card.video}_${lang}_${mode}`}
-            className="h-full w-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            ref={(el) => {
-              if (el) el.muted = true;
-            }}
-          >
-            <source
-              src={`${card.video}_${lang}_${mode}_thumb.mp4`}
-              type="video/mp4"
-            />
-          </video>
+          <div className="relative h-full w-full">
+            <video
+              // Keyed on the resolved src so a language or theme change swaps
+              // the file — React reuses a <video> element across prop changes
+              // and a <source> swap alone doesn't reload it.
+              key={videoSrc(card.video, lang, mode)}
+              className="h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              ref={(el) => {
+                if (el) el.muted = true;
+              }}
+            >
+              <source src={videoSrc(card.video, lang, mode)} type="video/mp4" />
+            </video>
+            {/* The same affordance the live-demo card gets. A screen recording
+                sized to a card shows the shape of an interaction, not its
+                detail, so there has to be a way to see it big. */}
+            <button
+              type="button"
+              onClick={openZoom}
+              aria-label="Open recording in fullscreen"
+              className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
+            >
+              <Maximize2 className="size-4" />
+            </button>
+          </div>
         ) : card.image ? (
           <img
             src={card.image}
@@ -4322,6 +4347,65 @@ function BentoCardItem({
 
   const baseClass =
     "group bg-card border-border/60 flex h-full flex-col gap-4 rounded-2xl border p-5";
+
+  /**
+   * Fullscreen, for the two kinds of card holding something bigger than a card:
+   * the live demo and a screen recording. Declared here rather than written
+   * inline because both return paths below — with detail copy and without —
+   * need it, and only the second one ever had it.
+   */
+  const zoomModal =
+    (card.iframe || card.video) && zoomOpen ? (
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={pick(card.label, lang)}
+        onClick={() => setZoomOpen(false)}
+        className="bg-background/80 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md sm:p-8"
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-card border-border relative flex h-[90vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border shadow-2xl"
+        >
+          <div className="border-border bg-card flex shrink-0 items-center justify-between border-b px-4 py-3">
+            <span className="text-foreground text-sm font-medium">
+              {pick(card.label, lang)}
+            </span>
+            <button
+              type="button"
+              onClick={() => setZoomOpen(false)}
+              aria-label="Close"
+              className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-md p-1.5 transition-colors"
+            >
+              <X className="size-5" />
+            </button>
+          </div>
+          {card.video ? (
+            <video
+              key={`zoom-${videoSrc(card.video, lang, mode)}`}
+              className="min-h-0 flex-1 bg-black object-contain"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
+              ref={(el) => {
+                if (el) el.muted = true;
+              }}
+            >
+              <source src={videoSrc(card.video, lang, mode)} type="video/mp4" />
+            </video>
+          ) : card.iframe ? (
+            <iframe
+              src={card.iframe}
+              title={pick(card.label, lang)}
+              sandbox="allow-scripts allow-same-origin allow-forms"
+              className="flex-1 border-0 bg-white"
+            />
+          ) : null}
+        </div>
+      </div>
+    ) : null;
 
   if (card.details) {
     return (
@@ -4415,6 +4499,7 @@ function BentoCardItem({
             />
           </button>
         </motion.div>
+        {zoomModal}
       </>
     );
   }
@@ -4435,40 +4520,7 @@ function BentoCardItem({
       >
         {inner}
       </motion.div>
-      {card.iframe && iframeOpen ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={pick(card.label, lang)}
-          onClick={() => setIframeOpen(false)}
-          className="bg-background/80 fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md sm:p-8"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="bg-card border-border relative flex h-[90vh] w-full max-w-7xl flex-col overflow-hidden rounded-2xl border shadow-2xl"
-          >
-            <div className="border-border bg-card flex shrink-0 items-center justify-between border-b px-4 py-3">
-              <span className="text-foreground text-sm font-medium">
-                {pick(card.label, lang)}
-              </span>
-              <button
-                type="button"
-                onClick={() => setIframeOpen(false)}
-                aria-label="Close demo"
-                className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-md p-1.5 transition-colors"
-              >
-                <X className="size-5" />
-              </button>
-            </div>
-            <iframe
-              src={card.iframe}
-              title={pick(card.label, lang)}
-              sandbox="allow-scripts allow-same-origin allow-forms"
-              className="flex-1 border-0 bg-white"
-            />
-          </div>
-        </div>
-      ) : null}
+      {zoomModal}
     </>
   );
 }

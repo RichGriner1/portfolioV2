@@ -47,6 +47,26 @@ export function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
       </div>
     );
   }
+  /**
+   * A still, framed the same way a video is — same p-3 inset, same bordered
+   * panel — so an image tile and a video tile read as the same kind of object on
+   * the board. `object-cover` for the same reason the video uses it: these are
+   * 16:9-ish slides in a square tile, and contain would letterbox them.
+   */
+  if (item.image) {
+    return (
+      <div className="pointer-events-none absolute inset-0 p-3">
+        <div className="bg-card border-border/60 h-full overflow-hidden rounded-xl border">
+          <img
+            src={item.image}
+            alt=""
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    );
+  }
   if (item.figure) {
     const Figure = FIGURES[item.figure];
     // The figure's framed panel fills the standard p-3 inset, so the tile

@@ -54,6 +54,19 @@ export type WorkItem = {
   video?: string;
   /** Optional animated figure (from blog posts) shown in place of the glyph. */
   figure?: FigureKey;
+  /**
+   * A still image for the card face, as a path under /public.
+   *
+   * Added 2026-08-25 for the two Audemic studies. They're product work whose
+   * artefacts are screens and research boards, and the glyph set is abstract
+   * diagrams — pointing two product studies at `visual-strategy` would have put
+   * the same drawing on the board twice and said nothing about either.
+   *
+   * Precedence in CardMedia: video → image → figure → glyph. Unlike `video`, this
+   * is a plain path with no `_lang_theme` suffix: these are documents of another
+   * product, not brand assets that need a variant per language and theme.
+   */
+  image?: string;
   bento?: "square" | "tall" | "wide";
   bgColor?: string;
   featured?: boolean;
@@ -199,19 +212,66 @@ export const WORK: WorkItem[] = [
     bento: "square",
     homeHidden: true,
   },
+  /**
+   * Two Audemic entries, not one.
+   *
+   * They're separate projects with separate methods and separate outcomes:
+   * business growth is market expansion validated with discovery interviews, a
+   * journey map and paid ads; onboarding is retention fixed off a Mixpanel funnel
+   * and iterative usability testing. Folded into one study the onboarding work —
+   * the more design-forward of the two — ends up as a subsection of a story whose
+   * headline is revenue.
+   *
+   * Both sort to 2024-01-01, so their order on the board is this array's order,
+   * which `Array.prototype.sort` preserves for ties. Onboarding sits first because
+   * it came later: it's Insights retention work, and Insights is what the beta in
+   * the business-growth study launched. Give them real `date` values if you want a
+   * different order — don't reshuffle the array and hope.
+   *
+   * Both replaced a single `audemic-growth` entry, which was `hidden` and never
+   * published, so no live URL broke.
+   */
   {
-    slug: "audemic-growth",
-    title: { en: "Audemic", es: "Audemic" },
+    slug: "audemic-onboarding",
+    title: {
+      en: "Audemic Insights onboarding",
+      // TODO(afi-redaccion)
+      es: "Onboarding de Audemic Insights",
+    },
     description: {
-      en: "Pivoting a B2C research app to B2B enterprise — validated in a week with AI-driven interviews and 20 qualified leads.",
-      es: "Pivotando una app de investigación B2C hacia B2B enterprise — validado en una semana con entrevistas impulsadas por IA y 20 leads cualificados.",
+      en: "Mixpanel showed where the funnel leaked. Fewer onboarding steps, without giving up the personalization.",
+      // TODO(afi-redaccion)
+      es: "Mixpanel mostró por dónde se escapaba el embudo. Menos pasos en el onboarding, sin renunciar a la personalización.",
     },
     year: 2024,
     type: "experiment",
     kind: "case-study",
-    href: "/work/audemic-growth",
-    glyph: "visual-strategy",
-    hidden: true,
+    href: "/work/audemic-onboarding",
+    // The title slide's mockup, the teal "Personalize your experience" screen. A
+    // real screen rather than a glyph — see WorkItem.image.
+    image: "/work/audemic-onboarding/hero.webp",
+    bento: "square",
+    featured: true,
+  },
+  {
+    slug: "audemic-business-growth",
+    title: {
+      en: "Audemic business growth",
+      // TODO(afi-redaccion)
+      es: "Crecimiento de negocio en Audemic",
+    },
+    description: {
+      en: "A B2C research app at $8K/month, taken into the enterprise: discovery interviews, a beta, and 20 qualified leads in a week.",
+      // TODO(afi-redaccion)
+      es: "Una app de investigación B2C con 8.000 $/mes, llevada al mercado enterprise: entrevistas de descubrimiento, una beta y 20 leads cualificados en una semana.",
+    },
+    year: 2024,
+    type: "experiment",
+    kind: "case-study",
+    href: "/work/audemic-business-growth",
+    image: "/work/audemic-business-growth/hero.webp",
+    bento: "square",
+    featured: true,
   },
   {
     slug: "mindfulme",

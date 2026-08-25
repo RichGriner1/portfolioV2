@@ -119,8 +119,21 @@ type Section = {
   contact?: boolean;
 };
 
-/** Frames a content section carries. Both sections use it, so they stay a pair. */
-const PER_SECTION = 4;
+/**
+ * Frames a content section carries. Both sections use it, so they stay a pair.
+ *
+ * Raised 4 -> 5 on 2026-08-25, when Audemic became two case studies. At four, a
+ * fifth study would have silently dropped one off the board, and the one it
+ * dropped would have been decided by a sort tie rather than by anyone.
+ *
+ * Blog is unaffected: `sectionSize` widens a section to `min(cols, count)`, and
+ * Blog has three published pieces, so its box is unchanged. Only Case studies
+ * grows, from sectionWidth(4) = 1360px to sectionWidth(5) = 1695px. Measured on
+ * the live board: Case studies right edge 668px, Blog left edge 1088px, so 420px
+ * of clearance. The intro overview is derived from SECTIONS so it refits itself —
+ * 0.431 -> 0.408 at 1440x900, still clear of the 0.25 floor.
+ */
+const PER_SECTION = 5;
 
 /**
  * The kinds /writing gathers. Duplicated from writing-list.tsx rather than imported
@@ -136,7 +149,7 @@ const WRITING_KINDS: readonly string[] = ["blog", "process", "methodology"];
  * remember: publish something and the board keeps showing last month's work until
  * someone edits this file, and the "See all" underneath is then lying about what it
  * leads to. Same filter and same sort as projects-list.tsx and writing-list.tsx, so
- * the frames on the board are literally the first four of the page they link to.
+ * the frames on the board are literally the first few of the page they link to.
  */
 const newest = (match: (item: WorkItem) => boolean) =>
   WORK.filter((item) => match(item) && !item.hidden && !item.homeHidden)

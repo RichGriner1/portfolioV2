@@ -4252,9 +4252,81 @@ function BentoCardItem({
     return () => clearTimeout(timer);
   }, [isMobile]);
 
+  /**
+   * The card's anatomy, as of 2026-08-26: name on top, media in the middle, the
+   * argument underneath.
+   *
+   * It used to be media-then-name-then-sublabel, which works at 120px and breaks at
+   * 640px. The playground card is 640px of live Angular app, so its title only
+   * arrived after you had scrolled past the thing it names — you used the demo
+   * without ever being told what it was. Richard's words: "the playground is kinda
+   * floating but there is no title until the bottom".
+   *
+   * Splitting the two strings is the point, not just moving them. The LABEL answers
+   * "what am I looking at" and has to arrive first; the SUBLABEL is the argument for
+   * why it matters and only lands once you've looked. Moving both to the top would
+   * have put 40 words of claim in front of the evidence.
+   *
+   * The header row is also what makes the demo card the same object as the others.
+   * The fullscreen control used to float over the iframe as a one-off, which is most
+   * of why that card read as a different species. Now every card has the row and the
+   * demo cards fill in two slots of it.
+   */
+  /**
+   * Which cards can be opened big.
+   *
+   * Images earn it for the same reason the live demo does: a 1272px screenshot of
+   * a Mixpanel dashboard rendered into a 438px card is not a small picture, it's an
+   * unreadable one. The pixels were always there — measured, every Audemic export
+   * is 2.8x its rendered size — so the card was throwing away detail it had, with
+   * no way to ask for it back. The `images` grid is excluded: it's a contact sheet
+   * of several, and one control can't say which.
+   */
+  const zoomable = Boolean(card.iframe || card.video || card.image);
+
   const inner = (
     <>
-      <div className="bg-card flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl">
+      {gallery ? null : (
+        <div className="flex items-start justify-between gap-3 text-left">
+          <span className="text-foreground text-sm font-medium">
+            {pick(card.label, lang)}
+          </span>
+          {zoomable ? (
+            <div className="flex shrink-0 items-center gap-2">
+              {/* The Ongoing pill from case-study-page.tsx, verbatim — same
+                  emerald, same pinging dot, same measure. Both say "this is
+                  running right now", so a second visual language for the same
+                  claim would be the inconsistency, not the fix. Those emerald
+                  utilities are hard-coded there and hard-coded here; the status
+                  colour still has no semantic token, and both call sites should
+                  move the day it gets one. */}
+              {card.iframe ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-wider text-emerald-700 uppercase dark:text-emerald-400">
+                  <span className="relative flex size-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                    <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+                  </span>
+                  {t("card.live", lang)}
+                </span>
+              ) : null}
+              <button
+                type="button"
+                onClick={openZoom}
+                aria-label={t("card.fullscreen", lang)}
+                className="border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer rounded-md border p-1.5 transition-colors"
+              >
+                <Maximize2 className="size-3.5" />
+              </button>
+            </div>
+          ) : null}
+        </div>
+      )}
+      {/* A border, not a different fill. The panel was `bg-card` inside a `bg-card`
+          tile, so it had no visible edge and the demo read as floating on the page —
+          but the animations are drawn against the card surface, and changing the fill
+          under them would restage every figure in every case study to fix one card.
+          The edge is what was missing. */}
+      <div className="bg-card border-border/60 flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl border">
         {card.iframe ? (
           <div ref={iframeSlot} className="relative h-[640px] w-full bg-white">
             {iframeMounted ? (
@@ -4268,14 +4340,6 @@ function BentoCardItem({
               // Placeholder for the moment before intersection, not a control.
               <div className="bg-muted/40 absolute inset-0" />
             )}
-            <button
-              type="button"
-              onClick={openZoom}
-              aria-label="Open demo in fullscreen"
-              className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
-            >
-              <Maximize2 className="size-4" />
-            </button>
           </div>
         ) : card.images && card.images.length > 0 ? (
           <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">
@@ -4310,17 +4374,6 @@ function BentoCardItem({
             >
               <source src={videoSrc(card.video, lang, mode)} type="video/mp4" />
             </video>
-            {/* The same affordance the live-demo card gets. A screen recording
-                sized to a card shows the shape of an interaction, not its
-                detail, so there has to be a way to see it big. */}
-            <button
-              type="button"
-              onClick={openZoom}
-              aria-label="Open recording in fullscreen"
-              className="bg-foreground/80 text-background hover:bg-foreground absolute top-3 right-3 z-10 rounded-md p-2 backdrop-blur-sm transition-colors"
-            >
-              <Maximize2 className="size-4" />
-            </button>
           </div>
         ) : card.image ? (
           <img
@@ -4333,14 +4386,9 @@ function BentoCardItem({
         ) : null}
       </div>
       {gallery ? null : (
-        <div className="flex flex-col gap-0.5 text-left">
-          <span className="text-foreground text-sm font-medium">
-            {pick(card.label, lang)}
-          </span>
-          <span className="text-muted-foreground text-xs">
-            {pick(card.sublabel, lang)}
-          </span>
-        </div>
+        <span className="text-muted-foreground text-left text-xs">
+          {pick(card.sublabel, lang)}
+        </span>
       )}
     </>
   );
@@ -4355,7 +4403,7 @@ function BentoCardItem({
    * need it, and only the second one ever had it.
    */
   const zoomModal =
-    (card.iframe || card.video) && zoomOpen ? (
+    zoomable && zoomOpen ? (
       <div
         role="dialog"
         aria-modal="true"
@@ -4401,6 +4449,15 @@ function BentoCardItem({
               title={pick(card.label, lang)}
               sandbox="allow-scripts allow-same-origin allow-forms"
               className="flex-1 border-0 bg-white"
+            />
+          ) : card.image ? (
+            /* `contain`, not `cover`. The card crops to fill its slot; this view
+               exists to show the whole export, so cropping it here would open a
+               bigger version of the same partial picture. */
+            <img
+              src={card.image}
+              alt={pick(card.label, lang)}
+              className="min-h-0 flex-1 object-contain p-4"
             />
           ) : null}
         </div>

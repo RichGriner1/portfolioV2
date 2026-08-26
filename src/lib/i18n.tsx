@@ -103,6 +103,13 @@ export const UI = {
   "canvas.zoom": { en: "Zoom", es: "Zoom" },
   "canvas.zoom_in": { en: "Zoom in", es: "Acercar" },
   "canvas.zoom_out": { en: "Zoom out", es: "Alejar" },
+  // The bento card's header row. `card.live` marks the one card holding the real
+  // running app rather than a drawing of it — the claim the page most needs to make
+  // and the one a reader would otherwise have to guess at. `card.fullscreen` names
+  // the control beside it for anyone who can't see the icon.
+  // TODO(afi-redaccion)
+  "card.live": { en: "Live", es: "En directo" },
+  "card.fullscreen": { en: "Open fullscreen", es: "Abrir a pantalla completa" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },
   "home.read_less": { en: "Show less", es: "Ver menos" },

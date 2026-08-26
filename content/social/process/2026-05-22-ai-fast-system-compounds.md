@@ -3,8 +3,8 @@ title: "AI is fast. The system makes it compound."
 slug: ai-fast-system-compounds
 brainstorm: content/social/process/2026-05-20-micro-content-batch.md
 source_meetings:
-  - granola://28d1b893-9c6d-434d-b822-f80a3bd78469
-  - granola://f5201c5d-7311-4395-a8ce-6a3adc896248
+  - granola (local)
+  - granola (local)
 pillar: process
 stance: builder
 status: draft

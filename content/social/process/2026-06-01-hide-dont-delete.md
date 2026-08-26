@@ -3,7 +3,7 @@ title: "Hide, don't delete. Audit as you go."
 slug: hide-dont-delete
 brainstorm: content/social/process/2026-05-20-micro-content-batch.md
 source_meetings:
-  - granola://28d1b893-9c6d-434d-b822-f80a3bd78469
+  - granola (local)
 pillar: process
 stance: builder
 status: draft

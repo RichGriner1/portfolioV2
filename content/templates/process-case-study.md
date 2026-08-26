@@ -34,10 +34,13 @@ All material comes from Granola. Don't paraphrase summaries — pull full transc
 
 - Use `list_meetings` (with `folder_id`) or `query_granola_meetings` to discover relevant meetings.
 - Use `get_meeting_transcript` for every meeting whose words you'll quote. Working from a summary alone is not allowed — quotes must be verbatim.
-- Folders to consider, by topic:
-  - **AFI design system internals**: `DS research`, `Processes`, `Wealth Manager`, `Simulators team Afi`, `Afi`, `Afi wealth planner 2026`
-  - **White-label work, per client**: `Santander`, `Santander wealth planner 2026`, `sarevi Santander`, `Mutualidad`, `Wealth Planner Unicaja`, `Kutxabank wealth planner`, `renta4`, `AXA`, `Gaztenprensa`
-  - **AI tooling / design system thinking**: `Memorisely`, `Memorisley`, `Bootcamp`, `Learning`, `The collective`
+- Folders to consider, by topic — list them with `list_meetings` and pick by name; they
+  aren't enumerated here because this repo is public and the client-facing ones name
+  real engagements:
+  - **Design-system internals** — the research, process, and product-team folders.
+  - **White-label work** — one folder per client engagement. Ask Richard which are
+    cleared to appear in published copy before quoting anything from them.
+  - **AI tooling / design-system thinking** — the learning and side-project folders.
 - Every direct quote must carry an inline citation in this form: `[meeting: <title> — <YYYY-MM-DD>](granola://<uuid>)`. The `granola://` scheme is a placeholder Richard can wire up later — it just needs to be unique and traceable.
 - Every meeting cited inline must also appear in the `source_meetings` frontmatter array.
 
@@ -69,8 +72,8 @@ Don't follow a 7-step template. Let the story break wherever a real moment of re
 If at any point the source material is too thin to support a thread the structure seems to want, **stop**. List the gap explicitly at the bottom of the draft under a `## Open questions for Richard` section. Examples of legitimate stops:
 
 - *"The transcripts cover the variable structure but not how it landed with the dev team — was there a follow-up I should pull?"*
-- *"I have Alberto's reaction but not Andres's. Did that conversation happen in a meeting that's not in Granola?"*
-- *"Bora's ghost-button quote is from Dec 4 2025. Is there more recent material on this, or should I keep it as the canonical example?"*
+- *"I have one dev's reaction but not the other's. Did that conversation happen in a meeting that's not in Granola?"*
+- *"The stakeholder's ghost-button quote is from Dec 4 2025. Is there more recent material on this, or should I keep it as the canonical example?"*
 
 Better to surface the gap than to fabricate a transition.
 

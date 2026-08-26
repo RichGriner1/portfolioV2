@@ -8,7 +8,7 @@ related:
   - content/drafts/process/modern-ui-2026-brief.md
   - .claude/plans/sorry-to-interupt-but-crystalline-starfish.md
 source_pdf: /Users/richardgriner/Desktop/Code/Coherence/Research modern UI notes.pdf
-source_meeting: granola://52efaf4c-9068-49e4-9bbf-de449c1dc6f7
+source_meeting: granola (local)
 tags: [ui-design, fintech, ai-tools, design-research, visual-identity, 2026-trends]
 ---
 

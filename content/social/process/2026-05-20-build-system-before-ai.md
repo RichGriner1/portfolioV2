@@ -3,7 +3,7 @@ title: "Build the design system before AI builds with it"
 slug: build-system-before-ai
 brainstorm: content/social/process/2026-05-20-micro-content-batch.md
 source_meetings:
-  - granola://28d1b893-9c6d-434d-b822-f80a3bd78469
+  - granola (local)
 pillar: process
 stance: builder
 status: draft

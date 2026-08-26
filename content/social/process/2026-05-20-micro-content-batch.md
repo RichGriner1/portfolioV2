@@ -1,6 +1,6 @@
 ---
 title: "Micro-content batch — May 20, 2026"
-source: granola://meetings (Processes folder, 2026-05-20 — 28d1b893 + f5201c5d)
+source: granola (local, 2026-05-20)
 pillar: process
 stance: builder
 status: draft

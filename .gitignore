@@ -89,3 +89,38 @@ responsive-check-shots/
 # them, not published. The published copy lives in content/published/.
 /Modern ui update (partial)
 /Afi web design system blog
+
+# ── Public-repo audit, 2026-08-26 ────────────────────────────────────────────
+# This repo is public. Everything below stays local: it either quotes people who
+# never agreed to be published, names client work under NDA-shaped expectations,
+# or is working machinery that reads badly to anyone outside the workflow.
+#
+# NOTE, same caveat as SESSION-HANDOFF.md above: untracking stops new leaks, it
+# does not erase what history already holds.
+
+# Drafts quote private Granola meetings verbatim — named colleagues, named Afi
+# clients (Renta 4, Mutualidad, Santander, Sabadell, Kutxa, Caixa), a manager's
+# candid feedback. Drafts stay local; only content/published/ goes out.
+/content/drafts/*
+!/content/drafts/.gitkeep
+
+# The content factory: story bank of raw internal project notes, plus voice
+# examples that are screenshots of another creator's posts.
+/content/content-os/
+
+# Outreach playbook + target list — ~18 real people with follower tiers and a
+# log of who was engaged. Any of them could read their own row.
+/content/social/outreach.md
+/content/social/outreach-targets.md
+# The posting schedule: months of pre-written posts and how they're spaced.
+/content/social/backlog.md
+/content/social/edit-*.md
+
+# Afi internal course material ("Curso interno. Taller de Escritura") — not ours
+# to redistribute.
+/Spanish writting principles.pdf
+
+# Stray personal/scratch files that keep landing in the repo root.
+*.HEIC
+*.heic
+/scratch-*.png

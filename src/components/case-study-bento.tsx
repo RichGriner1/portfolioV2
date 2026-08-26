@@ -785,10 +785,11 @@ function PulseAnimation({ active }: AnimationProps) {
  *
  * Afi's own brand plus the two client brands the MVP actually runs — nothing more.
  *
- * It used to hardcode Santander / BBVA / CaixaBank / Bankinter. Those are real Afi
- * clients, but they were never added to THIS system: the rollout paused when the
- * Modern UI project took priority. On a public page a white-label figure naming them
- * would be claiming work that doesn't exist, so the list stays at what shipped.
+ * It used to hardcode four large Spanish banks. They're real Afi clients, but they
+ * were never added to THIS system: the rollout paused when the Modern UI project took
+ * priority. On a public page a white-label figure naming them would be claiming work
+ * that doesn't exist, so the list stays at what shipped — and this comment doesn't
+ * enumerate them either, since the file is public too.
  * Anything asserting a client relationship gets checked with Richard first.
  *
  * `visual-identity` reuses this animation and may want a different list, which is

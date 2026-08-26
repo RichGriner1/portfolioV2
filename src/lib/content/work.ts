@@ -78,6 +78,22 @@ export type WorkItem = {
    * `hidden`, which removes an item everywhere.
    */
   homeHidden?: boolean;
+  /**
+   * Pins an item to the front of its section on the home board, lowest first.
+   *
+   * The board takes the newest few of each kind, which is right for the tail and
+   * wrong for the head: date order decides position, so the piece that argues the
+   * portfolio best sits wherever it happens to have published. design.md is the
+   * case in point — the strongest evidence for a design-engineer role and the
+   * oldest thing in Blog, so pure date order buried it and would eventually drop
+   * it off the board entirely.
+   *
+   * A rank, not a hand-written slug list, so the board stays self-maintaining:
+   * everything unranked keeps sorting by date behind whatever is ranked, and
+   * publishing something new still shows up without editing this file. Rank only
+   * the two or three that have to hold a position.
+   */
+  homeRank?: number;
   ongoing?: boolean;
 };
 
@@ -272,6 +288,17 @@ export const WORK: WorkItem[] = [
     image: "/work/audemic-business-growth/hero.webp",
     bento: "square",
     featured: true,
+    /**
+     * Off the home board on 2026-08-26; still on /projects.
+     *
+     * Two of the five case-study slots were the same client. Of the pair, the
+     * onboarding study is the one that carries a funnel number and an
+     * intervention against it, and it ends in a shipped flow rather than a
+     * market recommendation. This one is the stronger business story and the
+     * weaker product-design one, which is the wrong half for the roles the
+     * portfolio is aimed at.
+     */
+    homeHidden: true,
   },
   {
     slug: "mindfulme",
@@ -308,7 +335,16 @@ export const WORK: WorkItem[] = [
     glyph: "typo-trail",
     bento: "square",
     bgColor: "#ff7cba",
-    homeHidden: true,
+    /**
+     * First in Blog, ahead of three newer posts.
+     *
+     * It's the piece the portfolio is being read for: a markdown rulebook AI
+     * agents generate real product UI from, which is the design-engineer claim
+     * stated as a shipped thing rather than a description of one. It's also the
+     * oldest thing in the section, so date order put it last of four and would
+     * have dropped it off the board on the next publish.
+     */
+    homeRank: 1,
   },
   {
     slug: "fintech-layout-grammar",

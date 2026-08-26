@@ -137,20 +137,21 @@ type Section = {
 };
 
 /**
- * Frames a content section carries. Both sections use it, so they stay a pair.
+ * Frames each content section carries. Per-section as of 2026-08-26, not shared.
  *
- * Raised 4 -> 5 on 2026-08-25, when Audemic became two case studies. At four, a
- * fifth study would have silently dropped one off the board, and the one it
- * dropped would have been decided by a sort tie rather than by anyone.
+ * It was one number for both, raised 4 -> 5 on 2026-08-25 when Audemic became two
+ * case studies. Case studies keeps four: the board is the only place a visitor sees
+ * more than one client at once, and at three it showed work for two. Blog drops to
+ * three, because three is a shortlist and four is an index — and the "See all" on
+ * the header row is what the fourth would have been.
  *
- * Blog is unaffected: `sectionSize` widens a section to `min(cols, count)`, and
- * Blog has three published pieces, so its box is unchanged. Only Case studies
- * grows, from sectionWidth(4) = 1360px to sectionWidth(5) = 1695px. Measured on
- * the live board: Case studies right edge 668px, Blog left edge 1088px, so 420px
- * of clearance. The intro overview is derived from SECTIONS so it refits itself —
- * 0.431 -> 0.408 at 1440x900, still clear of the 0.25 floor.
+ * Different counts mean different WIDTHS — sectionWidth(4) = 1360px against
+ * sectionWidth(3) = 1025px — so the section POSITIONS below moved with them. A
+ * lopsided composition at the old coordinates put the intro's bounding box 94px
+ * left of the claim, which is the one thing the opening shot exists to centre.
  */
-const PER_SECTION = 5;
+const CASE_STUDY_FRAMES = 4;
+const WRITING_FRAMES = 3;
 
 /**
  * The kinds /writing gathers. Duplicated from writing-list.tsx rather than imported
@@ -165,13 +166,27 @@ const WRITING_KINDS: readonly string[] = ["blog", "process", "methodology"];
  * Derived rather than listed by hand. A hand-written slug list is a second place to
  * remember: publish something and the board keeps showing last month's work until
  * someone edits this file, and the "See all" underneath is then lying about what it
- * leads to. Same filter and same sort as projects-list.tsx and writing-list.tsx, so
- * the frames on the board are literally the first few of the page they link to.
+ * leads to. Same filter as projects-list.tsx and writing-list.tsx.
+ *
+ * The sort is date order with one exception, `homeRank` — see its note in work.ts.
+ * Date order is right for the tail and wrong for the head: it lets publication
+ * timing decide which piece a visitor reads first. A rank pins the two or three
+ * that have to hold a position and leaves everything else self-maintaining, which
+ * is the part a hand-written list would have thrown away.
  */
-const newest = (match: (item: WorkItem) => boolean) =>
+const newest = (match: (item: WorkItem) => boolean, count: number) =>
   WORK.filter((item) => match(item) && !item.hidden && !item.homeHidden)
-    .sort((a, b) => sortKey(b).localeCompare(sortKey(a)))
-    .slice(0, PER_SECTION)
+    .sort((a, b) => {
+      // Ranked items lead, lowest first; everything else keeps date order behind
+      // them. Infinity rather than a large number so an unranked item can never
+      // tie with a ranked one and fall through to the date comparison — that
+      // would let a recent post outrank a pin.
+      const ra = a.homeRank ?? Infinity;
+      const rb = b.homeRank ?? Infinity;
+      if (ra !== rb) return ra - rb;
+      return sortKey(b).localeCompare(sortKey(a));
+    })
+    .slice(0, count)
     .map((item) => item.slug);
 
 /**
@@ -183,20 +198,37 @@ const SECTIONS: Section[] = [
   {
     id: "case-studies",
     label: { en: "Case studies", es: "Casos de estudio" },
-    x: -900,
+    /**
+     * Moved from -900 on 2026-08-26, with Blog and Contact, when the two content
+     * sections stopped being the same width.
+     *
+     * The three coordinates are one decision, so they're derived rather than
+     * nudged until they looked right. Contact and Case studies are the two boxes
+     * on the left, so their LEFT edges are made to line up: Contact is 1025 wide
+     * at x -870 (left edge -1382.5) and Case studies is 1360 wide at x -700 (left
+     * edge -1380). Blog is then placed to mirror that edge — 870, right edge
+     * +1382.5 — which is what puts the bounding box's centre exactly on the claim
+     * instead of 94px to its left.
+     *
+     * Measured at 1440x900: the intro overview goes 0.408 -> 0.463, so a frame in
+     * the opening shot goes 128px -> 146px, and the clearance between the two
+     * grids is 175px against the old 171px. Furthest section from the origin drops
+     * from 950 to 870, comfortably inside CLAMP.x.
+     */
+    x: -700,
     y: 520,
     href: "/projects",
-    slugs: newest((item) => item.kind === "case-study"),
-    cols: PER_SECTION,
+    slugs: newest((item) => item.kind === "case-study", CASE_STUDY_FRAMES),
+    cols: CASE_STUDY_FRAMES,
   },
   {
     id: "writing",
     label: { en: "Blog", es: "Blog" },
-    x: 880,
+    x: 870,
     y: 520,
     href: "/writing",
-    slugs: newest((item) => WRITING_KINDS.includes(item.kind)),
-    cols: PER_SECTION,
+    slugs: newest((item) => WRITING_KINDS.includes(item.kind), WRITING_FRAMES),
+    cols: WRITING_FRAMES,
   },
   /**
    * Contact sits top-left, opposite Settings, so the two utility destinations
@@ -207,7 +239,7 @@ const SECTIONS: Section[] = [
   {
     id: "contact",
     label: { en: "Contact", es: "Contacto" },
-    x: -950,
+    x: -870,
     y: -520,
     contact: true,
   },
@@ -1492,7 +1524,17 @@ export function CanvasSite() {
         }}
         onPointerLeave={() => setHovered(null)}
       >
-        <CanvasCursor closeMode={cvOpen} />
+        {/* The tutorial waits out the opening camera move — telling someone to
+            drag while the board is flying somewhere on its own is instructing
+            them to fight it — and it never runs where the gestures aren't
+            available: `drag` is false below `lg` and under reduced motion, and
+            teaching a gesture the board won't honour is worse than teaching
+            nothing. The sequence, the device detection and the retirement all
+            live in the cursor; this is only the gate. */}
+        <CanvasCursor
+          closeMode={cvOpen}
+          teach={drag && !introRunning && !cvOpen}
+        />
 
         {/* Without JS, `opacity` never leaves its default 0 — there's no hydration
           to animate it. The board is already inert with no JS (it can't pan or

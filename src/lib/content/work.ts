@@ -67,9 +67,7 @@ export type WorkItem = {
    * product, not brand assets that need a variant per language and theme.
    */
   image?: string;
-  bento?: "square" | "tall" | "wide";
   bgColor?: string;
-  featured?: boolean;
   revamp?: boolean;
   hidden?: boolean;
   /**
@@ -109,7 +107,6 @@ export const WORK: WorkItem[] = [
     // dark pair is the light frame inverted with its black point lifted to #222,
     // which is where process-stages_*_dark sits.
     video: "/writing/modern-ui-2026",
-    bento: "square",
   },
   {
     slug: "loops-and-skills-are-components",
@@ -127,7 +124,6 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/loops-and-skills-are-components",
     figure: "loop-vs-skill",
-    bento: "square",
   },
   {
     slug: "color-methodology",
@@ -150,8 +146,6 @@ export const WORK: WorkItem[] = [
     // page's hero runs the same figure now, so the eight mp4s in public/methodology/
     // are unreferenced.
     figure: "token-levels",
-    bento: "square",
-    featured: true,
   },
   {
     slug: "afi-design-system",
@@ -169,8 +163,6 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/afi-design-system",
     glyph: "palette",
-    bento: "square",
-    featured: true,
     // No `ongoing` — the coded rollout paused when Modern UI took priority, so the
     // live-pulse badge would be claiming active work. Visual Identity carries it.
   },
@@ -192,8 +184,6 @@ export const WORK: WorkItem[] = [
     // Thumbnail: the six-stage process loop, rendered per lang × theme by
     // videos/process-stages-motion/gen.mjs (HyperFrames).
     video: "/work/visual-identity/process-stages",
-    bento: "square",
-    featured: true,
     ongoing: true,
   },
   {
@@ -209,7 +199,6 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/kt360",
     glyph: "canvas",
-    bento: "square",
     homeHidden: true,
   },
   /**
@@ -250,8 +239,6 @@ export const WORK: WorkItem[] = [
     // The title slide's mockup, the teal "Personalize your experience" screen. A
     // real screen rather than a glyph — see WorkItem.image.
     image: "/work/audemic-onboarding/hero.webp",
-    bento: "square",
-    featured: true,
   },
   {
     slug: "audemic-business-growth",
@@ -270,8 +257,6 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/audemic-business-growth",
     image: "/work/audemic-business-growth/hero.webp",
-    bento: "square",
-    featured: true,
   },
   {
     slug: "mindfulme",
@@ -285,9 +270,7 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/mindfulme",
     glyph: "mindfulme",
-    bento: "square",
     bgColor: "#e6f5f6",
-    featured: true,
   },
   {
     slug: "design-md-primeng-wealth-manager",
@@ -306,7 +289,6 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/design-md-primeng-wealth-manager",
     glyph: "typo-trail",
-    bento: "square",
     bgColor: "#ff7cba",
     homeHidden: true,
   },
@@ -328,7 +310,6 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/fintech-layout-grammar",
     glyph: "layout-grammar",
-    bento: "square",
     // Kept in the data but pulled from the site until the piece is refined.
     hidden: true,
   },

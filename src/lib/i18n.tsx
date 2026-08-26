@@ -130,6 +130,9 @@ export const UI = {
   "work.role": { en: "Role", es: "Rol" },
   "work.ongoing": { en: "Ongoing", es: "En curso" },
   "work.more": { en: "More case studies", es: "Más casos de estudio" },
+  // The blog shelf that closes a post. It used to close with case studies,
+  // which is the wrong shelf after a piece of writing.
+  "work.more_writing": { en: "More from the blog", es: "Más del blog" },
   "work.contribution": { en: "Contribution", es: "Contribución" },
   "work.view_case_study": {
     en: "View case study →",

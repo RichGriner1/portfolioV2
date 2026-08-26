@@ -952,7 +952,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         // The Context slide's own photo. It stays on the Context card rather than
         // moving to the intro, which has no image slot — the deck pairs this text
         // with this picture and the pairing is the point.
-        image: "/work/audemic-business-growth/context-workshop.webp",
+        // No media. This card is the product explained in three sentences and it
+        // opens the study, so the first image anyone sees is the paper view on
+        // the card below rather than a photo of a room.
+        //
+        // The workshop shot that used to sit here came off on 2026-08-26. It's
+        // also the one asset on either Audemic page that no re-export reaches:
+        // every other file is at least 2x its rendered size and sharp, and that
+        // one is soft in the original — handheld, low light.
         span: "wide",
         details: {
           heading: {

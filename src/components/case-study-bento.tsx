@@ -4285,6 +4285,23 @@ function BentoCardItem({
    */
   const zoomable = Boolean(card.iframe || card.video || card.image);
 
+  /**
+   * Whether this card has anything to put in a panel.
+   *
+   * A card without media used to render the panel anyway — an empty 120px box
+   * between the title and the caption, which reads as an image that failed to
+   * load rather than as a card that never had one. Some cards are copy: the
+   * Audemic business-growth context is the product explained in three
+   * sentences, and the strongest thing that could sit above it is nothing.
+   */
+  const hasMedia = Boolean(
+    card.iframe ||
+    card.video ||
+    card.image ||
+    (card.images && card.images.length > 0) ||
+    Animation
+  );
+
   const inner = (
     <>
       {gallery ? null : (
@@ -4327,65 +4344,73 @@ function BentoCardItem({
           but the animations are drawn against the card surface, and changing the fill
           under them would restage every figure in every case study to fix one card.
           The edge is what was missing. */}
-      <div className="bg-card border-border/60 flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl border">
-        {card.iframe ? (
-          <div ref={iframeSlot} className="relative h-[640px] w-full bg-white">
-            {iframeMounted ? (
-              <iframe
-                src={card.iframe}
-                title={pick(card.label, lang)}
-                sandbox="allow-scripts allow-same-origin allow-forms"
-                className="h-full w-full border-0"
-              />
-            ) : (
-              // Placeholder for the moment before intersection, not a control.
-              <div className="bg-muted/40 absolute inset-0" />
-            )}
-          </div>
-        ) : card.images && card.images.length > 0 ? (
-          <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">
-            {card.images.map((src, i) => (
-              <div
-                key={i}
-                className="bg-muted/40 flex items-center justify-center overflow-hidden rounded-lg"
-              >
-                <img
-                  src={src}
-                  alt=""
-                  className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.05]"
-                />
-              </div>
-            ))}
-          </div>
-        ) : card.video ? (
-          <div className="relative h-full w-full">
-            <video
-              // Keyed on the resolved src so a language or theme change swaps
-              // the file — React reuses a <video> element across prop changes
-              // and a <source> swap alone doesn't reload it.
-              key={videoSrc(card.video, lang, mode)}
-              className="h-full w-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-              ref={(el) => {
-                if (el) el.muted = true;
-              }}
+      {!hasMedia ? null : (
+        <div className="bg-card border-border/60 flex min-h-[120px] flex-1 items-center justify-center overflow-hidden rounded-xl border">
+          {card.iframe ? (
+            <div
+              ref={iframeSlot}
+              className="relative h-[640px] w-full bg-white"
             >
-              <source src={videoSrc(card.video, lang, mode)} type="video/mp4" />
-            </video>
-          </div>
-        ) : card.image ? (
-          <img
-            src={card.image}
-            alt={pick(card.label, lang)}
-            className="ease-out-soft h-full w-full object-contain transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
-          />
-        ) : Animation ? (
-          <Animation active={isMobile ? mobileVariant === "hover" : active} />
-        ) : null}
-      </div>
+              {iframeMounted ? (
+                <iframe
+                  src={card.iframe}
+                  title={pick(card.label, lang)}
+                  sandbox="allow-scripts allow-same-origin allow-forms"
+                  className="h-full w-full border-0"
+                />
+              ) : (
+                // Placeholder for the moment before intersection, not a control.
+                <div className="bg-muted/40 absolute inset-0" />
+              )}
+            </div>
+          ) : card.images && card.images.length > 0 ? (
+            <div className="grid h-full w-full grid-cols-2 gap-1.5 p-1.5">
+              {card.images.map((src, i) => (
+                <div
+                  key={i}
+                  className="bg-muted/40 flex items-center justify-center overflow-hidden rounded-lg"
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.05]"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : card.video ? (
+            <div className="relative h-full w-full">
+              <video
+                // Keyed on the resolved src so a language or theme change swaps
+                // the file — React reuses a <video> element across prop changes
+                // and a <source> swap alone doesn't reload it.
+                key={videoSrc(card.video, lang, mode)}
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                ref={(el) => {
+                  if (el) el.muted = true;
+                }}
+              >
+                <source
+                  src={videoSrc(card.video, lang, mode)}
+                  type="video/mp4"
+                />
+              </video>
+            </div>
+          ) : card.image ? (
+            <img
+              src={card.image}
+              alt={pick(card.label, lang)}
+              className="ease-out-soft h-full w-full object-contain transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
+            />
+          ) : Animation ? (
+            <Animation active={isMobile ? mobileVariant === "hover" : active} />
+          ) : null}
+        </div>
+      )}
       {gallery ? null : (
         <span className="text-muted-foreground text-left text-xs">
           {pick(card.sublabel, lang)}

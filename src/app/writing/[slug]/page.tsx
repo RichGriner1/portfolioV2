@@ -73,7 +73,11 @@ export default async function WritingPost({
 
         <PostArticle en={en} es={es} />
 
+        {/* The blog shelf, not the case-study one. A post used to close with
+            "More case studies", which is a shelf from a different section of
+            the site offered to somebody who just finished reading writing. */}
         <MoreWork
+          kind="writing"
           excludeSlug={slug}
           className="border-border/60 mt-8 flex flex-col gap-6 border-t pt-12"
         />

@@ -61,7 +61,14 @@ export function LoopVsSkillFigure() {
     step === 0 || step === 1 || step === 2 ? SKILLS[step] : null;
 
   const scene = (
-    <div className="bg-card relative min-h-[200px] flex-1 overflow-hidden rounded-xl">
+    /* A container, so the skill chips can measure the PANEL rather than the
+       viewport. Everything else in this figure is positioned in percentages of
+       the 300x190 viewbox and scales with the box; the chips are the exception,
+       because their width comes from fixed-size text. Centred at 78.7% of the
+       width, a ~90px chip crosses the right edge once the panel is under about
+       230px — which is exactly what a shelf card gives it, and the responsive
+       gate caught it at 165px of content in a 161px box. */
+    <div className="bg-card @container relative min-h-[200px] flex-1 overflow-hidden rounded-xl">
       <svg
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         preserveAspectRatio="none"
@@ -101,7 +108,7 @@ export function LoopVsSkillFigure() {
       {SKILLS.map((skill, i) => (
         <motion.div
           key={skill.id}
-          className="bg-card absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-0.5 rounded-lg border px-2.5 py-1.5"
+          className="bg-card absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-0.5 rounded-lg border px-1.5 py-1 @[230px]:px-2.5 @[230px]:py-1.5"
           style={{ left: toLeft(skill.x), top: toTop(skill.y) }}
           animate={{
             borderColor:
@@ -112,7 +119,7 @@ export function LoopVsSkillFigure() {
           <span className="text-muted-foreground/70 font-mono text-[7px] tracking-wider uppercase">
             SKILL
           </span>
-          <span className="text-foreground font-mono text-[9px]">
+          <span className="text-foreground font-mono text-[8px] @[230px]:text-[9px]">
             {skill.label}
           </span>
         </motion.div>

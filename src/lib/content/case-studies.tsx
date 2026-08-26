@@ -528,9 +528,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Component workbench", es: "Workbench de componentes" },
         sublabel: {
-          en: "Every v2 primitive on one page, in each variant and size. The states worth arguing about only show on hover or hold, so they run here instead of being drawn.",
+          en: "Primitive components on one page to see them working together and isolated. Here is when we can see each micro interaction on its own before building bigger patterns.",
           // TODO(afi-redaccion)
-          es: "Todas las primitivas de la v2 en una página, en cada variante y tamaño. Los estados que dan que hablar solo salen al pasar el cursor o al mantener pulsado, así que aquí funcionan en vez de estar dibujados.",
+          es: "Componentes primitivos en una página para verlos funcionando juntos y por separado. Aquí es donde vemos cada microinteracción por su cuenta antes de construir patrones más grandes.",
         },
         span: "full",
         iframe: "https://coherence-wealth-manager.vercel.app/workbench?embed=1",

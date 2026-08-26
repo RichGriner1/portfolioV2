@@ -528,9 +528,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Component workbench", es: "Workbench de componentes" },
         sublabel: {
-          en: "Every v2 primitive on one page, in each variant and size. The states worth arguing about are the ones you have to hover or hold to see, so they run here instead of being drawn.",
+          en: "Every v2 primitive on one page, in each variant and size. The states worth arguing about only show on hover or hold, so they run here instead of being drawn.",
           // TODO(afi-redaccion)
-          es: "Todas las primitivas de la v2 en una página, en cada variante y tamaño. Los estados que dan que hablar son los que hay que ver pasando el cursor o manteniendo pulsado, así que aquí funcionan en vez de estar dibujados.",
+          es: "Todas las primitivas de la v2 en una página, en cada variante y tamaño. Los estados que dan que hablar solo salen al pasar el cursor o al mantener pulsado, así que aquí funcionan en vez de estar dibujados.",
         },
         span: "full",
         iframe: "https://coherence-wealth-manager.vercel.app/workbench?embed=1",
@@ -556,23 +556,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "The brief was one line: make it look more modern. My boss liked what the demo did and called the way it looked dated, so interactivity was never the blocker. In one review the word meant a different typeface; in another it meant more color, more space, more motion. Wealth Planner was built from static Figma screens and developers worked screen by screen, so every reading of it could enter the product on its own.",
+                en: "The brief was one line: make it look more modern. My boss liked what the demo did and called how it looked dated, so interactivity was never the blocker. In one review the word meant a new typeface; in the next, more color or more motion. Wealth Planner was built from static Figma screens, so every reading of it could enter the product on its own.",
                 // TODO(afi-redaccion)
-                es: "El encargo era de una línea: que parezca más moderno. A mi jefe le gustaba lo que hacía la demo y le parecía anticuado cómo se veía, así que la interactividad nunca fue el problema. En una revisión la palabra significaba otra tipografía; en la siguiente, más color, más espacio, más movimiento. El Wealth Planner estaba hecho de pantallas estáticas de Figma y los desarrolladores iban pantalla a pantalla, así que cada lectura de esa palabra podía entrar en el producto por su cuenta.",
+                es: "El encargo era de una línea: que parezca más moderno. A mi jefe le gustaba lo que hacía la demo y le parecía anticuado cómo se veía, así que la interactividad nunca fue el problema. En una revisión la palabra era otra tipografía; en la siguiente, más color o más movimiento. El Wealth Planner estaba hecho de pantallas estáticas de Figma, así que cada lectura podía entrar en el producto por su cuenta.",
               },
             },
             {
               body: {
-                en: "Wrote the definition down as things you can see on a screen: information is easy to scan, detail appears when it is useful, feedback makes a state change obvious, and the visual system stays quiet around the numbers.",
+                en: "Wrote the definition as things you can see on a screen: easy to scan, detail on demand, feedback that makes a change obvious, and a visual system that stays quiet around the numbers.",
                 // TODO(afi-redaccion)
-                es: "Escribimos la definición como cosas que se ven en pantalla: la información se escanea fácil, el detalle aparece cuando hace falta, el feedback deja claro que algo ha cambiado y el sistema visual no compite con las cifras.",
+                es: "Escribimos la definición como cosas que se ven en pantalla: fácil de escanear, detalle bajo demanda, feedback que deja claro el cambio y un sistema visual que no compite con las cifras.",
               },
             },
             {
               body: {
-                en: "A review can test a choice now instead of preferring one. A dashboard where every value competes fails the scan test even if the styling is current. Color that decorates a card has a weaker case than color marking a negative number. The argument is about how Wealth Planner should work, not about whose reference wins.",
+                en: "Now a review tests a choice instead of preferring one. A dashboard where every value competes fails the scan test, however current the styling. Color that decorates a card has a weaker case than color marking a negative number.",
                 // TODO(afi-redaccion)
-                es: "Ahora una revisión puede poner a prueba una decisión en vez de quedarse con la que más gusta. Un dashboard donde todos los valores compiten falla la prueba del escaneo aunque el estilo sea actual. El color que decora una tarjeta tiene menos argumento que el color que marca un número negativo. La discusión pasa a ser cómo debe funcionar el Wealth Planner, no qué referencia gana.",
+                es: "Ahora una revisión pone a prueba una decisión en vez de quedarse con la que más gusta. Un dashboard donde todos los valores compiten falla la prueba del escaneo, por actual que sea el estilo. El color que decora una tarjeta tiene menos argumento que el que marca un número negativo.",
               },
             },
           ],
@@ -595,23 +595,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "A wide reference set gives you plenty to react to and no direction. The harder part was that almost everything we admired was SaaS: a small set of common actions that a whole team has scoped down. Wealth Planner accumulates options because it gets built to whatever a client needed that day. Something that looks effortless in Clerk is hard to copy once you have that much density to place.",
+                en: "A wide reference set gives you plenty to react to and no direction. Worse, almost everything we liked was SaaS: a handful of common actions a whole team has scoped down. Wealth Planner accumulates options because it gets built to whatever a client needed that day.",
                 // TODO(afi-redaccion)
-                es: "Un conjunto amplio de referencias da mucho a lo que reaccionar y ninguna dirección. Lo difícil era que casi todo lo que nos gustaba era SaaS: un puñado de acciones comunes que un equipo entero ha acotado. El Wealth Planner acumula opciones porque se construye según lo que un cliente necesitaba ese día. Lo que en Clerk parece sencillo cuesta copiarlo cuando tienes esa densidad que colocar.",
+                es: "Un conjunto amplio de referencias da mucho a lo que reaccionar y ninguna dirección. Peor: casi todo lo que nos gustaba era SaaS, un puñado de acciones comunes que un equipo entero ha acotado. El Wealth Planner acumula opciones porque se construye según lo que un cliente necesitaba ese día.",
               },
             },
             {
               body: {
-                en: "Miguel noticed we kept going back to the same six: Wise, Cursor, Shopify, Clerk, Notion and Granola. We treated the repetition as the signal and wrote down the one quality we wanted from each.",
+                en: "Miguel noticed we kept going back to the same six: Wise, Cursor, Shopify, Clerk, Notion and Granola. We took the repetition as the signal.",
                 // TODO(afi-redaccion)
-                es: "Miguel se dio cuenta de que volvíamos siempre a las mismas seis: Wise, Cursor, Shopify, Clerk, Notion y Granola. Tomamos esa repetición como la señal y anotamos qué cualidad concreta queríamos de cada una.",
+                es: "Miguel se dio cuenta de que volvíamos siempre a las mismas seis: Wise, Cursor, Shopify, Clerk, Notion y Granola. Tomamos esa repetición como la señal.",
               },
             },
             {
               body: {
-                en: "Wise was the only one from our own domain and it settled the color question: a financial interface can stay mostly black and white and spend color on the data. Across the other five the same three things kept coming back, which were clear hierarchy, restrained surfaces, and small interaction details that explain state. A quality that recurs across six products carries more than a screenshot somebody liked.",
+                en: "Wise was the only one from our domain and it settled color: a financial interface can stay mostly black and white and spend color on the data. The other five kept showing the same three things, which were clear hierarchy, restrained surfaces, and small interactions that explain state.",
                 // TODO(afi-redaccion)
-                es: "Wise era la única de nuestro sector y resolvió la cuestión del color: una interfaz financiera puede ser casi toda blanco y negro y gastar el color en los datos. En las otras cinco se repetían las mismas tres cosas: jerarquía clara, superficies contenidas y detalles de interacción pequeños que explican el estado. Una cualidad que se repite en seis productos pesa más que una captura que le gustó a alguien.",
+                es: "Wise era la única de nuestro sector y resolvió el color: una interfaz financiera puede ser casi toda blanco y negro y gastar el color en los datos. Las otras cinco repetían las mismas tres cosas: jerarquía clara, superficies contenidas e interacciones pequeñas que explican el estado.",
               },
             },
           ],
@@ -634,23 +634,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "A definition of modern tells you how the product should feel. It does not tell you whether editing opens a page or a drawer, or whether two controls that look alike are allowed to mean different things. Every visual decision had to survive being asked why it was there, because it would be.",
+                en: "A definition of modern tells you how the product should feel. It does not tell you whether editing opens a page or a drawer, or whether two controls that look alike can mean different things.",
                 // TODO(afi-redaccion)
-                es: "Una definición de moderno te dice cómo debería sentirse el producto. No te dice si editar abre una página o un panel lateral, ni si dos controles que se parecen pueden significar cosas distintas. Cada decisión visual tenía que aguantar la pregunta de por qué está ahí, porque se la iban a hacer.",
+                es: "Una definición de moderno te dice cómo debería sentirse el producto. No te dice si editar abre una página o un panel lateral, ni si dos controles que se parecen pueden significar cosas distintas.",
               },
             },
             {
               body: {
-                en: "Nine principles, each with a direction and the thing to avoid: essential information first, detail on demand, and keeping context with drawers, inline editing and expandable cards.",
+                en: "Nine principles, each with a direction and the thing to avoid: essential information first, detail on demand, and context kept with drawers, inline editing and expandable cards.",
                 // TODO(afi-redaccion)
-                es: "Nueve principios, cada uno con una dirección y con lo que hay que evitar: primero la información esencial, el detalle bajo demanda y mantener el contexto con paneles laterales, edición en línea y tarjetas desplegables.",
+                es: "Nueve principios, cada uno con una dirección y con lo que hay que evitar: primero la información esencial, el detalle bajo demanda y el contexto mantenido con paneles laterales, edición en línea y tarjetas desplegables.",
               },
             },
             {
               body: {
-                en: "The ones that earn their place turned out to be about roles. An add-on tag and a beta tag both describe what you are looking at; a pro tag is selling you something, so it does not get to look the same. A global search switches client, a page search picks an asset inside a flow. Page-level navigation is tabs, mutually exclusive options are a segmented control. That last rule fixed something we kept hitting, which was the same-looking component appearing twice on one page meaning two different things.",
+                en: "The ones that earn their place are about roles. An add-on tag and a beta tag describe what you are looking at; a pro tag is selling you something, so it cannot look the same. Page navigation is tabs, mutually exclusive options are a segmented control. That last rule fixed what we kept hitting: one component appearing twice on a page meaning two things.",
                 // TODO(afi-redaccion)
-                es: "Los que se ganan el sitio acabaron siendo los de roles. Una etiqueta de add-on y una de beta describen lo que estás viendo; una de pro te está vendiendo algo, así que no puede verse igual. Una búsqueda global cambia de cliente, una búsqueda de página elige un activo dentro de un flujo. La navegación de página son pestañas, las opciones excluyentes son un control segmentado. Esta última regla resolvió algo con lo que chocábamos: el mismo componente apareciendo dos veces en una página con dos significados distintos.",
+                es: "Los que se ganan el sitio son los de roles. Una etiqueta de add-on y una de beta describen lo que estás viendo; una de pro te está vendiendo algo, así que no puede verse igual. La navegación de página son pestañas, las opciones excluyentes son un control segmentado. Esa última regla resolvió lo de siempre: un mismo componente apareciendo dos veces en una página con dos significados.",
               },
             },
           ],
@@ -673,23 +673,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Screen-by-screen design leaves the foundations open. A color gets picked for one screen without anyone naming the job it does everywhere else. Typography is a bigger problem in a financial product: when 0000 and 4444 take up visibly different widths, columns stop lining up.",
+                en: "Screen-by-screen design leaves the foundations open. A color gets picked for one screen with nobody naming the job it does elsewhere. Typography is worse in a financial product: when 0000 and 4444 take up different widths, columns stop lining up.",
                 // TODO(afi-redaccion)
-                es: "Diseñar pantalla a pantalla deja las bases abiertas. Se elige un color para una pantalla sin que nadie diga qué papel cumple en el resto. La tipografía es un problema mayor en un producto financiero: cuando 0000 y 4444 ocupan anchos visiblemente distintos, las columnas dejan de alinearse.",
+                es: "Diseñar pantalla a pantalla deja las bases abiertas. Se elige un color para una pantalla sin que nadie diga qué papel cumple en el resto. La tipografía es peor en un producto financiero: cuando 0000 y 4444 ocupan anchos distintos, las columnas dejan de alinearse.",
               },
             },
             {
               body: {
-                en: "Named the tokens by role first, background canvas and background elevated, and assigned values after. Compared Space Grotesk, Fira Sans, Geist and IBM Plex Sans on the same number patterns using each font's default figures. Corner radius caps at 6px.",
+                en: "Named tokens by role first, background canvas and background elevated, and assigned values after. Compared Space Grotesk, Fira Sans, Geist and IBM Plex Sans on the same number patterns. Corner radius caps at 6px.",
                 // TODO(afi-redaccion)
-                es: "Primero nombramos los tokens por su papel, background canvas y background elevated, y asignamos valores después. Comparamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans con los mismos patrones numéricos y las cifras por defecto de cada fuente. El radio de esquina tiene un tope de 6px.",
+                es: "Primero nombramos los tokens por su papel, background canvas y background elevated, y asignamos valores después. Comparamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans con los mismos patrones numéricos. El radio de esquina tiene un tope de 6px.",
               },
             },
             {
               body: {
-                en: "A screen asks for a canvas, not for a hex value, so the value can change without renaming anything. IBM Plex Sans won because its default figures held the tested patterns in line, which is what makes a column of numbers scannable. The test did not turn on tabular numerals or cover every size and weight, so the claim is scoped to what we compared. Color is mapped through primitives and semantics; shadows and dimensions are the next two passes on the same structure.",
+                en: "A screen asks for a canvas, not a hex value, so the value can change without renaming anything. IBM Plex Sans won because its default figures held those patterns in line. The test did not turn on tabular numerals, so the claim stops there. Shadows and dimensions are the next two passes.",
                 // TODO(afi-redaccion)
-                es: "Una pantalla pide un canvas, no un hexadecimal, así que el valor puede cambiar sin renombrar nada. IBM Plex Sans ganó porque sus cifras por defecto mantenían alineados los patrones probados, que es lo que hace escaneable una columna de números. La prueba no activó numerales tabulares ni cubrió todos los tamaños y pesos, así que la conclusión se limita a lo que comparamos. El color ya está mapeado en primitivas y semánticas; las sombras y las dimensiones son las dos pasadas siguientes sobre la misma estructura.",
+                es: "Una pantalla pide un canvas, no un hexadecimal, así que el valor puede cambiar sin renombrar nada. IBM Plex Sans ganó porque sus cifras por defecto mantenían esos patrones alineados. La prueba no activó numerales tabulares, así que la conclusión llega hasta ahí. Las sombras y las dimensiones son las dos pasadas siguientes.",
               },
             },
           ],
@@ -712,23 +712,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Foundations do not give you an interface. Wealth Planner still needed buttons, inputs, tables and dialogs whose states behave the same wherever they turn up, and building those inside each screen would reopen every decision that had just been closed.",
+                en: "Foundations do not give you an interface. Wealth Planner still needed buttons, inputs, tables and dialogs whose states behave the same everywhere, and building those inside each screen reopens every decision that just closed.",
                 // TODO(afi-redaccion)
-                es: "Las bases no te dan una interfaz. El Wealth Planner seguía necesitando botones, inputs, tablas y diálogos cuyos estados se comporten igual aparezcan donde aparezcan, y construirlos dentro de cada pantalla habría reabierto todas las decisiones que se acababan de cerrar.",
+                es: "Las bases no te dan una interfaz. El Wealth Planner seguía necesitando botones, inputs, tablas y diálogos cuyos estados se comporten igual en todas partes, y construirlos dentro de cada pantalla reabre todas las decisiones que se acaban de cerrar.",
               },
             },
             {
               body: {
-                en: "Listed the primitives and split them. I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. Buttons, inputs, checkboxes and toggles we built together first, to agree on a workflow before working apart. Everything is compact by default, which is a preference and not a finding.",
+                en: "Split the primitives. I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. Buttons, inputs, checkboxes and toggles we built together first. Everything is compact by default, which is a preference and not a finding.",
                 // TODO(afi-redaccion)
-                es: "Listamos las primitivas y las repartimos. Yo cogí chip, badge, card y table; Miguel cogió tag, dialog, navbar y tabs. Botones, inputs, checkboxes y toggles los hicimos juntos primero, para acordar una forma de trabajar antes de separarnos. Todo es compacto por defecto, que es una preferencia y no un hallazgo.",
+                es: "Repartimos las primitivas. Yo cogí chip, badge, card y table; Miguel cogió tag, dialog, navbar y tabs. Botones, inputs, checkboxes y toggles los hicimos juntos primero. Todo es compacto por defecto, que es una preferencia y no un hallazgo.",
               },
             },
             {
               body: {
-                en: "The card treatment is the one worth naming. Shopify nests a card inside a card, and moving the nested panel to the top gives it the double-layer depth a wallet has. Details like that carry more weight here than they would elsewhere, because underneath them the product is tables and graphs. The delight has to live in the dialogs, the empty states and the containers, since it is not coming from the data.",
+                en: "The card treatment is the one worth naming. Shopify nests a card inside a card, and moving the nested panel to the top gives it the double-layer depth a wallet has. Details like that carry more weight here, because underneath them the product is tables and graphs.",
                 // TODO(afi-redaccion)
-                es: "El tratamiento de las tarjetas es el que merece nombrarse. Shopify anida una tarjeta dentro de otra, y subir el panel anidado a la parte de arriba le da la profundidad de doble capa que tiene un monedero. Detalles así pesan más aquí que en otros sitios, porque debajo el producto son tablas y gráficas. El disfrute tiene que estar en los diálogos, los estados vacíos y los contenedores, porque de los datos no va a salir.",
+                es: "El tratamiento de las tarjetas es el que merece nombrarse. Shopify anida una tarjeta dentro de otra, y subir el panel anidado arriba le da la profundidad de doble capa que tiene un monedero. Detalles así pesan más aquí, porque debajo el producto son tablas y gráficas.",
               },
             },
           ],
@@ -751,23 +751,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "A component at rest does not tell you what happens when somebody acts on it. Decide that separately inside each feature and the timing drifts even when the colors match. This layer matters more than it used to: a generated interface arrives correct and generic, and small physical responses are one of the few things it does not hand you.",
+                en: "A component at rest does not tell you what happens when someone acts on it. Decide that inside each feature and the timing drifts even when the colors match. It matters more now: a generated interface arrives correct and generic, and small physical responses are one of the few things it does not hand you.",
                 // TODO(afi-redaccion)
-                es: "Un componente en reposo no te dice qué pasa cuando alguien actúa sobre él. Si eso se decide por separado dentro de cada funcionalidad, los tiempos se desvían aunque los colores coincidan. Esta capa importa más que antes: una interfaz generada llega correcta y genérica, y las respuestas físicas pequeñas son de las pocas cosas que no te vienen dadas.",
+                es: "Un componente en reposo no te dice qué pasa cuando alguien actúa sobre él. Si eso se decide dentro de cada funcionalidad, los tiempos se desvían aunque los colores coincidan. Ahora importa más: una interfaz generada llega correcta y genérica, y las respuestas físicas pequeñas son de las pocas cosas que no te vienen dadas.",
               },
             },
             {
               body: {
-                en: "Reverse-engineered the animations from the interfaces that set the direction. Where that failed, started from a React library, ported it to Angular and iterated. Press states go in, the way a physical button does.",
+                en: "Reverse-engineered the animations from the interfaces that set the direction. Where that failed, started from a React library and ported it to Angular. Press states go in, the way a physical button does.",
                 // TODO(afi-redaccion)
-                es: "Sacamos las animaciones por ingeniería inversa de las interfaces que marcaron la dirección. Donde eso no salió, partimos de una librería de React, la portamos a Angular e iteramos. Los estados de pulsado se hunden, como un botón físico.",
+                es: "Sacamos las animaciones por ingeniería inversa de las interfaces que marcaron la dirección. Donde eso no salió, partimos de una librería de React y la portamos a Angular. Los estados de pulsado se hunden, como un botón físico.",
               },
             },
             {
               body: {
-                en: "A checkbox draws its check, a radio fills, a toggle carries its own movement between off and on, and a send button runs a short sequence from action to sending to sent. Those are rules rather than decoration, so a larger pattern reuses the response instead of inventing one. Movements like that are what make an interface feel organic instead of assembled.",
+                en: "A checkbox draws its check, a radio fills, a toggle carries its own movement, and a send button runs from action to sending to sent. Rules, not decoration, so a larger pattern reuses the response instead of inventing one.",
                 // TODO(afi-redaccion)
-                es: "Un checkbox dibuja su marca, un radio se rellena, un toggle lleva su propio movimiento entre apagado y encendido, y un botón de enviar recorre una secuencia corta de acción a enviando a enviado. Son reglas, no decoración, así que un patrón mayor reutiliza la respuesta en vez de inventarse otra. Movimientos así son lo que hace que una interfaz se sienta orgánica y no ensamblada.",
+                es: "Un checkbox dibuja su marca, un radio se rellena, un toggle lleva su propio movimiento y un botón de enviar recorre acción, enviando y enviado. Son reglas, no decoración, así que un patrón mayor reutiliza la respuesta en vez de inventarse otra.",
               },
             },
           ],

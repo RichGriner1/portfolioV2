@@ -978,38 +978,54 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
       },
+      /**
+       * Challenge and solution in one card, above the process, 2026-08-26.
+       *
+       * The Challenge card carried the `audience-pivot` animation and no photo,
+       * and the Solution card sat at the far end of the study behind four
+       * process cards. Putting them together at the top means the study opens on
+       * what it was for and what came out, and the four numbered cards read as
+       * the route between the two rather than as a list you get through first.
+       *
+       * The paper-view shot replaces the drawing: it is the desktop and the
+       * phone in one frame, which is the product, where `audience-pivot` was a
+       * diagram of a decision.
+       */
       {
-        label: { en: "The challenge", es: "El reto" },
+        label: { en: "Challenge and solution", es: "Reto y solución" },
         sublabel: {
-          en: "A user need, a business need, and one product vision holding them together.",
+          en: "A user need, a business need, one product vision. What shipped was a paper view with summaries on the full text and feedback that doesn't interrupt.",
           // TODO(afi-redaccion)
-          es: "Una necesidad de usuario, una de negocio y una visión de producto que las une.",
+          es: "Una necesidad de usuario, una de negocio y una visión de producto. Lo que salió fue una vista de paper con resúmenes sobre el texto completo y feedback que no interrumpe.",
         },
-        // No image: the Challenge slide is a diagram of the three statements, so
-        // the card draws rather than photographs. `audience-pivot` rather than
-        // `nodes` — it was built for this project and it draws the actual move
-        // (one audience to another), where `nodes` is the Afi
-        // one-repo-everyone-reads-from figure and means nothing here.
-        animation: "audience-pivot",
+        image: "/work/audemic-business-growth/solution-paper-view.webp",
+        span: "wide",
         details: {
           heading: {
-            en: "Three statements, written before any design",
+            en: "Three statements, then three changes",
             // TODO(afi-redaccion)
-            es: "Tres afirmaciones, escritas antes de cualquier diseño",
+            es: "Tres afirmaciones, después tres cambios",
           },
           sections: [
             {
               body: {
-                en: "The user need: give busy professionals tools that cut the workload of finding and organizing information. The business need: expand into new markets using the insights we already had, and define a clear ideal customer profile. Early hypotheses focused on the social sciences, because 60% of Scholar users came from that field.",
+                en: "The user need was tools that cut the workload of finding and organizing information. The business need was new markets from the insights we already had, and a clear ideal customer profile. Early hypotheses pointed at the social sciences, because 60% of Scholar users came from that field.",
                 // TODO(afi-redaccion)
-                es: "La necesidad de usuario: dar a profesionales ocupados herramientas que reduzcan el trabajo de encontrar y organizar información. La necesidad de negocio: expandirse a nuevos mercados con las conclusiones que ya teníamos y definir un perfil de cliente ideal claro. Las primeras hipótesis se centraron en las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
+                es: "La necesidad de usuario eran herramientas que redujeran el trabajo de encontrar y organizar información. La de negocio, nuevos mercados a partir de las conclusiones que ya teníamos y un perfil de cliente ideal claro. Las primeras hipótesis apuntaban a las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
               },
             },
             {
               body: {
-                en: "Both roll up into one product vision: create a solution that empowers professionals in fast-paced industries by streamlining access to critical information, so they can focus on impactful work.",
+                en: "Both roll up into one product vision: streamline access to critical information for professionals in fast-paced industries, so they can spend their time on the work that has impact.",
                 // TODO(afi-redaccion)
-                es: "Ambas se resumen en una visión de producto: crear una solución que dé poder a los profesionales de sectores acelerados simplificando el acceso a la información crítica, para que puedan centrarse en el trabajo que tiene impacto.",
+                es: "Ambas se resumen en una visión de producto: simplificar el acceso a la información crítica para profesionales de sectores acelerados, para que dediquen su tiempo al trabajo que tiene impacto.",
+              },
+            },
+            {
+              body: {
+                en: "Three changes came out of it. Summaries iterated against OpenAI and Claude models with survey and interview feedback between rounds. A redesigned audio page that puts the summary on the full-text paper, so a researcher understands new work without reading all of it. And in-app feedback that collects insight passively instead of stopping someone mid-task to ask.",
+                // TODO(afi-redaccion)
+                es: "De ahí salieron tres cambios. Resúmenes iterados sobre modelos de OpenAI y Claude, con feedback de encuestas y entrevistas entre rondas. Una página de audio rediseñada que pone el resumen sobre el paper completo, para entender un trabajo nuevo sin leerlo entero. Y feedback dentro de la app que recoge información de forma pasiva en vez de parar a alguien a media tarea para preguntarle.",
               },
             },
           ],
@@ -1149,46 +1165,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           ],
         },
       },
-      {
-        label: { en: "The solution", es: "La solución" },
-        sublabel: {
-          en: "Paper-view redesign: summaries on full text, and feedback that doesn't interrupt.",
-          // TODO(afi-redaccion)
-          es: "Rediseño de la vista de paper: resúmenes sobre el texto completo y feedback que no interrumpe.",
-        },
-        image: "/work/audemic-business-growth/solution-paper-view.webp",
-        span: "wide",
-        details: {
-          heading: {
-            en: "Three changes, one screen",
-            // TODO(afi-redaccion)
-            es: "Tres cambios, una pantalla",
-          },
-          sections: [
-            {
-              body: {
-                en: "Summary iteration: using our insights we started iterating on OpenAI and Claude models and getting quick feedback through surveys and interviews.",
-                // TODO(afi-redaccion)
-                es: "Iteración de resúmenes: con nuestras conclusiones empezamos a iterar sobre modelos de OpenAI y Claude, recogiendo feedback rápido con encuestas y entrevistas.",
-              },
-            },
-            {
-              body: {
-                en: "Redesigned audio page: adding a summary to full-text papers allowed users to quickly understand new research, helping them get more work done while staying aligned with their team.",
-                // TODO(afi-redaccion)
-                es: "Página de audio rediseñada: añadir un resumen a los papers completos permitió entender rápido la investigación nueva, sacar más trabajo adelante y seguir alineados con el equipo.",
-              },
-            },
-            {
-              body: {
-                en: "Scalable in-app feedback: for real-time feedback we introduced in-app feedback, allowing users to provide insights passively without interrupting workflows.",
-                // TODO(afi-redaccion)
-                es: "Feedback escalable dentro de la app: para tener feedback en tiempo real introdujimos feedback in-app, que permite al usuario aportar información de forma pasiva sin interrumpir su flujo de trabajo.",
-              },
-            },
-          ],
-        },
-      },
     ],
   },
   "audemic-onboarding": {
@@ -1210,7 +1186,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     contributions: {
       en: [
         "Product design",
-        "Expert interviews",
+        "User interviews",
         "Funnel analysis",
         "Prototyping",
         "Usability testing",
@@ -1218,41 +1194,61 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       // TODO(afi-redaccion)
       es: [
         "Diseño de producto",
-        "Entrevistas con expertos",
+        "Entrevistas con usuarios",
         "Análisis del embudo",
         "Prototipado",
         "Test de usabilidad",
       ],
     },
     bento: [
+      /**
+       * Problem and solution in one card, 2026-08-26.
+       *
+       * They were two full-width cards at opposite ends of the study with three
+       * process cards between them, so the thing that was broken and the thing
+       * that fixed it never appeared in the same eyeful. The `user-feedback`
+       * animation came off with the merge: the two onboarding screens ARE the
+       * answer, and a drawing of feedback arriving is a weaker opener than the
+       * screens that came out of it.
+       */
       {
-        label: { en: "The problem", es: "El problema" },
+        label: { en: "Problem and solution", es: "Problema y solución" },
         sublabel: {
-          en: "Unmet expectations, frustrating onboarding, imprecise results — three ways to lose the same user.",
+          en: "Unmet expectations, frustrating onboarding, imprecise results. The fix was asking for less without giving up the personalization.",
           // TODO(afi-redaccion)
-          es: "Expectativas incumplidas, onboarding frustrante y resultados imprecisos: tres formas de perder al mismo usuario.",
+          es: "Expectativas incumplidas, onboarding frustrante y resultados imprecisos. La solución fue pedir menos sin renunciar a la personalización.",
         },
-        animation: "user-feedback",
+        images: [
+          "/work/audemic-onboarding/solution-subtopics.webp",
+          "/work/audemic-onboarding/solution-recommendation.webp",
+        ],
         span: "wide",
         details: {
           heading: {
-            en: "Audemic Insights struggled with retention",
+            en: "Three ways to lose the same user",
             // TODO(afi-redaccion)
-            es: "Audemic Insights tenía problemas de retención",
+            es: "Tres formas de perder al mismo usuario",
           },
           sections: [
             {
               body: {
-                en: "One sentence with three causes underlined: unmet user expectations, frustrating onboarding, and imprecise search and summary results.",
+                en: "Users expected a seamless AI experience and met manual tasks instead. Search results lacked precision. And an excessive number of onboarding steps produced friction that led straight to drop-off.",
                 // TODO(afi-redaccion)
-                es: "Una frase con tres causas subrayadas: expectativas de usuario incumplidas, un onboarding frustrante y resultados de búsqueda y resumen imprecisos.",
+                es: "Los usuarios esperaban una experiencia fluida con IA y se encontraban tareas manuales. Los resultados de búsqueda no eran precisos. Y un número excesivo de pasos en el onboarding generaba una fricción que llevaba directa al abandono.",
               },
             },
             {
               body: {
-                en: "Users anticipated a seamless AI-driven experience but encountered manual tasks that felt annoying. Search results lacked precision and relevance, falling short of user expectations. And friction, from an excessive number of steps during onboarding, led to user drop-off.",
+                en: "Linked the first search to topics worth engaging with, and added metadata that makes a result actionable rather than just present.",
                 // TODO(afi-redaccion)
-                es: "Los usuarios esperaban una experiencia fluida guiada por IA y se encontraban tareas manuales que resultaban molestas. Los resultados de búsqueda carecían de precisión y relevancia, por debajo de lo que esperaban. Y la fricción de un número excesivo de pasos en el onboarding provocaba abandono.",
+                es: "Ligamos la primera búsqueda a temas que engancharan y añadimos metadatos que hacen que un resultado sea accionable y no solo esté ahí.",
+              },
+            },
+            {
+              body: {
+                en: "Onboarding leads with search, so someone explores a relevant topic before being asked for anything, and five personalized summaries show what the platform is for. Value first, then the ask.",
+                // TODO(afi-redaccion)
+                es: "El onboarding entra por la búsqueda, para que alguien explore un tema relevante antes de que se le pida nada, y cinco resúmenes personalizados enseñan para qué sirve la plataforma. Primero el valor, después la petición.",
               },
             },
           ],
@@ -1260,8 +1256,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       {
         label: {
-          en: "01 — Expert interviews",
-          es: "01 — Entrevistas con expertos",
+          en: "01 — User interviews",
+          // TODO(afi-redaccion)
+          es: "01 — Entrevistas con usuarios",
         },
         sublabel: {
           en: "An Oxford AI professor, a White House Correspondent, and a vaccine researcher.",
@@ -1332,6 +1329,10 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Tres hipótesis y luego ciclos de prueba y refinamiento.",
         },
         image: "/work/audemic-onboarding/process-03-testing-screens.webp",
+        // Its own row, matching the card above it. User interviews and
+        // Mixpanel pair off into one row; left at a single column this one sat
+        // alone beside a hole.
+        span: "wide",
         details: {
           heading: {
             en: "Written as hypotheses so they could fail",
@@ -1344,42 +1345,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 en: "We hypothesized that advanced filters, prioritizing search, and enriching metadata in summaries would better meet user needs. To validate, we used an iterative approach with cycles of testing and refinement.",
                 // TODO(afi-redaccion)
                 es: "Planteamos como hipótesis que unos filtros avanzados, dar prioridad a la búsqueda y enriquecer los metadatos de los resúmenes responderían mejor a las necesidades del usuario. Para validarlo usamos un enfoque iterativo con ciclos de prueba y refinamiento.",
-              },
-            },
-          ],
-        },
-      },
-      {
-        label: { en: "The solution", es: "La solución" },
-        sublabel: {
-          en: "Simplified onboarding by minimizing inputs while preserving personalization.",
-          // TODO(afi-redaccion)
-          es: "Onboarding simplificado: menos campos, la misma personalización.",
-        },
-        images: [
-          "/work/audemic-onboarding/solution-subtopics.webp",
-          "/work/audemic-onboarding/solution-recommendation.webp",
-        ],
-        span: "wide",
-        details: {
-          heading: {
-            en: "Search usability, and value up front",
-            // TODO(afi-redaccion)
-            es: "Usabilidad de la búsqueda y valor por delante",
-          },
-          sections: [
-            {
-              body: {
-                en: "Search usability: improved sub-topic search accuracy by linking initial searches to engaging topics, reducing drop-offs, and integrated new metadata to make results actionable and user-focused.",
-                // TODO(afi-redaccion)
-                es: "Usabilidad de la búsqueda: mejoramos la precisión de la búsqueda de subtemas ligando las búsquedas iniciales a temas que engancharan, lo que reduce el abandono, e integramos metadatos nuevos para que los resultados sean accionables y centrados en el usuario.",
-              },
-            },
-            {
-              body: {
-                en: "Early value: during onboarding, we prioritized search functionality to let users explore relevant topics instantly, and added five personalized summaries to showcase the platform's value and relevance.",
-                // TODO(afi-redaccion)
-                es: "Valor temprano: durante el onboarding dimos prioridad a la búsqueda para que el usuario explore temas relevantes al instante, y añadimos cinco resúmenes personalizados para mostrar el valor y la relevancia de la plataforma.",
               },
             },
           ],

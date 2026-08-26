@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { WorkGrid } from "@/components/my-work";
 import { WORK } from "@/lib/content/work";
 import { t, useLang } from "@/lib/i18n";
@@ -21,7 +23,16 @@ import { t, useLang } from "@/lib/i18n";
  * KT360 terminal cut off after its first path. intro-preview-link.tsx hit the same
  * wall and solved it the same way: give the figure its full square.
  */
+/** The kinds /writing gathers, matching writing-list.tsx and the canvas board. */
+const WRITING_KINDS: readonly string[] = ["blog", "process", "methodology"];
+
 export function MoreWork({
+  /**
+   * Which shelf this is. Case studies by default, which is what both call sites
+   * showed before this existed — including the bottom of a blog post, where
+   * "More case studies" was the only thing on offer after a piece of writing.
+   */
+  kind = "case-study",
   /** Omit the piece being read, so the shelf never points back at this page. */
   excludeSlug,
   /**
@@ -32,6 +43,7 @@ export function MoreWork({
   limit,
   className,
 }: {
+  kind?: "case-study" | "writing";
   excludeSlug?: string;
   limit?: number;
   className?: string;
@@ -39,7 +51,12 @@ export function MoreWork({
   const { lang } = useLang();
 
   const all = WORK.filter(
-    (w) => !w.hidden && w.kind === "case-study" && w.slug !== excludeSlug
+    (w) =>
+      !w.hidden &&
+      (kind === "writing"
+        ? WRITING_KINDS.includes(w.kind)
+        : w.kind === "case-study") &&
+      w.slug !== excludeSlug
   );
   const items = limit ? all.slice(0, limit) : all;
 
@@ -51,9 +68,21 @@ export function MoreWork({
         className ?? "border-border/60 flex flex-col gap-6 border-t pt-12"
       }
     >
-      <h2 className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-        {t("work.more", lang)}
-      </h2>
+      {/* Heading and the way out on one line, the same pair the canvas board's
+          section headers carry. The shelf shows three of everything, so without
+          a route to the index it quietly implies that three is all there is —
+          the same argument that put "See all" on the board. */}
+      <div className="flex items-baseline gap-3">
+        <h2 className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+          {t(kind === "writing" ? "work.more_writing" : "work.more", lang)}
+        </h2>
+        <Link
+          href={kind === "writing" ? "/writing" : "/projects"}
+          className="text-muted-foreground hover:text-foreground font-mono text-xs tracking-wider transition-colors"
+        >
+          {t("nav.see_all", lang)} →
+        </Link>
+      </div>
       <WorkGrid items={items} />
     </section>
   );

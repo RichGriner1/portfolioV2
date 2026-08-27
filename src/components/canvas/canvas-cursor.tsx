@@ -36,13 +36,16 @@ import { cn } from "@/lib/utils";
 const LERP = 0.45;
 
 /**
- * How long each step of the tutorial holds before the next one replaces it.
+ * The timed fallback advance, for a step nobody performs.
  *
- * 2.4s is a read plus a beat. Under about two seconds the chip changes while
- * you're still parsing it and the whole sequence reads as flicker; much over
- * three and a visitor who already knows the gesture is watching a slideshow.
+ * Completing a step's gesture is what actually retires it — `mark()` below
+ * ticks it off and the next render shows the following one. This timer only
+ * covers the visitor who reads the chip and ignores it: 8s is long enough
+ * that it never fires on someone who's mid-attempt, short enough that the
+ * tutorial still ends on its own for someone who never tries the gesture
+ * at all.
  */
-const STEP_MS = 2400;
+const STEP_MS = 8000;
 
 /** Screen px of travel with the button down before a press reads as a drag. */
 const DRAG_THRESHOLD = 24;
@@ -217,6 +220,14 @@ export function CanvasCursor({
   const [mac, setMac] = useState(false);
   const [trackpad, setTrackpad] = useState(false);
   const [step, setStep] = useState(0);
+  /**
+   * True once the visitor presses Escape while a step is showing. Forces
+   * `current` to null for good — Esc is the exit, since the chip trails the
+   * pointer inside a `pointer-events-none` layer and can't hold a clickable
+   * ×. The chip collapses back to just the label, same as the closed state
+   * between steps.
+   */
+  const [dismissed, setDismissed] = useState(false);
   const done = useRef(new Set<Step["id"]>());
   /**
    * Bumped whenever a gesture lands, purely to re-run the advance effect.
@@ -355,7 +366,11 @@ export function CanvasCursor({
    */
   let showAt = step;
   while (showAt < steps.length && done.current.has(steps[showAt].id)) showAt++;
-  const current = showAt < steps.length ? steps[showAt] : null;
+  const current = dismissed
+    ? null
+    : showAt < steps.length
+      ? steps[showAt]
+      : null;
 
   /**
    * Advance one step per interval, and stop when the list runs out.
@@ -369,6 +384,20 @@ export function CanvasCursor({
     const timer = setTimeout(() => setStep(showAt + 1), STEP_MS);
     return () => clearTimeout(timer);
   }, [teach, current, showAt, gestures]);
+
+  /**
+   * Escape dismisses the tutorial for good, separate from the gesture-watcher's
+   * own `onKey` above (which only ever ticks the "keys" step off) so the two
+   * don't tangle over the same event.
+   */
+  useEffect(() => {
+    if (!teach || dismissed) return;
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDismissed(true);
+    };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, [teach, dismissed]);
 
   useEffect(() => {
     if (!enabled) return;

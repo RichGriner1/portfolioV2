@@ -4401,10 +4401,15 @@ function BentoCardItem({
               </video>
             </div>
           ) : card.image ? (
+            /* `cover`, not `contain` — the panel is a fixed-aspect frame, and
+               `contain` left card-colored gutters around any photo whose aspect
+               didn't match it, reading as stray padding around a floating
+               border. The zoom modal below stays `contain`; it's for seeing the
+               whole export, not filling a slot. */
             <img
               src={card.image}
               alt={pick(card.label, lang)}
-              className="ease-out-soft h-full w-full object-contain transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
+              className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
             />
           ) : Animation ? (
             <Animation active={isMobile ? mobileVariant === "hover" : active} />
@@ -4477,9 +4482,10 @@ function BentoCardItem({
               className="flex-1 border-0 bg-white"
             />
           ) : card.image ? (
-            /* `contain`, not `cover`. The card crops to fill its slot; this view
-               exists to show the whole export, so cropping it here would open a
-               bigger version of the same partial picture. */
+            /* `contain`, not `cover`. The card now crops to fill its slot
+               (object-cover, above); this view exists to show the whole
+               export, so cropping it here too would open a bigger version of
+               the same partial picture. */
             <img
               src={card.image}
               alt={pick(card.label, lang)}

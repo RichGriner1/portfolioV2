@@ -128,6 +128,8 @@ const CV: {
       // sit on any base.
       // "co-founder" rather than VP: he holds both, and it's the title LinkedIn
       // already uses publicly, so the two don't contradict each other.
+      // The follower growth is his personal account, not the company's — don't
+      // reattribute it to the brand channel.
       // $70M is what the company turned over that year, not growth attributed to
       // this work — the prior year's figure isn't known.
       lead: {
@@ -136,12 +138,12 @@ const CV: {
       },
       bullets: {
         en: [
-          "Took the company Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, reach up 2,000% in two months.",
-          "Built a personal brand for the co-founder alongside the company's own, running strategy and video production for both.",
+          "Took the co-founder's personal Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, reach up 2,000% in two months.",
+          "Ran content strategy and video production for his personal brand and the company's own.",
         ],
         es: [
-          "Llevé el Instagram de la empresa de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
-          "Construí la marca personal del cofundador junto a la de la empresa, con la estrategia y la producción de vídeo de las dos.",
+          "Llevé el Instagram personal del cofundador de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
+          "Me encargué de la estrategia de contenido y la producción de vídeo de su marca personal y de la de la empresa.",
         ],
       },
     },

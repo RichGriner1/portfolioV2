@@ -124,3 +124,6 @@ responsive-check-shots/
 *.HEIC
 *.heic
 /scratch-*.png
+
+# Session handoff notes: internal coordination, and they name gitignored drafts.
+/HANDOFF-*.md

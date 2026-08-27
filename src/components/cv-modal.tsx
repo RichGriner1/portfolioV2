@@ -47,8 +47,9 @@ const CV: {
   name: "Richard Griner",
   email: "richardgrinerdesigns@gmail.com",
   profile: {
-    en: "I work between Figma and production code, building design systems and components and prototyping interactions.",
-    es: "Trabajo entre Figma y código de producción, construyendo sistemas de diseño y componentes y prototipando interacciones.",
+    en: "I work between Figma and production code, building design systems for dense financial interfaces: token architecture, component libraries, and the specs and documentation engineers build from.",
+    // TODO(afi-redaccion)
+    es: "Trabajo entre Figma y código de producción, construyendo sistemas de diseño para interfaces financieras densas: arquitectura de tokens, librerías de componentes y la documentación con la que trabaja ingeniería.",
   },
   /**
    * Reconciled against LinkedIn on 2026-08-05. Titles, companies and dates are
@@ -74,17 +75,19 @@ const CV: {
       company: "Afi",
       period: { en: "2025 – present", es: "2025 – actualidad" },
       lead: {
-        en: "Sole full-time designer across two white-label financial products, working with engineers from product flows and visual direction through to the live interface.",
-        es: "Único diseñador a tiempo completo en dos productos financieros white-label, trabajando con ingeniería desde los flujos de producto y la dirección visual hasta la interfaz en vivo.",
+        en: "Sole full-time designer across two white-label financial products, working with forty engineers across five teams from product flows through to the live interface.",
+        // TODO(afi-redaccion)
+        es: "Único diseñador a tiempo completo en dos productos financieros white-label, trabajando con cuarenta ingenieros en cinco equipos desde los flujos de producto hasta la interfaz en vivo.",
       },
       bullets: {
         en: [
           "Built a three-tier token architecture in Figma and Angular, then a live playground where engineers can inspect component states and copy code.",
-          "Documented tokens, responsive rules and component usage in design.md, and prototyped motion patterns for controls and state changes.",
+          "Audited the Wealth Planner's screens and components ahead of its PrimeNG implementation, alongside the engineers leading the migration.",
         ],
+        // TODO(afi-redaccion)
         es: [
           "Construí una arquitectura de tokens en tres niveles en Figma y Angular, y después un playground en vivo donde ingeniería puede inspeccionar estados y copiar código.",
-          "Documenté tokens, reglas responsive y uso de componentes en design.md, y prototipé patrones de movimiento para controles y cambios de estado.",
+          "Audité las pantallas y componentes del Wealth Planner antes de su implementación con PrimeNG, junto a los ingenieros que llevaron la migración.",
         ],
       },
     },
@@ -102,11 +105,12 @@ const CV: {
       bullets: {
         en: [
           "Launched the B2B beta and the acquisition funnel behind it: 20 qualified leads in a single week from paid ads.",
-          "Contributed to a 2× increase in revenue through product and UX work across the platform.",
+          "Worked through the accessibility requirements of the UK's Disabled Students' Allowance to qualify the app as approved assistive technology.",
         ],
+        // TODO(afi-redaccion)
         es: [
           "Lancé la beta B2B y el embudo de captación que la sostenía: 20 leads cualificados en una sola semana con publicidad de pago.",
-          "Contribuí a duplicar los ingresos con trabajo de producto y UX en toda la plataforma.",
+          "Cumplí los requisitos de accesibilidad de la Disabled Students' Allowance británica para homologar la app como tecnología de apoyo.",
         ],
       },
     },

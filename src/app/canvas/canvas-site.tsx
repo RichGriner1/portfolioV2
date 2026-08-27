@@ -432,9 +432,17 @@ const bySlug = (slug: string): WorkItem => {
   return item;
 };
 
-const HEADLINE: Bilingual<{ name: string; claim: string }> = {
-  en: { name: "I'm Richard.", claim: " I build design systems with AI." },
-  es: { name: "Soy Richard.", claim: " Construyo sistemas de diseño con IA." },
+const HEADLINE: Bilingual<{ name: string; claim: string; altClaim: string }> = {
+  en: {
+    name: "I'm Richard.",
+    claim: " I build design systems with AI.",
+    altClaim: " I design cool shit with AI.",
+  },
+  es: {
+    name: "Soy Richard.",
+    claim: " Construyo sistemas de diseño con IA.",
+    altClaim: " Diseño cosas que molan con IA.",
+  },
 };
 
 const SUBTITLE: Bilingual<string> = {
@@ -510,23 +518,76 @@ const CLAIM_STEP = 16;
  *
  * Shared by the board and the mobile stack so the two can't drift; the only thing
  * that differs between them is the type scale.
+ *
+ * Hovering the headline swaps the claim half for a playful alternate and lets
+ * `HyperText` scramble to it, the same mechanism the language toggle already
+ * rides. `hovered` is an optional override rather than always reading a local
+ * `onPointerEnter`: on the board, this element sits inside the hero frame,
+ * which is `pointer-events-none` so a click on the claim falls through to the
+ * drag layer underneath — the h1 itself never sees a pointer event there. The
+ * board already tracks which section the pointer is over for its own hit
+ * test (`hovered === "home"` is this same frame), so that's what drives it
+ * instead. The mobile stack has no such layer, so it falls back to its own
+ * `onPointerEnter`/`onPointerLeave` — a no-op on touch, which is fine, there's
+ * no hover to swap on there anyway.
  */
-function Claim({ className }: { className: string }) {
+function Claim({
+  className,
+  hovered,
+}: {
+  className: string;
+  /** Board only — see above. Omitted on mobile, where the h1 tracks its own hover. */
+  hovered?: boolean;
+}) {
   const { lang } = useLang();
-  const { name, claim } = pick(HEADLINE, lang);
+  const { name, claim, altClaim } = pick(HEADLINE, lang);
   const lead = name.length * CLAIM_STEP;
 
+  const [selfHovered, setSelfHovered] = useState(false);
+  const isHovered = hovered ?? selfHovered;
+
+  /**
+   * The opening `delay` only belongs to the FIRST resolve, where it holds the
+   * claim half scrambled for the length of the name so the pair reads as one
+   * continuous sweep. A later hover swap has no name sweeping in front of it —
+   * with the same delay it would sit scrambled for `lead`ms every time the
+   * pointer arrives, which reads as lag rather than a reaction. `ready` flips
+   * once, after the opening pass has had time to land, and every swap after
+   * that gets delay 0.
+   */
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), lead);
+    return () => clearTimeout(t);
+  }, [lead]);
+
+  const claimText = isHovered ? altClaim : claim;
+
   return (
-    <h1 className={className}>
+    <h1
+      className={className}
+      onPointerEnter={
+        hovered === undefined ? () => setSelfHovered(true) : undefined
+      }
+      onPointerLeave={
+        hovered === undefined ? () => setSelfHovered(false) : undefined
+      }
+    >
       <HyperText className="text-muted-foreground" duration={lead}>
         {name}
       </HyperText>
+      {/* `animateOnHover={false}` — the swap between `claim` and `altClaim` is
+          already a scramble, driven by `children` changing. Left at its
+          default, the pointer landing on this span would ALSO fire its own
+          replay of whatever text is already showing, a second scramble
+          racing the first one in. */}
       <HyperText
         className="text-foreground"
-        delay={lead}
-        duration={claim.length * CLAIM_STEP}
+        delay={ready ? 0 : lead}
+        duration={claimText.length * CLAIM_STEP}
+        animateOnHover={false}
       >
-        {claim}
+        {claimText}
       </HyperText>
     </h1>
   );
@@ -1753,7 +1814,10 @@ export function CanvasSite() {
                 {pick(PLACE, lang)}
               </span>
               <div className="flex flex-col items-center gap-6">
-                <Claim className="text-3xl sm:text-4xl lg:text-5xl" />
+                <Claim
+                  className="text-3xl sm:text-4xl lg:text-5xl"
+                  hovered={hovered === "home"}
+                />
                 <p className="text-prose-body max-w-md text-xs">
                   {pick(SUBTITLE, lang)}
                 </p>

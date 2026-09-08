@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -40,15 +40,57 @@ const LERP = 0.45;
  *
  * Completing a step's gesture is what actually retires it — `mark()` below
  * ticks it off and the next render shows the following one. This timer only
- * covers the visitor who reads the chip and ignores it: 8s is long enough
- * that it never fires on someone who's mid-attempt, short enough that the
- * tutorial still ends on its own for someone who never tries the gesture
- * at all.
+ * covers the visitor who reads the chip and ignores it.
+ *
+ * Was 8s, which across four steps meant up to 32 seconds of chip. It also never
+ * behaved like 8s: the effect that owns it depended on the step OBJECT, which
+ * `stepsFor` rebuilds on every render, so any re-render tore the timer down and
+ * started a fresh one — and canvas-site calls `setHovered` on every pointermove
+ * over the board, which re-renders this component. Moving the mouse across
+ * sections held a step open indefinitely. The clock is keyed on the step id now,
+ * and 5s is enough to read six words without outstaying its welcome.
  */
-const STEP_MS = 8000;
+const STEP_MS = 5000;
 
-/** Screen px of travel with the button down before a press reads as a drag. */
+/** Screen px of travel with the button down before a press reads as a pan. */
 const DRAG_THRESHOLD = 24;
+
+/**
+ * Where the tutorial remembers what it has already taught.
+ *
+ * Nothing here persisted before, so every reload walked a returning visitor
+ * through their own canvas from step one. Versioned in the key rather than in
+ * the payload: if the sequence is ever reshaped, bumping `v1` retires the old
+ * record instead of needing a migration for a value this disposable.
+ */
+const TAUGHT_KEY = "rg:canvas-tutorial:v1";
+
+/**
+ * What the visitor is holding. `unknown` is the honest starting value.
+ *
+ * No web API reports the pointing device: `navigator.platform` gives the OS,
+ * `PointerEvent.pointerType` says "mouse" for a trackpad too, and
+ * `maxTouchPoints` is about touchscreens. The only real evidence is the shape of
+ * a wheel event, which by definition arrives after the visitor has scrolled.
+ *
+ * This used to start from a prior — Mac implies trackpad — which was wrong for
+ * anyone on a desktop Mac, or a laptop with a mouse plugged in, who was told to
+ * "Pinch".
+ *
+ * The fix is NOT to name both options. That was tried and it reads as mush: a
+ * mouse user handed "Click + drag or two fingers" has to work out which half is
+ * theirs, and half the instruction describes hardware they aren't holding. One
+ * cue, correct for the device, or it isn't an instruction.
+ *
+ * What makes a single default safe is that the two cue sets aren't symmetrical.
+ * Every wheel cue also works on a trackpad — two-finger scrolling satisfies
+ * "Scroll", and Ctrl + that scroll zooms. The trackpad cues are the ones
+ * that can be impossible: no mouse can pinch. So `unknown` renders the mouse
+ * set, which is always TRUE even when it isn't the most natural, and a
+ * confirmed trackpad upgrades to the gestures that suit it. Guessing wrong now
+ * suggests the long way round, never the impossible way.
+ */
+type Device = "mouse" | "trackpad" | "unknown";
 
 /**
  * A gesture the board honours, in the words of whoever is holding the mouse.
@@ -57,9 +99,16 @@ const DRAG_THRESHOLD = 24;
  * them different weight — the input is the part you have to copy, the result is
  * the part that tells you whether you want to. `id` is what the gesture-watcher
  * ticks off, so a step nobody needs is never shown.
+ *
+ * A `cue` MUST name a physical action — what the hands actually do. It used to
+ * read "Drag", which is the RESULT, and the verdict on that was blunt: it
+ * "literally means nothing to a user if they need to click a button or use both
+ * fingers". It never says to hold the button down, and on a trackpad a
+ * click-drag isn't the natural motion in the first place. So every cue below is
+ * a button, a key, or a number of fingers.
  */
 type Step = {
-  id: "drag" | "zoom" | "panx" | "keys";
+  id: "pan" | "zoom" | "panx" | "keys";
   cue: Bilingual<string>;
   text: Bilingual<string>;
 };
@@ -67,98 +116,112 @@ type Step = {
 /**
  * The sequence, which depends on what the visitor is holding.
  *
- * Two axes, and only one of them is knowable at first paint:
+ * Nothing here branches on the operating system, deliberately.
  *
- *   - OS decides the zoom modifier, ⌘ against Ctrl, and `navigator` answers that
- *     before anything has been touched. Naming the wrong key is worse than naming
- *     no key, because the visitor tries it, nothing happens, and they conclude
- *     the board is broken rather than that the hint is.
- *   - Mouse against trackpad has NO first-paint answer — there is no API for it,
- *     only the shape of a wheel event, which by definition arrives after the
- *     visitor has already scrolled. So it starts as a prior (Mac ships a trackpad
- *     on every laptop; a Windows desktop ships a mouse) and corrects itself the
- *     first time a real wheel event says otherwise, which lands mid-sequence and
- *     fixes the steps still to come.
+ * It used to: the zoom modifier was ⌘ on macOS and Ctrl everywhere else, read
+ * from `navigator`. But `navigator` reports the OS, not the KEYBOARD, and those
+ * are different things — Richard runs macOS with a Windows keyboard, so the
+ * chip printed "⌘" for a key whose cap says Win, naming a modifier he could not
+ * find. There is no API for key legends either; `KeyboardEvent.code` is
+ * "MetaLeft" whether the cap reads ⌘, Win or Super.
  *
- * A mouse and a trackpad genuinely need different instructions here, not just
- * different wording: a trackpad pans both axes with two fingers and zooms with a
- * pinch, while a wheel has one axis and needs a modifier for each of the other
- * two. Telling a mouse user to pinch is telling them nothing.
+ * canvas-site zooms on `metaKey || ctrlKey`, so Ctrl is equally true on every
+ * platform, and it is the one modifier engraved identically on every keyboard
+ * ever made. Printing it unconditionally cannot name a key the visitor does not
+ * have, and it deletes the branch rather than making it smarter.
+ *
+ * What DOES vary is the pointing device, and only that. A trackpad pans both
+ * axes with two fingers and zooms with a pinch, while a wheel has one axis and
+ * needs Shift for the other. Telling a mouse user to pinch is telling them
+ * nothing. That also changes the sequence LENGTH, not just the words: four
+ * steps for a wheel, three for a trackpad.
  */
-function stepsFor(mac: boolean, trackpad: boolean): Step[] {
-  const zoomKey = mac ? "\u2318" : "Ctrl";
-  return [
-    {
-      id: "drag",
-      cue: { en: "Drag", es: "Arrastra" },
-      text: { en: "move around", es: "muévete por el tablero" },
-    },
-    trackpad
-      ? {
-          id: "zoom",
-          cue: { en: "Pinch", es: "Pellizca" },
-          text: { en: "zoom in and out", es: "acerca y aleja" },
-        }
-      : {
-          id: "zoom",
-          cue: { en: `${zoomKey} + scroll`, es: `${zoomKey} + rueda` },
-          text: { en: "zoom in and out", es: "acerca y aleja" },
-        },
-    trackpad
-      ? {
-          id: "panx",
-          cue: { en: "Two fingers", es: "Dos dedos" },
-          text: {
-            en: "left, right, up and down",
-            es: "izquierda, derecha, arriba y abajo",
-          },
-        }
-      : {
-          id: "panx",
-          cue: { en: "Shift + scroll", es: "Mayús + rueda" },
-          text: { en: "left and right", es: "izquierda y derecha" },
-        },
-    {
-      id: "keys",
-      cue: {
-        en: "\u2190 \u2192 \u2191 \u2193",
-        es: "\u2190 \u2192 \u2191 \u2193",
-      },
-      text: { en: "nudge anywhere", es: "ajusta poco a poco" },
-    },
-  ];
-}
+function stepsFor(device: Device): Step[] {
+  const steps: Step[] = [];
 
-/**
- * Whether this is a Mac, for the zoom modifier only.
- *
- * `userAgentData.platform` where it exists, `navigator.platform` where it
- * doesn't. The latter is deprecated and still the only thing Safari and Firefox
- * answer, and the cost of it eventually returning nothing is that a Mac visitor
- * is told "Ctrl" — wrong, but not broken, since the fallback is a real key on a
- * real keyboard rather than a blank.
- */
-function isMac(): boolean {
-  const uaPlatform = (
-    navigator as Navigator & { userAgentData?: { platform?: string } }
-  ).userAgentData?.platform;
-  const platform = uaPlatform ?? navigator.platform ?? "";
-  return /mac/i.test(platform);
+  // `unknown` deliberately falls in with `mouse`. See `Device`.
+  const trackpad = device === "trackpad";
+
+  /**
+   * A WHEEL is taught in the canvas idiom Figma established, because that is
+   * what the board actually implements: plain wheel pans vertically, Shift
+   * flips it to horizontal, and the zoom modifier scales at the pointer.
+   *
+   * The first step used to be "Click + drag", which was the wrong gesture to
+   * lead with twice over. Nobody reaches for a drag on a canvas: a designer's
+   * hand goes to the wheel, and on a real canvas a bare drag usually means
+   * marquee-select, not pan. Worse, a plain scroll already moved the board
+   * while the tutorial marked nothing for it, so the one gesture every mouse
+   * user performs first was the one that could never advance the sequence.
+   * Drag still pans and still ticks this step off; it just isn't the headline.
+   */
+  if (!trackpad) {
+    // TODO(afi-redaccion): "Rueda", "arriba y abajo".
+    steps.push({
+      id: "pan",
+      cue: { en: "Scroll", es: "Rueda" },
+      text: { en: "up and down", es: "arriba y abajo" },
+    });
+    steps.push({
+      id: "panx",
+      cue: { en: "Shift + scroll", es: "May\u00fas + rueda" },
+      text: { en: "left and right", es: "izquierda y derecha" },
+    });
+    steps.push({
+      id: "zoom",
+      cue: { en: "Ctrl + scroll", es: "Ctrl + rueda" },
+      text: { en: "zoom in and out", es: "acerca y aleja" },
+    });
+  } else {
+    /**
+     * A trackpad gets two steps, not three: two fingers already moves the board
+     * on both axes, so a separate sideways step would be the same gesture
+     * taught twice.
+     */
+    // TODO(afi-redaccion): "Dos dedos", "muevete libremente".
+    steps.push({
+      id: "pan",
+      cue: { en: "Two fingers", es: "Dos dedos" },
+      text: { en: "move freely", es: "mu\u00e9vete libremente" },
+    });
+    steps.push({
+      id: "zoom",
+      cue: { en: "Pinch", es: "Pellizca" },
+      text: { en: "zoom in and out", es: "acerca y aleja" },
+    });
+  }
+
+  steps.push({
+    id: "keys",
+    cue: {
+      en: "\u2190 \u2192 \u2191 \u2193",
+      es: "\u2190 \u2192 \u2191 \u2193",
+    },
+    text: { en: "nudge anywhere", es: "ajusta poco a poco" },
+  });
+
+  return steps;
 }
 
 /**
  * Read a wheel event for what produced it.
  *
- * A pinch arrives as a wheel with `ctrlKey` set and nothing else does, so that
- * one is certain. Past that it's the shape of the delta: a wheel notch is a
- * whole number of lines or a round pixel step with no horizontal component,
- * where a trackpad streams small fractional deltas on both axes. Fractional or
- * two-axis is the trackpad tell; a lone integer delta of 50px or more is the
- * mouse tell. Anything else returns null rather than guessing, and the prior
- * stands.
+ * It's the shape of the delta: a wheel notch is a whole number of lines or a
+ * round pixel step with no horizontal component, where a trackpad streams small
+ * fractional deltas on both axes. Fractional or two-axis is the trackpad tell; a
+ * lone integer delta of 50px or more is the mouse tell. Anything else returns
+ * null rather than guessing, and `unknown` stands.
+ *
+ * `ctrlKey` is deliberately NOT consulted. A trackpad pinch does arrive as a
+ * wheel with `ctrlKey` forced true, so it looks like a free trackpad tell — but
+ * the chip now instructs EVERY visitor to zoom with Ctrl + scroll, so a mouse
+ * user following that instruction sets the same flag. Reading it would classify
+ * them as a trackpad and spend the rest of the sequence telling them to pinch,
+ * which is the original bug wearing a different hat. A pinch still gets caught
+ * by the fractional-delta test below, since pinch deltas are never whole
+ * numbers.
  */
-function readWheelDevice(e: WheelEvent): "mouse" | "trackpad" | null {
-  if (e.ctrlKey) return "trackpad";
+function readWheelDevice(e: WheelEvent): Device | null {
   if (e.deltaX !== 0 || !Number.isInteger(e.deltaY)) return "trackpad";
   if (e.deltaMode === 0 && Math.abs(e.deltaY) >= 50) return "mouse";
   if (e.deltaMode === 1) return "mouse";
@@ -217,8 +280,7 @@ export function CanvasCursor({
    * `step` is an index into the full list; the advance below walks past anything
    * in `done`, so the two never have to be kept in sync.
    */
-  const [mac, setMac] = useState(false);
-  const [trackpad, setTrackpad] = useState(false);
+  const [device, setDevice] = useState<Device>("unknown");
   const [step, setStep] = useState(0);
   /**
    * True once the visitor presses Escape while a step is showing. Forces
@@ -238,6 +300,35 @@ export function CanvasCursor({
    * counter is the explicit, once-per-gesture nudge instead.
    */
   const [gestures, setGestures] = useState(0);
+  /**
+   * Mirrors `dismissed` for `remember` alone.
+   *
+   * `remember` has to be identity-stable, since two effects depend on it, so it
+   * cannot close over the `dismissed` STATE. Without this ref, a gesture marked
+   * after an Esc would write `dismissed: false` back over the record and the
+   * tutorial would return on the next visit.
+   */
+  const dismissedRef = useRef(false);
+
+  /**
+   * Persist what has been taught. Every access guarded — a private window or a
+   * browser with site data blocked throws on both read and write, and the
+   * tutorial behaves exactly as it did before in that case.
+   */
+  const remember = useCallback((dismiss?: boolean) => {
+    if (dismiss) dismissedRef.current = true;
+    try {
+      window.localStorage.setItem(
+        TAUGHT_KEY,
+        JSON.stringify({
+          done: [...done.current],
+          dismissed: dismissedRef.current,
+        })
+      );
+    } catch {
+      // No storage, no memory. The tutorial still runs.
+    }
+  }, []);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -255,17 +346,29 @@ export function CanvasCursor({
     };
   }, []);
 
-  // Platform is read once, on the client. It decides one word — ⌘ or Ctrl — and
-  // `navigator` doesn't exist during the server render.
+  /**
+   * Rehydrate what the visitor has already been taught, so a reload doesn't
+   * teach them their own canvas from step one again.
+   *
+   * Every access is guarded: a private window, blocked site data or a browser
+   * with storage disabled throws on read, and the tutorial simply runs as it
+   * always did in that case. Runs before the gesture-watcher mounts so the very
+   * first render already reflects a returning visitor.
+   */
   useEffect(() => {
-    const onMac = isMac();
-
-    setMac(onMac);
-    // The prior, before any wheel event has had a chance to correct it. Every
-    // Mac laptop ships a trackpad; a Windows or Linux machine with a fine
-    // pointer is more often a desktop with a mouse.
-
-    setTrackpad(onMac);
+    try {
+      const raw = window.localStorage.getItem(TAUGHT_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as { done?: string[]; dismissed?: boolean };
+      for (const id of saved.done ?? []) done.current.add(id as Step["id"]);
+      if (saved.dismissed) {
+        dismissedRef.current = true;
+        setDismissed(true);
+      }
+      if (saved.done?.length) setGestures((n) => n + 1);
+    } catch {
+      // No storage, no memory. Not worth reporting.
+    }
   }, []);
 
   /**
@@ -286,6 +389,7 @@ export function CanvasCursor({
       if (done.current.has(id)) return;
       done.current.add(id);
       setGestures((n) => n + 1);
+      remember();
     };
 
     /**
@@ -298,15 +402,24 @@ export function CanvasCursor({
      * one live: the tutorial opened on step three because a drag somewhere else
      * entirely had already ticked off two gestures nobody performed here.
      *
-     * A press that lands on a link or a control is excluded for the same reason.
-     * Clicking a case study and twitching 25px before releasing is not a pan —
-     * the board doesn't move, so the visitor has learned nothing and the step
-     * still has a job to do.
+     * What is NOT tested any more is whether the press landed on a link. It used
+     * to be, on the reasoning that clicking a case study and twitching 25px
+     * before releasing is not a pan. But the board is covered in case-study
+     * cards, and it PANS from inside one — a section's surface is
+     * `pointer-events-none` precisely so it can be grabbed from anywhere. So the
+     * most natural place to grab the board was the one place the tutorial
+     * refused to count: the camera moved, the gesture plainly worked, and the
+     * chip went on telling the visitor to drag. Measured live — a 150px drag
+     * starting on the Afi card moved the board and advanced nothing.
+     *
+     * `DRAG_THRESHOLD` is what separates a click from a pan, and it is the
+     * honest test: past 24px the board has moved, whatever sat under the
+     * pointer. A click that never crosses it still navigates and still teaches
+     * nothing, which is the case the old exclusion was actually aiming at.
      */
     const onBoard = (e: Event) => {
       const target = e.target as HTMLElement | null;
-      if (!target || !host.contains(target)) return false;
-      return !target.closest("a, button, input, textarea, select, label");
+      return !!target && host.contains(target);
     };
 
     let from: { x: number; y: number } | null = null;
@@ -316,7 +429,7 @@ export function CanvasCursor({
     const onMove = (e: PointerEvent) => {
       if (!from) return;
       if (Math.hypot(e.clientX - from.x, e.clientY - from.y) > DRAG_THRESHOLD)
-        mark("drag");
+        mark("pan");
     };
     const onUp = () => {
       from = null;
@@ -325,14 +438,37 @@ export function CanvasCursor({
       // The device read is NOT gated on the board — a wheel anywhere tells you
       // what the visitor is holding, and knowing that early is what keeps the
       // remaining steps from naming a gesture their hardware can't perform.
-      const device = readWheelDevice(e);
-      if (device) setTrackpad(device === "trackpad");
+      const read = readWheelDevice(e);
+      if (read) setDevice(read);
       if (!onBoard(e)) return;
-      // A pinch or a modifier held over the wheel is a zoom; a plain wheel with
-      // a horizontal component, or Shift held, is the sideways pan. A plain
-      // vertical wheel is neither — it's the gesture nobody has to be taught.
+      /**
+       * Which taught gesture this wheel event actually was.
+       *
+       * `read ?? device` because `setDevice` above is async: the closure's
+       * `device` can still say "unknown" for the very event that just
+       * identified the hardware, and that event is usually the visitor's first.
+       *
+       * A pinch or a held modifier is the zoom, on any device. Past that it
+       * splits, because the same wheel event means different things: on a
+       * TRACKPAD two fingers is how you move the board around in every
+       * direction, so it completes the first step — it used to mark the
+       * sideways step instead, which a trackpad sequence doesn't even contain,
+       * so a trackpad visitor could two-finger the board across the screen and
+       * still be told to move around.
+       *
+       * On a MOUSE, Shift (or a purely horizontal delta) is the sideways pan
+       * and ANY OTHER WHEEL COMPLETES THE PAN STEP. A plain vertical wheel was
+       * previously dismissed in a comment here as "the gesture nobody has to be
+       * taught", which had it exactly backwards: canvas-site pans the camera on
+       * a bare wheel, so the first thing a mouse user ever does moved the board
+       * while the tutorial marked nothing and went on instructing them. It is
+       * the primary gesture, not the ignorable one.
+       */
+      const held = read ?? device;
       if (e.ctrlKey || e.metaKey) mark("zoom");
-      else if (e.shiftKey || e.deltaX !== 0) mark("panx");
+      else if (held === "trackpad") mark("pan");
+      else if (e.shiftKey || (e.deltaX !== 0 && e.deltaY === 0)) mark("panx");
+      else mark("pan");
     };
     const onKey = (e: KeyboardEvent) => {
       if (
@@ -355,9 +491,11 @@ export function CanvasCursor({
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
     };
-  }, [enabled]);
+    // `device` is read by the wheel handler. It settles at most once or twice a
+    // session, so this re-subscribes a handful of times.
+  }, [enabled, device, remember]);
 
-  const steps = stepsFor(mac, trackpad);
+  const steps = stepsFor(device);
   /**
    * The step actually on screen: `step`, or the next one past it the visitor
    * hasn't already performed. Computed during render rather than stored, so a
@@ -366,24 +504,57 @@ export function CanvasCursor({
    */
   let showAt = step;
   while (showAt < steps.length && done.current.has(steps[showAt].id)) showAt++;
-  const current = dismissed
+  const resolved = dismissed
     ? null
     : showAt < steps.length
       ? steps[showAt]
       : null;
 
   /**
+   * The wording actually painted, frozen for as long as the step is up.
+   *
+   * A device correction arriving mid-step used to rewrite the visible text under
+   * the visitor: sitting on the zoom step reading "Pinch", one plain scroll —
+   * which performs no taught gesture and advances nothing — silently swapped it
+   * for "⌘ + scroll". Same step, same position in the sequence, different words.
+   * From the visitor's side an input produced a change that wasn't a completion,
+   * which is indistinguishable from the thing glitching.
+   *
+   * So the first resolution of a step id wins and is kept. A correction still
+   * lands, it just lands on the steps not yet shown, which is where it can do
+   * some good.
+   */
+  const shown = useRef(new Map<Step["id"], Step>());
+  let current: Step | null = null;
+  if (resolved) {
+    const frozen = shown.current.get(resolved.id);
+    if (frozen) current = frozen;
+    else {
+      shown.current.set(resolved.id, resolved);
+      current = resolved;
+    }
+  }
+
+  /**
    * Advance one step per interval, and stop when the list runs out.
    *
-   * `gestures` is in the dependency list so ticking a step off re-runs this and
-   * restarts the clock — the replacement step gets its own full read, rather
-   * than inheriting whatever was left of the one it displaced.
+   * Keyed on the step ID, never on the step object. `stepsFor` builds fresh
+   * objects every render, so depending on `current` meant every re-render tore
+   * this timer down and started a new one — and canvas-site calls `setHovered`
+   * on each pointermove over the board, re-rendering this component. Moving the
+   * mouse could hold one step open indefinitely, which is most of why the
+   * pacing felt arbitrary. One id, one clock.
+   *
+   * `gestures` stays in the list so ticking a step off restarts the clock: the
+   * replacement gets its own full read rather than inheriting what was left of
+   * the step it displaced.
    */
+  const currentId = current?.id ?? null;
   useEffect(() => {
-    if (!teach || !current) return;
+    if (!teach || !currentId) return;
     const timer = setTimeout(() => setStep(showAt + 1), STEP_MS);
     return () => clearTimeout(timer);
-  }, [teach, current, showAt, gestures]);
+  }, [teach, currentId, showAt, gestures]);
 
   /**
    * Escape dismisses the tutorial for good, separate from the gesture-watcher's
@@ -393,11 +564,13 @@ export function CanvasCursor({
   useEffect(() => {
     if (!teach || dismissed) return;
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDismissed(true);
+      if (e.key !== "Escape") return;
+      setDismissed(true);
+      remember(true);
     };
     window.addEventListener("keydown", onEsc);
     return () => window.removeEventListener("keydown", onEsc);
-  }, [teach, dismissed]);
+  }, [teach, dismissed, remember]);
 
   useEffect(() => {
     if (!enabled) return;

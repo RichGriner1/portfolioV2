@@ -1172,7 +1172,18 @@ export function CanvasSite() {
         zoomTo(k.get() * Math.exp(-e.deltaY * ZOOM_RATE), e.clientX, e.clientY);
         return;
       }
-      const dx = e.shiftKey ? e.deltaY : e.deltaX;
+      /**
+       * Shift + wheel is sideways, but WHICH AXIS carries the number depends on
+       * the OS. Windows leaves the delta on deltaY and just sets shiftKey.
+       * macOS converts Shift + scroll to a horizontal scroll itself, so the
+       * browser hands over deltaX with deltaY at 0.
+       *
+       * Reading deltaY alone therefore worked on Windows and did NOTHING on a
+       * Mac: dx took deltaY, which was 0, and dy was zeroed by the same branch,
+       * so both axes came out 0 and the board sat still. Take whichever axis
+       * actually carries the travel.
+       */
+      const dx = e.shiftKey ? e.deltaY || e.deltaX : e.deltaX;
       const dy = e.shiftKey ? 0 : e.deltaY;
       x.set(clampTo(x.get() - dx, panLimit("x", k.get())));
       y.set(clampTo(y.get() - dy, panLimit("y", k.get())));

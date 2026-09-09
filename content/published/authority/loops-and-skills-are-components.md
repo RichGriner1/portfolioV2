@@ -1,5 +1,5 @@
 ---
-title: "Loops and skills are components, not folders"
+title: "Creating AI skills that speed up mundane tasks and keep documentation aligned"
 pillar: authority
 status: published
 created: 2026-07-07
@@ -8,7 +8,7 @@ tags: [ai-tools, claude-code, context-engineering, design-systems, workflow]
 seed: journal/2026-07-07-loops-vs-skills-claude-library.md
 ---
 
-# Loops and skills are components, not folders
+# Creating AI skills that speed up mundane tasks and keep documentation aligned
 
 I asked ChatGPT how to organize a library of reusable AI loops and skills for Claude Code. It gave me a folder structure with a `loops/` directory at the top. It looked reasonable.
 

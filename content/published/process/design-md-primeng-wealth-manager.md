@@ -1,12 +1,12 @@
 ---
-title: "Writing the rulebook PrimeNG doesn't hand you"
+title: "Creating a design.md"
 pillar: process
 status: published
 created: 2026-04-23
 tags: [design-systems, tokens, primeng, design-md, ai-tools, fintech]
 ---
 
-# Writing the rulebook PrimeNG doesn't hand you
+# Creating a design.md
 
 I'm the sole designer at AFI, a fintech consultancy. One of our products, **Wealth Manager**, is a B2B platform for wealth advisors (info-dense, tables-and-forms-all-day) used by finance people who care about parity with their data more than delight. The frontend is Angular on top of **PrimeNG**, an off-the-shelf component library.
 

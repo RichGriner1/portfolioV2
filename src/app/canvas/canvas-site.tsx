@@ -80,6 +80,27 @@ const ZOOM = { min: 0.25, max: 2 };
 const ZOOM_STEP = 1.25;
 
 /**
+ * The zoom home rests at — the opening shot's destination, and where "Start"
+ * returns you to.
+ *
+ * Was 1. The board flew from the overview all the way in to 100%, so the first
+ * thing a visitor saw was a headline filling the screen, and the fact that there
+ * is a BOARD around it had to be discovered. Resting wider means the opening
+ * frame shows the hero with its neighbours in view: it reads as a composition
+ * you can move through rather than a page that happens to be on a canvas.
+ *
+ * 0.7 rather than the overview's ~0.41, because the claim still has to be
+ * readable — at 0.7 the 48px headline renders around 34px, and the subtitle
+ * holds. The overview is for seeing everything at once, which is what the
+ * opening move animates FROM and what zoom-out is for.
+ *
+ * Sections keep landing at 1: see `goTo`. Choosing a section is a request to
+ * look at it, and home is the one destination that isn't about looking at one
+ * thing.
+ */
+const HOME_ZOOM = 0.7;
+
+/**
  * Screen px the board travels per arrow press, and the multiplier Shift adds.
  *
  * 32 reads as a deliberate nudge on a single tap, and at a held key's ~30 repeats a
@@ -531,20 +552,48 @@ const CLAIM_STEP = 16;
  * `onPointerEnter`/`onPointerLeave` — a no-op on touch, which is fine, there's
  * no hover to swap on there anyway.
  */
-function Claim({
-  className,
-  hovered,
-}: {
-  className: string;
-  /** Board only — see above. Omitted on mobile, where the h1 tracks its own hover. */
-  hovered?: boolean;
-}) {
+function Claim({ className }: { className: string }) {
   const { lang } = useLang();
   const { name, claim, altClaim } = pick(HEADLINE, lang);
   const lead = name.length * CLAIM_STEP;
 
-  const [selfHovered, setSelfHovered] = useState(false);
-  const isHovered = hovered ?? selfHovered;
+  const box = useRef<HTMLHeadingElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  /**
+   * Hover is decided by hit-testing THIS ELEMENT's own rect on `window`, not by
+   * the frame the headline sits in.
+   *
+   * It used to take a `hovered` prop wired to `hovered === "home"`, the board's
+   * section hit test. That is the whole hero frame — 848×420 of mostly empty
+   * space — so the claim swapped when the pointer was nowhere near the words,
+   * and any drift across the frame's edge swapped it back. The headline is what
+   * invites the hover, so the headline is what should answer for it.
+   *
+   * A local `onPointerEnter` can't do the job on the board: the hero frame is
+   * `pointer-events-none` so a press on the claim falls through to the drag
+   * layer underneath, and the h1 never sees a pointer event. Giving it
+   * `pointer-events-auto` would fix the hover and break dragging the board by
+   * its headline, which is a worse trade. Reading the rect keeps both: the
+   * element stays transparent to input and still knows where the pointer is.
+   *
+   * Same code path serves the mobile stack, where there is simply no hover to
+   * detect and the listener costs one rect read per touch-move.
+   */
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      const r = box.current?.getBoundingClientRect();
+      if (!r) return;
+      setIsHovered(
+        e.clientX >= r.left &&
+          e.clientX <= r.right &&
+          e.clientY >= r.top &&
+          e.clientY <= r.bottom
+      );
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
 
   /**
    * The opening `delay` only belongs to the FIRST resolve, where it holds the
@@ -564,15 +613,23 @@ function Claim({
   const claimText = isHovered ? altClaim : claim;
 
   return (
-    <h1
-      className={className}
-      onPointerEnter={
-        hovered === undefined ? () => setSelfHovered(true) : undefined
-      }
-      onPointerLeave={
-        hovered === undefined ? () => setSelfHovered(false) : undefined
-      }
-    >
+    /**
+     * `max-w-[13em]` is what stops the hover swap reflowing the page.
+     *
+     * At the hero frame's full 848px the two English variants set on a DIFFERENT
+     * NUMBER OF LINES — "I build design systems with AI." wraps to two, "I
+     * design cool shit with AI." fits on one — so hovering collapsed the
+     * headline by a full 48px line and shoved the subtitle and buttons up with
+     * it. That is the flicker.
+     *
+     * Measured every string at every type size: between 12em and 14em all four
+     * (both claims, both languages) set on exactly two lines. `em` rather than
+     * px because the type scales `text-3xl sm:text-4xl lg:text-5xl`, and line
+     * breaking depends on the ratio of text to measure — an em-based cap holds
+     * that ratio at every breakpoint where a pixel one would not. 13em is the
+     * middle of the safe band.
+     */
+    <h1 ref={box} className={cn("max-w-[13em] text-balance", className)}>
       <HyperText className="text-muted-foreground" duration={lead}>
         {name}
       </HyperText>
@@ -889,7 +946,7 @@ export function CanvasSite() {
       };
       xCtrl = animate(x, 0, opts);
       yCtrl = animate(y, 0, opts);
-      kCtrl = animate(k, 1, opts);
+      kCtrl = animate(k, HOME_ZOOM, opts);
       blurCtrl = animate(blur, [0, 6, 0], {
         duration: INTRO_FLIGHT,
         times: [0, 0.35, 0.8],
@@ -898,7 +955,7 @@ export function CanvasSite() {
       finishTimer = setTimeout(() => {
         if (done) return;
         done = true;
-        zoomAim.current = 1;
+        zoomAim.current = HOME_ZOOM;
         setIntroRunning(false);
         detach();
       }, INTRO_FLIGHT * 1000);
@@ -1494,31 +1551,39 @@ export function CanvasSite() {
   }, [x, y, k, reduced]);
 
   /**
-   * Move the board so a section lands in the middle of the viewport, at 100%.
+   * Move the board so a destination lands in the middle of the viewport.
    *
-   * Arriving is a composed move: the zoom goes home as the board travels, so a jump
-   * from anywhere lands on the section at the size it was drawn. The alternative —
-   * keeping whatever zoom you were on — meant a rail click could deposit you on a
-   * section at 40%, where its frames are unreadable, and leave the correction as
-   * homework. Choosing a destination is a request to LOOK at it, and 100% is what
-   * looking at it means.
+   * Arriving is a composed move: the zoom travels with the board, so a jump from
+   * anywhere lands at the size the destination is meant to be read at. The
+   * alternative — keeping whatever zoom you were on — meant a rail click could
+   * deposit you on a section at 40%, where its frames are unreadable, and leave
+   * the correction as homework. Choosing a section is a request to LOOK at it,
+   * and 100% is what looking at it means.
    *
-   * It also makes the arithmetic disappear. The offset is in screen pixels and the
-   * target is a board coordinate, so centring generally costs a `-tx * k`; with the
-   * destination zoom fixed at 1, `k` is 1 and the offset is just `-tx`.
+   * HOME is the exception, and lands at `HOME_ZOOM` instead. It isn't a request
+   * to look at one frame; it's the composition's establishing shot, and the
+   * opening camera move rests there too, so "Start" has to agree with it or the
+   * rail would return you somewhere the board never opened.
+   *
+   * The centring offset is `-t * zoom`: the target is a board coordinate and the
+   * offset is in screen pixels. This used to read `-tx` on the grounds that the
+   * destination zoom was always 1 — true then, wrong now. Home costs nothing
+   * either way, being the origin, but the general form is what keeps a future
+   * non-unit destination from landing off-centre.
    *
    * `zoomAim` moves with it, so a `+` pressed straight after landing steps from
-   * 100% rather than from wherever the visitor had been before the jump.
+   * where the jump left the zoom rather than from wherever the visitor had been.
    */
   function goTo(id: string, tx: number, ty: number) {
     setActive(id);
     const opts = reduced
       ? { duration: 0 }
       : { duration: 0.75, ease: [0.2, 0.8, 0.2, 1] as const };
-    zoomAim.current = 1;
-    animate(k, 1, opts);
-    animate(x, clampTo(-tx, panLimit("x", 1)), opts);
-    animate(y, clampTo(-ty, panLimit("y", 1)), opts);
+    const zoom = id === "home" ? HOME_ZOOM : 1;
+    zoomAim.current = zoom;
+    animate(k, zoom, opts);
+    animate(x, clampTo(-tx * zoom, panLimit("x", zoom)), opts);
+    animate(y, clampTo(-ty * zoom, panLimit("y", zoom)), opts);
   }
 
   const stops = [
@@ -1825,10 +1890,7 @@ export function CanvasSite() {
                 {pick(PLACE, lang)}
               </span>
               <div className="flex flex-col items-center gap-6">
-                <Claim
-                  className="text-3xl sm:text-4xl lg:text-5xl"
-                  hovered={hovered === "home"}
-                />
+                <Claim className="text-3xl sm:text-4xl lg:text-5xl" />
                 <p className="text-prose-body max-w-md text-xs">
                   {pick(SUBTITLE, lang)}
                 </p>

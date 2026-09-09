@@ -8,59 +8,55 @@ import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
 /**
- * `lead` sets the scope in one sentence; `bullets` carry the evidence. Exactly
- * two bullets per role, each holding one number or one named artefact.
- *
- * Two, not four: a CV is scanned rather than read, and a bullet puts a figure at
- * a line start where a paragraph buries it mid-sentence. But five roles at four
- * bullets each is twenty fragments, which stops being scannable, and voice.md
- * treats same-shape-every-time as its own tell.
+ * `lead` sets the scope in one sentence; `bullets` carry the evidence. The
+ * modal mirrors the 2026-09-09 resume: four bullets on the two main roles
+ * (Afi, Audemic), one or two on the rest, and `lead` is optional — the
+ * shorter roles skip it and go straight to bullets.
  */
 type CvExperience = {
   role: Bilingual<string>;
   company: string;
   period: Bilingual<string>;
-  lead: Bilingual<string>;
+  lead?: Bilingual<string>;
   bullets: Bilingual<string[]>;
 };
 
-/**
- * No `year`. Dates came off on 2026-08-05: the correct ones (BA 2016, master's
- * 2021) left a visible 2016–2022 gap on a CV whose earliest listed role starts
- * in 2022. Richard was teaching English through that period — it just isn't on
- * here. Degrees and schools stand on their own; add dates back only alongside
- * the roles that fill the gap, or the gap is the thing the reader notices.
- */
-type CvEducation = {
-  degree: Bilingual<string>;
-  school: string;
+type CvSkillLine = {
+  label: Bilingual<string>;
+  text: Bilingual<string>;
 };
 
 const CV: {
   name: string;
   email: string;
+  website: string;
+  linkedin: string;
   profile: Bilingual<string>;
   experience: CvExperience[];
-  skills: Bilingual<string>[];
-  education: CvEducation[];
+  skills: CvSkillLine[];
+  /**
+   * No dates. The correct ones (BA 2016, master's 2021) left a visible
+   * 2016–2022 gap next to a CV whose earliest listed role starts in 2021 —
+   * Richard was teaching English through that period, and it isn't on here.
+   * Degrees and schools stand on their own; add dates back only alongside
+   * the roles that fill the gap, or the gap is the thing the reader notices.
+   */
+  education: Bilingual<string>;
 } = {
   name: "Richard Griner",
   email: "richardgrinerdesigns@gmail.com",
+  website: "richardgriner.com",
+  linkedin: "linkedin.com/in/richardgriner",
   profile: {
-    en: "I work between Figma and production code, building design systems for dense financial interfaces: token architecture, component libraries, and the specs and documentation engineers build from.",
-    es: "Trabajo entre Figma y el código de producción y construyo sistemas de diseño para interfaces financieras densas: arquitectura de tokens, librerías de componentes y las especificaciones y la documentación desde las que construye ingeniería.",
+    en: "Product designer working between Figma and production code. Sole designer at a financial consultancy, for five engineering teams. Before that, product manager on a research app taken from B2C into the enterprise. Prototypes in Claude Code daily.",
+    es: "Diseñador de producto que trabaja entre Figma y el código en producción. Único diseñador en una consultora financiera, para cinco equipos de ingeniería. Antes, product manager en una app de investigación reconvertida de B2C a enterprise. Prototipa a diario con Claude Code.",
   },
   /**
-   * Reconciled against LinkedIn on 2026-08-05. Titles, companies and dates are
-   * LinkedIn's — the CV had drifted badly: Afi was listed as "UX/UI Designer"
-   * from 2024 (actually Digital Product Designer from May 2025), Audemic as
-   * "Product Manager & UX Designer, 2023—2024" (actually Senior Digital Product
-   * Manager, Jan 2024—May 2025), and the freelance entry as "Independent" from
-   * 2022 (actually RG Designs from Mar 2021).
-   *
-   * Descriptions are deliberately a fraction of LinkedIn's length — one short
-   * paragraph each, keeping the concrete numbers and named artefacts and dropping
-   * the bullet lists. Years only, no months, matching the existing format.
+   * Content mirrors the one-page resume master in ~/Documents/CV, dated
+   * 2026-09-09. Home Genius
+   * Exteriors is off — the resume dropped it. Titles, companies, dates and
+   * bullets are the resume's, verbatim in English; Spanish is a Peninsular
+   * translation of the same copy.
    *
    * Story Architect stays off: cited as delivered work, but the site never
    * shipped. Don't re-add it without a live link.
@@ -74,91 +70,47 @@ const CV: {
       company: "Afi",
       period: { en: "2025 – present", es: "2025 – actualidad" },
       lead: {
-        en: "Sole full-time designer across two white-label financial products, working with forty engineers across five teams from product flows through to the live interface.",
-        es: "Único diseñador a tiempo completo en dos productos financieros white-label; trabajo con cuarenta ingenieros de cinco equipos, desde los flujos de producto hasta la interfaz en producción.",
+        en: "Sole designer on two white-label financial products, working in agile sprints with forty engineers across five teams, from product flows through to the live interface.",
+        es: "Único diseñador en dos productos financieros de marca blanca; trabajo en sprints ágiles con cuarenta ingenieros de cinco equipos, desde los flujos de producto hasta la interfaz en producción.",
       },
       bullets: {
         en: [
-          "Built a three-tier token architecture in Figma and Angular, then a live playground where engineers can inspect component states and copy code.",
-          "Audited the Wealth Planner's screens and components ahead of its PrimeNG implementation, alongside the engineers leading the migration.",
+          "Lead the 2026 Wealth Planner redesign, directing a second freelance designer. The design definition, typeface, token vocabulary and component library are now published in Claude Design for product owners to build with.",
+          "Built and maintain a three-tier token architecture in Figma and Angular, so a white-label client is rebranded with a single token swap instead of edits across twenty component files.",
+          "Designed and documented an Angular component playground covering every state, token and brand variant, so five engineering teams implement components from one source.",
+          "Tested the playground with engineers, who read raw values over token names, and added an inspector showing both; built a feedback tool that pins comments to components and exports them to the change log.",
         ],
         es: [
-          "Construí una arquitectura de tokens en tres niveles en Figma y Angular, y después un playground interactivo donde ingeniería inspecciona estados y copia código.",
-          "Audité las pantallas y componentes del Wealth Planner antes de su implementación con PrimeNG, junto a los ingenieros que llevaron la migración.",
+          "Lidero el rediseño del Wealth Planner 2026 y dirijo a un segundo diseñador freelance. La definición de diseño, la tipografía, el vocabulario de tokens y la librería de componentes ya están publicados en Claude Design para que los product owners construyan con ellos.",
+          "Construí y mantengo una arquitectura de tokens en tres niveles en Figma y Angular, de modo que un cliente de marca blanca actualiza su marca con un solo cambio de tokens en lugar de ediciones en veinte archivos de componentes.",
+          "Diseñé y documenté un playground de componentes en Angular que cubre cada estado, token y variante de marca, para que cinco equipos de ingeniería implementen los componentes desde una única fuente.",
+          "Probé el playground con ingenieros, que leen los valores en bruto antes que los nombres de los tokens, y añadí un inspector que muestra ambos; construí una herramienta de feedback que fija comentarios a los componentes y los exporta al changelog.",
         ],
       },
     },
     {
       role: {
         en: "Senior Digital Product Manager",
-        es: "Senior digital product manager",
+        es: "Product manager digital sénior",
       },
       company: "Audemic",
       period: { en: "2024 – 2025", es: "2024 – 2025" },
       lead: {
-        en: "Led the pivot from a B2C research app to B2B enterprise, after discovery with UN analysts and vaccine researchers.",
-        es: "Lideré el giro de una app de investigación B2C hacia B2B enterprise, tras el discovery con analistas de la ONU e investigadores de vacunas.",
+        en: "Product manager and sole designer for a B2C research app at $6K/month; led its pivot to B2B enterprise after investors flagged the built-in churn of a student user base.",
+        es: "Product manager y único diseñador de una app de investigación B2C con 6.000 $/mes de ingresos; lideré su giro hacia el segmento B2B empresarial después de que los inversores señalaran el abandono estructural de una base de usuarios estudiantil.",
       },
       bullets: {
         en: [
-          "Launched the B2B beta and the acquisition funnel behind it: 20 qualified leads in a single week from paid ads.",
-          "Worked through the accessibility requirements of the UK's Disabled Students' Allowance to qualify the app as approved assistive technology.",
+          "Interviewed UN analysts and vaccine researchers, found they lost 20 hours a month searching for information, and launched a B2B beta that produced 20 qualified leads in its first week of paid ads.",
+          "Analysed the onboarding funnel in Mixpanel, where 38% of sign-ups skipped onboarding and 18% reached topic selection, and redesigned it to lead with search and five personalised summaries before asking for anything.",
+          "Shipped AI summaries iterated against OpenAI and Claude models, a paper view that puts each summary on its source text, and in-app feedback that never interrupts a task, growing revenue from $6K to $10K a month.",
+          "Prioritised the backlog with Reach × Impact × Confidence ÷ Effort, so user feedback entered the roadmap in order of business value.",
         ],
         es: [
-          "Lancé la beta B2B y el embudo de captación que la sostenía: 20 leads cualificados en una sola semana con publicidad de pago.",
-          "Cumplí los requisitos de accesibilidad de la Disabled Students' Allowance británica para homologar la app como tecnología de apoyo.",
-        ],
-      },
-    },
-    {
-      role: {
-        en: "UX Designer & Brand Strategist",
-        es: "Diseñador UX y estratega de marca",
-      },
-      company: "Home Genius Exteriors",
-      period: { en: "2023", es: "2023" },
-      // 0-to-1 applies to the content function, which didn't exist — not to the
-      // follower count, which didn't start at zero. Said as "from nothing" rather
-      // than the jargon. Leads with the starting follower count because "under
-      // 1,000 to nearly four times that" is checkable where a bare +292.6% could
-      // sit on any base.
-      // "co-founder" rather than VP: he holds both, and it's the title LinkedIn
-      // already uses publicly, so the two don't contradict each other.
-      // The follower growth is his personal account, not the company's — don't
-      // reattribute it to the brand channel.
-      // $70M is what the company turned over that year, not growth attributed to
-      // this work — the prior year's figure isn't known.
-      lead: {
-        en: "Built the content function from nothing at a US exteriors company that turned over $70M the year I was there.",
-        es: "Creé la función de contenido desde cero en una empresa estadounidense de reformas exteriores que facturó 70 millones de dólares el año en que trabajé allí.",
-      },
-      bullets: {
-        en: [
-          "Took the co-founder's personal Instagram from under 1,000 followers to nearly four times that in a single summer: 292.6% follower growth, reach up 2,000% in two months.",
-          "Ran content strategy and video production for his personal brand and the company's own.",
-        ],
-        es: [
-          "Llevé el Instagram personal del cofundador de menos de 1.000 seguidores a casi el cuádruple en un solo verano: un 292,6 % más de seguidores y un alcance un 2.000 % mayor en dos meses.",
-          "Me encargué de la estrategia de contenido y la producción de vídeo de su marca personal y de la de la empresa.",
-        ],
-      },
-    },
-    {
-      role: { en: "UX Designer", es: "Diseñador UX" },
-      company: "Denteel Marketing",
-      period: { en: "2023 – 2024", es: "2023 – 2024" },
-      lead: {
-        en: "Design audits plus AI and SEO research for a dental marketing agency in Madrid.",
-        es: "Auditorías de diseño e investigación de IA y SEO para una agencia de marketing dental en Madrid.",
-      },
-      bullets: {
-        en: [
-          "Doubled monthly revenue from $15K to $30K by tailoring content to client geography.",
-          "Grew organic traffic 40% and the Instagram following 345% through content and video optimization.",
-        ],
-        es: [
-          "Dupliqué los ingresos mensuales, de 15.000 a 30.000 dólares, adaptando el contenido a la geografía de cada cliente.",
-          "Aumenté el tráfico orgánico un 40 % y los seguidores de Instagram un 345 % con optimización de contenido y vídeo.",
+          "Entrevisté a analistas de la ONU e investigadores de vacunas, descubrí que perdían 20 horas al mes buscando información, y lancé una beta B2B que generó 20 leads cualificados en su primera semana de publicidad de pago.",
+          "Analicé el embudo de onboarding en Mixpanel, donde el 38 % de los registros se saltaba el onboarding y solo el 18 % llegaba a la selección de temas, y lo rediseñé para empezar con la búsqueda y cinco resúmenes personalizados antes de pedir nada.",
+          "Lancé resúmenes de IA iterados sobre modelos de OpenAI y Claude, una vista de artículo que sitúa cada resumen sobre su texto original, y feedback dentro de la app que nunca interrumpe una tarea; los ingresos crecieron de 6.000 $ a 10.000 $ al mes.",
+          "Prioricé el backlog con la fórmula RICE (Reach × Impact × Confidence ÷ Effort), de modo que el feedback de los usuarios entraba en el roadmap por orden de valor de negocio.",
         ],
       },
     },
@@ -167,60 +119,64 @@ const CV: {
         en: "Product & Brand Designer",
         es: "Diseñador de producto y marca",
       },
-      company: "RG Designs",
+      company: "RG Designs (freelance)",
       period: { en: "2021 – present", es: "2021 – actualidad" },
-      lead: {
-        en: "Brand identities, component specifications and build environments for early-stage teams without a full-time designer.",
-        es: "Identidades de marca, especificaciones de componentes y entornos de desarrollo para equipos en fase inicial sin diseñador a tiempo completo.",
-      },
       bullets: {
         en: [
-          "KT360: encoded brand rules, component specs and motion tokens in a build environment that AI agents can read and enforce.",
-          "Mindfulme: brand identity, research and MVP delivery for a B2C app that personalises meditations per user.",
+          "Encoded KT360's brand rules, component specs and motion tokens as files AI agents read and enforce, so a team with no in-house designer ships on-brand pages.",
+          "Delivered Mindfulme's brand, onboarding and mobile MVP, a B2C affirmation product shaped by beta feedback.",
         ],
         es: [
-          "KT360: codifiqué reglas de marca, especificaciones de componentes y tokens de movimiento en un entorno de desarrollo que los agentes de IA pueden leer y aplicar.",
-          "Mindfulme: identidad de marca, investigación y entrega del MVP de una app B2C que personaliza las meditaciones para cada usuario.",
+          "Codifiqué las reglas de marca, especificaciones de componentes y tokens de movimiento de KT360 en archivos que los agentes de IA leen y aplican, para que un equipo sin diseñador interno publique páginas coherentes con la marca.",
+          "Entregué la marca, el onboarding y el MVP móvil de Mindfulme, un producto B2C de afirmaciones moldeado por el feedback de la beta.",
+        ],
+      },
+    },
+    {
+      role: { en: "UX Designer", es: "Diseñador UX" },
+      company: "Denteel Marketing",
+      period: { en: "2023 – 2024", es: "2023 – 2024" },
+      bullets: {
+        en: [
+          "Audited the agency's sites, researched AI and SEO, and segmented content by client geography, doubling monthly revenue from $15K to $30K.",
+        ],
+        es: [
+          "Audité los sitios de la agencia, investigué IA y SEO, y segmenté el contenido según la geografía de cada cliente, duplicando los ingresos mensuales de 15.000 $ a 30.000 $.",
         ],
       },
     },
   ],
   skills: [
-    { en: "Design Systems", es: "Sistemas de diseño" },
-    { en: "Token Architecture", es: "Arquitectura de tokens" },
-    { en: "Component Systems", es: "Sistemas de componentes" },
-    { en: "Figma", es: "Figma" },
-    { en: "Prototyping in Code", es: "Prototipado en código" },
-    { en: "Product Design", es: "Diseño de producto" },
-    { en: "Motion & Interaction", es: "Movimiento e interacción" },
-    { en: "Accessibility", es: "Accesibilidad" },
-    { en: "React", es: "React" },
-    { en: "TypeScript", es: "TypeScript" },
-    { en: "Tailwind CSS", es: "Tailwind CSS" },
-    // Additional technologies and product-design capabilities used in the Afi work.
-    { en: "Angular (PrimeNG)", es: "Angular (PrimeNG)" },
-    { en: "shadcn/ui", es: "shadcn/ui" },
-    { en: "Claude Code", es: "Claude Code" },
-    { en: "UX Research", es: "Investigación UX" },
-    { en: "White-label Products", es: "Productos white-label" },
-  ],
-  education: [
     {
-      degree: {
-        en: "Master's in Digital Product & Service Design",
-        es: "Máster en diseño de producto digital y de servicios",
+      label: { en: "Product", es: "Producto" },
+      text: {
+        en: "Discovery interviews · user testing · Mixpanel funnels · beta launches · RICE prioritisation · LLM-drafted specs",
+        es: "Entrevistas de descubrimiento · testing con usuarios · embudos en Mixpanel · lanzamientos de beta · priorización RICE · especificaciones redactadas con LLM",
       },
-      school: "IED Madrid",
     },
     {
-      degree: {
-        en: "BA Anthropology",
-        es: "Grado en Antropología",
+      label: { en: "Design", es: "Diseño" },
+      text: {
+        en: "Figma · design systems and tokens · component specs · typography and layout · motion · accessibility",
+        es: "Figma · sistemas de diseño y tokens · especificaciones de componentes · tipografía y maquetación · movimiento · accesibilidad",
       },
-      school: "University of Maryland, College Park",
+    },
+    {
+      label: { en: "Build", es: "Desarrollo" },
+      text: {
+        en: "Prototyping and production code with Claude Code, daily: React · TypeScript · Next.js · Tailwind CSS · Angular (PrimeNG) · shadcn/ui · open-source portfolio at github.com/RichGriner1",
+        es: "Prototipado y código de producción con Claude Code, a diario: React · TypeScript · Next.js · Tailwind CSS · Angular (PrimeNG) · shadcn/ui · portfolio de código abierto en github.com/RichGriner1",
+      },
     },
   ],
+  education: {
+    en: "Master's in Digital Product & Service Design, IED Madrid · BA Anthropology, University of Maryland",
+    es: "Máster en diseño de producto digital y de servicios, IED Madrid · Grado en Antropología, University of Maryland",
+  },
 };
+
+const SECTION_HEADING =
+  "text-muted-foreground border-border mt-6 mb-2 border-b pb-1 text-xs font-bold tracking-wider uppercase";
 
 /**
  * Uncontrolled by default: renders its own "CV" trigger and owns `open`.
@@ -329,27 +285,44 @@ export function CvModal({
               // affordance: clicking the backdrop dismisses, clicking the panel does
               // not, so an "×" over the panel would be promising something false.
               data-cv-dialog
-              className="bg-card border-border fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-3xl border p-6 pb-8 shadow-xl sm:p-8 sm:pb-10"
+              className="bg-card border-border fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-3xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-3xl border p-6 pb-8 shadow-xl sm:p-8 sm:pb-10"
               style={{ maxHeight: "85vh" }}
               initial={{ opacity: 0, scale: 0.97, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.97, y: 12 }}
               transition={{ duration: 0.3, ease: EASE }}
             >
-              <div className="mb-6 flex items-start justify-between">
+              <div className="mb-2 flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-foreground text-lg font-semibold">
+                  <h2 className="text-foreground text-xl font-bold tracking-tight">
                     {CV.name}
                   </h2>
                   <p className="text-muted-foreground text-sm">
                     {t("cv.title", lang)}
                   </p>
-                  <p className="text-muted-foreground text-sm">
-                    {t("cv.location", lang)} · {CV.email}
-                  </p>
-                  <p className="text-foreground mt-3 max-w-lg text-sm leading-relaxed">
-                    {pick(CV.profile, lang)}
-                  </p>
+                  <div className="text-muted-foreground mt-1.5 flex flex-wrap gap-x-2.5 gap-y-0.5 text-xs">
+                    <span>{t("cv.location", lang)}</span>
+                    <span aria-hidden>·</span>
+                    <span>{CV.email}</span>
+                    <span aria-hidden>·</span>
+                    <a
+                      href={`https://${CV.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="decoration-muted-foreground/70 hover:decoration-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+                    >
+                      {CV.website}
+                    </a>
+                    <span aria-hidden>·</span>
+                    <a
+                      href={`https://www.${CV.linkedin}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="decoration-muted-foreground/70 hover:decoration-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+                    >
+                      {CV.linkedin}
+                    </a>
+                  </div>
                 </div>
                 <button
                   onClick={() => setOpen(false)}
@@ -360,92 +333,68 @@ export function CvModal({
                 </button>
               </div>
 
-              {/* One column on phones, three from `sm` up. `grid-cols-3` was
-                  unconditional: at 375px the panel is 343px wide and `p-8` takes
-                  64 of it, so the three tracks plus two 32px gaps left the skills
-                  rail 72px wide — every pill ("White-label Products", "Token
-                  Architecture") wrapped to three or four lines, and experience
-                  read in a 143px gutter. Stacked, skills sit under experience at
-                  full width. */}
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-                <div className="flex flex-col gap-6 sm:col-span-2">
-                  <div>
-                    <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
-                      {t("cv.experience_heading", lang)}
-                    </h3>
-                    <div className="flex flex-col gap-5">
-                      {CV.experience.map((e) => (
-                        <div key={e.company}>
-                          <div className="flex items-baseline justify-between gap-2">
-                            <span className="text-foreground text-sm font-medium">
-                              {pick(e.role, lang)}
-                            </span>
-                            <span className="text-muted-foreground shrink-0 font-mono text-xs">
-                              {pick(e.period, lang)}
-                            </span>
-                          </div>
-                          <div className="text-muted-foreground mb-1 font-mono text-xs">
-                            {e.company}
-                          </div>
-                          <p className="text-muted-foreground text-xs leading-relaxed">
-                            {pick(e.lead, lang)}
-                          </p>
-                          {/* Two bullets per role. A hiring manager scans for
-                              numbers, and a paragraph buries them mid-sentence
-                              where a bullet puts them at a line start. Capped at
-                              two so five roles don't become twenty fragments. */}
-                          <ul className="text-muted-foreground mt-1.5 flex flex-col gap-1 text-xs leading-relaxed">
-                            {pick(e.bullets, lang).map((b) => (
-                              <li key={b} className="flex gap-2">
-                                <span aria-hidden className="shrink-0">
-                                  ·
-                                </span>
-                                <span>{b}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+              <p className="text-foreground mt-3 text-sm leading-relaxed">
+                {pick(CV.profile, lang)}
+              </p>
 
-                  <div>
-                    <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
-                      {t("cv.education_heading", lang)}
-                    </h3>
-                    <div className="flex flex-col gap-2">
-                      {CV.education.map((e) => (
-                        <div key={e.school}>
-                          {/* No year. Degrees are listed without dates on
-                              purpose — see the CvEducation type. */}
-                          <div className="text-foreground text-sm">
-                            {pick(e.degree, lang)}
-                          </div>
-                          <div className="text-muted-foreground font-mono text-xs">
-                            {e.school}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
-                    {t("cv.skills_heading", lang)}
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {CV.skills.map((s) => (
-                      <span
-                        key={s.en}
-                        className="border-border text-muted-foreground rounded-full border px-2.5 py-1 font-mono text-xs"
-                      >
-                        {pick(s, lang)}
+              <h3 className={SECTION_HEADING}>
+                {t("cv.experience_heading", lang)}
+              </h3>
+              <div className="flex flex-col gap-4">
+                {CV.experience.map((e) => (
+                  <div key={e.company}>
+                    {/* Company name and period stay sans, not mono — the resume they
+                        mirror sets them in the same typeface as everything else. */}
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+                      <span className="text-foreground text-sm font-semibold">
+                        {pick(e.role, lang)}
+                        <span className="text-muted-foreground font-normal">
+                          {" "}
+                          · {e.company}
+                        </span>
                       </span>
-                    ))}
+                      <span className="text-muted-foreground text-xs whitespace-nowrap">
+                        {pick(e.period, lang)}
+                      </span>
+                    </div>
+                    {e.lead && (
+                      <p className="text-muted-foreground mt-1 text-xs leading-relaxed">
+                        {pick(e.lead, lang)}
+                      </p>
+                    )}
+                    <ul className="marker:text-muted-foreground text-foreground mt-1.5 list-disc pl-4 text-xs leading-relaxed">
+                      {pick(e.bullets, lang).map((b) => (
+                        <li key={b} className="mb-1 last:mb-0">
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
+                ))}
               </div>
+
+              <h3 className={SECTION_HEADING}>
+                {t("cv.skills_heading", lang)}
+              </h3>
+              <div className="flex flex-col gap-1.5">
+                {CV.skills.map((s) => (
+                  <p key={s.label.en} className="text-xs leading-relaxed">
+                    <span className="text-muted-foreground mr-1.5 text-xs font-bold tracking-wider uppercase">
+                      {pick(s.label, lang)}
+                    </span>
+                    <span className="text-foreground">
+                      {pick(s.text, lang)}
+                    </span>
+                  </p>
+                ))}
+              </div>
+
+              <h3 className={SECTION_HEADING}>
+                {t("cv.education_heading", lang)}
+              </h3>
+              <p className="text-foreground text-xs leading-relaxed">
+                {pick(CV.education, lang)}
+              </p>
             </motion.div>
           </>
         )}

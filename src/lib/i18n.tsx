@@ -117,11 +117,10 @@ export const UI = {
   "cv.skills_heading": { en: "Skills", es: "Habilidades" },
   "cv.education_heading": { en: "Education", es: "Formación" },
   "cv.close": { en: "Close", es: "Cerrar" },
-  // The two disciplines the CV demonstrates across Afi and RG Designs. The
-  // current Afi role below keeps the exact LinkedIn title.
+  // The role line under the name, verbatim from the 2026-09-09 resume.
   "cv.title": {
-    en: "Product Designer, Design Systems",
-    es: "Diseñador de producto y sistemas de diseño",
+    en: "Product Designer · discovery to production code",
+    es: "Diseñador de producto · del descubrimiento al código en producción",
   },
   "cv.location": { en: "Madrid, Spain", es: "Madrid, España" },
   "work.back": { en: "← back", es: "← volver" },

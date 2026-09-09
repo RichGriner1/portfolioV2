@@ -123,21 +123,19 @@ type Step = {
  * because this rebuilt them.
  */
 const STEPS: Step[] = [
-  // TODO(afi-redaccion): "Rueda", "arriba y abajo", "Mayús", "acerca y aleja",
-  // "ajusta poco a poco".
   {
     id: "pan",
-    cue: { en: "Scroll", es: "Rueda" },
+    cue: { en: "Scroll", es: "Despl\u00e1zate" },
     text: { en: "up and down", es: "arriba y abajo" },
   },
   {
     id: "panx",
-    cue: { en: "Shift + scroll", es: "May\u00fas + rueda" },
+    cue: { en: "Shift + scroll", es: "May\u00fas + desplaza" },
     text: { en: "left and right", es: "izquierda y derecha" },
   },
   {
     id: "zoom",
-    cue: { en: "Ctrl + scroll", es: "Ctrl + rueda" },
+    cue: { en: "Ctrl + scroll", es: "Ctrl + desplaza" },
     text: { en: "zoom in and out", es: "acerca y aleja" },
   },
   {

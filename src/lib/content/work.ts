@@ -127,8 +127,8 @@ export const WORK: WorkItem[] = [
   {
     slug: "loops-and-skills-are-components",
     title: {
-      en: "Loops and skills are components, not folders",
-      es: "Los loops y las skills son componentes, no carpetas",
+      en: "Creating AI skills that speed up mundane tasks and keep documentation aligned",
+      es: "Crear skills de IA que aceleran las tareas rutinarias y mantienen la documentación al día",
     },
     description: {
       en: "Building a reusable, AI workflow for meeting design system standards",
@@ -186,7 +186,6 @@ export const WORK: WorkItem[] = [
     slug: "visual-identity",
     title: {
       en: "Afi Visual Identity",
-      // TODO(afi-redaccion)
       es: "Identidad visual de Afi",
     },
     description: {
@@ -207,8 +206,7 @@ export const WORK: WorkItem[] = [
     title: { en: "KnowThyself360", es: "KnowThyself360" },
     description: {
       en: "A shared environment for non-technical people to push changes and ship live.",
-      // TODO(afi-redaccion)
-      es: "Un entorno compartido para personas no técnicas para subir cambios y lanzar en vivo.",
+      es: "Un entorno compartido donde perfiles no técnicos suben cambios y publican en producción.",
     },
     year: 2025,
     type: "brand-ds",
@@ -240,13 +238,11 @@ export const WORK: WorkItem[] = [
     slug: "audemic-onboarding",
     title: {
       en: "Audemic Insights onboarding",
-      // TODO(afi-redaccion)
       es: "Onboarding de Audemic Insights",
     },
     description: {
       en: "Mixpanel showed where the funnel leaked. Fewer onboarding steps, without giving up the personalization.",
-      // TODO(afi-redaccion)
-      es: "Mixpanel mostró por dónde se escapaba el embudo. Menos pasos en el onboarding, sin renunciar a la personalización.",
+      es: "Mixpanel mostró por dónde perdía usuarios el embudo. Menos pasos en el onboarding, sin renunciar a la personalización.",
     },
     year: 2024,
     type: "experiment",
@@ -260,13 +256,11 @@ export const WORK: WorkItem[] = [
     slug: "audemic-business-growth",
     title: {
       en: "Audemic business growth",
-      // TODO(afi-redaccion)
       es: "Crecimiento de negocio en Audemic",
     },
     description: {
       en: "A B2C research app at $8K/month, taken into the enterprise: discovery interviews, a beta, and 20 qualified leads in a week.",
-      // TODO(afi-redaccion)
-      es: "Una app de investigación B2C con 8.000 $/mes, llevada al mercado enterprise: entrevistas de descubrimiento, una beta y 20 leads cualificados en una semana.",
+      es: "Una app de investigación B2C con 8.000 $/mes, llevada al mercado empresarial: entrevistas exploratorias, una beta y 20 leads cualificados en una semana.",
     },
     year: 2024,
     type: "experiment",
@@ -303,8 +297,7 @@ export const WORK: WorkItem[] = [
     slug: "design-md-primeng-wealth-manager",
     title: {
       en: "Creating a design.md",
-      // TODO(afi-redaccion)
-      es: "Creando un design.md",
+      es: "Crear un design.md",
     },
     description: {
       en: "Markdown rulebook AI agents read to generate Wealth Manager UI, minimizing Figma to code drift.",
@@ -332,13 +325,11 @@ export const WORK: WorkItem[] = [
     slug: "fintech-layout-grammar",
     title: {
       en: "A layout grammar for dense fin-tech",
-      // TODO(afi-redaccion)
-      es: "Una gramática de layout para fin-tech denso",
+      es: "Una gramática de layout para interfaces fintech densas",
     },
     description: {
       en: "Defining the global → page → section → content stack that keeps Wealth Manager and Wealth Planner coherent.",
-      // TODO(afi-redaccion)
-      es: "Definiendo la pila global → página → sección → contenido que mantiene Wealth Manager y Wealth Planner coherentes.",
+      es: "Definir la jerarquía global → página → sección → contenido que mantiene coherentes Wealth Manager y Wealth Planner.",
     },
     year: 2026,
     date: "2026-06-08",

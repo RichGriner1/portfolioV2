@@ -89,7 +89,6 @@ export const UI = {
   // Spanish takes sentence case, not the English title case — only the first word
   // and proper nouns are capitalised. Keeps the loanword "portfolio", which is what
   // Spanish design practice uses; "portafolios" in Spain reads as a briefcase.
-  // TODO(afi-redaccion): confirm the ES wording reads as Peninsular, not translated.
   "nav.wordmark": {
     en: "Richard Griner Design Portfolio",
     es: "Portfolio de diseño de Richard Griner",
@@ -107,8 +106,7 @@ export const UI = {
   // running app rather than a drawing of it — the claim the page most needs to make
   // and the one a reader would otherwise have to guess at. `card.fullscreen` names
   // the control beside it for anyone who can't see the icon.
-  // TODO(afi-redaccion)
-  "card.live": { en: "Live", es: "En directo" },
+  "card.live": { en: "Live", es: "Interactivo" },
   "card.fullscreen": { en: "Open fullscreen", es: "Abrir a pantalla completa" },
   "home.selected_work": { en: "Selected work", es: "Trabajo seleccionado" },
   "home.read_more": { en: "Read more", es: "Leer más" },

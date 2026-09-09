@@ -4,10 +4,9 @@ import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
 const CURRENTLY_LABEL: Bilingual = {
   en: "Currently",
-  es: "Actualmente", // TODO(afi-redaccion)
+  es: "Ahora",
 };
 
-// TODO(afi-redaccion): polish ES copy
 const CURRENTLY: Bilingual = {
   en: "Design systems @ Afi",
   es: "Sistemas de diseño @ Afi",
@@ -15,7 +14,7 @@ const CURRENTLY: Bilingual = {
 
 const CURRENTLY_ARIA: Bilingual = {
   en: "Richard Griner — currently at Afi",
-  es: "Richard Griner — actualmente en Afi", // TODO(afi-redaccion)
+  es: "Richard Griner, actualmente en Afi",
 };
 
 export function CurrentlyPill() {

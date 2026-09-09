@@ -1,5 +1,5 @@
 ---
-title: "Escribir el manual que PrimeNG no trae de serie"
+title: "Crear un design.md"
 pillar: process
 status: published
 created: 2026-04-23
@@ -8,7 +8,7 @@ mirror_of: design-md-primeng-wealth-manager
 tags: [design-systems, tokens, primeng, design-md, ai-tools, fintech]
 ---
 
-# Escribir el manual que PrimeNG no trae de serie
+# Crear un design.md
 
 Soy el único diseñador de Afi, una consultora fintech. Uno de nuestros productos, **Wealth Manager**, es una plataforma B2B para asesores patrimoniales: densa en información, con tablas y formularios constantes, usada por gente de finanzas a la que le importa más la fidelidad de sus datos que el efecto sorpresa. El frontend es Angular sobre **PrimeNG**, una librería de componentes estándar.
 

@@ -102,6 +102,15 @@ export const UI = {
   "canvas.zoom": { en: "Zoom", es: "Zoom" },
   "canvas.zoom_in": { en: "Zoom in", es: "Acercar" },
   "canvas.zoom_out": { en: "Zoom out", es: "Alejar" },
+  // The persistent gesture legend — a ? button anchored bottom-right of the
+  // board, for the visitor who missed the timed chip tutorial. Doesn't touch
+  // the chip's own state; it's read-only reference, opened on demand.
+  "canvas.help_open": { en: "How to move around", es: "Cómo moverte" },
+  "canvas.help_title": {
+    en: "Moving around the canvas",
+    es: "Moverte por el lienzo",
+  },
+  "canvas.help_close": { en: "Close", es: "Cerrar" },
   // The bento card's header row. `card.live` marks the one card holding the real
   // running app rather than a drawing of it — the claim the page most needs to make
   // and the one a reader would otherwise have to guess at. `card.fullscreen` names

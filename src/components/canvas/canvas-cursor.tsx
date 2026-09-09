@@ -79,7 +79,7 @@ const TAUGHT_KEY = "rg:canvas-tutorial:v1";
  * It never says to hold the button down. So every cue is a key, a button, or a
  * scroll.
  */
-type Step = {
+export type Step = {
   id: "pan" | "zoom" | "panx" | "keys";
   cue: Bilingual<string>;
   text: Bilingual<string>;
@@ -121,8 +121,12 @@ type Step = {
  * A module constant, not a function, so the objects are referentially stable
  * across renders — see the fallback timer, which used to restart every render
  * because this rebuilt them.
+ *
+ * Exported as the one source of truth for the gesture list: the timed chip
+ * below reads it AND the persistent legend in canvas-help.tsx does, so the
+ * two can never drift apart on what the board actually honours.
  */
-const STEPS: Step[] = [
+export const STEPS: Step[] = [
   {
     id: "pan",
     cue: { en: "Scroll", es: "Despl\u00e1zate" },

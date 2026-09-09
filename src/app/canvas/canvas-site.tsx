@@ -17,6 +17,7 @@ import {
 } from "motion/react";
 
 import { CanvasCursor } from "@/components/canvas/canvas-cursor";
+import { CanvasHelp } from "@/components/canvas/canvas-help";
 import { CanvasRail } from "@/components/canvas/canvas-rail";
 import { DotTrail } from "@/components/canvas/dot-trail";
 import { DotPattern } from "@/components/magicui/dot-pattern";
@@ -1618,6 +1619,14 @@ export function CanvasSite() {
     if (s) goTo(s.id, s.x, s.y);
   }
 
+  /**
+   * The board is pannable, its opening camera move is done, and no overlay is
+   * covering it — the one gate the timed chip tutorial and the persistent
+   * gesture legend (canvas-help.tsx) both wait behind. Shared so the two can't
+   * drift apart on when they're allowed to teach.
+   */
+  const pannableAndReady = drag && !introRunning && !cvOpen;
+
   return (
     <>
       <div
@@ -1668,10 +1677,7 @@ export function CanvasSite() {
             teaching a gesture the board won't honour is worse than teaching
             nothing. The sequence, the device detection and the retirement all
             live in the cursor; this is only the gate. */}
-        <CanvasCursor
-          closeMode={cvOpen}
-          teach={drag && !introRunning && !cvOpen}
-        />
+        <CanvasCursor closeMode={cvOpen} teach={pannableAndReady} />
 
         {/* Without JS, `opacity` never leaves its default 0 — there's no hydration
           to animate it. The board is already inert with no JS (it can't pan or
@@ -1936,6 +1942,8 @@ export function CanvasSite() {
           no business being pinned to a surface that pans. Same split site-header.tsx
           makes: the trigger lives in the layout, the dialog lives where there's room. */}
       <CvModal open={cvOpen} onOpenChange={setCvOpen} triggerless />
+
+      <CanvasHelp show={pannableAndReady} />
 
       <CanvasRail
         stops={stops.map((s) => ({ id: s.id, label: s.label }))}

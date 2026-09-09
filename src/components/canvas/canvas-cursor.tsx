@@ -273,8 +273,18 @@ export function CanvasCursor({
    * with storage disabled throws on read, and the tutorial simply runs as it
    * always did in that case. Runs before the gesture-watcher mounts so the very
    * first render already reflects a returning visitor.
+   *
+   * `hydrated` makes it run once even under React 19 StrictMode, which
+   * double-invokes mount effects in development. Adding to `done` and setting
+   * `dismissedRef` are idempotent; `setGestures((n) => n + 1)` is not, and a
+   * second pass bumped it by two for a returning visitor. Nothing reads the
+   * counter's value today, only its changes, so no symptom — but a counter that
+   * lies about how many gestures landed is a footgun the moment something does.
    */
+  const hydrated = useRef(false);
   useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
     try {
       const raw = window.localStorage.getItem(TAUGHT_KEY);
       if (!raw) return;

@@ -62,7 +62,9 @@ export function Section({
       <div>
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
         {description ? (
-          <p className="text-muted-foreground mt-4 text-sm">{description}</p>
+          <p className="text-prose-body mt-4 text-base leading-relaxed">
+            {description}
+          </p>
         ) : null}
       </div>
       {children}

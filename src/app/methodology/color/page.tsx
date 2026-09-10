@@ -26,9 +26,18 @@ const TAGS = {
   es: ["Metodología", "Sistemas de diseño", "Color"],
 };
 
-/** Inline emphasis used throughout the body copy. */
+/** Inline emphasis for prose concepts. */
 function B({ children }: { children: React.ReactNode }) {
-  return <strong className="text-foreground font-medium">{children}</strong>;
+  return <strong className="text-foreground font-semibold">{children}</strong>;
+}
+
+/** Inline code chip for token / role names. */
+function Code({ children }: { children: React.ReactNode }) {
+  return (
+    <code className="bg-muted text-foreground rounded px-6 py-2 font-mono text-sm">
+      {children}
+    </code>
+  );
 }
 
 /**
@@ -81,7 +90,7 @@ export default function ColorMethodologyPage() {
             Body copy is bilingual; the interactive card micro-copy in _ds/ stays
             English for now. TODO(afi-redaccion): translate the card strings. */}
         <div className="ds-scope text-foreground space-y-64 pt-8">
-          <div className="text-muted-foreground space-y-12 text-sm">
+          <div className="text-foreground space-y-12 text-base leading-relaxed">
             {es ? (
               <>
                 <p>
@@ -89,30 +98,31 @@ export default function ColorMethodologyPage() {
                   cuatro que muestra la animación. Un <B>valor en bruto</B> es
                   un simple hex como #0085CA, sin nombre y sin función. Un{" "}
                   <B>primitivo</B> le da un nombre y una posición en una escala
-                  (<B>primary-800</B>, <B>blue-500</B>); nombrarlo es lo que
-                  permite reutilizarlo y seguirle la pista en lugar de repetir
-                  el hex a mano. Los <B>tokens semánticos</B> asignan los
-                  primitivos a roles como <B>background</B>, <B>primary</B> o{" "}
-                  <B>error</B>: significado, no valor. Y los <B>componentes</B>{" "}
-                  enlazan esos roles con la interfaz real (un botón usa{" "}
-                  <B>primary</B>), que es de donde salen los patrones y la
-                  reutilización. Cada capa apunta solo a la de debajo, así que
-                  un componente nunca fija un hex directamente.
+                  (<Code>primary-800</Code>, <Code>blue-500</Code>); nombrarlo
+                  es lo que permite reutilizarlo y seguirle la pista en lugar de
+                  repetir el hex a mano. Los <B>tokens semánticos</B> asignan
+                  los primitivos a roles como <Code>background</Code>,{" "}
+                  <Code>primary</Code> o <Code>error</Code>: significado, no
+                  valor. Y los <B>componentes</B> enlazan esos roles con la
+                  interfaz real (un botón usa <Code>primary</Code>), que es de
+                  donde salen los patrones y la reutilización. Cada capa apunta
+                  solo a la de debajo, así que un componente nunca fija un hex
+                  directamente.
                 </p>
                 <p>
                   Trabajé con un equipo que tenía tres colores de marca:{" "}
-                  <B>brand</B>, <B>brand-light</B> y <B>brand-lighter</B>. Un
-                  día alguien necesitó algo un poco más claro que el claro. No
-                  había sitio donde colocarlo, así que calcularon un valor a ojo
-                  y la paleta perdió coherencia. Si defines las escalas
-                  completas desde el principio, eso no pasa:{" "}
-                  <B>«lighter» ya existe</B>, y en lugar de inventarlo echas
-                  mano de <B>primary-200</B>. Al construir un producto tomas mil
-                  decisiones pequeñas. Fijar la escala una vez elimina toda una
-                  clase de ellas. Además, te permite cambiar un color de marca,
-                  o una escala neutra entera, sin tocar un solo componente. Eso
-                  importa sobre todo cuando lanzas varios productos o
-                  comercializas uno en marca blanca.
+                  <Code>brand</Code>, <Code>brand-light</Code> y{" "}
+                  <Code>brand-lighter</Code>. Un día alguien necesitó algo un
+                  poco más claro que el claro. No había sitio donde colocarlo,
+                  así que calcularon un valor a ojo y la paleta perdió
+                  coherencia. Si defines las escalas completas desde el
+                  principio, eso no pasa: <B>«lighter» ya existe</B>, y en lugar
+                  de inventarlo echas mano de <Code>primary-200</Code>. Al
+                  construir un producto tomas mil decisiones pequeñas. Fijar la
+                  escala una vez elimina toda una clase de ellas. Además, te
+                  permite cambiar un color de marca, o una escala neutra entera,
+                  sin tocar un solo componente. Eso importa sobre todo cuando
+                  lanzas varios productos o comercializas uno en marca blanca.
                 </p>
               </>
             ) : (
@@ -121,24 +131,26 @@ export default function ColorMethodologyPage() {
                   Color is built in four layers, bottom-up — the four levels in
                   the animation above. A <B>raw value</B> is a bare hex like
                   #0085CA, with no name and no job. A <B>primitive</B> gives it
-                  a name and a slot in a scale (<B>primary-800</B>,{" "}
-                  <B>blue-500</B>) — naming it is what lets you track and reuse
-                  it instead of pasting hexes. <B>Semantic tokens</B> map
-                  primitives to roles like <B>background</B>, <B>primary</B>, or{" "}
-                  <B>error</B> — meaning, not value. And <B>components</B> bind
-                  those roles to real UI (a button reads <B>primary</B>), which
-                  is where patterns and reuse come from. Each layer points only
-                  at the one beneath it, so a component never hard-codes a hex.
+                  a name and a slot in a scale (<Code>primary-800</Code>,{" "}
+                  <Code>blue-500</Code>) — naming it is what lets you track and
+                  reuse it instead of pasting hexes. <B>Semantic tokens</B> map
+                  primitives to roles like <Code>background</Code>,{" "}
+                  <Code>primary</Code>, or <Code>error</Code> — meaning, not
+                  value. And <B>components</B> bind those roles to real UI (a
+                  button reads <Code>primary</Code>), which is where patterns
+                  and reuse come from. Each layer points only at the one beneath
+                  it, so a component never hard-codes a hex.
                 </p>
                 <p>
-                  I worked with a team that had three brand colors: <B>brand</B>
-                  , <B>brand-light</B>, and <B>brand-lighter</B>. Then someone
-                  needed something a bit lighter than light. There was nowhere
-                  to put it, so they eyeballed a value and the palette drifted.
-                  Define the full ramps first and that doesn&apos;t happen
-                  &mdash; <B>&ldquo;lighter&rdquo; already exists</B>, so you
-                  reach for <B>primary-200</B> instead of inventing it. You make
-                  a thousand small decisions building a product. Settling the
+                  I worked with a team that had three brand colors:{" "}
+                  <Code>brand</Code>, <Code>brand-light</Code>, and{" "}
+                  <Code>brand-lighter</Code>. Then someone needed something a
+                  bit lighter than light. There was nowhere to put it, so they
+                  eyeballed a value and the palette drifted. Define the full
+                  ramps first and that doesn&apos;t happen &mdash;{" "}
+                  <B>&ldquo;lighter&rdquo; already exists</B>, so you reach for{" "}
+                  <Code>primary-200</Code> instead of inventing it. You make a
+                  thousand small decisions building a product. Settling the
                   scale once removes a whole class of them. It also lets you
                   swap a brand color, or an entire neutral scale, without
                   touching a single component. That matters most when
@@ -148,7 +160,7 @@ export default function ColorMethodologyPage() {
             )}
           </div>
 
-          <p className="border-border bg-muted text-muted-foreground rounded-lg border px-16 py-12 text-xs">
+          <p className="border-border bg-accent text-prose-body rounded-lg border px-16 py-12 text-xs">
             {es ? (
               <>
                 <B>Un apunte:</B> las tarjetas de abajo se despliegan para ver
@@ -174,21 +186,22 @@ export default function ColorMethodologyPage() {
                 : "Named color scales. A primitive is a raw value given a name and a slot in a scale (primary-800) — that's what lets you reuse and track it. Each card shows the ramp's base color, what it's for, and all 11 steps."
             }
           >
-            <p className="text-muted-foreground text-sm">
+            <p className="text-foreground text-base leading-relaxed">
               {es ? (
                 <>
-                  Dos escalas neutras, a propósito. <B>Neutral</B> es para las
-                  superficies y el texto que lees encima. <B>Control</B> es para
-                  las líneas y los estados que las rodean: bordes, separadores,
-                  anillo de foco y deshabilitado. Separarlas evita que los
-                  neutros se confundan entre sí: un botón deshabilitado no
-                  debería caer en el mismo gris que la tarjeta que tiene detrás.
+                  Dos escalas neutras, a propósito. <Code>Neutral</Code> es para
+                  las superficies y el texto que lees encima.{" "}
+                  <Code>Control</Code> es para las líneas y los estados que las
+                  rodean: bordes, separadores, anillo de foco y deshabilitado.
+                  Separarlas evita que los neutros se confundan entre sí: un
+                  botón deshabilitado no debería caer en el mismo gris que la
+                  tarjeta que tiene detrás.
                 </>
               ) : (
                 <>
-                  Two neutral ramps, on purpose. <B>Neutral</B> is for the
-                  surfaces and text you read on. <B>Control</B> is for the lines
-                  and states around them: borders, dividers, focus ring,
+                  Two neutral ramps, on purpose. <Code>Neutral</Code> is for the
+                  surfaces and text you read on. <Code>Control</Code> is for the
+                  lines and states around them: borders, dividers, focus ring,
                   disabled. Keeping them apart stops neutrals from blending
                   &mdash; a disabled button shouldn&apos;t land on the same gray
                   as the card behind it.
@@ -216,7 +229,7 @@ export default function ColorMethodologyPage() {
                 : "Named roles components consume, grouped by family. Hover or tap a card to expand its overview, use cases, and the primitive + hex behind bg/fg."
             }
           >
-            <p className="text-muted-foreground text-sm">
+            <p className="text-foreground text-base leading-relaxed">
               {es ? (
                 <>
                   <B>Canvas frente a superficies.</B> Con un único fondo plano
@@ -240,7 +253,7 @@ export default function ColorMethodologyPage() {
                 </>
               )}
             </p>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-foreground text-base leading-relaxed">
               {es ? (
                 <>
                   <B>Ghost = outline.</B> Cada nivel ghost usa los mismos tokens
@@ -322,25 +335,26 @@ export default function ColorMethodologyPage() {
                 : "The top layer — where semantic roles get bound to real components. Nothing to show here; the components live on their own page. This is just the wiring."
             }
           >
-            <div className="text-muted-foreground space-y-12 text-sm">
+            <div className="text-foreground space-y-12 text-base leading-relaxed">
               {es ? (
                 <>
                   <p>
                     Aquí es donde un rol se encuentra con un componente.{" "}
-                    <B>primary</B> + <B>primary-foreground</B> forman el botón
-                    por defecto; <B>destructive</B> forma el botón de eliminar;{" "}
-                    <B>card</B> forma la superficie de la tarjeta. El componente
-                    pide el rol por su nombre: nunca ve un primitivo ni un hex.
+                    <Code>primary</Code> + <Code>primary-foreground</Code>{" "}
+                    forman el botón por defecto; <Code>destructive</Code> forma
+                    el botón de eliminar; <Code>card</Code> forma la superficie
+                    de la tarjeta. El componente pide el rol por su nombre:
+                    nunca ve un primitivo ni un hex.
                   </p>
                   <p>
                     De ahí salen dos cosas. <B>Reutilización:</B> cada botón que
-                    pide <B>primary</B> comparte una única definición, así que
-                    se mantienen idénticos sin que nadie los sincronice; cambia{" "}
-                    <B>primary</B> una vez y todos los botones, enlaces y
-                    estados activos que lo usan se mueven con él, en una sola
-                    edición. <B>Patrones:</B> como los componentes hablan en
-                    roles, uno nuevo montado con esos mismos roles hereda el
-                    sistema gratis.
+                    pide <Code>primary</Code> comparte una única definición, así
+                    que se mantienen idénticos sin que nadie los sincronice;
+                    cambia <Code>primary</Code> una vez y todos los botones,
+                    enlaces y estados activos que lo usan se mueven con él, en
+                    una sola edición. <B>Patrones:</B> como los componentes
+                    hablan en roles, uno nuevo montado con esos mismos roles
+                    hereda el sistema gratis.
                   </p>
                   <p>
                     Cuando un componente necesita de verdad ser distinto, tienes
@@ -356,18 +370,19 @@ export default function ColorMethodologyPage() {
               ) : (
                 <>
                   <p>
-                    This is where a role meets a component. <B>primary</B> +{" "}
-                    <B>primary-foreground</B> become the default button;{" "}
-                    <B>destructive</B> becomes the delete button; <B>card</B>{" "}
-                    becomes the card surface. The component asks for the role by
-                    name &mdash; it never sees a primitive step or a hex.
+                    This is where a role meets a component. <Code>primary</Code>{" "}
+                    + <Code>primary-foreground</Code> become the default button;{" "}
+                    <Code>destructive</Code> becomes the delete button;{" "}
+                    <Code>card</Code> becomes the card surface. The component
+                    asks for the role by name &mdash; it never sees a primitive
+                    step or a hex.
                   </p>
                   <p>
                     Two things fall out of that. <B>Reuse:</B> every button that
-                    asks for <B>primary</B> shares one definition, so they stay
-                    identical without anyone keeping them in sync &mdash; change{" "}
-                    <B>primary</B> once and every primary button, link and
-                    active state moves with it, in a single edit.{" "}
+                    asks for <Code>primary</Code> shares one definition, so they
+                    stay identical without anyone keeping them in sync &mdash;
+                    change <Code>primary</Code> once and every primary button,
+                    link and active state moves with it, in a single edit.{" "}
                     <B>Patterns:</B> because components speak in roles, a new
                     one assembled from the same roles inherits the system for
                     free.
@@ -459,7 +474,7 @@ export default function ColorMethodologyPage() {
                 </div>
               ))}
             </div>
-            <div className="border-border bg-muted text-muted-foreground space-y-4 rounded-lg border p-16 text-xs">
+            <div className="border-border bg-accent text-prose-body space-y-4 rounded-lg border p-16 text-xs">
               {es ? (
                 <>
                   <p>
@@ -470,7 +485,7 @@ export default function ColorMethodologyPage() {
                   <p>
                     Para cambiar un token: edita un archivo JSON, guárdalo y
                     ejecuta{" "}
-                    <code className="bg-background text-foreground rounded px-4 py-1 font-mono">
+                    <code className="bg-foreground/10 text-foreground rounded px-4 py-1 font-mono">
                       pnpm tokens:build
                     </code>{" "}
                     en la terminal. Eso regenera tokens.css. (Guardar el JSON no
@@ -492,7 +507,7 @@ export default function ColorMethodologyPage() {
                   </p>
                   <p>
                     To change a token: edit a JSON file, save it, then run{" "}
-                    <code className="bg-background text-foreground rounded px-4 py-1 font-mono">
+                    <code className="bg-foreground/10 text-foreground rounded px-4 py-1 font-mono">
                       pnpm tokens:build
                     </code>{" "}
                     in the terminal. That regenerates tokens.css. (Saving the

@@ -127,3 +127,6 @@ responsive-check-shots/
 
 # Session handoff notes: internal coordination, and they name gitignored drafts.
 /HANDOFF-*.md
+
+# job applications (CV variants carry a phone number; never commit)
+/applications/

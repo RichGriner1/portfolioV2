@@ -1036,8 +1036,19 @@ export function CanvasSite() {
     return () => ro.disconnect();
   }, [lang]);
 
+  /**
+   * Pannable means a fine pointer AND a viewport wide enough to show the board.
+   * The board is `hidden` below `lg`, but the gesture legend, the rail's zoom
+   * controls and the chip tutorial all key off `drag`, and two of them render
+   * OUTSIDE the board as fixed overlays. Without the width clause a desktop
+   * browser narrowed under 1024px lost the board and kept the "?" button that
+   * teaches how to pan it. `64rem` is Tailwind's `lg`, the same breakpoint the
+   * board's `lg:block` uses.
+   */
   useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const mq = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (min-width: 64rem)"
+    );
     const apply = () => setPannable(mq.matches);
     apply();
     mq.addEventListener("change", apply);

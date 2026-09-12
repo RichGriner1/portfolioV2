@@ -130,3 +130,13 @@ responsive-check-shots/
 
 # job applications (CV variants carry a phone number; never commit)
 /applications/
+
+# Codex-format mirrors of the .claude/ subagents. Generated for another tool;
+# .claude/agents/ is the single source of truth in this repo.
+/.agents/
+/.codex/
+
+# Scratch reference media dropped in the repo root. Site video lives under
+# public/video/ and public/methodology/; anything loose here is a working file.
+/*.mp4
+/*.mov

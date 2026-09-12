@@ -50,9 +50,10 @@ export function CaseStudyPage({ item, study }: Props) {
                     replays on a `children` change. Without the key those two titles
                     sat still through a language switch while every other one ran,
                     which reads as the effect being broken rather than absent. */}
-                <HyperText key={lang}>{pick(item.title, lang)}</HyperText>{" "}
+                <HyperText key={lang}>{pick(item.title, lang)}</HyperText>
                 <span className="text-muted-foreground font-normal">
-                  — {pick(study.tagline, lang)}
+                  {": "}
+                  {pick(study.tagline, lang)}
                 </span>
               </h1>
             </div>

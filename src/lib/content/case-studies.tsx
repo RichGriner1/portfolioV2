@@ -1260,7 +1260,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Una app de meditación con IA que se adapta al camino de cada persona",
     },
     intro: {
-      en: "Chinwuba had built a site where users could generate affirmations from their goals — audio guides with tips. Users liked it but wanted to edit, save, and build their own library. The problem with most mindfulness apps: generic categories, generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user — so the next session knows what the last one taught.",
+      en: "Chinwuba had built a site where users could generate affirmations from their goals, delivered as audio guides with tips. Users liked it but wanted to edit, save, and build their own library. The problem with most mindfulness apps: generic categories, generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user, so the next session knows what the last one taught.",
       es: "Chinwuba había construido una web donde los usuarios generaban afirmaciones a partir de sus objetivos: guías de audio con consejos. Les gustaba, pero querían editar, guardar y construir su propia biblioteca. El problema de la mayoría de apps de mindfulness: categorías genéricas, meditaciones genéricas, nada hecho a la medida de quien la usa. Mindfulme usa IA para crear meditaciones y afirmaciones que evolucionan con cada usuario, de modo que cada sesión sabe lo que enseñó la anterior.",
     },
     role: {
@@ -1283,7 +1283,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Una app de mindfulness que te encuentra donde estás",
         },
         sublabel: {
-          en: "Built around personal journeys, not generic categories — AI personalizes meditation and affirmations for each user",
+          en: "Built around personal journeys, not generic categories: AI personalizes meditation and affirmations for each user",
           es: "Construida sobre caminos personales, no sobre categorías genéricas: la IA personaliza meditaciones y afirmaciones para cada persona",
         },
         image: "/mindfulme/screens/poster.jpg",
@@ -1292,7 +1292,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Five focus areas", es: "Cinco áreas de enfoque" },
         sublabel: {
-          en: "Mental Health, Physical Health, Finance, Career — each with its own visual language",
+          en: "Mental Health, Physical Health, Finance, Career: each with its own visual language",
           es: "Salud mental, salud física, finanzas, carrera profesional: cada una con su propio lenguaje visual",
         },
         images: [
@@ -1305,7 +1305,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Brand language", es: "Lenguaje de marca" },
         sublabel: {
-          en: "Hand-drawn over sterile iconography — organic shapes, peaceful palette, genuine typography",
+          en: "Hand-drawn over sterile iconography: organic shapes, peaceful palette, genuine typography",
           es: "Trazo a mano frente a la iconografía estéril: formas orgánicas, paleta serena, tipografía con carácter",
         },
         images: [
@@ -1318,7 +1318,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "The core experience", es: "La experiencia central" },
         sublabel: {
-          en: "Home, favorites, and personalized affirmations — every screen tuned to the user's selected focuses",
+          en: "Home, favorites, and personalized affirmations: every screen tuned to the user's selected focuses",
           es: "Inicio, favoritos y afirmaciones personalizadas: cada pantalla ajustada a las áreas que la persona ha elegido",
         },
         image: "/mindfulme/screens/home-favorites-affirmation.png",
@@ -1330,7 +1330,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Recordatorios, en sus términos",
         },
         sublabel: {
-          en: "Customizable instead of standardized — users decide when the practice fits their day",
+          en: "Customizable instead of standardized: users decide when the practice fits their day",
           es: "Personalizables, no estandarizados: la persona decide cuándo encaja la práctica en su día",
         },
         image: "/mindfulme/screens/reminders-goals-adjustment.png",
@@ -1338,7 +1338,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Beyond the screen", es: "Más allá de la pantalla" },
         sublabel: {
-          en: "The visual language carries to merch and print — the brand has to live in three dimensions",
+          en: "The visual language carries to merch and print: the brand has to live in three dimensions",
           es: "El lenguaje visual se traslada al merchandising y al papel: la marca tiene que vivir en tres dimensiones",
         },
         image: "/mindfulme/screens/tote-bag-mockup.jpg",
@@ -1346,7 +1346,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Color as meaning", es: "El color como significado" },
         sublabel: {
-          en: "Brand colors became functional indicators — orange is always the CTA, each category has its own hue",
+          en: "Brand colors became functional indicators: orange is always the CTA, each category has its own hue",
           es: "Los colores de marca se convirtieron en indicadores funcionales: el naranja es siempre el CTA y cada categoría tiene su tono",
         },
         image: "/mindfulme/screens/visual-consistency.png",
@@ -1355,7 +1355,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Technology that nurtures", es: "Tecnología que nutre" },
         sublabel: {
-          en: "Mindfulme isn't another meditation tool — it's an AI companion for self-awareness, evolving with each user",
+          en: "Mindfulme isn't another meditation tool. It's an AI companion for self-awareness, evolving with each user",
           es: "Mindfulme no es una herramienta de meditación más, sino una compañera de IA para el autoconocimiento que evoluciona con cada persona",
         },
         image: "/mindfulme/screens/conclusion.jpg",

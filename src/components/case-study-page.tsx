@@ -43,8 +43,14 @@ export function CaseStudyPage({ item, study }: Props) {
                     runs of different lengths in one heading resolve at different
                     moments and the h1 reads as two competing animations — and the
                     name is the part that changes least between languages, so it's
-                    where the effect is doing work. */}
-                <HyperText>{pick(item.title, lang)}</HyperText>{" "}
+                    where the effect is doing work.
+
+                    Keyed on `lang` because a project name is often the same string
+                    in both languages — Mindfulme, KnowThyself360 — and HyperText
+                    replays on a `children` change. Without the key those two titles
+                    sat still through a language switch while every other one ran,
+                    which reads as the effect being broken rather than absent. */}
+                <HyperText key={lang}>{pick(item.title, lang)}</HyperText>{" "}
                 <span className="text-muted-foreground font-normal">
                   — {pick(study.tagline, lang)}
                 </span>
@@ -113,7 +119,7 @@ export function CaseStudyPage({ item, study }: Props) {
               )}
             </div>
             <h1 className="font-display text-4xl tracking-tight sm:text-5xl">
-              <HyperText>{pick(item.title, lang)}</HyperText>
+              <HyperText key={lang}>{pick(item.title, lang)}</HyperText>
             </h1>
           </header>
           <section className="border-border/60 text-muted-foreground rounded-xl border border-dashed p-8 text-sm">

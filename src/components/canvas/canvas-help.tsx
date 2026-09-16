@@ -56,6 +56,9 @@ import { cn } from "@/lib/utils";
  */
 const COLLAPSED_KEY = "canvas-help-collapsed-v1";
 
+/** How long the "controls are here" hint stays up after the legend closes. */
+const HINT_MS = 4000;
+
 /** How close, in screen px, a panel line has to come to a target's to snap. */
 const SNAP = 6;
 /** Screen px the panel keeps clear of the viewport edge while it's dragged. */
@@ -167,6 +170,20 @@ export function CanvasHelp({ show }: { show: boolean }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
   const titleId = useId();
+  const hintId = useId();
+
+  /**
+   * The "controls are here" hint beside the ?, shown for a few seconds after a
+   * visitor closes the legend, so they know where it went. Only a visitor's
+   * own close sets it: not the `show`-driven auto-close, and not a returning
+   * visitor's remembered choice.
+   */
+  const [hint, setHint] = useState(false);
+  useEffect(() => {
+    if (!hint) return;
+    const timer = setTimeout(() => setHint(false), HINT_MS);
+    return () => clearTimeout(timer);
+  }, [hint]);
 
   /**
    * Where the panel has been dragged to, as an offset from its corner. Held
@@ -313,6 +330,7 @@ export function CanvasHelp({ show }: { show: boolean }) {
     const collapse = () => {
       focusTarget.current = "trigger";
       setOpen(false);
+      setHint(true);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") collapse();
@@ -437,6 +455,7 @@ export function CanvasHelp({ show }: { show: boolean }) {
                     onClick={() => {
                       focusTarget.current = "trigger";
                       setOpen(false);
+                      setHint(true);
                       persistCollapsed(true);
                     }}
                     aria-label={t("canvas.help_close", lang)}
@@ -462,6 +481,27 @@ export function CanvasHelp({ show }: { show: boolean }) {
           )}
         </AnimatePresence>
 
+        {/* Left of the ?, pointing at it, in the board's chip style. */}
+        <AnimatePresence>
+          {!isOpen && hint && (
+            <motion.span
+              id={hintId}
+              role="tooltip"
+              initial={{ opacity: 0, x: reduced ? 0 : 4 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: reduced ? 0 : 4 }}
+              transition={{ duration: reduced ? 0.1 : 0.2, ease: EASE }}
+              className="bg-primary text-primary-foreground pointer-events-none absolute top-1/2 right-full mr-3 -translate-y-1/2 rounded-md px-2 py-1 font-mono text-[11px] leading-none whitespace-nowrap shadow-md"
+            >
+              {t("canvas.help_hint", lang)}
+              <span
+                aria-hidden
+                className="bg-primary absolute top-1/2 -right-1 size-2 -translate-y-1/2 rotate-45"
+              />
+            </motion.span>
+          )}
+        </AnimatePresence>
+
         {!isOpen && (
           <button
             ref={triggerRef}
@@ -469,9 +509,11 @@ export function CanvasHelp({ show }: { show: boolean }) {
             onClick={() => {
               focusTarget.current = "close";
               setOpen(true);
+              setHint(false);
               persistCollapsed(false);
             }}
             aria-expanded={false}
+            aria-describedby={hint ? hintId : undefined}
             // No aria-controls: the panel unmounts on close so AnimatePresence can
             // play its exit animation, so the id would not always resolve
             // to a live element. Keeping it mounted with `hidden` to satisfy

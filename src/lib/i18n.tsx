@@ -111,6 +111,13 @@ export const UI = {
     es: "Moverte por el lienzo",
   },
   "canvas.help_close": { en: "Close", es: "Cerrar" },
+  // The hint beside the ? after the legend closes, so a visitor who dismissed
+  // it knows where it went.
+  // TODO(afi-redaccion)
+  "canvas.help_hint": {
+    en: "Controls are here anytime",
+    es: "Los controles siguen aquí",
+  },
   // The bento card's header row. `card.live` marks the one card holding the real
   // running app rather than a drawing of it — the claim the page most needs to make
   // and the one a reader would otherwise have to guess at. `card.fullscreen` names

@@ -57,13 +57,6 @@ const STEP_MS = 5000;
 const DRAG_THRESHOLD = 24;
 
 /**
- * The label over anything marked `data-cursor-drag` (the gesture legend in
- * canvas-help.tsx). Here "Drag" is the physical action, unlike the pan cue
- * below: the legend moves with the button held, and the open hand shows it.
- */
-const DRAG_LABEL: Bilingual<string> = { en: "Drag", es: "Arrastra" };
-
-/**
  * Where the tutorial remembers what it has already taught.
  *
  * Nothing here persisted before, so every reload walked a returning visitor
@@ -606,34 +599,25 @@ export function CanvasCursor({
         </div>
       ) : !inside ? null : grab ? (
         /* Over the draggable legend: a hand, centred on the pointer the way an OS
-           grab cursor is, with a label saying what a press does. Pressed, the
-           hand closes and the label steps aside so the guides stay readable. */
-        <>
-          <div
-            ref={arrow}
-            className="absolute top-0 left-0 will-change-transform"
-          >
-            {grab === "open" ? (
-              <Hand
-                className="text-primary -m-3 size-6 drop-shadow-sm"
-                strokeWidth={2}
-              />
-            ) : (
-              <HandGrab
-                className="text-primary -m-3 size-6 drop-shadow-sm"
-                strokeWidth={2}
-              />
-            )}
-          </div>
+           grab cursor is, closing while pressed. No label. People hover the
+           legend to read it, and a "Drag" chip beside "Scroll, up and down"
+           read as a second instruction for moving the board. */
+        <div
+          ref={arrow}
+          className="absolute top-0 left-0 will-change-transform"
+        >
           {grab === "open" ? (
-            <span
-              ref={chip}
-              className="bg-primary text-primary-foreground absolute top-0 left-0 mt-5 ml-5 rounded-md px-2 py-1 font-mono text-[11px] leading-none font-medium whitespace-nowrap shadow-md will-change-transform"
-            >
-              {pick(DRAG_LABEL, lang)}
-            </span>
-          ) : null}
-        </>
+            <Hand
+              className="text-primary -m-3 size-6 drop-shadow-sm"
+              strokeWidth={2}
+            />
+          ) : (
+            <HandGrab
+              className="text-primary -m-3 size-6 drop-shadow-sm"
+              strokeWidth={2}
+            />
+          )}
+        </div>
       ) : (
         <>
           <div

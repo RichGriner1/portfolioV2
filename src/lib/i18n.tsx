@@ -133,10 +133,11 @@ export const UI = {
   "cv.skills_heading": { en: "Skills", es: "Habilidades" },
   "cv.education_heading": { en: "Education", es: "Formación" },
   "cv.close": { en: "Close", es: "Cerrar" },
-  // The role line under the name, verbatim from the 2026-09-09 resume.
+  // The role line under the name. The 2026-09-16 CV has no title line; this is
+  // how its profile opens.
   "cv.title": {
-    en: "Product Designer · discovery to production code",
-    es: "Diseñador de producto · del descubrimiento al código en producción",
+    en: "Product Designer",
+    es: "Diseñador de producto",
   },
   "cv.location": { en: "Madrid, Spain", es: "Madrid, España" },
   "work.back": { en: "← back", es: "← volver" },

@@ -454,22 +454,40 @@ const bySlug = (slug: string): WorkItem => {
   return item;
 };
 
+// The ` ` ties keep "the systems" and "productos digitales" on one line, so
+// no line ends on an article and the Spanish noun never leaves its adjective.
+// HyperText leaves non-letters alone, so the tie survives the scramble.
 const HEADLINE: Bilingual<{ name: string; claim: string; altClaim: string }> = {
   en: {
     name: "I'm Richard.",
-    claim: " I build design systems with AI.",
-    altClaim: " I design cool shit with AI.",
+    claim: " I design digital products and the systems behind them.",
+    altClaim: " I make cool shit with AI.",
   },
   es: {
     name: "Soy Richard.",
-    claim: " Construyo sistemas de diseño con IA.",
-    altClaim: " Diseño cosas que molan con IA.",
+    // TODO(afi-redaccion)
+    claim: " Diseño productos digitales y los sistemas que hay detrás.",
+    // TODO(afi-redaccion)
+    altClaim: " Hago cosas que molan con IA.",
   },
 };
 
-const SUBTITLE: Bilingual<string> = {
-  en: "Anthropology taught me to understand behavior. Design gave me the tools to create experiences that fit it.",
-  es: "La antropología me enseñó a entender el comportamiento. El diseño me dio las herramientas para crear experiencias que encajen con él.",
+// Two levels: the professional read first, the personal point of view quieter
+// underneath it.
+const SUBTITLE: Bilingual<{ positioning: string; perspective: string }> = {
+  en: {
+    positioning:
+      "UX/UI, design systems and AI-assisted workflows for complex products.",
+    perspective:
+      "Anthropology taught me to understand behavior. Design gave me the tools to create experiences that fit it.",
+  },
+  es: {
+    // TODO(afi-redaccion)
+    positioning:
+      "UX/UI, sistemas de diseño y flujos de trabajo asistidos por IA para productos complejos.",
+    perspective:
+      "La antropología me enseñó a entender el comportamiento. El diseño me dio las herramientas para crear experiencias que encajen con él.",
+  },
 };
 
 const NAV: Bilingual<readonly [string, string]> = {
@@ -524,8 +542,7 @@ const PLACE: Bilingual<string> = {
 
 /**
  * Per-character pace for the claim's scramble. 16ms is one frame, the floor
- * `HyperText` clamps to anyway; across the 44-odd characters of either language it
- * lands at roughly `--duration-sweep`.
+ * `HyperText` clamps to anyway, so the ~70-character claim sweeps in about 1.1s.
  */
 const CLAIM_STEP = 16;
 
@@ -585,8 +602,12 @@ function Claim({ className }: { className: string }) {
     const onMove = (e: PointerEvent) => {
       const r = box.current?.getBoundingClientRect();
       if (!r) return;
+      // Only the page itself counts. An overlay sitting over the headline (the
+      // dragged gesture legend, the rail) is not a hover on it.
+      const el = e.target instanceof Element ? e.target : null;
       setIsHovered(
-        e.clientX >= r.left &&
+        !!el?.closest("[data-canvas], #stack-home") &&
+          e.clientX >= r.left &&
           e.clientX <= r.right &&
           e.clientY >= r.top &&
           e.clientY <= r.bottom
@@ -615,38 +636,40 @@ function Claim({ className }: { className: string }) {
 
   return (
     /**
-     * `max-w-[13em]` is what stops the hover swap reflowing the page.
+     * Two lines on desktop, three once the screen is too narrow (Richard,
+     * 2026-09-16). `max-w-[18em]` clears the widest line in either language,
+     * the Spanish "Soy Richard. Diseño productos digitales" at about 17em. `em`
+     * so the ratio holds at every step of the type scale.
      *
-     * At the hero frame's full 848px the two English variants set on a DIFFERENT
-     * NUMBER OF LINES — "I build design systems with AI." wraps to two, "I
-     * design cool shit with AI." fits on one — so hovering collapsed the
-     * headline by a full 48px line and shoved the subtitle and buttons up with
-     * it. That is the flicker.
-     *
-     * Measured every string at every type size: between 12em and 14em all four
-     * (both claims, both languages) set on exactly two lines. `em` rather than
-     * px because the type scales `text-3xl sm:text-4xl lg:text-5xl`, and line
-     * breaking depends on the ratio of text to measure — an em-based cap holds
-     * that ratio at every breakpoint where a pixel one would not. 13em is the
-     * middle of the safe band.
+     * The invisible first span holds the box at the resting claim's height. The
+     * hover alternate is shorter (one line on the board in English), and
+     * without it the swap would collapse the headline and shove the subtitle
+     * and buttons up. Only the resting claim is copied: it's always the taller
+     * one, and the joke stays out of the server-rendered h1.
      */
-    <h1 ref={box} className={cn("max-w-[13em] text-balance", className)}>
-      <HyperText className="text-muted-foreground" duration={lead}>
+    <h1 ref={box} className={cn("grid max-w-[18em] text-balance", className)}>
+      <span aria-hidden className="invisible col-start-1 row-start-1">
         {name}
-      </HyperText>
-      {/* `animateOnHover={false}` — the swap between `claim` and `altClaim` is
-          already a scramble, driven by `children` changing. Left at its
-          default, the pointer landing on this span would ALSO fire its own
-          replay of whatever text is already showing, a second scramble
-          racing the first one in. */}
-      <HyperText
-        className="text-foreground"
-        delay={ready ? 0 : lead}
-        duration={claimText.length * CLAIM_STEP}
-        animateOnHover={false}
-      >
-        {claimText}
-      </HyperText>
+        {claim}
+      </span>
+      <span className="col-start-1 row-start-1 self-center">
+        <HyperText className="text-muted-foreground" duration={lead}>
+          {name}
+        </HyperText>
+        {/* `animateOnHover={false}` — the swap between `claim` and `altClaim` is
+            already a scramble, driven by `children` changing. Left at its
+            default, the pointer landing on this span would ALSO fire its own
+            replay of whatever text is already showing, a second scramble
+            racing the first one in. */}
+        <HyperText
+          className="text-foreground"
+          delay={ready ? 0 : lead}
+          duration={claimText.length * CLAIM_STEP}
+          animateOnHover={false}
+        >
+          {claimText}
+        </HyperText>
+      </span>
     </h1>
   );
 }
@@ -1836,9 +1859,9 @@ export function CanvasSite() {
              *
              * 960 is set by the claim, not chosen: Spanish runs long, and at 720 it
              * broke to three lines while English kept two — the same frame reading
-             * as two different compositions depending on the toggle. Measured on the
-             * board, ES clears two lines at a 888px frame; 960 is that plus enough
-             * headroom that a font swap or a copy edit doesn't push it back. It
+             * as two different compositions depending on the toggle. The current
+             * ES claim clears two lines at a 898px frame (818px of type plus px-10);
+             * 960 is that plus headroom for a font swap or a copy edit. It
              * stays under a section's 1025px so the claim is still the smaller
              * object on the board. */}
             {/* `pointer-events-none`, matching a section's surface, so a click on
@@ -1851,7 +1874,12 @@ export function CanvasSite() {
                 the board. */}
             <div
               ref={hero}
-              className="pointer-events-none relative w-[min(90vw,960px)] px-14 py-12 text-center"
+              // `data-snap`: something the dragged gesture legend lines up
+              // with. See canvas-help.tsx.
+              data-snap
+              // px-10, not px-14: at a 1024px viewport the frame is 921.6px, and
+              // px-14 left 809.6px for a Spanish first line that needs 818px.
+              className="pointer-events-none relative w-[min(90vw,960px)] px-10 py-12 text-center"
             >
               <div className="border-canvas-component pointer-events-none absolute inset-0 rounded-[2px] border" />
               {[
@@ -1907,10 +1935,21 @@ export function CanvasSite() {
                 {pick(PLACE, lang)}
               </span>
               <div className="flex flex-col items-center gap-6">
-                <Claim className="text-3xl sm:text-4xl lg:text-5xl" />
-                <p className="text-prose-body max-w-md text-xs">
-                  {pick(SUBTITLE, lang)}
-                </p>
+                {/* Claim and copy are one group, 16px apart; the actions keep
+                    their 32px (gap-6 + pt-2) below it. */}
+                <div className="flex flex-col items-center gap-4">
+                  <Claim className="text-3xl sm:text-4xl lg:text-5xl" />
+                  {/* The positioning line takes the claim's ink at the CTA's 14px;
+                      the anthropology line keeps the old subtitle setting below it. */}
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-foreground max-w-xl text-sm">
+                      {pick(SUBTITLE, lang).positioning}
+                    </p>
+                    <p className="text-prose-body max-w-md text-xs">
+                      {pick(SUBTITLE, lang).perspective}
+                    </p>
+                  </div>
+                </div>
                 {/* `pointer-events-auto` because the board layer is
                     `pointer-events-none`; see the note on TalkTile. */}
                 <div className="pointer-events-auto flex items-center gap-3 pt-2">
@@ -2064,6 +2103,7 @@ function SectionBlock({
           the selection colour this board already uses for the claim frame, so it
           says "this is a thing" in the vocabulary that's here. */}
       <div
+        data-snap
         className={cn(
           "ease-out-soft rounded-xl border transition-colors duration-[var(--duration-base)]",
           hovered ? "border-primary/70 bg-muted" : "border-border bg-muted"
@@ -2312,8 +2352,19 @@ function CanvasStack({
           design-file metaphor for a surface you can move; nothing here moves, so
           they'd be decoration making a promise the page doesn't keep. */}
       <section id="stack-home" className="flex scroll-mt-6 flex-col gap-5">
-        <Claim className="text-3xl sm:text-4xl" />
-        <p className="text-prose-body text-sm">{pick(SUBTITLE, lang)}</p>
+        {/* Claim and copy are one group, 16px apart, like the board. */}
+        <div className="flex flex-col gap-4">
+          {/* 24px below 375px so the claim still wraps to three lines at 320. */}
+          <Claim className="text-2xl min-[375px]:text-3xl sm:text-4xl" />
+          <div className="flex flex-col gap-2">
+            <p className="text-foreground text-base">
+              {pick(SUBTITLE, lang).positioning}
+            </p>
+            <p className="text-prose-body text-sm">
+              {pick(SUBTITLE, lang).perspective}
+            </p>
+          </div>
+        </div>
         <div className="flex items-center gap-3">
           <HeroActions lang={lang} onGo={onGo} />
         </div>

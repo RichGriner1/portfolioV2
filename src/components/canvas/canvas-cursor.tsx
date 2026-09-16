@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Hand, HandGrab } from "lucide-react";
 
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -54,6 +55,13 @@ const STEP_MS = 5000;
 
 /** Screen px of travel with the button down before a press reads as a pan. */
 const DRAG_THRESHOLD = 24;
+
+/**
+ * The label over anything marked `data-cursor-drag` (the gesture legend in
+ * canvas-help.tsx). Here "Drag" is the physical action, unlike the pan cue
+ * below: the legend moves with the button held, and the open hand shows it.
+ */
+const DRAG_LABEL: Bilingual<string> = { en: "Drag", es: "Arrastra" };
 
 /**
  * Where the tutorial remembers what it has already taught.
@@ -191,6 +199,8 @@ export function CanvasCursor({
   const [inside, setInside] = useState(false);
   /** True while the pointer is over the backdrop rather than the CV panel. */
   const [overBackdrop, setOverBackdrop] = useState(false);
+  /** Over something draggable: an open hand, or a closed one while pressed. */
+  const [grab, setGrab] = useState<"open" | "closed" | null>(null);
 
   const { lang } = useLang();
   /**
@@ -521,9 +531,20 @@ export function CanvasCursor({
         const hit = document.elementFromPoint(e.clientX, e.clientY);
         setOverBackdrop(!hit?.closest("[data-cv-dialog]"));
       }
+
+      // Read off the event target rather than a hit test, so an ordinary pan
+      // pays nothing for it. During a drag the legend holds pointer capture, so
+      // the target stays the legend. Its × is a button, not a handle.
+      const el = e.target instanceof Element ? e.target : null;
+      const draggable =
+        !!el?.closest("[data-cursor-drag]") && !el.closest("button");
+      setGrab(draggable ? (e.buttons & 1 ? "closed" : "open") : null);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    // A press or release changes the hand without the pointer moving.
+    window.addEventListener("pointerdown", onMove, { passive: true });
+    window.addEventListener("pointerup", onMove, { passive: true });
 
     let frame = 0;
     const tick = () => {
@@ -542,6 +563,8 @@ export function CanvasCursor({
 
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onMove);
+      window.removeEventListener("pointerup", onMove);
       cancelAnimationFrame(frame);
     };
   }, [enabled, reduced, closeMode]);
@@ -581,7 +604,37 @@ export function CanvasCursor({
             </svg>
           </div>
         </div>
-      ) : !inside ? null : (
+      ) : !inside ? null : grab ? (
+        /* Over the draggable legend: a hand, centred on the pointer the way an OS
+           grab cursor is, with a label saying what a press does. Pressed, the
+           hand closes and the label steps aside so the guides stay readable. */
+        <>
+          <div
+            ref={arrow}
+            className="absolute top-0 left-0 will-change-transform"
+          >
+            {grab === "open" ? (
+              <Hand
+                className="text-primary -m-3 size-6 drop-shadow-sm"
+                strokeWidth={2}
+              />
+            ) : (
+              <HandGrab
+                className="text-primary -m-3 size-6 drop-shadow-sm"
+                strokeWidth={2}
+              />
+            )}
+          </div>
+          {grab === "open" ? (
+            <span
+              ref={chip}
+              className="bg-primary text-primary-foreground absolute top-0 left-0 mt-5 ml-5 rounded-md px-2 py-1 font-mono text-[11px] leading-none font-medium whitespace-nowrap shadow-md will-change-transform"
+            >
+              {pick(DRAG_LABEL, lang)}
+            </span>
+          ) : null}
+        </>
+      ) : (
         <>
           <div
             ref={arrow}

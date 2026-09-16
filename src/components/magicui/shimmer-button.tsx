@@ -70,9 +70,12 @@ export function ShimmerButton({
       "color-mix(in oklab, var(--primary-foreground) 12%, transparent)",
   } as CSSProperties;
 
+  // The transparent border and padding-box clip match the site's Button, so a
+  // shimmer and a plain button at the same height show the same 38px fill
+  // side by side instead of this one reading 2px taller.
   const classes = cn(
-    "group bg-primary text-primary-foreground relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg px-4 text-sm font-medium whitespace-nowrap",
-    "focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
+    "group bg-primary text-primary-foreground relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-transparent bg-clip-padding px-4 text-sm font-medium whitespace-nowrap",
+    "focus-visible:border-ring focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
     "ease-out-soft transform-gpu transition-transform duration-[var(--duration-base)] active:translate-y-px",
     className
   );
@@ -103,6 +106,15 @@ export function ShimmerButton({
       <span
         aria-hidden
         className="bg-primary absolute [inset:var(--shimmer-cut)] -z-20 rounded-[inherit]"
+      />
+
+      {/* Hover tint. 20% page background over the fill reads the same as the
+          site's own primary hover (`bg-primary/80`), which can't be used here:
+          the fill is two stacked layers, so fading them just shows one through
+          the other. `-z-10` puts the tint over the backdrop and under the label. */}
+      <span
+        aria-hidden
+        className="bg-background/20 ease-out-soft absolute inset-0 -z-10 rounded-[inherit] opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100"
       />
     </>
   );

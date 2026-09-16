@@ -87,8 +87,9 @@ type HyperTextProps = {
  *    Upstream draws every replacement from `A–Z`, which in a proportional display
  *    face means a lowercase heading jitters its own width for the length of the
  *    animation — `W` is nearly twice `i`. Non-letters are left alone, so word
- *    boundaries never move and the `text-balance` on the `h1` rules in globals.css
- *    keeps resolving to the same line breaks while the type settles.
+ *    boundaries never move, and each churning letter holds its real letter's
+ *    width (see the render), so the `text-balance` on the `h1` rules in
+ *    globals.css resolves to the same line breaks on every frame.
  *
  * 3. **The real text is what gets announced.** The scrambling run is `aria-hidden`
  *    with the final string beside it in an `sr-only` span, so a screen reader reads
@@ -179,6 +180,8 @@ export function HyperText({
     if (animateOnHover) setRun((r) => r + 1);
   }, [animateOnHover]);
 
+  const finals = Array.from(children);
+
   return (
     <Component className={className} onPointerEnter={replay}>
       <span className="sr-only">{children}</span>
@@ -187,30 +190,42 @@ export function HyperText({
           close up mid-run and every heading with a leading space (the canvas claim)
           loses it. */}
       <span aria-hidden className="whitespace-pre-wrap">
-        {frame.chars.map((char, i) => (
-          <span
-            key={i}
-            className={
-              // The transition is on the settled state only, so the blur arrives
-              // with the scramble and only the clearing is eased. Easing both ways
-              // was the first attempt and it swallowed the effect: a character locks
-              // every ~20ms while the ramp into blur takes `--duration-base`, so the
-              // early letters were transitioning out before they had finished
-              // transitioning in and the heading barely softened at all.
-              //
-              // No duration or curve named here — globals.css sets
-              // `--default-transition-duration` to `--duration-base` and the default
-              // curve to `--ease-out-soft`, so the bare utility lands on the tokens.
-              // 4px is the blur the wordmark reveal already uses: the site has one
-              // answer for "type arriving", and this is it per character.
-              i < frame.locked
-                ? "blur-[0px] transition-[filter,opacity]"
-                : "opacity-60 blur-xs"
-            }
-          >
-            {char}
-          </span>
-        ))}
+        {finals.map((char, i) =>
+          // The transition is on the settled state only, so the blur arrives
+          // with the scramble and only the clearing is eased. Easing both ways
+          // was the first attempt and it swallowed the effect: a character locks
+          // every ~20ms while the ramp into blur takes `--duration-base`, so the
+          // early letters were transitioning out before they had finished
+          // transitioning in and the heading barely softened at all.
+          //
+          // No duration or curve named here — globals.css sets
+          // `--default-transition-duration` to `--duration-base` and the default
+          // curve to `--ease-out-soft`, so the bare utility lands on the tokens.
+          // 4px is the blur the wordmark reveal already uses: the site has one
+          // answer for "type arriving", and this is it per character.
+          i < frame.locked ? (
+            <span key={i} className="blur-[0px] transition-[filter,opacity]">
+              {char}
+            </span>
+          ) : (
+            // A churning character holds the REAL letter's width, invisibly,
+            // and draws its stand-in over the top. Same-case letters still
+            // differ in width (`m` against `i`), so a line near its measure used
+            // to grow past it mid-run and rewrap to an extra line for a few
+            // frames. Holding every width makes the line the same length on
+            // every frame, so it breaks where the settled text breaks.
+            //
+            // `leading-[normal]` puts the stand-in on the same baseline: the
+            // overlay is a block with its own line box, and the heading's tight
+            // leading would otherwise shift it by half the difference.
+            <span key={i} className="relative opacity-60 blur-xs">
+              <span className="invisible">{char}</span>
+              <span className="absolute inset-0 text-center leading-[normal]">
+                {frame.chars[i]}
+              </span>
+            </span>
+          )
+        )}
       </span>
     </Component>
   );

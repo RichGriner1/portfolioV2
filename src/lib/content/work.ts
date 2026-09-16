@@ -179,6 +179,8 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/afi-design-system",
     glyph: "palette",
+    // Third on the home board. See the note on visual-identity.
+    homeRank: 3,
     // No `ongoing` — the coded rollout paused when Modern UI took priority, so the
     // live-pulse badge would be claiming active work. Visual Identity carries it.
   },
@@ -200,6 +202,15 @@ export const WORK: WorkItem[] = [
     // videos/process-stages-motion/gen.mjs (HyperFrames).
     video: "/work/visual-identity/process-stages",
     ongoing: true,
+    /**
+     * Home board order: Visual Identity, Audemic onboarding, Afi Design System,
+     * Mindfulme. UI craft first, then research and product thinking, then the
+     * systems specialism, then a consumer product and brand.
+     *
+     * Mindfulme is unranked: it's the only other case study on the board, so it
+     * lands fourth by date. Rank it 4 if a new case study shouldn't take its slot.
+     */
+    homeRank: 1,
   },
   {
     slug: "kt360",
@@ -225,7 +236,7 @@ export const WORK: WorkItem[] = [
    * the more design-forward of the two — ends up as a subsection of a story whose
    * headline is revenue.
    *
-   * Both sort to 2024-01-01, so their order on the board is this array's order,
+   * Both sort to 2024-01-01, so their order on /projects is this array's order,
    * which `Array.prototype.sort` preserves for ties. Onboarding sits first because
    * it came later: it's Insights retention work, and Insights is what the beta in
    * the business-growth study launched. Give them real `date` values if you want a
@@ -251,6 +262,8 @@ export const WORK: WorkItem[] = [
     // The title slide's mockup, the teal "Personalize your experience" screen. A
     // real screen rather than a glyph — see WorkItem.image.
     image: "/work/audemic-onboarding/hero.webp",
+    // Second on the home board. See the note on visual-identity.
+    homeRank: 2,
   },
   {
     slug: "audemic-business-growth",

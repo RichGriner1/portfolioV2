@@ -54,6 +54,7 @@
   --color-canvas-component-foreground: var(--canvas-component-foreground);
   --color-canvas-devmode: var(--canvas-devmode);
   --color-canvas-devmode-foreground: var(--canvas-devmode-foreground);
+  --color-canvas-guide: var(--canvas-guide);
 
   /* Charts — placeholder grays; swap to a branded palette when ready */
   --color-chart-1: var(--chart-1);
@@ -264,6 +265,11 @@
   --green-50: oklch(0.977 0.014 155);
   --green-600: oklch(0.52 0.15 155);
 
+  /* Figma's UI red (#F24822), the colour design tools draw alignment guides in.
+     One step, unlike the violet: as a 1px line it clears 3:1 against both the
+     white page and the near-black board. See --canvas-guide. */
+  --red-500: oklch(0.642 0.212 33.7);
+
   /* Component chrome on the /canvas board — the glyph, frame border and corner
      handles that mark the claim as a component rather than a plain frame.
 
@@ -283,6 +289,9 @@
      doesn't invert, and its own ink — because it has the same job. */
   --canvas-devmode: var(--green-600);
   --canvas-devmode-foreground: var(--green-50);
+  /* Alignment guides, drawn while the gesture legend is dragged across the
+     board (canvas-help.tsx). Not themed: the primitive holds in both. */
+  --canvas-guide: var(--red-500);
 
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);

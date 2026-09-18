@@ -7,19 +7,30 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type PointerEvent as ReactPointerEvent,
 } from "react";
 import {
   animate,
   motion,
+  motionValue,
   useMotionValue,
   useReducedMotion,
   useTransform,
+  type MotionValue,
 } from "motion/react";
 
 import { CanvasCursor } from "@/components/canvas/canvas-cursor";
 import { CanvasHelp } from "@/components/canvas/canvas-help";
 import { CanvasRail } from "@/components/canvas/canvas-rail";
 import { DotTrail } from "@/components/canvas/dot-trail";
+import {
+  guidesFor,
+  nudge,
+  SnapGuides,
+  snapTargets,
+  type Box,
+  type Guide,
+} from "@/components/canvas/snap-guides";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { ShimmerButton } from "@/components/magicui/shimmer-button";
@@ -63,8 +74,20 @@ const TILE = 24;
  * 200%. A fixed limit would be the same board extent only at one zoom level — it
  * would pin the far sections out of reach zoomed in, and let you drag the whole board
  * off into empty space zoomed out. See `panLimit`.
+ *
+ * A section dragged by its name tag is clamped to this same box, in board px with no
+ * zoom multiplier: that drag never changes scale, so there's no second zoom level to
+ * account for. The point is the same either way, a section should never end up
+ * somewhere the camera can't bring to centre.
  */
 const CLAMP = { x: 1250, y: 800 };
+
+/**
+ * Screen px of pointer travel that still counts as a click rather than a drag.
+ * Shared by the drag surface's click-to-snap and a section tag's press-to-move, so
+ * the two gestures agree on where a click ends and a drag begins.
+ */
+const CLICK_TOLERANCE = 6;
 
 /**
  * Zoom range and step, as scale factors where 1 is 100%.
@@ -138,7 +161,8 @@ const panLimit = (axis: "x" | "y", zoom: number) => CLAMP[axis] * zoom;
 type Section = {
   id: string;
   label: Bilingual<string>;
-  /** Section origin, px from board centre. */
+  /** Where the section opens, px from board centre. Draggable afterward by its
+   *  name tag (see `Placed`), so this is a starting position, not a fixed one. */
   x: number;
   y: number;
   /** Work frames, for a section that holds work. */
@@ -156,6 +180,23 @@ type Section = {
   href?: string;
   /** Set for the contact section. */
   contact?: boolean;
+};
+
+/**
+ * A section paired with its live position on the board.
+ *
+ * Motion values rather than plain numbers, because a section can now be dragged: its
+ * centre changes every frame of that drag, and the camera moves (`goTo`,
+ * `overviewFraming`), the hit test (`sectionAt`) and the on-screen watcher all need
+ * wherever it currently is, not where `SECTIONS` said it would start. Built once in
+ * `CanvasSite`, from each section's starting `x`/`y`. Dragging only ever moves these
+ * values, never the `SECTIONS` constant, which is what makes a reload restore the
+ * composed layout instead of remembering the drag.
+ */
+type Placed = {
+  section: Section;
+  x: MotionValue<number>;
+  y: MotionValue<number>;
 };
 
 /**
@@ -346,23 +387,28 @@ const OVERVIEW_PAD = 80;
  * The camera position and scale that frames the entire composition — the shot the
  * intro opens on before flying in to home. See the intro effect in CanvasSite.
  *
- * Derived from SECTIONS rather than a hardcoded number (~0.42 was tried and is
- * wrong): sections get added and moved, and a fixed fit silently stops matching
- * the composition the day one of them does. The hero itself never widens the box
- * — it sits at the origin, enclosed by the sections that surround it, so the
- * box's extremes are always a section's corner, never the claim's.
+ * Derived from `placed` rather than a hardcoded number (~0.42 was tried and is
+ * wrong): sections get added, moved, and now dragged, and a fixed fit silently
+ * stops matching the composition the day one of them does. Reading live positions
+ * rather than the `SECTIONS` constant means dragging a section into a corner before
+ * pressing Shift+1 changes what "frame everything" means, which is the honest
+ * answer. The hero itself never widens the box, it sits at the origin, enclosed by
+ * the sections that surround it, so the box's extremes are always a section's
+ * corner, never the claim's.
  */
-function overviewFraming(vw: number, vh: number) {
+function overviewFraming(vw: number, vh: number, placed: Placed[]) {
   let minX = Infinity;
   let maxX = -Infinity;
   let minY = Infinity;
   let maxY = -Infinity;
-  for (const s of SECTIONS) {
-    const { w, h } = sectionSize(s);
-    minX = Math.min(minX, s.x - w / 2);
-    maxX = Math.max(maxX, s.x + w / 2);
-    minY = Math.min(minY, s.y - h / 2 - LABEL_ROW);
-    maxY = Math.max(maxY, s.y + h / 2);
+  for (const p of placed) {
+    const { w, h } = sectionSize(p.section);
+    const sx = p.x.get();
+    const sy = p.y.get();
+    minX = Math.min(minX, sx - w / 2);
+    maxX = Math.max(maxX, sx + w / 2);
+    minY = Math.min(minY, sy - h / 2 - LABEL_ROW);
+    maxY = Math.max(maxY, sy + h / 2);
   }
   const bboxW = maxX - minX;
   const bboxH = maxY - minY;
@@ -396,7 +442,9 @@ function overviewFraming(vw: number, vh: number) {
  * backwards.
  *
  * The box is grown upward by the label row so clicking a section's NAME does the
- * same thing as clicking its surface. That's the part a visitor reads first.
+ * same thing as clicking its surface, when there's no tag handler to catch the
+ * click first (see `SectionBlock`'s `tag` prop). Once the board is draggable, the
+ * tag answers for its own press and this test never sees it.
  *
  * The claim is in here too, as `home`. It's the one object on the board that
  * wasn't a snap target, which made it the one object you could pan away from and
@@ -408,6 +456,10 @@ function overviewFraming(vw: number, vh: number) {
  * language and breakpoint. `hero` is a ref value, read here rather than in
  * render, so this stays the pure arithmetic the note above insists on: one
  * measurement taken when the box changes, not a DOM read mid-pan.
+ *
+ * `placed` must arrive ordered top of the stack first. Dragging can now leave
+ * sections overlapping, and `.find` returns the first match, so the caller decides
+ * which one wins by the order it hands over rather than this function guessing.
  */
 const HOME_STOP = { id: "home", x: 0, y: 0 } as const;
 
@@ -417,7 +469,8 @@ function sectionAt(
   bx: number,
   by: number,
   z: number,
-  hero: { w: number; h: number } | null
+  hero: { w: number; h: number } | null,
+  placed: Placed[]
 ) {
   const cx = window.innerWidth / 2 + bx;
   const cy = window.innerHeight / 2 + by;
@@ -427,15 +480,17 @@ function sectionAt(
   // 200%, where the name has moved further up than the test is looking.
   const pad = LABEL_ROW * z;
   const hit =
-    SECTIONS.find((s) => {
-      const box = sectionSize(s);
+    placed.find((p) => {
+      const box = sectionSize(p.section);
       const w = box.w * z;
       const h = box.h * z;
-      const left = cx + (s.x - box.w / 2) * z;
-      const top = cy + (s.y - box.h / 2) * z;
+      const sx = p.x.get();
+      const sy = p.y.get();
+      const left = cx + (sx - box.w / 2) * z;
+      const top = cy + (sy - box.h / 2) * z;
       return px >= left && px <= left + w && py >= top - pad && py <= top + h;
     }) ?? null;
-  if (hit) return hit as { id: string; x: number; y: number };
+  if (hit) return { id: hit.section.id, x: hit.x.get(), y: hit.y.get() };
   if (!hero) return null;
   // Grown at BOTH ends: the claim wears its name above and its apron below, and
   // both are part of the object rather than decoration beside it.
@@ -734,18 +789,6 @@ function HeroActions({
   );
 }
 
-/**
- * Rail destinations as bare coordinates, outside the component.
- *
- * The labelled version is built per render because it needs `lang`; this one is
- * stable, which matters because the position watcher below reads it on every frame
- * of a pan and must not depend on anything that re-renders.
- */
-const STOPS = [
-  { id: "home", x: 0, y: 0 },
-  ...SECTIONS.map((s) => ({ id: s.id, x: s.x, y: s.y })),
-];
-
 /** How long the overview holds before the camera starts moving home. Sized for a
  *  first-time visitor to actually read the shot — four sections and the claim —
  *  not for pace; a hold tuned for rhythm rather than comprehension would be
@@ -815,6 +858,57 @@ export function CanvasSite() {
    * wheel, so a pinch immediately after a button press steps from the pinch.
    */
   const zoomAim = useRef(1);
+
+  /**
+   * Each section's live position: see `Placed`. Built once, from `SECTIONS`'
+   * starting coordinates. A drag only ever moves the values inside this array,
+   * never `SECTIONS` itself, which is why a reload always restores the composed
+   * layout instead of remembering where a section was left.
+   */
+  const [placed] = useState<Placed[]>(() =>
+    SECTIONS.map((section) => ({
+      section,
+      x: motionValue(section.x),
+      y: motionValue(section.y),
+    }))
+  );
+  /**
+   * Z-order, bottom to top. A press on a section's tag raises it to the end of
+   * this list, see `onTagDown`, the same "click brings it forward" a design
+   * tool gives an object, without changing anything else about the composition.
+   */
+  const [stack, setStack] = useState<string[]>(() => SECTIONS.map((s) => s.id));
+  /** Red alignment guides while a section is being dragged by its tag. Shared
+   *  machinery with the gesture legend's own drag, see snap-guides.tsx. */
+  const [guides, setGuides] = useState<Guide[]>([]);
+  /**
+   * The section tag currently being pressed, and everything its drag needs to
+   * stay coherent frame to frame: where the press started (for the click
+   * tolerance below), the section's centre minus the board point under the
+   * pointer at press time (the "grab offset", so the section doesn't jump to
+   * recentre on the cursor), and which snap target to leave out of its own
+   * targets (the section's own surface, or it would snap to last frame's
+   * position and stick there).
+   */
+  const moving = useRef<{
+    id: string;
+    from: { x: number; y: number };
+    grab: { x: number; y: number };
+    skip: Element | null;
+    moved: boolean;
+  } | null>(null);
+
+  /**
+   * `placed`, ordered top of the stack first. Sections can now overlap once one
+   * has been dragged onto another, and the hit test has to resolve that the way
+   * the screen actually reads: whichever one is painted on top wins, not
+   * whichever happens to sit first in `SECTIONS`.
+   */
+  const topFirst = () =>
+    [...stack]
+      .reverse()
+      .map((id) => placed.find((p) => p.section.id === id))
+      .filter((p): p is Placed => p !== undefined);
 
   /**
    * Motion blur for the intro's flight home — see the intro effect below.
@@ -920,7 +1014,11 @@ export function CanvasSite() {
       return;
     }
 
-    const overview = overviewFraming(window.innerWidth, window.innerHeight);
+    const overview = overviewFraming(
+      window.innerWidth,
+      window.innerHeight,
+      placed
+    );
     x.set(overview.x);
     y.set(overview.y);
     k.set(overview.k);
@@ -1409,7 +1507,11 @@ export function CanvasSite() {
       // this is the same camera move on demand rather than a second definition of it.
       if (e.shiftKey && e.code === "Digit1") {
         e.preventDefault();
-        const fit = overviewFraming(window.innerWidth, window.innerHeight);
+        const fit = overviewFraming(
+          window.innerWidth,
+          window.innerHeight,
+          placed
+        );
         const opts = reduced
           ? { duration: 0 }
           : { duration: 0.45, ease: [0.2, 0.8, 0.2, 1] as const };
@@ -1458,7 +1560,7 @@ export function CanvasSite() {
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [pannable, cvOpen, reduced, x, y, k, zoomTo, zoomBy]);
+  }, [pannable, cvOpen, reduced, x, y, k, zoomTo, zoomBy, placed]);
 
   /**
    * Keep the rail honest.
@@ -1487,14 +1589,20 @@ export function CanvasSite() {
        * while you panned. Something is always the closest thing, and saying so is
        * more useful than saying nothing: the rail becomes a running answer to
        * "where am I" rather than a label that appears when you happen to arrive.
+       *
+       * Read live off `placed` rather than the old `STOPS` constant, home plus each
+       * section's CURRENT centre, so dragging a section changes which stop counts
+       * as nearest exactly the way panning already does.
        */
-      let best = STOPS[0];
-      let bestD = Infinity;
-      for (const s of STOPS) {
-        const d = Math.hypot(s.x - cx, s.y - cy);
+      let best: { id: string; x: number; y: number } = HOME_STOP;
+      let bestD = Math.hypot(best.x - cx, best.y - cy);
+      for (const p of placed) {
+        const sx = p.x.get();
+        const sy = p.y.get();
+        const d = Math.hypot(sx - cx, sy - cy);
         if (d < bestD) {
           bestD = d;
-          best = s;
+          best = { id: p.section.id, x: sx, y: sy };
         }
       }
       setActive(best.id);
@@ -1518,32 +1626,41 @@ export function CanvasSite() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const z = k.get();
-      const live = SECTIONS.filter((s) => {
-        // On screen is a question about pixels, so the box is measured in them: the
-        // section's board size scaled, at its board position scaled. Half of a
-        // section zoomed to 25% is a quarter of the area it was at 100%, and a clip
-        // that starts when a thumbnail is 80px wide is a clip nobody can see.
-        const box = sectionSize(s);
-        const w = box.w * z;
-        const h = box.h * z;
-        const left = vw / 2 + x.get() + (s.x - box.w / 2) * z;
-        const top = vh / 2 + y.get() + (s.y - box.h / 2) * z;
-        const ox = Math.max(0, Math.min(left + w, vw) - Math.max(left, 0));
-        const oy = Math.max(0, Math.min(top + h, vh) - Math.max(top, 0));
-        return (ox * oy) / (w * h) >= 0.5;
-      }).map((s) => s.id);
+      const live = placed
+        .filter((p) => {
+          // On screen is a question about pixels, so the box is measured in them: the
+          // section's board size scaled, at its board position scaled. Half of a
+          // section zoomed to 25% is a quarter of the area it was at 100%, and a clip
+          // that starts when a thumbnail is 80px wide is a clip nobody can see.
+          const box = sectionSize(p.section);
+          const w = box.w * z;
+          const h = box.h * z;
+          const left = vw / 2 + x.get() + (p.x.get() - box.w / 2) * z;
+          const top = vh / 2 + y.get() + (p.y.get() - box.h / 2) * z;
+          const ox = Math.max(0, Math.min(left + w, vw) - Math.max(left, 0));
+          const oy = Math.max(0, Math.min(top + h, vh) - Math.max(top, 0));
+          return (ox * oy) / (w * h) >= 0.5;
+        })
+        .map((p) => p.section.id);
       // Joined, so React's own bail-out does the work: a pan that doesn't change
       // which sections are on screen costs a string compare, not a render.
       setOnscreen(live.join(","));
     };
     sync();
+    // Every placed section's own x/y joins the camera's, so dragging a section
+    // into view starts its clips and updates the rail's active stop the same way
+    // panning the camera to it already does.
     const off = [
       x.on("change", sync),
       y.on("change", sync),
       k.on("change", sync),
+      ...placed.flatMap((p) => [
+        p.x.on("change", sync),
+        p.y.on("change", sync),
+      ]),
     ];
     return () => off.forEach((f) => f());
-  }, [x, y, k]);
+  }, [x, y, k, placed]);
 
   /**
    * Bring keyboard focus into view.
@@ -1621,14 +1738,134 @@ export function CanvasSite() {
     animate(y, clampTo(-ty * zoom, panLimit("y", zoom)), opts);
   }
 
+  /**
+   * The pointer, translated into a BOARD point: invert `translate(x, y)
+   * scale(k)` from a centred origin, the same inversion `sectionAt` does.
+   *
+   * Dragging a section by its tag has to work in this space rather than
+   * screen space, because the camera can keep moving while the drag is in
+   * progress, a wheel notch doesn't ask permission. A screen-space follow
+   * would leave the section sitting at a fixed spot on the MONITOR while the
+   * board panned out from under it; reading a fresh board point on every
+   * move keeps the grabbed spot under the cursor no matter what the camera
+   * does at the same time.
+   */
+  function pointerToBoard(clientX: number, clientY: number) {
+    return {
+      x: (clientX - window.innerWidth / 2 - x.get()) / k.get(),
+      y: (clientY - window.innerHeight / 2 - y.get()) / k.get(),
+    };
+  }
+
+  /**
+   * Section drag, start: press the name tag, note where and which section,
+   * and bring it to the front of the stack. The tag is the handle rather
+   * than the section's surface because the surface already has a job,
+   * dragging IT pans the board, the same as the empty gaps between frames
+   * do. Figma keeps the two apart the same way: panel drag on the canvas,
+   * object drag on the layer's own handle.
+   */
+  function onTagDown(id: string, e: ReactPointerEvent<HTMLSpanElement>) {
+    if (e.button !== 0) return;
+    const p = placed.find((v) => v.section.id === id);
+    if (!p) return;
+    // No focus change and no text selection: a press on the tag is a grab,
+    // the same trade the legend's own handle makes.
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const board = pointerToBoard(e.clientX, e.clientY);
+    moving.current = {
+      id,
+      from: { x: e.clientX, y: e.clientY },
+      grab: { x: p.x.get() - board.x, y: p.y.get() - board.y },
+      // The section's own surface, left out of its own snap targets on move.
+      skip: e.currentTarget.closest("[data-section]"),
+      moved: false,
+    };
+    setStack((ids) =>
+      ids.at(-1) === id ? ids : [...ids.filter((v) => v !== id), id]
+    );
+  }
+
+  /**
+   * Section drag, move. Stays a no-op inside the click tolerance (see
+   * `CLICK_TOLERANCE`), so a press that never turns into a drag can still be
+   * read as a click on release.
+   *
+   * Snapping happens in SCREEN space, same as the legend: the board can be
+   * at any zoom, and `SNAP` screen px is what reads as "aligned" regardless
+   * of it. The nudge it produces is converted back to board px (divided by
+   * `k`) before it's applied, and the result is re-clamped, a snap toward a
+   * target just past `CLAMP` would otherwise walk the section past its own
+   * bound.
+   */
+  function onTagMove(e: ReactPointerEvent<HTMLSpanElement>) {
+    const m = moving.current;
+    if (!m) return;
+    if (
+      !m.moved &&
+      Math.hypot(e.clientX - m.from.x, e.clientY - m.from.y) <= CLICK_TOLERANCE
+    )
+      return;
+    m.moved = true;
+    const p = placed.find((v) => v.section.id === m.id);
+    if (!p) return;
+
+    const board = pointerToBoard(e.clientX, e.clientY);
+    let cx = clampTo(board.x + m.grab.x, CLAMP.x);
+    let cy = clampTo(board.y + m.grab.y, CLAMP.y);
+
+    const { w, h } = sectionSize(p.section);
+    const zoom = k.get();
+    const boxOf = (bcx: number, bcy: number): Box => {
+      const left = window.innerWidth / 2 + x.get() + (bcx - w / 2) * zoom;
+      const top = window.innerHeight / 2 + y.get() + (bcy - h / 2) * zoom;
+      return { left, top, right: left + w * zoom, bottom: top + h * zoom };
+    };
+    const targets = snapTargets(m.skip);
+    const raw = boxOf(cx, cy);
+    const sx = nudge(raw, targets, "x");
+    const sy = nudge(raw, targets, "y");
+    cx = clampTo(cx + sx / zoom, CLAMP.x);
+    cy = clampTo(cy + sy / zoom, CLAMP.y);
+
+    p.x.set(cx);
+    p.y.set(cy);
+
+    const next = guidesFor(boxOf(cx, cy), targets);
+    // CanvasSite is a big, unmemoised tree, so setting the same empty array on
+    // every move that isn't snapping anything would re-render all of it for
+    // nothing. Returning the previous reference when both are empty is what
+    // keeps a plain drag as cheap as the section's own motion values already
+    // make it. While a guide shows, its span follows the box, so a snapped
+    // drag still renders per move: the same trade the zoom state makes.
+    setGuides((prev) => (prev.length === 0 && next.length === 0 ? prev : next));
+  }
+
+  /**
+   * Section drag, release. A press that never crossed the click tolerance
+   * flies the camera to the section instead, exactly what letting it fall
+   * through to the drag surface used to do.
+   */
+  function onTagUp() {
+    const m = moving.current;
+    moving.current = null;
+    setGuides([]);
+    if (!m) return;
+    if (!m.moved) {
+      const p = placed.find((v) => v.section.id === m.id);
+      if (p) goTo(m.id, p.x.get(), p.y.get());
+    }
+  }
+
+  function onTagCancel() {
+    moving.current = null;
+    setGuides([]);
+  }
+
   const stops = [
-    { id: "home", label: pick(HOME_LABEL, lang), x: 0, y: 0 },
-    ...SECTIONS.map((s) => ({
-      id: s.id,
-      label: pick(s.label, lang),
-      x: s.x,
-      y: s.y,
-    })),
+    { id: "home", label: pick(HOME_LABEL, lang) },
+    ...SECTIONS.map((s) => ({ id: s.id, label: pick(s.label, lang) })),
   ];
 
   /**
@@ -1649,8 +1886,15 @@ export function CanvasSite() {
       setActive(id);
       return;
     }
-    const s = STOPS.find((v) => v.id === id);
-    if (s) goTo(s.id, s.x, s.y);
+    // Live read, home plus each section's CURRENT centre, replacing the old
+    // `STOPS` constant so the rail always flies to wherever a section actually
+    // is rather than where it started.
+    if (id === "home") {
+      goTo(HOME_STOP.id, HOME_STOP.x, HOME_STOP.y);
+      return;
+    }
+    const p = placed.find((v) => v.section.id === id);
+    if (p) goTo(id, p.x.get(), p.y.get());
   }
 
   /**
@@ -1685,6 +1929,18 @@ export function CanvasSite() {
         // Everything bubbles to the root, so this is the one place that can see
         // both cases and tell them apart.
         onPointerMove={(e) => {
+          // The tag sits inside `[data-board]` too, but hovering it should light
+          // its section whether or not the board is draggable, so it's checked
+          // before the general "board content is its own target" rule below
+          // would otherwise send this straight to null.
+          const tagEl = (e.target as HTMLElement).closest("[data-section-tag]");
+          if (tagEl) {
+            setHovered(
+              tagEl.closest("[data-section]")?.getAttribute("data-section") ??
+                null
+            );
+            return;
+          }
           // Board content is its own target: a card is a link, the CV frame is a
           // button. Only the bare surface between them snaps, so only the bare
           // surface lights the section.
@@ -1698,7 +1954,8 @@ export function CanvasSite() {
             x.get(),
             y.get(),
             k.get(),
-            heroBox.current
+            heroBox.current,
+            topFirst()
           );
           setHovered(hit?.id ?? null);
         }}
@@ -1763,7 +2020,8 @@ export function CanvasSite() {
               x.get(),
               y.get(),
               k.get(),
-              heroBox.current
+              heroBox.current,
+              topFirst()
             );
             setHovered(hit?.id ?? null);
           }}
@@ -1772,7 +2030,10 @@ export function CanvasSite() {
             const start = press.current;
             press.current = null;
             if (!start) return;
-            if (Math.hypot(e.clientX - start.x, e.clientY - start.y) > 6)
+            if (
+              Math.hypot(e.clientX - start.x, e.clientY - start.y) >
+              CLICK_TOLERANCE
+            )
               return;
             const hit = sectionAt(
               e.clientX,
@@ -1780,7 +2041,8 @@ export function CanvasSite() {
               x.get(),
               y.get(),
               k.get(),
-              heroBox.current
+              heroBox.current,
+              topFirst()
             );
             if (hit) goTo(hit.id, hit.x, hit.y);
           }}
@@ -1831,26 +2093,47 @@ export function CanvasSite() {
           data-board
           className="pointer-events-none absolute inset-0"
         >
-          {SECTIONS.map((section) => (
+          {placed.map((p) => (
             <SectionBlock
-              key={section.id}
-              section={section}
+              key={p.section.id}
+              placed={p}
+              z={stack.indexOf(p.section.id)}
               lang={lang}
-              hovered={hovered === section.id}
+              hovered={hovered === p.section.id}
               // The overview scale clears every section's on-screen threshold
               // at once, so unconditional `onscreen` would start three clips
               // during the most expensive frames of the flight. Suppressed
               // here rather than in the watcher, so the watcher stays the one
               // honest read of what's actually on screen.
               onscreen={
-                !introRunning && onscreen.split(",").includes(section.id)
+                !introRunning && onscreen.split(",").includes(p.section.id)
               }
               onOpenCv={() => setCvOpen(true)}
+              // Only while the board is draggable, the same gate as panning,
+              // see `drag`. Undefined otherwise, so the tag stays inert and a
+              // click on it falls through to the drag surface, same as every
+              // other point on a section's surface.
+              tag={
+                drag
+                  ? {
+                      onPointerDown: (e: ReactPointerEvent<HTMLSpanElement>) =>
+                        onTagDown(p.section.id, e),
+                      onPointerMove: onTagMove,
+                      onPointerUp: onTagUp,
+                      onPointerCancel: onTagCancel,
+                    }
+                  : undefined
+              }
             />
           ))}
 
-          {/* The claim, at the origin, as the selected layer. */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          {/* The claim, at the origin, as the selected layer. `z-10` keeps it
+              above every section: Figma treats a section as a backdrop its
+              siblings can sit on top of, but the claim is the one thing on
+              this board that isn't a section, and the point it exists to
+              make must never end up buried under one that's been dragged
+              over it. */}
+          <div className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
             {/* The frame is the padded box itself rather than a border drawn at a
                 negative inset around tight content. Same picture, but the breathing
                 room is real padding the type sits inside — which is what a frame in
@@ -1874,8 +2157,9 @@ export function CanvasSite() {
                 the board. */}
             <div
               ref={hero}
-              // `data-snap`: something the dragged gesture legend lines up
-              // with. See canvas-help.tsx.
+              // `data-snap`: something a dragged object on the board lines up
+              // with, the gesture legend (canvas-help.tsx) and a section
+              // being dragged by its tag alike.
               data-snap
               // px-10, not px-14: at a 1024px viewport the frame is 921.6px, and
               // px-14 left 809.6px for a Spanish first line that needs 818px.
@@ -1994,9 +2278,14 @@ export function CanvasSite() {
       <CvModal open={cvOpen} onOpenChange={setCvOpen} triggerless />
 
       <CanvasHelp show={pannableAndReady} />
+      {/* The section drag's own snap guides. Shares its arithmetic and its
+          look with the legend's drag, see snap-guides.tsx, so a section
+          lining up with the hero or a neighbour reads as the same feedback
+          Richard's own tools give him. */}
+      <SnapGuides guides={guides} />
 
       <CanvasRail
-        stops={stops.map((s) => ({ id: s.id, label: s.label }))}
+        stops={stops}
         active={active}
         onSelect={goToStop}
         // Passed only when the board is actually pannable, which is the same gate
@@ -2027,20 +2316,40 @@ export function CanvasSite() {
 
 /** A labelled region of the board holding its frames — Figma's section, essentially. */
 function SectionBlock({
-  section,
+  placed,
+  z,
   lang,
   hovered,
   onscreen,
   onOpenCv,
+  tag,
 }: {
-  section: Section;
+  placed: Placed;
+  /** Stack position, used as this section's z-index so a section just raised
+   *  by a drag paints over its siblings. Never above the hero: see its own
+   *  `z-10` in CanvasSite. */
+  z: number;
   lang: ReturnType<typeof useLang>["lang"];
-  /** Pointer is over this section's box — see the hit test on the drag surface. */
+  /** Pointer is over this section's box or its tag, see the hit test on the
+   *  drag surface and the tag-hover check on the root. */
   hovered: boolean;
   /** The board has brought this section into view; its clips should run. */
   onscreen: boolean;
   onOpenCv: () => void;
+  /**
+   * The tag's own drag handlers, present only while the board is draggable.
+   * Undefined otherwise, so the tag stays inert and a click on it falls
+   * through to the drag surface underneath, same as every other point on a
+   * section's surface.
+   */
+  tag?: {
+    onPointerDown: (e: ReactPointerEvent<HTMLSpanElement>) => void;
+    onPointerMove: (e: ReactPointerEvent<HTMLSpanElement>) => void;
+    onPointerUp: (e: ReactPointerEvent<HTMLSpanElement>) => void;
+    onPointerCancel: (e: ReactPointerEvent<HTMLSpanElement>) => void;
+  };
 }) {
+  const { section } = placed;
   const items = (section.slugs ?? []).map(bySlug);
   // Clamped to what's actually here, matching the width `sectionSize` computes from
   // the same figure. Laying out the full column allowance inside a box sized to
@@ -2050,14 +2359,24 @@ function SectionBlock({
   // they hold controls and copy, not a row of work. Contact is square so the tile
   // inside keeps its own proportions rather than being squashed into a letterbox.
   const { w, h } = sectionSize(section);
+  // Live position, not the `translate` string a fixed layout used: the wrapper
+  // tracks `placed`'s motion values directly, so a drag moves the section every
+  // frame without this component re-rendering to do it.
+  const wrapX = useTransform(placed.x, (v) => v - w / 2);
+  const wrapY = useTransform(placed.y, (v) => v - h / 2);
 
   return (
-    <div
+    <motion.div
+      // Marks the section for the hover lookup on the root and the snap
+      // exclusion on the tag's own drag, see `onTagDown` and the root's
+      // `onPointerMove` in CanvasSite.
+      data-section={section.id}
       className="absolute top-1/2 left-1/2"
-      style={{ translate: `${section.x - w / 2}px ${section.y - h / 2}px` }}
+      style={{ x: wrapX, y: wrapY, zIndex: z }}
     >
       {/* Section name, in Figma's position and idiom. This is what keeps a visitor
-          oriented: wherever the board is, whatever is on screen is named. */}
+          oriented: wherever the board is, whatever is on screen is named. It
+          doubles as the drag handle for the section itself, see `tag`. */}
       {/* The section header row: name on the left, the way out on the right.
        *
        * "See all" sits here rather than inside the section because the board only
@@ -2078,7 +2397,18 @@ function SectionBlock({
       <div className="absolute -top-8 left-0 flex items-end gap-2">
         <span
           aria-hidden
-          className="bg-muted text-foreground rounded-md px-2.5 py-1 font-mono text-[11px] whitespace-nowrap"
+          data-section-tag
+          // The canvas cursor turns into a hand over this, same as the legend.
+          data-cursor-drag={tag ? true : undefined}
+          onPointerDown={tag?.onPointerDown}
+          onPointerMove={tag?.onPointerMove}
+          onPointerUp={tag?.onPointerUp}
+          onPointerCancel={tag?.onPointerCancel}
+          className={cn(
+            "bg-muted text-foreground rounded-md px-2.5 py-1 font-mono text-[11px] whitespace-nowrap",
+            tag &&
+              "pointer-events-auto cursor-grab touch-none select-none active:cursor-grabbing"
+          )}
         >
           {pick(section.label, lang)}
         </span>
@@ -2137,7 +2467,7 @@ function SectionBlock({
           ))
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

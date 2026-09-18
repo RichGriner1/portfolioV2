@@ -350,8 +350,12 @@ export function CanvasCursor({
      *
      * `DRAG_THRESHOLD` is what separates a click from a pan, and it is the
      * honest test: past 24px the board has moved, whatever sat under the
-     * pointer. A click that never crosses it still navigates and still teaches
-     * nothing, which is the case the old exclusion was actually aiming at.
+     * pointer, unless the press started on a drag HANDLE (`[data-cursor-drag]`):
+     * the gesture legend, or a section's name tag. Those move an object, not
+     * the board, so `onDown` below rules them out before the distance check
+     * ever runs. A click that never crosses it still navigates and still
+     * teaches nothing, which is the case the old exclusion was actually aiming
+     * at.
      */
     const onBoard = (e: Event) => {
       const target = e.target as HTMLElement | null;
@@ -360,6 +364,13 @@ export function CanvasCursor({
 
     let from: { x: number; y: number } | null = null;
     const onDown = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null;
+      // A press on a drag handle moves that object, not the board, so it must
+      // not be read as the start of a pan below.
+      if (target?.closest("[data-cursor-drag]")) {
+        from = null;
+        return;
+      }
       from = onBoard(e) ? { x: e.clientX, y: e.clientY } : null;
     };
     const onMove = (e: PointerEvent) => {
@@ -598,10 +609,11 @@ export function CanvasCursor({
           </div>
         </div>
       ) : !inside ? null : grab ? (
-        /* Over the draggable legend: a hand, centred on the pointer the way an OS
-           grab cursor is, closing while pressed. No label. People hover the
-           legend to read it, and a "Drag" chip beside "Scroll, up and down"
-           read as a second instruction for moving the board. */
+        /* Over a drag handle, the gesture legend or a section's name tag: a
+           hand, centred on the pointer the way an OS grab cursor is, closing
+           while pressed. No label. People hover the legend to read it, and a
+           "Drag" chip beside "Scroll, up and down" read as a second
+           instruction for moving the board. */
         <div
           ref={arrow}
           className="absolute top-0 left-0 will-change-transform"

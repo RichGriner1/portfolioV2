@@ -15,6 +15,14 @@ import {
 } from "motion/react";
 
 import { STEPS as GESTURES } from "@/components/canvas/canvas-cursor";
+import {
+  guidesFor,
+  nudge,
+  SnapGuides,
+  snapTargets,
+  type Box,
+  type Guide,
+} from "@/components/canvas/snap-guides";
 import { EASE } from "@/components/motion/constants";
 import { pick, t, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -59,108 +67,11 @@ const COLLAPSED_KEY = "canvas-help-collapsed-v1";
 /** How long the "controls are here" hint stays up after the legend closes. */
 const HINT_MS = 4000;
 
-/** How close, in screen px, a panel line has to come to a target's to snap. */
-const SNAP = 6;
 /** Screen px the panel keeps clear of the viewport edge while it's dragged. */
 const EDGE = 8;
 
-type Box = { left: number; top: number; right: number; bottom: number };
-type Guide = { axis: "x" | "y"; at: number; from: number; to: number };
-
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(Math.max(v, lo), hi);
-
-type Line = { at: number; kind: "start" | "centre" | "end" };
-
-/** A box's lines on one axis: left, centre, right (or top, middle, bottom). */
-const linesOf = (b: Box, axis: Guide["axis"]): Line[] => {
-  const [start, end] = axis === "x" ? [b.left, b.right] : [b.top, b.bottom];
-  return [
-    { at: start, kind: "start" },
-    { at: (start + end) / 2, kind: "centre" },
-    { at: end, kind: "end" },
-  ];
-};
-
-/**
- * Which lines may align. A centre only meets a centre; an edge meets any
- * edge, which covers flush edges and objects set side by side.
- */
-const pairs = (a: Line, b: Line) =>
-  (a.kind === "centre") === (b.kind === "centre");
-
-/**
- * The pixel a 1px guide fills to sit ON a line: an edge's outermost pixel,
- * inside the box, so the guide lands on the border rather than beside it, and
- * a centre's middle pixel.
- */
-const pixelOf = (l: Line) =>
-  l.kind === "end"
-    ? Math.round(l.at) - 1
-    : l.kind === "centre"
-      ? Math.round(l.at - 0.5)
-      : Math.round(l.at);
-
-/** Everything on the board the panel can line up with, as it sits on screen. */
-const snapTargets = (): Box[] =>
-  [...document.querySelectorAll("[data-snap]")]
-    .map((el) => el.getBoundingClientRect())
-    .filter(
-      (r) =>
-        r.width > 0 &&
-        r.right > 0 &&
-        r.bottom > 0 &&
-        r.left < window.innerWidth &&
-        r.top < window.innerHeight
-    );
-
-/** The smallest shift, within SNAP, that lands one of the box's lines on a target's. */
-function nudge(box: Box, targets: Box[], axis: Guide["axis"]) {
-  let best = Infinity;
-  for (const t of targets)
-    for (const p of linesOf(box, axis))
-      for (const q of linesOf(t, axis))
-        if (pairs(p, q) && Math.abs(q.at - p.at) < Math.abs(best))
-          best = q.at - p.at;
-  return Math.abs(best) <= SNAP ? best : 0;
-}
-
-/**
- * One guide per line the box shares with a target, spanning both objects, as
- * a design tool draws them. Targets on the same line merge into one segment.
- */
-function guidesFor(box: Box, targets: Box[]) {
-  const found = new Map<string, Guide>();
-  for (const axis of ["x", "y"] as const)
-    for (const t of targets)
-      for (const p of linesOf(box, axis))
-        for (const q of linesOf(t, axis)) {
-          if (!pairs(p, q) || Math.abs(q.at - p.at) > 0.5) continue;
-          // On the target's pixel: it's the object that stays put.
-          const at = pixelOf(q);
-          const from = Math.round(
-            axis === "x" ? Math.min(box.top, t.top) : Math.min(box.left, t.left)
-          );
-          const to = Math.round(
-            axis === "x"
-              ? Math.max(box.bottom, t.bottom)
-              : Math.max(box.right, t.right)
-          );
-          const key = `${axis}${at}`;
-          const seen = found.get(key);
-          found.set(
-            key,
-            seen
-              ? {
-                  ...seen,
-                  from: Math.min(seen.from, from),
-                  to: Math.max(seen.to, to),
-                }
-              : { axis, at, from, to }
-          );
-        }
-  return [...found.values()];
-}
 
 export function CanvasHelp({ show }: { show: boolean }) {
   const { lang } = useLang();
@@ -526,28 +437,8 @@ export function CanvasHelp({ show }: { show: boolean }) {
           </button>
         )}
       </div>
-      {/* The guides. After the panel in the DOM, on the same layer, so they
-          draw over it the way a design tool draws them over the object being
-          moved. A guide spans every object on its line, including ones partly
-          off-screen, so the layer clips to the viewport. */}
-      {guides.length > 0 && (
-        <div
-          aria-hidden
-          className="pointer-events-none fixed inset-0 z-30 overflow-hidden"
-        >
-          {guides.map((g) => (
-            <span
-              key={`${g.axis}${g.at}`}
-              className="bg-canvas-guide absolute"
-              style={
-                g.axis === "x"
-                  ? { left: g.at, top: g.from, width: 1, height: g.to - g.from }
-                  : { top: g.at, left: g.from, height: 1, width: g.to - g.from }
-              }
-            />
-          ))}
-        </div>
-      )}
+      {/* Shared with the section drag on the board; see snap-guides.tsx. */}
+      <SnapGuides guides={guides} />
     </>
   );
 }

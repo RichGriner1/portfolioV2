@@ -12,7 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # portfolioV2 — agent brief
 
-Open-source portfolio for Richard Griner (Design System Designer, AI + Fin-tech). Two parallel workflows live in this repo: a **dev loop** for shipping code and a **content loop** for shipping writing. Both are agent-driven.
+Open-source portfolio for Richard Griner (Design System Designer, AI + Fin-tech). Two parallel workflows live in this repo: a **dev loop** for shipping code and a **content loop** for shipping writing. The content loop is agent-driven; the dev loop runs in the main session, with an agent reviewer for real features.
 
 ## Stack
 
@@ -31,17 +31,22 @@ The token system lives in [src/app/globals.css](src/app/globals.css) in three la
 - **Never hard-code radii / shadows / motion.** Use `rounded-md`, `shadow-md`, `duration-base`, `ease-out-soft`, etc. — all defined in `globals.css`.
 - **If a value doesn't exist in the token system, pause.** Don't invent one inline — either extend the token system (and document it) or ask.
 
-The `code-reviewer` agent blocks PRs that violate these rules.
+These hold on every change, reviewed or not. The `code-reviewer` agent blocks on them when it runs, but not every change goes through it.
 
 ## Dev workflow (code changes)
 
-Three subagents hand off automatically when you ask the orchestrator (main Claude session) for a code change:
+The main session writes the code. It already holds the context: handing a change to a fresh agent means that agent re-reads everything before it writes a line. On 2026-09-18 that handoff took 35 minutes of the hour a medium canvas feature took, and added nothing the checks below didn't already cover.
 
-1. **`code-writer`** ([.claude/agents/code-writer.md](.claude/agents/code-writer.md)) — implements the change. Reads before writing. Small diffs. Respects token layering. Defers to shadcn components.
-2. **`test-runner`** ([.claude/agents/test-runner.md](.claude/agents/test-runner.md)) — runs `npm run lint` → `npm run build` → `npm test` (if present) → `npm run format:check`. Read-only. Reports `file:line` failures. **If the change touches layout, add `npm run check:responsive`** (see below) — lint and build cannot see a broken breakpoint.
-3. **`code-reviewer`** ([.claude/agents/code-reviewer.md](.claude/agents/code-reviewer.md)) — reviews the uncommitted diff for correctness, security, token/DS violations, Next.js 16 convention violations, and over-engineering. Read-only. Returns `ship | revise | rewrite`.
+Scale the process to the change:
 
-The orchestrator invokes them in order. If `test-runner` fails, it routes back to `code-writer` with the failure. If `code-reviewer` returns `revise` or `rewrite`, same. Do not skip steps.
+1. **Write it.** Read before writing, keep the diff small, respect the token layering, reuse shadcn components.
+2. **Check it** by running the commands yourself: `npm run lint` → `npm run build` → `npm test` (if present) → `npm run format:check`. **If the change touches layout, add `npm run check:responsive`** (see below): lint and build cannot see a broken breakpoint. Fix and re-run until clean.
+3. **See it.** Anything visible gets checked in the browser preview, at a phone width as well as desktop.
+4. **Review it** when it's a real feature, a multi-file change, or behaviour that's hard to see (state, input handling, security, data). Spawn **`code-reviewer`** ([.claude/agents/code-reviewer.md](.claude/agents/code-reviewer.md)) on the uncommitted diff. It returns `ship | revise | rewrite`; on anything but `ship`, fix and re-check. Skip it for copy edits, reorders and small fixes the checks fully cover.
+
+**`code-writer`** and **`test-runner`** stay for explicit handoffs, not as defaults: `/case-study` routes through them, a `/choreograph` brief can go to `code-writer`, and `test-runner` is useful when check output should stay out of the main thread.
+
+**Comments say why the code is the way it is now.** How it got there (old values, what was tried, what broke) goes in the commit message, where `git log` keeps it. A file that narrates its own history makes every later read slower.
 
 ### Ship gates — every UI change gets checked at every breakpoint
 
@@ -70,7 +75,7 @@ Six subagents + six slash commands across two stages. See [content/README.md](co
 
 ### Short-form (published → social)
 
-- **`/syndicate <published-file | journal-file | case-study-slug>`** → chains **`syndicator`** → **`voice-keeper`** → **`post-reviewer`**. Mirrors the dev loop (`code-writer → test-runner → code-reviewer`). Published post is the default source; a journal file (for tweet-sized insights with no blog planned — one seed per run, speech→writing conversion for harvested journals) and a case-study slug (post links to `/work/<slug>`) also work.
+- **`/syndicate <published-file | journal-file | case-study-slug>`** → chains **`syndicator`** → **`voice-keeper`** → **`post-reviewer`**. Published post is the default source; a journal file (for tweet-sized insights with no blog planned — one seed per run, speech→writing conversion for harvested journals) and a case-study slug (post links to `/work/<slug>`) also work.
   1. **`syndicator`** ([.claude/agents/syndicator.md](.claude/agents/syndicator.md)) — reads the published post + `content/voice.md`, asks 2–3 clarifier questions (one-takeaway for LI, Twitter hook, CTA shape), drafts both platforms to `content/social/<pillar>/<slug>.md`. **Never writes "DM me" or freelance pitches on LinkedIn** — Richard has a full-time job.
   2. **`voice-keeper`** ([.claude/agents/voice-keeper.md](.claude/agents/voice-keeper.md)) — read-only lint pass against `content/voice.md`. Banned phrases, AI-tells, construction patterns. Returns `pass | revise`.
   3. **`post-reviewer`** ([.claude/agents/post-reviewer.md](.claude/agents/post-reviewer.md)) — read-only review for hook quality, stance fit, CTA placement, platform conventions. Returns `ship | revise | rewrite`.
@@ -84,7 +89,7 @@ If `voice-keeper` or `post-reviewer` return non-`ship` verdicts, the orchestrato
 
 ### Case studies (`/case-study`)
 
-- **`/case-study <slug> [--new] [--source <file ...>]`** ([.claude/commands/case-study.md](.claude/commands/case-study.md)) — drafts or updates a bilingual case study in [src/lib/content/case-studies.tsx](src/lib/content/case-studies.tsx) (plus [work.ts](src/lib/content/work.ts) with `--new`). Chains the dev loop (**`code-writer` → `test-runner` → `code-reviewer`**) and then the copy gates (**`voice-keeper` → `content-critic`**) on the changed EN strings. Loads the portable `case-study` skill (structure, WHAT-SO-BENEFIT, quality bar) + `voice-griner`. New/edited ES strings get `// TODO(afi-redaccion)` for the follow-up Spanish pass. Preferred input: a harvested journal — `/harvest` the project retro, then `/case-study <slug> --source content/journal/<file>.md`. Ends at a reviewed diff; committing is manual.
+- **`/case-study <slug> [--new] [--source <file ...>]`** ([.claude/commands/case-study.md](.claude/commands/case-study.md)) — drafts or updates a bilingual case study in [src/lib/content/case-studies.tsx](src/lib/content/case-studies.tsx) (plus [work.ts](src/lib/content/work.ts) with `--new`). Chains **`code-writer` → `test-runner` → `code-reviewer`** (so the ~850-line content file stays out of the main thread) and then the copy gates (**`voice-keeper` → `content-critic`**) on the changed EN strings. Loads the portable `case-study` skill (structure, WHAT-SO-BENEFIT, quality bar) + `voice-griner`. New/edited ES strings get `// TODO(afi-redaccion)` for the follow-up Spanish pass. Preferred input: a harvested journal — `/harvest` the project retro, then `/case-study <slug> --source content/journal/<file>.md`. Ends at a reviewed diff; committing is manual.
 
 ## Directory layout
 

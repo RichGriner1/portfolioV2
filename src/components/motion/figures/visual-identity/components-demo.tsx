@@ -17,9 +17,12 @@ const COPY = {
   secondary: { en: "Secondary", es: "Secundaria" },
   ghost: { en: "Ghost", es: "Ghost" },
   label: { en: "Client", es: "Cliente" },
+  // This figure runs the site's own Button, not Afi's, so the caption says so
+  // and points at the workbench iframe, where the real ones are.
   caption: {
-    en: "Not a screenshot: these are the live components, running on the same tokens that style this article. Hover them.",
-    es: "No es una captura: son los componentes reales, funcionando con los mismos tokens que dan estilo a este artículo. Pasa el cursor por encima.",
+    en: "Hover them: these run on this site's own tokens. The Afi components themselves are in the workbench at the top of the page.",
+    // TODO(afi-redaccion)
+    es: "Pasa el cursor por encima: funcionan con los tokens de esta web. Los componentes de Afi están en el workbench, al principio de la página.",
   },
 } as const satisfies Record<string, Bilingual>;
 

@@ -118,8 +118,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
     },
     intro: {
-      en: "Afi is a financial consultancy that added a digital team during the dot-com boom and grew it as engineers: 40 programmers hired for math and CS, no dedicated designers until 2021, and no design system. Afi runs three brands; this is the system for Afi web, the internal and client-facing sites that carry the Afi brand. It's what someone reaches for to mock up a concept before committing time to real UI and internal solutions.",
-      es: "Afi es una consultora financiera que montó su equipo digital durante la burbuja de las .com y lo hizo crecer como equipo de ingeniería: 40 programadores contratados por su perfil de matemáticas e informática, sin diseñadores dedicados hasta 2021 y sin sistema de diseño. Afi tiene tres marcas; este es el sistema de Afi web, los sitios internos y de cliente que llevan la marca Afi. Es a lo que se recurre para maquetar un concepto antes de dedicar tiempo a la UI real y a las soluciones internas.",
+      en: "Afi is a financial consultancy that added a digital team during the dot-com boom and grew it as an engineering team. It hired 40 programmers for math and CS, had no dedicated designers until 2021, and had no design system. Afi runs three brands. This is the system for Afi web, the internal and client-facing sites that carry the Afi brand. It's what someone reaches for to mock up a concept before committing time to real UI and internal solutions.",
+      es: "Afi es una consultora financiera que montó su equipo digital durante la burbuja de las .com y lo hizo crecer como equipo de ingeniería. Contrató a 40 programadores por su perfil de matemáticas e informática, no tuvo diseñadores dedicados hasta 2021 y no tenía sistema de diseño. Afi tiene tres marcas. Este es el sistema de Afi web, los sitios internos y de cliente que llevan la marca Afi. Es a lo que se recurre para maquetar un concepto antes de dedicar tiempo a la UI real y a las soluciones internas.",
     },
     role: {
       en: "Design Systems Lead",
@@ -127,6 +127,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     },
     contributions: {
       en: [
+        "UI design",
         "Design systems",
         "Token architecture",
         "Component library",
@@ -134,6 +135,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "White-label strategy",
       ],
       es: [
+        "Diseño de interfaz",
         "Sistemas de diseño",
         "Arquitectura de tokens",
         "Librería de componentes",
@@ -452,6 +454,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     },
     contributions: {
       en: [
+        "UX/UI design",
         "Design research",
         "Design principles",
         "Token system",
@@ -461,6 +464,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       ],
       // TODO(afi-redaccion)
       es: [
+        "Diseño UX/UI",
         "Investigación de diseño",
         "Principios de diseño",
         "Sistema de tokens",
@@ -778,8 +782,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Un entorno de IA construido para un equipo que no tiene un departamento de diseño completo",
     },
     intro: {
-      en: "KT360 is an early-stage AI startup. The brand had to look nothing like AI — playful, human, deliberately distinct. The harder problem: no designer on the team. We encoded the brand into the environment. Rules, component specs, and motion patterns live as files an AI can read, check, and enforce. Marketing writes a blog post, a developer ships a page — both come out looking like the same hand because the rules do the work.",
-      es: "KT360 es una startup de IA en fase inicial. La marca no podía parecer de IA: lúdica, humana, deliberadamente distinta. El problema de verdad: no había diseñador en el equipo. Codificamos la marca dentro del entorno. Las reglas, las especificaciones de componentes y los patrones de movimiento viven como archivos que una IA puede leer, comprobar y hacer cumplir. Marketing escribe un artículo y un desarrollador publica una página, y los dos salen de la misma mano porque las reglas hacen el trabajo.",
+      en: "KT360 is an early-stage AI startup. The brand had to look nothing like AI, so it's playful, human, and deliberately distinct. The harder problem was that there was no designer on the team. We encoded the brand into the environment. Rules, component specs, and motion patterns live as files an AI can read, check, and enforce. When marketing writes a blog post and a developer ships a page, both come out looking like the same hand because the rules do the work.",
+      es: "KT360 es una startup de IA en fase inicial. La marca no podía parecer de IA, así que es lúdica, humana y deliberadamente distinta. El problema de verdad era que no había diseñador en el equipo. Codificamos la marca dentro del entorno. Las reglas, las especificaciones de componentes y los patrones de movimiento viven como archivos que una IA puede leer, comprobar y hacer cumplir. Marketing escribe un artículo y un desarrollador publica una página, y los dos salen de la misma mano porque las reglas hacen el trabajo.",
     },
     role: {
       en: "Freelance Designer & AI Builder",
@@ -787,6 +791,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     },
     contributions: {
       en: [
+        "UX/UI design",
         "Brand strategy",
         "Visual identity",
         "Design systems",
@@ -794,6 +799,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Prototype infrastructure",
       ],
       es: [
+        "Diseño UX/UI",
         "Estrategia de marca",
         "Identidad visual",
         "Sistemas de diseño",
@@ -910,15 +916,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Una base B2C fiel y ningún sitio donde crecer",
     },
     intro: {
-      en: "A B2C product with a loyal base and a structural ceiling: students graduate, so the users you win you lose on a schedule. The question was never how to make Scholar better. It was who else reads research for a living, and whether they'd pay.",
-      es: "Un producto B2C con una base fiel y un techo estructural: los estudiantes se gradúan, así que a los usuarios que ganas los pierdes con fecha fija. La pregunta nunca fue cómo mejorar Scholar, sino quién más lee investigación para ganarse la vida y si pagaría por ello.",
+      en: "Heading into the next funding round, investors wanted to know how Scholar would scale. The problem was the customer lifecycle. Its loyal users were undergraduate and graduate students, so every user it won came with a leaving date. Growth had to come from someone else who reads research for a living, and who'd pay for it.",
+      es: "De cara a la siguiente ronda de financiación, los inversores querían saber cómo iba a escalar Scholar. El problema era el ciclo de vida del cliente. Sus usuarios fieles eran estudiantes de grado y posgrado, así que cada usuario que ganaba llegaba con fecha de salida. El crecimiento tenía que venir de otra gente que lee investigación como parte de su trabajo y que estuviera dispuesta a pagar por ello.",
     },
     role: {
-      en: "Senior Digital Product Manager",
-      es: "Senior Digital Product Manager",
+      en: "Senior Product Designer & Product Manager",
+      es: "Diseñador de producto sénior y Product Manager",
     },
     contributions: {
       en: [
+        "Product design",
         "Product strategy",
         "Discovery research",
         "Journey mapping",
@@ -926,6 +933,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Roadmap prioritization",
       ],
       es: [
+        "Diseño de producto",
         "Estrategia de producto",
         "Investigación exploratoria",
         "Mapa de experiencia",
@@ -940,17 +948,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           en: "$8,000 a month since 2022, and a user base with an expiry date.",
           es: "8.000 $ al mes desde 2022 y una base de usuarios con fecha de caducidad.",
         },
-        // The Context slide's own photo. It stays on the Context card rather than
-        // moving to the intro, which has no image slot — the deck pairs this text
-        // with this picture and the pairing is the point.
-        // No media. This card is the product explained in three sentences and it
-        // opens the study, so the first image anyone sees is the paper view on
-        // the card below rather than a photo of a room.
-        //
-        // The workshop shot that used to sit here came off on 2026-08-26. It's
-        // also the one asset on either Audemic page that no re-export reaches:
-        // every other file is at least 2x its rendered size and sharp, and that
-        // one is soft in the original — handheld, low light.
+        // No media, so the first image in the study is the product itself: the
+        // paper view on the next card.
         span: "wide",
         details: {
           heading: {
@@ -960,14 +959,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Audemic Scholar is a web app that allows university students to listen to the full text research paper and reports. Since 2022, Scholar has established a loyal user base in the B2C market, generating $8,000 per month in revenue.",
-                es: "Audemic Scholar es una aplicación web que permite a los estudiantes universitarios escuchar artículos de investigación e informes completos. Desde 2022, Scholar había consolidado una base de usuarios fiel en el mercado B2C, con unos ingresos de 8.000 $ al mes.",
+                en: "Audemic Scholar is a web app that lets university students listen to full-text research papers and reports. Since 2022 it had built a loyal B2C user base and was making $8,000 a month.",
+                es: "Audemic Scholar es una aplicación web que permite a los estudiantes universitarios escuchar artículos de investigación e informes completos. Desde 2022 había consolidado una base de usuarios B2C fiel y facturaba 8.000 $ al mes.",
               },
             },
             {
               body: {
-                en: "But investors raised concerns about the product's scalability due to the lifecycle of undergraduate and post graduate students.",
-                es: "Pero los inversores plantearon dudas sobre la escalabilidad del producto por el ciclo de vida de los estudiantes de grado y posgrado.",
+                en: "Investors doubted it could scale, because undergraduate and graduate students only stay users until they graduate.",
+                es: "Los inversores dudaban de que pudiera escalar, porque los estudiantes de grado y posgrado solo son usuarios hasta que se gradúan.",
               },
             },
           ],
@@ -1002,20 +1001,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "The user need was tools that cut the workload of finding and organizing information. The business need was new markets from the insights we already had, and a clear ideal customer profile. Early hypotheses pointed at the social sciences, because 60% of Scholar users came from that field.",
-                es: "La necesidad de usuario eran herramientas que redujeran el trabajo de encontrar y organizar información. La de negocio, nuevos mercados a partir de las conclusiones que ya teníamos y un perfil de cliente ideal claro. Las primeras hipótesis apuntaban a las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
+                en: "The user need was tools that cut the workload of finding and organizing information. The business need was a new market, found from what we already knew about our users, and a clear ideal customer profile. Early hypotheses pointed at the social sciences, because 60% of Scholar users came from that field.",
+                es: "La necesidad de usuario eran herramientas que redujeran el trabajo de encontrar y organizar información. La de negocio era un mercado nuevo, a partir de lo que ya sabíamos de nuestros usuarios, y un perfil de cliente ideal claro. Las primeras hipótesis apuntaban a las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
               },
             },
             {
               body: {
-                en: "Both roll up into one product vision: streamline access to critical information for professionals in fast-paced industries, so they can spend their time on the work that has impact.",
-                es: "Ambas se resumen en una visión de producto: simplificar el acceso a la información crítica para profesionales de sectores de ritmo rápido, para que dediquen su tiempo al trabajo que tiene impacto.",
+                en: "Both roll up into one product vision. Give professionals in fast-paced industries quicker access to critical information, so they spend their time on the work that has impact.",
+                es: "Ambas se resumen en una visión de producto. Dar a los profesionales de sectores de ritmo rápido un acceso más ágil a la información crítica, para que dediquen su tiempo al trabajo que tiene impacto.",
               },
             },
             {
               body: {
-                en: "Three changes came out of it. Summaries iterated against OpenAI and Claude models with survey and interview feedback between rounds. A redesigned audio page that puts the summary on the full-text paper, so a researcher understands new work without reading all of it. And in-app feedback that collects insight passively instead of stopping someone mid-task to ask.",
-                es: "De ahí salieron tres cambios. Resúmenes iterados sobre modelos de OpenAI y Claude, con feedback de encuestas y entrevistas entre rondas. Una página de audio rediseñada que pone el resumen sobre el paper completo, para entender un trabajo nuevo sin leerlo entero. Y feedback dentro de la app que recoge información de forma pasiva en vez de parar a alguien a media tarea para preguntarle.",
+                en: "Three changes came out of it. First, AI summaries, iterated across OpenAI and Claude models with survey and interview feedback between rounds. Second, a redesigned paper view that puts the summary on top of the full text, so a researcher can understand new work without reading all of it. Third, in-app feedback that collects insight quietly instead of stopping someone mid-task to ask.",
+                es: "De ahí salieron tres cambios. Primero, resúmenes con IA, iterados sobre modelos de OpenAI y Claude, con feedback de encuestas y entrevistas entre rondas. Segundo, una vista de paper rediseñada que pone el resumen encima del texto completo, para que un investigador entienda un trabajo nuevo sin leerlo entero. Tercero, feedback dentro de la app que recoge información sin hacer ruido, en vez de parar a alguien a media tarea para preguntarle.",
               },
             },
           ],
@@ -1040,14 +1039,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "By interviewing UN analysts and vaccine researchers, we discovered researchers lose 20 hours a month searching for information, costing organizations like NIH nearly $10 million monthly in lost productivity.",
-                es: "Entrevistando a analistas de la ONU e investigadores de vacunas descubrimos que los investigadores pierden 20 horas al mes buscando información, lo que cuesta a organizaciones como el NIH cerca de 10 millones de dólares mensuales en productividad perdida.",
+                en: "We interviewed UN analysts and vaccine researchers. Each of them loses about 20 hours a month just searching for information. At the scale of an organization like NIH, that's close to $10 million a month in lost productivity.",
+                es: "Entrevistamos a analistas de la ONU y a investigadores de vacunas. Cada uno pierde unas 20 horas al mes solo buscando información. En una organización del tamaño del NIH, eso son cerca de 10 millones de dólares al mes en productividad perdida.",
               },
             },
             {
               body: {
-                en: "Every interview was cut into four columns: the job as it stands, pains, current solutions, and the motivation underneath. The pattern only shows up when you can read one column straight down.",
-                es: "Cada entrevista se repartió en cuatro columnas: el trabajo tal y como es, los problemas, las soluciones actuales y la motivación de fondo. El patrón solo aparece cuando puedes leer una columna de arriba abajo.",
+                en: "We sorted every interview into four columns covering the job as it stands, the pains, the current workarounds, and the motivation underneath. The pattern only shows up when you read one column straight down.",
+                es: "Repartimos cada entrevista en cuatro columnas, con el trabajo tal y como es, los problemas, las soluciones que usan hoy y la motivación de fondo. El patrón solo aparece cuando lees una columna de arriba abajo.",
               },
             },
           ],
@@ -1059,8 +1058,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "02 — Cocreación y testing",
         },
         sublabel: {
-          en: "Mapped the as-is journey, then launched a beta against it.",
-          es: "Mapeamos el recorrido tal cual y lanzamos una beta a partir de él.",
+          en: "Mapped how researchers work today, then launched a beta against it.",
+          es: "Mapeamos cómo trabajan hoy los investigadores y lanzamos una beta a partir de ahí.",
         },
         image: "/work/audemic-business-growth/process-02-journey-map.webp",
         details: {
@@ -1071,14 +1070,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "After mapping the as-is customer journey, we launched a Beta 24/7 junior analyst solution to help researchers stay informed. Within a week, we captured 20 quality leads through paid ads.",
-                es: "Después de mapear el recorrido de cliente tal y como era, lanzamos una beta de analista junior 24/7 para ayudar a los investigadores a estar al día. En una semana captamos 20 leads de calidad con publicidad de pago.",
+                en: "Once we'd mapped how researchers work today, we launched a beta of a 24/7 junior analyst that keeps them up to date. Paid ads brought in 20 quality leads in the first week.",
+                es: "Con el recorrido actual mapeado, lanzamos una beta de un analista junior 24/7 que mantiene a los investigadores al día. La publicidad de pago trajo 20 leads de calidad en la primera semana.",
               },
             },
             {
               body: {
-                en: "Stage one is where the time goes. Scanning dozens of reports from 70+ analysts, reading external publications alongside their own research, skimming summaries selectively — across company databases, analyst reports, subscriptions like WSJ and Foreign Policy, and Ground News for bias checking.",
-                es: "La primera etapa es donde se va el tiempo. Revisar decenas de informes de más de 70 analistas, leer publicaciones externas junto a su propia investigación, repasar resúmenes de forma selectiva: entre bases de datos internas, informes de analistas, suscripciones como WSJ y Foreign Policy, y Ground News para contrastar sesgos.",
+                en: "The first stage of the journey is where the time goes. Researchers scan dozens of reports from more than 70 analysts, read outside publications alongside their own research, and skim summaries to decide what's worth reading. That work is spread across company databases, analyst reports, subscriptions like WSJ and Foreign Policy, and Ground News for bias checks.",
+                es: "La primera etapa del recorrido es donde se va el tiempo. Los investigadores revisan decenas de informes de más de 70 analistas, leen publicaciones externas junto a su propia investigación y repasan resúmenes para decidir qué merece la pena leer. Todo eso ocurre entre bases de datos internas, informes de analistas, suscripciones como WSJ y Foreign Policy, y Ground News para contrastar sesgos.",
               },
             },
           ],
@@ -1102,8 +1101,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "We learned from users that summaries lacked critical context, such as societal impact and effects on studied groups, limiting deeper understanding. Users struggled to move beyond a superficial understanding.",
-                es: "Los usuarios nos hicieron ver que a los resúmenes les faltaba contexto crítico, como el impacto social y los efectos sobre los grupos estudiados, lo que limitaba una comprensión más profunda. Les costaba pasar de una comprensión superficial.",
+                en: "Beta users told us the summaries left out critical context, like the societal impact of a study and its effects on the groups studied. Without it, they got the gist and couldn't go any deeper.",
+                es: "Los usuarios beta nos dijeron que los resúmenes dejaban fuera contexto crítico, como el impacto social de un estudio y sus efectos sobre los grupos estudiados. Sin eso, captaban la idea general y no podían ir más allá.",
               },
             },
           ],
@@ -1127,14 +1126,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "We aligned beta-user feedback with our roadmap, prioritizing pain points to position the product for B2B clients. Equation for prioritization: Reach × Impact × Confidence ÷ Effort.",
-                es: "Alineamos el feedback de los usuarios beta con nuestra hoja de ruta, priorizando los puntos de dolor para posicionar el producto ante clientes B2B. Ecuación de priorización: Alcance × Impacto × Confianza ÷ Esfuerzo.",
+                en: "We ranked the beta users' pain points against the roadmap to get the product ready for B2B clients. Each one got a score of Reach × Impact × Confidence ÷ Effort.",
+                es: "Ordenamos los problemas de los usuarios beta frente a la hoja de ruta para preparar el producto para clientes B2B. Cada uno recibió una puntuación de Alcance × Impacto × Confianza ÷ Esfuerzo.",
               },
             },
             {
               body: {
-                en: "Mark-read-on-papers scored 11160, renaming boards and files 7440, drag-and-drop upload 5115, the note-taking MVP 4133. Writing the arithmetic on the sticky note is the point: an argument about whether renaming matters more than uploading goes nowhere, an argument about whether its reach is really 620 goes somewhere.",
-                es: "Marcar como leído en la pestaña de papers puntuó 11.160, renombrar tableros y archivos 7.440, la subida por arrastre 5.115 y el MVP de notas 4.133. Escribir la aritmética en el post-it es justo el objetivo: discutir si renombrar importa más que subir archivos no lleva a ninguna parte; discutir si su alcance es de verdad 620, sí.",
+                en: "Marking papers as read scored 11,160, renaming boards and files 7,440, drag-and-drop upload 5,115, and the note-taking MVP 4,133. Writing the arithmetic on the sticky note is the point. Discussing whether renaming matters more than uploading goes nowhere. Discussing whether renaming really reaches all 620 students goes somewhere.",
+                es: "Marcar como leído en la pestaña de papers puntuó 11.160, renombrar tableros y archivos 7.440, la subida por arrastre 5.115 y el MVP de notas 4.133. Escribir la aritmética en el post-it es justo el objetivo. Hablar de si renombrar importa más que subir archivos no lleva a ninguna parte. Hablar de si renombrar llega de verdad a los 620 estudiantes, sí.",
               },
             },
           ],
@@ -1148,12 +1147,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Enseñar el valor antes de pedir nada",
     },
     intro: {
-      en: "Audemic Insights is a mobile app: a 24/7 junior analyst for the intellectually curious that finds and extracts key insights from research papers and reports, and turns them into audio summaries personalized to your goals. Retention was the problem. Users came for a seamless AI experience, met a form, and left before the app had shown them anything.",
-      es: "Audemic Insights es una app móvil: un analista junior 24/7 para gente intelectualmente curiosa que encuentra y extrae las ideas clave de artículos de investigación e informes, y las convierte en resúmenes de audio personalizados según tus objetivos. El problema era la retención. Los usuarios venían por una experiencia de IA fluida, se encontraban un formulario y se iban antes de que la app les hubiera enseñado nada.",
+      en: "Audemic Insights is a mobile app that works like a 24/7 junior analyst for the intellectually curious. It finds and extracts key insights from research papers and reports, and turns them into audio summaries personalized to your goals. Retention was the problem. Users came for a seamless AI experience, met a form, and left before the app had shown them anything.",
+      es: "Audemic Insights es una app móvil que funciona como un analista junior 24/7 para gente intelectualmente curiosa. Encuentra y extrae las ideas clave de artículos de investigación e informes, y las convierte en resúmenes de audio personalizados según tus objetivos. El problema era la retención. Los usuarios venían por una experiencia de IA fluida, se encontraban un formulario y se iban antes de que la app les hubiera enseñado nada.",
     },
     role: {
-      en: "Senior Digital Product Manager",
-      es: "Senior Digital Product Manager",
+      en: "Senior Product Designer & Product Manager",
+      es: "Diseñador de producto sénior y Product Manager",
     },
     contributions: {
       en: [
@@ -1314,18 +1313,18 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Una app de meditación con IA que se adapta al camino de cada persona",
     },
     intro: {
-      en: "Chinwuba had built a site where users could generate affirmations from their goals, delivered as audio guides with tips. Users liked it but wanted to edit, save, and build their own library. The problem with most mindfulness apps: generic categories, generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user, so the next session knows what the last one taught.",
-      es: "Chinwuba había construido una web donde los usuarios generaban afirmaciones a partir de sus objetivos: guías de audio con consejos. Les gustaba, pero querían editar, guardar y construir su propia biblioteca. El problema de la mayoría de apps de mindfulness: categorías genéricas, meditaciones genéricas, nada hecho a la medida de quien la usa. Mindfulme usa IA para crear meditaciones y afirmaciones que evolucionan con cada usuario, de modo que cada sesión sabe lo que enseñó la anterior.",
+      en: "Chinwuba had built a site where users could generate affirmations from their goals, delivered as audio guides with tips. Users liked it but wanted to edit, save, and build their own library. Most mindfulness apps offer generic categories and generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user, so the next session knows what the last one taught.",
+      es: "Chinwuba había construido una web donde los usuarios generaban afirmaciones a partir de sus objetivos, en forma de guías de audio con consejos. Les gustaba, pero querían editar, guardar y construir su propia biblioteca. La mayoría de apps de mindfulness ofrecen categorías genéricas y meditaciones genéricas, nada hecho a la medida de quien las usa. Mindfulme usa IA para crear meditaciones y afirmaciones que evolucionan con cada usuario, de modo que cada sesión sabe lo que enseñó la anterior.",
     },
     role: {
       en: "Freelance Designer & Product Lead",
       es: "Diseñador freelance y responsable de producto",
     },
     contributions: {
-      en: ["Brand identity", "Product design", "User research", "MVP delivery"],
+      en: ["Product design", "Brand identity", "User research", "MVP delivery"],
       es: [
-        "Identidad de marca",
         "Diseño de producto",
+        "Identidad de marca",
         "Investigación con usuarios",
         "Entrega del MVP",
       ],

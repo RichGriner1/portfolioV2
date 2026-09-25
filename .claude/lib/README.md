@@ -36,7 +36,7 @@ Per-entry symlinks, additive (won't touch other user-scope items), idempotent, n
 **Loops (commands)**
 - `/ds-cleanup [paths|--diff] [--fix] [--verify] [--deep] [--framework …]` — **audit by default** (report only). `--fix` = one bounded fix pass (no build, no loop); `--verify` builds once; `--deep` allows up to 2 fix→verify rounds. Bounded by default to control cost. Uses `ds-reviewer` + the repo's own fixer/verifier. Scope to one component.
 - `/content-review <file> [--fix]` — critical read against `writing-substance` + the language lens (EN → `voice-griner`, ES → `afi-redaccion`). Uses `content-critic`.
-- `/ship [files | message hint] [--done | --new <branch>] [--dry-run]`: commits the task's files, runs the project's `check:*` ship gates, merges into the default branch the way the repo already merges, pushes, and deletes the work branch. Then it either stops for the day (clean default branch, session servers stopped, today's commits listed) or opens the next branch from what was just pushed. It asks which one if you didn't say.
+- `/ship [files | message hint] [--done | --new <branch>] [--dry-run]`: commits the task's files, runs the project's `check:*` ship gates, merges into the default branch the way the repo already merges, pushes, and deletes the work branch. It then explains what was built, the decisions made and why, and the concepts worth learning. Then it either stops for the day (clean default branch, session servers stopped, today's commits listed) or opens the next branch from what was just pushed. It asks which one if you didn't say.
 
 **Agents**
 - `ds-reviewer` — read-only DS inspector.

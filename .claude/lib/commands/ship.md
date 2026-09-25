@@ -9,7 +9,7 @@ Ship = get the current task's work onto the default branch, pushed, with local i
 
 The one exception is the project's own **ship gates** (step 2): cheap, mechanical checks the project declares for itself. Those run here, every time, because the whole reason they exist is that someone keeps forgetting them.
 
-Every ship ends at a fork (step 8): stop for the day with nothing left open, or start the next branch from the base that was just pushed.
+After the report, it explains what was built and why the decisions went the way they did (step 7b), so the work can be explained and learned from. Every ship ends at a fork (step 8): stop for the day with nothing left open, or start the next branch from the base that was just pushed.
 
 ## Parse arguments
 - **(none)** → ship the current task's changes with an auto-written commit message, then ask what's next.
@@ -59,6 +59,19 @@ Delete the merged work branch locally (`git branch -d`); if it exists on a remot
 
 ### 7. Report
 One short block: which ship gates ran and passed (or were skipped, and why), commit hash + subject, branch flow (e.g. `feature → main → origin`), what was skipped because it was already done, unrelated dirty files left alone, and any stale branches worth a look. If every step was a no-op, the report is one line: already shipped. Step 8 runs either way.
+
+### 7b. Explain what we built
+Richard uses this to explain the work to others and to keep learning how software gets made. Write it for a designer who codes, not for an engineer: plain words, and define each technical term the first time it appears.
+
+Base it on this session's conversation and the diff you just shipped. Only give reasons that were actually discussed or are clear from the code. If you don't know why something is the way it is (it came from a template, or an earlier session), say that instead of making up a reason.
+
+Use four short sections:
+- **What we built.** Two or three sentences on what changed and what it does for the person using it.
+- **Decisions and why.** Each real choice made in this session: what we picked, what the other option was, and why this one won. Skip choices nobody weighed.
+- **Concepts worth knowing.** One to four ideas this work used that are worth learning (a pattern, an API, a browser behaviour, a git move). One or two sentences each, tied to where it shows up in this change.
+- **Say it in one line.** How Richard could describe this work to a colleague or in a portfolio note.
+
+Scale it to the ship. A copy edit or small fix gets a sentence or two with no sections. A feature gets all four. Skip this step on `--dry-run` and when nothing new shipped.
 
 ### 8. What next: stop for the day, or open a new branch
 If `--done` or `--new` already answered this, act on it. Otherwise ask one question after the report, with two options: **Stop for the day** and **Open a new branch**. An answer that names a branch or describes a task counts as a new branch for that work.

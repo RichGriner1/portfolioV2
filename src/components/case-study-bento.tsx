@@ -832,8 +832,10 @@ export function PaletteAnimation({
   const bank = banks[activeIdx % banks.length];
 
   return (
+    // Fills its container in both directions and carries no radius: the tint is the
+    // frame's surface, and the frame's own border and rounded clip are its edge.
     <motion.div
-      className="flex w-full flex-1 flex-col justify-center gap-1.5 rounded-xl px-3 py-3"
+      className="flex w-full flex-1 flex-col justify-center gap-1.5 self-stretch px-3 py-3"
       animate={{ backgroundColor: bank.color + "20" }}
       transition={{ duration: 0.5, ease: EASE }}
     >

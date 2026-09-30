@@ -18,7 +18,7 @@ My boss handed me a vague task. *"Build a visual identity for our demos. Somethi
 
 Instead of jumping straight into design, I wanted to answer a different question first: what does modern UI actually mean in 2026?
 
-Because designs without a definition end up preference-based instead of evidence-based. Everyone likes something different, and when the team finally agrees, a team lead vetoes it. Not because of an insight — because they don't like it. The decisions ride on individual taste instead of shared principles.
+Because designs without a definition end up preference-based instead of evidence-based. Everyone likes something different, and when the team finally agrees, a team lead vetoes it. Not because of an insight, but because they don't like it. The decisions ride on individual taste instead of shared principles.
 
 So the first thing I did was desk research.
 
@@ -26,7 +26,7 @@ So the first thing I did was desk research.
 
 Measures how widely design language is shared across a team, not how skilled the designers are.
 
-Colors and fonts matter, but vocabulary the whole team can use is what keeps momentum after launch. [The research](https://dsruptr.com/2026/01/19/the-ultimate-design-maturity-guide-for-tech-leaders/) puts a scale under it — five stages:
+Colors and fonts matter, but vocabulary the whole team can use is what keeps momentum after launch. [The research](https://dsruptr.com/2026/01/19/the-ultimate-design-maturity-guide-for-tech-leaders/) puts a five-stage scale under it.
 
 - **Chaos** (my own name for it). Design happens screen by screen; every decision is personal, and there's no collaboration until after high fidelity is made.
 - **Managed.** Reusable pieces exist, but the rules live in designers' heads. There is no shared design language.
@@ -52,7 +52,7 @@ static-vs-intent
 
 [Google PAIR](https://pair.withgoogle.com/guidebook/) distinguishes explicit intent (what the user names) from implicit intent (what the system infers from behavior). Both feed the decision about what gets shown first. For a product with no conversational layer, this doesn't mean bolting on a chat. It means designing forms and screens so the system infers intent before the user has to state it.
 
-So we don't need to rearrange the whole dashboard. We can use set patterns with fixed slots — page actions, section actions, filter rows, modal previews — and change which module occupies the lead slot. The structure stays; the emphasis changes.
+So we don't need to rearrange the whole dashboard. We can use set patterns with fixed slots (page actions, section actions, filter rows, modal previews) and change which module occupies the lead slot. The structure stays; the emphasis changes.
 
 ```figure
 tree-vs-intent
@@ -64,7 +64,7 @@ For a decade engineers chased instant response on every interaction. Designers i
 
 [Emil Kowalski](https://emilkowal.ski/) compared two identical buttons for a high-impact action: one confirms the millisecond it's clicked, the other inserts a short processing animation before the same confirmation. Users overwhelmingly trusted the delayed version.
 
-It's called perceived reliability. For a high-stakes action — authorizing a payment, moving funds, rebalancing a portfolio — the brain doesn't believe a system that responded too fast had time to do the work. Optimistic UI, where you show success instantly and do the work in the background, damages trust in this context.
+It's called perceived reliability. For a high-stakes action like authorizing a payment, moving funds or rebalancing a portfolio, the brain doesn't believe a system that responded too fast had time to do the work. Optimistic UI, where you show success instantly and do the work in the background, damages trust in this context.
 
 ```figure
 pause-confidence
@@ -80,7 +80,7 @@ The window is narrow: 150–250 milliseconds. Long enough to register that somet
 - **Friction where it earns it.** The 150–250ms beat from Learning 3.
 - **Biometrics** like Face ID, fingerprint and voice aren't only security any more, they're an emotional cue. *We know it's you, your environment is secure, let's continue.*
 
-[Don Norman's three levels](https://www.nngroup.com/books/emotional-design/) frame the rest: **visceral** (the first-impression reaction), **behavioral** (pleasure and effectiveness during use), **reflective** (how it sits with the user afterwards). An interface that only wins the visceral level doesn't last. In a product people open daily, the reflective level is where the relationship lives — by day 30, the user stops re-checking the numbers because the product has been right for a month.
+[Don Norman's three levels](https://www.nngroup.com/books/emotional-design/) frame the rest: **visceral** (the first-impression reaction), **behavioral** (pleasure and effectiveness during use), **reflective** (how it sits with the user afterwards). An interface that only wins the visceral level doesn't last. In a product people open daily, the reflective level is where the relationship lives. By day 30, the user stops re-checking the numbers because the product has been right for a month.
 
 ## Learning 5: Stylish but minimalist
 
@@ -112,7 +112,7 @@ token-cascade
 
 So that when the redesign gets reviewed, the conversation is about research instead of preference.
 
-1. **A shared design language.** Decisions get made with vocabulary the whole team shares — tokens, patterns, intent — not personal taste.
+1. **A shared design language.** Decisions get made with vocabulary the whole team shares (tokens, patterns, intent), not personal taste.
 2. **Intent-based design.** Screens serve the intent the user arrived with: the explicit one they name and the implicit one inferred from behavior.
 3. **Functional motion, not decorative.** Every animation creates trust or directs attention.
 4. **Trust as a formula.** Transparency, consistency and responsiveness in every interaction, working on all three of Norman's levels: visceral, behavioral, reflective.
@@ -125,32 +125,32 @@ So that when the redesign gets reviewed, the conversation is about research inst
 
 The original articles, grouped by what each one is useful for.
 
-**Trend roundups** — where the field agrees it's moving:
+**Trend roundups**, where the field agrees it's moving:
 
-- [Tubik Studio — *UI Design Trends 2026*](https://tubikstudio.com/blog/ui-design-trends-2026/)
-- [UX Collective — *The most popular experience design trends of 2026*](https://uxdesign.cc/the-most-popular-experience-design-trends-of-2026-3ca85c8a3e3d)
-- [Envato Elements — *Web Design Trends*](https://elements.envato.com/learn/web-design-trends)
-- [Merveilleux — *UI/UX Trends 2026*](https://www.merveilleux.design/en/blog/article/ui-ux-trends-2026)
-- [Find a SaaS — *SaaS UX Trends 2026*](https://findasaas.com/blog/saas-ux-trends-2026)
-- [Blushush — *Top 5 User Interface Design Trends for Modern Websites*](https://www.blushush.co.uk/blogs/top-5-user-interface-design-trends-for-modern-websites)
-- [Spunk — *UI Design Trends 2026*](https://spunk.pics/blog/ui-design-trends-2026)
+- [Tubik Studio, *UI Design Trends 2026*](https://tubikstudio.com/blog/ui-design-trends-2026/)
+- [UX Collective, *The most popular experience design trends of 2026*](https://uxdesign.cc/the-most-popular-experience-design-trends-of-2026-3ca85c8a3e3d)
+- [Envato Elements, *Web Design Trends*](https://elements.envato.com/learn/web-design-trends)
+- [Merveilleux, *UI/UX Trends 2026*](https://www.merveilleux.design/en/blog/article/ui-ux-trends-2026)
+- [Find a SaaS, *SaaS UX Trends 2026*](https://findasaas.com/blog/saas-ux-trends-2026)
+- [Blushush, *Top 5 User Interface Design Trends for Modern Websites*](https://www.blushush.co.uk/blogs/top-5-user-interface-design-trends-for-modern-websites)
+- [Spunk, *UI Design Trends 2026*](https://spunk.pics/blog/ui-design-trends-2026)
 
-**Fintech-specific** — what users expect from financial products:
+**Fintech-specific**, what users expect from financial products:
 
-- [Stan Vision — *Fintech UX in 2026*](https://www.stan.vision/journal/fintech-ux-in-2026-what-users-expect-from-modern-financial-products) — source for the trust formula
-- [Veza Digital — *Fintech Web Design Trends*](https://www.vezadigital.com/post/fintech-web-design-trends)
+- [Stan Vision, *Fintech UX in 2026*](https://www.stan.vision/journal/fintech-ux-in-2026-what-users-expect-from-modern-financial-products) (source for the trust formula)
+- [Veza Digital, *Fintech Web Design Trends*](https://www.vezadigital.com/post/fintech-web-design-trends)
 
-**Design systems + maturity** — the token-layer story:
+**Design systems + maturity**, the token-layer story:
 
-- [Figma — *The future of design systems is semantic*](https://www.figma.com/blog/the-future-of-design-systems-is-semantic/) — TokenOps
-- [dsruptr — *The Ultimate Design Maturity Guide for Tech Leaders*](https://dsruptr.com/2026/01/19/the-ultimate-design-maturity-guide-for-tech-leaders/) — the five-stage model
-- [Velvetum — *UX/UI Design Tools 2026*](https://velvetum.com/en/journal/ux-ui-design-tools-2026) — the stack-consolidation study
+- [Figma, *The future of design systems is semantic*](https://www.figma.com/blog/the-future-of-design-systems-is-semantic/) (TokenOps)
+- [dsruptr, *The Ultimate Design Maturity Guide for Tech Leaders*](https://dsruptr.com/2026/01/19/the-ultimate-design-maturity-guide-for-tech-leaders/) (the five-stage model)
+- [Velvetum, *UX/UI Design Tools 2026*](https://velvetum.com/en/journal/ux-ui-design-tools-2026) (the stack-consolidation study)
 
-**AI as teammate** — intent and visible reasoning:
+**AI as teammate**, intent and visible reasoning:
 
-- [Google PAIR — *People + AI Guidebook*](https://pair.withgoogle.com/guidebook/)
+- [Google PAIR, *People + AI Guidebook*](https://pair.withgoogle.com/guidebook/)
 
 **Classics and specific references:**
 
-- [Don Norman — *Emotional Design*](https://www.nngroup.com/books/emotional-design/)
-- [Emil Kowalski](https://emilkowal.ski/) — the intentional pause in high-impact interactions
+- [Don Norman, *Emotional Design*](https://www.nngroup.com/books/emotional-design/)
+- [Emil Kowalski](https://emilkowal.ski/) (the intentional pause in high-impact interactions)

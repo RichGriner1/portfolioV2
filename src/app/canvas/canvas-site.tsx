@@ -41,6 +41,7 @@ import { TalkTile } from "@/components/talk-tile";
 import { WorkCard } from "@/components/work-card";
 import { sortKey, WORK, type WorkItem } from "@/lib/content/work";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
+import { HEADLINE, PLACE, SUBTITLE } from "@/lib/content/intro";
 import { cn } from "@/lib/utils";
 
 /**
@@ -510,42 +511,6 @@ const bySlug = (slug: string): WorkItem => {
   return item;
 };
 
-// The ` ` ties keep "the systems" and "productos digitales" on one line, so
-// no line ends on an article and the Spanish noun never leaves its adjective.
-// HyperText leaves non-letters alone, so the tie survives the scramble.
-const HEADLINE: Bilingual<{ name: string; claim: string; altClaim: string }> = {
-  en: {
-    name: "I'm Richard.",
-    claim: " I design digital products and the systems behind them.",
-    altClaim: " I make cool shit with AI.",
-  },
-  es: {
-    name: "Soy Richard.",
-    // TODO(afi-redaccion)
-    claim: " Diseño productos digitales y los sistemas que hay detrás.",
-    // TODO(afi-redaccion)
-    altClaim: " Hago cosas que molan con IA.",
-  },
-};
-
-// Two levels: the professional read first, the personal point of view quieter
-// underneath it.
-const SUBTITLE: Bilingual<{ positioning: string; perspective: string }> = {
-  en: {
-    positioning:
-      "UX/UI, design systems and AI-assisted workflows for complex products.",
-    perspective:
-      "Anthropology taught me to understand behavior. Design gave me the tools to create experiences that fit it.",
-  },
-  es: {
-    // TODO(afi-redaccion)
-    positioning:
-      "UX/UI, sistemas de diseño y flujos de trabajo asistidos por IA para productos complejos.",
-    perspective:
-      "La antropología me enseñó a entender el comportamiento. El diseño me dio las herramientas para crear experiencias que encajen con él.",
-  },
-};
-
 const NAV: Bilingual<readonly [string, string]> = {
   en: ["Projects", "Blog"],
   es: ["Proyectos", "Blog"],
@@ -591,10 +556,6 @@ const COMPONENT_NAME: Bilingual<string> = {
  * characters read wrong in the name position and read fine here — the apron badge
  * is sized by its content, the way `963 × 345` is.
  */
-const PLACE: Bilingual<string> = {
-  en: "Born and raised in DC, based in Madrid",
-  es: "Nacido y criado en DC, basado en Madrid",
-};
 
 /**
  * Per-character pace for the claim's scramble. 16ms is one frame, the floor

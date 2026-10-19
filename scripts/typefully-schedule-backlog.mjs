@@ -44,9 +44,21 @@ const BACKLOG = join(SOCIAL, "backlog.md");
 const PUSH = join(__dirname, "typefully-push.mjs");
 
 function parseArgs(argv) {
-  const a = { from: null, to: null, limit: Infinity, send: false, print: false, emit: false,
-              time1: "09:00", time2: "14:00", time3: "11:30", tz: "+02:00",
-              socialSet: process.env.TYPEFULLY_SOCIAL_SET_ID || null, platform: "x", linkedin: false };
+  const a = {
+    from: null,
+    to: null,
+    limit: Infinity,
+    send: false,
+    print: false,
+    emit: false,
+    time1: "09:00",
+    time2: "14:00",
+    time3: "11:30",
+    tz: "+02:00",
+    socialSet: process.env.TYPEFULLY_SOCIAL_SET_ID || null,
+    platform: "x",
+    linkedin: false,
+  };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === "--from") a.from = argv[++i];
@@ -61,19 +73,32 @@ function parseArgs(argv) {
     else if (t === "--tz") a.tz = argv[++i];
     else if (t === "--social-set") a.socialSet = argv[++i];
     else if (t === "--platform") a.platform = argv[++i];
-    else if (t === "--linkedin") { a.linkedin = true; a.platform = "linkedin"; }
-    else if (t === "-h" || t === "--help") { help(); process.exit(0); }
-    else { process.stderr.write(`unknown arg: ${t}\n`); process.exit(2); }
+    else if (t === "--linkedin") {
+      a.linkedin = true;
+      a.platform = "linkedin";
+    } else if (t === "-h" || t === "--help") {
+      help();
+      process.exit(0);
+    } else {
+      process.stderr.write(`unknown arg: ${t}\n`);
+      process.exit(2);
+    }
   }
   return a;
 }
 function help() {
-  process.stdout.write("See header comment in scripts/typefully-schedule-backlog.mjs for usage.\n");
+  process.stdout.write(
+    "See header comment in scripts/typefully-schedule-backlog.mjs for usage.\n"
+  );
 }
 
 // GitHub-style heading slug (matches the anchors used in backlog links)
 function slug(title) {
-  return title.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
+  return title
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
 }
 
 // Extract one Standalone's text from a batch file.
@@ -85,23 +110,45 @@ function extractStandalone(fileText, letter, anchor) {
     let start = -1;
     for (let i = 0; i < lines.length; i++) {
       const m = lines[i].match(/^##\s+(.+?)\s*(\{#[\w-]+\})?\s*$/);
-      if (m && (slug(m[1]) === anchor || (m[2] && m[2].slice(2, -1) === anchor))) { start = i; break; }
+      if (
+        m &&
+        (slug(m[1]) === anchor || (m[2] && m[2].slice(2, -1) === anchor))
+      ) {
+        start = i;
+        break;
+      }
     }
     if (start === -1) throw new Error(`anchor #${anchor} not found`);
     let end = lines.length;
-    for (let i = start + 1; i < lines.length; i++) if (/^##\s+/.test(lines[i])) { end = i; break; }
+    for (let i = start + 1; i < lines.length; i++)
+      if (/^##\s+/.test(lines[i])) {
+        end = i;
+        break;
+      }
     scope = lines.slice(start, end).join("\n");
   }
   // find "**Standalone X —" ... up to next Standalone / --- / ## / ### heading
-  const re = new RegExp(`\\*\\*Standalone\\s+${letter}\\s+[—-][^\\n]*\\*\\*[^\\n]*\\n`, "");
+  const re = new RegExp(
+    `\\*\\*Standalone\\s+${letter}\\s+[—-][^\\n]*\\*\\*[^\\n]*\\n`,
+    ""
+  );
   const m = scope.match(re);
-  if (!m) throw new Error(`Standalone ${letter}${anchor ? " in #" + anchor : ""} not found`);
+  if (!m)
+    throw new Error(
+      `Standalone ${letter}${anchor ? " in #" + anchor : ""} not found`
+    );
   const after = scope.slice(m.index + m[0].length);
   // stop at the next block boundary
-  const stop = after.search(/\n(?:---|\*\*Standalone |###?\s|>\s*\*\*Scheduled)/);
+  const stop = after.search(
+    /\n(?:---|\*\*Standalone |###?\s|>\s*\*\*Scheduled)/
+  );
   const body = (stop === -1 ? after : after.slice(0, stop)).trim();
   // drop any leading "> **Scheduled:** ..." status line if present
-  return body.split("\n").filter(l => !/^>\s*\*\*(Scheduled|Status)/.test(l)).join("\n").trim();
+  return body
+    .split("\n")
+    .filter((l) => !/^>\s*\*\*(Scheduled|Status)/.test(l))
+    .join("\n")
+    .trim();
 }
 
 // Parse a tweet cell like: **MU** research · stop/do [A](process/foo.md#anchor)
@@ -123,8 +170,11 @@ async function discoverSocialSet() {
   const data = await res.json();
   const sets = data.results || [];
   if (sets.length === 1) return sets[0].id;
-  if (sets.length === 0) throw new Error("no Typefully social sets found for this key");
-  throw new Error(`multiple social sets (${sets.map(s => `${s.id}:${s.username}`).join(", ")}) — pass --social-set <id>`);
+  if (sets.length === 0)
+    throw new Error("no Typefully social sets found for this key");
+  throw new Error(
+    `multiple social sets (${sets.map((s) => `${s.id}:${s.username}`).join(", ")}) — pass --social-set <id>`
+  );
 }
 
 async function main() {
@@ -141,10 +191,15 @@ async function main() {
 
   // Pull the body lines of one "## <header>" section (up to the next H2).
   const section = (header) => {
-    const start = allLines.findIndex(l => l.trim() === header);
-    if (start === -1) throw new Error(`section "${header}" not found in backlog.md`);
+    const start = allLines.findIndex((l) => l.trim() === header);
+    if (start === -1)
+      throw new Error(`section "${header}" not found in backlog.md`);
     let end = allLines.length;
-    for (let i = start + 1; i < allLines.length; i++) if (/^## /.test(allLines[i])) { end = i; break; }
+    for (let i = start + 1; i < allLines.length; i++)
+      if (/^## /.test(allLines[i])) {
+        end = i;
+        break;
+      }
     return allLines.slice(start, end);
   };
 
@@ -160,12 +215,24 @@ async function main() {
   // (@time3). LinkedIn is its own single-column table. Each source declares
   // which columns map to which times so the flattener stays uniform.
   const sources = args.linkedin
-    ? [{ lines: section("## LinkedIn schedule"), cells: (cols, line) => [[line, args.time1]] }]
+    ? [
+        {
+          lines: section("## LinkedIn schedule"),
+          cells: (cols, line) => [[line, args.time1]],
+        },
+      ]
     : [
-        { lines: section("## Daily posting schedule"),
-          cells: (cols) => [[cols[3], args.time1], [cols[4], args.time2]] },
-        { lines: section("## Build-in-public schedule"),
-          cells: (cols) => [[cols[2], args.time3]] },
+        {
+          lines: section("## Daily posting schedule"),
+          cells: (cols) => [
+            [cols[3], args.time1],
+            [cols[4], args.time2],
+          ],
+        },
+        {
+          lines: section("## Build-in-public schedule"),
+          cells: (cols) => [[cols[2], args.time3]],
+        },
       ];
 
   // flatten to scheduled posts (blog / empty cells have no link and are skipped)
@@ -177,11 +244,16 @@ async function main() {
       const date = m[1];
       if (args.from && date < args.from) continue;
       if (args.to && date > args.to) continue;
-      const cols = line.split("|").map(c => c.trim());
+      const cols = line.split("|").map((c) => c.trim());
       for (const [cell, time] of src.cells(cols, line)) {
         const c = parseCell(cell || "");
         if (!c) continue;
-        jobs.push({ ...c, date, when: `${date}T${time}:00${args.tz}`, platform: args.platform });
+        jobs.push({
+          ...c,
+          date,
+          when: `${date}T${time}:00${args.tz}`,
+          platform: args.platform,
+        });
       }
     }
   }
@@ -196,30 +268,50 @@ async function main() {
     for (const job of limited) {
       let text;
       try {
-        text = extractStandalone(await readBatch(job.path), job.letter, job.anchor);
+        text = extractStandalone(
+          await readBatch(job.path),
+          job.letter,
+          job.anchor
+        );
       } catch (e) {
         failures++;
-        process.stderr.write(`emit: resolve failed ${job.date} ${job.tag} ${job.letter}: ${e.message}\n`);
+        process.stderr.write(
+          `emit: resolve failed ${job.date} ${job.tag} ${job.letter}: ${e.message}\n`
+        );
         continue;
       }
       const contentKey = `${job.platform}|${job.path}|${job.anchor || ""}|${job.letter}`;
-      out.push({ contentKey, date: job.date, when: job.when, platform: job.platform,
-                 tag: job.tag, letter: job.letter, path: job.path, anchor: job.anchor, text });
+      out.push({
+        contentKey,
+        date: job.date,
+        when: job.when,
+        platform: job.platform,
+        tag: job.tag,
+        letter: job.letter,
+        path: job.path,
+        anchor: job.anchor,
+        text,
+      });
     }
     process.stdout.write(JSON.stringify(out, null, 2) + "\n");
     // Exit non-zero on any unresolved row so the reconciler (typefully-sync.mjs)
     // aborts instead of treating a dropped row as an orphan to delete.
     if (failures > 0) {
-      process.stderr.write(`emit: ${failures} row(s) failed to resolve — refusing to signal a complete desired state.\n`);
+      process.stderr.write(
+        `emit: ${failures} row(s) failed to resolve — refusing to signal a complete desired state.\n`
+      );
       process.exitCode = 1;
     }
     return;
   }
 
-  let ok = 0, fail = 0;
+  let ok = 0,
+    fail = 0;
   for (const job of limited) {
     if (args.send && Date.parse(job.when) < Date.now()) {
-      process.stdout.write(`⤼ skip (past slot)  ${job.date} ${job.when} · ${job.tag} ${job.letter}\n`);
+      process.stdout.write(
+        `⤼ skip (past slot)  ${job.date} ${job.when} · ${job.tag} ${job.letter}\n`
+      );
       continue;
     }
     let text;
@@ -228,35 +320,64 @@ async function main() {
       text = extractStandalone(batch, job.letter, job.anchor);
     } catch (e) {
       fail++;
-      process.stdout.write(`✗ ${job.date} ${job.tag} ${job.letter}  — RESOLVE FAILED: ${e.message}\n`);
+      process.stdout.write(
+        `✗ ${job.date} ${job.tag} ${job.letter}  — RESOLVE FAILED: ${e.message}\n`
+      );
       continue;
     }
 
     if (args.print) {
-      process.stdout.write(`\n── ${job.date} ${job.when} · ${job.tag} ${job.letter} ──\n${text}\n`);
+      process.stdout.write(
+        `\n── ${job.date} ${job.when} · ${job.tag} ${job.letter} ──\n${text}\n`
+      );
       ok++;
       continue;
     }
 
-    const pushArgs = ["--stdin", "--social-set", String(socialSetId), "--platform", args.platform,
-                      "--schedule", job.when, "--json"];
+    const pushArgs = [
+      "--stdin",
+      "--social-set",
+      String(socialSetId),
+      "--platform",
+      args.platform,
+      "--schedule",
+      job.when,
+      "--json",
+    ];
     if (!args.send) pushArgs.push("--dry-run");
     try {
-      const out = execFileSync("node", [PUSH, ...pushArgs], { input: text, encoding: "utf8" });
+      const out = execFileSync("node", [PUSH, ...pushArgs], {
+        input: text,
+        encoding: "utf8",
+      });
       const res = JSON.parse(out);
       const mark = args.send ? (res.ok ? "✓ sent" : "✗ send-failed") : "· dry";
-      process.stdout.write(`${mark}  ${job.date} ${job.when} · ${job.tag} ${job.letter} · "${text.slice(0, 48).replace(/\n/g, " ")}…"\n`);
-      if (args.send && !res.ok) { fail++; process.stdout.write(`   ${JSON.stringify(res)}\n`); }
-      else ok++;
+      process.stdout.write(
+        `${mark}  ${job.date} ${job.when} · ${job.tag} ${job.letter} · "${text.slice(0, 48).replace(/\n/g, " ")}…"\n`
+      );
+      if (args.send && !res.ok) {
+        fail++;
+        process.stdout.write(`   ${JSON.stringify(res)}\n`);
+      } else ok++;
     } catch (e) {
       fail++;
-      process.stdout.write(`✗ ${job.date} ${job.tag} ${job.letter} — PUSH ERROR: ${e.message}\n`);
+      process.stdout.write(
+        `✗ ${job.date} ${job.tag} ${job.letter} — PUSH ERROR: ${e.message}\n`
+      );
     }
   }
 
-  process.stdout.write(`\n${args.send ? "SENT" : args.print ? "PRINTED" : "DRY-RUN"}: ${ok} ok, ${fail} failed, of ${limited.length} tweets ` +
-    `(${jobs.length} total in range).\n`);
-  if (!args.send && !args.print) process.stdout.write("Re-run with --send to actually create Typefully drafts.\n");
+  process.stdout.write(
+    `\n${args.send ? "SENT" : args.print ? "PRINTED" : "DRY-RUN"}: ${ok} ok, ${fail} failed, of ${limited.length} tweets ` +
+      `(${jobs.length} total in range).\n`
+  );
+  if (!args.send && !args.print)
+    process.stdout.write(
+      "Re-run with --send to actually create Typefully drafts.\n"
+    );
 }
 
-main().catch(e => { process.stderr.write(`unexpected: ${e.stack || e}\n`); process.exit(1); });
+main().catch((e) => {
+  process.stderr.write(`unexpected: ${e.stack || e}\n`);
+  process.exit(1);
+});

@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 
 import { IntroPreviewLink } from "@/components/intro-preview-link";
+import { HEADLINE, SUBTITLE } from "@/lib/content/intro";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -10,28 +11,20 @@ import { cn } from "@/lib/utils";
 // the linked project's thumbnail on hover (see intro-preview-link.tsx).
 // "a brand" → Mindfulme, "a workflow" → loops.
 
-// Intro copy. Iterated with Richard directly — no "final" marker, because this
-// keeps improving. Reference: Figma 3340:17900.
-//
-// 2026-08-05, after a teammate's read: paragraph two used to be two clauses
-// about schooling, which read as credentials rather than method. And the closer
-// used to end "they are all designed" — a claim about the world, when the point
-// is that Richard brings a design mindset to things that don't arrive designed.
-// Both now say the mindset thing outright.
-//
-// The italic "Everything." pivot is gone: the new third paragraph already says
-// "I approach everything the same way", so the standalone line repeated the word
-// and no longer answered anything. The closing list survives as a fragment —
-// it's the concrete part, and it carries the two preview links.
+// Intro copy, under the same headline the canvas opens with (see IntroHeadline).
+// Iterated with Richard directly, no "final" marker, because this keeps
+// improving. The first two paragraphs are the canvas subtitle, so the two layouts
+// say the same thing in the same words; the current role rides on the first one
+// because "where do they work now" is the question a recruiter scans for.
 const INTRO: Bilingual<ReactNode[]> = {
   en: [
     <>
-      <span className="text-foreground">{"I'm Richard, a designer"}</span>
+      <span className="text-foreground">{SUBTITLE.en.positioning}</span>
       {
-        " currently working on fintech products for Spanish banks and design systems at Afi."
+        " Right now that means fintech products for Spanish banks and design systems at Afi."
       }
     </>,
-    "Anthropology taught me to understand behavior. Design gave me the tools to build experiences that fit it.",
+    SUBTITLE.en.perspective,
     <>
       {
         "Working across banks, startups, and on both B2B and B2C products, I learned that "
@@ -39,7 +32,7 @@ const INTRO: Bilingual<ReactNode[]> = {
       <em>design is a mindset</em>
       {", not just a profession."}
     </>,
-    "Because of that I approach everything the same way: understand, build, test, and iterate.",
+    "Because of that, I approach every project the same way. Understand, build, test, iterate.",
     <>
       {"A morning routine, an onboarding, "}
       <IntroPreviewLink slug="mindfulme">a brand</IntroPreviewLink>
@@ -51,19 +44,17 @@ const INTRO: Bilingual<ReactNode[]> = {
     </>,
   ],
   es: [
-    // ES reviewed 2026-08-05 (afi-redaccion pass). Three fixes, all calques:
-    // "Trabajando con…" → "Tras trabajar con…" (sentence-initial gerund is an
-    // English construction, not Peninsular); "lo enfoco todo" → "lo abordo todo"
-    // ("enfocar" means to focus, not to approach — that's "abordar"); and the
-    // mixed prepositions in the bancos/startups/productos list.
-    // "onboarding" stays: no clean Spanish equivalent, and the reader is technical.
+    // "Tras trabajar con…", "abordar" rather than "enfocar", and "onboarding"
+    // left untranslated are deliberate Peninsular choices from the afi-redaccion
+    // pass; the reader is technical and there's no clean equivalent.
     <>
-      <span className="text-foreground">{"Soy Richard, diseñador."}</span>
+      <span className="text-foreground">{SUBTITLE.es.positioning}</span>
       {
+        // TODO(afi-redaccion)
         " Ahora mismo trabajo en productos fintech para bancos españoles y sistemas de diseño en Afi."
       }
     </>,
-    "La antropología me enseñó a entender el comportamiento. El diseño me dio las herramientas para crear experiencias que encajen con él.",
+    SUBTITLE.es.perspective,
     <>
       {
         "Tras trabajar con bancos y startups, y en productos tanto B2B como B2C, he aprendido que "
@@ -71,7 +62,8 @@ const INTRO: Bilingual<ReactNode[]> = {
       <em>el diseño es una mentalidad</em>
       {", no solo una profesión."}
     </>,
-    "Por eso lo abordo todo igual: entender, construir, probar e iterar.",
+    // TODO(afi-redaccion)
+    "Por eso abordo cada proyecto de la misma manera. Entender, construir, probar, iterar.",
     <>
       {"Una rutina matutina, un onboarding, "}
       <IntroPreviewLink slug="mindfulme">una marca</IntroPreviewLink>
@@ -85,16 +77,36 @@ const INTRO: Bilingual<ReactNode[]> = {
 };
 
 /**
+ * The canvas claim, without the scramble: name in muted ink, claim in full. It's
+ * the one line a visitor who reads nothing else should leave with, so it's the
+ * only thing in the tile above the body size.
+ */
+export function IntroHeadline({ className }: { className?: string }) {
+  const { lang } = useLang();
+  const { name, claim } = pick(HEADLINE, lang);
+  return (
+    <h1
+      className={cn(
+        "max-w-[18em] text-2xl font-medium tracking-tight text-balance",
+        className
+      )}
+    >
+      <span className="text-muted-foreground">{name}</span>
+      <span className="text-foreground">{claim}</span>
+    </h1>
+  );
+}
+
+/**
  * One type size for the whole block, specified by Richard from Figma
  * (2026-08-05): Geist 14px / 17.5px (1.25) / -0.02% tracking. Arbitrary values
  * on purpose — measured from the design, and 14px/17.5px isn't a step on the
  * Tailwind scale. Figma states tracking as a percentage of font size, which
  * converts straight to `em` (-0.02% → -0.0002em).
  *
- * There is deliberately no lead size and no bold. Hierarchy is carried by color
- * alone: the opening clause sits at `--foreground`, everything after it at
- * `--prose-body`. Size and weight steps were tried and removed — three signals
- * doing one job.
+ * No lead size and no bold inside the body. The headline above carries the size
+ * step; within the paragraphs hierarchy is color alone, the opening clause at
+ * `--foreground` and everything after it at `--prose-body`.
  */
 const INTRO_BODY = "text-[14px] leading-[17.5px] tracking-[-0.0002em]";
 

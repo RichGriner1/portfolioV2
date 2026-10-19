@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -57,11 +58,15 @@ export function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
     return (
       <div className="pointer-events-none absolute inset-0 p-3">
         <div className="bg-card border-border/60 h-full overflow-hidden rounded-xl border">
-          <img
+          <Image
             src={item.image}
             alt=""
+            // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+            // A 0×0 size would keep Chrome from ever starting the lazy load.
+            width={1600}
+            height={1000}
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="h-full w-full object-cover"
-            loading="lazy"
           />
         </div>
       </div>

@@ -8,3 +8,9 @@ src/components/motion/glyphs/*.lottie.json
 
 # HyperFrames motion projects (own tooling)
 videos
+
+# Own project with its own tooling (also ignored by eslint)
+Design System Template
+
+# Agent session worktrees are full checkouts of this repo
+.claude/worktrees

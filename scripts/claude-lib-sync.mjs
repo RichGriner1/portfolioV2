@@ -114,7 +114,8 @@ async function run() {
           if (APPLY) {
             if (action === "relink") await fs.unlink(dest);
             await fs.symlink(src, dest);
-            action === "relink" ? relinked++ : created++;
+            if (action === "relink") relinked++;
+            else created++;
             console.log(
               `  ${paint("+", "green")} ${rel} ${paint("→ linked", "dim")}`
             );

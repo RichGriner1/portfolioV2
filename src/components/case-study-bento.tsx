@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   AnimatePresence,
   motion,
@@ -4376,9 +4377,14 @@ function BentoCardItem({
                   key={i}
                   className="bg-muted/40 flex items-center justify-center overflow-hidden rounded-lg"
                 >
-                  <img
+                  <Image
                     src={src}
                     alt=""
+                    // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+                    // A 0×0 size would keep Chrome from ever starting the lazy load.
+                    width={1600}
+                    height={1000}
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.05]"
                   />
                 </div>
@@ -4412,9 +4418,14 @@ function BentoCardItem({
                didn't match it, reading as stray padding around a floating
                border. The zoom modal below stays `contain`; it's for seeing the
                whole export, not filling a slot. */
-            <img
+            <Image
               src={card.image}
               alt={pick(card.label, lang)}
+              // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+              // A 0×0 size would keep Chrome from ever starting the lazy load.
+              width={1600}
+              height={1000}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
             />
           ) : Animation ? (
@@ -4492,9 +4503,14 @@ function BentoCardItem({
                (object-cover, above); this view exists to show the whole
                export, so cropping it here too would open a bigger version of
                the same partial picture. */
-            <img
+            <Image
               src={card.image}
               alt={pick(card.label, lang)}
+              // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+              // A 0×0 size would keep Chrome from ever starting the lazy load.
+              width={1600}
+              height={1000}
+              sizes="(max-width: 1280px) 100vw, 1280px"
               className="min-h-0 flex-1 object-contain p-4"
             />
           ) : null}

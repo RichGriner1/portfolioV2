@@ -56,6 +56,9 @@ const WIDTHS = [320, 375, 390, 768, 1024, 1440];
  */
 const ROUTES = [
   "/",
+  // The home page's second layout, the bento list with the view switch in its
+  // header. Same URL as the canvas, so the query string is the only way to reach it.
+  "/?view=list",
   "/projects",
   "/writing",
   // Two different case-study shells, not one. /work/visual-identity is a bespoke

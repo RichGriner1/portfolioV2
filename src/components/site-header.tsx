@@ -11,6 +11,8 @@ import { CrabDots, DotToggle } from "@/components/motion/crab-dots";
 import { CvModal } from "@/components/cv-modal";
 import { LangToggle } from "@/components/lang-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ViewSwitch } from "@/components/view-switch";
+import type { HomeView } from "@/lib/home-view";
 import { t, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -97,7 +99,7 @@ const RESOURCES = [
  * — the detailed 29-column dotted crab needs ~88px, so it appears in the panel
  * instead, where there's room. See `crab-dots.tsx`.
  */
-export function SiteHeader() {
+export function SiteHeader({ homeView }: { homeView?: HomeView }) {
   const { lang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dotsCross, setDotsCross] = useState(false);
@@ -310,6 +312,8 @@ export function SiteHeader() {
         </button>
 
         <div className="order-1 flex items-center gap-3 sm:order-2 sm:gap-4">
+          {/* Only on the home page, where there's a second layout to switch to. */}
+          {homeView && <ViewSwitch current={homeView} />}
           <LangToggle />
           <ThemeToggle />
         </div>

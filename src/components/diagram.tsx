@@ -7,27 +7,34 @@ export type DiagramSvgs = { wide: string; narrow: string | null };
  * A Mermaid diagram, already rendered to SVG on the server.
  *
  * No hooks and no pele import, so it renders from a server or a client component
- * without pulling the renderer into the bundle. Colors come from `.pele-diagram`
+ * without pulling the renderer into the bundle. The look comes from `.pele-diagram`
  * in globals.css, which points pele's variables at the semantic tokens, so the
- * theme toggle restyles it with no re-render. `surface="card"` is for a diagram
- * sitting on a card, where edge labels have to mask the line in the card's color.
+ * theme toggle restyles it with no re-render.
+ *
+ * Framed by default, in the same card-and-dot-grid panel the motion figures use, so
+ * a diagram in a post reads as one of them. `framed={false}` is for a diagram that
+ * already sits on a card.
  *
  * The accessible name is the source's `accTitle` / `accDescr`, which pele writes
  * into the SVG as <title> and <desc>.
  */
 export function Diagram({
   svgs,
-  surface = "background",
+  framed = true,
   className,
 }: {
   svgs: DiagramSvgs;
-  surface?: "background" | "card";
+  framed?: boolean;
   className?: string;
 }) {
   return (
     <figure
-      data-surface={surface}
-      className={cn("pele-diagram flex justify-center", className)}
+      className={cn(
+        "pele-diagram flex justify-center",
+        framed &&
+          "bg-card border-border/60 rounded-xl border bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] px-3 py-8 sm:px-8",
+        className
+      )}
     >
       <div
         className={cn(

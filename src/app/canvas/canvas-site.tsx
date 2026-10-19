@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -2500,10 +2501,15 @@ function CvFrame({ onOpen }: { onOpen: () => void }) {
           ends because that is where the type sits — the title at the top, "read
           more" at the bottom. It reads as a surface with something behind it,
           not as a picture with a caption. */}
-      <img
+      <Image
         src="/cv-photo.webp"
         alt=""
         aria-hidden
+        // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+        // A 0×0 size would keep Chrome from ever starting the lazy load.
+        width={1600}
+        height={1000}
+        sizes="(max-width: 768px) 100vw, 33vw"
         className="pointer-events-none absolute inset-0 size-full object-cover opacity-60"
       />
       <span

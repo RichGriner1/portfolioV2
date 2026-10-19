@@ -17,7 +17,9 @@ import {
   MoodboardGalleryFigure,
   TypeTestFigure,
 } from "@/components/motion/figures/visual-identity";
+import { Diagram } from "@/components/diagram";
 import type { BentoCard } from "@/lib/content/case-studies";
+import type { RenderedDiagrams } from "@/lib/content/diagrams";
 import { useIsMobile } from "@/lib/hooks";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
@@ -4170,9 +4172,11 @@ const ANIMATIONS: Record<
 function BentoCardItem({
   card,
   gallery,
+  diagrams,
 }: {
   card: BentoCard;
   gallery?: boolean;
+  diagrams: RenderedDiagrams;
 }) {
   const { lang } = useLang();
   const Animation = card.animation ? ANIMATIONS[card.animation] : null;
@@ -4499,6 +4503,9 @@ function BentoCardItem({
     ) : null;
 
   if (card.details) {
+    const diagram = card.details.diagram
+      ? diagrams[card.details.diagram]
+      : undefined;
     return (
       <>
         {/* A detail card is clickable and has to look it. The home page's WorkCard
@@ -4560,6 +4567,13 @@ function BentoCardItem({
                     </p>
                   </div>
                 ))}
+                {diagram ? (
+                  <Diagram
+                    svgs={pick(diagram, lang)}
+                    surface="card"
+                    className="py-2"
+                  />
+                ) : null}
               </div>
             </motion.div>
 
@@ -4619,9 +4633,11 @@ function BentoCardItem({
 export function CaseStudyBento({
   cards,
   gallery,
+  diagrams,
 }: {
   cards: BentoCard[];
   gallery?: boolean;
+  diagrams: RenderedDiagrams;
 }) {
   const hasTall = cards.some((c) => c.span === "tall");
 
@@ -4646,7 +4662,11 @@ export function CaseStudyBento({
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
             >
-              <BentoCardItem card={card} gallery={gallery} />
+              <BentoCardItem
+                card={card}
+                gallery={gallery}
+                diagrams={diagrams}
+              />
             </motion.div>
           );
         })}
@@ -4667,7 +4687,7 @@ export function CaseStudyBento({
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
         >
-          <BentoCardItem card={card} gallery={gallery} />
+          <BentoCardItem card={card} gallery={gallery} diagrams={diagrams} />
         </motion.div>
       ))}
     </div>

@@ -566,6 +566,34 @@
 }
 
 /* ==========================================================================
+   .pele-diagram — component tokens for Mermaid diagrams (components/diagram.tsx)
+   --------------------------------------------------------------------------
+   pele draws every color and font from its own --pele-* variables, falling back
+   to hex when they're unset. This scope points each one at a semantic token, so
+   a diagram follows light and dark like the rest of the page and nothing in the
+   SVG is hard-coded. Lines sit a step below text so the labels lead. --pele-bg
+   fills the edge labels that mask the line, so it has to match the surface the
+   diagram sits on: the page by default, the card under data-surface="card".
+   ========================================================================== */
+.pele-diagram {
+  --pele-bg: var(--background);
+  --pele-fg: var(--foreground);
+  --pele-muted: var(--muted-foreground);
+  --pele-line: var(--muted-foreground);
+  --pele-surface: var(--muted);
+  --pele-surface-alt: var(--accent);
+  --pele-border: var(--border);
+  --pele-accent: var(--primary);
+  --pele-font: var(--font-sans);
+  --pele-font-mono: var(--font-mono);
+  --pele-radius: var(--radius-sm);
+}
+
+.pele-diagram[data-surface="card"] {
+  --pele-bg: var(--card);
+}
+
+/* ==========================================================================
    .ds-scope — Design System token layer for the ported Color methodology page
    --------------------------------------------------------------------------
    The Color page was authored against the Design System Template's own tokens

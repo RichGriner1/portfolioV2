@@ -96,6 +96,13 @@ export const UI = {
   "nav.socials": { en: "Socials", es: "Redes sociales" },
   // The canvas board's escape hatch out of a section and into the real index page.
   "nav.see_all": { en: "See all", es: "Ver todo" },
+  // The home page's layout switch. Plain words, because the people it's for are the
+  // ones the word "canvas" means nothing to. "Traditional" says the plain site is
+  // here without calling the canvas hard.
+  // TODO(afi-redaccion)
+  "view.label": { en: "Page layout", es: "Diseño de la página" },
+  "view.canvas": { en: "Canvas", es: "Lienzo" },
+  "view.list": { en: "Traditional", es: "Tradicional" },
   // The board's zoom menu. `zoom` names the trigger for anyone who can't see it —
   // the visible label is the current percentage, so the aria label can't just repeat
   // it. Same split `LangToggle` makes between its code and "Select language".

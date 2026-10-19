@@ -350,8 +350,6 @@ export const WORK: WorkItem[] = [
     kind: "process",
     href: "/writing/fintech-layout-grammar",
     glyph: "layout-grammar",
-    // Kept in the data but pulled from the site until the piece is refined.
-    hidden: true,
   },
   {
     slug: "page-layout-template",

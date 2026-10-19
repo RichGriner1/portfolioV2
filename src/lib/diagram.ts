@@ -18,11 +18,22 @@ import type { DiagramSvgs } from "@/components/diagram";
  * A bad diagram throws, which fails the build instead of shipping an empty figure.
  */
 export function renderDiagram(source: string, id: string): DiagramSvgs {
-  const wide = render(source, { idPrefix: `${id}-w`, maxWidth: 720 });
+  const wide = render(source, {
+    ...OPTIONS,
+    idPrefix: `${id}-w`,
+    maxWidth: 720,
+  });
   if (wide.width <= PHONE_WIDTH) return { wide: wide.svg, narrow: null };
-  const narrow = render(source, { idPrefix: `${id}-n`, maxWidth: 300 });
+  const narrow = render(source, {
+    ...OPTIONS,
+    idPrefix: `${id}-n`,
+    maxWidth: 300,
+  });
   return { wide: wide.svg, narrow: narrow.svg };
 }
 
-/** Widest SVG that still reads at 320px, where the article column is 272px. */
-const PHONE_WIDTH = 340;
+/** 14px matches the figure chips; pele sizes boxes from it, so it's set here, not in CSS. */
+const OPTIONS = { fontSize: 14 };
+
+/** Widest SVG that still reads at 320px, where the article column is 272px before the frame's padding. */
+const PHONE_WIDTH = 310;

@@ -571,26 +571,64 @@
    pele draws every color and font from its own --pele-* variables, falling back
    to hex when they're unset. This scope points each one at a semantic token, so
    a diagram follows light and dark like the rest of the page and nothing in the
-   SVG is hard-coded. Lines sit a step below text so the labels lead. --pele-bg
-   fills the edge labels that mask the line, so it has to match the surface the
-   diagram sits on: the page by default, the card under data-surface="card".
+   SVG is hard-coded.
+
+   The rules below restyle pele's default flowchart to match the motion figures:
+   chips on the card surface with a hairline border, pills for questions, mono
+   for anything that names a slot in code, lines a step below the text, and edge
+   labels as small bordered pills. Every diagram sits on a card (the Diagram
+   frame, or the case-study card it's placed in), so --pele-bg is the card: it
+   fills the edge labels that mask the line.
+
+   Sizes stay where pele measured them. Type is set at render time (fontSize 14 in
+   lib/diagram.ts) because pele sizes each box from its text; changing it here
+   would overflow the boxes. Edge labels are the exception: they only shrink.
    ========================================================================== */
 .pele-diagram {
-  --pele-bg: var(--background);
+  --pele-bg: var(--card);
   --pele-fg: var(--foreground);
   --pele-muted: var(--muted-foreground);
   --pele-line: var(--muted-foreground);
-  --pele-surface: var(--muted);
-  --pele-surface-alt: var(--accent);
+  --pele-surface: var(--card);
+  --pele-surface-alt: var(--muted);
   --pele-border: var(--border);
   --pele-accent: var(--primary);
   --pele-font: var(--font-sans);
   --pele-font-mono: var(--font-mono);
-  --pele-radius: var(--radius-sm);
+  --pele-radius: var(--radius-lg);
 }
 
-.pele-diagram[data-surface="card"] {
-  --pele-bg: var(--card);
+.pele-diagram .pele-edges {
+  stroke-width: 1;
+  stroke-opacity: 0.5;
+}
+
+.pele-diagram .pele-label {
+  font-weight: 500;
+}
+
+/* A question is a pill on the muted surface, so it reads as a step, not a stop. */
+.pele-diagram .pele-shape-stadium rect {
+  fill: var(--muted);
+  stroke: none;
+}
+
+/* `class X slot` in the source. The source's classDef sets monospace so pele
+   measures the box in a mono face; the inline style it writes wins over a plain
+   rule, hence the !important to swap in the site's mono. */
+.pele-diagram .slot .pele-label {
+  font-family: var(--font-mono) !important;
+  font-weight: 400;
+}
+
+.pele-diagram .pele-edge-label rect {
+  rx: 999px;
+  stroke: var(--border);
+}
+
+.pele-diagram .pele-edge-label text {
+  font-size: 12px;
+  fill: var(--muted-foreground);
 }
 
 /* ==========================================================================

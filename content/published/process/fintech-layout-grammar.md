@@ -97,11 +97,13 @@ The grammar's job is to answer questions in a sentence. A dev wiring a screen sh
 flowchart TD
   accTitle: Where does this action go?
   accDescr: If the action changes the whole platform, it goes in global-rail. If it changes the whole screen, page-actions. If it changes one tab, tab-row.
-  A{Whole platform?}
+  A([Whole platform?])
   A -->|Yes| G[global-rail]
-  A -->|No| B{Whole screen?}
+  A -->|No| B([Whole screen?])
   B -->|Yes| P[page-actions]
   B -->|One tab| T[tab-row]
+  class G,P,T slot
+  classDef slot font-family:monospace
 ```
 
 Each slot is named — `page-header`, `page-actions`, `tab-row`, `section-h2`, `tab-filters`, `global-rail`. The names match between Figma and the codebase. When the names match, "this looks wrong" stops being a vibe and starts being a lookup. *That action shouldn't be in `page-actions` — it belongs in `global-rail`.* Coherence is enforceable when you can point at the right slot.

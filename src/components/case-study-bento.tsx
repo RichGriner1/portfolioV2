@@ -4570,7 +4570,7 @@ function BentoCardItem({
                 {diagram ? (
                   <Diagram
                     svgs={pick(diagram, lang)}
-                    surface="card"
+                    framed={false}
                     className="py-2"
                   />
                 ) : null}

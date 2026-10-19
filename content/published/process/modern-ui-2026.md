@@ -82,6 +82,15 @@ The window is narrow: 150–250 milliseconds. Long enough to register that somet
 
 [Don Norman's three levels](https://www.nngroup.com/books/emotional-design/) frame the rest: **visceral** (the first-impression reaction), **behavioral** (pleasure and effectiveness during use), **reflective** (how it sits with the user afterwards). An interface that only wins the visceral level doesn't last. In a product people open daily, the reflective level is where the relationship lives. By day 30, the user stops re-checking the numbers because the product has been right for a month.
 
+```mermaid
+flowchart TD
+  accTitle: Don Norman's three levels of design
+  accDescr: Visceral is the first impression. Behavioral is pleasure and effectiveness in use. Reflective is how the product sits afterwards, and by day 30 the user stops re-checking the numbers.
+  V([Visceral]) -->|the first impression| B([Behavioral])
+  B -->|pleasure and effectiveness in use| R([Reflective])
+  R -->|how it sits afterwards| D[By day 30, the user stops re-checking the numbers]
+```
+
 ## Learning 5: Stylish but minimalist
 
 The *Liquid Glass* trend has matured. Professional tools now adopt *Anti-Liquid Glass*: they keep blur and depth as a spatial cue, so a panel visibly floats above the content, but they remove the refractive distortion that hurts legibility in dense interfaces.

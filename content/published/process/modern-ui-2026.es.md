@@ -79,6 +79,15 @@ La ventana es estrecha: 150-250 milisegundos. Lo bastante larga para registrar q
 
 [Los tres niveles de Don Norman](https://www.nngroup.com/books/emotional-design/) enmarcan el resto: **visceral** (la reacción de la primera impresión), **conductual** (placer y eficacia durante el uso) y **reflexivo** (cómo queda después). Una interfaz que solo gana en el nivel visceral no dura. En un producto que se abre a diario, el nivel reflexivo es donde vive la relación: a los treinta días el usuario deja de comprobar las cifras porque el producto lleva un mes acertando.
 
+```mermaid
+flowchart TD
+  accTitle: Los tres niveles de diseño de Don Norman
+  accDescr: El visceral es la primera impresión. El conductual es el placer y la eficacia durante el uso. El reflexivo es cómo queda después, y a los treinta días el usuario deja de comprobar las cifras.
+  V([Visceral]) -->|la primera impresión| B([Conductual])
+  B -->|placer y eficacia durante el uso| R([Reflexivo])
+  R -->|cómo queda después| D[A los treinta días, el usuario deja de comprobar las cifras]
+```
+
 ## Aprendizaje 5: Con estilo, pero minimalista
 
 La tendencia *Liquid Glass* ha madurado. Las herramientas profesionales adoptan ahora el *Anti-Liquid Glass*: mantienen el desenfoque y la profundidad como señal espacial, para que un panel flote visiblemente sobre el contenido, pero eliminan la distorsión refractiva que perjudica la legibilidad en interfaces densas.

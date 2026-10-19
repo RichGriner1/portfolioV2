@@ -621,8 +621,11 @@
   font-weight: 400;
 }
 
+/* Both radii, at about half the label's height: with rx alone, ry copies it and a
+   long label's corners clamp into an ellipse. */
 .pele-diagram .pele-edge-label rect {
-  rx: 999px;
+  rx: var(--radius-lg);
+  ry: var(--radius-lg);
   stroke: var(--border);
 }
 

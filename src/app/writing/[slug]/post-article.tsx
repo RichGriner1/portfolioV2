@@ -4,6 +4,7 @@ import { isValidElement } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { Diagram, type DiagramSvgs } from "@/components/diagram";
 import { FIGURES, type FigureKey } from "@/components/motion/figures";
 import { useLang } from "@/lib/i18n";
 
@@ -40,9 +41,12 @@ function formatPostDate(
 export function PostArticle({
   en,
   es,
+  diagrams,
 }: {
   en: PostContent;
   es: PostContent | null;
+  /** ```mermaid fences, pre-rendered on the server and keyed by trimmed source. */
+  diagrams: Record<string, DiagramSvgs>;
 }) {
   const { lang } = useLang();
   const { data, content } = lang === "es" && es ? es : en;
@@ -141,6 +145,16 @@ export function PostArticle({
                     </div>
                   );
                 }
+              }
+
+              if (
+                isValidElement<{ className?: string; children?: string }>(
+                  codeChild
+                ) &&
+                codeChild.props.className?.includes("language-mermaid")
+              ) {
+                const svgs = diagrams[String(codeChild.props.children).trim()];
+                if (svgs) return <Diagram svgs={svgs} className="my-8" />;
               }
 
               return (

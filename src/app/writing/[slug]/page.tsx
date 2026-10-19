@@ -7,6 +7,8 @@ import { MoreWork } from "@/components/more-work";
 import { BackLink } from "@/components/back-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import type { DiagramSvgs } from "@/components/diagram";
+import { renderDiagram } from "@/lib/diagram";
 import { PostArticle, type PostFrontmatter } from "./post-article";
 
 // Pillar subdirs under content/published/ — mirrors content/README.md.
@@ -53,6 +55,27 @@ async function loadPost(slug: string) {
   return null;
 }
 
+/**
+ * Every ```mermaid fence in both bodies, rendered here so pele stays on the server.
+ * Keyed by the trimmed source, which is exactly what the client sees inside the
+ * fence, so it can look its diagram up without an id scheme in the markdown.
+ */
+function renderPostDiagrams(slug: string, ...bodies: string[]) {
+  const diagrams: Record<string, DiagramSvgs> = {};
+  const fence = /^```mermaid\r?\n([\s\S]*?)^```/gm;
+  for (const body of bodies) {
+    for (const [, source] of body.matchAll(fence)) {
+      const key = source.trim();
+      if (diagrams[key]) continue;
+      diagrams[key] = renderDiagram(
+        key,
+        `${slug}-d${Object.keys(diagrams).length}`
+      );
+    }
+  }
+  return diagrams;
+}
+
 export default async function WritingPost({
   params,
 }: {
@@ -64,6 +87,7 @@ export default async function WritingPost({
   if (!post) notFound();
 
   const { en, es } = post;
+  const diagrams = renderPostDiagrams(slug, en.content, es?.content ?? "");
 
   return (
     <>
@@ -71,7 +95,7 @@ export default async function WritingPost({
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 pt-8 pb-24 sm:pt-12">
         <BackLink />
 
-        <PostArticle en={en} es={es} />
+        <PostArticle en={en} es={es} diagrams={diagrams} />
 
         {/* The blog shelf, not the case-study one. A post used to close with
             "More case studies", which is a shelf from a different section of

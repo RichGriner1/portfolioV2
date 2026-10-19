@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { IntroPreviewLink } from "@/components/intro-preview-link";
+import type { DiagramKey } from "@/lib/content/diagrams";
 import type { Bilingual } from "@/lib/i18n";
 
 /**
@@ -44,6 +45,11 @@ export type BentoCard = {
      * it reads as a recording of another surface, not as part of this page.
      */
     media?: string;
+    /**
+     * A diagram drawn after the sections, from src/lib/content/diagrams.ts. For the
+     * part a recording can't show: what happens once the click is over.
+     */
+    diagram?: DiagramKey;
   };
   image?: string;
   images?: string[];
@@ -356,6 +362,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               },
             },
           ],
+          // The recording stops when the comment lands. This is the rest of the trip.
+          diagram: "feedback-round-trip",
         },
         // Captured from the demo shell on 2026-08-25, on Familia: comment mode
         // on, click the `Residencia fiscal` select, type, publish, hold on the

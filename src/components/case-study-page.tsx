@@ -5,15 +5,17 @@ import { BackLink } from "@/components/back-link";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
+import type { RenderedDiagrams } from "@/lib/content/diagrams";
 import { type WorkItem, formatYears } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
 
 type Props = {
   item: WorkItem;
   study: CaseStudy | undefined;
+  diagrams: RenderedDiagrams;
 };
 
-export function CaseStudyPage({ item, study }: Props) {
+export function CaseStudyPage({ item, study, diagrams }: Props) {
   const { lang } = useLang();
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24 sm:pt-12">
@@ -98,7 +100,11 @@ export function CaseStudyPage({ item, study }: Props) {
             </p>
           )}
 
-          <CaseStudyBento cards={study.bento} gallery={study.gallery} />
+          <CaseStudyBento
+            cards={study.bento}
+            gallery={study.gallery}
+            diagrams={diagrams}
+          />
 
           <MoreWork excludeSlug={item.slug} limit={3} />
         </>

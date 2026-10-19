@@ -95,6 +95,17 @@ El trabajo de la gramática es responder preguntas en una frase. Un desarrollado
 - *¿Esta sección debería tener un H2?* Si la página tiene más de una sección, sí. Si no, no.
 - *¿Dónde van los filtros?* Bajo la pestaña a la que pertenecen. Nunca en la página.
 
+```mermaid
+flowchart TD
+  accTitle: ¿Dónde va esta acción?
+  accDescr: Si la acción cambia toda la plataforma, va en global-rail. Si cambia toda la pantalla, en page-actions. Si cambia una pestaña, en tab-row.
+  A{¿Toda la plataforma?}
+  A -->|Sí| G[global-rail]
+  A -->|No| B{¿Toda la pantalla?}
+  B -->|Sí| P[page-actions]
+  B -->|Una pestaña| T[tab-row]
+```
+
 Cada hueco tiene nombre: `page-header`, `page-actions`, `tab-row`, `section-h2`, `tab-filters`, `global-rail`. Los nombres coinciden entre Figma y el código. Cuando los nombres coinciden, «esto chirría» deja de ser una sensación y pasa a ser una comprobación. *Esa acción no debería estar en `page-actions`; su sitio es `global-rail`.* La coherencia se puede exigir cuando hay un hueco correcto al que señalar.
 
 ## Lo que le diría al siguiente diseñador que entre en un producto denso

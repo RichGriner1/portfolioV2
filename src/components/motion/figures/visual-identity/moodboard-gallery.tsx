@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
@@ -35,11 +36,15 @@ export function MoodboardGalleryFigure({ lang }: { lang: Lang }) {
   return (
     <figure className="flex flex-col gap-3">
       <div className="border-border bg-muted aspect-[1920/1325] overflow-hidden rounded-md border">
-        <img
+        <Image
           key={slide.src}
           src={slide.src}
           alt={alt}
-          loading="lazy"
+          // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+          // A 0×0 size would keep Chrome from ever starting the lazy load.
+          width={1600}
+          height={1000}
+          sizes="(max-width: 1024px) 100vw, 1024px"
           className="h-full w-full object-contain"
         />
       </div>

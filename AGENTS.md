@@ -33,6 +33,19 @@ The token system lives in [src/app/globals.css](src/app/globals.css) in three la
 
 These hold on every change, reviewed or not. The `code-reviewer` agent blocks on them when it runs, but not every change goes through it.
 
+## UI sources
+
+**Before building or defining any UI, list these for Richard with links** so he can browse the sites and pick, rather than forget what's on hand. Every pulled component goes through `/ds-cleanup --fix` to swap its values for the tokens above.
+
+- **shadcn registries** (in [components.json](components.json), browsable via the `shadcn` MCP in [.mcp.json](.mcp.json)):
+  - Base UI, drop-in: [`@reui`](https://reui.io), [`@spaceui`](https://www.spaceui.one), [`@audiocn`](https://www.audiocn.dev) (audio UI)
+  - Visual / motion, no primitive deps: [`@componentry`](https://componentry.dev), [`@skecher`](https://skecher-ui.com)
+  - Radix-based, adds a Radix dep, so prefer the above: [`@arc`](https://uiarc.dev), [`@obsidian`](https://www.obsidianui.dev)
+- **npm packages:** [`shaders`](https://shaders.com) (WebGPU shader backgrounds/effects), [`pele`](https://pele.run) (Mermaid text → SVG diagrams)
+- **[libraries.dev](https://libraries.dev)** (user-scope skill `libraries-dev`): border beam, thinking orbs, gooey, voice glow, bot avatars, liquid metal, image reveal. One npm package each.
+- **[Feral UI gradients](https://feralui.dev/gradients)** (`feral-ui` MCP): generates gradients from traditional Japanese colours.
+- **Copy-paste only** (no registry; Richard links the component): [OriginKit](https://www.originkit.dev), [Toolcraft](https://toolcraft.sh), [Skiper UI](https://skiper-ui.com), [Bencho](https://bencho.dev), [Superdesign](https://superdesign.dev), [Iconography](https://encyclopedia.iconography.co)
+
 ## Dev workflow (code changes)
 
 The main session writes the code. It already holds the context: handing a change to a fresh agent means that agent re-reads everything before it writes a line. On 2026-09-18 that handoff took 35 minutes of the hour a medium canvas feature took, and added nothing the checks below didn't already cover.

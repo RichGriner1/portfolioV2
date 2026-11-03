@@ -107,7 +107,56 @@ export type BentoCard = {
   video?: string;
 };
 
+/**
+ * A scrolling case study, as an alternative to the bento.
+ *
+ * The bento suits work that is six separable artefacts. SAREVI's story is a sequence
+ * of changes to one flow, and what proves each one is watching it happen — so it's
+ * told as sections down the page, each with prose and a short silent clip, and
+ * `compare` puts a before and an after side by side. A study sets `story` and
+ * leaves `bento` empty; the page renders whichever is present.
+ *
+ * Clips are plain paths under /public (no language/theme variants): they're screen
+ * recordings of a Spanish-only, light-only prototype, like `BentoCard.video` given
+ * as a verbatim `.mp4`.
+ */
+export type StoryClip = {
+  src: string;
+  poster?: string;
+  alt: Bilingual<string>;
+};
+
+export type StoryMedia = {
+  kind: "clip";
+  clip: StoryClip;
+  caption?: Bilingual<string>;
+};
+
+/**
+ * One direction that was on the table for a decision, and what became of it.
+ * `merged` means its useful part was folded into the chosen one.
+ */
+export type StoryOption = {
+  outcome: "original" | "proposed" | "chosen" | "merged" | "dropped" | "open";
+  name: Bilingual<string>;
+  note: Bilingual<string>;
+  /** When set, the row is selectable and the clip plays in the viewer under the list. */
+  clip?: StoryClip;
+};
+
+export type StorySection = {
+  /** Set on the few consequential decisions ("Decision 1"); they get more weight than the context sections. */
+  kicker?: Bilingual<string>;
+  heading: Bilingual<string>;
+  /** One entry per paragraph. */
+  body: Bilingual<string>[];
+  /** Directions considered, shown between the first paragraph (the problem) and the clip. */
+  options?: StoryOption[];
+  media?: StoryMedia[];
+};
+
 export type CaseStudy = {
+  story?: StorySection[];
   tagline: Bilingual<string>;
   intro: Bilingual<string>;
   role: Bilingual<string>;
@@ -781,6 +830,628 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           ],
         },
+      },
+    ],
+  },
+  /**
+   * SAREVI — work in progress. Narrative spine (situation → ambiguity → user and
+   * inherited flow → three decisions with the directions considered → constraints and
+   * ownership → where it stands → supporting work). Facts come from Richard's own
+   * account (2026-11-03) plus the Opciones de gráficos and Simulator Decisions
+   * artifacts; nothing is claimed that those don't support. Known gaps:
+   *   - the Dirección change is worded "as I understand it" (partnership left out);
+   *   - no quote from a senior or developer yet;
+   *   - any outcome data, and a real user test.
+   * Spanish is unreviewed: run afi-redaccion over every `es` string before publishing.
+   * No `confidential` note: footage comes from the Afi-branded Simulator Exploration file.
+   */
+  sarevi: {
+    tagline: {
+      en: "Modernising a bank simulator one step at a time, without a roadmap",
+      // TODO(afi-redaccion)
+      es: "Modernizar un simulador bancario paso a paso, sin hoja de ruta",
+    },
+    intro: {
+      en: "SAREVI is Afi's energy-efficiency simulator for banks. I'm its only full-time designer, modernising the flow and look so Afi can keep selling it. It's early: nothing has shipped.",
+      // TODO(afi-redaccion)
+      es: "SAREVI es el simulador de eficiencia energética de Afi para bancos. Soy su único diseñador a tiempo completo y estoy modernizando el flujo y el aspecto para que Afi pueda seguir vendiéndolo. Es pronto: nada se ha publicado.",
+    },
+    role: {
+      en: "Only full-time designer",
+      // TODO(afi-redaccion)
+      es: "Único diseñador a tiempo completo",
+    },
+    contributions: {
+      en: [
+        "Problem framing",
+        "Layout and flow decisions",
+        "Value proposition",
+        "Results charts",
+        "Prototype with option switches",
+        "Brand layers",
+      ],
+      // TODO(afi-redaccion)
+      es: [
+        "Planteamiento del problema",
+        "Decisiones de diseño y flujo",
+        "Propuesta de valor",
+        "Gráficos de resultados",
+        "Prototipo con interruptores de opciones",
+        "Capas de marca",
+      ],
+    },
+    bento: [],
+    story: [
+      {
+        heading: {
+          en: "The situation",
+          // TODO(afi-redaccion)
+          es: "La situación",
+        },
+        body: [
+          {
+            en: "Banks put our simulators on their sites as a free tool, and Afi sells the calculation, not the design. Some look dated, clients want products closer to their own design system, one client recently stepped back and usage is below target. A more modern experience sells better.",
+            // TODO(afi-redaccion)
+            es: "Los bancos ponen nuestros simuladores en sus webs como herramienta gratuita, y Afi vende el cálculo, no el diseño. Algunos se ven anticuados, los clientes quieren productos más cercanos a su sistema de diseño, un cliente se ha retirado y el uso está por debajo del objetivo. Una experiencia más moderna vende mejor.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "The brief, and what wasn't clear",
+          // TODO(afi-redaccion)
+          es: "El encargo, y lo que no estaba claro",
+        },
+        body: [
+          {
+            en: "The seniors asked for a brand for the simulators, without deciding between one per simulator or one for all. I built both: a modern direction iterated from our Wealth Planner brand, and Bosque, in green and lime, for a sustainability angle.",
+            // TODO(afi-redaccion)
+            es: "Los responsables pidieron una marca para los simuladores, sin decidir entre una por simulador o una para todos. Construí ambas: una dirección moderna iterada desde nuestra marca de Wealth Planner y Bosque, en verde y lima, con un enfoque de sostenibilidad.",
+          },
+          {
+            en: "The harder question was how much to change at once. AI makes a redesign cheap to produce, not safe to ship, so each change sits behind a switch until it's validated.",
+            // TODO(afi-redaccion)
+            es: "La pregunta difícil era cuánto cambiar de una vez. La IA abarata producir un rediseño, pero no lo hace seguro de publicar, así que cada cambio va tras un interruptor hasta validarlo.",
+          },
+        ],
+        media: [
+          {
+            kind: "clip",
+            clip: {
+              src: "/work/sarevi/brands.mp4",
+              poster: "/work/sarevi/brands-poster.webp",
+              alt: {
+                en: "The control bar switching brand, screen and layout on the same flow",
+                // TODO(afi-redaccion)
+                es: "La barra de controles cambiando marca, pantalla y diseño sobre el mismo flujo",
+              },
+            },
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Who it's for, and what I inherited",
+          // TODO(afi-redaccion)
+          es: "Para quién es, y qué heredé",
+        },
+        body: [
+          {
+            en: "A bank customer wants a free estimate of what a reform costs and saves, tax deductions included. We nudge them to the bank, which can finance it: that's the lead.",
+            // TODO(afi-redaccion)
+            es: "Un cliente del banco quiere una estimación gratuita de lo que cuesta y ahorra una reforma, deducciones fiscales incluidas. Le orientamos hacia el banco, que puede financiarlo: ese es el contacto.",
+          },
+          {
+            en: 'I inherited almost all of the flow (Datos, Medidas, Resumen) from a year and a half of gradual improvement. The "before" versions here are that design, kept as an option in my prototype.',
+            // TODO(afi-redaccion)
+            es: "Heredé casi todo el flujo (Datos, Medidas, Resumen) de un año y medio de mejoras graduales. Las versiones de «antes» son ese diseño, conservado como opción en mi prototipo.",
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Decision 1",
+          // TODO(afi-redaccion)
+          es: "Decisión 1",
+        },
+        heading: {
+          en: "Results stay in view",
+          // TODO(afi-redaccion)
+          es: "Resultados a la vista",
+        },
+        body: [
+          {
+            en: "The Personalizar drawer covered Resultados, the numbers the user is trying to move, and the stacked layout hid them below a long list. I tried several directions with the team.",
+            // TODO(afi-redaccion)
+            es: "El panel Personalizar tapaba Resultados, los números que el usuario quiere mover, y el diseño apilado los escondía bajo una lista larga. Probé varias direcciones con el equipo.",
+          },
+          {
+            en: "Results beside the list is my proposal. Where the editor opens is still debated.",
+            // TODO(afi-redaccion)
+            es: "Los resultados junto a la lista son mi propuesta. Dónde se abre el editor sigue en debate.",
+          },
+        ],
+        options: [
+          {
+            outcome: "original",
+            name: {
+              en: "Stacked list, results below",
+              // TODO(afi-redaccion)
+              es: "Lista apilada, resultados debajo",
+            },
+            note: {
+              en: "The effect of a choice is off-screen.",
+              // TODO(afi-redaccion)
+              es: "El efecto de cada elección queda fuera de pantalla.",
+            },
+            clip: {
+              src: "/work/sarevi/stacked.mp4",
+              poster: "/work/sarevi/stacked-poster.webp",
+              alt: {
+                en: "Stacked layout: tick a measure, scroll down to find the results",
+                // TODO(afi-redaccion)
+                es: "Diseño apilado: marcar una medida y bajar para ver los resultados",
+              },
+            },
+          },
+          {
+            outcome: "dropped",
+            name: {
+              en: "Drawer from the left",
+              // TODO(afi-redaccion)
+              es: "Panel desde la izquierda",
+            },
+            note: {
+              en: "Every other drawer opens from the right. Clip from the code that remains.",
+              // TODO(afi-redaccion)
+              es: "Todos los demás paneles salen de la derecha. Vídeo del código que se conserva.",
+            },
+            clip: {
+              src: "/work/sarevi/left.mp4",
+              poster: "/work/sarevi/left-poster.webp",
+              alt: {
+                en: "Personalizar drawer opening from the left, with the results still visible on the right",
+                // TODO(afi-redaccion)
+                es: "Panel Personalizar abriéndose desde la izquierda, con los resultados aún visibles a la derecha",
+              },
+            },
+          },
+          {
+            outcome: "proposed",
+            name: {
+              en: "Results beside the list",
+              // TODO(afi-redaccion)
+              es: "Resultados junto a la lista",
+            },
+            note: {
+              en: "Updates as you tick.",
+              // TODO(afi-redaccion)
+              es: "Se actualiza al marcar.",
+            },
+            clip: {
+              src: "/work/sarevi/panel.mp4",
+              poster: "/work/sarevi/panel-poster.webp",
+              alt: {
+                en: "Side-panel layout: tick measures and the results update beside the list",
+                // TODO(afi-redaccion)
+                es: "Diseño de panel lateral: al marcar medidas, los resultados se actualizan junto a la lista",
+              },
+            },
+          },
+          {
+            outcome: "open",
+            name: {
+              en: "Editor in a right-hand drawer",
+              // TODO(afi-redaccion)
+              es: "Editor en un panel derecho",
+            },
+            note: {
+              en: "Matches other drawers; code exists.",
+              // TODO(afi-redaccion)
+              es: "Coincide con otros paneles; ya hay código.",
+            },
+            clip: {
+              src: "/work/sarevi/autocalc.mp4",
+              poster: "/work/sarevi/autocalc-poster.webp",
+              alt: {
+                en: "Personalizar drawer opening from the right with the results beside it",
+                // TODO(afi-redaccion)
+                es: "Panel Personalizar abriéndose desde la derecha con los resultados al lado",
+              },
+            },
+          },
+          {
+            outcome: "open",
+            name: {
+              en: "Editor inside the measure",
+              // TODO(afi-redaccion)
+              es: "Editor dentro de la medida",
+            },
+            note: {
+              en: "Used in other products.",
+              // TODO(afi-redaccion)
+              es: "Se usa en otros productos.",
+            },
+            clip: {
+              src: "/work/sarevi/inline.mp4",
+              poster: "/work/sarevi/inline-poster.webp",
+              alt: {
+                en: "Personalizar opening inside the measure card",
+                // TODO(afi-redaccion)
+                es: "Personalizar abriéndose dentro de la tarjeta de la medida",
+              },
+            },
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Decision 2",
+          // TODO(afi-redaccion)
+          es: "Decisión 2",
+        },
+        heading: {
+          en: "Showing the change in Resumen",
+          // TODO(afi-redaccion)
+          es: "Mostrar el cambio en Resumen",
+        },
+        body: [
+          {
+            en: "Resumen left the user to work out what changed. I brainstormed with the team, ran a Crazy Eights, and compared six directions.",
+            // TODO(afi-redaccion)
+            es: "Resumen dejaba al usuario deducir qué cambia. Hice una lluvia de ideas con el equipo, un Crazy Eights y comparé seis direcciones.",
+          },
+          {
+            en: "I chose a combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric. After review the headers merged and the download button moved beside the grade.",
+            // TODO(afi-redaccion)
+            es: "Elegí una tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica. Tras la revisión, las cabeceras se unieron y el botón de descarga pasó junto a la letra.",
+          },
+        ],
+        options: [
+          {
+            outcome: "original",
+            name: {
+              en: "Original",
+              // TODO(afi-redaccion)
+              es: "Original",
+            },
+            note: {
+              en: "One saving and a cumulative line.",
+              // TODO(afi-redaccion)
+              es: "Un ahorro y una línea acumulada.",
+            },
+            clip: {
+              src: "/work/sarevi/charts-old.mp4",
+              poster: "/work/sarevi/charts-old-poster.webp",
+              alt: {
+                en: "Resumen with the original charts: one saving card, a cumulative line, then the tables",
+                // TODO(afi-redaccion)
+                es: "Resumen con los gráficos originales: una tarjeta de ahorro, una línea acumulada y después las tablas",
+              },
+            },
+          },
+          {
+            outcome: "merged",
+            name: {
+              en: "A · Metric switch",
+              // TODO(afi-redaccion)
+              es: "A · Interruptor de métrica",
+            },
+            note: {
+              en: "One figure, switchable. Little context.",
+              // TODO(afi-redaccion)
+              es: "Una cifra, intercambiable. Poco contexto.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-A.mp4",
+              poster: "/work/sarevi/opt-A-poster.webp",
+              alt: {
+                en: "Option A: a metric switch with before and after segment bars",
+                // TODO(afi-redaccion)
+                es: "Opción A: interruptor de métrica con barras de segmentos de antes y después",
+              },
+            },
+          },
+          {
+            outcome: "merged",
+            name: {
+              en: "B · Two scenarios over time",
+              // TODO(afi-redaccion)
+              es: "B · Dos escenarios en el tiempo",
+            },
+            note: {
+              en: "The gap between the lines is the saving. Long-term assumptions.",
+              // TODO(afi-redaccion)
+              es: "El hueco entre líneas es el ahorro. Supuestos a largo plazo.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-B.mp4",
+              poster: "/work/sarevi/opt-B-poster.webp",
+              alt: {
+                en: "Option B: two accumulated lines, with and without the reform",
+                // TODO(afi-redaccion)
+                es: "Opción B: dos líneas acumuladas, con y sin reforma",
+              },
+            },
+          },
+          {
+            outcome: "open",
+            name: {
+              en: "C · Grade scale",
+              // TODO(afi-redaccion)
+              es: "C · Escala de calificación",
+            },
+            note: {
+              en: "Grade jump at a glance, no amount. Suggested for Datos.",
+              // TODO(afi-redaccion)
+              es: "Salto de letra de un vistazo, sin importe. Sugerida para Datos.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-C.mp4",
+              poster: "/work/sarevi/opt-C-poster.webp",
+              alt: {
+                en: "Option C: the A to G ladder with an arrow from today's grade to the new one",
+                // TODO(afi-redaccion)
+                es: "Opción C: la escalera de A a G con una flecha de la letra actual a la nueva",
+              },
+            },
+          },
+          {
+            outcome: "dropped",
+            name: {
+              en: "D · Monthly profile",
+              // TODO(afi-redaccion)
+              es: "D · Perfil mensual",
+            },
+            note: {
+              en: "Needs a monthly model we don't have.",
+              // TODO(afi-redaccion)
+              es: "Exige un modelo mensual que no tenemos.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-D.mp4",
+              poster: "/work/sarevi/opt-D-poster.webp",
+              alt: {
+                en: "Option D: twelve months before and after the reform",
+                // TODO(afi-redaccion)
+                es: "Opción D: doce meses antes y después de la reforma",
+              },
+            },
+          },
+          {
+            outcome: "merged",
+            name: {
+              en: "E · Three rows",
+              // TODO(afi-redaccion)
+              es: "E · Tres filas",
+            },
+            note: {
+              en: "Three metrics on one ruler.",
+              // TODO(afi-redaccion)
+              es: "Tres magnitudes con la misma regla.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-E.mp4",
+              poster: "/work/sarevi/opt-E-poster.webp",
+              alt: {
+                en: "Option E: three rows on one ruler with the percentage at the end",
+                // TODO(afi-redaccion)
+                es: "Opción E: tres filas con la misma regla y el porcentaje al final",
+              },
+            },
+          },
+          {
+            outcome: "chosen",
+            name: {
+              en: "F · Combined card",
+              // TODO(afi-redaccion)
+              es: "F · Tarjeta combinada",
+            },
+            note: {
+              en: "Pieces of A, B, E and D's header, in one card.",
+              // TODO(afi-redaccion)
+              es: "Piezas de A, B, E y la cabecera de D, en una tarjeta.",
+            },
+            clip: {
+              src: "/work/sarevi/charts-new.mp4",
+              poster: "/work/sarevi/charts-new-poster.webp",
+              alt: {
+                en: "Resumen with the combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric",
+                // TODO(afi-redaccion)
+                es: "Resumen con la tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica",
+              },
+            },
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Decision 3",
+          // TODO(afi-redaccion)
+          es: "Decisión 3",
+        },
+        heading: {
+          en: "What the first screen promises",
+          // TODO(afi-redaccion)
+          es: "Qué promete la primera pantalla",
+        },
+        body: [
+          {
+            en: "The old landing led with the tool's name and three steps. It said what the simulator is, not what you get.",
+            // TODO(afi-redaccion)
+            es: "La portada antigua abría con el nombre de la herramienta y tres pasos. Decía qué es el simulador, no qué se obtiene.",
+          },
+          {
+            en: "The new one leads with the outcome, makes the Vivienda/Edificio choice the call to action, and says it's an estimate. Nobody on the team has seen it yet: it's a proposal. The check is whether more people start the flow.",
+            // TODO(afi-redaccion)
+            es: "La nueva abre con el resultado, convierte la elección Vivienda/Edificio en llamada a la acción y avisa de que es una estimación. Nadie del equipo la ha visto: es una propuesta. La comprobación es si más gente empieza el flujo.",
+          },
+        ],
+        options: [
+          {
+            outcome: "original",
+            name: {
+              en: "Original landing",
+              // TODO(afi-redaccion)
+              es: "Portada original",
+            },
+            note: {
+              en: "Tool name, three steps, then the choice.",
+              // TODO(afi-redaccion)
+              es: "Nombre de la herramienta, tres pasos y la elección.",
+            },
+            clip: {
+              src: "/work/sarevi/hero-old.mp4",
+              poster: "/work/sarevi/hero-old-poster.webp",
+              alt: {
+                en: "The original landing: a title naming the tool, three steps, then the choice",
+                // TODO(afi-redaccion)
+                es: "La portada original: un título que nombra la herramienta, tres pasos y después la elección",
+              },
+            },
+          },
+          {
+            outcome: "proposed",
+            name: {
+              en: "New landing",
+              // TODO(afi-redaccion)
+              es: "Portada nueva",
+            },
+            note: {
+              en: "Outcome as headline; the choice as the call to action.",
+              // TODO(afi-redaccion)
+              es: "El resultado como titular; la elección como llamada a la acción.",
+            },
+            clip: {
+              src: "/work/sarevi/hero-new.mp4",
+              poster: "/work/sarevi/hero-new-poster.webp",
+              alt: {
+                en: "The new landing: the saving as the headline, Edificio and Vivienda cards with animated numerals, then a click into the first question",
+                // TODO(afi-redaccion)
+                es: "La nueva portada: el ahorro como titular, tarjetas Edificio y Vivienda con números animados y un clic hasta la primera pregunta",
+              },
+            },
+          },
+          {
+            outcome: "open",
+            name: {
+              en: "What people want to know first",
+              // TODO(afi-redaccion)
+              es: "Lo que la gente quiere saber primero",
+            },
+            note: {
+              en: "How long, documents, free and anonymous. Left out until confirmed.",
+              // TODO(afi-redaccion)
+              es: "Cuánto tarda, documentos, gratis y anónimo. Fuera hasta confirmarlo.",
+            },
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "A smaller change, same idea",
+          // TODO(afi-redaccion)
+          es: "Un cambio menor, la misma idea",
+        },
+        body: [
+          {
+            en: "Medidas shared one auto-calc checkbox across the whole list. Each measure now has its own switch; off, its amount is the one editable field and Resultado follows.",
+            // TODO(afi-redaccion)
+            es: "Medidas compartía una casilla de cálculo automático en toda la lista. Ahora cada medida tiene su interruptor; desactivado, su importe es el único campo editable y Resultado lo sigue.",
+          },
+        ],
+        media: [
+          {
+            kind: "clip",
+            clip: {
+              src: "/work/sarevi/autocalc.mp4",
+              poster: "/work/sarevi/autocalc-poster.webp",
+              alt: {
+                en: "Personalizar drawer: auto-calc switched off, the amount edited, the results panel updating",
+                // TODO(afi-redaccion)
+                es: "Panel Personalizar: cálculo automático desactivado, importe editado y panel de resultados actualizándose",
+              },
+            },
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Constraints, and who decided what",
+          // TODO(afi-redaccion)
+          es: "Condicionantes, y quién decidió qué",
+        },
+        body: [
+          {
+            en: "I propose and prototype; most decisions start with me and I try to get the team to buy in, or I switch it back. The seniors set the brief and decide what ships. They removed Dirección because, as I understand it, the address lookup no longer needs it.",
+            // TODO(afi-redaccion)
+            es: "Yo propongo y prototipo; la mayoría de las decisiones parten de mí e intento que el equipo las apoye, o vuelvo atrás. Los responsables fijan el encargo y deciden qué sale. Quitaron Dirección porque, según entiendo, la búsqueda de dirección ya no la necesita.",
+          },
+          {
+            en: "I'm the only full-time designer, with a peer designer at my level. Testing so far is only with the programmers on the team; no bank customer has used these versions.",
+            // TODO(afi-redaccion)
+            es: "Soy el único diseñador a tiempo completo, con otra persona de diseño de mi nivel. Las pruebas son solo con los programadores del equipo; ningún cliente de un banco ha usado estas versiones.",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Where it stands",
+          // TODO(afi-redaccion)
+          es: "Dónde está",
+        },
+        body: [
+          {
+            en: "No outcomes yet; nothing has shipped. First checks: do more people start from the new landing, and does support still hear whether the figure is binding.",
+            // TODO(afi-redaccion)
+            es: "Aún no hay resultados ni nada publicado. Primeras comprobaciones: si más gente empieza desde la portada nueva y si atención al cliente sigue oyendo si la cifra es vinculante.",
+          },
+          {
+            en: "Open: the editor default, Bosque's olive text (fails AA at 3.62:1), whether Datos fields should change results, and differing Resumen and Medidas totals (IRPF).",
+            // TODO(afi-redaccion)
+            es: "Abierto: el valor por defecto del editor, el texto oliva de Bosque (no cumple AA: 3,62:1), si los campos de Datos deben cambiar el resultado y los totales distintos de Resumen y Medidas (IRPF).",
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Supporting work",
+          // TODO(afi-redaccion)
+          es: "Trabajo de apoyo",
+        },
+        body: [
+          {
+            en: "The prototype is built in Claude artifacts, with switches for brand, layout, editor, landing and charts, so a rejected idea costs a click. The numeral morph and loader are exploratory.",
+            // TODO(afi-redaccion)
+            es: "El prototipo está construido en artefactos de Claude, con interruptores de marca, diseño, editor, portada y gráficos, para que descartar una idea cueste un clic. La animación de dígitos y el cargador son exploratorios.",
+          },
+        ],
+        media: [
+          {
+            kind: "clip",
+            clip: {
+              src: "/work/sarevi/morph.mp4",
+              poster: "/work/sarevi/morph-poster.webp",
+              alt: {
+                en: "A grid of digits morphing between a house, a globe and a building",
+                // TODO(afi-redaccion)
+                es: "Una cuadrícula de dígitos transformándose entre una casa, un globo y un edificio",
+              },
+            },
+          },
+          {
+            kind: "clip",
+            clip: {
+              src: "/work/sarevi/loader.mp4",
+              poster: "/work/sarevi/loader-poster.webp",
+              alt: {
+                en: "A bolt made of digits filling in three steps with a percentage, then blurring into the home screen",
+                // TODO(afi-redaccion)
+                es: "Un rayo hecho de dígitos que se rellena en tres pasos con un porcentaje y se difumina hacia la pantalla de inicio",
+              },
+            },
+          },
+        ],
       },
     ],
   },

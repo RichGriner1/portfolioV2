@@ -213,6 +213,27 @@ export const WORK: WorkItem[] = [
     homeRank: 1,
   },
   {
+    slug: "sarevi",
+    title: { en: "SAREVI", es: "SAREVI" },
+    description: {
+      en: "Redesigning an energy-efficiency simulator Afi sells to banks: ask less, compute more, and lead with the saving.",
+      es: "Rediseño de un simulador de eficiencia energética que Afi vende a bancos: preguntar menos, calcular más y empezar por el ahorro.",
+    },
+    year: 2026,
+    type: "brand-ds",
+    kind: "case-study",
+    href: "/work/sarevi",
+    // The numeral morph (digits forming a house, a globe, a building), square. Light
+    // theme: forest digits on white. Dark theme: lime digits on forest (Bosque). The
+    // clip has no text, so en and es are identical per theme.
+    video: "/work/sarevi/card",
+    ongoing: true,
+    // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board
+    // until Richard says it's ready (Spanish has had one pass, not a final review).
+    hidden: false,
+    homeHidden: true,
+  },
+  {
     slug: "kt360",
     title: { en: "KnowThyself360", es: "KnowThyself360" },
     description: {

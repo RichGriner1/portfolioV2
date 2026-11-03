@@ -777,9 +777,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
    * product judgment rather than features. Facts come from Richard's own account that
    * day plus the Opciones de gráficos and Simulator Decisions artifacts; nothing is
    * claimed that those don't support. Known gaps to fill before publishing:
-   *   - who chose F in Decision 2, and why the left drawer was dropped (Decision 1);
-   *   - whether the Dirección change is tied to the address lookup partnership
-   *     (kept generic on purpose);
+   *   - the Dirección change is worded "as I understand it" (Richard isn't sure of the
+   *     backend detail; partnership deliberately left out);
+   *   - no quote from a senior or developer yet;
    *   - any outcome data, and a real user test.
    * Spanish is unreviewed: run afi-redaccion over every `es` string before publishing.
    * No `confidential` note: footage comes from the Afi-branded Simulator Exploration file.
@@ -891,9 +891,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "Quienes lo usan son clientes de un banco, en la web del propio banco, que intentan financiar una obra en casa. Describen la vivienda (Datos), eligen reformas (Medidas) y leen el resultado (Resumen).",
           },
           {
-            en: 'I didn\'t design that flow. I inherited almost all of it from a year and a half of gradual improvement, so the question was never what the flow should be, but which few places to change so the simulator asks less and says more. I worked on three. The "before" clips on this page are that inherited design, kept as an option in my prototype, not a recording of the shipped product.',
+            en: 'I didn\'t design that flow. I inherited almost all of it from a year and a half of gradual improvement, so the question was never what the flow should be, but which few places to change so the simulator asks less and says more. The three places that matter most are below. The "before" clips on this page are that inherited design, kept as an option in my prototype, not a recording of the shipped product.',
             // TODO(afi-redaccion)
-            es: "Yo no diseñé ese flujo. Heredé casi todo de un año y medio de mejoras graduales, así que la pregunta nunca fue cómo debía ser el flujo, sino en qué pocos puntos cambiarlo para que el simulador pregunte menos y diga más. Trabajé en tres. Los vídeos de «antes» de esta página son ese diseño heredado, conservado como opción en mi prototipo, no una grabación del producto publicado.",
+            es: "Yo no diseñé ese flujo. Heredé casi todo de un año y medio de mejoras graduales, así que la pregunta nunca fue cómo debía ser el flujo, sino en qué pocos puntos cambiarlo para que el simulador pregunte menos y diga más. Los tres puntos que más importan están a continuación. Los vídeos de «antes» de esta página son ese diseño heredado, conservado como opción en mi prototipo, no una grabación del producto publicado.",
           },
         ],
       },
@@ -910,14 +910,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "In the inherited layout the Personalizar drawer opened over Resultados, the numbers the user is trying to move, and the stacked layout put them below a long list of measures. Tick something and you had to scroll to learn what it did. We looked at three or four directions, and went through what worked and what didn't with the project seniors.",
+            en: "In the inherited layout the Personalizar drawer opened over Resultados, the numbers the user is trying to move, and the stacked layout put them below a long list of measures. Tick something and you had to scroll to learn what it did. I tried several directions and went through what worked and what didn't with the team.",
             // TODO(afi-redaccion)
-            es: "En el diseño heredado, el panel Personalizar se abría sobre Resultados, justo los números que el usuario quiere mover, y el diseño apilado los dejaba debajo de una lista larga de medidas. Al marcar algo había que bajar para ver qué había cambiado. Estudiamos tres o cuatro direcciones y repasamos con los responsables del proyecto qué funcionaba y qué no.",
+            es: "En el diseño heredado, el panel Personalizar se abría sobre Resultados, justo los números que el usuario quiere mover, y el diseño apilado los dejaba debajo de una lista larga de medidas. Al marcar algo había que bajar para ver qué había cambiado. Probé varias direcciones y repasé con el equipo qué funcionaba y qué no.",
           },
           {
-            en: "Layout and Editor became switches on the prototype, so the options could be compared on the same screens and the team could say what it liked. The side panel is my proposal. Where the editor opens is still open, and so is the default.",
+            en: "Layout and Editor became switches on the prototype, so the options could be compared on the same screens and the team could say what it liked. The side panel is my proposal. Where the editor opens is still being debated: a right-hand drawer, which the team already has code for and which leaves room to add things later, or inside the measure itself. Other products use both.",
             // TODO(afi-redaccion)
-            es: "Diseño y Editor pasaron a ser interruptores del prototipo, para poder comparar las opciones en las mismas pantallas y que el equipo dijera qué le gustaba. El panel lateral es mi propuesta. Dónde se abre el editor sigue abierto, y también el valor por defecto.",
+            es: "Diseño y Editor pasaron a ser interruptores del prototipo, para poder comparar las opciones en las mismas pantallas y que el equipo dijera qué le gustaba. El panel lateral es mi propuesta. Dónde se abre el editor sigue en debate: un panel derecho, para el que el equipo ya tiene código y que deja margen para añadir cosas más adelante, o dentro de la propia medida. Otros productos usan ambos.",
           },
         ],
         options: [
@@ -942,9 +942,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               es: "Panel desde la izquierda",
             },
             note: {
-              en: "Kept Resultado visible. Tried, then dropped.",
+              en: "I tried it because a right-hand drawer covers the numbers that change. The team found it odd: every other drawer comes from the right.",
               // TODO(afi-redaccion)
-              es: "Mantenía Resultado visible. Se probó y se descartó.",
+              es: "Lo probé porque un panel derecho tapa las cifras que cambian. Al equipo le resultó raro: todos los demás paneles salen de la derecha.",
             },
           },
           {
@@ -968,9 +968,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               es: "Editor: panel derecho o dentro de la tarjeta",
             },
             note: {
-              en: "No default picked yet.",
+              en: "Still being debated. The drawer has code ready and room to add things later; both patterns are used in other products.",
               // TODO(afi-redaccion)
-              es: "Aún sin valor por defecto.",
+              es: "Sigue en debate. El panel ya tiene código y deja margen para añadir cosas; ambos patrones se usan en otros productos.",
             },
           },
         ],
@@ -1021,14 +1021,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "Resumen opened with one saving and a cumulative line, and left the user to work out what changed in their home. I compared six ways of showing it (A to F) on a single page, each with what it communicates best, what it costs, and how much work it needs from the design system.",
+            en: "Resumen opened with one saving and a cumulative line, and left the user to work out what changed in their home. I brainstormed what users would want to see, with the team, then ran a Crazy Eights on layouts and how they behave. I put six directions (A to F) on one page, each with what it communicates best, what it costs, and how much work it needs from the design system, and chose from there.",
             // TODO(afi-redaccion)
-            es: "Resumen abría con un ahorro y una línea acumulada, y dejaba al usuario deducir qué cambia en su vivienda. Comparé seis formas de mostrarlo (de la A a la F) en una sola página, cada una con lo que comunica mejor, lo que cuesta y cuánto trabajo exige al sistema de diseño.",
+            es: "Resumen abría con un ahorro y una línea acumulada, y dejaba al usuario deducir qué cambia en su vivienda. Hice una lluvia de ideas, con el equipo, sobre lo que querrían ver los usuarios, y después un Crazy Eights con maquetaciones y cómo se comportan. Puse seis direcciones (de la A a la F) en una sola página, cada una con lo que comunica mejor, lo que cuesta y cuánto trabajo exige al sistema de diseño, y elegí a partir de ahí.",
           },
           {
-            en: "The combined card (F) was chosen: one card with a metric switch, before and after bars, the saving as a filled area and a range row per metric. After review the two headers became one, the download button sits beside the grade so it is always in view, and the two ways to talk to an advisor share one banner.",
+            en: "I chose the combined card (F): one card with a metric switch, before and after bars, the saving as a filled area and a range row per metric. After review the two headers became one, the download button sits beside the grade so it is always in view, and the two ways to talk to an advisor share one banner.",
             // TODO(afi-redaccion)
-            es: "Se eligió la tarjeta combinada (F): una tarjeta con interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica. Tras la revisión, las dos cabeceras pasaron a ser una, el botón de descarga está junto a la letra para verse siempre y las dos formas de hablar con un asesor comparten banner.",
+            es: "Elegí la tarjeta combinada (F): una tarjeta con interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica. Tras la revisión, las dos cabeceras pasaron a ser una, el botón de descarga está junto a la letra para verse siempre y las dos formas de hablar con un asesor comparten banner.",
           },
         ],
         options: [
@@ -1160,9 +1160,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "La portada antigua abría con el nombre de la herramienta y tres pasos que repetían las secciones del propio formulario. Decía qué es el simulador, no qué se obtiene con él.",
           },
           {
-            en: 'The new landing makes the headline the outcome ("Cuánto ahorrarías, cuánto costaría y cómo pagarlo") and the Vivienda/Edificio choice the call to action, so the first click is already the first question. Each card says it is an estimate before anyone starts. Nobody on the team has seen this version yet, so it is a proposal. The check would be whether more people start the flow than from the original.',
+            en: 'The new landing makes the headline the outcome ("Cuánto ahorrarías, cuánto costaría y cómo pagarlo") and the Vivienda/Edificio choice the call to action, so the first click is already the first question. Each card says it is an estimate before anyone starts. Nobody on the team has seen this version yet, so it is a proposal waiting for review. The check would be whether more people start the flow than from the original.',
             // TODO(afi-redaccion)
-            es: "La nueva portada convierte el resultado en titular («Cuánto ahorrarías, cuánto costaría y cómo pagarlo») y la elección Vivienda/Edificio en llamada a la acción, así que el primer clic ya es la primera pregunta. Cada tarjeta avisa de que es una estimación antes de empezar. Nadie del equipo ha visto aún esta versión, así que es una propuesta. La comprobación sería ver si más gente empieza el flujo que con la original.",
+            es: "La nueva portada convierte el resultado en titular («Cuánto ahorrarías, cuánto costaría y cómo pagarlo») y la elección Vivienda/Edificio en llamada a la acción, así que el primer clic ya es la primera pregunta. Cada tarjeta avisa de que es una estimación antes de empezar. Nadie del equipo ha visto aún esta versión, así que es una propuesta pendiente de revisión. La comprobación sería ver si más gente empieza el flujo que con la original.",
           },
         ],
         options: [
@@ -1278,14 +1278,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "I propose and prototype. The project seniors set the brief and decide what ships, and the developers decide what is practical to change at once. The address field is an example: the seniors removed the Dirección question because the way the address is found changed, and I designed the form around that.",
+            en: "I propose and prototype. The project seniors set the brief and decide what ships, and the developers decide what is practical to change at once. The address field is an example: the seniors removed the Dirección question because, as I understand it, the way the address is looked up changed and the field is no longer needed, and I designed the form around that.",
             // TODO(afi-redaccion)
-            es: "Yo propongo y prototipo. Los responsables del proyecto fijan el encargo y deciden qué sale, y los desarrolladores deciden qué es práctico cambiar de una vez. El campo de dirección es un ejemplo: los responsables eliminaron la pregunta Dirección porque cambió la forma de encontrar la dirección, y yo diseñé el formulario a partir de eso.",
+            es: "Yo propongo y prototipo. Los responsables del proyecto fijan el encargo y deciden qué sale, y los desarrolladores deciden qué es práctico cambiar de una vez. El campo de dirección es un ejemplo: los responsables eliminaron la pregunta Dirección porque, según entiendo, cambió la forma de buscar la dirección y el campo ya no hace falta, y yo diseñé el formulario a partir de eso.",
           },
           {
-            en: "Feedback shaped the work earlier too. My first brand directions were playful and the team found them too childlike, so they were dropped. They also told me what they liked and didn't about the flows and the use of space.",
+            en: "Most design decisions start with me, and I try to get the team to buy in. When I don't, I switch it back, which the prototype switches make cheap. Feedback shaped the work earlier too. My first brand directions were playful and the team found them too childlike, so they were dropped. They also told me what they liked and didn't about the flows and the use of space.",
             // TODO(afi-redaccion)
-            es: "El feedback también marcó el trabajo antes. Mis primeras direcciones de marca eran lúdicas y el equipo las encontró demasiado infantiles, así que se descartaron. También me dijeron qué les gustaba y qué no de los flujos y del uso del espacio.",
+            es: "La mayoría de las decisiones de diseño parten de mí, e intento que el equipo las apoye. Cuando no lo consigo, vuelvo atrás, algo que los interruptores del prototipo abaratan. El feedback también marcó el trabajo antes. Mis primeras direcciones de marca eran lúdicas y el equipo las encontró demasiado infantiles, así que se descartaron. También me dijeron qué les gustaba y qué no de los flujos y del uso del espacio.",
           },
           {
             en: "I am the only full-time designer on SAREVI; another designer at my level works with me as a peer. So far the only testing is with the programmers on the team: a check that things work and read well, not user research. No real bank customers have used these versions.",

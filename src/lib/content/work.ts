@@ -212,9 +212,9 @@ export const WORK: WorkItem[] = [
     type: "brand-ds",
     kind: "case-study",
     href: "/work/sarevi",
-    // The numeral morph (digits forming a house, a globe, a building), cropped square.
-    // The four lang × theme files are identical on purpose: the clip is a light
-    // product visual with no text, so it has no per-language or per-theme variant.
+    // The numeral morph (digits forming a house, a globe, a building), square. Light
+    // theme: forest digits on white. Dark theme: lime digits on forest (Bosque). The
+    // clip has no text, so en and es are identical per theme.
     video: "/work/sarevi/card",
     ongoing: true,
     // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board

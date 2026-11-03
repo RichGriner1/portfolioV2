@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type {
   StoryClip,
   StoryMedia,
+  StoryOption,
   StorySection,
 } from "@/lib/content/case-studies";
 import { pick, useLang } from "@/lib/i18n";
@@ -293,47 +294,111 @@ function Media({ media }: { media: StoryMedia }) {
  * drag or the loop shows, so the media is evidence for the sentence either side of it.
  */
 
-export function CaseStudyStory({ sections }: { sections: StorySection[] }) {
+const OUTCOME_LABEL: Record<
+  StoryOption["outcome"],
+  { en: string; es: string }
+> = {
+  original: { en: "Original", es: "Original" },
+  proposed: { en: "Proposed", es: "Propuesta" },
+  chosen: { en: "Chosen", es: "Elegida" },
+  merged: { en: "Folded in", es: "Integrada" },
+  dropped: { en: "Dropped", es: "Descartada" },
+  open: { en: "Open", es: "Abierta" },
+};
+
+const OUTCOME_STYLE: Record<StoryOption["outcome"], string> = {
+  original: "bg-muted text-muted-foreground",
+  proposed: "border-foreground text-foreground border",
+  chosen: "bg-primary text-primary-foreground",
+  merged: "bg-muted text-foreground",
+  dropped: "bg-muted text-muted-foreground",
+  open: "border-border text-muted-foreground border border-dashed",
+};
+
+/**
+ * The directions on the table for a decision and what became of each. It sits between
+ * the problem and the clip so the reader sees the alternatives before the result.
+ */
+function Options({ options }: { options: StoryOption[] }) {
   const { lang } = useLang();
   return (
+    <div className="flex flex-col gap-3">
+      <p className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+        {lang === "es" ? "Direcciones estudiadas" : "Directions considered"}
+      </p>
+      <ul className="border-border divide-border divide-y rounded-xl border">
+        {options.map((o, i) => (
+          <li
+            key={i}
+            className="grid grid-cols-1 items-baseline gap-x-6 gap-y-1 px-4 py-3 sm:grid-cols-[7.5rem_minmax(0,14rem)_minmax(0,1fr)]"
+          >
+            <span
+              className={`w-fit rounded-full px-2.5 py-0.5 font-mono text-[10px] font-medium tracking-wider uppercase ${OUTCOME_STYLE[o.outcome]}`}
+            >
+              {pick(OUTCOME_LABEL[o.outcome], lang)}
+            </span>
+            <span
+              className={`text-sm font-semibold ${
+                o.outcome === "dropped"
+                  ? "text-muted-foreground line-through"
+                  : "text-foreground"
+              }`}
+            >
+              {pick(o.name, lang)}
+            </span>
+            <span className="text-muted-foreground text-sm leading-relaxed">
+              {pick(o.note, lang)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function CaseStudyStory({ sections }: { sections: StorySection[] }) {
+  const { lang } = useLang();
+  // Context sections are numbered in order; decisions carry their own kicker instead.
+  const contextNumber = sections.map(
+    (sec, i) => sections.slice(0, i + 1).filter((x) => !x.kicker).length
+  );
+  return (
     <div className="flex flex-col gap-20 sm:gap-28">
-      {sections.map((section, i) => (
-        <section
-          key={i}
-          className="flex flex-col gap-8"
-          aria-labelledby={`story-${i}`}
-        >
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <div className="flex flex-col gap-2">
-              <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h2
-                id={`story-${i}`}
-                className="font-display text-2xl leading-tight font-bold tracking-tight sm:text-3xl"
-              >
-                {pick(section.heading, lang)}
-              </h2>
-            </div>
-            <div className="flex flex-col gap-4">
-              {section.body.slice(0, 1).map((para, j) => (
-                <p
-                  key={j}
-                  className="text-foreground text-base leading-relaxed"
-                >
-                  {pick(para, lang)}
-                </p>
-              ))}
-            </div>
-          </div>
-          {section.media?.map((m, k) => (
-            <Media key={k} media={m} />
-          ))}
-          {section.body.length > 1 && (
+      {sections.map((section, i) => {
+        const decision = Boolean(section.kicker);
+        const hasAfter = Boolean(section.media?.length || section.options);
+        const first = hasAfter ? section.body.slice(0, 1) : section.body;
+        const rest = hasAfter ? section.body.slice(1) : [];
+        return (
+          <section
+            key={i}
+            className="flex flex-col gap-8"
+            aria-labelledby={`story-${i}`}
+          >
             <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-              <div className="hidden md:block" aria-hidden="true" />
+              <div className="flex flex-col gap-3">
+                {decision ? (
+                  <span className="bg-foreground text-background w-fit rounded-full px-3 py-1 font-mono text-[10px] font-medium tracking-wider uppercase">
+                    {pick(section.kicker!, lang)}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+                    {String(contextNumber[i]).padStart(2, "0")}
+                  </span>
+                )}
+                <h2
+                  id={`story-${i}`}
+                  className={
+                    decision
+                      ? "font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
+                      : "font-display text-xl leading-tight font-bold tracking-tight sm:text-2xl"
+                  }
+                >
+                  {pick(section.heading, lang)}
+                </h2>
+              </div>
               <div className="flex flex-col gap-4">
-                {section.body.slice(1).map((para, j) => (
+                {first.map((para, j) => (
                   <p
                     key={j}
                     className="text-foreground text-base leading-relaxed"
@@ -343,9 +408,28 @@ export function CaseStudyStory({ sections }: { sections: StorySection[] }) {
                 ))}
               </div>
             </div>
-          )}
-        </section>
-      ))}
+            {section.options && <Options options={section.options} />}
+            {section.media?.map((m, k) => (
+              <Media key={k} media={m} />
+            ))}
+            {rest.length > 0 && (
+              <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+                <div className="hidden md:block" aria-hidden="true" />
+                <div className="flex flex-col gap-4">
+                  {rest.map((para, j) => (
+                    <p
+                      key={j}
+                      className="text-foreground text-base leading-relaxed"
+                    >
+                      {pick(para, lang)}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+        );
+      })}
     </div>
   );
 }

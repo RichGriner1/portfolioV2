@@ -89,195 +89,12 @@ function Frame({ clip, tag }: { clip: StoryClip; tag?: string }) {
   );
 }
 
-/**
- * Before/after as one frame you drag, not two panels side by side.
- *
- * The "after" clip sits on top and is revealed from the handle to the right edge, so
- * the same pixels of the prototype are compared directly. A visually hidden range
- * input carries keyboard and screen-reader use (arrow keys move the handle); pointer
- * drag sets the same value. Both clips loop on their own: they're different lengths,
- * so they aren't frame-synced and the drag is for comparing layout, not timing.
- *
- * Three things make it read as draggable rather than as a static split: the handle
- * is a grip you can see, the first time the frame scrolls into view the handle
- * nudges once (skipped for reduced motion, and cancelled the moment you touch it),
- * and each label fades out as the handle covers its side so the tags never sit on
- * top of the thing they name.
- */
-function CompareSlider({
-  before,
-  after,
-  beforeLabel,
-  afterLabel,
-}: {
-  before: StoryClip;
-  after: StoryClip;
-  beforeLabel: string;
-  afterLabel: string;
-}) {
-  const { lang } = useLang();
-  const [pos, setPos] = useState(50);
-  const [moving, setMoving] = useState(false);
-  const [grabbed, setGrabbed] = useState(false);
-  const frame = useRef<HTMLDivElement>(null);
-  const touched = useRef(false);
-
-  const setFromPointer = (clientX: number) => {
-    const rect = frame.current?.getBoundingClientRect();
-    if (!rect || rect.width === 0) return;
-    const next = ((clientX - rect.left) / rect.width) * 100;
-    setPos(Math.min(100, Math.max(0, next)));
-  };
-
-  useEffect(() => {
-    const el = frame.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let raf = 0;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || touched.current) return;
-        io.disconnect();
-        setMoving(true);
-        const t0 = performance.now();
-        const tick = (now: number) => {
-          if (touched.current) return;
-          const t = (now - t0) / 1400;
-          if (t >= 1) {
-            setPos(50);
-            setMoving(false);
-            return;
-          }
-          setPos(50 + Math.sin(t * Math.PI * 2) * 12 * (1 - t));
-          raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-      },
-      { threshold: 0.6 }
-    );
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  const smooth = moving
-    ? ""
-    : "transition-[left,clip-path] duration-200 ease-out";
-
-  return (
-    <div
-      ref={frame}
-      className="border-border bg-card relative aspect-[8/5] cursor-ew-resize touch-pan-y overflow-hidden rounded-xl border select-none"
-      onPointerDown={(e) => {
-        touched.current = true;
-        setGrabbed(true);
-        setMoving(false);
-        e.currentTarget.setPointerCapture(e.pointerId);
-        setFromPointer(e.clientX);
-      }}
-      onPointerMove={(e) => {
-        if (!grabbed) return;
-        setMoving(true);
-        setFromPointer(e.clientX);
-      }}
-      onPointerUp={() => {
-        setGrabbed(false);
-        setMoving(false);
-      }}
-      onPointerCancel={() => {
-        setGrabbed(false);
-        setMoving(false);
-      }}
-    >
-      <LoopVideo
-        clip={before}
-        label={pick(before.alt, lang)}
-        className="absolute inset-0 h-full w-full"
-        showControls={false}
-      />
-      <div
-        className={`absolute inset-0 ${smooth}`}
-        style={{ clipPath: `inset(0 0 0 ${pos}%)` }}
-      >
-        <LoopVideo
-          clip={after}
-          label={pick(after.alt, lang)}
-          className="absolute inset-0 h-full w-full"
-          showControls={false}
-        />
-      </div>
-
-      <span
-        className="bg-background/90 text-foreground pointer-events-none absolute bottom-3 left-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur transition-opacity duration-200"
-        style={{ opacity: pos < 16 ? 0 : 1 }}
-      >
-        {beforeLabel}
-      </span>
-      <span
-        className="bg-background/90 text-foreground pointer-events-none absolute right-3 bottom-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur transition-opacity duration-200"
-        style={{ opacity: pos > 84 ? 0 : 1 }}
-      >
-        {afterLabel}
-      </span>
-
-      <input
-        type="range"
-        min={0}
-        max={100}
-        step={1}
-        value={Math.round(pos)}
-        onChange={(e) => {
-          touched.current = true;
-          setPos(Number(e.target.value));
-        }}
-        aria-label={`${beforeLabel} / ${afterLabel}`}
-        className="peer sr-only"
-      />
-      <div
-        className={`bg-background pointer-events-none absolute inset-y-0 w-px -translate-x-1/2 shadow-md peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-solid ${smooth}`}
-        style={{ left: `${pos}%` }}
-      >
-        <span
-          className={`bg-background/85 text-foreground border-border absolute top-1/2 left-1/2 flex h-10 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border shadow-lg backdrop-blur transition-transform duration-150 ${
-            grabbed ? "scale-110" : ""
-          }`}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="size-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="m9 7-5 5 5 5" />
-            <path d="m15 7 5 5-5 5" />
-          </svg>
-        </span>
-      </div>
-    </div>
-  );
-}
-
 function Media({ media }: { media: StoryMedia }) {
   const { lang } = useLang();
   const caption = media.caption ? pick(media.caption, lang) : null;
   return (
     <div className="flex flex-col gap-3">
-      {media.kind === "clip" ? (
-        <Frame clip={media.clip} />
-      ) : (
-        <CompareSlider
-          before={media.before}
-          after={media.after}
-          beforeLabel={pick(media.beforeLabel, lang)}
-          afterLabel={pick(media.afterLabel, lang)}
-        />
-      )}
+      <Frame clip={media.clip} />
       {caption && (
         <p className="text-muted-foreground max-w-2xl text-sm leading-relaxed">
           {caption}
@@ -286,13 +103,6 @@ function Media({ media }: { media: StoryMedia }) {
     </div>
   );
 }
-
-/**
- * Each section reads in the order the reader sees it: the heading and the problem
- * (first paragraph), then the clip, then what changed (the paragraphs after it).
- * The text above describes what the clip starts from and the text below what the
- * drag or the loop shows, so the media is evidence for the sentence either side of it.
- */
 
 const OUTCOME_LABEL: Record<
   StoryOption["outcome"],
@@ -317,51 +127,72 @@ const OUTCOME_STYLE: Record<StoryOption["outcome"], string> = {
 
 /**
  * The directions on the table for a decision and what became of each. It sits between
- * the problem and the clip so the reader sees the alternatives before the result.
+ * the problem and the result so the reader sees the alternatives first. A row with a
+ * clip is a button: pick a direction and the viewer under the list plays it, so the
+ * options are compared by looking at each one rather than by a before and after.
  */
 function Options({ options }: { options: StoryOption[] }) {
   const { lang } = useLang();
+  const firstWithClip = options.findIndex((o) => o.clip);
+  const [selected, setSelected] = useState(firstWithClip);
+  const current = selected >= 0 ? options[selected] : undefined;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <p className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
         {lang === "es" ? "Direcciones estudiadas" : "Directions considered"}
       </p>
-      <ul className="border-border divide-border divide-y rounded-xl border">
-        {options.map((o, i) => (
-          <li
-            key={i}
-            className="grid grid-cols-1 items-baseline gap-x-6 gap-y-1 px-4 py-3 sm:grid-cols-[7.5rem_minmax(0,14rem)_minmax(0,1fr)]"
-          >
-            <span
-              className={`w-fit rounded-full px-2.5 py-0.5 font-mono text-[10px] font-medium tracking-wider uppercase ${OUTCOME_STYLE[o.outcome]}`}
-            >
-              {pick(OUTCOME_LABEL[o.outcome], lang)}
-            </span>
-            <span
-              className={`text-sm font-semibold ${
-                o.outcome === "dropped"
-                  ? "text-muted-foreground line-through"
-                  : "text-foreground"
-              }`}
-            >
-              {pick(o.name, lang)}
-            </span>
-            <span className="text-muted-foreground text-sm leading-relaxed">
-              {pick(o.note, lang)}
-            </span>
-          </li>
-        ))}
+      <ul className="border-border divide-border divide-y overflow-hidden rounded-xl border">
+        {options.map((o, i) => {
+          const row = (
+            <>
+              <span
+                className={`w-fit rounded-full px-2.5 py-0.5 font-mono text-[10px] font-medium tracking-wider uppercase ${OUTCOME_STYLE[o.outcome]}`}
+              >
+                {pick(OUTCOME_LABEL[o.outcome], lang)}
+              </span>
+              <span
+                className={`text-sm font-semibold ${
+                  o.outcome === "dropped"
+                    ? "text-muted-foreground line-through"
+                    : "text-foreground"
+                }`}
+              >
+                {pick(o.name, lang)}
+              </span>
+              <span className="text-muted-foreground text-sm leading-relaxed">
+                {pick(o.note, lang)}
+              </span>
+            </>
+          );
+          const grid =
+            "grid w-full grid-cols-1 items-baseline gap-x-6 gap-y-1 px-4 py-3 text-left sm:grid-cols-[7.5rem_minmax(0,14rem)_minmax(0,1fr)]";
+          return (
+            <li key={i}>
+              {o.clip ? (
+                <button
+                  type="button"
+                  aria-pressed={selected === i}
+                  onClick={() => setSelected(i)}
+                  className={`${grid} hover:bg-muted/60 cursor-pointer transition-colors ${
+                    selected === i ? "bg-muted" : ""
+                  }`}
+                >
+                  {row}
+                </button>
+              ) : (
+                <div className={grid}>{row}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
+      {current?.clip && <Frame key={current.clip.src} clip={current.clip} />}
     </div>
   );
 }
 
 export function CaseStudyStory({ sections }: { sections: StorySection[] }) {
   const { lang } = useLang();
-  // Context sections are numbered in order; decisions carry their own kicker instead.
-  const contextNumber = sections.map(
-    (sec, i) => sections.slice(0, i + 1).filter((x) => !x.kicker).length
-  );
   return (
     <div className="flex flex-col gap-20 sm:gap-28">
       {sections.map((section, i) => {
@@ -377,13 +208,9 @@ export function CaseStudyStory({ sections }: { sections: StorySection[] }) {
           >
             <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
               <div className="flex flex-col gap-3">
-                {decision ? (
+                {decision && (
                   <span className="bg-foreground text-background w-fit rounded-full px-3 py-1 font-mono text-[10px] font-medium tracking-wider uppercase">
                     {pick(section.kicker!, lang)}
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-                    {String(contextNumber[i]).padStart(2, "0")}
                   </span>
                 )}
                 <h2

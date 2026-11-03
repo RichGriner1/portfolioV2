@@ -120,16 +120,11 @@ export type StoryClip = {
   alt: Bilingual<string>;
 };
 
-export type StoryMedia =
-  | { kind: "clip"; clip: StoryClip; caption?: Bilingual<string> }
-  | {
-      kind: "compare";
-      before: StoryClip;
-      beforeLabel: Bilingual<string>;
-      after: StoryClip;
-      afterLabel: Bilingual<string>;
-      caption?: Bilingual<string>;
-    };
+export type StoryMedia = {
+  kind: "clip";
+  clip: StoryClip;
+  caption?: Bilingual<string>;
+};
 
 /**
  * One direction that was on the table for a decision, and what became of it.
@@ -139,6 +134,8 @@ export type StoryOption = {
   outcome: "original" | "proposed" | "chosen" | "merged" | "dropped" | "open";
   name: Bilingual<string>;
   note: Bilingual<string>;
+  /** When set, the row is selectable and the clip plays in the viewer under the list. */
+  clip?: StoryClip;
 };
 
 export type StorySection = {
@@ -791,9 +788,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Modernizar un simulador bancario paso a paso, sin hoja de ruta",
     },
     intro: {
-      en: "SAREVI is the energy-efficiency simulator Afi builds for banks: a free tool on a bank's public site that shows someone planning a home project what it would cost and how to finance it, and gives the bank a lead. Afi sells the calculation, and the design now has to help sell it. I'm the only full-time designer on it, working with the project seniors, a senior developer and a peer designer, to give it a more modern flow and look without rewriting the flow it already has. It's early: nothing has shipped.",
+      en: "SAREVI is Afi's energy-efficiency simulator for banks. I'm its only full-time designer, modernising the flow and look so Afi can keep selling it, working with the project seniors, a senior developer and a peer designer. It's early: nothing has shipped.",
       // TODO(afi-redaccion)
-      es: "SAREVI es el simulador de eficiencia energética que Afi crea para bancos: una herramienta gratuita en la web pública del banco que muestra a quien planea una obra en casa cuánto costaría y cómo financiarla, y da un contacto al banco. Afi vende el cálculo, y ahora el diseño tiene que ayudar a venderlo. Soy el único diseñador a tiempo completo, y trabajo con los responsables del proyecto, un desarrollador sénior y otra persona de diseño como par para darle un flujo y un aspecto más modernos sin reescribir el flujo que ya tiene. Es pronto: nada se ha publicado.",
+      es: "SAREVI es el simulador de eficiencia energética de Afi para bancos. Soy su único diseñador a tiempo completo y estoy modernizando el flujo y el aspecto para que Afi pueda seguir vendiéndolo, junto con los responsables del proyecto, un desarrollador sénior y otra persona de diseño como par. Es pronto: nada se ha publicado.",
     },
     role: {
       en: "Only full-time designer",
@@ -829,14 +826,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "Afi was early to simulators, and some of them look it. Banks put them on their public sites as a free way to bring in people planning a home project, and each completed simulation is a lead for the bank. Afi sells the calculation, not the design. That is also why design gets little room: a simulator is inputs, set-up, graphs and numbers, with little space for a wow moment, though the team still wants one.",
+            en: "Banks put our simulators on their public sites as a free tool for customers, and Afi sells the calculation behind them, not the design. Some of our simulators are older and look it. Clients increasingly want products closer to their own design system, and a more modern experience is easier to sell.",
             // TODO(afi-redaccion)
-            es: "Afi llegó pronto a los simuladores, y algunos se nota. Los bancos los ponen en sus webs públicas como una forma gratuita de atraer a quien planea una obra en casa, y cada simulación completada es un contacto para el banco. Afi vende el cálculo, no el diseño. Por eso el diseño tiene poco margen: un simulador son campos, configuración, gráficos y cifras, con poco espacio para un efecto sorpresa, aunque el equipo lo sigue queriendo.",
+            es: "Los bancos ponen nuestros simuladores en sus webs públicas como una herramienta gratuita para sus clientes, y Afi vende el cálculo que hay detrás, no el diseño. Algunos de nuestros simuladores son antiguos y se nota. Los clientes quieren cada vez más productos cercanos a su propio sistema de diseño, y una experiencia más moderna se vende mejor.",
           },
           {
-            en: "Two things made it the moment to move. Clients increasingly want products that sit closer to their own design system, and a more modern experience is easier to sell. And a client had recently stopped wanting to continue with SAREVI, while usage was below where the team wanted it. Part of earning the maintenance fee is improving the product: the experience, and the calculation too.",
+            en: "The pressure is commercial. One client recently stepped back from SAREVI and usage is below target. Improving the product, both the experience and the calculation, is part of earning the maintenance fee. A simulator is mostly inputs, set-up, graphs and numbers, so there is little room for a wow moment, though the team still wants one.",
             // TODO(afi-redaccion)
-            es: "Había dos motivos para moverse ahora. Los clientes quieren cada vez más productos cercanos a su propio sistema de diseño, y una experiencia más moderna se vende mejor. Y un cliente había dejado hace poco de querer seguir con SAREVI, mientras que el uso estaba por debajo de lo que el equipo quería. Parte de ganarse la cuota de mantenimiento es mejorar el producto: la experiencia y también el cálculo.",
+            es: "La presión es comercial. Un cliente se ha retirado hace poco de SAREVI y el uso está por debajo del objetivo. Mejorar el producto, tanto la experiencia como el cálculo, forma parte de ganarse la cuota de mantenimiento. Un simulador son sobre todo campos, configuración, gráficos y cifras, así que hay poco espacio para un efecto sorpresa, aunque el equipo lo sigue queriendo.",
           },
         ],
       },
@@ -848,14 +845,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "The project seniors asked for a brand for the simulators. What nobody had settled was whether that meant one brand per simulator, since they are all different, or one modern design across all of them. I didn't have that answer either, so I built a second brand, Bosque, beside the modern Afi one, as a hedge.",
+            en: "The project seniors asked for a brand for the simulators. It was not settled whether that means one brand per simulator, since they are all different, or one modern design across all of them. I built both ways in. The modern direction iterates on the Wealth Planner brand we already made. Bosque, in green and lime, takes a sustainability angle that suits this simulator.",
             // TODO(afi-redaccion)
-            es: "Los responsables del proyecto pidieron una marca para los simuladores. Nadie había decidido si eso significaba una marca por simulador, ya que todos son distintos, o un diseño moderno común a todos. Yo tampoco tenía esa respuesta, así que construí una segunda marca, Bosque, junto a la moderna de Afi, como cobertura.",
+            es: "Los responsables del proyecto pidieron una marca para los simuladores. No estaba decidido si eso significa una marca por simulador, ya que todos son distintos, o un diseño moderno común. Construí ambas opciones. La dirección moderna itera sobre la marca de Wealth Planner que ya creamos. Bosque, en verde y lima, adopta un enfoque de sostenibilidad que encaja con este simulador.",
           },
           {
-            en: "The second tension was pace. There is no roadmap, but I had to design with one in mind. The developers don't want to change a lot at once, though the team would quietly like a bigger change. So the work had to feel new and fresh without a long stretch of visual strategy and experiments up front.",
+            en: "The harder constraint is how much to change at once. AI makes a large redesign cheap to produce, but it doesn't make it safe to ship: before, you would not make a big change without validating it, and that still holds. The developers prefer small steps, and the team would like a bigger change. With no roadmap, I keep each change behind a switch while it waits for validation.",
             // TODO(afi-redaccion)
-            es: "La segunda tensión era el ritmo. No hay hoja de ruta, pero había que diseñar con una en mente. Los desarrolladores no quieren cambiar mucho de golpe, aunque el equipo, en el fondo, querría un cambio mayor. El trabajo tenía que sentirse nuevo y fresco sin un largo periodo previo de estrategia visual y experimentos.",
+            es: "La restricción más difícil es cuánto cambiar de una vez. La IA abarata producir un rediseño grande, pero no lo hace seguro de publicar: antes no se haría un cambio grande sin validarlo, y eso sigue siendo cierto. Los desarrolladores prefieren pasos pequeños y el equipo querría un cambio mayor. Sin hoja de ruta, mantengo cada cambio detrás de un interruptor mientras espera validación.",
           },
         ],
         media: [
@@ -871,9 +868,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               },
             },
             caption: {
-              en: "Two brands, Modern and Bosque, on the same flow. The first playful directions were dropped as too childlike.",
+              en: "Two brands, Modern and Bosque, on the same flow. My first playful directions were dropped as too childlike.",
               // TODO(afi-redaccion)
-              es: "Dos marcas, Modern y Bosque, sobre el mismo flujo. Las primeras direcciones lúdicas se descartaron por demasiado infantiles.",
+              es: "Dos marcas, Modern y Bosque, sobre el mismo flujo. Mis primeras direcciones lúdicas se descartaron por demasiado infantiles.",
             },
           },
         ],
@@ -886,14 +883,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "The people using it are customers of a bank, on the bank's own site, trying to get a home project financed. They describe the home (Datos), choose reforms (Medidas) and read the result (Resumen).",
+            en: "The user is a bank customer who wants a free estimate: what a home reform would cost and how much they would save, tax deductions included. From the result we nudge them toward the bank, which can finance it, and that is the lead. They describe the home (Datos), choose reforms (Medidas) and read the result (Resumen).",
             // TODO(afi-redaccion)
-            es: "Quienes lo usan son clientes de un banco, en la web del propio banco, que intentan financiar una obra en casa. Describen la vivienda (Datos), eligen reformas (Medidas) y leen el resultado (Resumen).",
+            es: "El usuario es un cliente del banco que quiere una estimación gratuita: cuánto costaría una reforma en casa y cuánto ahorraría, deducciones fiscales incluidas. A partir del resultado le orientamos hacia el banco, que puede financiarlo, y ese es el contacto. Describe la vivienda (Datos), elige reformas (Medidas) y lee el resultado (Resumen).",
           },
           {
-            en: 'I didn\'t design that flow. I inherited almost all of it from a year and a half of gradual improvement, so the question was never what the flow should be, but which few places to change so the simulator asks less and says more. The three places that matter most are below. The "before" clips on this page are that inherited design, kept as an option in my prototype, not a recording of the shipped product.',
+            en: 'I didn\'t design that flow. I inherited almost all of it from a year and a half of gradual improvement, so the question was never what the flow should be, but where a few changes would make the simulator ask less and say more. The three that matter most are below. The "before" versions on this page are the inherited design, kept as an option in my prototype, not a recording of the shipped product.',
             // TODO(afi-redaccion)
-            es: "Yo no diseñé ese flujo. Heredé casi todo de un año y medio de mejoras graduales, así que la pregunta nunca fue cómo debía ser el flujo, sino en qué pocos puntos cambiarlo para que el simulador pregunte menos y diga más. Los tres puntos que más importan están a continuación. Los vídeos de «antes» de esta página son ese diseño heredado, conservado como opción en mi prototipo, no una grabación del producto publicado.",
+            es: "Yo no diseñé ese flujo. Heredé casi todo de un año y medio de mejoras graduales, así que la pregunta nunca fue cómo debía ser el flujo, sino dónde unos pocos cambios harían que el simulador pregunte menos y diga más. Los tres que más importan están a continuación. Las versiones de «antes» de esta página son el diseño heredado, conservado como opción en mi prototipo, no una grabación del producto publicado.",
           },
         ],
       },
@@ -915,9 +912,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "En el diseño heredado, el panel Personalizar se abría sobre Resultados, justo los números que el usuario quiere mover, y el diseño apilado los dejaba debajo de una lista larga de medidas. Al marcar algo había que bajar para ver qué había cambiado. Probé varias direcciones y repasé con el equipo qué funcionaba y qué no.",
           },
           {
-            en: "Layout and Editor became switches on the prototype, so the options could be compared on the same screens and the team could say what it liked. The side panel is my proposal. Where the editor opens is still being debated: a right-hand drawer, which the team already has code for and which leaves room to add things later, or inside the measure itself. Other products use both.",
+            en: "Layout and Editor became switches on the prototype, so the options could be compared on the same screens and the team could say what it liked. Results beside the list is my proposal. Where the editor opens is still being debated: a right-hand drawer, which the team already has code for and which leaves room to add things later, or inside the measure itself. Other products use both.",
             // TODO(afi-redaccion)
-            es: "Diseño y Editor pasaron a ser interruptores del prototipo, para poder comparar las opciones en las mismas pantallas y que el equipo dijera qué le gustaba. El panel lateral es mi propuesta. Dónde se abre el editor sigue en debate: un panel derecho, para el que el equipo ya tiene código y que deja margen para añadir cosas más adelante, o dentro de la propia medida. Otros productos usan ambos.",
+            es: "Diseño y Editor pasaron a ser interruptores del prototipo, para poder comparar las opciones en las mismas pantallas y que el equipo dijera qué le gustaba. Los resultados junto a la lista son mi propuesta. Dónde se abre el editor sigue en debate: un panel derecho, para el que el equipo ya tiene código y que deja margen para añadir cosas más adelante, o dentro de la propia medida. Otros productos usan ambos.",
           },
         ],
         options: [
@@ -933,6 +930,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               // TODO(afi-redaccion)
               es: "Todo en una columna, pero el efecto de cada elección queda fuera de pantalla.",
             },
+            clip: {
+              src: "/work/sarevi/stacked.mp4",
+              poster: "/work/sarevi/stacked-poster.webp",
+              alt: {
+                en: "Stacked layout: tick a measure, scroll down to find the results",
+                // TODO(afi-redaccion)
+                es: "Diseño apilado: marcar una medida y bajar para ver los resultados",
+              },
+            },
           },
           {
             outcome: "dropped",
@@ -942,52 +948,24 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               es: "Panel desde la izquierda",
             },
             note: {
-              en: "I tried it because a right-hand drawer covers the numbers that change. The team found it odd: every other drawer comes from the right.",
+              en: "I tried it because a right-hand drawer covers the numbers that change. The team found it odd: every other drawer comes from the right. It is no longer in the prototype, so there is no recording.",
               // TODO(afi-redaccion)
-              es: "Lo probé porque un panel derecho tapa las cifras que cambian. Al equipo le resultó raro: todos los demás paneles salen de la derecha.",
+              es: "Lo probé porque un panel derecho tapa las cifras que cambian. Al equipo le resultó raro: todos los demás paneles salen de la derecha. Ya no está en el prototipo, así que no hay grabación.",
             },
           },
           {
             outcome: "proposed",
             name: {
-              en: "Side panel",
+              en: "Results beside the list",
               // TODO(afi-redaccion)
-              es: "Panel lateral",
+              es: "Resultados junto a la lista",
             },
             note: {
               en: "Results sit beside the list and update the moment a measure is ticked; the stepper moves into the top bar.",
               // TODO(afi-redaccion)
               es: "Los resultados quedan junto a la lista y se actualizan al marcar una medida; el indicador de pasos sube a la barra superior.",
             },
-          },
-          {
-            outcome: "open",
-            name: {
-              en: "Editor: right drawer or inside the card",
-              // TODO(afi-redaccion)
-              es: "Editor: panel derecho o dentro de la tarjeta",
-            },
-            note: {
-              en: "Still being debated. The drawer has code ready and room to add things later; both patterns are used in other products.",
-              // TODO(afi-redaccion)
-              es: "Sigue en debate. El panel ya tiene código y deja margen para añadir cosas; ambos patrones se usan en otros productos.",
-            },
-          },
-        ],
-        media: [
-          {
-            kind: "compare",
-            before: {
-              src: "/work/sarevi/stacked.mp4",
-              poster: "/work/sarevi/stacked-poster.webp",
-              alt: {
-                en: "Stacked layout: tick a measure, scroll down to find the results",
-                // TODO(afi-redaccion)
-                es: "Diseño apilado: marcar una medida y bajar para ver los resultados",
-              },
-            },
-            beforeLabel: { en: "Before: stacked", es: "Antes: apilado" },
-            after: {
+            clip: {
               src: "/work/sarevi/panel.mp4",
               poster: "/work/sarevi/panel-poster.webp",
               alt: {
@@ -996,14 +974,49 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 es: "Diseño de panel lateral: al marcar medidas, los resultados se actualizan junto a la lista",
               },
             },
-            afterLabel: {
-              en: "After: side panel",
-              es: "Después: panel lateral",
-            },
-            caption: {
-              en: "Drag to compare: on the left you tick a measure and scroll to see what it did; on the right the result updates beside the list.",
+          },
+          {
+            outcome: "open",
+            name: {
+              en: "Editor in a right-hand drawer",
               // TODO(afi-redaccion)
-              es: "Arrastra para comparar: a la izquierda se marca una medida y se baja para ver qué cambia; a la derecha el resultado se actualiza junto a la lista.",
+              es: "Editor en un panel derecho",
+            },
+            note: {
+              en: "Matches the other drawers. The team already has code for it and it leaves room to add things later.",
+              // TODO(afi-redaccion)
+              es: "Coincide con los demás paneles. El equipo ya tiene código y deja margen para añadir cosas más adelante.",
+            },
+            clip: {
+              src: "/work/sarevi/autocalc.mp4",
+              poster: "/work/sarevi/autocalc-poster.webp",
+              alt: {
+                en: "Personalizar drawer opening from the right with the results beside it",
+                // TODO(afi-redaccion)
+                es: "Panel Personalizar abriéndose desde la derecha con los resultados al lado",
+              },
+            },
+          },
+          {
+            outcome: "open",
+            name: {
+              en: "Editor inside the measure",
+              // TODO(afi-redaccion)
+              es: "Editor dentro de la medida",
+            },
+            note: {
+              en: "Used in other products. The debate is still open.",
+              // TODO(afi-redaccion)
+              es: "Se usa en otros productos. El debate sigue abierto.",
+            },
+            clip: {
+              src: "/work/sarevi/inline.mp4",
+              poster: "/work/sarevi/inline-poster.webp",
+              alt: {
+                en: "Personalizar opening inside the measure card",
+                // TODO(afi-redaccion)
+                es: "Personalizar abriéndose dentro de la tarjeta de la medida",
+              },
             },
           },
         ],
@@ -1033,6 +1046,28 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         ],
         options: [
           {
+            outcome: "original",
+            name: {
+              en: "Original",
+              // TODO(afi-redaccion)
+              es: "Original",
+            },
+            note: {
+              en: "One saving card and a cumulative line, then the tables.",
+              // TODO(afi-redaccion)
+              es: "Una tarjeta de ahorro y una línea acumulada, y después las tablas.",
+            },
+            clip: {
+              src: "/work/sarevi/charts-old.mp4",
+              poster: "/work/sarevi/charts-old-poster.webp",
+              alt: {
+                en: "Resumen with the original charts: one saving card, a cumulative line, then the tables",
+                // TODO(afi-redaccion)
+                es: "Resumen con los gráficos originales: una tarjeta de ahorro, una línea acumulada y después las tablas",
+              },
+            },
+          },
+          {
             outcome: "merged",
             name: {
               en: "A · Metric switch",
@@ -1043,6 +1078,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               en: "One figure that changes between cost, consumption and emissions. Little context.",
               // TODO(afi-redaccion)
               es: "Una cifra que cambia entre gasto, consumo y emisiones. Poco contexto.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-A.mp4",
+              poster: "/work/sarevi/opt-A-poster.webp",
+              alt: {
+                en: "Option A: a metric switch with before and after segment bars",
+                // TODO(afi-redaccion)
+                es: "Opción A: interruptor de métrica con barras de segmentos de antes y después",
+              },
             },
           },
           {
@@ -1057,6 +1101,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               // TODO(afi-redaccion)
               es: "El hueco entre las líneas es el ahorro. Depende de supuestos a largo plazo.",
             },
+            clip: {
+              src: "/work/sarevi/opt-B.mp4",
+              poster: "/work/sarevi/opt-B-poster.webp",
+              alt: {
+                en: "Option B: two accumulated lines, with and without the reform",
+                // TODO(afi-redaccion)
+                es: "Opción B: dos líneas acumuladas, con y sin reforma",
+              },
+            },
           },
           {
             outcome: "open",
@@ -1069,6 +1122,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               en: "The A–G jump at a glance, but it doesn't say how much is saved. Suggested for Datos instead.",
               // TODO(afi-redaccion)
               es: "El salto de letra de A a G de un vistazo, pero no dice cuánto se ahorra. Sugerida para Datos.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-C.mp4",
+              poster: "/work/sarevi/opt-C-poster.webp",
+              alt: {
+                en: "Option C: the A to G ladder with an arrow from today's grade to the new one",
+                // TODO(afi-redaccion)
+                es: "Opción C: la escalera de A a G con una flecha de la letra actual a la nueva",
+              },
             },
           },
           {
@@ -1083,6 +1145,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               // TODO(afi-redaccion)
               es: "Exige un modelo mensual que el producto no tiene.",
             },
+            clip: {
+              src: "/work/sarevi/opt-D.mp4",
+              poster: "/work/sarevi/opt-D-poster.webp",
+              alt: {
+                en: "Option D: twelve months before and after the reform",
+                // TODO(afi-redaccion)
+                es: "Opción D: doce meses antes y después de la reforma",
+              },
+            },
           },
           {
             outcome: "merged",
@@ -1095,6 +1166,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               en: "Three metrics on one ruler with the percentage at the end.",
               // TODO(afi-redaccion)
               es: "Tres magnitudes con la misma regla y el porcentaje al final.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-E.mp4",
+              poster: "/work/sarevi/opt-E-poster.webp",
+              alt: {
+                en: "Option E: three rows on one ruler with the percentage at the end",
+                // TODO(afi-redaccion)
+                es: "Opción E: tres filas con la misma regla y el porcentaje al final",
+              },
             },
           },
           {
@@ -1109,35 +1189,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               // TODO(afi-redaccion)
               es: "Piezas de A, B, E y la cabecera de D en una sola tarjeta.",
             },
-          },
-        ],
-        media: [
-          {
-            kind: "compare",
-            before: {
-              src: "/work/sarevi/charts-old.mp4",
-              poster: "/work/sarevi/charts-old-poster.webp",
-              alt: {
-                en: "Resumen with the original charts: one saving card, a cumulative line, then the tables",
-                // TODO(afi-redaccion)
-                es: "Resumen con los gráficos originales: una tarjeta de ahorro, una línea acumulada y después las tablas",
-              },
-            },
-            beforeLabel: { en: "Original", es: "Original" },
-            after: {
+            clip: {
               src: "/work/sarevi/charts-new.mp4",
               poster: "/work/sarevi/charts-new-poster.webp",
               alt: {
-                en: "Resumen with the new charts: one card with a metric switch, before and after segment bars, the saving as a filled area and a range row per metric",
+                en: "Resumen with the combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric",
                 // TODO(afi-redaccion)
-                es: "Resumen con los gráficos nuevos: una tarjeta con interruptor de métrica, barras de segmentos de antes y después, el ahorro como área rellena y una fila de rango por métrica",
+                es: "Resumen con la tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica",
               },
-            },
-            afterLabel: { en: "Nuevo", es: "Nuevo" },
-            caption: {
-              en: "Drag to compare the same Resumen with Gráficos set to Original and to Nuevo.",
-              // TODO(afi-redaccion)
-              es: "Arrastra para comparar el mismo Resumen con Gráficos en Original y en Nuevo.",
             },
           },
         ],
@@ -1178,6 +1237,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               // TODO(afi-redaccion)
               es: "Un título que nombra la herramienta, tres pasos numerados y después la elección.",
             },
+            clip: {
+              src: "/work/sarevi/hero-old.mp4",
+              poster: "/work/sarevi/hero-old-poster.webp",
+              alt: {
+                en: "The original landing: a title naming the tool, three steps, then the choice",
+                // TODO(afi-redaccion)
+                es: "La portada original: un título que nombra la herramienta, tres pasos y después la elección",
+              },
+            },
           },
           {
             outcome: "proposed",
@@ -1191,6 +1259,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               // TODO(afi-redaccion)
               es: "El resultado como titular; la elección como llamada a la acción; los pasos reducidos a un enlace.",
             },
+            clip: {
+              src: "/work/sarevi/hero-new.mp4",
+              poster: "/work/sarevi/hero-new-poster.webp",
+              alt: {
+                en: "The new landing: the saving as the headline, Edificio and Vivienda cards with animated numerals, then a click into the first question",
+                // TODO(afi-redaccion)
+                es: "La nueva portada: el ahorro como titular, tarjetas Edificio y Vivienda con números animados y un clic hasta la primera pregunta",
+              },
+            },
           },
           {
             outcome: "open",
@@ -1203,36 +1280,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               en: "How long it takes, whether documents are needed, whether it is free and anonymous. Left out: nobody has confirmed any of it.",
               // TODO(afi-redaccion)
               es: "Cuánto tarda, si hacen falta documentos, si es gratis y anónimo. Se dejó fuera: nadie lo ha confirmado.",
-            },
-          },
-        ],
-        media: [
-          {
-            kind: "compare",
-            before: {
-              src: "/work/sarevi/hero-old.mp4",
-              poster: "/work/sarevi/hero-old-poster.webp",
-              alt: {
-                en: "The original landing: a title naming the tool, three steps, then the choice",
-                // TODO(afi-redaccion)
-                es: "La portada original: un título que nombra la herramienta, tres pasos y después la elección",
-              },
-            },
-            beforeLabel: { en: "Before", es: "Antes" },
-            after: {
-              src: "/work/sarevi/hero-new.mp4",
-              poster: "/work/sarevi/hero-new-poster.webp",
-              alt: {
-                en: "The new landing: the saving as the headline, Edificio and Vivienda cards with animated numerals, then a click into the first question",
-                // TODO(afi-redaccion)
-                es: "La nueva portada: el ahorro como titular, tarjetas Edificio y Vivienda con números animados y un clic hasta la primera pregunta",
-              },
-            },
-            afterLabel: { en: "After", es: "Después" },
-            caption: {
-              en: "Drag to compare the two landings. On the right, a click on Vivienda lands on the first question.",
-              // TODO(afi-redaccion)
-              es: "Arrastra para comparar las dos portadas. A la derecha, un clic en Vivienda lleva a la primera pregunta.",
             },
           },
         ],

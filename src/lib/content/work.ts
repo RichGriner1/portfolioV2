@@ -212,9 +212,10 @@ export const WORK: WorkItem[] = [
     type: "brand-ds",
     kind: "case-study",
     href: "/work/sarevi",
-    // A real screen, not a glyph: the new landing with the animated numerals is the
-    // clearest single frame of what changed. Poster of the hero-new clip.
-    image: "/work/sarevi/hero-new-poster.webp",
+    // The numeral morph (digits forming a house, a globe, a building), cropped square.
+    // The four lang × theme files are identical on purpose: the clip is a light
+    // product visual with no text, so it has no per-language or per-theme variant.
+    video: "/work/sarevi/card",
     ongoing: true,
     // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board
     // until Richard says it's ready (Spanish has had one pass, not a final review).

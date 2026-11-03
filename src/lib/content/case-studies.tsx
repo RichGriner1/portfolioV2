@@ -948,9 +948,18 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               es: "Panel desde la izquierda",
             },
             note: {
-              en: "I tried it because a right-hand drawer covers the numbers that change. The team found it odd: every other drawer comes from the right. It is no longer in the prototype, so there is no recording.",
+              en: "I tried it because a right-hand drawer covers the numbers that change. The team found it odd: every other drawer comes from the right. It is no longer offered in the prototype; this clip runs the code that remains.",
               // TODO(afi-redaccion)
-              es: "Lo probé porque un panel derecho tapa las cifras que cambian. Al equipo le resultó raro: todos los demás paneles salen de la derecha. Ya no está en el prototipo, así que no hay grabación.",
+              es: "Lo probé porque un panel derecho tapa las cifras que cambian. Al equipo le resultó raro: todos los demás paneles salen de la derecha. Ya no se ofrece en el prototipo; este vídeo usa el código que se conserva.",
+            },
+            clip: {
+              src: "/work/sarevi/left.mp4",
+              poster: "/work/sarevi/left-poster.webp",
+              alt: {
+                en: "Personalizar drawer opening from the left, with the results still visible on the right",
+                // TODO(afi-redaccion)
+                es: "Panel Personalizar abriéndose desde la izquierda, con los resultados aún visibles a la derecha",
+              },
             },
           },
           {

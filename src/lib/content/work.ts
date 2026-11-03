@@ -202,6 +202,26 @@ export const WORK: WorkItem[] = [
     ongoing: true,
   },
   {
+    slug: "sarevi",
+    title: { en: "SAREVI", es: "SAREVI" },
+    description: {
+      en: "Redesigning an energy-efficiency simulator Afi sells to banks: ask less, compute more, and lead with the saving.",
+      es: "Rediseño de un simulador de eficiencia energética que Afi vende a bancos: preguntar menos, calcular más y empezar por el ahorro.",
+    },
+    year: 2026,
+    type: "brand-ds",
+    kind: "case-study",
+    href: "/work/sarevi",
+    // A real screen, not a glyph: the new landing with the animated numerals is the
+    // clearest single frame of what changed. Poster of the hero-new clip.
+    image: "/work/sarevi/hero-new-poster.webp",
+    ongoing: true,
+    // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board
+    // until Richard says it's ready (Spanish has had one pass, not a final review).
+    hidden: false,
+    homeHidden: true,
+  },
+  {
     slug: "kt360",
     title: { en: "KnowThyself360", es: "KnowThyself360" },
     description: {

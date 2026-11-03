@@ -1,6 +1,7 @@
 "use client";
 
 import { CaseStudyBento } from "@/components/case-study-bento";
+import { CaseStudyStory } from "@/components/case-study-story";
 import { BackLink } from "@/components/back-link";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
@@ -24,7 +25,13 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
 
       {study ? (
         <>
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+          <div
+            className={
+              study.story
+                ? "flex flex-col gap-10"
+                : "grid grid-cols-1 gap-10 sm:grid-cols-2"
+            }
+          >
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
@@ -40,7 +47,13 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
                   </span>
                 )}
               </div>
-              <h1 className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl">
+              <h1
+                className={
+                  study.story
+                    ? "font-display text-4xl leading-tight font-bold tracking-tight sm:text-6xl"
+                    : "font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
+                }
+              >
                 {/* The project name scrambles; the tagline beside it doesn't. Two
                     runs of different lengths in one heading resolve at different
                     moments and the h1 reads as two competing animations — and the
@@ -60,7 +73,13 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
               </h1>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div
+              className={
+                study.story
+                  ? "flex max-w-2xl flex-col gap-6"
+                  : "flex flex-col gap-6"
+              }
+            >
               {/* Split on blank lines: an intro is written in beats, and squeezing
                   three of them into one paragraph is how a context section turns into
                   a wall. The field stays a single string so the content file reads as
@@ -100,11 +119,15 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
             </p>
           )}
 
-          <CaseStudyBento
-            cards={study.bento}
-            gallery={study.gallery}
-            diagrams={diagrams}
-          />
+          {study.story ? (
+            <CaseStudyStory sections={study.story} />
+          ) : (
+            <CaseStudyBento
+              cards={study.bento}
+              gallery={study.gallery}
+              diagrams={diagrams}
+            />
+          )}
 
           <MoreWork excludeSlug={item.slug} limit={3} />
         </>

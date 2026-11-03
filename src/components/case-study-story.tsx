@@ -96,6 +96,12 @@ function Frame({ clip, tag }: { clip: StoryClip; tag?: string }) {
  * input carries keyboard and screen-reader use (arrow keys move the handle); pointer
  * drag sets the same value. Both clips loop on their own: they're different lengths,
  * so they aren't frame-synced and the drag is for comparing layout, not timing.
+ *
+ * Three things make it read as draggable rather than as a static split: the handle
+ * is a grip you can see, the first time the frame scrolls into view the handle
+ * nudges once (skipped for reduced motion, and cancelled the moment you touch it),
+ * and each label fades out as the handle covers its side so the tags never sit on
+ * top of the thing they name.
  */
 function CompareSlider({
   before,
@@ -110,8 +116,10 @@ function CompareSlider({
 }) {
   const { lang } = useLang();
   const [pos, setPos] = useState(50);
+  const [moving, setMoving] = useState(false);
+  const [grabbed, setGrabbed] = useState(false);
   const frame = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
+  const touched = useRef(false);
 
   const setFromPointer = (clientX: number) => {
     const rect = frame.current?.getBoundingClientRect();
@@ -120,23 +128,66 @@ function CompareSlider({
     setPos(Math.min(100, Math.max(0, next)));
   };
 
+  useEffect(() => {
+    const el = frame.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || touched.current) return;
+        io.disconnect();
+        setMoving(true);
+        const t0 = performance.now();
+        const tick = (now: number) => {
+          if (touched.current) return;
+          const t = (now - t0) / 1400;
+          if (t >= 1) {
+            setPos(50);
+            setMoving(false);
+            return;
+          }
+          setPos(50 + Math.sin(t * Math.PI * 2) * 12 * (1 - t));
+          raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.6 }
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const smooth = moving
+    ? ""
+    : "transition-[left,clip-path] duration-200 ease-out";
+
   return (
     <div
       ref={frame}
-      className="border-border bg-card relative aspect-[8/5] touch-pan-y overflow-hidden rounded-xl border select-none"
+      className="border-border bg-card relative aspect-[8/5] cursor-ew-resize touch-pan-y overflow-hidden rounded-xl border select-none"
       onPointerDown={(e) => {
-        dragging.current = true;
+        touched.current = true;
+        setGrabbed(true);
+        setMoving(false);
         e.currentTarget.setPointerCapture(e.pointerId);
         setFromPointer(e.clientX);
       }}
       onPointerMove={(e) => {
-        if (dragging.current) setFromPointer(e.clientX);
+        if (!grabbed) return;
+        setMoving(true);
+        setFromPointer(e.clientX);
       }}
       onPointerUp={() => {
-        dragging.current = false;
+        setGrabbed(false);
+        setMoving(false);
       }}
       onPointerCancel={() => {
-        dragging.current = false;
+        setGrabbed(false);
+        setMoving(false);
       }}
     >
       <LoopVideo
@@ -146,7 +197,7 @@ function CompareSlider({
         showControls={false}
       />
       <div
-        className="absolute inset-0"
+        className={`absolute inset-0 ${smooth}`}
         style={{ clipPath: `inset(0 0 0 ${pos}%)` }}
       >
         <LoopVideo
@@ -157,10 +208,16 @@ function CompareSlider({
         />
       </div>
 
-      <span className="bg-background/90 text-foreground pointer-events-none absolute top-3 left-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur">
+      <span
+        className="bg-background/90 text-foreground pointer-events-none absolute bottom-3 left-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur transition-opacity duration-200"
+        style={{ opacity: pos < 16 ? 0 : 1 }}
+      >
         {beforeLabel}
       </span>
-      <span className="bg-background/90 text-foreground pointer-events-none absolute top-3 right-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur">
+      <span
+        className="bg-background/90 text-foreground pointer-events-none absolute right-3 bottom-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur transition-opacity duration-200"
+        style={{ opacity: pos > 84 ? 0 : 1 }}
+      >
         {afterLabel}
       </span>
 
@@ -170,15 +227,22 @@ function CompareSlider({
         max={100}
         step={1}
         value={Math.round(pos)}
-        onChange={(e) => setPos(Number(e.target.value))}
+        onChange={(e) => {
+          touched.current = true;
+          setPos(Number(e.target.value));
+        }}
         aria-label={`${beforeLabel} / ${afterLabel}`}
         className="peer sr-only"
       />
       <div
-        className="bg-background pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 shadow-md peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-solid"
+        className={`bg-background pointer-events-none absolute inset-y-0 w-px -translate-x-1/2 shadow-md peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-solid ${smooth}`}
         style={{ left: `${pos}%` }}
       >
-        <span className="bg-background text-foreground border-border absolute top-1/2 left-1/2 flex size-9 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border shadow-md">
+        <span
+          className={`bg-background/85 text-foreground border-border absolute top-1/2 left-1/2 flex h-10 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border shadow-lg backdrop-blur transition-transform duration-150 ${
+            grabbed ? "scale-110" : ""
+          }`}
+        >
           <svg
             viewBox="0 0 24 24"
             className="size-4"

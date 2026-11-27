@@ -21,6 +21,9 @@ const eslintConfig = defineConfig([
     // Agent session worktrees are full checkouts of this repo; linting them
     // would report every warning twice.
     ".claude/worktrees/**",
+    // Case-study demos are Claude Design exports copied in as-is (bundled React,
+    // the DS bundle); they are served, not authored here.
+    "public/work/*/demo/**",
   ]),
   {
     // A leading underscore marks a parameter kept for the signature (glyphs

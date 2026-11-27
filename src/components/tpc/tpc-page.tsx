@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 
 import { Tabs } from "@base-ui/react/tabs";
+import { ArrowUpRight } from "lucide-react";
 
 import { BackLink } from "@/components/back-link";
 import { buttonVariants } from "@/components/ui/button";
@@ -356,7 +357,8 @@ export function TpcPage({
                 rel="noopener noreferrer"
                 className={buttonVariants({ size: "lg" })}
               >
-                {lang === "es" ? "Ver la demo ↗" : "Enjoy the demo ↗"}
+                {lang === "es" ? "Ver la demo" : "Enjoy the demo"}
+                <ArrowUpRight aria-hidden />
               </a>
               <a
                 href="#problem"

@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import { CaseStudyBento } from "@/components/case-study-bento";
 import { CaseStudyStory } from "@/components/case-study-story";
 import { BackLink } from "@/components/back-link";
@@ -230,7 +231,7 @@ function DemoActions({
         className="bg-foreground text-background focus-visible:ring-ring inline-flex items-center gap-2 rounded-[9px] px-[22px] py-3 text-[13px] font-medium transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]"
       >
         {lang === "es" ? "Probar la demo" : "Enjoy the demo"}
-        <span aria-hidden="true">↗</span>
+        <ArrowUpRight aria-hidden className="size-4" />
         <span className="sr-only">
           {lang === "es"
             ? "(se abre en una pestaña nueva)"

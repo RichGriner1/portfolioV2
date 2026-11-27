@@ -359,9 +359,12 @@ export function SiteHeader({ homeView }: { homeView?: HomeView }) {
           // bar, which is what the reference does — its panel reaches closer to the
           // viewport edge than its toggle does.
           //
+          // `top-2` floats the panel off the screen edge, so it reads as a card
+          // rather than a sheet pinned to the top.
+          //
           // pointer-events-none so the empty half of the wrapper doesn't cover the
           // page.
-          <div className="pointer-events-none absolute inset-x-0 top-0 z-30 mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="pointer-events-none absolute inset-x-0 top-2 z-30 mx-auto max-w-5xl px-4 sm:px-6">
             {/* `data-cursor-invert` flips the dot cursor to the inverted ink over
                 this surface — see dot-cursor.tsx. The panel is `bg-primary`, so a
                 `--foreground` dot would be black on black here. */}

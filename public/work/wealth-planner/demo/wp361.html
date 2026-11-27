@@ -2001,14 +2001,14 @@ class Component extends DCLogic {
         variant: 'inset-dark', product: 'Wealth Planner', user: v.navUser, items: v.navItems,
         selectedKey: v.navSelected, onSelect: v.navSelect, expandedKeys: v.navExpanded,
         onExpandedChange: v.navExpandedChange, collapsed: v.navRail, onToggleCollapse: v.navToggleRail,
-        logoSrc: 'assets/afi-negativo.svg', logoMarkSrc: 'assets/afi-icon-negativo.svg'
+        logoSrc: 'ds/afi-wealth-planner/assets/logos/afi-negativo.svg', logoMarkSrc: 'ds/afi-wealth-planner/assets/logos/afi-icon-negativo.svg'
       });
       v.plannerBar = R(DS.TopBar, {
         variant: 'glass', listLabel: 'Listado de planificaciones', onListClick: v.goHomeLink,
         clientName: v.clientName, planningId: v.planName, envStatus: v.statusKey,
         states: v.statusOptionsDS, onStatusChange: v.setStatusKey, indicators: v.topIndicators,
         planningEditable: true, onRenamePlan: v.setPlanName, actions: v.topBarActions,
-        overflowItems: v.topBarOverflow, markSrc: 'assets/afi-icon-positivo.svg',
+        overflowItems: v.topBarOverflow, markSrc: 'ds/afi-wealth-planner/assets/logos/afi-icon-positivo.svg',
         productName: 'Wealth Planner'
       });
       v.plannerDrawerHead = R('p', { style: { margin: 0, font: 'var(--type-body-sm-400)', opacity: .72 } },
@@ -2024,7 +2024,7 @@ class Component extends DCLogic {
         items: [{ key: 'planificaciones', label: 'Planificaciones', icon: 'file-text' }],
         selectedKey: 'planificaciones', onSelect: () => {},
         collapsed: v.navRail, onToggleCollapse: v.navToggleRail,
-        logoSrc: 'assets/afi-negativo.svg', logoMarkSrc: 'assets/afi-icon-negativo.svg'
+        logoSrc: 'ds/afi-wealth-planner/assets/logos/afi-negativo.svg', logoMarkSrc: 'ds/afi-wealth-planner/assets/logos/afi-icon-negativo.svg'
       }) : null;
       v.listBar = R(DS.TopBar, {
         id: 'wp-listbar',
@@ -2033,7 +2033,7 @@ class Component extends DCLogic {
         indicators: [],
         actions: false,
         overflowItems: false,
-        markSrc: 'assets/afi-icon-positivo.svg',
+        markSrc: 'ds/afi-wealth-planner/assets/logos/afi-icon-positivo.svg',
         productName: 'Wealth Planner'
       });
     })();

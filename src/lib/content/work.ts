@@ -246,11 +246,10 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/wealth-planner",
     image: "/work/wealth-planner/r10-ingresos-poster.jpg",
-    // Thumbnail: the plan selector from the 4.14 canvas (Animaciones IA, «Icono en
-    // la pestaña · todo el recorrido»), one tab only (Liquidez), so it reads at
-    // tile size: its icon goes from rest to working, simulation and applied. One
-    // cycle; one light clip for every language and theme. Takes precedence over
-    // `image`.
+    // Thumbnail: «Panel completo» from the 4.14 canvas (Animaciones IA), the plan
+    // applying an AI change. Restored 2026-11-27 at Richard's call: the later
+    // selector-only versions came from a relayed note that was about the old still.
+    // One light clip for every language and theme. Takes precedence over `image`.
     video: "/work/wealth-planner/card",
     ongoing: true,
     // First on the home board and the canvas since 2026-11-27 (Richard's call):

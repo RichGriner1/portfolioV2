@@ -1,0 +1,657 @@
+/* =============================================================================
+ * components/bundle.css — Afi Wealth Planner stylesheet (loaded after tokens.css)
+ *
+ * What tokens.json does not hold: the Roboto webfont import, the semantic roles
+ * that are not plain colours (sizes, type shorthands, color-mix, responsive
+ * overrides), motion and the shared utilities. Colours, spacing, radius, blur,
+ * breakpoints, shadows, tracking and the font families live in tokens.json and
+ * are compiled into tokens.css. Assembled from the former tokens/*.css files
+ * and styles.css (originals in archived/).
+ * ============================================================================= */
+
+/* =============================================================================
+ * fonts.css — webfont declarations (Coherence DS)
+ *
+ * AFI uses Roboto at every weight — single family across the entire
+ * hierarchy (display, body, buttons, inputs, labels, data, tables). In the
+ * source product the family is loaded via Google Fonts; we keep that here.
+ * Consumers get the family by linking styles.css (which @imports this file).
+ * ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* =============================================================================
+ * typography.css — typography primitives (Coherence DS, AFI default brand)
+ *
+ * Family + type-scale shorthand strings. Shorthand format:
+ *   <font-weight> <font-size>/<line-height> <font-family>
+ *
+ * AFI is single-family: Roboto at every weight. Hierarchy is delivered
+ * through weight + size + letter-spacing + tabular figures — never a 2nd family.
+ *
+ * Heading tokens (display/title/subtitle/section) scale UP at the lg
+ * breakpoint (992px); body tokens are fixed across breakpoints.
+ * ============================================================================= */
+
+:root {
+  /* Convenience aliases used by some components */
+  --font-brand-display: var(--font-family-sans);
+  --font-brand-text: var(--font-family-sans);
+
+  /* ⚠ EVERY --type-* ROLE BELOW IS A `font` SHORTHAND.
+   * `font:` resets font-variant-numeric to `normal`. Any rule that applies one
+   * of these roles — or any *-font token built from them — to an element that
+   * carries figures MUST re-assert `font-variant-numeric: tabular-nums` in the
+   * same rule. A base tabular rule elsewhere in the component does not survive
+   * a more specific rule that sets `font:`, and the failure is silent: the
+   * digits simply stop lining up between one row and the next. Applies to
+   * table numeric and group cells, totals rows, footers, value pills, metric
+   * and verdict figures, chart and sparkline labels. */
+
+  /* Heading tokens — mobile-first base values */
+  --type-display:        400 48px/56px var(--font-family-sans);
+  /* H1 / page title — 24/32 at 400, fixed across breakpoints (page headers sit in
+   * a 32px row next to a 32px icon chip, so the title does not scale up). */
+  --type-title:          400 24px/32px var(--font-family-sans);
+  --type-subtitle:       500 20px/28px var(--font-family-sans);
+  /* H2 / section heading: 500 18/28. The subsection heading (H3,
+   * --type-section-title) is 500 16/24. Both sit a clear step above the 14px
+   * body copy; weight is 500 for both, so size carries the hierarchy. Fixed
+   * across breakpoints: a section heading is app chrome in a dense financial
+   * tool and does not grow with the window. */
+  --type-section:        500 18px/28px var(--font-family-sans);
+  /* Section heading-row figure (a total sat beside the H2, e.g. "1.142.300 €")
+   * — same box as --type-section, 18/28, so the figure and the heading sit on
+   * one baseline. Normal weight against the heading's 500 so it reads as data
+   * rather than a second heading; that one weight step is the only thing
+   * separating them. Follows --type-section: if that changes size, so does
+   * this. */
+  --type-section-figure: 400 18px/28px var(--font-family-sans);
+  --type-subtitle-body:  400 18px/20px var(--font-family-sans);
+
+  /* Body + utility tokens — fixed across breakpoints */
+  --type-body:        400 16px/24px var(--font-family-sans);
+  --type-body-lg-600: 600 16px/24px var(--font-family-sans);
+  --type-body-lg-500: 500 16px/24px var(--font-family-sans);
+  --type-body-md-600: 600 14px/20px var(--font-family-sans);
+  --type-body-md-500: 500 14px/20px var(--font-family-sans);
+  --type-body-md-400: 400 14px/20px var(--font-family-sans);
+  --type-body-sm-600: 600 12px/16px var(--font-family-sans);
+  --type-body-sm-500: 500 12px/16px var(--font-family-sans);
+  --type-body-sm-400: 400 12px/16px var(--font-family-sans);
+  --type-button:      500 14px/14px var(--font-family-sans);
+  --type-button-400:  400 14px/14px var(--font-family-sans);
+  --type-informe:     400 12px/14px var(--font-family-sans);
+
+  /* afi-section header text tokens */
+  --type-section-eyebrow:  600 12px/16px var(--font-family-sans);
+  /* Subsection heading (H3): 500 16/24, one step below --type-section (18/28)
+   * and a clear step above 14px body. Fixed at every width. */
+  --type-section-title:    500 16px/24px var(--font-family-sans);
+  --type-section-subtitle: 400 14px/16px var(--font-family-sans);
+}
+
+/* Desktop scale-up for headings at lg (992px) */
+@media (min-width: 992px) {
+  :root {
+    --type-display:       400 96px/112px var(--font-family-sans);
+    --type-title:         400 24px/32px var(--font-family-sans);
+    --type-subtitle:      500 24px/32px var(--font-family-sans);
+    /* --type-section is deliberately NOT here: a section heading is app chrome
+     * in a dense financial tool, and it should not grow because the window is
+     * wider. H2 stays 18/28 and H3 16/24 at every width. */
+    --type-subtitle-body: 400 20px/20px var(--font-family-sans);
+  }
+}
+
+/* =============================================================================
+ * motion.css — motion primitives (Coherence DS)
+ *
+ * Rules: container-first (animate the container, not children); enter =
+ * ease-out (decelerate in); exit = ease-in (accelerate out); duration scales
+ * with element size (small=fast, medium=base, large=slow). Smooth + subtle.
+ * ============================================================================= */
+
+:root {
+  /* Duration */
+  --duration-fast: 150ms; /* @kind other */
+  --duration-base: 200ms; /* @kind other */
+  --duration-slow: 300ms; /* @kind other */
+
+  /* Easing */
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --easing-enter:    cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --easing-exit:     cubic-bezier(0.7, 0, 0.84, 0); /* @kind other */
+
+  /* Long motion (opt-in). From the Laboral Kutxa motion study: a move reads as finished in ~200 ms, the rest of
+   * the duration is a cushion. Added 2026-11-05; used so far by: Toast (entrance), Checkbox (tick pop), Radio (dot), Switch (thumb, track), Drawer (entrance), MultiSelect rows, Stepper (check, line, markers), FieldReveal (entrance), Accordion (open/close), plus quick exits and popup retract (Radio, Checkbox, MultiSelect, Select, Menu, Toast, FieldReveal). See README «Motion». */
+  --ease-out: var(--easing-enter);                         /* decelerate in, 400ms */
+  --ease-in-out: cubic-bezier(0.7, 0, 0.15, 1);            /* slow start, fast middle, soft landing: fills, exits, 800ms */
+  --ease-in-out-spring: cubic-bezier(0.7, 0, 0.2, 1.3);    /* big moves only, 1500ms; not used yet */
+  --ease-spring: cubic-bezier(0.34, 1.35, 0.5, 1);         /* fallback where linear() is not supported */
+  --duration-out: 400ms; /* @kind other */
+  --duration-in-out: 800ms; /* @kind other */
+  --duration-spring: 1000ms; /* @kind other */
+  --duration-in-out-spring: 1500ms; /* @kind other */
+
+  /* Staggered reveal (dropdown panels: container extrudes, then rows stagger in) */
+  --reveal-stagger-light: 40ms; /* @kind other */
+  --reveal-rise-light: 6px; /* @kind other */
+
+  /* Result cascade (Search results, TabPanel): each block fades in, rises and
+   * un-blurs, staggered by --reveal-stagger-light. Reduced motion: a short
+   * opacity fade only. */
+  --reveal-cascade-duration: 500ms; /* @kind other */
+  --reveal-cascade-rise: 10px; /* @kind other */
+  --reveal-cascade-blur: 14px; /* @kind other */
+  --reveal-cascade-reduced-duration: 80ms; /* @kind other */
+}
+
+/* Spring: a linear() easing, reaches the target at ~22 % of the time, overshoots ~8 %, settles. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root { --ease-spring: linear(0, .048, .1653, .318, .4804, .6345, .7694, .8794, .9631, 1.0218, 1.0587, 1.0778, 1.0835, 1.0798, 1.0701, 1.0575, 1.0439, 1.031, 1.0196, 1.0104, 1.0033, .9983, .9952, .9935, .993, .9933, .9941, .9952, .9963, .9974, .9983, .9991, .9997, 1.0001, 1.0004, 1.0005, 1.0006, 1.0006, 1.0005, 1); }
+}
+
+/* Reduced motion: the long durations collapse so state changes at once (components also keep their own rules). */
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-out: 0.01ms; --duration-in-out: 0.01ms; --duration-spring: 0.01ms; --duration-in-out-spring: 0.01ms; }
+}
+
+/* The cascade's keyframes, global so every surface that reveals with it uses
+ * the same curve. The blur lands at exactly 0 and the animation fill is
+ * backwards, so no filter lingers once it ends. */
+@keyframes afi-reveal-cascade { from { opacity: 0; transform: translateY(var(--reveal-cascade-rise)); filter: blur(var(--reveal-cascade-blur)); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes afi-reveal-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* =============================================================================
+ * semantic.css — semantic (role) tokens (Coherence DS, AFI brand, light theme)
+ *
+ * Maps brand primitives → role-named custom properties. Components consume
+ * ONLY these (--canvas-primary, --button-height, --foreground-primary-default…),
+ * never the raw primitives. Dark mode overrides live under [data-theme="dark"].
+ * ============================================================================= */
+
+:root,
+[data-theme] {
+  /* ===== BORDER — general-purpose ===== */
+
+  /* Focus ring for content on a brand/dark ground — the neutral ring
+   * disappears against --canvas-brand. */
+
+  --border-width-hairline: 1px;
+  --border-width-thick:    2px;
+
+  /* ===== CONTROL — generic interactive surfaces ===== */
+
+  /* Interactive feedback for controls sitting DIRECTLY on a brand/dark ground
+   * (--canvas-brand): a low-opacity white wash instead of a neutral tint, so
+   * the ground's own hue shows through and a ghost control still reads as a
+   * control. A neutral tint on a coloured ground reads as dirt. */
+  --control-background-hover-inverse:  color-mix(in srgb, var(--color-base-white) 14%, transparent);
+  --control-background-active-inverse: color-mix(in srgb, var(--color-base-white) 22%, transparent);
+
+  /* ===== CHECKBOX / RADIO — the selection-control box =====
+   * md (18) is the form default, shared with Radio. sm (16) is one step down
+   * the same dimension scale for dense contexts — data-table gutters, compact
+   * toolbars — where an 18px box dominates a 32px row. The glyph tracks the box
+   * so the tick keeps its optical weight. The INTERACTIVE target is a separate
+   * concern: it is set by the container (a table gutter, a 44px touch row),
+   * never by these. @kind size */
+  --checkbox-size-md: var(--dimension-4-5); /* 18 */
+  --checkbox-size-sm: var(--dimension-4);   /* 16 */
+  --checkbox-size-xs: var(--dimension-3-5); /* 14 — dense data tables, where 16 crowds 12px type */
+  --checkbox-glyph-md: var(--dimension-3);  /* 12 */
+  --checkbox-glyph-sm: var(--dimension-2-5);/* 10 */
+  --checkbox-glyph-xs: var(--dimension-2);  /* 8 — the 14px box leaves 10 inside its 2px border */
+
+  /* ===== TABLE — the canonical anatomy, one role per token =====
+   * There is deliberately NO --table-header-background. A column header is not
+   * a chrome strip: it inherits whatever the container is painted, so the same
+   * table reads correctly on the page canvas, inside a Card and inside a Modal.
+   * Header and content share ONE font size (12px): separation is weight and
+   * ink, plus the hairline. A body larger than its own column header made the
+   * data shout over its label, so hierarchy inside the table is carried by
+   * weight, semantic ink, indentation and the disclosure icon — never size. */
+  --table-header-font:       var(--type-body-sm-600);   /* @kind font */
+
+  /* Standard data row (level 2 / child rows share the ink). */
+  --table-cell-font:         var(--type-body-sm-400);   /* @kind font */
+
+  /* Hierarchical level 1: a roll-up of the rows beneath it, so label and
+   * figures both carry medium weight and primary ink. */
+  --table-group-font:        var(--type-body-sm-500);   /* @kind font */
+
+  /* Totals row. Same size as every other cell in the table — emphasis comes
+   * from weight, primary ink and the thick rule above it, never from size. */
+  --table-footer-font:       var(--type-body-sm-600);   /* @kind font */
+
+  /* Row actions. An icon-only action is a control, not an ornament: it takes
+   * the interactive icon step (--icon-md, 20) inside a target sized by the
+   * control scale, never the 14px decorative step. Static/indicative cell icons
+   * are NOT affected — they keep --icon-sm. */
+  --table-action-icon-size:  var(--icon-md);             /* 20 */
+  --table-action-target:     var(--icon-button-size-lg); /* 32 */
+  /* TABLE — appearance="planning" (opt-in). Component-scoped roles for the
+   * planning tables of the optimisation features: one regular weight across
+   * header, cells, groups and totals, 15/20 body over a 14/20 header, 48px
+   * minimum rows. The default --table-* roles above are untouched; Table
+   * re-points them to these only inside .afi-table--planning. */
+  --table-planning-header-font:       400 14px/20px var(--font-family-sans); /* @kind font */
+
+  --table-planning-cell-font:         400 15px/20px var(--font-family-sans); /* @kind font */
+
+  --table-planning-group-font:        400 15px/20px var(--font-family-sans); /* @kind font */
+
+  --table-planning-footer-font:       400 15px/20px var(--font-family-sans); /* @kind font */
+
+  --table-planning-row-min-height:    var(--dimension-12); /* @kind spacing */
+  --table-planning-cell-padding-block: var(--space-xs); /* @kind spacing */
+
+  /* ===== NAV — sidebar, navbar, nav items (semantic/color/nav) ===== */
+
+  --nav-item-background-default:  var(--color-afi-white-0);
+
+  /* ===== MENU ITEM — one row rhythm for every option list =====
+   * Select, MultiSelect, Menu (and SplitButton, which mounts Menu), Search
+   * results and the TopBar state/overflow panels all paint their rows from
+   * these, so an open Select and an open Menu read as the same system.
+   * Option text is body-md, Roboto 14/20: the size the Wealth Planner menus
+   * actually render (Roboto 14 in about 38px rows). What had drifted was the
+   * geometry, 24 / 32 / 36px rows with mixed padding, not the type, so the
+   * row is fixed at 40px (14/20 + 8 + 8 = 36, lifted to the 40 minimum) and
+   * the type stays at the body size. Triggers keep their own control
+   * typography.
+   *
+   * Weight follows the KIND of choice, not the word "selected":
+   *   single selection (Select)   the current value is 500 and carries the
+   *                               check; every other option is 400.
+   *                               --menu-item-font-current is for this only.
+   *   multi selection / filters   checked rows stay 400: the checkbox says it.
+   *   (MultiSelect, Menu with     A list of ticked rows in 500 reads heavier
+   *   checked)                    than the Select beside it.
+   *   content emphasis            Menu strong is 600. It is hierarchy the
+   *                               product asks for (a select-all row), not a
+   *                               selection state, so it is not a menu token.
+   * Leading and trailing marks (check, checkbox, icon) are top-aligned at
+   * the single-line row's centre, so they stay by the first line when a label
+   * wraps instead of drifting to the middle of a tall row. */
+  /* 400 14/20, current value 500 14/20; 40px row; padding 8 / 16; 8px icon or check to label. */
+  --menu-item-font:            var(--type-body-md-400); /* @kind font */
+  --menu-item-font-current:    var(--type-body-md-500); /* @kind font */
+  --menu-item-min-height:      var(--dimension-10); /* @kind spacing */
+  --menu-item-padding-block:   var(--space-xs); /* @kind spacing */
+  --menu-item-padding-inline:  var(--space-md); /* @kind spacing */
+  --menu-item-gap:             var(--space-xs); /* @kind spacing */
+
+  /* ===== SIDEBAR — planner shell nav (drives Sidebar variants) =====
+   * Base binding is the light "flush" chrome; the inset-dark variant re-binds
+   * these same roles to the azul-profundo ramp, so the component body carries
+   * no color literals. */
+  --sidebar-background:            transparent;
+  --sidebar-border:                transparent;
+
+  /* Navigation-item status marker (Sidebar item `dot`) — a pending/review
+   * indicator. Azul reads as "needs attention" without claiming a feedback
+   * colour; the halo is the sidebar ground so the marker sits on any row. */
+
+  --sidebar-dot-size:              var(--space-xs);     /* 8 */
+  --sidebar-radius:                0px;
+  /* Geometry — measured off the planner shell */
+  --sidebar-nav-width:             var(--dimension-60); /* 240 */
+  --sidebar-rail-width:            var(--dimension-18); /* 72 — collapsed */
+  --sidebar-padding-x:             var(--space-sm);     /* 12 */
+  --sidebar-brand-padding-end:     var(--space-sm);     /* 12 */
+  --sidebar-logo-height:           var(--dimension-8);  /* 32 */
+  --sidebar-icon-size:             var(--icon-xs);      /* 12 */
+  --sidebar-toggle-icon-size:      var(--dimension-3-5); /* 14 */
+  /* Brand band + gap, not one tall row: the band is the shell header band the
+   * TopBar also fills, and the gap is what used to be the rest of the 88. */
+  --sidebar-brand-height:          var(--layout-shell-header);    /* 48 */
+  --sidebar-brand-gap:             var(--layout-shell-brand-gap); /* 40 */
+  --sidebar-item-height:           var(--dimension-9);  /* 36 */
+  --sidebar-group-gap:             var(--space-md);     /* 16 → 52px item pitch */
+
+  /* ===== OVERLAY — scrim + floating surfaces =====
+   * Three surfaces, not five. --overlay-blanket is the scrim; --overlay-modal
+   * is the surface of a thing that takes over the screen behind a scrim (Modal,
+   * Drawer, ProgressOverlay, TourSpotlight); --overlay-dropdown is the surface
+   * of every panel that hangs off a trigger (Menu, Select, MultiSelect,
+   * DatePicker, Search, NotesPopover, the TopBar menus).
+   *
+   * --overlay-popover and --overlay-menu resolved to the same value as
+   * --overlay-dropdown in BOTH themes and always have. They were three names
+   * for one surface, and the split bought nothing except the chance for two
+   * panels to drift apart -- which is exactly what happened between Menu and
+   * MultiSelect. They are kept as explicit deprecated aliases so consumers
+   * still resolve; nothing in this system points at them any more. */
+
+  /* Drawer scrim: the brand navy at 25%, lighter than the Modal blanket on
+   * purpose. A drawer annotates the page, so the page stays legible behind it;
+   * a modal interrupts it. */
+  --overlay-blanket-drawer: color-mix(in srgb, var(--color-afi-azul-profundo-500) 25%, transparent); /* @kind color */
+  /* Backdrop blur for FULL-SCREEN scrims only (Drawer, Modal, ProgressOverlay):
+   * the page behind recedes a step. Never on dropdown panels, tooltips or the
+   * TourSpotlight cut-out, whose target must stay sharp. Theme-independent. */
+  --overlay-blur:     var(--blur-sm);
+
+  /* Stacking layers. A panel's z-index is a property of the LAYER it lives on,
+   * never of the component that happens to draw it: Menu at 30 and MultiSelect
+   * at 40 meant two panels of the same kind stacked by whichever component the
+   * page reached for. Anything anchored to a trigger and positioned in flow
+   * sits on --z-dropdown. The portalled layers above it are ordered by what
+   * has to survive what. */
+  --z-dropdown: 40; /* @kind other */
+  /* Lists portalled to <body> from a trigger (Select, MultiSelect, DatePicker,
+   * Search): above Drawer (901), its scrim (900) and Modal (1000), so a field
+   * inside a drawer or modal opens its list on top; below Tooltip (1100). */
+  --z-floating: 1050; /* @kind other */
+  /* Page-level floating control (the wrapper of a FloatingActionButton): above
+   * in-page chrome and anchored dropdowns (--z-dropdown, 40), below Toast (200),
+   * Drawer (899 to 901), Modal (1000), floating lists (--z-floating) and Tooltip
+   * (1100), so it never covers an open drawer or modal. */
+  --z-fab: 90; /* @kind other */
+
+  /* ===== STATUSPILL — pill-scoped semaphore ground =====
+   * StatusPill rides --afi-topbar--glass, a 90% wash of --surface-default over
+   * white. A 50-level tint there measures under 1.1:1 and the state simply is
+   * not there on an external monitor. The pill takes the 100 level plus a
+   * hairline at the 300 level, which is what actually makes the state
+   * perceivable. Pill-scoped on purpose: Badge, StatusChip and the status-*
+   * roles sit on full --surface-default, where the 50 level is correct — this
+   * is a pill problem, not a feedback-role problem.
+   *
+   * The edge is the 700 level, not the 300: the tint move from 50 to 100 only
+   * takes the fill from 1.06:1 to 1.13:1, below the threshold of noticing, so
+   * the hairline is what actually carries the state and has to clear 3:1. At
+   * the 300 level it measured 1.39–1.97:1 and warning was invisible. The 500
+   * level is not an option either — warning at #F97316 is 2.80:1 on white.
+   * Edge and dot therefore resolve to the same role colour per state: one
+   * value, drawn as the boundary and as the dot on a pale ground. Intended,
+   * not duplication. */
+
+  /* Hover fill. Light: the 200 step (label 15.51:1). Dark needs its own value:
+   * the 200 step under light ink is about 1.2:1. */
+  --statuspill-warning-bg-hover: var(--color-warning-200);
+
+  /* Soft hover: the shared 8% ink mix drops the 700 ink to 4.40:1; 100 holds 4.52:1. */
+  --statuspill-warning-soft-bg-hover: var(--color-warning-100);
+
+  /* ===== CHART — data-viz roles ===== */
+
+  /* Scenario range (band): soft blue from the Afi azul scale, opaque, so the drawn
+   * band is exactly the token (outer azul-50 #e6f4fb, inner azul-100 #cde9f6 on
+   * any ground). A navy mix read as grey on white. Primary line on top: 12.85 /
+   * 11.40:1. */
+  --chart-range-outer: var(--color-afi-azul-50);
+  --chart-range-inner: var(--color-afi-azul-100);
+
+  /* style="gradient": the muted-bar colour and the opacity at the light end of
+   * every bar, segment and arc ramp (the full end is always 1). */
+
+  --chart-gradient-start-opacity:  0.38; /* @kind other */
+  /* treatment="soft-hatch": how much of the tone's -fill role the pale
+   * fill keeps (the rest is transparent). Light 45%: fill 1.49:1, overall
+   * weight about 1.8:1 against white, far under the covered series. */
+  --chart-soft-fill-mix: 45%; /* @kind other */
+  /* A de-emphasised step of the LEAD series, for the preceding values in a
+   * series whose last point carries the emphasis. Deliberately a step of
+   * primary and not --chart-data-secondary: secondary means the second
+   * series, not a dimmer first one, and using it makes one quantity read as
+   * two. Mixed with transparent so it composites correctly on any ground. */
+  --chart-data-primary-subtle: color-mix(in oklab, var(--chart-data-primary) 32%, transparent);
+
+  /* ===== CONTROL HEIGHT — generic interactive scale ===== */
+  /* Mobile floor = 44px (WCAG AA) for touch targets; sm stays one step below so
+   * `size` is never inert. Densifies to the 28/32/40 desktop scale on lg+. */
+  --control-h-sm: var(--dimension-10); /* 40 */
+  --control-h-md: var(--dimension-11); /* 44 */
+  --control-h-lg: var(--dimension-12); /* 48 */
+
+  /* Component height aliases */
+  --field-input-height: var(--control-h-md);
+  --button-height:      var(--control-h-md);
+  --icon-button-height: var(--control-h-md);
+  /* Button + IconButton square/height scale — compact chrome sizes, independent of --control-h-* */
+  --control-size-sm:  var(--dimension-6);  /* 24 */
+  --control-size-md:  var(--dimension-7);  /* 28 */
+  --control-size-lg:  var(--dimension-8);  /* 32 */
+  --control-size-xl:  var(--dimension-9);  /* 36 */
+  --control-size-2xl: var(--dimension-10); /* 40 */
+  --icon-button-size-sm:  var(--control-size-sm);
+  --icon-button-size-md:  var(--control-size-md);
+  --icon-button-size-lg:  var(--control-size-lg);
+  --icon-button-size-xl:  var(--control-size-xl);
+  --icon-button-size-2xl: var(--control-size-2xl);
+  --tab-height:         var(--control-h-md);
+  --chip-height:        var(--control-h-sm);
+
+  /* Nav chrome */
+  --top-bar-height:      var(--dimension-14); /* 56 */
+  --shell-header-height: var(--dimension-12); /* 48 */
+  --sidebar-width:       var(--dimension-65); /* 260 — editorial nav */
+
+  /* Canvas chrome (page-level padding) */
+  --canvas-padding-inline: var(--dimension-4);
+  --canvas-padding-block:  var(--dimension-4);
+
+  /* Section chrome */
+  --section-padding-inline: var(--dimension-4);
+  --section-padding-block:  var(--dimension-4);
+  --section-gap:            var(--dimension-6);
+  --section-space-after:    var(--space-2xl);   /* 48 — below an H2 PageSection */
+  --subsection-space-after: var(--space-xl);    /* 32 — below an H3 PageSection */
+  --section-content-gap:    var(--space-md);    /* 16 — head/description to content, both levels */
+  --section-radius:         var(--radius-xl);   /* 16 */
+
+  /* Gap roles */
+  --gap-card-to-card:       var(--dimension-2);
+  --gap-content-to-content: var(--dimension-4);
+  --gap-section-to-section: var(--dimension-8);
+  --gap-content-to-footer:  var(--dimension-6);
+
+  /* Icons */
+  --icon-xs:  var(--dimension-3); /* 12 */
+  --icon-sm:  var(--dimension-4); /* 16 */
+  --icon-md:  var(--dimension-5); /* 20 */
+  --icon-lg:  var(--dimension-6); /* 24 */
+  --icon-gap: var(--dimension-2); /* 8 */
+
+  /* Avatars */
+  --avatar-xs: var(--dimension-6);  /* 24 */
+  --avatar-sm: var(--dimension-8);  /* 32 */
+  --avatar-md: var(--dimension-10); /* 40 */
+  --avatar-lg: var(--dimension-12); /* 48 */
+  --avatar-xl: var(--dimension-16); /* 64 */
+
+  /* PAGE layout rhythm — the vertical gaps a page-level component owns so a
+   * consuming screen never repeats them by hand. */
+  --layout-page-header-gap: var(--dimension-5); /* 20 — PageHeader to first section */
+
+  /* RESPONSIVE CANVAS — the three rails of a planner screen. See the
+   * "Lienzo responsive" pattern. Breakpoints read the DRAWN AREA (container
+   * queries), never the browser window.
+   * The content rail is the ONLY thing with a maximum; the top bar spans the
+   * whole main column and takes the same inset, so the two converge into one
+   * rail at and below --layout-rail-converge. */
+  --layout-rail-max:      var(--content-xl);   /* 1140 — never 1180 */
+  --layout-rail-inset:    var(--dimension-6);  /* 24 — bar and rail, both sides */
+  --layout-rail-inset-sm: var(--dimension-4);  /* 16 — at ≤640 */
+  --layout-rail-block:    var(--dimension-8);  /* 32 — above and below the rail */
+  --layout-rail-converge: 1140px;              /* main column width where rail goes flush */
+  --layout-bp-grid:        1024px; /* three-up → two-up */
+  --layout-bp-handoff:     768px;  /* sidebar → drawer, bar re-forms */
+  --layout-bp-compact:     640px;  /* 16px inset, wrapped title row, 44px touch */
+  --layout-drawer-width:   288px;  /* or 80% of the content area, whichever is smaller */
+
+  /* SHELL HEADER BAND — the one horizontal band at the top of a planner screen.
+   * The TopBar fills it and the Sidebar brand lockup centres in it, so the Afi
+   * lockup and the bar's first crumb share ONE centre line. Neither component
+   * declares a height of its own: both read this token. Change it here and the
+   * two move together.
+   * The band works because PlannerShell starts the sidebar and the main column
+   * at the same block edge (--layout-shell-inset on every side); no component
+   * may compensate for the frame with an offset of its own. */
+  --layout-shell-header:    var(--dimension-12); /* 48 — bar height = brand band */
+  /* Distance from the bottom of the brand band to the first nav row. Keeps the
+   * sidebar's original 88px of brand-to-nav air without tying it to the band. */
+  --layout-shell-brand-gap: var(--dimension-4);  /* 16 — was 40: the band already
+     carries the lockup's own air, so 40 more read as a hole between brand and
+     nav. Changing it moves the NAV, never the lockup: the lockup is centred in
+     --layout-shell-header and stays on the TopBar's centre line. */
+  /* The planner frame: ground showing around the sidebar and the content card,
+   * and the gap between them. Equal on all sides — that equality IS the
+   * alignment rule. */
+  --layout-shell-inset:     var(--dimension-2);  /* 8 */
+
+  /* SPACING utility scale */
+  --space-3xs: var(--dimension-0-5); /* 2 */
+  --space-2xs: var(--dimension-1);   /* 4 */
+  --space-xs:  var(--dimension-2);   /* 8 */
+  --space-sm:  var(--dimension-3);   /* 12 */
+  --space-md:  var(--dimension-4);   /* 16 */
+  --space-lg:  var(--dimension-6);   /* 24 */
+  --space-xl:  var(--dimension-8);   /* 32 */
+  --space-2xl: var(--dimension-12);  /* 48 */
+  --space-3xl: var(--dimension-16);  /* 64 */
+
+  /* Button label typography — wired to the type scale so the scale is the
+     single source of truth. sm/md use body-sm; lg/xl/2xl use button. */
+  --control-label-font-sm: var(--type-body-sm-400);
+  --control-label-font-lg: var(--type-button-400);
+  --control-label-tracking: var(--tracking-control);
+
+  /* RADIUS semantic roles */
+  --radius-control: var(--radius-ml);   /* buttons, inputs, segments — 10px (was 8) */
+  --radius-card:    var(--radius-md);   /* cards, panels, popovers — 8px */
+  /* Section frame: DataSection, bordered Card, framed PageSection. One step
+   * rounder than a card (was 8). Anything nested flush inside a section takes
+   * calc(var(--radius-section) - <padding between them>), never a fixed value. */
+  --radius-section: var(--radius-lg);   /* 12px */
+  /* Chart bars (Chart, every register, and Sparkline): the two corners away from
+   * the axis only, capped at a third of the bar width. Stacked: outermost segment only. */
+  --radius-chart-bar: 2px;
+  /* Floating panels (menus, dropdowns, popovers): concentric with their rows.
+   * Panel radius = row radius (--radius-control) + the panel's padding, so a
+   * 10px row sits evenly inside. A panel with other padding uses
+   * calc(var(--radius-control) + <its padding>). */
+  --panel-padding:  var(--space-2xs);   /* 4px */
+  --radius-panel:   calc(var(--radius-control) + var(--panel-padding)); /* 14px */
+  --radius-table:   var(--radius-sm);   /* data-table frame — 4px, tighter than controls */
+  --radius-modal:   var(--radius-lg);   /* modals, drawers */
+  --radius-shell:   var(--radius-lg);   /* the shell's content card — larger than a control, no larger than a modal */
+  --radius-pill:    var(--radius-full); /* status chips, pills */
+
+  /* Separators */
+  --separator-thickness: var(--dimension-0-25);
+
+  /* Content widths */
+  --content-lg:    var(--dimension-240); /* 960 */
+  --content-xl:    var(--dimension-285); /* 1140 */
+  --content-xxl:   var(--dimension-330); /* 1320 */
+  --content-prose: 44rem;
+  --content-home-max: var(--dimension-300); /* 1200 */
+}
+
+/* Desktop densification — controls shrink from 44px touch floor on lg+ */
+@media (min-width: 992px) {
+  :root,
+  [data-theme] {
+    --control-h-sm: var(--dimension-7);  /* 28 */
+    --control-h-md: var(--dimension-8);  /* 32 */
+    --control-h-lg: var(--dimension-10); /* 40 */
+    --canvas-padding-inline: var(--dimension-8); /* 32 */
+  }
+}
+
+/* =============================================================================
+ * DARK MODE — [data-theme="dark"]
+ * Canvas + surfaces invert; foreground inverts; brand shades brighten for
+ * contrast; borders soften; feedback bgs go dark-tinted.
+ * ============================================================================= */
+[data-theme='dark'] {
+  --nav-item-background-default:  transparent;
+
+  --control-background-hover-inverse:  color-mix(in srgb, var(--color-base-white) 10%, transparent);
+  --control-background-active-inverse: color-mix(in srgb, var(--color-base-white) 16%, transparent);
+
+  --overlay-blanket-drawer: hsla(0, 0%, 0%, 0.45);
+
+  /* Dark keeps the 900 background / 700 border relationship the feedback roles
+   * already use here: the ground is dark, so the tint reads without lifting. */
+
+  --statuspill-warning-bg-hover: color-mix(in oklab, var(--color-warning-900) 80%, var(--color-warning-700));
+
+  --statuspill-warning-soft-bg-hover: color-mix(in oklab, var(--color-warning-200) 8%, var(--color-warning-900));
+
+  /* Series identity on the dark chart grounds (--surface-default control-900,
+   * --canvas-primary control-950). Every mark must reach 3:1. Only series-1
+   * failed: #062d3f measured 1.23:1 on surface / 1.31:1 on canvas, so a bar in
+   * --chart-data-primary all but disappeared. azul-profundo-400 keeps the
+   * same hue family at 4.31:1 / 4.58:1, and stays apart from series-2 (azure,
+   * 1.88:1 luminance plus saturation) and series-3 (2.86:1). Series 2-8 pass
+   * as they are (3.42-15.99:1) and keep their light values.
+   * --chart-data-primary-subtle is redeclared because a custom property that
+   * reads another resolves where it is declared; the :root copy would keep
+   * the light primary. */
+
+  --chart-data-primary-subtle: color-mix(in oklab, var(--chart-data-primary) 32%, transparent);
+  /* Dark ranges: azul-900 / azul-800 at 55 % on the surface, opaque. Calm on the
+   * control-900 ground (1.22 / 1.37:1), the inner a step stronger, and the dark
+   * primary line on top stays at 3:1 or more (3.53 / 3.14:1; full azul-800
+   * dropped it to 2.28:1). Secondary 6.6 / 5.9:1, annotation ink 9:1+. */
+  --chart-range-outer: color-mix(in srgb, var(--color-afi-azul-900) 55%, var(--surface-default));
+  --chart-range-inner: color-mix(in srgb, var(--color-afi-azul-800) 55%, var(--surface-default));
+
+  /* Gradient bars: at 0.38 the light end of a bar fell to 1.50-2.84:1 on the
+   * dark surface (muted control-400: 2.07:1), so the top of the bar, where its
+   * value is read, vanished. 0.9 is the lowest start that keeps every dark
+   * series, the muted bar and the sign roles at 3:1 or more at the top
+   * (weakest: series-6 3.03:1). The ramp stays, shallower. */
+
+  --chart-gradient-start-opacity:  0.9; /* @kind other */
+  /* Dark 25%: the negative-fill primitive (#eb8787) is bright on the dark
+   * ground; at 25% the remainder weighs about 1.9:1 against the surface,
+   * under the covered series (primary 4.31:1). The outline carries the
+   * boundary at 5.07:1 (3.50:1 light). */
+  --chart-soft-fill-mix: 25%; /* @kind other */
+}
+
+/* ===== TOUR — TourSpotlight (Wealth Planner guided tour) =====
+ * Values with no exact equivalent in the scale. Fixed in both themes: the
+ * scrim and ring sit over the page, not on a surface. */
+:root,
+[data-theme] {
+  --tour-shadow: var(--elevation-xl);
+  --tour-ease: ease-out; /* @kind other */
+  --tour-eyebrow-size: 11.5px;
+  --tour-counter-size: 12.5px;
+  --tour-title-size: 16px;
+  --tour-body-size: 13px;
+  --tour-tracking: 0.08em;
+}
+
+/* =============================================================================
+ * summary.css — SummaryPanel roles (Coherence DS)
+ *
+ * Values the summary look needs that no existing token carries. Everything
+ * else in SummaryPanel uses existing tokens (--space-*, --dimension-*,
+ * --radius-full, --tracking-snug, --surface-subtle, --foreground-brand-default).
+ * Light values match the Jubilación box they were taken from; dark values
+ * are set below.
+ * ============================================================================= */
+
+:root,
+[data-theme] {
+  --summary-label-size:        13px;
+  --summary-figure-size:       30px;
+  --summary-item-min:          200px;
+}
+
+/* Layer 4 — shared utilities
+ * .afi-focus-ring: the keyboard focus ring Button and IconButton draw, for a
+ * custom control on a page (div role=button, disclosure toggle, link). No ring
+ * on mouse focus; the ring on :focus-visible only. Like Button, the ring
+ * replaces the element's own box-shadow; to keep an elevation, write both
+ * shadows on the page (ring first, as FloatingActionButton does). */
+.afi-focus-ring:focus { outline: none; }
+.afi-focus-ring:focus-visible { outline: none; box-shadow: 0 0 0 var(--border-width-thick) var(--border-focus); }

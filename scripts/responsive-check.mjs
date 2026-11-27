@@ -66,6 +66,8 @@ const ROUTES = [
   // here covered until a change to its "More case studies" grid went unchecked.
   "/work/visual-identity",
   "/work/mindfulme",
+  // Third shell: a bespoke page (TpcPage) with stat cards, rule explorers and clip slots.
+  "/work/third-party-compliance",
   "/writing/loops-and-skills-are-components",
   // Same writing shell as the post above, but it carries six figures that exist
   // nowhere else — a side-by-side tree comparison, a 4-column bento, and a

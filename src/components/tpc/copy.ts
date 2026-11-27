@@ -578,6 +578,163 @@ export const TEST_MISS: B = {
   es: "No hubo prueba con usuarios antes de la entrega. Las tres distribuciones eran un experimento, no una propuesta, así que ninguna pasó a la herramienta. El README es lo siguiente que hay que arreglar: tiene que nombrar la carpeta del tema, para que el próximo producto cargue el tema de Afi sin mí.",
 };
 
+/* ------------------------------------------------------------ diagnostic */
+
+export type DiagPinBefore =
+  | "one-page"
+  | "code-title"
+  | "draft-state"
+  | "type-palette"
+  | "rules-buried";
+
+export type DiagPinAfter =
+  | "back-link"
+  | "draft-actions"
+  | "pages"
+  | "add-question"
+  | "conditional";
+
+type DiagPin<Id> = { id: Id; title: B; note: B };
+
+/**
+ * The annotated before/after of the template editor. `before` pins sit on
+ * plantillas-v10.webp, `after` pins on plantillas-v11.webp, each worded from what the
+ * screen shows. `audit` counts come from the usability audit of the prototype
+ * (~/Desktop/Code/cumplimiento-terceros-canvas/AUDIT-V11.md, a code read on 16 Nov):
+ * 15 entries on its dead-controls list, 6 numbered flow gaps, 4 accessibility fixes
+ * (the status-badge check passed, the focus line is a re-check). Whether every dead
+ * control works now is not claimed.
+ * The conditional question was already nested in v1.0, so its note describes it and
+ * doesn't call it new.
+ */
+export const DIAGNOSTIC: {
+  heading: B;
+  before: DiagPin<DiagPinBefore>[];
+  audit: { id: string; value: B; label: B }[];
+  after: DiagPin<DiagPinAfter>[];
+} = {
+  heading: { en: "The usability audit", es: "La auditoría de usabilidad" },
+  before: [
+    {
+      id: "one-page",
+      title: { en: "Everything on one page", es: "Todo en una página" },
+      note: {
+        en: "The template list, the question editor and the activation rules stack on the same page.",
+        es: "La lista de plantillas, el editor de preguntas y las reglas de activación se apilan en la misma página.",
+      },
+    },
+    {
+      id: "code-title",
+      title: { en: "Titled by code", es: "Titulado con un código" },
+      note: {
+        en: "The editor says «SEG-01 v4», not the template's name.",
+        es: "El editor dice «SEG-01 v4», no el nombre de la plantilla.",
+      },
+    },
+    {
+      id: "draft-state",
+      title: { en: "No way out of a draft", es: "Un borrador sin salida" },
+      note: {
+        en: "A draft can be published, but nothing lets you throw it away.",
+        es: "Un borrador se puede publicar, pero nada permite descartarlo.",
+      },
+    },
+    {
+      id: "type-palette",
+      title: {
+        en: "Five types, always open",
+        es: "Cinco tipos, siempre abiertos",
+      },
+      note: {
+        en: "The five question types stay listed in the left column, whether you're adding a question or not.",
+        es: "Los cinco tipos de pregunta siguen en la columna izquierda, se esté añadiendo una pregunta o no.",
+      },
+    },
+    {
+      id: "rules-buried",
+      title: { en: "Rules at the bottom", es: "Las reglas, al final" },
+      note: {
+        en: "The activation rules sit under everything, and they belong to TRI-01, not the template being edited.",
+        es: "Las reglas de activación quedan debajo de todo y son de TRI-01, no de la plantilla que se edita.",
+      },
+    },
+  ],
+  audit: [
+    {
+      id: "dead",
+      value: { en: "15", es: "15" },
+      label: {
+        en: "controls that did nothing",
+        es: "controles que no hacían nada",
+      },
+    },
+    {
+      id: "gaps",
+      value: { en: "6", es: "6" },
+      label: {
+        en: "gaps in the flows",
+        es: "huecos en los flujos",
+      },
+    },
+    {
+      id: "a11y",
+      value: { en: "4", es: "4" },
+      label: {
+        en: "accessibility fixes against WCAG 2.2 AA",
+        es: "arreglos de accesibilidad según WCAG 2.2 AA",
+      },
+    },
+  ],
+  after: [
+    {
+      id: "back-link",
+      title: { en: "Its own page", es: "Una página propia" },
+      note: {
+        en: "The editor opens as a page of its own, with «← Plantillas» to go back.",
+        es: "El editor se abre como una página propia, con «← Plantillas» para volver.",
+      },
+    },
+    {
+      id: "draft-actions",
+      title: {
+        en: "Name first, then actions",
+        es: "Primero el nombre, después las acciones",
+      },
+      note: {
+        en: "The template's name and its draft badge come first, and «Descartar borrador» sits beside «Publicar versión».",
+        es: "El nombre de la plantilla y su etiqueta de borrador van primero, y «Descartar borrador» está junto a «Publicar versión».",
+      },
+    },
+    {
+      id: "pages",
+      title: { en: "Pages on the left", es: "Páginas a la izquierda" },
+      note: {
+        en: "The pages list on the left with «Añadir página» under it, and the chosen page's questions on the right.",
+        es: "Las páginas a la izquierda con «Añadir página» debajo, y las preguntas de la página elegida a la derecha.",
+      },
+    },
+    {
+      id: "add-question",
+      title: { en: "One add button", es: "Un solo botón para añadir" },
+      note: {
+        en: "One «Añadir pregunta» button replaces the open list, and the type is chosen after.",
+        es: "Un único botón «Añadir pregunta» sustituye a la lista abierta, y el tipo se elige después.",
+      },
+    },
+    {
+      id: "conditional",
+      title: {
+        en: "Conditions under their parent",
+        es: "Condiciones bajo su pregunta",
+      },
+      note: {
+        en: 'Question 1.1 sits under question 1, with its rule, «Visible si 1 = "Sí"», as a tag.',
+        es: 'La pregunta 1.1 cuelga de la pregunta 1, con su regla, «Visible si 1 = "Sí"», como etiqueta.',
+      },
+    },
+  ],
+};
+
 /*
  * Still to supply before this ships. Written down here instead of filled with
  * plausible detail:

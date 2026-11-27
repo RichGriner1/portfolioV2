@@ -1,0 +1,173 @@
+/* Experiments page (2026-11-26): four more ways to use surface and colour, on the v3.1 module. Loads after rows4.css.
+   Each look is a class on .r3-work (estado.look). Tokens only.
+   B ground  · rows.gg: no white surfaces; the canvas grey is the ground; rows and sections are white objects.
+   C type    · no tiles: hierarchy from type size, weight and contrast, hairlines and air; the open section gets a navy edge.
+   D brand   · like B, on a ground tinted with Afi azul profundo instead of neutral grey; open = faint navy tint + navy edge.
+   E navy    · like B for the page; El plan is the one highlighted surface (navy), the result, as SAREVI's hero. */
+
+/* ---------- shared by B, D, E: white objects on a coloured ground ---------- */
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r3-page{background:transparent!important;padding-left:var(--dimension-2)!important;padding-right:var(--dimension-2)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan{background:transparent!important;padding-left:var(--dimension-2)!important;padding-right:var(--dimension-2)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r3-plan__head{background:transparent!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-table tbody tr:not(.r2-group):not(.r2-new)>td{background:var(--background-surface)!important;border-color:transparent!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-table tbody tr.afi-table-v2__row--hoverable:not(.is-open):hover>td{background:var(--color-control-25)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-table tbody tr.is-open>td,:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-table tbody tr.is-open+.r2-detail>td{background:var(--background-surface)!important;border-color:transparent!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-table tbody tr.is-open+.r2-detail{transform:translateY(-6px)}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-new>td,:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-new+.r2-detail>td{background:var(--background-surface)!important;border-color:transparent!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r4-fold{background:var(--color-control-50)!important;border-color:transparent!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r4-fold[open]>.afi-accordion-v2__summary,:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-sec[open]>.afi-accordion-v2__summary{border-block-end:0!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r2-sec{background:var(--background-surface)!important;border-color:transparent!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:var(--color-control-25)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r4-verdict{border:0!important;border-radius:var(--radius-chip)!important;padding:var(--dimension-3) var(--dimension-4)!important;background:var(--color-control-50)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r3-plan .afi-summary-list-v2{border:0!important;background:transparent!important;padding:0!important;gap:4px!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .afi-summary-list-v2__row{background:var(--color-control-50);border-radius:var(--radius-chip);padding:var(--dimension-2) var(--dimension-3);border-top:0!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r4-table table{border-collapse:separate!important;border-spacing:0 4px!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r4-table th{border:0!important;font-size:var(--type-label-size);color:var(--content-tertiary)}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r4-table td{background:var(--background-surface);border:0!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r4-fold .r4-table td{background:var(--background-surface)}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r4-table td:first-child{border-radius:var(--radius-chip) 0 0 var(--radius-chip);padding-left:var(--dimension-3)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--bluewhite) .r3-plan .r4-table td:last-child{border-radius:0 var(--radius-chip) var(--radius-chip) 0;padding-right:var(--dimension-3)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r3-plan .r2-figs>.r4-block,:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r3-plan .r2-figs>.r4-figline,:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r3-plan .r2-figs>.r3-sub{border-top-color:var(--color-control-100)!important}
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite) .r2-note{background:var(--color-control-50)}
+
+/* ---------- D brand: the ground is Afi azul profundo at its lightest, and «open» is a faint navy tint with a navy edge ---------- */
+.afi-shell:has(.r4-look--brand){--canvas-shell:color-mix(in srgb,var(--color-primary-100) 75%,var(--color-primary-0))}
+.r4-look--brand .r3-plan .r2-sec[open]{box-shadow:inset 3px 0 0 var(--brand-background-default)}
+.r4-look--brand .r2-table tbody tr.is-open>td:first-child,.r4-look--brand .r2-table tbody tr.is-open+.r2-detail>td:first-child{box-shadow:inset 3px 0 0 var(--brand-background-default)}
+.r4-look--brand .r4-fold,.r4-look--brand .r4-verdict,.r4-look--brand .r3-plan .afi-summary-list-v2__row,.r4-look--brand .r2-note{background:var(--color-primary-25)!important}
+.r4-look--brand .r3-plan .r4-fold .r4-table td{background:var(--background-surface)}
+
+/* ---------- C type: no tiles. Hierarchy from type: section titles larger, eyebrows darker, figures carry weight ---------- */
+.r4-look--type .r2-table table{border-spacing:0!important;margin-top:0!important}
+.r4-look--type .r2-table tbody tr:not(.r2-group):not(.r2-new):not(.is-open):not(.r2-detail)>td{border:0!important;border-bottom:var(--stroke-hairline) solid var(--borders-subtle)!important;border-radius:0!important;background:transparent!important}
+.r4-look--type .r2-table tbody tr.afi-table-v2__row--hoverable:not(.is-open):hover>td{background:var(--color-control-25)!important}
+.r4-look--type .r2-table tbody tr.is-open>td,.r4-look--type .r2-table tbody tr.is-open+.r2-detail>td{background:transparent!important;border:0!important;border-radius:0!important}
+.r4-look--type .r2-table tbody tr.is-open>td:first-child,.r4-look--type .r2-table tbody tr.is-open+.r2-detail>td:first-child{box-shadow:inset 2px 0 0 var(--brand-background-default)}
+.r4-look--type .r2-table tbody tr.is-open+.r2-detail>td{border-bottom:var(--stroke-hairline) solid var(--borders-subtle)!important}
+.r4-look--type .r2-group__t{font-size:var(--type-h4-size);font-weight:var(--font-weight-semibold)}
+.r4-look--type .r2-table .r2-group td{padding-top:var(--dimension-6)!important}
+.r4-look--type .r3-plan .r3-plan__body{gap:0!important}
+.r4-look--type .r3-plan .r2-sec{border:0!important;border-top:var(--stroke-hairline) solid var(--borders-default)!important;border-radius:0!important;background:transparent!important}
+.r4-look--type .r3-plan .r2-sec>.afi-accordion-v2__summary{padding:var(--dimension-4) 0!important;border-radius:0!important;min-height:56px}
+.r4-look--type .r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:transparent!important}
+.r4-look--type .r3-plan .r2-sec[open]>.afi-accordion-v2__summary{border-block-end:0!important}
+.r4-look--type .r3-plan .r2-sec .r4-sum__t{font-size:var(--type-h4-size);font-weight:var(--font-weight-semibold)}
+.r4-look--type .r3-plan .r2-sec .r2-figs{padding:0 0 var(--dimension-6)!important}
+.r4-look--type .r3-plan .r4-figline h4,.r4-look--type .r3-plan .r4-block h4,.r4-look--type .r3-plan .r3-sub__t{color:var(--content-secondary)!important}
+.r4-look--type .r3-plan .r2-fig__v{font-size:var(--type-h1-size, 32px)!important;letter-spacing:-.02em}
+.r4-look--type .r4-verdict{border:0!important;background:transparent!important;padding:0 0 0 var(--dimension-3)!important;border-left:2px solid currentColor!important;border-radius:0!important}
+.r4-look--type .r4-fold{background:transparent!important;border:0!important;border-top:var(--stroke-hairline) solid var(--borders-subtle)!important;border-radius:0!important}
+.r4-look--type .r4-fold>.afi-accordion-v2__summary{padding-left:0!important;padding-right:0!important;border-radius:0!important}
+.r4-look--type .r4-fold[open]>.afi-accordion-v2__summary{border-block-end:0!important}
+.r4-look--type .r4-subin,.r4-look--type .r4-fold__in{padding-left:0!important;padding-right:0!important}
+.r4-look--type .r3-plan .afi-summary-list-v2{border:0!important;padding:0!important}
+.r4-look--type .r2-note{background:transparent;padding-left:0;border-bottom:var(--stroke-hairline) solid var(--borders-subtle);border-radius:0}
+
+/* ---------- E navy: El plan is the highlighted surface ---------- */
+.r4-look--navy .r3-plan,.r4-look--navysec .r3-plan{background:var(--brand-background-default)!important;color:var(--content-inverse);
+  --content-primary:var(--color-neutral-0);--content-secondary:var(--color-primary-200);--content-tertiary:var(--color-primary-300);
+  --success-foreground:var(--color-success-300);--warning-foreground:var(--color-warning-300);--error-foreground:var(--color-error-300);--info-foreground:var(--color-info-300);
+  --borders-subtle:color-mix(in srgb,var(--color-neutral-0) 14%,transparent);--borders-default:color-mix(in srgb,var(--color-neutral-0) 22%,transparent);
+  --background-surface:var(--brand-background-default);--chart-negative-default:var(--color-error-300)}
+.r4-look--navy .r3-plan .r2-sec,.r4-look--navysec .r3-plan .r2-sec{background:color-mix(in srgb,var(--color-neutral-0) 7%,transparent)!important;border-color:transparent!important;color:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .r2-sec>.afi-accordion-v2__summary,.r4-look--navysec .r3-plan .r2-sec>.afi-accordion-v2__summary{color:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .r2-sec>.afi-accordion-v2__summary:hover,.r4-look--navysec .r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:color-mix(in srgb,var(--color-neutral-0) 5%,transparent)!important}
+.r4-look--navy .r3-plan .r4-verdict,.r4-look--navy .r3-plan .r4-fold,.r4-look--navy .r3-plan .afi-summary-list-v2__row,.r4-look--navy .r2-note,.r4-look--navysec .r3-plan .r4-verdict,.r4-look--navysec .r3-plan .r4-fold,.r4-look--navysec .r3-plan .afi-summary-list-v2__row,.r4-look--navysec .r2-note{background:color-mix(in srgb,var(--color-neutral-0) 8%,transparent)!important;color:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .afi-summary-list-v2__row,.r4-look--navysec .r3-plan .afi-summary-list-v2__row{border-radius:var(--radius-chip);padding:var(--dimension-2) var(--dimension-3);border-top:0!important}
+.r4-look--navy .r3-plan .r4-table td,.r4-look--navy .r3-plan .r4-table th,.r4-look--navysec .r3-plan .r4-table td,.r4-look--navysec .r3-plan .r4-table th{color:var(--color-neutral-0);border-color:color-mix(in srgb,var(--color-neutral-0) 14%,transparent)!important}
+.r4-look--navy .r3-plan .r4-bar,.r4-look--navysec .r3-plan .r4-bar{background:color-mix(in srgb,var(--color-neutral-0) 32%,transparent)}
+.r4-look--navy .r3-plan .r4-bar.is-last,.r4-look--navysec .r3-plan .r4-bar.is-last{background:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .r4-bar--neg,.r4-look--navysec .r3-plan .r4-bar--neg{background:var(--color-error-300)}
+.r4-look--navy .r3-plan .r4-bars__goal,.r4-look--navysec .r3-plan .r4-bars__goal{border-top-color:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .r4-bars__mark,.r4-look--navysec .r3-plan .r4-bars__mark{border-left-color:var(--color-primary-200)}
+.r4-look--navy .r3-plan .r4-bars__goal span,.r4-look--navy .r3-plan .r4-bars__zero span,.r4-look--navy .r3-plan .r4-bars__mark span,.r4-look--navysec .r3-plan .r4-bars__goal span,.r4-look--navysec .r3-plan .r4-bars__zero span,.r4-look--navysec .r3-plan .r4-bars__mark span{background:var(--brand-background-default);color:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .r4-key,.r4-look--navysec .r3-plan .r4-key{background:color-mix(in srgb,var(--color-neutral-0) 32%,transparent)}
+.r4-look--navy .r3-plan .r4-key--neg,.r4-look--navysec .r3-plan .r4-key--neg{background:var(--color-error-300)}
+.r4-look--navy .r3-plan .r2-split i,.r4-look--navysec .r3-plan .r2-split i{outline:1px solid color-mix(in srgb,var(--color-neutral-0) 25%,transparent)}
+.r4-look--navy .r3-plan button,.r4-look--navysec .r3-plan button{color:var(--color-neutral-0)}
+.r4-look--navy .r3-plan .r4-ruler__band,.r4-look--navysec .r3-plan .r4-ruler__band{background:color-mix(in srgb,var(--color-neutral-0) 16%,transparent);border-right-color:var(--brand-background-default)}
+.r4-look--navy .r3-plan .r4-ruler__band.is-on,.r4-look--navysec .r3-plan .r4-ruler__band.is-on{background:color-mix(in srgb,var(--color-info-300) 55%,transparent)}
+.r4-look--navy .r3-plan .r4-ruler__req,.r4-look--navysec .r3-plan .r4-ruler__req{background:var(--color-neutral-0);box-shadow:0 0 0 2px var(--brand-background-default)}
+.r4-look--navy .r3-plan .r4-ruler__track,.r4-look--navysec .r3-plan .r4-ruler__track{background:color-mix(in srgb,var(--color-neutral-0) 10%,transparent)}
+
+/* group rows (Patrimonio) sit on the ground: no white band, label aligned with the rows' content */
+.r2-table tbody tr.r2-group,.r2-table tbody tr.r2-group>td{background:transparent!important}
+.r2-table tbody tr.r2-group>td:first-child{padding-left:var(--dimension-3)!important}
+.r2-table tbody tr.r2-group>td:last-child{padding-right:var(--dimension-3)!important}
+
+/* ---------- F split: the page like B (grey ground, white rows), El plan like v3.1 (white surface, grey tiles) ---------- */
+.r4-look--split.r4-look--fill .r3-page{background:transparent!important;padding-left:var(--dimension-2)!important;padding-right:var(--dimension-2)!important}
+.r4-look--split.r4-look--fill .r3-page .r2-table tbody tr:not(.r2-group):not(.r2-new):not(.is-open):not(.r2-detail)>td{background:var(--background-surface)!important;border-color:transparent!important}
+.r4-look--split.r4-look--fill .r3-page .r2-table tbody tr.afi-table-v2__row--hoverable:not(.is-open):not(.r2-group):hover>td{background:var(--color-control-25)!important}
+.r4-look--split.r4-look--fill .r3-page .r2-table tbody tr.is-open>td,.r4-look--split.r4-look--fill .r3-page .r2-table tbody tr.is-open+.r2-detail>td,.r4-look--split.r4-look--fill .r3-page .r2-table tbody tr.r2-new>td,.r4-look--split.r4-look--fill .r3-page .r2-table tbody tr.r2-new+.r2-detail>td{background:var(--background-surface)!important;border-color:transparent!important}
+.r4-look--split.r4-look--fill .r3-page .r4-fold:not([open]),.r4-look--split.r4-look--fill .r3-page .r4-fold[open]{background:var(--color-control-50)!important}
+
+
+/* ---------- G2: El plan white (as now); sections tinted with azul profundo instead of grey; inside them, white ---------- */
+.r4-look--bluewhite .r3-plan{background:var(--background-surface)!important}
+.r4-look--bluewhite .r3-plan .r2-sec{background:var(--color-primary-50)!important;border-color:transparent!important}
+.r4-look--bluewhite .r3-plan .r2-sec[open]{background:color-mix(in srgb,var(--color-primary-100) 60%,var(--color-primary-50))!important}
+.r4-look--bluewhite .r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:color-mix(in srgb,var(--color-primary-100) 70%,var(--color-primary-50))!important}
+.r4-look--bluewhite .r3-plan .r4-verdict,.r4-look--bluewhite .r3-plan .r4-fold,.r4-look--bluewhite .r2-note{background:var(--background-surface)!important}
+.r4-look--bluewhite .r3-plan .afi-summary-list-v2__row,.r4-look--bluewhite .r3-plan .r4-fold .r4-table td{background:var(--color-primary-25)!important}
+.r4-look--bluewhite .r3-plan .r2-sec>.afi-accordion-v2__summary+* .r2-figs>.afi-summary-list-v2 .afi-summary-list-v2__row{background:var(--background-surface)!important}
+
+/* ---------- G1: dark like E, each section one step darker than the panel ---------- */
+.r4-look--navysec .r3-plan .r2-sec{background:var(--color-primary-800)!important}
+.r4-look--navysec .r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:color-mix(in srgb,var(--color-neutral-0) 5%,var(--color-primary-800))!important}
+
+/* ---------- dark tables (E, G1): soft rows, no lines, the same row style as the light version ---------- */
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table table{border-collapse:separate!important;border-spacing:0 4px!important;margin-top:-4px}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table th{border:0!important;background:transparent!important;color:var(--color-primary-200)!important;font-size:var(--type-label-size);font-weight:var(--font-weight-medium);padding-bottom:2px!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table td{background:color-mix(in srgb,var(--color-neutral-0) 7%,transparent)!important;border:0!important;color:var(--color-neutral-0)!important;padding-top:var(--dimension-2)!important;padding-bottom:var(--dimension-2)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table td:first-child,:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table th:first-child{padding-left:var(--dimension-3)!important;border-radius:var(--radius-chip) 0 0 var(--radius-chip)}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table td:last-child,:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table th:last-child{padding-right:var(--dimension-3)!important;border-radius:0 var(--radius-chip) var(--radius-chip) 0}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table .afi-table-v2__scroll,:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table{background:transparent!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-fold .r4-subin{background:transparent}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-table tr{background:transparent!important}
+
+/* ---------- dark looks (E, G1): Afi blue for the highlight; a real dark switch ---------- */
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-bar.is-last{background:var(--brand-afi-blue)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-bar.is-on{filter:none;opacity:1;outline:1px solid var(--brand-afi-blue)}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-ruler__req{background:var(--brand-afi-blue)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r4-ruler__band.is-on{background:color-mix(in srgb,var(--brand-afi-blue) 45%,transparent)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .r2-split i:first-child{background:var(--brand-afi-blue)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2{background:color-mix(in srgb,var(--color-neutral-0) 10%,transparent)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2__indicator{background:var(--brand-afi-blue)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2 button{color:var(--color-primary-200)!important;background:transparent!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2 button[aria-pressed=true],:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2 button[aria-checked=true],:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2 [aria-selected=true],:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2 [class*=selected]{color:var(--color-neutral-0)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented-control-v2__segment--selected{background:var(--brand-afi-blue)!important;color:var(--color-neutral-0)!important;border-radius:var(--radius-md)}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented{background:color-mix(in srgb,var(--color-neutral-0) 10%,transparent)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented .afi-slide-indicator{background:var(--brand-afi-blue)!important;box-shadow:none!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented__segment{color:var(--color-primary-200)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented__segment--selected{color:var(--color-neutral-0)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan .afi-segmented__segment:hover:not(.afi-segmented__segment--selected){background:color-mix(in srgb,var(--color-neutral-0) 8%,transparent)!important}
+
+/* glass tint follows the ground in looks without white surfaces; the dark plan tints navy */
+:is(.r4-look--ground,.r4-look--brand,.r4-look--navy,.r4-look--navysec,.r4-look--bluewhite,.r4-look--split) .r4-head{--r4-glass:var(--canvas-shell, var(--color-control-100));margin-inline:calc(var(--dimension-2) * -1);padding-inline:var(--dimension-2)}
+:is(.r4-look--ground,.r4-look--brand) .r3-plan__head{--r4-glass:var(--canvas-shell, var(--color-control-100));margin-inline:calc(var(--dimension-2) * -1);padding-inline:var(--dimension-2)!important}
+:is(.r4-look--navy,.r4-look--navysec) .r3-plan__head{--r4-glass:var(--brand-background-default)}
+.r4-look--type .r3-plan__head,.r4-look--type .r4-head{--r4-glass:var(--background-surface)}
+
+/* ---------- 3.3 white: white canvas and page; El plan on the old canvas grey with elevation 2;
+   list rows and plan sections are light grey tiles; inside a section, white ---------- */
+.afi-shell:has(.r4-look--white){--canvas-shell:var(--color-control-0)}
+.r4-look--white .r3-page{background:transparent!important;padding-left:var(--dimension-2)!important;padding-right:var(--dimension-2)!important}
+.r4-look--white .r4-head{--r4-glass:var(--color-control-0);margin-inline:calc(var(--dimension-2) * -1);padding-inline:var(--dimension-2)}
+.r4-look--white .r3-plan{background:var(--color-control-100)!important;box-shadow:var(--elevation-2)}
+.r4-look--white .r3-plan__head{--r4-glass:var(--color-control-100)}
+.r4-look--white .r2-table tbody tr:not(.r2-group):not(.r2-new):not(.is-open):not(.r2-detail)>td{background:var(--color-control-50)!important;border-color:transparent!important}
+.r4-look--white .r2-table tbody tr.is-open>td,.r4-look--white .r2-table tbody tr.is-open+.r2-detail>td{background:var(--color-control-100)!important;border-color:transparent!important}
+.r4-look--white .r2-table tbody tr.afi-table-v2__row--hoverable:not(.is-open):not(.r2-group):hover>td{background:var(--color-control-100)!important}
+.r4-look--white .r3-plan .r2-sec,.r4-look--white .r3-plan .r2-sec[open]{background:var(--color-control-50)!important;border-color:transparent!important}
+.r4-look--white .r3-plan .r4-verdict,.r4-look--white .r3-plan .r4-fold,.r4-look--white .r3-plan .r4-card{background:var(--color-control-0)!important}
+.r4-look--white .r4-fold:not([open]),.r4-look--white .r4-fold[open]{background:var(--color-control-0)!important}
+.r4-look--white .r3-plan .r4-plain th,.r4-look--white .r3-plan .r4-plain td{border-bottom-color:var(--color-control-200)}
+
+/* ---------- 3.3 · white sections inside the grey plan ---------- */
+.r4-look--whitesec .r3-plan .r2-sec,.r4-look--whitesec .r3-plan .r2-sec[open]{background:var(--color-control-0)!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--color-control-200) 60%,transparent)}
+.r4-look--whitesec .r3-plan .r4-verdict,.r4-look--whitesec .r3-plan .r4-fold,.r4-look--whitesec .r3-plan .r4-card,.r4-look--whitesec .r3-plan .r4-fold[open],.r4-look--whitesec .r3-plan .r4-fold:not([open]){background:var(--color-control-50)!important}
+.r4-look--whitesec .r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:var(--color-control-25)!important}
+/* white sections really white (the fill look's :not([open]) rule out-ranked the earlier one) */
+.r3-work.r4-look--whitesec .r3-plan .r2-sec,.r3-work.r4-look--whitesec .r3-plan .r2-sec:not([open]),.r3-work.r4-look--whitesec .r3-plan .r2-sec[open]{background:var(--color-control-0)!important;border-color:transparent!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--color-control-200) 60%,transparent)}
+.r3-work.r4-look--whitesec .r3-plan .r2-sec .r4-verdict,.r3-work.r4-look--whitesec .r3-plan .r2-sec .r4-fold,.r3-work.r4-look--whitesec .r3-plan .r2-sec .r4-fold:not([open]),.r3-work.r4-look--whitesec .r3-plan .r2-sec .r4-fold[open],.r3-work.r4-look--whitesec .r3-plan .r2-sec .r4-card{background:var(--color-control-50)!important}

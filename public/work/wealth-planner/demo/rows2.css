@@ -1,0 +1,99 @@
+/* Workstation v2: rows.gg-style list + pinned Panel del plan. Page layer on top of afi-product.css. Tokens only. */
+.r2-work{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:var(--dimension-6);align-items:start;min-height:100%}
+.r2-main{min-width:0;display:flex;flex-direction:column;gap:var(--dimension-5)}
+.r2-head h1{margin:0 0 var(--dimension-1);font-size:var(--type-h3-size);line-height:var(--type-h3-line-height);font-weight:var(--type-h3-weight);letter-spacing:var(--font-letter-spacing-heading)}
+.r2-head p{margin:0;font-size:var(--type-body-default-size);color:var(--content-tertiary)}
+.r2-list{display:flex;flex-direction:column;gap:var(--dimension-3)}
+.r2-bar{display:flex;align-items:center;gap:var(--dimension-3);flex-wrap:wrap}
+.r2-spacer{flex:1 1 auto}
+.r2-muted{color:var(--content-tertiary);font-size:var(--type-body-small-size)}
+.r2-total{font-size:var(--type-body-default-size);color:var(--content-tertiary)}
+.r2-total strong{color:var(--content-primary);font-weight:var(--font-weight-semibold);margin-left:var(--dimension-1);font-variant-numeric:tabular-nums}
+.r2-lead{display:inline-flex;align-items:center;gap:var(--dimension-3)}
+.r2-lead img{height:22px;width:auto}
+.r2-prod{padding-left:var(--dimension-3);border-left:var(--stroke-hairline) solid var(--borders-default);font-size:var(--type-body-default-size)}
+
+/* rows.gg rows: each row its own soft surface, air between rows, no grid lines, quiet header */
+.r2-table.afi-table-v2__scroll{background:transparent;border:0;box-shadow:none;overflow:visible}
+.r2-table table{table-layout:fixed;width:100%;border-collapse:separate;border-spacing:0 6px;margin-top:-6px}
+.r2-table th{background:transparent!important;border:0!important;font-size:var(--type-label-size);font-weight:var(--font-weight-medium);color:var(--content-tertiary);padding-top:0;padding-bottom:var(--dimension-1)}
+.r2-table td{background:var(--background-surface);border:0!important;border-top:var(--stroke-hairline) solid var(--borders-subtle)!important;border-bottom:var(--stroke-hairline) solid var(--borders-subtle)!important;height:52px;padding-top:var(--dimension-2);padding-bottom:var(--dimension-2);transition:background var(--motion-duration-fast) var(--motion-easing-standard)}
+.r2-table td:first-child{border-left:var(--stroke-hairline) solid var(--borders-subtle)!important;border-radius:var(--radius-md) 0 0 var(--radius-md);padding-left:var(--dimension-3)}
+.r2-table td:last-child{border-right:var(--stroke-hairline) solid var(--borders-subtle)!important;border-radius:0 var(--radius-md) var(--radius-md) 0;padding-right:var(--dimension-4)}
+.r2-table td[colspan]{border-radius:var(--radius-md)}
+.r2-table tr.afi-table-v2__row--hoverable{cursor:pointer}
+.r2-table tr.afi-table-v2__row--hoverable:hover td{background:var(--background-hover)}
+/* an open row and its detail read as one card */
+.r2-table tr.is-open td{border-color:var(--borders-default)!important;border-bottom-color:transparent!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important}
+.r2-table tr.is-open+.r2-detail td{border-color:var(--borders-default)!important;border-top-color:transparent!important;border-top-left-radius:0;border-top-right-radius:0}
+.r2-table tr.is-open+.r2-detail{transform:translateY(-6px)}
+.r2-table .r2-detail td{background:var(--background-surface);height:auto;white-space:normal;padding-top:0}
+.r2-detail__in{display:flex;flex-direction:column;gap:var(--dimension-3);padding:var(--dimension-2) 0 var(--dimension-3)}
+.r2-new td,.r2-new+.r2-detail td{background:var(--info-background)!important}
+.r2-table td .afi-input-v2,.r2-table td .afi-select-v2,.r2-table td input{width:100%;min-width:0}
+/* group header rows (Patrimonio): no surface, just the label and the subtotal */
+.r2-table .r2-group td{background:transparent!important;border:0!important;height:auto;padding-top:var(--dimension-4);padding-bottom:0}
+.r2-group__t{display:inline-flex;align-items:center;gap:var(--dimension-2);font-weight:var(--font-weight-semibold);font-size:var(--type-body-default-size)}
+.r2-name{display:flex;align-items:center;gap:var(--dimension-3);min-width:0}
+.r2-name__t{font-weight:var(--font-weight-medium);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r2-ic{flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-full, 999px);background:var(--background-subtle, var(--background-hover));color:var(--content-secondary)}
+.r2-ic--new{background:var(--background-surface);color:var(--content-info, var(--content-secondary))}
+.r2-amount{font-weight:var(--font-weight-medium);font-variant-numeric:tabular-nums}
+.r2-quiet{display:inline-flex;align-items:center;gap:var(--dimension-1);padding:var(--dimension-1) var(--dimension-2);margin-left:calc(var(--dimension-2) * -1);border-radius:var(--radius-sm);color:var(--content-primary);font:inherit;background:transparent}
+.r2-quiet__chev{opacity:0;color:var(--content-tertiary);transition:opacity var(--motion-duration-fast) var(--motion-easing-standard)}
+tr:hover .r2-quiet__chev,.r2-quiet:focus-visible .r2-quiet__chev{opacity:1}
+.r2-quiet:hover{background:var(--background-hover)}
+.r2-cellsel{display:block}
+.r2-hint{margin:0;font-size:var(--type-body-small-size);line-height:var(--type-body-small-line-height);color:var(--content-tertiary)}
+.r2-actions{display:flex;align-items:center;gap:var(--dimension-2);flex-wrap:wrap}
+.r2-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--dimension-3)}
+.r2-more{display:flex;flex-direction:column}
+.r2-acc{display:flex;align-items:center;gap:var(--dimension-2)}
+.r2-fresh td{animation:r2-fresh 2.4s var(--motion-easing-standard) both}
+@keyframes r2-fresh{0%{background:var(--info-background)}100%{background:var(--background-surface)}}
+.r2-table--inc th:nth-child(1){width:30%}.r2-table--inc th:nth-child(2){width:15%}.r2-table--inc th:nth-child(3){width:17%}.r2-table--inc th:nth-child(4){width:20%}.r2-table--inc th:nth-child(5){width:18%}
+.r2-table--pat th:nth-child(1){width:42%}.r2-table--pat th:nth-child(2){width:16%}.r2-table--pat th:nth-child(3){width:22%}.r2-table--pat th:nth-child(4){width:20%}
+
+/* Panel del plan: pinned beside the list, sections fold */
+.r2-panel{position:sticky;top:var(--dimension-4);display:flex;flex-direction:column;background:var(--background-surface);border:var(--stroke-hairline) solid var(--borders-subtle);border-radius:var(--radius-lg);padding:var(--dimension-2) var(--dimension-4) var(--dimension-3);max-height:calc(100vh - 120px);overflow:auto}
+.r2-panel__head{display:flex;align-items:center;justify-content:space-between;padding:var(--dimension-3) 0 var(--dimension-2)}
+.r2-panel__head h2{margin:0;font-size:var(--type-h4-size);line-height:var(--type-h4-line-height);font-weight:var(--type-h4-weight)}
+.r2-sec__sum{display:flex;align-items:center;justify-content:space-between;gap:var(--dimension-2);width:100%;font-weight:var(--font-weight-semibold)}
+.r2-figs{display:flex;flex-direction:column;align-items:flex-start;gap:var(--dimension-3);padding-bottom:var(--dimension-2)}
+.r2-figs>*{max-width:100%}
+.r2-figs .afi-summary-list-v2,.r2-figs dl{align-self:stretch}
+.r2-fig{display:flex;flex-direction:column;gap:2px}
+.r2-fig__l{font-size:var(--type-body-small-size);color:var(--content-tertiary)}
+.r2-fig__v{font-size:var(--type-metric-size, 28px);line-height:1.15;font-weight:var(--font-weight-semibold);font-variant-numeric:tabular-nums;letter-spacing:var(--font-letter-spacing-heading)}
+.r2-fig--row{flex-direction:row;align-items:center;justify-content:space-between;align-self:stretch}
+.r2-ai{display:inline-flex;align-items:center;gap:var(--dimension-1);font-size:var(--type-body-small-size);color:var(--content-secondary)}
+.r2-split{display:flex;align-self:stretch;height:8px;border-radius:var(--radius-full, 999px);overflow:hidden;gap:2px}
+.r2-split i{display:block;height:100%;transition:width var(--motion-duration-move) var(--motion-easing-standard)}
+.r2-legend{list-style:none;margin:0;padding:0;align-self:stretch;display:grid;gap:var(--dimension-1)}
+.r2-legend li{display:flex;align-items:center;gap:var(--dimension-2);font-size:var(--type-body-small-size)}
+.r2-legend__v{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--content-tertiary)}
+.r2-notes{display:flex;flex-direction:column;gap:var(--dimension-2);padding-bottom:var(--dimension-2)}
+.r2-note{font-size:var(--type-body-small-size);line-height:var(--type-body-small-line-height);padding:var(--dimension-2) var(--dimension-3);border-radius:var(--radius-md);background:var(--background-hover)}
+.r2-note small{display:block;margin-top:2px;color:var(--content-tertiary)}
+
+@media (max-width:1180px){.r2-work{grid-template-columns:minmax(0,1fr)}.r2-panel{position:static;max-height:none}}
+@media (max-width:640px){.r2-grid{grid-template-columns:minmax(0,1fr)}.r2-table{overflow-x:auto!important}.r2-table table{min-width:640px}.r2-bar kbd,.r2-bar .afi-kbd-v2{display:none}}
+@media (prefers-reduced-motion:reduce){.r2-fresh td{animation:none}.r2-split i{transition:none}}
+
+/* panel sections flat: a hairline between them, not a card each (sections are flat; cards are for one object) */
+.r2-panel .r2-sec{border:0;border-top:var(--stroke-hairline) solid var(--borders-subtle);border-radius:0;background:transparent}
+.r2-panel .r2-sec>.afi-accordion-v2__summary{padding:var(--dimension-3) 0;border-radius:0;font-size:var(--type-body-default-size)}
+.r2-panel .r2-sec>.afi-accordion-v2__summary:hover{background:transparent;color:var(--content-secondary)}
+.r2-panel .r2-sec[open]>.afi-accordion-v2__summary{border-block-end:0;margin-block-end:0}
+.r2-panel .r2-legend{padding:0}
+.r2-panel .r2-fig__v{font-size:var(--type-h2-size)}
+.r2-sec__sum>span:first-child{margin-right:auto}
+.r2-key{color:var(--content-tertiary)}
+/* phone: the list scrolls inside its own box; nothing pushes the page wider than the screen */
+.r2-work,.r2-main,.r2-list,.r2-list>*{min-width:0;max-width:100%}
+@media (max-width:640px){.r2-work{gap:var(--dimension-4)}.r2-client{display:none}.r2-key{display:none}}
+
+/* narrow page (v3 with a wide plan): one column fewer, and the column that left moves into the open row */
+.r2-table--inc.r2-table--cmp th:nth-child(1){width:38%}.r2-table--inc.r2-table--cmp th:nth-child(2){width:20%}.r2-table--inc.r2-table--cmp th:nth-child(3){width:20%}.r2-table--inc.r2-table--cmp th:nth-child(4){width:22%}
+.r2-table--pat.r2-table--cmp th:nth-child(1){width:50%}.r2-table--pat.r2-table--cmp th:nth-child(2){width:26%}.r2-table--pat.r2-table--cmp th:nth-child(3){width:24%}
+.r2-one{max-width:240px}

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Portfolio · SAREVI, controles</title>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="ds/afi-modern/tokens/dimensions.css">
@@ -19,12 +20,14 @@
 <link rel="stylesheet" href="ds/afi-modern/components/bundle.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap">
 <style>
-body { margin: 0; background: var(--background-canvas); font-family: var(--font-family-primary); color: var(--content-primary); }
+html, html[data-ds-v2], body, #root { background: transparent !important; }
+body { margin: 0; font-family: var(--font-family-primary); color: var(--content-primary); }
 #root { box-sizing: border-box; width: 880px; margin: 0 auto; padding: var(--dimension-8); }
 .pf { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--dimension-8); width: 100%; align-items: start; }
 .pf-col { display: flex; flex-direction: column; gap: var(--dimension-5); }
 .pf-label { margin: 0; font-size: var(--type-label-size); font-weight: var(--font-weight-semibold); }
-.pf-switch { display: flex; align-items: center; justify-content: space-between; gap: var(--dimension-3); margin-top: var(--dimension-2); padding: var(--dimension-3) var(--dimension-4); border: var(--stroke-default) solid var(--borders-default); border-radius: var(--radius-xl); }
+.pf-card { display: flex; flex-direction: column; gap: var(--dimension-3); padding: var(--dimension-5); background: var(--background-surface); border-radius: var(--radius-xl); box-shadow: var(--elevation-2); }
+.pf-switch { display: flex; align-items: center; justify-content: space-between; gap: var(--dimension-3); padding: var(--dimension-4) var(--dimension-5); background: var(--background-surface); border-radius: var(--radius-xl); box-shadow: var(--elevation-2); }
 .pf-switch p { margin: 0; }
 .pf-switch__t { font-weight: var(--font-weight-semibold); font-size: var(--type-body-default-size); }
 .pf-switch__d { font-size: var(--type-caption-size); color: var(--content-secondary); }

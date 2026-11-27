@@ -38,10 +38,12 @@
         })
       ),
       h("section", { className: "pf-col" },
+        h("div", { className: "pf-card" },
         h("p", { className: "pf-label" }, "Medidas"),
         h(DS.Checkbox, { label: "SATE (aislamiento por el exterior)", checked: a, onChange: function () { setA(!a); } }),
         h(DS.Checkbox, { label: "Aislamiento de cubiertas", checked: b, onChange: function () { setB(!b); } }),
         h(DS.Checkbox, { label: "Aerotermia", checked: c, onChange: function () { setC(!c); } }),
+        ),
         h("div", { className: "pf-switch" },
           h("div", null,
             h("p", { className: "pf-switch__t" }, "Cálculo automático"),

@@ -837,6 +837,9 @@ function Stats({ media }: { media: Extract<StoryMedia, { kind: "stats" }> }) {
  */
 function Embed({ media }: { media: Extract<StoryMedia, { kind: "embed" }> }) {
   const { lang } = useLang();
+  // In a beat the live board sits straight on the stage like any component: no
+  // frame of its own and no link, so it reads as the controls, not as a page.
+  const beat = useContext(BeatContext);
   const w = media.width ?? 1440;
   const h = media.height ?? 900;
   const box = useRef<HTMLDivElement>(null);
@@ -867,7 +870,11 @@ function Embed({ media }: { media: Extract<StoryMedia, { kind: "embed" }> }) {
     <figure className="flex flex-col gap-3">
       <div
         ref={box}
-        className="border-border bg-muted relative w-full overflow-hidden rounded-xl border"
+        className={
+          beat
+            ? "relative w-full overflow-hidden"
+            : "border-border bg-muted relative w-full overflow-hidden rounded-xl border"
+        }
         style={{ aspectRatio: `${w} / ${h}` }}
       >
         {near && scale > 0 && (
@@ -876,23 +883,32 @@ function Embed({ media }: { media: Extract<StoryMedia, { kind: "embed" }> }) {
             title={title}
             loading="lazy"
             className="absolute top-0 left-0 origin-top-left border-0"
-            style={{ width: w, height: h, transform: `scale(${scale})` }}
+            style={{
+              width: w,
+              height: h,
+              transform: `scale(${scale})`,
+              // Same scheme as the board, so the browser doesn't paint the frame
+              // opaque white on a dark site: the stage shows through.
+              colorScheme: "light",
+            }}
           />
         )}
       </div>
-      <figcaption className="text-muted-foreground flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-sm leading-relaxed">
-        {media.caption && (
-          <span className="max-w-2xl">{pick(media.caption, lang)}</span>
-        )}
-        <a
-          href={media.src}
-          target="_blank"
-          rel="noopener"
-          className="text-foreground font-medium underline underline-offset-4"
-        >
-          {lang === "es" ? "Abrir a pantalla completa" : "Open full screen"}
-        </a>
-      </figcaption>
+      {!beat && (
+        <figcaption className="text-muted-foreground flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-sm leading-relaxed">
+          {media.caption && (
+            <span className="max-w-2xl">{pick(media.caption, lang)}</span>
+          )}
+          <a
+            href={media.src}
+            target="_blank"
+            rel="noopener"
+            className="text-foreground font-medium underline underline-offset-4"
+          >
+            {lang === "es" ? "Abrir a pantalla completa" : "Open full screen"}
+          </a>
+        </figcaption>
+      )}
     </figure>
   );
 }
@@ -1034,7 +1050,7 @@ function BeatRow({
   media: StoryMedia[];
   top?: React.ReactNode;
   level?: 2 | 3;
-  /** In a switch: the visual box keeps the tallest height it has had, so switching never makes the page jump. */
+  /** In a switch: the visual box eases to each tab's own height instead of snapping, so switching doesn't jolt the page. */
   stable?: boolean;
 }) {
   const { lang } = useLang();
@@ -1044,9 +1060,7 @@ function BeatRow({
   useEffect(() => {
     const el = visual.current;
     if (!stable || !el) return;
-    const ro = new ResizeObserver(() =>
-      setMinH((m) => Math.max(m, el.scrollHeight))
-    );
+    const ro = new ResizeObserver(() => setMinH(el.scrollHeight));
     ro.observe(el);
     return () => ro.disconnect();
   }, [stable]);
@@ -1067,20 +1081,21 @@ function BeatRow({
           data-cursor-ink="#062D3F"
         >
           <div
-            ref={visual}
-            className="flex flex-col justify-center gap-4"
-            style={stable && minH ? { minHeight: minH } : undefined}
+            className="duration-base ease-out-soft transition-[height]"
+            style={stable && minH ? { height: minH } : undefined}
           >
-            <BeatContext.Provider value={true}>
-              {media.map((m, k) => (
-                <Media
-                  // Keyed by its own title, so a switch gives each tab a fresh
-                  // visual: its play runs once for it, not once for the beat.
-                  key={`${k}-${m.kind}-${"title" in m && m.title ? m.title.en : ""}`}
-                  media={m}
-                />
-              ))}
-            </BeatContext.Provider>
+            <div ref={visual} className="flex flex-col justify-center gap-4">
+              <BeatContext.Provider value={true}>
+                {media.map((m, k) => (
+                  <Media
+                    // Keyed by its own title, so a switch gives each tab a fresh
+                    // visual: its play runs once for it, not once for the beat.
+                    key={`${k}-${m.kind}-${"title" in m && m.title ? m.title.en : ""}`}
+                    media={m}
+                  />
+                ))}
+              </BeatContext.Provider>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2.5 md:pt-0.5">

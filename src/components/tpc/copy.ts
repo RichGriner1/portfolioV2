@@ -591,8 +591,7 @@ export type DiagPinAfter =
   | "back-link"
   | "draft-actions"
   | "pages"
-  | "add-question"
-  | "conditional";
+  | "add-question";
 
 type DiagPin<Id> = { id: Id; title: B; note: B };
 
@@ -604,8 +603,6 @@ type DiagPin<Id> = { id: Id; title: B; note: B };
  * 15 entries on its dead-controls list, 6 numbered flow gaps, 4 accessibility fixes
  * (the status-badge check passed, the focus line is a re-check). Whether every dead
  * control works now is not claimed.
- * The conditional question was already nested in v1.0, so its note describes it and
- * doesn't call it new.
  */
 export const DIAGNOSTIC: {
   heading: B;
@@ -719,17 +716,6 @@ export const DIAGNOSTIC: {
       note: {
         en: "One «Añadir pregunta» button replaces the open list, and the type is chosen after.",
         es: "Un único botón «Añadir pregunta» sustituye a la lista abierta, y el tipo se elige después.",
-      },
-    },
-    {
-      id: "conditional",
-      title: {
-        en: "Conditions under their parent",
-        es: "Condiciones bajo su pregunta",
-      },
-      note: {
-        en: 'Question 1.1 sits under question 1, with its rule, «Visible si 1 = "Sí"», as a tag.',
-        es: 'La pregunta 1.1 cuelga de la pregunta 1, con su regla, «Visible si 1 = "Sí"», como etiqueta.',
       },
     },
   ],

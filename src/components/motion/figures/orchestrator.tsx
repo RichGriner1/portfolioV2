@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE, EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 const VB_W = 300;
 const VB_H = 190;
@@ -85,7 +86,11 @@ export function OrchestratorFigure() {
               fill="none"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: EASE_SOFT }}
+              transition={{
+                duration: DURATION.reveal.normal,
+                delay: i * 0.1,
+                ease: EASE_SOFT,
+              }}
             />
           ))}
 
@@ -101,7 +106,11 @@ export function OrchestratorFigure() {
                     cy: [ORCH.y, target.y],
                     opacity: [0, 1, 1, 0],
                   }}
-                  transition={{ duration: 0.75, delay: i * 0.15, ease: EASE }}
+                  transition={{
+                    duration: DURATION.move,
+                    delay: i * 0.15,
+                    ease: EASE,
+                  }}
                 />
               ))
             : null}
@@ -115,7 +124,7 @@ export function OrchestratorFigure() {
           <motion.div
             className="bg-card border-border relative flex flex-col items-center gap-0.5 rounded-lg border px-3 py-1.5 shadow-sm"
             animate={{ scale: dispatching ? [1, 1.06, 1] : 1 }}
-            transition={{ duration: 0.5, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.reveal.normal, ease: EASE_SOFT }}
           >
             <span className="text-primary font-mono text-[8px] tracking-wider uppercase">
               ORCHESTRATOR
@@ -135,7 +144,7 @@ export function OrchestratorFigure() {
               ? "var(--color-primary)"
               : "var(--color-border)",
           }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           <span className="text-muted-foreground font-mono text-[7px] tracking-wider uppercase">
             REVIEWER
@@ -157,7 +166,7 @@ export function OrchestratorFigure() {
               ? "var(--color-primary)"
               : "var(--color-border)",
           }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           <span className="text-muted-foreground font-mono text-[7px] tracking-wider uppercase">
             FIXER

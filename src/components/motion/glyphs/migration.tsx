@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION, EASE_IN_OUT } from "@/lib/motion";
 
 /**
  * Afi Wealth Manager — MIGRATION.
@@ -27,9 +28,9 @@ export function MigrationGlyph(_props?: { active?: boolean }) {
             hover: { cx: 38, opacity: 0.85 },
           }}
           transition={{
-            duration: 0.55,
+            duration: DURATION.reveal.normal,
             delay: row * 0.08,
-            ease: [0.45, 0.05, 0.15, 1],
+            ease: EASE_IN_OUT,
           }}
         />
       ))}
@@ -47,7 +48,7 @@ export function MigrationGlyph(_props?: { active?: boolean }) {
             hover: { opacity: 1 },
           }}
           transition={{
-            duration: 0.3,
+            duration: DURATION.base,
             delay: 0.3 + row * 0.05,
           }}
         />

@@ -1,0 +1,18 @@
+/* component-button.css — Button/IconButton effect-style slots (hand-authored in Figma effect styles; not variable-bindable)
+   Source: Coherence/libs/tokens/foundations-modern/ (generated from Figma AFI-FOUNDATIONS-MODERN).
+   Values copied verbatim. */
+:root{
+  --button-sheen:linear-gradient(180deg, #27272a33 0%, #ffffff33 100%); /* @kind shadow */
+  --button-shine: #ffffff40; /* v63 one-time sweep on a primary button (.btn-v2--shine) */
+  --button-shine-duration: 1100ms;
+  --button-raised-primary:inset 0 -1px 0 1px #000000cc, inset 0 0 0 1px #303030, inset 0 0.5px 0 1px #ffffff40; /* @kind shadow */
+  --button-raised-neutral:inset 0 -1px 0 0 #b5b5b5, inset 0 0 0 1px #0000001a, inset 0 0.5px 0 1.5px #ffffff; /* @kind shadow */
+  --button-raised-danger:inset 0 -1px 0 1px #8e1f0bcc, inset 0 0 0 1px #b5260bcc, inset 0 0.5px 0 1.5px #ffffff59; /* @kind shadow */
+  --button-pressed-primary:inset 0 1px 8px 0 #000000e5, 0 4px 10px 0 #00000029; /* @kind shadow */
+  --button-pressed-secondary:inset 0 1px 2px 0 #3e3e3ee5, 0 4px 10px 0 #00000029; /* @kind shadow */
+  --button-destructive-background:var(--color-error-700);--button-destructive-background-hover:var(--color-error-500);--button-destructive-pressed-background:var(--color-error-900);
+  --button-font-size-xs:var(--dimension-3);--button-line-height-xs:var(--dimension-4);
+  --button-ghost-hover:var(--control-background-hover);--button-ghost-active:var(--control-background-active); /* v68 ghost hover/press fill (Button ghost, MediaCard ghost pill) */
+}
+/* Afi variant: ghost hover is a light tint of Azul profundo, not the neutral control fill */
+:root:is([data-variant="afi"],:not([data-variant])){--button-ghost-hover:color-mix(in srgb,var(--color-afi-navy-700,var(--afi-navy-700,#062D3F)) 8%,transparent);--button-ghost-active:color-mix(in srgb,var(--color-afi-navy-700,var(--afi-navy-700,#062D3F)) 14%,transparent)}

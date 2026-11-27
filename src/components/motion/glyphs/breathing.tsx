@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION } from "@/lib/motion";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 const CX = 40;
@@ -33,10 +34,10 @@ export function BreathingGlyph(_props?: { active?: boolean }) {
           hover: {
             opacity: 1,
             scale: 1.15,
-            transition: { duration: 0.3, ease: EASE },
+            transition: { duration: DURATION.base, ease: EASE },
           },
         }}
-        transition={{ duration: 0.4, delay: 0.1 }}
+        transition={{ duration: DURATION.base, delay: 0.1 }}
       />
       {/* Concentric rings */}
       {RINGS.map((ring, i) => (
@@ -54,7 +55,7 @@ export function BreathingGlyph(_props?: { active?: boolean }) {
             rest: {
               r: ring.r,
               opacity: ring.restOpacity,
-              transition: { duration: 0.4, ease: EASE },
+              transition: { duration: DURATION.base, ease: EASE },
             },
             hover: {
               r: [ring.r, ring.hoverR, ring.r],
@@ -67,7 +68,7 @@ export function BreathingGlyph(_props?: { active?: boolean }) {
               },
             },
           }}
-          transition={{ duration: 0.4, delay: 0.15 + i * 0.1 }}
+          transition={{ duration: DURATION.base, delay: 0.15 + i * 0.1 }}
         />
       ))}
     </svg>

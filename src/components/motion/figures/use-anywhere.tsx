@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE, EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 const VB_W = 300;
 const VB_H = 190;
@@ -65,7 +66,11 @@ export function UseAnywhereFigure() {
               fill="none"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.7, delay: i * 0.15, ease: EASE_SOFT }}
+              transition={{
+                duration: DURATION.move,
+                delay: i * 0.15,
+                ease: EASE_SOFT,
+              }}
             />
           ))}
 
@@ -81,7 +86,11 @@ export function UseAnywhereFigure() {
                     cy: [HOME.y, p.y],
                     opacity: [0, 1, 1, 0],
                   }}
-                  transition={{ duration: 0.9, delay: i * 0.12, ease: EASE }}
+                  transition={{
+                    duration: DURATION.move,
+                    delay: i * 0.12,
+                    ease: EASE,
+                  }}
                 />
               ))
             : null}
@@ -108,11 +117,15 @@ export function UseAnywhereFigure() {
             transition={
               pulsing
                 ? {
-                    duration: 0.6,
+                    duration: DURATION.reveal.heavy,
                     delay: 0.9 + i * 0.12,
                     ease: EASE_SOFT,
                   }
-                : { duration: 0.4, delay: 0.15 + i * 0.1, ease: EASE_SOFT }
+                : {
+                    duration: DURATION.base,
+                    delay: 0.15 + i * 0.1,
+                    ease: EASE_SOFT,
+                  }
             }
           >
             <span className="text-muted-foreground font-mono text-[10px]">
@@ -136,12 +149,12 @@ export function UseAnywhereFigure() {
                 scale: pulsing ? [1, 1.28, 1] : 1,
                 opacity: pulsing ? [0.7, 0, 0] : 0,
               }}
-              transition={{ duration: 0.6, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.reveal.heavy, ease: EASE_SOFT }}
             />
             <motion.div
               className="bg-card border-border relative flex h-full w-full flex-col items-center justify-center gap-1 rounded-xl border shadow-sm"
               animate={{ scale: pulsing ? [1, 1.06, 1] : 1 }}
-              transition={{ duration: 0.6, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.reveal.heavy, ease: EASE_SOFT }}
             >
               <span className="text-primary font-mono text-[8px] tracking-wider uppercase">
                 HOME BASE

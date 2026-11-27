@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 /**
  * Diagram 6 — one primitive decision cascading through semantic tokens into every
@@ -53,7 +54,7 @@ function Arrow({ lit }: { lit: boolean }) {
       className="text-muted-foreground mt-6 hidden shrink-0 sm:block"
       initial={false}
       animate={{ opacity: lit ? 1 : 0.25, x: lit ? 0 : -3 }}
-      transition={{ duration: 0.3, ease: EASE_SOFT }}
+      transition={{ duration: DURATION.base, ease: EASE_SOFT }}
     >
       <ArrowRight className="size-3.5" />
     </motion.div>
@@ -104,12 +105,12 @@ export function TokenCascadeFigure() {
             className="border-border flex items-center gap-2 rounded-lg border p-2"
             initial={false}
             animate={{ opacity: on(1) ? 1 : 0.55 }}
-            transition={{ duration: 0.3, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             <motion.span
               className={`size-6 shrink-0 rounded-md ${on(1) ? "bg-primary" : "bg-muted"}`}
               animate={{ scale: wave === 1 ? [1, 1.16, 1] : 1 }}
-              transition={{ duration: 0.45, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
             />
             <span className="text-foreground font-mono text-[10px]">
               brand-500
@@ -128,7 +129,7 @@ export function TokenCascadeFigure() {
                 initial={false}
                 animate={{ opacity: on(2) ? 1 : 0.55 }}
                 transition={{
-                  duration: 0.3,
+                  duration: DURATION.base,
                   delay: on(2) ? i * 0.08 : 0,
                   ease: EASE_SOFT,
                 }}
@@ -152,7 +153,7 @@ export function TokenCascadeFigure() {
               className={`rounded-md px-2.5 py-1.5 text-[10px] font-medium ${fill(3)}`}
               initial={false}
               animate={{ opacity: on(3) ? 1 : 0.55 }}
-              transition={{ duration: 0.3, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               Confirm
             </motion.span>
@@ -164,7 +165,11 @@ export function TokenCascadeFigure() {
               }
               initial={false}
               animate={{ opacity: on(3) ? 1 : 0.55 }}
-              transition={{ duration: 0.3, delay: 0.08, ease: EASE_SOFT }}
+              transition={{
+                duration: DURATION.base,
+                delay: 0.08,
+                ease: EASE_SOFT,
+              }}
             >
               See more →
             </motion.span>
@@ -172,7 +177,11 @@ export function TokenCascadeFigure() {
               className={`rounded-full px-2 py-0.5 font-mono text-[9px] ${fill(3)}`}
               initial={false}
               animate={{ opacity: on(3) ? 1 : 0.55 }}
-              transition={{ duration: 0.3, delay: 0.16, ease: EASE_SOFT }}
+              transition={{
+                duration: DURATION.base,
+                delay: 0.16,
+                ease: EASE_SOFT,
+              }}
             >
               NEW
             </motion.span>

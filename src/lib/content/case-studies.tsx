@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { IntroPreviewLink } from "@/components/intro-preview-link";
 import type { DiagramKey } from "@/lib/content/diagrams";
 import type { Bilingual } from "@/lib/i18n";
+import { TPC_STUDY } from "./case-study-tpc";
 
 /**
  * A beat of a card's detail copy.
@@ -345,6 +346,7 @@ export type CaseStudy = {
 };
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
+  "third-party-compliance": TPC_STUDY,
   "afi-design-system": {
     tagline: {
       en: "Building design infrastructure for a fintech consultancy",

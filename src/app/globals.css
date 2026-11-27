@@ -48,6 +48,15 @@
   --color-md-red: var(--md-red);
   --color-md-gold: var(--md-gold);
 
+  /* Annotation pins on case-study screenshots — see the note in :root */
+  --color-annotation: var(--annotation);
+  --color-annotation-foreground: var(--annotation-foreground);
+
+  /* Mock window chrome in case-study illustrations — see the note in :root */
+  --color-mock-window-close: var(--mock-window-close);
+  --color-mock-window-minimize: var(--mock-window-minimize);
+  --color-mock-window-zoom: var(--mock-window-zoom);
+
   /* Component chrome on the /canvas board — see the semantic note in :root */
   --color-canvas-component: var(--canvas-component);
   --color-canvas-component-fill: var(--canvas-component-fill);
@@ -96,6 +105,13 @@
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
+  /* Shadow roles (the DS's --elevation-card … --elevation-dialog). Components
+     name what they are; the level stays one decision here. */
+  --shadow-card: var(--shadow-xs);
+  --shadow-tooltip: var(--shadow-sm);
+  --shadow-menu: var(--shadow-md);
+  --shadow-drawer: var(--shadow-lg);
+  --shadow-dialog: var(--shadow-xl);
 
   /* Motion */
   --duration-sweep: var(--duration-sweep);
@@ -103,7 +119,8 @@
   --default-transition-timing-function: var(--ease-out-soft);
 
   /* Bridge the easing curves into the `--ease-*` namespace so `ease-out-soft`,
-     `ease-in-out-soft`, `ease-spring` and `ease-enter` are real utilities.
+     `ease-in-out-soft`, `ease-spring`, `ease-enter`, `ease-close`, `ease-move-spring`
+     and `ease-ambient` are real utilities.
      Declaring them only in :root did NOT do this — Tailwind generates utilities
      from @theme, so those classes were silently dropped and every transition
      fell back to --default-transition-timing-function. It looked correct only
@@ -114,6 +131,9 @@
   --ease-in-out-soft: var(--ease-in-out-soft);
   --ease-spring: var(--ease-spring);
   --ease-enter: var(--ease-enter);
+  --ease-close: var(--ease-close);
+  --ease-move-spring: var(--ease-move-spring);
+  --ease-ambient: var(--ease-ambient);
 
   /* Header wordmark reveal. Three stops rather than a transition with a
      back-out curve, because the overshoot has to be a specific 2px: a curve's
@@ -143,11 +163,19 @@
 
   /* ------------------------------------------------------------------------
      Design-System color bridges — used ONLY inside `.ds-scope` (the ported
-     Color methodology page). These expose the DS's extra semantic roles as
-     Tailwind utilities (`bg-canvas`, `bg-success-subtle`, …). The underlying
-     vars are defined on `.ds-scope` below, so these resolve to DS values in
-     scope and are simply unused elsewhere. Keys the portfolio already maps
-     (primary, card, muted, border, destructive, …) are intentionally omitted.
+     Color methodology page), with four exceptions. These expose the DS's
+     extra semantic roles as Tailwind utilities (`bg-canvas`,
+     `bg-success-subtle`, …). Most of the underlying vars are defined on
+     `.ds-scope` below only, so those resolve to DS values in scope and are
+     unused elsewhere. Keys the portfolio already maps (primary, card, muted,
+     border, destructive, …) are intentionally omitted.
+
+     The four exceptions — primary-hover/-active, secondary-hover/-active —
+     are ALSO defined on the portfolio's own :root/.dark, next to --primary
+     and --secondary, because the hero CTAs need a real hover/press fill that
+     an alpha modifier can't give them (see the note there). `.ds-scope`
+     still overrides all four further down for its own palette — that's the
+     scope doing its normal job, not a second source of truth.
      ------------------------------------------------------------------------ */
   --color-canvas: var(--canvas);
   --color-primary-hover: var(--primary-hover);
@@ -212,6 +240,25 @@
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
+  /* Hover/press fill for the hero CTAs (ShimmerButton, Button's secondary
+     variant) — added because neither control can get a state from an alpha
+     modifier. `hover:bg-secondary/80` composites to ~0.976 over the near-white
+     --background (0.97 at 80%), a 0.6% lightening that doesn't register, and
+     hover/active land on the same computed value so there's no press state
+     either. The shimmer's fill is worse: it's an opaque backdrop painted over
+     a parent that's already `bg-primary`, so `bg-primary/90` there composites
+     straight back to `primary` — no percentage fixes that.
+
+     Values and direction are ported from the Design System's own `.ds-scope`
+     ramp below (light: --primary #363636 → hover #2c2c2c → active #242424;
+     --secondary #f1f5f9 → #e2e8f0 → #cbd5e1) onto this file's grayscale OKLCH
+     scale: both roles step TOWARD --foreground, so press always reads as more
+     ink rather than less. For the `.ds-scope` override, see the bridge note
+     above. */
+  --primary-hover: oklch(0.16 0 0);
+  --primary-active: oklch(0.125 0 0);
+  --secondary-hover: oklch(0.925 0 0);
+  --secondary-active: oklch(0.87 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   /* Body copy in a prose block (#565656). Sits between --foreground and
@@ -238,6 +285,25 @@
      or a surface without adding a proper semantic token first. */
   --md-red: oklch(0.593 0.2 25.4);
   --md-gold: oklch(0.876 0.177 92.4);
+
+  /* Annotation pins laid over case-study screenshots (the red of a design
+     review's redlines). Not themed: the screenshots are always light, so the
+     pin and its white number stay the same in both site themes. */
+  --annotation: oklch(0.577 0.245 27.325);
+  --annotation-foreground: oklch(0.985 0 0);
+
+  /* Mock app windows and terminals drawn inside case-study illustrations
+     (case-study-bento.tsx). They picture someone else's software, so like the
+     flag above they are decoration, not surface roles, and don't follow the
+     theme: a terminal stays dark on a light page. */
+  --mock-window-close: var(--color-red-400);
+  --mock-window-minimize: var(--color-yellow-400);
+  --mock-window-zoom: var(--color-green-400);
+  --mock-terminal: #1e1e1e;
+  --mock-terminal-foreground: #e0e0e0;
+  --mock-terminal-muted: #a0a0a0;
+  --mock-terminal-dim: #666666;
+  --mock-terminal-accent: #7ec699;
 
   /* Figma's component violet (#9747FF), as a primitive.
      Two steps rather than one because a single value can't serve both themes:
@@ -341,36 +407,137 @@
   --shadow-xl:
     0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.04);
 
-  /* Motion primitives */
-  --duration-fast: 120ms;
-  --duration-base: 200ms;
-  --duration-slow: 320ms;
-  /* Long colour crossfade, ported from Coherence's --motion-duration-slower
-     (their Animate UI checkbox recipe). Colour-only: a fill can dissolve for
-     500ms and read as a soft "bloom", where anything that MOVES for 500ms
-     reads as lag — spatial transitions stay on the three durations above. */
-  --duration-slower: 500ms;
-  /* Full-viewport travel only — currently just the theme wipe. Deliberately past
-     the --duration-slow ceiling: those three are tuned for an element moving a few
-     dozen pixels, and the same speed across 1440px reads as a flinch rather than a
-     sweep. animate-ui's theme-toggler default, and the only consumer. Don't reach for
-     this on a component; if a local transition seems to need 700ms, the distance is
-     usually the thing to fix. */
-  --duration-sweep: 700ms;
-  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
-  /* Panel-enter curve, ported from Coherence's --motion-easing-enter. Paired
-     with --duration-enter (its --motion-duration-fast) for the extrude that
-     every popup on this site uses. Kept as its own token rather than reusing
-     --ease-out-soft: this curve is far more front-loaded, which is what makes
-     the reveal land rather than glide. */
-  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-enter: 150ms;
-  /* Rows inside a panel rise after the container lands (Coherence's
-     --motion-reveal-rise-light / --motion-reveal-stagger-light). */
-  --reveal-rise: 6px;
-  --reveal-stagger: 40ms;
-  --ease-in-out-soft: cubic-bezier(0.45, 0.05, 0.15, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Motion — the Whitelabel DS timing (WhitelabelDesignsystem/src/styles/tokens/motion.css).
+     Names stay the portfolio's because Tailwind builds utilities from them; the DS
+     name each one matches is in the trailing comment.
+
+     Four curves carry everything:
+       --ease-out-soft    enter, hover, select. Front-loaded: the move reads as done
+                          in ~200ms and the rest of the 400ms is a settle, so a
+                          400ms hover doesn't feel slow.
+       --ease-spring      things that land with a little overshoot (a real damped
+                          spring where linear() is supported, see below).
+       --ease-in-out-soft moves and folds: something already on screen going
+                          somewhere else.
+       --ease-close       everything that closes or leaves: menus, popovers,
+                          dialogs, drawers, toasts, tooltips. Leaving accelerates
+                          away instead of replaying the enter backwards.
+     Pick the curve by what the element is doing, then take the duration that
+     belongs to that curve. */
+  --duration-fast: 400ms; /* --motion-duration-fast */
+  --duration-base: 400ms; /* --motion-duration-base */
+  --duration-slow: 400ms; /* --motion-duration-slow */
+  --duration-slower: 800ms; /* --motion-duration-slower */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1); /* --motion-easing-standard */
+
+  /* Press feedback on buttons and cards: deliberately instant. */
+  --duration-press: 80ms; /* --mo-dur-press */
+
+  /* Popups (menus, preview card, CV modal) enter on the same curve as everything
+     else but faster, because they answer a click. */
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1); /* --motion-easing-enter */
+  --duration-enter: 160ms; /* --motion-menu-duration */
+  --menu-item-delay: 60ms; /* --motion-menu-item-delay */
+  --menu-stagger: 20ms; /* --motion-menu-stagger */
+
+  --ease-close: cubic-bezier(0.7, 0, 0.15, 1); /* --motion-easing-close */
+  --duration-close: 300ms; /* --motion-duration-close */
+
+  --ease-in-out-soft: cubic-bezier(0.7, 0, 0.15, 1); /* --motion-easing-move */
+  --duration-move: 800ms; /* --motion-duration-move */
+  --duration-fold: 450ms; /* --motion-duration-fold */
+  /* Full-viewport travel (the theme wipe). A move, so it takes the move timing. */
+  --duration-sweep: var(--duration-move);
+
+  /* Cubic fallback; the @supports block after :root swaps in a real spring. */
+  --ease-spring: cubic-bezier(0.34, 1.35, 0.5, 1); /* --motion-easing-spring */
+  --duration-spring: 1000ms; /* --motion-duration-spring */
+  --ease-move-spring: cubic-bezier(
+    0.7,
+    0,
+    0.2,
+    1.3
+  ); /* --motion-easing-move-spring */
+  --duration-move-spring: 1500ms; /* --motion-duration-move-spring */
+
+  /* Slow background loops (shimmer, ambient glyphs). */
+  --ease-ambient: cubic-bezier(0.2, 0.8, 0.2, 1); /* --motion-easing-ambient */
+  --duration-ambient: 10000ms; /* --motion-duration-ambient-loop */
+
+  /* Text that scrambles into place (hyper-text). */
+  --duration-decode: 1150ms; /* --motion-decode-duration */
+  --decode-blur: 2.5px; /* --motion-decode-blur */
+
+  /* One turn of a loading spinner. */
+  --duration-spin: 800ms; /* --mo-dur-spin */
+
+  /* Reveal choreography for content entering the page (sections, rows, figures):
+     duration, rise, stagger and blur in three weights. Pair with --ease-enter;
+     its flat tail is what keeps a 500ms reveal from reading as lag. Light for
+     small items, normal for a section, heavy for a hero or a whole panel. Pick
+     one tier per surface and use its four values together. `--reveal-rise` and
+     `--reveal-stagger` are the light tier. */
+  --duration-reveal-light: 400ms; /* --motion-reveal-duration-light */
+  --duration-reveal-normal: 500ms; /* --motion-reveal-duration-normal */
+  --duration-reveal-heavy: 600ms; /* --motion-reveal-duration-heavy */
+  --reveal-rise: 6px; /* --motion-reveal-rise-light */
+  --reveal-rise-normal: 10px;
+  --reveal-rise-heavy: 14px;
+  --reveal-stagger: 40ms; /* --motion-reveal-stagger-light */
+  --reveal-stagger-normal: 70ms;
+  --reveal-stagger-heavy: 100ms;
+  --reveal-blur-light: 4px; /* --motion-reveal-blur-light */
+  --reveal-blur-normal: 8px;
+  --reveal-blur-heavy: 14px;
+}
+
+/* The spring as a real damped spring, sampled with linear(). The cubic-bezier
+   in :root is the fallback for browsers without linear(). */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(
+      0,
+      0.048,
+      0.1653,
+      0.318,
+      0.4804,
+      0.6345,
+      0.7694,
+      0.8794,
+      0.9631,
+      1.0218,
+      1.0587,
+      1.0778,
+      1.0835,
+      1.0798,
+      1.0701,
+      1.0575,
+      1.0439,
+      1.031,
+      1.0196,
+      1.0104,
+      1.0033,
+      0.9983,
+      0.9952,
+      0.9935,
+      0.993,
+      0.9933,
+      0.9941,
+      0.9952,
+      0.9963,
+      0.9974,
+      0.9983,
+      0.9991,
+      0.9997,
+      1.0001,
+      1.0004,
+      1.0005,
+      1.0006,
+      1.0006,
+      1.0005,
+      1
+    );
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -387,6 +554,14 @@
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
+  /* Mirrored: both roles step AWAY from --background instead of toward
+     --foreground, so a lighter fill still reads as "more" on a dark surface.
+     See the :root note above --primary-hover for why alpha can't stand in
+     for these. */
+  --primary-hover: oklch(0.95 0 0);
+  --primary-active: oklch(0.975 0 0);
+  --secondary-hover: oklch(0.32 0 0);
+  --secondary-active: oklch(0.37 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   /* Same job, mirrored: in light it's 25% of the way from --muted-foreground
@@ -519,6 +694,14 @@
   transition:
     clip-path var(--duration-enter) var(--ease-enter),
     transform var(--duration-enter) var(--ease-enter);
+}
+
+/* Leaving takes the close timing: it accelerates away rather than replaying the
+   enter backwards. */
+.popup-extrude[data-ending-style] {
+  transition:
+    clip-path var(--duration-close) var(--ease-close),
+    transform var(--duration-close) var(--ease-close);
 }
 
 .popup-extrude[data-side="bottom"][data-starting-style],

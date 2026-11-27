@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE_SOFT, SPRING_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 /**
  * Diagram 2 — the same product serving a different composition per intent.
@@ -51,7 +52,7 @@ export function StaticVsIntentFigure() {
             initial={{ opacity: 0, y: 3 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -3 }}
-            transition={{ duration: 0.25, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             className="text-foreground font-mono text-[10px]"
           >
             {intent.label}

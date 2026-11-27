@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE, EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 const VB_W = 300;
 const VB_H = 190;
@@ -84,7 +85,7 @@ export function LoopVsSkillFigure() {
             fill="none"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.5, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.reveal.normal, ease: EASE_SOFT }}
           />
         ) : null}
 
@@ -99,7 +100,7 @@ export function LoopVsSkillFigure() {
               cy: [LOOP_NODE.y, reachingSkill.y],
               opacity: [0, 1, 1, 0],
             }}
-            transition={{ duration: 0.7, ease: EASE }}
+            transition={{ duration: DURATION.move, ease: EASE }}
           />
         ) : null}
       </svg>
@@ -114,7 +115,7 @@ export function LoopVsSkillFigure() {
             borderColor:
               step === i ? "var(--color-primary)" : "var(--color-border)",
           }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           <span className="text-muted-foreground/70 font-mono text-[7px] tracking-wider uppercase">
             SKILL
@@ -148,7 +149,7 @@ export function LoopVsSkillFigure() {
                       ? "var(--color-primary)"
                       : "var(--color-muted)",
                 }}
-                transition={{ duration: 0.3, ease: EASE_SOFT }}
+                transition={{ duration: DURATION.base, ease: EASE_SOFT }}
               />
             ))}
             <span className="bg-border h-px w-1.5" aria-hidden />
@@ -158,7 +159,7 @@ export function LoopVsSkillFigure() {
                 backgroundColor:
                   step === 3 ? "var(--color-primary)" : "var(--color-muted)",
               }}
-              transition={{ duration: 0.3, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               {step === 3 ? (
                 <Check className="text-primary-foreground size-2" />

@@ -213,6 +213,28 @@ export const WORK: WorkItem[] = [
     homeRank: 1,
   },
   {
+    slug: "third-party-compliance",
+    title: {
+      en: "Third-party compliance",
+      es: "Cumplimiento de terceros",
+    },
+    description: {
+      en: "An internal B2B tool that asks every supplier for the same things and shows whether they comply, so teams get answers sooner.",
+      es: "Una herramienta interna B2B para pedir a cada proveedor lo mismo y saber si cumple, para que los equipos tengan respuesta antes.",
+    },
+    year: 2026,
+    type: "design-system",
+    kind: "case-study",
+    href: "/work/third-party-compliance",
+    glyph: "design-system",
+    // The v1.1 template editor with the diagnostic's red pins: the work, shown as a review.
+    image: "/work/third-party-compliance/card.webp",
+    ongoing: true,
+    // In progress: kept off the home board until the screens are added and Richard
+    // says it's ready. /projects still lists it, and the page is reachable by URL.
+    homeHidden: true,
+  },
+  {
     slug: "sarevi",
     title: { en: "SAREVI", es: "SAREVI" },
     description: {

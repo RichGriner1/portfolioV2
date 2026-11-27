@@ -43,6 +43,7 @@ import { sortKey, WORK, type WorkItem } from "@/lib/content/work";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 import { HEADLINE, PLACE, SUBTITLE } from "@/lib/content/intro";
 import { cn } from "@/lib/utils";
+import { DURATION, EASE } from "@/lib/motion";
 
 /**
  * The canvas-as-site concept: one Figma-style board where the whole portfolio lives
@@ -958,7 +959,7 @@ export function CanvasSite() {
     const reveal = () =>
       animate(opacity, 1, {
         duration: reduced ? 0 : REVEAL_DURATION,
-        ease: [0.2, 0.8, 0.2, 1] as const,
+        ease: EASE,
       });
 
     if (reduced) {
@@ -1026,7 +1027,7 @@ export function CanvasSite() {
     const holdTimer = setTimeout(() => {
       const opts = {
         duration: INTRO_FLIGHT,
-        ease: [0.2, 0.8, 0.2, 1] as const,
+        ease: EASE,
       };
       xCtrl = animate(x, 0, opts);
       yCtrl = animate(y, 0, opts);
@@ -1212,7 +1213,7 @@ export function CanvasSite() {
         y.set(ny);
         return;
       }
-      const opts = { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] as const };
+      const opts = { duration: DURATION.base, ease: EASE };
       animate(k, to, opts);
       animate(x, nx, opts);
       animate(y, ny, opts);
@@ -1476,7 +1477,7 @@ export function CanvasSite() {
         );
         const opts = reduced
           ? { duration: 0 }
-          : { duration: 0.45, ease: [0.2, 0.8, 0.2, 1] as const };
+          : { duration: DURATION.fold, ease: EASE };
         zoomAim.current = fit.k;
         animate(k, fit.k, opts);
         animate(x, fit.x, opts);
@@ -1655,7 +1656,7 @@ export function CanvasSite() {
       const dx = window.innerWidth / 2 - (r.left + r.width / 2);
       const dy = window.innerHeight / 2 - (r.top + r.height / 2);
       if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-      const opts = reduced ? { duration: 0 } : { duration: 0.45 };
+      const opts = reduced ? { duration: 0 } : { duration: DURATION.fold };
       animate(x, clampTo(x.get() + dx, panLimit("x", k.get())), opts);
       animate(y, clampTo(y.get() + dy, panLimit("y", k.get())), opts);
     };
@@ -1692,7 +1693,7 @@ export function CanvasSite() {
     setActive(id);
     const opts = reduced
       ? { duration: 0 }
-      : { duration: 0.75, ease: [0.2, 0.8, 0.2, 1] as const };
+      : { duration: DURATION.move, ease: EASE };
     const zoom = id === "home" ? HOME_ZOOM : 1;
     zoomAim.current = zoom;
     animate(k, zoom, opts);

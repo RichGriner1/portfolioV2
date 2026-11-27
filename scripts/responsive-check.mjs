@@ -66,6 +66,8 @@ const ROUTES = [
   // here covered until a change to its "More case studies" grid went unchecked.
   "/work/visual-identity",
   "/work/mindfulme",
+  // Third shell: a bespoke page (TpcPage) with stat cards, rule explorers and clip slots.
+  "/work/third-party-compliance",
   "/writing/loops-and-skills-are-components",
   // Same writing shell as the post above, but it carries six figures that exist
   // nowhere else — a side-by-side tree comparison, a 4-column bento, and a
@@ -280,6 +282,13 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
     // full-size prototype page in an iframe, scaled and cropped to one component on
     // purpose, so its unscaled box always "overflows" the frame it sits in.
     if (el.closest("[data-composition]")) continue;
+
+    /**
+     * A case-study crop (`data-crop`) shows one box of a live prototype page and
+     * hides the rest on purpose, so "content wider than its box" is how it works.
+     * The page-level horizontal-scroll check still covers it.
+     */
+    if (el.closest("[data-crop]")) continue;
 
     const clips = ["hidden", "clip"].includes(cs.overflowX);
     if (clips && !scrollable(cs) && el.scrollWidth > el.clientWidth + 1) {

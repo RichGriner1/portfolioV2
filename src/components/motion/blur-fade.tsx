@@ -10,12 +10,14 @@ import {
   type Variants,
 } from "motion/react";
 
-import { EASE_SOFT } from "@/components/motion/constants";
+import { DURATION, EASE, STAGGER } from "@/lib/motion";
 
 type MarginType = UseInViewOptions["margin"];
 
-// Magic UI's BlurFade, adapted to this repo: eased with the site's
-// EASE_SOFT token instead of the stock easeOut.
+// Magic UI's BlurFade on the DS light reveal tier (duration, rise, blur, and its
+// stagger as the base delay). For content that mounts and unmounts in place;
+// content that scrolls into view uses Reveal (components/tpc/reveal.tsx), which
+// reads the same tier from CSS.
 type BlurFadeProps = MotionProps & {
   children: React.ReactNode;
   className?: string;
@@ -35,13 +37,13 @@ export function BlurFade({
   children,
   className,
   variant,
-  duration = 0.4,
+  duration = DURATION.reveal.light,
   delay = 0,
   offset = 6,
   direction = "down",
   inView = false,
   inViewMargin = "-50px",
-  blur = "6px",
+  blur = "4px",
   ...props
 }: BlurFadeProps) {
   const ref = useRef(null);
@@ -63,7 +65,7 @@ export function BlurFade({
         animate={isInView ? "visible" : "hidden"}
         exit="hidden"
         variants={variant ?? defaultVariants}
-        transition={{ delay: 0.04 + delay, duration, ease: EASE_SOFT }}
+        transition={{ delay: STAGGER.light + delay, duration, ease: EASE }}
         className={className}
         {...props}
       >

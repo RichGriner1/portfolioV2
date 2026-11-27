@@ -29,6 +29,16 @@ Find the repo's case-study source before writing anything:
 | `confidential` | NDA note. | Present when the client can't be shown; identifying screenshots and iframes omitted. |
 | `gallery` | Opt-in image gallery. | Only when real assets exist. |
 
+## 2b. Structure and graphics references
+
+**portfolioV2:** `content/references/case-studies/` holds six studio case studies (VML The Cocktail, Garaje de Ideas) broken down section by section. Read it before planning a new case study or restructuring one:
+
+- `anatomy.md` — the section order (title → meta → context → challenge → approach → decisions → system → solution → results) and how it maps onto the fields above.
+- `graphics.md` — which graphic goes in which section, and the question to ask Richard when a slot has no asset. Use it to say "this section needs a diagram / screens / a device spread" instead of leaving image TODOs blank.
+- `worksheet.md` — fill one row per section (copy beat + graphic + open question) before drafting copy.
+
+**Other repos:** no equivalent; the anatomy and graphics rules still apply.
+
 ## 3. Sentence rules
 
 Load the voice layer — **don't duplicate it here**: `voice-griner` (user scope `~/.claude/skills/voice-griner/`, else project `.claude/skills/voice-griner.md`, else fall back to reading `content/voice.md` directly). It defines the WHAT-SO-BENEFIT pattern, when to break it, length budgets per surface, and the speech→writing conversion table.

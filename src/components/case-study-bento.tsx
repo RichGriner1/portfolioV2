@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   AnimatePresence,
   motion,
@@ -17,7 +18,9 @@ import {
   MoodboardGalleryFigure,
   TypeTestFigure,
 } from "@/components/motion/figures/visual-identity";
+import { Diagram } from "@/components/diagram";
 import type { BentoCard } from "@/lib/content/case-studies";
+import type { RenderedDiagrams } from "@/lib/content/diagrams";
 import { useIsMobile } from "@/lib/hooks";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
@@ -832,8 +835,10 @@ export function PaletteAnimation({
   const bank = banks[activeIdx % banks.length];
 
   return (
+    // Fills its container in both directions and carries no radius: the tint is the
+    // frame's surface, and the frame's own border and rounded clip are its edge.
     <motion.div
-      className="flex w-full flex-1 flex-col justify-center gap-1.5 rounded-xl px-3 py-3"
+      className="flex w-full flex-1 flex-col justify-center gap-1.5 self-stretch px-3 py-3"
       animate={{ backgroundColor: bank.color + "20" }}
       transition={{ duration: 0.5, ease: EASE }}
     >
@@ -4168,9 +4173,11 @@ const ANIMATIONS: Record<
 function BentoCardItem({
   card,
   gallery,
+  diagrams,
 }: {
   card: BentoCard;
   gallery?: boolean;
+  diagrams: RenderedDiagrams;
 }) {
   const { lang } = useLang();
   const Animation = card.animation ? ANIMATIONS[card.animation] : null;
@@ -4370,9 +4377,14 @@ function BentoCardItem({
                   key={i}
                   className="bg-muted/40 flex items-center justify-center overflow-hidden rounded-lg"
                 >
-                  <img
+                  <Image
                     src={src}
                     alt=""
+                    // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+                    // A 0×0 size would keep Chrome from ever starting the lazy load.
+                    width={1600}
+                    height={1000}
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.05]"
                   />
                 </div>
@@ -4406,9 +4418,14 @@ function BentoCardItem({
                didn't match it, reading as stray padding around a floating
                border. The zoom modal below stays `contain`; it's for seeing the
                whole export, not filling a slot. */
-            <img
+            <Image
               src={card.image}
               alt={pick(card.label, lang)}
+              // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+              // A 0×0 size would keep Chrome from ever starting the lazy load.
+              width={1600}
+              height={1000}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="ease-out-soft h-full w-full object-cover transition-transform duration-[var(--duration-slow)] group-hover:scale-[1.03]"
             />
           ) : Animation ? (
@@ -4486,9 +4503,14 @@ function BentoCardItem({
                (object-cover, above); this view exists to show the whole
                export, so cropping it here too would open a bigger version of
                the same partial picture. */
-            <img
+            <Image
               src={card.image}
               alt={pick(card.label, lang)}
+              // Placeholder ratio only: CSS sizes the box, and the real ratio takes over on load.
+              // A 0×0 size would keep Chrome from ever starting the lazy load.
+              width={1600}
+              height={1000}
+              sizes="(max-width: 1280px) 100vw, 1280px"
               className="min-h-0 flex-1 object-contain p-4"
             />
           ) : null}
@@ -4497,6 +4519,9 @@ function BentoCardItem({
     ) : null;
 
   if (card.details) {
+    const diagram = card.details.diagram
+      ? diagrams[card.details.diagram]
+      : undefined;
     return (
       <>
         {/* A detail card is clickable and has to look it. The home page's WorkCard
@@ -4558,6 +4583,13 @@ function BentoCardItem({
                     </p>
                   </div>
                 ))}
+                {diagram ? (
+                  <Diagram
+                    svgs={pick(diagram, lang)}
+                    framed={false}
+                    className="py-2"
+                  />
+                ) : null}
               </div>
             </motion.div>
 
@@ -4617,9 +4649,11 @@ function BentoCardItem({
 export function CaseStudyBento({
   cards,
   gallery,
+  diagrams,
 }: {
   cards: BentoCard[];
   gallery?: boolean;
+  diagrams: RenderedDiagrams;
 }) {
   const hasTall = cards.some((c) => c.span === "tall");
 
@@ -4644,7 +4678,11 @@ export function CaseStudyBento({
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
             >
-              <BentoCardItem card={card} gallery={gallery} />
+              <BentoCardItem
+                card={card}
+                gallery={gallery}
+                diagrams={diagrams}
+              />
             </motion.div>
           );
         })}
@@ -4665,7 +4703,7 @@ export function CaseStudyBento({
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
         >
-          <BentoCardItem card={card} gallery={gallery} />
+          <BentoCardItem card={card} gallery={gallery} diagrams={diagrams} />
         </motion.div>
       ))}
     </div>

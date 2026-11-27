@@ -78,9 +78,12 @@ export function ShimmerButton({
       "color-mix(in oklab, var(--primary-foreground) 12%, transparent)",
   } as CSSProperties;
 
+  // The transparent border and padding-box clip match the site's Button, so a
+  // shimmer and a plain button at the same height show the same 38px fill
+  // side by side instead of this one reading 2px taller.
   const classes = cn(
-    "group bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg px-4 text-sm font-medium whitespace-nowrap",
-    "focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
+    "group bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-transparent bg-clip-padding px-4 text-sm font-medium whitespace-nowrap",
+    "focus-visible:border-ring focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
     "ease-out-soft transform-gpu transition-transform duration-[var(--duration-base)] active:translate-y-px",
     className
   );

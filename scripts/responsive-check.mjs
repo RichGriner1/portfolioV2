@@ -56,6 +56,9 @@ const WIDTHS = [320, 375, 390, 768, 1024, 1440];
  */
 const ROUTES = [
   "/",
+  // The home page's second layout, the bento list with the view switch in its
+  // header. Same URL as the canvas, so the query string is the only way to reach it.
+  "/?view=list",
   "/projects",
   "/writing",
   // Two different case-study shells, not one. /work/visual-identity is a bespoke
@@ -69,6 +72,9 @@ const ROUTES = [
   // three-layer token cascade, all of which are the kind of horizontal layout that
   // breaks at 320px. The shell is covered; these layouts weren't.
   "/writing/modern-ui-2026",
+  // A pele diagram (components/diagram.tsx). Its SVG scales instead of reflowing,
+  // so it ships a narrow layout for phones; this is where that gets measured.
+  "/writing/fintech-layout-grammar",
   // Its own shell: `ds-scope` swaps in the Design System's token layer and 1px
   // spacing scale, and the page is built from card grids and a table that
   // switches to stacked cards. Nothing else here exercises either.

@@ -79,7 +79,10 @@ export function LangToggle() {
           onValueChange={(value) => setLang(value as Lang)}
         >
           {LANGS.map((l) => (
-            <DropdownMenuRadioItem key={l.value} value={l.value}>
+            // Base UI radio items keep the menu open by default, and an open menu's
+            // dismiss layer sits over the board and swallows its hover. Picking a
+            // language is pick-and-done, like the theme.
+            <DropdownMenuRadioItem key={l.value} value={l.value} closeOnClick>
               {l.label}
             </DropdownMenuRadioItem>
           ))}

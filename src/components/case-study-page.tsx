@@ -6,15 +6,17 @@ import { BackLink } from "@/components/back-link";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
 import type { CaseStudy } from "@/lib/content/case-studies";
+import type { RenderedDiagrams } from "@/lib/content/diagrams";
 import { type WorkItem, formatYears } from "@/lib/content/work";
 import { pick, t, useLang } from "@/lib/i18n";
 
 type Props = {
   item: WorkItem;
   study: CaseStudy | undefined;
+  diagrams: RenderedDiagrams;
 };
 
-export function CaseStudyPage({ item, study }: Props) {
+export function CaseStudyPage({ item, study, diagrams }: Props) {
   const { lang } = useLang();
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24 sm:pt-12">
@@ -56,10 +58,17 @@ export function CaseStudyPage({ item, study }: Props) {
                     runs of different lengths in one heading resolve at different
                     moments and the h1 reads as two competing animations — and the
                     name is the part that changes least between languages, so it's
-                    where the effect is doing work. */}
-                <HyperText>{pick(item.title, lang)}</HyperText>{" "}
+                    where the effect is doing work.
+
+                    Keyed on `lang` because a project name is often the same string
+                    in both languages — Mindfulme, KnowThyself360 — and HyperText
+                    replays on a `children` change. Without the key those two titles
+                    sat still through a language switch while every other one ran,
+                    which reads as the effect being broken rather than absent. */}
+                <HyperText key={lang}>{pick(item.title, lang)}</HyperText>
                 <span className="text-muted-foreground font-normal">
-                  — {pick(study.tagline, lang)}
+                  {": "}
+                  {pick(study.tagline, lang)}
                 </span>
               </h1>
             </div>
@@ -113,7 +122,11 @@ export function CaseStudyPage({ item, study }: Props) {
           {study.story ? (
             <CaseStudyStory sections={study.story} />
           ) : (
-            <CaseStudyBento cards={study.bento} gallery={study.gallery} />
+            <CaseStudyBento
+              cards={study.bento}
+              gallery={study.gallery}
+              diagrams={diagrams}
+            />
           )}
 
           <MoreWork excludeSlug={item.slug} limit={3} />
@@ -136,7 +149,7 @@ export function CaseStudyPage({ item, study }: Props) {
               )}
             </div>
             <h1 className="font-display text-4xl tracking-tight sm:text-5xl">
-              <HyperText>{pick(item.title, lang)}</HyperText>
+              <HyperText key={lang}>{pick(item.title, lang)}</HyperText>
             </h1>
           </header>
           <section className="border-border/60 text-muted-foreground rounded-xl border border-dashed p-8 text-sm">

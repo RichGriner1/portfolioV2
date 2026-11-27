@@ -1,7 +1,7 @@
 "use client";
 
 import { BlurFade } from "@/components/motion/blur-fade";
-import { IntroParagraphs } from "@/components/home-intro";
+import { IntroHeadline, IntroParagraphs } from "@/components/home-intro";
 import { TalkTile } from "@/components/talk-tile";
 import { WorkCard } from "@/components/work-card";
 import { WORK } from "@/lib/content/work";
@@ -96,6 +96,7 @@ export function BentoHome() {
             <Tile className="flex flex-col justify-start gap-3 p-6 pt-5 sm:h-full sm:p-8 sm:pt-6">
               {/* Color and the type scale both come from the component now —
                   the sizes are Figma-specified, so they live next to the copy. */}
+              <IntroHeadline className="font-geist mb-2" />
               <IntroParagraphs className="font-geist" />
             </Tile>
           </BlurFade>

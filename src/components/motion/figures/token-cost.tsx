@@ -52,7 +52,8 @@ export function TokenCostFigure() {
     };
   }, []);
 
-  const beforeFilled = stage === "before" || stage === "fixing" || stage === "after";
+  const beforeFilled =
+    stage === "before" || stage === "fixing" || stage === "after";
   const afterFilled = stage === "after";
 
   return (

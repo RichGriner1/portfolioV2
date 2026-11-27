@@ -18,7 +18,20 @@ const eslintConfig = defineConfig([
     // Nested Design System Template app — its own Next.js project with its own
     // tooling; ".next/**" above only matches at the repo root, not its build dir.
     "Design System Template/**",
+    // Agent session worktrees are full checkouts of this repo; linting them
+    // would report every warning twice.
+    ".claude/worktrees/**",
   ]),
+  {
+    // A leading underscore marks a parameter kept for the signature (glyphs
+    // share one props type) but not read.
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

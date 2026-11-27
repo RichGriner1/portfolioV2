@@ -183,7 +183,13 @@ function Media({ media }: { media: StoryMedia }) {
       <div className="flex flex-col gap-3">
         {/* Artboards draw the product, which is light whatever the site theme is,
             the same as the screenshots and clips beside them. */}
-        <div className="rounded-[10px] bg-[#eceeef] p-4 sm:p-5">
+        {/* In beats the stage is already the light surface, so the artboard takes
+            the stage's padding only, not a second box inside it. */}
+        <div
+          className={
+            beat ? "p-4 sm:p-7" : "rounded-[10px] bg-[#eceeef] p-4 sm:p-5"
+          }
+        >
           <Artboard name={media.name} />
         </div>
         {media.caption && (

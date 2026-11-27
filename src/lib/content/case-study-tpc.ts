@@ -574,37 +574,6 @@ export const TPC_STUDY: CaseStudy = {
         },
         {
           label: {
-            en: "Shadows",
-            es: "Sombras",
-          },
-          heading: {
-            en: "This tool exposed gaps SAREVI never hit.",
-            es: "Esta herramienta destapó huecos que SAREVI nunca tocó.",
-          },
-          body: C.DS_PARAS,
-          media: [
-            {
-              kind: "composition",
-              title: {
-                en: "The overview's figure cards: one shadow rule for every surface",
-                es: "Las tarjetas de cifras del panel: una sola regla de sombra para cada superficie",
-              },
-              items: [
-                ...[312, 562, 813].map((x, i) => ({
-                  src: `${DEMO}/cs-panel-q.html`,
-                  rect: { x, y: 166, w: 235, h: 124 },
-                  x: 19 + i * 31,
-                  y: 50,
-                  w: 29,
-                  flat: true,
-                  radius: 12,
-                })),
-              ],
-            },
-          ],
-        },
-        {
-          label: {
             en: "3D objects",
             es: "Objetos 3D",
           },

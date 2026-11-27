@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CaseStudyPage } from "@/components/case-study-page";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { TpcPage } from "@/components/tpc/tpc-page";
 import { CASE_STUDIES } from "@/lib/content/case-studies";
 import { WORK } from "@/lib/content/work";
 
@@ -43,7 +44,13 @@ export default async function WorkDetailPage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader />
-      <CaseStudyPage item={item} study={study} />
+      {/* Third-party compliance is laid out by hand (text beside working copies of
+          its patterns) rather than through the bento or story renderers. */}
+      {slug === "third-party-compliance" ? (
+        <TpcPage item={item} />
+      ) : (
+        <CaseStudyPage item={item} study={study} />
+      )}
       <SiteFooter />
     </>
   );

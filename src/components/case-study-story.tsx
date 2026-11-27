@@ -18,7 +18,7 @@ import { pick, useLang } from "@/lib/i18n";
  * it leaves. With `prefers-reduced-motion` the clip stays on its poster and shows the
  * native controls instead, so motion is something the reader asks for.
  */
-function LoopVideo({
+export function LoopVideo({
   clip,
   label,
   className = "aspect-[8/5] h-auto w-full",

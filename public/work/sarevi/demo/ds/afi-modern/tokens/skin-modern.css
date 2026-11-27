@@ -1,0 +1,21 @@
+/* skin-modern.css — Afi Simulators skin roles on top of the Coherence primitives (additive; nothing here changes a default).
+   Radius roles: Modern "middle ground" between the square Modern radii (6 / 8 / 12) and full pills.
+     control = buttons, inputs, selects, number fields, menu rows    chip = tags, badges, grade tiles    surface = cards, dialogs, popover menus, drawer, tables
+   Opt in with data-radius="soft" on any element, or data-variant="afi" on :root (the Simulator Modern variant). Inside [data-foundation=modern]
+   the Coherence radius-md / -lg / -xl tokens are re-pointed at chip / control / surface, so components that read them follow.
+   Checkboxes (radius-sm), radios, toggles and sliders keep their own shape. Retune the three values here. */
+:root:is([data-variant="afi"],:not([data-variant])),[data-radius="soft"]{--radius-control:var(--dimension-3);--radius-chip:var(--dimension-2);--radius-surface:var(--dimension-4)}
+:root:is([data-variant="afi"],:not([data-variant])) [data-foundation="modern"],[data-radius="soft"][data-foundation="modern"],[data-radius="soft"] [data-foundation="modern"]{--radius-md:var(--radius-chip);--radius-lg:var(--radius-control);--radius-xl:var(--radius-surface)}
+
+/* Afi Modern typeface (v59). The Afi product font is Libre Franklin. The file is Google Fonts' own
+   Libre Franklin v3.000 latin build (variable, wght 100-900), every letter untouched, plus tabular figures, which the Google build lacks,
+   made the DEFAULT digits, so they hold whatever font-variant-numeric or a `font:` shorthand says; 'pnum' gives the
+   proportional ones back where a design really wants them; renamed 'Libre Franklin Afi' (SIL OFL 1.1, fonts/OFL-LibreFranklin.txt). Characters outside its latin range fall back
+   to Google's 'Libre Franklin' when a page loads it, then the system face. 0000, 1111, 8888 and 9999 are the same width at every weight,
+   so amounts line up in columns and counting numbers do not jitter. */
+@font-face{font-family:'Libre Franklin Afi';src:url('../fonts/LibreFranklinAfi-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root:is([data-variant="afi"],:not([data-variant])){--font-family-primary:'Libre Franklin Afi','Libre Franklin',system-ui,-apple-system,'Segoe UI',sans-serif;--font-family-mono:var(--font-family-primary)}
+
+/* Afi Modern action colour (v60): Afi navy (Azul profundo) instead of the Coherence zinc placeholder ramp, for primary buttons, selected
+   controls, toggles and strong borders. Only the roles the Afi products re-point; --brand-background-active keeps its default. */
+:root:is([data-variant="afi"],:not([data-variant])){--brand-background-default:var(--color-afi-navy-700,var(--afi-navy-700,#062D3F));--brand-background-hover:var(--color-afi-navy-600,var(--afi-navy-600,#174557));--brand-background-pressed:var(--color-afi-navy-800,var(--afi-navy-800,#052636));--borders-strong:var(--color-afi-navy-700,var(--afi-navy-700,#062D3F))}

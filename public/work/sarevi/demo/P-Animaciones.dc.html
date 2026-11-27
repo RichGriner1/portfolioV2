@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es" data-ds-v2 data-foundation="modern" data-variant="afi" data-skin="afi" data-brand="afi">
+<head>
+<meta charset="utf-8">
+<title>Animaciones · cómo activarlas</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/afi-modern/tokens/dimensions.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/colors.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/semantic-colors.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/semantic-dimensions.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/spacing.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/typography.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/elevation.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/motion.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/component-button.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/component-toast.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/skin-modern.css">
+<link rel="stylesheet" href="ds/afi-modern/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+/* Canvas board: how to turn the prototype's animations on. DS Card, Tag, Toggle and Toast; layout only here. */
+body { margin: 0; background: var(--background-canvas); font-family: var(--font-family-primary); color: var(--content-primary); }
+.mo { box-sizing: border-box; width: 880px; padding: var(--dimension-10); display: flex; flex-direction: column; gap: var(--dimension-8); }
+.mo-hd { display: flex; flex-direction: column; gap: var(--dimension-3); align-items: flex-start; }
+.mo-hd h1 { margin: 0; font-size: var(--type-h2-size); font-weight: var(--type-h2-weight); line-height: var(--type-h2-line-height); }
+.mo-hd p { margin: 0; max-width: 640px; font-size: var(--type-body-large-size); line-height: var(--type-body-large-line-height); color: var(--content-secondary); }
+.mo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--dimension-6); align-items: start; }
+.mo-ic { flex: none; display: grid; place-items: center; width: var(--dimension-10); height: var(--dimension-10); margin-inline-end: var(--dimension-3); border-radius: var(--radius-lg); background: var(--tag-background-default); color: var(--content-primary); }
+.mo-ic svg { width: var(--dimension-5); height: var(--dimension-5); }
+.mo-os { display: flex; flex-direction: column; gap: var(--dimension-3); }
+.mo-os h3 { margin: 0; font-size: var(--type-label-size); font-weight: var(--font-weight-bold); line-height: var(--type-label-line-height); color: var(--content-secondary); text-transform: uppercase; letter-spacing: .04em; }
+.mo-path { display: flex; flex-wrap: wrap; align-items: center; gap: var(--dimension-1-5); }
+.mo-path i { font-style: normal; color: var(--content-tertiary, var(--content-secondary)); }
+.mo-set { display: flex; align-items: center; justify-content: space-between; gap: var(--dimension-3); padding: var(--dimension-3) var(--dimension-4); border: var(--stroke-default) solid var(--borders-default); border-radius: var(--radius-lg); }
+.mo-set .afi-toggle-v2 { cursor: default; }
+.mo-set small { font-size: var(--type-caption-size); line-height: var(--type-caption-line-height); color: var(--content-secondary); }
+.mo-alt .afi-card-v2__header-content { align-items: flex-start; }
+.mo-demo { display: flex; justify-content: center; padding: var(--dimension-6); border-radius: var(--radius-lg); background: var(--background-canvas); }
+.mo-demo__dlg { max-width: var(--width-dialog-md); }
+.mo-note { margin: 0; font-size: var(--type-body-small-size); line-height: var(--type-body-small-line-height); color: var(--content-secondary); }
+</style>
+</helmet>
+<div class="mo">
+  <div class="mo-hd">
+    <span class="afi-tag-v2 afi-tag-v2--category">Animaciones</span>
+    <h1>¿El prototipo se ve estático?</h1>
+    <p>Las animaciones dependen de la configuración del ordenador, no de Claude. Si está activada la reducción de movimiento, el navegador lo comunica y el prototipo las apaga.</p>
+  </div>
+
+  <div class="mo-grid">
+    <section class="afi-card-v2">
+      <div class="afi-card-v2__header-content">
+        <span class="mo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg></span>
+        <div class="afi-card-v2__text-stack"><h2 class="afi-card-v2__heading">Mac</h2><p class="afi-card-v2__supporting">macOS 13 o posterior</p></div>
+      </div>
+      <div class="mo-os">
+        <div class="mo-path"><span class="afi-tag-v2 afi-tag-v2--category">Ajustes del Sistema</span><i>›</i><span class="afi-tag-v2 afi-tag-v2--category">Accesibilidad</span><i>›</i><span class="afi-tag-v2 afi-tag-v2--category">Pantalla</span></div>
+        <div class="mo-set"><span class="afi-toggle-v2"><span class="afi-toggle-v2__label">Reducir movimiento</span></span><span class="afi-toggle-v2"><small>Desactivado</small><span class="afi-toggle-v2__track" role="img" aria-label="Desactivado"><span class="afi-toggle-v2__thumb"></span></span></span></div>
+      </div>
+    </section>
+
+    <section class="afi-card-v2">
+      <div class="afi-card-v2__header-content">
+        <span class="mo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg></span>
+        <div class="afi-card-v2__text-stack"><h2 class="afi-card-v2__heading">Windows</h2><p class="afi-card-v2__supporting">Windows 11 y Windows 10</p></div>
+      </div>
+      <div class="mo-os">
+        <h3>Windows 11</h3>
+        <div class="mo-path"><span class="afi-tag-v2 afi-tag-v2--category">Configuración</span><i>›</i><span class="afi-tag-v2 afi-tag-v2--category">Accesibilidad</span><i>›</i><span class="afi-tag-v2 afi-tag-v2--category">Efectos visuales</span></div>
+        <div class="mo-set"><span class="afi-toggle-v2"><span class="afi-toggle-v2__label">Efectos de animación</span></span><span class="afi-toggle-v2"><small>Activado</small><span class="afi-toggle-v2__track afi-toggle-v2__track--on" role="img" aria-label="Activado"><span class="afi-toggle-v2__thumb"></span></span></span></div>
+      </div>
+      <div class="afi-card-v2__divider"></div>
+      <div class="mo-os">
+        <h3>Windows 10</h3>
+        <div class="mo-path"><span class="afi-tag-v2 afi-tag-v2--category">Configuración</span><i>›</i><span class="afi-tag-v2 afi-tag-v2--category">Accesibilidad</span><i>›</i><span class="afi-tag-v2 afi-tag-v2--category">Pantalla</span></div>
+        <div class="mo-set"><span class="afi-toggle-v2"><span class="afi-toggle-v2__label">Mostrar animaciones en Windows</span></span><span class="afi-toggle-v2"><small>Activado</small><span class="afi-toggle-v2__track afi-toggle-v2__track--on" role="img" aria-label="Activado"><span class="afi-toggle-v2__thumb"></span></span></span></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="afi-card-v2 mo-alt">
+    <div class="afi-card-v2__header-content">
+      <span class="mo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5v13l10-6.5z"/></svg></span>
+      <div class="afi-card-v2__text-stack"><h2 class="afi-card-v2__heading">Sin cambiar nada</h2><p class="afi-card-v2__supporting">Con la reducción de movimiento activada, el prototipo abre este aviso antes de empezar. «Ver animaciones» las activa en todos los tableros durante la sesión; «Continuar sin animaciones» lo deja como está.</p></div>
+    </div>
+    <div class="mo-demo"><div class="afi-dialog-v2__panel mo-demo__dlg" role="img" aria-label="Aviso del prototipo">
+      <div class="afi-dialog-v2__header"><div class="afi-dialog-v2__text-stack"><h3 class="afi-dialog-v2__title">Las animaciones están desactivadas</h3><p class="afi-dialog-v2__description">Tu ordenador tiene activada la reducción de movimiento, así que el prototipo se muestra sin animaciones.</p></div></div>
+      <div class="afi-dialog-v2__footer"><span class="btn-v2 btn-v2--secondary btn-v2--md"><span class="btn-v2__icon"></span><span class="btn-v2__label">Continuar sin animaciones</span><span class="btn-v2__icon"></span></span><span class="btn-v2 btn-v2--primary btn-v2--md"><span class="btn-v2__icon"></span><span class="btn-v2__label">Ver animaciones</span><span class="btn-v2__icon"></span></span></div>
+    </div></div>
+  </section>
+
+  <p class="mo-note">Después de cambiar el ajuste, recarga la página. En un escritorio remoto o un equipo gestionado por la empresa puede que no se pueda cambiar: usa el aviso.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":880,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

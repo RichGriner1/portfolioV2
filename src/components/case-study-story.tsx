@@ -1328,6 +1328,7 @@ function Composition({
       ref={box}
       role="img"
       aria-label={pick(media.title, lang)}
+      data-composition
       className="relative w-full overflow-hidden rounded-md"
       style={{
         aspectRatio: `${aspect}`,

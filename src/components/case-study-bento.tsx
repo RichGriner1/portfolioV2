@@ -6,7 +6,6 @@ import {
   motion,
   useAnimationControls,
   useReducedMotion,
-  type Transition,
 } from "motion/react";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { ArrowRight, Maximize2, X } from "lucide-react";
@@ -24,24 +23,14 @@ import type { RenderedDiagrams } from "@/lib/content/diagrams";
 import { useIsMobile } from "@/lib/hooks";
 import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 
-const EASE = [0.2, 0.8, 0.2, 1] as const;
-const EASE_SOFT = [0.32, 0.72, 0.18, 1] as const;
-// The other two named easing curves from globals.css, bridged into Motion's array
-// form the same way EASE/EASE_SOFT above already bridge --ease-out-soft.
-// vi-nine-principles (travel, its one confirm-pulse) and vi-defining-modern
-// (bar tweens, the guideline's confirm snap) are the only two using these so far.
-const EASE_IN_OUT_SOFT = [0.45, 0.05, 0.15, 1] as const;
-const EASE_SPRING = [0.34, 1.56, 0.64, 1] as const;
-const SPRING_SOFT: Transition = {
-  type: "spring",
-  stiffness: 180,
-  damping: 22,
-};
-const SPRING_SNAP: Transition = {
-  type: "spring",
-  stiffness: 260,
-  damping: 20,
-};
+import {
+  EASE,
+  EASE_IN_OUT_SOFT,
+  EASE_SOFT,
+  EASE_SPRING,
+  SPRING_SNAP,
+  SPRING_SOFT,
+} from "@/components/motion/constants";
 
 /**
  * The three tiers, named the way the color methodology names them.
@@ -1735,14 +1724,16 @@ export function CanvasAnimation({
             >
               <div className="border-border bg-foreground/5 relative flex items-center border-b px-2 py-1.5">
                 <div className="flex gap-1.5">
-                  {["bg-red-400", "bg-yellow-400", "bg-green-400"].map(
-                    (c, i) => (
-                      <div
-                        key={i}
-                        className={`${c} h-2 w-2 rounded-full opacity-60`}
-                      />
-                    )
-                  )}
+                  {[
+                    "bg-mock-window-close",
+                    "bg-mock-window-minimize",
+                    "bg-mock-window-zoom",
+                  ].map((c, i) => (
+                    <div
+                      key={i}
+                      className={`${c} h-2 w-2 rounded-full opacity-60`}
+                    />
+                  ))}
                 </div>
                 <div className="text-muted-foreground absolute left-1/2 -translate-x-1/2 font-mono text-[8px]">
                   kt360-env — bash
@@ -1750,13 +1741,16 @@ export function CanvasAnimation({
               </div>
               <div
                 className="flex flex-1 items-center px-3 font-mono text-[10px]"
-                style={{ backgroundColor: "#1e1e1e", color: "#e0e0e0" }}
+                style={{
+                  backgroundColor: "var(--mock-terminal)",
+                  color: "var(--mock-terminal-foreground)",
+                }}
               >
-                <span style={{ color: "#7ec699" }}>$ </span>
+                <span style={{ color: "var(--mock-terminal-accent)" }}>$ </span>
                 <span>{GIT_CMD.slice(0, chars)}</span>
                 <motion.span
                   className="ml-[1px] inline-block h-[10px] w-[1px] align-middle"
-                  style={{ backgroundColor: "#e0e0e0" }}
+                  style={{ backgroundColor: "var(--mock-terminal-foreground)" }}
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.6, repeat: Infinity }}
                 />
@@ -1793,14 +1787,16 @@ export function CanvasAnimation({
             >
               <div className="border-border bg-foreground/5 relative flex items-center border-b px-2 py-1.5">
                 <div className="flex gap-1.5">
-                  {["bg-red-400", "bg-yellow-400", "bg-green-400"].map(
-                    (c, i) => (
-                      <div
-                        key={i}
-                        className={`${c} h-2 w-2 rounded-full opacity-60`}
-                      />
-                    )
-                  )}
+                  {[
+                    "bg-mock-window-close",
+                    "bg-mock-window-minimize",
+                    "bg-mock-window-zoom",
+                  ].map((c, i) => (
+                    <div
+                      key={i}
+                      className={`${c} h-2 w-2 rounded-full opacity-60`}
+                    />
+                  ))}
                 </div>
                 <div className="text-muted-foreground absolute left-1/2 -translate-x-1/2 font-mono text-[8px]">
                   kt360-env — bash
@@ -1808,16 +1804,22 @@ export function CanvasAnimation({
               </div>
               <div
                 className="flex flex-1 flex-col justify-center px-3 font-mono text-[10px]"
-                style={{ backgroundColor: "#1e1e1e", color: "#e0e0e0" }}
+                style={{
+                  backgroundColor: "var(--mock-terminal)",
+                  color: "var(--mock-terminal-foreground)",
+                }}
               >
-                <span style={{ color: "#e0e0e0" }} className="font-medium">
+                <span
+                  style={{ color: "var(--mock-terminal-foreground)" }}
+                  className="font-medium"
+                >
                   kt360-env/
                 </span>
                 {FILE_TREE.map((f, i) => (
                   <motion.div
                     key={f}
                     className="flex items-center gap-1.5 pl-3"
-                    style={{ color: "#a0a0a0" }}
+                    style={{ color: "var(--mock-terminal-muted)" }}
                     initial={{ opacity: 0, x: -4 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{
@@ -1826,7 +1828,7 @@ export function CanvasAnimation({
                       ease: EASE_SOFT,
                     }}
                   >
-                    <span style={{ color: "#666" }}>├</span>
+                    <span style={{ color: "var(--mock-terminal-dim)" }}>├</span>
                     <span>{f}</span>
                   </motion.div>
                 ))}
@@ -1872,7 +1874,11 @@ export function CanvasAnimation({
             transition={{ duration: 0.4, ease: EASE_SOFT }}
           >
             <div className="border-border flex shrink-0 items-center gap-1.5 border-b px-2 py-1.5">
-              {["bg-red-400", "bg-yellow-400", "bg-green-400"].map((c, i) => (
+              {[
+                "bg-mock-window-close",
+                "bg-mock-window-minimize",
+                "bg-mock-window-zoom",
+              ].map((c, i) => (
                 <div
                   key={i}
                   className={`${c} h-2 w-2 rounded-full opacity-60`}
@@ -3498,7 +3504,10 @@ function TokenInspectAnimation({ active }: AnimationProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.22, ease: EASE_SOFT }}
-            style={{ backgroundColor: "#1e1e1e", color: "#e0e0e0" }}
+            style={{
+              backgroundColor: "var(--mock-terminal)",
+              color: "var(--mock-terminal-foreground)",
+            }}
             className="flex flex-col gap-0.5 rounded-md px-2.5 py-1.5 font-mono text-[9px] shadow-lg"
           >
             {tokens.map((t, i) => (
@@ -3512,9 +3521,13 @@ function TokenInspectAnimation({ active }: AnimationProps) {
                   ease: EASE_SOFT,
                 }}
               >
-                <span style={{ color: "#7ec699" }}>{t.prop}</span>
-                <span style={{ color: "#666" }}>: </span>
-                <span style={{ color: "#e0e0e0" }}>{t.value}</span>
+                <span style={{ color: "var(--mock-terminal-accent)" }}>
+                  {t.prop}
+                </span>
+                <span style={{ color: "var(--mock-terminal-dim)" }}>: </span>
+                <span style={{ color: "var(--mock-terminal-foreground)" }}>
+                  {t.value}
+                </span>
               </motion.div>
             ))}
           </motion.div>

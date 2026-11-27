@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { EASE_IN_OUT } from "@/lib/motion";
 
 /**
  * Beetested — OSCILLATION.
@@ -43,7 +44,7 @@ export function OscillationGlyph() {
             transition: {
               duration: 1.4,
               repeat: Infinity,
-              ease: [0.45, 0.05, 0.15, 1],
+              ease: EASE_IN_OUT,
             },
           },
         }}

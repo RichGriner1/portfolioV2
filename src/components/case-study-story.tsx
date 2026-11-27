@@ -1401,10 +1401,10 @@ function Composition({
                       onLoad={() => setLoaded((n) => n + 1)}
                       src={it.src}
                       title=""
-                      tabIndex={-1}
-                      aria-hidden="true"
+                      tabIndex={it.interactive ? 0 : -1}
+                      aria-hidden={it.interactive ? undefined : true}
                       loading="lazy"
-                      className="pointer-events-none absolute top-0 left-0 origin-top-left border-0"
+                      className={`absolute top-0 left-0 origin-top-left border-0 ${it.interactive ? "" : "pointer-events-none"}`}
                       style={{
                         // Same colour scheme as the board, or the browser paints an opaque
                         // white canvas behind it on the dark site.

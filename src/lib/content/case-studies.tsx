@@ -257,6 +257,8 @@ export type StoryMedia =
          */
         radius?: number;
         sourceW?: number;
+        /** The board takes clicks (its own ▶ and step dots), like the canvas artboard. */
+        interactive?: boolean;
       }[];
       marks?: { x: number; y: number; n: number }[];
       /**
@@ -2366,12 +2368,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 aspect: 1.52,
                 items: [
                   {
-                    src: "/work/wealth-planner/demo/P314-dock-D-3.html",
-                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    src: "/work/wealth-planner/demo/P314-dock-D-1.html",
+                    rect: { x: 0, y: 0, w: 960, h: 560 },
                     x: 50,
                     y: 50,
                     w: 92,
                     viewport: { w: 960, h: 560 },
+                    interactive: true,
+                    radius: 0,
                   },
                 ],
               },
@@ -2661,11 +2665,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-dock-D-2.html",
-                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    rect: { x: 0, y: 0, w: 960, h: 560 },
                     x: 50,
                     y: 50,
                     w: 92,
                     viewport: { w: 960, h: 560 },
+                    interactive: true,
+                    radius: 0,
                   },
                 ],
               },
@@ -2698,11 +2704,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-dock-D-1.html",
-                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    rect: { x: 0, y: 0, w: 960, h: 560 },
                     x: 50,
                     y: 50,
                     w: 92,
                     viewport: { w: 960, h: 560 },
+                    interactive: true,
+                    radius: 0,
                   },
                 ],
               },
@@ -2735,11 +2743,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-dock-D-4.html",
-                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    rect: { x: 0, y: 0, w: 960, h: 560 },
                     x: 50,
                     y: 50,
                     w: 92,
                     viewport: { w: 960, h: 560 },
+                    interactive: true,
+                    radius: 0,
                   },
                 ],
               },

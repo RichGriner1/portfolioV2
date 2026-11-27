@@ -179,11 +179,11 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
         visited={visited}
         edges={edges}
         reduced={reduced}
-        className="hidden @3xl:block"
+        className="hidden @lg:block"
       />
 
       {/* Phone: the same beats as a vertical stepper */}
-      <ol className="flex flex-col gap-1 px-4 pt-4 @3xl:hidden">
+      <ol className="flex flex-col gap-1 px-4 pt-4 @lg:hidden">
         {steps.map((s, i) => (
           <li key={s.id}>
             <button
@@ -374,13 +374,13 @@ function Board({
   return (
     <div
       className={cn(
-        "bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] px-4 py-6",
+        "bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] px-2 py-5 @4xl:px-4 @4xl:py-6",
         className
       )}
     >
       <div
         ref={gridRef}
-        className="relative grid grid-cols-[5.5rem_repeat(9,minmax(0,1fr))] grid-rows-3 gap-x-3 gap-y-5"
+        className="relative grid grid-cols-[1.25rem_repeat(9,minmax(0,1fr))] grid-rows-3 gap-x-1.5 gap-y-4 @4xl:grid-cols-[5.5rem_repeat(9,minmax(0,1fr))] @4xl:gap-x-3 @4xl:gap-y-5"
       >
         {/* Lane labels and bands */}
         {(Object.keys(LANES) as Lane[]).map((lane) => (
@@ -389,7 +389,10 @@ function Board({
             className="text-muted-foreground border-border/60 col-span-full col-start-1 flex items-center border-t border-dashed pt-0 font-mono text-[10px] tracking-wide uppercase first:border-t-0"
             style={{ gridRow: LANE_ROW[lane] }}
           >
-            {pick(LANES[lane], lang)}
+            {/* Narrow board: the lane name runs up the side, so the steps get the width. */}
+            <span className="rotate-180 text-[8px] [writing-mode:vertical-rl] @4xl:rotate-0 @4xl:text-[10px] @4xl:[writing-mode:horizontal-tb]">
+              {pick(LANES[lane], lang)}
+            </span>
           </div>
         ))}
 
@@ -492,7 +495,7 @@ function Board({
               }
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "relative z-10 flex min-h-12 cursor-pointer items-center justify-center rounded-lg border px-2 py-2 text-center text-xs leading-snug",
+                "relative z-10 flex min-h-11 cursor-pointer items-center justify-center rounded-lg border px-1 py-1.5 text-center text-[11px] leading-tight @4xl:min-h-12 @4xl:px-2 @4xl:py-2 @4xl:text-xs @4xl:leading-snug",
                 "focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
                 !isCurrent && "hover:border-foreground/40",
                 "ease-out-soft transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-base)]",

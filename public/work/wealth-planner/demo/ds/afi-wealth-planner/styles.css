@@ -1,0 +1,15 @@
+/* =============================================================================
+ * styles.css — Coherence DS global entry point (AFI default brand)
+ *
+ * Consumers link THIS one file. It @imports the full token closure in cascade
+ * order: fonts → primitives → semantic roles. Components reference only the
+ * semantic custom properties defined in tokens/semantic.css.
+ *
+ * Brand-switch:  <html data-brand="afi">  (default; AFI palette)
+ * Theme-switch:  <html data-theme="dark">
+ * ============================================================================= */
+
+/* Tokens (generated from tokens.json), then the system stylesheet: fonts,
+ * the semantic roles tokens.json does not hold, motion and utilities. */
+@import url('tokens.css');
+@import url('components/bundle.css');

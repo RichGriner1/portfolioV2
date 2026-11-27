@@ -186,9 +186,7 @@ function Media({ media }: { media: StoryMedia }) {
         {/* In beats the stage is already the light surface, so the artboard takes
             the stage's padding only, not a second box inside it. */}
         <div
-          className={
-            beat ? "p-4 sm:p-7" : "rounded-[10px] bg-[#eceeef] p-4 sm:p-5"
-          }
+          className={beat ? "p-4 sm:p-7" : "rounded-xl bg-[#eceeef] p-4 sm:p-5"}
         >
           <Artboard name={media.name} />
         </div>
@@ -1078,7 +1076,7 @@ function BeatRow({
         <div
           // One surface: the light product stage, the same in both themes, so a
           // component never sits inside three frames.
-          className="flex flex-col justify-center overflow-hidden rounded-md bg-[#eef1f4] text-[#1f2328]"
+          className="flex flex-col justify-center overflow-hidden rounded-2xl bg-[#eef1f4] text-[#1f2328]"
           // The stage is light in both themes, so the site's dot cursor stays navy here.
           data-cursor-ink="#062D3F"
         >
@@ -1253,7 +1251,7 @@ function LiveCrop({ media }: { media: Extract<StoryMedia, { kind: "live" }> }) {
       ref={box}
       // A crop of a live page on purpose: the responsive check skips it.
       data-crop
-      className="relative w-full overflow-hidden rounded-md bg-white"
+      className="relative w-full overflow-hidden rounded-xl bg-white"
       style={{
         height: frameH || undefined,
         aspectRatio: width ? undefined : `${crop.w} / ${crop.h}`,
@@ -1553,7 +1551,7 @@ function Composition({
       role="img"
       aria-label={pick(media.title, lang)}
       data-composition
-      className={`relative w-full ${beat ? "" : "overflow-hidden rounded-md"}`}
+      className={`relative w-full ${beat ? "" : "overflow-hidden rounded-xl"}`}
       style={{
         ...(beat && fit ? { height: fit.h } : { aspectRatio: `${aspect}` }),
         background: beat

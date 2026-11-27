@@ -1,14 +1,11 @@
 "use client";
 
-import {
-  type CSSProperties,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useState, type ReactNode } from "react";
+
+import { Tabs } from "@base-ui/react/tabs";
 
 import { BackLink } from "@/components/back-link";
+import { BeforeAfterGallery } from "@/components/tpc/before-after-gallery";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
 import { BackDemo } from "@/components/tpc/demos";
@@ -16,7 +13,7 @@ import * as C from "@/components/tpc/copy";
 import { Reveal } from "@/components/tpc/reveal";
 import { type DiagramSvgs } from "@/components/diagram";
 import { FlowWalkthrough } from "@/components/tpc/flow-walkthrough";
-import { ClipSlot, StillFrame } from "@/components/tpc/clip-slot";
+import { ClipSlot } from "@/components/tpc/clip-slot";
 import { TEMPLATES_AFTER, TEMPLATES_BEFORE } from "@/components/tpc/clips";
 import { EmptyGallery } from "@/components/tpc/empty-gallery";
 import { type WorkItem, formatYears } from "@/lib/content/work";
@@ -131,74 +128,59 @@ function PainFigure({ kind }: { kind: C.Pain["kind"] }) {
 type ExplorerItem = { rule: C.Rule; demo: ReactNode };
 
 /**
- * The rules are a list on the left; hovering or focusing one swaps the working copy
- * of that pattern in the panel on the right. The list is the reading, the panel is the
- * proof, and on a narrow screen the panel stacks under the list.
+ * The rules as a segmented control: one short label per rule, the chosen rule's
+ * text under it, then its working demo at full width. Labels stay one line, so
+ * the row lines up however long each rule's explanation is.
  */
 function RuleExplorer({ items }: { items: ExplorerItem[] }) {
   const { lang } = useLang();
-  const [active, setActive] = useState(0);
-  const current = items[active];
-  // Hover selects, but only after the pointer rests: crossing the other rows on the
-  // way to the panel must not swap the demo out from under it.
-  const intent = useRef<number | undefined>(undefined);
-  const hoverSelect = (i: number) => {
-    window.clearTimeout(intent.current);
-    intent.current = window.setTimeout(() => setActive(i), 140);
-  };
-  const cancelHover = () => window.clearTimeout(intent.current);
-  useEffect(() => () => window.clearTimeout(intent.current), []);
+  const [active, setActive] = useState(items[0].rule.id);
+  const current = items.find((it) => it.rule.id === active) ?? items[0];
   return (
-    <div className="flex flex-col gap-4">
-      <ul
-        className="grid grid-cols-1 gap-2 lg:grid-cols-[repeat(var(--rules),minmax(0,1fr))]"
-        style={{ "--rules": items.length } as CSSProperties}
+    <Tabs.Root
+      value={active}
+      onValueChange={(v) => setActive(String(v))}
+      className="flex flex-col gap-5"
+    >
+      <Tabs.List className="bg-card border-border flex w-full flex-wrap gap-1 rounded-xl border p-1 lg:w-fit">
+        {items.map((it) => (
+          <Tabs.Tab
+            key={it.rule.id}
+            value={it.rule.id}
+            className={cn(
+              "text-muted-foreground hover:text-foreground cursor-pointer rounded-lg px-3.5 py-2 text-left text-sm font-medium",
+              "ease-out-soft transition-[background-color,color,box-shadow] duration-[var(--duration-base)]",
+              "data-[active]:bg-foreground data-[active]:text-background",
+              "focus-visible:ring-ring/50 outline-none focus-visible:ring-3"
+            )}
+          >
+            {pick(it.rule.title, lang)}
+          </Tabs.Tab>
+        ))}
+      </Tabs.List>
+      <Tabs.Panel
+        value={current.rule.id}
+        className="flex flex-col gap-5 outline-none"
       >
-        {items.map((it, i) => {
-          const on = i === active;
-          return (
-            <li key={it.rule.id}>
-              <button
-                type="button"
-                aria-current={on}
-                onMouseEnter={() => hoverSelect(i)}
-                onMouseLeave={cancelHover}
-                onFocus={() => setActive(i)}
-                onClick={() => {
-                  cancelHover();
-                  setActive(i);
-                }}
-                className={cn(
-                  "h-full w-full cursor-pointer rounded-xl border px-4 py-3 text-left transition-colors duration-[var(--duration-base)]",
-                  on
-                    ? "border-border bg-muted"
-                    : "hover:bg-muted/50 border-transparent"
-                )}
-              >
-                <span className="block text-sm font-semibold">
-                  {pick(it.rule.title, lang)}
-                </span>
-                <span className="text-muted-foreground mt-1 block text-sm leading-relaxed">
-                  {pick(it.rule.body, lang)}
-                </span>
-                {it.rule.why && (
-                  <span className="text-muted-foreground/80 mt-2 block text-xs leading-relaxed">
-                    {pick(it.rule.why, lang)}
-                  </span>
-                )}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      <div>
+        <Reveal key={current.rule.id} tier="light" immediate>
+          <div className="flex max-w-prose flex-col gap-2">
+            <p className="text-foreground text-base leading-relaxed">
+              {pick(current.rule.body, lang)}
+            </p>
+            {current.rule.why && (
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                {pick(current.rule.why, lang)}
+              </p>
+            )}
+          </div>
+        </Reveal>
         <div className="border-border bg-card rounded-xl border p-2 sm:p-3">
           <Reveal key={current.rule.id} tier="light" immediate>
             {current.demo}
           </Reveal>
         </div>
-      </div>
-    </div>
+      </Tabs.Panel>
+    </Tabs.Root>
   );
 }
 
@@ -298,21 +280,7 @@ function BeforeAfter({ rule }: { rule: C.Rule }) {
           )}
         </div>
       </Reveal>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {shots.map((s, i) => (
-          <Reveal key={s.still.src} index={i}>
-            <figure className="flex flex-col gap-2">
-              <StillFrame
-                still={s.still}
-                sizes="(min-width: 768px) 480px, 100vw"
-              />
-              <figcaption className="text-muted-foreground font-mono text-xs">
-                {pick(s.label, lang)}
-              </figcaption>
-            </figure>
-          </Reveal>
-        ))}
-      </div>
+      <BeforeAfterGallery shots={shots} title={rule.title} />
     </div>
   );
 }
@@ -326,262 +294,277 @@ export function TpcPage({
 }) {
   const { lang } = useLang();
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-24 px-6 pt-8 pb-24 sm:gap-28 sm:pt-12">
-      <BackLink className="mb-0" />
+    // Clips the full-bleed bands to the viewport so they never add sideways scroll.
+    <div className="flex w-full flex-1 flex-col overflow-x-clip">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-24 px-6 pt-8 pb-24 sm:gap-28 sm:pt-12">
+        <BackLink className="mb-0" />
 
-      {/* Header */}
-      <header className="flex flex-col gap-10">
-        <div className="flex flex-col gap-3">
-          <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-            {formatYears(item)}
-          </div>
-          <h1 className="font-display text-4xl leading-tight font-bold tracking-tight sm:text-6xl">
-            <HyperText>{pick(item.title, lang)}</HyperText>{" "}
-            <span className="text-muted-foreground font-normal">
-              — {pick(C.TAGLINE, lang)}
-            </span>
-          </h1>
-        </div>
-        <div className="flex max-w-2xl flex-col gap-6">
-          <div className="flex flex-col gap-4">
-            {C.INTRO[lang].map((p, i) => (
-              <Reveal key={i} index={i}>
-                <p className="text-foreground text-base leading-relaxed">{p}</p>
-              </Reveal>
-            ))}
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-base">
-              <span className="text-muted-foreground">
-                {t("work.role", lang)}:{" "}
+        {/* Header */}
+        <header className="flex flex-col gap-10">
+          <div className="flex flex-col gap-3">
+            <div className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+              {formatYears(item)}
+            </div>
+            <h1 className="font-display text-4xl leading-tight font-bold tracking-tight sm:text-6xl">
+              <HyperText>{pick(item.title, lang)}</HyperText>{" "}
+              <span className="text-muted-foreground font-normal">
+                — {pick(C.TAGLINE, lang)}
               </span>
-              {pick(C.ROLE, lang)}
-            </p>
-            <p className="text-base">
-              <span className="text-muted-foreground">
-                {t("work.contribution", lang)}:{" "}
-              </span>
-              {C.CONTRIBUTIONS[lang].join(", ")}
-            </p>
+            </h1>
           </div>
-        </div>
-      </header>
-
-      {/* Problem */}
-      <section
-        className="border-border flex flex-col gap-10 border-t pt-10"
-        aria-labelledby="problem"
-      >
-        <Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <SectionHeading id="problem">
-              {pick(C.PROBLEM_HEADING, lang)}
-            </SectionHeading>
-            <p className="text-foreground max-w-prose text-lg leading-relaxed">
-              {pick(C.PROBLEM_LEAD, lang)}
-            </p>
-          </div>
-        </Reveal>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {C.PAINS.map((p, i) => (
-            <Reveal key={p.kind} index={i}>
-              <div className="border-border bg-card flex h-full flex-col gap-4 rounded-xl border p-5">
-                <PainFigure kind={p.kind} />
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-sm font-semibold">
-                    {pick(p.title, lang)}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {pick(p.text, lang)}
+          <div className="flex max-w-2xl flex-col gap-6">
+            <div className="flex flex-col gap-4">
+              {C.INTRO[lang].map((p, i) => (
+                <Reveal key={i} index={i}>
+                  <p className="text-foreground text-base leading-relaxed">
+                    {p}
                   </p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal>
-          <p className="bg-muted max-w-3xl rounded-xl px-6 py-5 text-lg leading-snug font-semibold">
-            {pick(C.OUTCOME, lang)}
-          </p>
-        </Reveal>
-      </section>
-
-      {/* Before: v1.0 */}
-      <section
-        className="border-border flex flex-col gap-10 border-t pt-10"
-        aria-labelledby="before"
-      >
-        <Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <SectionHeading id="before">
-              {pick(C.BEFORE_HEADING, lang)}
-            </SectionHeading>
-            <p className="text-foreground max-w-prose text-lg leading-relaxed">
-              {pick(C.BEFORE_LEAD, lang)}
-            </p>
+                </Reveal>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="text-base">
+                <span className="text-muted-foreground">
+                  {t("work.role", lang)}:{" "}
+                </span>
+                {pick(C.ROLE, lang)}
+              </p>
+              <p className="text-base">
+                <span className="text-muted-foreground">
+                  {t("work.contribution", lang)}:{" "}
+                </span>
+                {C.CONTRIBUTIONS[lang].join(", ")}
+              </p>
+            </div>
           </div>
-        </Reveal>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {C.BEFORE_ISSUES.map((issue, i) => (
-            <Reveal key={issue.id} index={i}>
-              <div className="border-border bg-card flex h-full flex-col gap-1.5 rounded-xl border p-5">
-                <h3 className="text-sm font-semibold">
-                  {pick(issue.title, lang)}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {pick(issue.text, lang)}
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <BeforeAfter rule={C.BEFORE_EXAMPLE} />
-      </section>
+        </header>
 
-      {/* What we did */}
-      <section
-        className="border-border flex flex-col gap-16 border-t pt-10"
-        aria-labelledby="did"
-      >
-        <Reveal>
-          <SectionHeading id="did">{pick(C.DID_HEADING, lang)}</SectionHeading>
-        </Reveal>
-
-        <Step n={1} title={C.STEP_UX.title} body={C.STEP_UX.body}>
-          <div className="flex flex-col gap-12">
-            <Split
-              rule={C.UX_RULES.overview}
-              screen={<ClipSlot id="overview" />}
-            />
-            <Split
-              rule={C.UX_RULES.assignment}
-              screen={<ClipSlot id="assignment" />}
-            />
-          </div>
-        </Step>
-
-        <Step n={2} title={C.STEP_FLOWS.title} body={C.STEP_FLOWS.body}>
+        {/* Problem */}
+        <section
+          className="border-border flex flex-col gap-10 border-t pt-10"
+          aria-labelledby="problem"
+        >
           <Reveal>
-            <div className="flex flex-col gap-3">
-              <FlowWalkthrough steps={C.FLOW_STEPS} />
-              <p className="text-muted-foreground text-sm">
-                {pick(C.FLOW_CAPTION, lang)}
+            <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+              <SectionHeading id="problem">
+                {pick(C.PROBLEM_HEADING, lang)}
+              </SectionHeading>
+              <p className="text-foreground max-w-prose text-lg leading-relaxed">
+                {pick(C.PROBLEM_LEAD, lang)}
               </p>
             </div>
           </Reveal>
-          <RuleExplorer
-            items={[
-              { rule: C.FLOW_RULES[0], demo: <ClipSlot id="back" /> },
-              { rule: C.FLOW_RULES[1], demo: <ClipSlot id="preview" /> },
-              { rule: C.FLOW_RULES[2], demo: <ClipSlot id="disabled" /> },
-              { rule: C.FLOW_RULES[3], demo: <ClipSlot id="rows" /> },
-            ]}
-          />
-        </Step>
-
-        <Step n={3} title={C.STEP_BEHAVIOR.title} body={C.STEP_BEHAVIOR.body}>
-          <RuleExplorer
-            items={[
-              { rule: C.BEHAVIOR_RULES[0], demo: <ClipSlot id="rows" /> },
-              { rule: C.BEHAVIOR_RULES[1], demo: <ClipSlot id="terms" /> },
-              { rule: C.EMPTY_RULE, demo: <ClipSlot id="empty" /> },
-            ]}
-          />
-          <EmptyGallery
-            heading={
-              <h4 className="text-base font-semibold">
-                {pick(C.EMPTY_GALLERY_HEADING, lang)}
-              </h4>
-            }
-          />
-        </Step>
-
-        <Step n={4} title={C.STEP_REQS.title} body={C.STEP_REQS.body}>
-          <ClipSlot id="requirements" />
-        </Step>
-      </section>
-
-      {/* Cleanup */}
-      <section
-        className="border-border flex flex-col gap-10 border-t pt-10"
-        aria-labelledby="cleanup"
-      >
-        <Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <SectionHeading id="cleanup">
-              {pick(C.CLEANUP_HEADING, lang)}
-            </SectionHeading>
-            <div className="flex max-w-prose flex-col gap-4">
-              {C.CLEANUP_PARAS.map((p, i) => (
-                <Para key={i} text={p} />
-              ))}
-            </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {C.PAINS.map((p, i) => (
+              <Reveal key={p.kind} index={i}>
+                <div className="border-border bg-card flex h-full flex-col gap-4 rounded-xl border p-5">
+                  <PainFigure kind={p.kind} />
+                  <div className="flex flex-col gap-1.5">
+                    <h3 className="text-sm font-semibold">
+                      {pick(p.title, lang)}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {pick(p.text, lang)}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {C.CLEANUP_STATS.map((s, i) => (
-            <Reveal key={s.id} index={i}>
-              <div className="border-border bg-card flex h-full flex-col gap-2 rounded-xl border p-5">
-                <p className="font-display text-4xl leading-none font-bold tracking-tight">
-                  {pick(s.value, lang)}
-                </p>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {pick(s.label, lang)}
+          <Reveal>
+            <p className="dark bg-card text-foreground font-display rounded-2xl px-8 py-10 text-2xl leading-tight font-bold tracking-tight text-balance sm:px-12 sm:py-14 sm:text-3xl">
+              {pick(C.OUTCOME, lang)}
+            </p>
+          </Reveal>
+        </section>
+
+        {/* Before: v1.0 */}
+        <section
+          className="border-border flex flex-col gap-10 border-t pt-10"
+          aria-labelledby="before"
+        >
+          <Reveal>
+            <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+              <SectionHeading id="before">
+                {pick(C.BEFORE_HEADING, lang)}
+              </SectionHeading>
+              <p className="text-foreground max-w-prose text-lg leading-relaxed">
+                {pick(C.BEFORE_LEAD, lang)}
+              </p>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {C.BEFORE_ISSUES.map((issue, i) => (
+              <Reveal key={issue.id} index={i}>
+                <div className="border-border bg-card flex h-full flex-col gap-1.5 rounded-xl border p-5">
+                  <h3 className="text-sm font-semibold">
+                    {pick(issue.title, lang)}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {pick(issue.text, lang)}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <BeforeAfter rule={C.BEFORE_EXAMPLE} />
+        </section>
+
+        {/* What we did */}
+        <section
+          className="relative isolate flex flex-col gap-16 py-16 sm:py-20"
+          aria-labelledby="did"
+        >
+          {/* Grey band, full width: the working screens sit on a surface of their own. */}
+          <div
+            aria-hidden
+            className="bg-muted dark:bg-muted/50 absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
+          />
+          <Reveal>
+            <SectionHeading id="did">
+              {pick(C.DID_HEADING, lang)}
+            </SectionHeading>
+          </Reveal>
+
+          <Step n={1} title={C.STEP_UX.title} body={C.STEP_UX.body}>
+            <div className="flex flex-col gap-12">
+              <Split
+                rule={C.UX_RULES.overview}
+                screen={<ClipSlot id="overview" />}
+              />
+              <Split
+                rule={C.UX_RULES.assignment}
+                screen={<ClipSlot id="assignment" />}
+              />
+            </div>
+          </Step>
+
+          <Step n={2} title={C.STEP_FLOWS.title} body={C.STEP_FLOWS.body}>
+            <Reveal>
+              <div className="flex flex-col gap-3">
+                <FlowWalkthrough steps={C.FLOW_STEPS} />
+                <p className="text-muted-foreground text-sm">
+                  {pick(C.FLOW_CAPTION, lang)}
                 </p>
               </div>
             </Reveal>
-          ))}
-        </div>
-      </section>
+            <RuleExplorer
+              items={[
+                { rule: C.FLOW_RULES[0], demo: <ClipSlot id="back" /> },
+                { rule: C.FLOW_RULES[1], demo: <ClipSlot id="preview" /> },
+                { rule: C.FLOW_RULES[2], demo: <ClipSlot id="disabled" /> },
+                { rule: C.FLOW_RULES[3], demo: <ClipSlot id="rows" /> },
+              ]}
+            />
+          </Step>
 
-      {/* Design system */}
-      <section
-        className="border-border flex flex-col gap-8 border-t pt-10"
-        aria-labelledby="ds"
-      >
-        <Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <SectionHeading id="ds">{pick(C.DS_HEADING, lang)}</SectionHeading>
-            <div className="flex max-w-prose flex-col gap-4">
-              {C.DS_PARAS.map((p, i) => (
-                <Para key={i} text={p} />
-              ))}
+          <Step n={3} title={C.STEP_BEHAVIOR.title} body={C.STEP_BEHAVIOR.body}>
+            <RuleExplorer
+              items={[
+                { rule: C.BEHAVIOR_RULES[0], demo: <ClipSlot id="rows" /> },
+                { rule: C.BEHAVIOR_RULES[1], demo: <ClipSlot id="terms" /> },
+                { rule: C.EMPTY_RULE, demo: <ClipSlot id="empty" /> },
+              ]}
+            />
+            <EmptyGallery
+              heading={
+                <h4 className="text-base font-semibold">
+                  {pick(C.EMPTY_GALLERY_HEADING, lang)}
+                </h4>
+              }
+            />
+          </Step>
+
+          <Step n={4} title={C.STEP_REQS.title} body={C.STEP_REQS.body}>
+            <ClipSlot id="requirements" />
+          </Step>
+        </section>
+
+        {/* Cleanup */}
+        <section
+          className="border-border flex flex-col gap-10 border-t pt-10"
+          aria-labelledby="cleanup"
+        >
+          <Reveal>
+            <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+              <SectionHeading id="cleanup">
+                {pick(C.CLEANUP_HEADING, lang)}
+              </SectionHeading>
+              <div className="flex max-w-prose flex-col gap-4">
+                {C.CLEANUP_PARAS.map((p, i) => (
+                  <Para key={i} text={p} />
+                ))}
+              </div>
             </div>
+          </Reveal>
+          {/* The numbers on a dark block, divided by hairlines rather than three cards. */}
+          <div className="dark bg-border text-foreground grid grid-cols-1 gap-px overflow-hidden rounded-2xl sm:grid-cols-3">
+            {C.CLEANUP_STATS.map((s, i) => (
+              <Reveal key={s.id} index={i} className="bg-card">
+                <div className="flex h-full flex-col gap-3 p-6 sm:p-8">
+                  <p className="font-display text-4xl leading-none font-bold tracking-tight">
+                    {pick(s.value, lang)}
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {pick(s.label, lang)}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
-        <Reveal>
-          <p className="bg-muted max-w-3xl rounded-xl px-6 py-5 text-lg leading-snug font-semibold">
-            {pick(C.DS_QUOTE, lang)}
-          </p>
-        </Reveal>
-        <Split rule={C.DS_RULE} screen={<BackDemoCard />} />
-      </section>
+        </section>
 
-      {/* Test */}
-      <section
-        className="border-border flex flex-col gap-8 border-t pt-10"
-        aria-labelledby="test"
-      >
-        <Reveal>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <SectionHeading id="test">
-              {pick(C.TEST_HEADING, lang)}
-            </SectionHeading>
-            <div className="flex max-w-prose flex-col gap-4">
-              {C.TEST_PARAS.map((p, i) => (
-                <Para key={i} text={p} />
-              ))}
+        {/* Design system */}
+        <section
+          className="border-border flex flex-col gap-8 border-t pt-10"
+          aria-labelledby="ds"
+        >
+          <Reveal>
+            <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+              <SectionHeading id="ds">
+                {pick(C.DS_HEADING, lang)}
+              </SectionHeading>
+              <div className="flex max-w-prose flex-col gap-4">
+                {C.DS_PARAS.map((p, i) => (
+                  <Para key={i} text={p} />
+                ))}
+              </div>
             </div>
-          </div>
-        </Reveal>
-        <Reveal>
-          <p className="bg-muted max-w-3xl rounded-xl px-6 py-5 text-lg leading-snug font-semibold">
-            {pick(C.TEST_MISS, lang)}
-          </p>
-        </Reveal>
-      </section>
+          </Reveal>
+          <Reveal>
+            <p className="dark bg-card text-foreground font-display rounded-2xl px-8 py-10 text-2xl leading-tight font-bold tracking-tight text-balance sm:px-12 sm:py-14 sm:text-3xl">
+              {pick(C.DS_QUOTE, lang)}
+            </p>
+          </Reveal>
+          <Split rule={C.DS_RULE} screen={<BackDemoCard />} />
+        </section>
 
-      <MoreWork excludeSlug={item.slug} limit={3} />
-    </main>
+        {/* Test */}
+        <section
+          className="border-border flex flex-col gap-8 border-t pt-10"
+          aria-labelledby="test"
+        >
+          <Reveal>
+            <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+              <SectionHeading id="test">
+                {pick(C.TEST_HEADING, lang)}
+              </SectionHeading>
+              <div className="flex max-w-prose flex-col gap-4">
+                {C.TEST_PARAS.map((p, i) => (
+                  <Para key={i} text={p} />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+          <Reveal>
+            <p className="dark bg-card text-foreground font-display rounded-2xl px-8 py-10 text-2xl leading-tight font-bold tracking-tight text-balance sm:px-12 sm:py-14 sm:text-3xl">
+              {pick(C.TEST_MISS, lang)}
+            </p>
+          </Reveal>
+        </section>
+
+        <MoreWork excludeSlug={item.slug} limit={3} />
+      </main>
+    </div>
   );
 }

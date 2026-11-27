@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 /**
  * The dot-grid pieces of the mark: a coarse lattice-to-X toggle, and the detailed
@@ -152,7 +153,7 @@ function DotField({
             initial={false}
             animate={{ opacity: cell.on[active] ? 1 : 0 }}
             transition={{
-              duration: 0.22,
+              duration: DURATION.base,
               delay: shared ? 0 : d * stagger,
               ease: EASE_SOFT,
             }}
@@ -249,7 +250,7 @@ export function DotToggle({
             }}
             initial={false}
             animate={{ opacity: on ? lit : 0 }}
-            transition={{ duration: 0.2, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.enter, ease: EASE_SOFT }}
           />
         );
       })}

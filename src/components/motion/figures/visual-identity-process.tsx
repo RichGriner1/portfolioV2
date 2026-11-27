@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
+import { DURATION } from "@/lib/motion";
 
 // Port of the `proceso` thumb from Coherence's blog landing (blog.landing.html):
 // a vertical process timeline — spine, one pill per stage, the last stage still
@@ -38,7 +39,7 @@ export function VisualIdentityProcessFigure() {
           initial={{ scaleY: 0 }}
           whileInView={{ scaleY: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.reveal.heavy, ease: EASE_SOFT }}
         />
         {stages.map((label, i) => {
           const next = i === stages.length - 1;
@@ -50,7 +51,7 @@ export function VisualIdentityProcessFigure() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{
-                duration: 0.35,
+                duration: DURATION.base,
                 delay: 0.15 + i * 0.12,
                 ease: EASE_SOFT,
               }}

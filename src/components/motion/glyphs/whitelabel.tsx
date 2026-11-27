@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { EASE } from "@/lib/motion";
+import { DURATION, EASE } from "@/lib/motion";
 
 /**
  * Afi Simulators — WHITE-LABELING.
@@ -40,7 +40,7 @@ export function WhitelabelGlyph() {
           rest: { x: 14, opacity: 0.55 },
           hover: { x: 26, opacity: 1 },
         }}
-        transition={{ duration: 0.4, ease: EASE }}
+        transition={{ duration: DURATION.base, ease: EASE }}
       />
       <motion.rect
         y={22}
@@ -53,7 +53,7 @@ export function WhitelabelGlyph() {
           hover: { x: 14, opacity: 1 },
         }}
         transition={{
-          duration: 0.4,
+          duration: DURATION.base,
           delay: 0.06,
           ease: EASE,
         }}
@@ -69,7 +69,7 @@ export function WhitelabelGlyph() {
           hover: { x: 26, opacity: 1 },
         }}
         transition={{
-          duration: 0.4,
+          duration: DURATION.base,
           delay: 0.12,
           ease: EASE,
         }}

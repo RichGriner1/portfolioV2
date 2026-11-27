@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE, EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 const CHURN_COUNTS = [1200, 3400, 6100, 9800] as const;
 const AFTER_CHIPS = ["Audit", "Fix · one pass"] as const;
@@ -80,7 +81,7 @@ export function BoundedLoopFigure() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2, ease: EASE_SOFT }}
+                  transition={{ duration: DURATION.enter, ease: EASE_SOFT }}
                   className="text-muted-foreground/70 font-mono text-[9px] tabular-nums"
                 >
                   {count.toLocaleString()} tok
@@ -105,7 +106,7 @@ export function BoundedLoopFigure() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{
-                        duration: 0.3,
+                        duration: DURATION.base,
                         delay: i * 0.35,
                         ease: EASE_SOFT,
                       }}
@@ -122,7 +123,7 @@ export function BoundedLoopFigure() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{
-                    duration: 0.3,
+                    duration: DURATION.base,
                     delay: AFTER_CHIPS.length * 0.35,
                     ease: EASE_SOFT,
                   }}
@@ -142,7 +143,7 @@ export function BoundedLoopFigure() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{
-                  duration: 0.3,
+                  duration: DURATION.base,
                   delay: (AFTER_CHIPS.length + 1) * 0.35,
                   ease: EASE_SOFT,
                 }}

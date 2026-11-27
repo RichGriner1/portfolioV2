@@ -260,6 +260,10 @@ export type StoryMedia =
         sourceW?: number;
         /** The board takes clicks (its own ▶ and step dots), like the canvas artboard. */
         interactive?: boolean;
+        /** Follow this element inside the board: the piece takes its live box. */
+        track?: string;
+        /** Padding around a tracked element, in board px. */
+        trackPad?: number;
       }[];
       marks?: { x: number; y: number; n: number }[];
       /**
@@ -269,7 +273,9 @@ export type StoryMedia =
        */
       play?: "lab" | "case" | "reload" | "click";
       /** With `play: "click"`: the exact text of the element the board clicks. */
-      playClick?: string;
+      playClick?: string | string[];
+      /** Clicks that bring the board to the right screen before it shows. */
+      playSetup?: string[];
       /** Every item takes this item's corner radius, as drawn on the stage. */
       radiusFrom?: number;
       legend?: Bilingual<string>[];
@@ -2263,50 +2269,137 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               },
             ],
           },
+        ],
+      },
+      {
+        kicker: {
+          en: "Jubilación",
+          es: "Jubilación",
+        },
+        heading: {
+          en: "Retirement needed an objective first.",
+          // TODO(afi-redaccion)
+          es: "La jubilación necesitaba primero un objetivo.",
+        },
+        navLabel: { en: "Retirement", es: "Jubilación" },
+        body: [
           {
-            label: { en: "Answers first", es: "La respuesta primero" },
+            en: "Jubilación (retirement) had no pattern to follow and little information: a date in a dropdown and a few figures. Nobody had defined what the adviser came to do. In a team meeting we pinned it down: compare retirement ages and see how the pension changes.",
+            // TODO(afi-redaccion)
+            es: "Jubilación no tenía un patrón que seguir y apenas información: una fecha en un desplegable y unas cifras. Nadie había definido a qué venía el gestor. En una reunión de equipo lo concretamos: comparar edades de jubilación y ver cómo cambia la pensión.",
+          },
+          {
+            en: "So the age became a slider, with the date and type beside it. The ages to compare became stacked cards, each with its pension, instead of a table where the pension sat columns away from its age.",
+            // TODO(afi-redaccion)
+            es: "Así, la edad pasó a ser un control deslizante, con la fecha y el tipo al lado. Las edades para comparar pasaron a tarjetas apiladas, cada una con su pensión, en lugar de una tabla donde la pensión quedaba a varias columnas de su edad.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "Before", es: "Antes" },
             heading: {
-              en: "Every age shows its pension first.",
+              en: "A date in a list, a table behind a link.",
               // TODO(afi-redaccion)
-              es: "Cada edad enseña su pensión primero.",
+              es: "Una fecha en una lista y una tabla tras un enlace.",
             },
             body: [
               {
-                en: "The live product asked for a retirement date in a dropdown and showed one pension. Now the common ages are cards, each with its pension, before you choose. We tried eight directions; this was the eighth.",
+                en: "In the live product you pick a date from a list. The other ages hide under «Ver otras opciones» (see other options), in a table where each pension sits four columns from its age.",
                 // TODO(afi-redaccion)
-                es: "El producto en vivo pedía una fecha de jubilación en un desplegable y enseñaba una pensión. Ahora las edades habituales son tarjetas, cada una con su pensión, antes de elegir. Probamos ocho direcciones; esta fue la octava.",
+                es: "En el producto en vivo se elige una fecha de una lista. Las demás edades se esconden tras «Ver otras opciones», en una tabla donde cada pensión queda a cuatro columnas de su edad.",
               },
             ],
             media: [
               {
                 kind: "composition",
                 title: {
-                  en: "One age from a dropdown, then every age as a card with its pension",
-                  es: "Una edad desde un desplegable y después cada edad como tarjeta con su pensión",
+                  en: "The live product's Jubilación page opening its table of other ages",
+                  es: "La página Jubilación del producto en vivo abriendo su tabla de otras edades",
                 },
-                aspect: 1.25,
+                play: "click",
+                playSetup: [
+                  "Plan patrimonial",
+                  "Jubilación/retiro",
+                  "Siguiente",
+                  "Siguiente",
+                  "Omitir",
+                ],
+                // Open the table, then choose another age in it.
+                playClick: ["Ver otras opciones", "Anticipada voluntaria"],
                 items: [
                   {
-                    image: "/work/wealth-planner/live-jub.jpg",
-                    imageRatio: 0.2593,
+                    src: "/work/wealth-planner/demo/wp361.html",
+                    // Just the result card; the piece grows as its table opens.
+                    rect: { x: 295, y: 292, w: 1040, h: 116 },
+                    track: ".afi-summarypanel",
                     x: 50,
-                    y: 25,
-                    w: 72,
+                    y: 50,
+                    w: 90,
                     label: {
                       en: "The live product",
                       es: "El producto en vivo",
                     },
                     radius: 8,
                   },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "After", es: "Después" },
+            heading: {
+              en: "Slide the age, see the pension.",
+              // TODO(afi-redaccion)
+              es: "Desliza la edad y ve la pensión.",
+            },
+            body: [
+              {
+                en: "The age is a slider, with the date and the type of retirement as a tag beside it. Common ages are stacked cards: age, type and pension together. Press one and the figures below change.",
+                // TODO(afi-redaccion)
+                es: "La edad es un control deslizante, con la fecha y el tipo de jubilación como etiqueta al lado. Las edades habituales son tarjetas apiladas: edad, tipo y pensión juntos. Al pulsar una, cambian las cifras de abajo.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The redesigned Jubilación in three pieces: the age with its slider, the age cards and the pension",
+                  es: "Jubilación rediseñada: un control deslizante y tarjetas de edad",
+                },
+                play: "click",
+                // Move the slider a few times, then press two of the age cards.
+                playClick: [
+                  "range:59",
+                  "range:64",
+                  "range:68",
+                  "63 años",
+                  "70 años",
+                ],
+                items: [
                   {
-                    src: "/work/wealth-planner/demo/wp-jub.html",
-                    rect: { x: 72, y: 338, w: 671, h: 347 },
+                    src: "/work/wealth-planner/demo/wp-jub-pieces.html",
+                    rect: { x: 72, y: 338, w: 682, h: 118 },
                     x: 50,
-                    y: 70,
-                    w: 72,
+                    y: 17.26,
+                    w: 90,
                     label: { en: "Iteration 9", es: "Iteración 9" },
-                    fade: "bottom",
-                    radius: 10,
+                    radius: 12,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-jub-pieces.html",
+                    rect: { x: 72, y: 476, w: 682, h: 100 },
+                    x: 50,
+                    y: 46.67,
+                    w: 90,
+                    radius: 12,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-jub-pieces.html",
+                    rect: { x: 72, y: 608, w: 682, h: 75 },
+                    x: 50,
+                    y: 71.55,
+                    w: 90,
+                    radius: 12,
                   },
                 ],
               },

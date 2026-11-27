@@ -1069,7 +1069,12 @@ function BeatRow({
           >
             <BeatContext.Provider value={true}>
               {media.map((m, k) => (
-                <Media key={`${k}-${m.kind}`} media={m} />
+                <Media
+                  // Keyed by its own title, so a switch gives each tab a fresh
+                  // visual: its play runs once for it, not once for the beat.
+                  key={`${k}-${m.kind}-${"title" in m && m.title ? m.title.en : ""}`}
+                  media={m}
+                />
               ))}
             </BeatContext.Provider>
           </div>
@@ -1304,9 +1309,16 @@ function Composition({
   }, []);
   // Inside a beat the stage fits its contents: the items' bounding box plus the same
   // padding on every side, so every card in the story has the same air around it.
-  const geo = media.items.map((it) => {
+  // `track`: the piece follows an element inside its board (its live box plus
+  // `trackPad`), so it grows when the component opens.
+  const [tracked, setTracked] = useState<
+    Record<number, { x: number; y: number; w: number; h: number }>
+  >({});
+  const rectOf = (k: number) => tracked[k] ?? media.items[k].rect;
+  const geo = media.items.map((it, k) => {
     const w = it.w / 100;
-    const h = w * (it.rect ? it.rect.h / it.rect.w : (it.imageRatio ?? 0.625));
+    const r = rectOf(k);
+    const h = w * (r ? r.h / r.w : (it.imageRatio ?? 0.625));
     return {
       l: it.x / 100 - w / 2,
       t: it.y / 100 / aspect - h / 2,
@@ -1374,14 +1386,62 @@ function Composition({
   // "click": press the element whose own text is `playClick`, as a person would.
   // A replay reloads the board first, so it starts closed again.
   const pendingClick = useRef(false);
-  const clickIn = (doc: Document) => {
-    const el = [...doc.querySelectorAll("body *")].find(
-      (e) =>
-        e.children.length === 0 && e.textContent?.trim() === media.playClick
+  // `playSetup`: clicks that bring the board to the right screen first (open a
+  // plan, go to a page). They run hidden on every load; the piece shows after.
+  // Lab boards run their animation once on load; they stay hidden until the
+  // stage plays them, so the reader sees it once, not twice.
+  const [veiled, setVeiled] = useState(
+    Boolean(media.playSetup?.length) || media.play === "lab"
+  );
+  const runSetup = async (doc: Document) => {
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    await wait(1500);
+    for (const t of media.playSetup ?? []) {
+      clickIn(doc, t);
+      await wait(700);
+    }
+  };
+  const steps = Array.isArray(media.playClick)
+    ? media.playClick
+    : media.playClick
+      ? [media.playClick]
+      : [];
+  // One step: "range:N" moves the board's first slider to N; anything else is
+  // the text of the control to press.
+  const stepIn = (doc: Document, step: string) => {
+    if (step.startsWith("range:")) {
+      const input = doc.querySelector<HTMLInputElement>('input[type="range"]');
+      const win = doc.defaultView;
+      if (!input || !win) return;
+      Object.getOwnPropertyDescriptor(
+        win.HTMLInputElement.prototype,
+        "value"
+      )?.set?.call(input, step.slice(6));
+      input.dispatchEvent(new win.Event("input", { bubbles: true }));
+      input.dispatchEvent(new win.Event("change", { bubbles: true }));
+    } else clickIn(doc, step);
+  };
+  const runSteps = (doc: Document) =>
+    steps.forEach((st, i) => setTimeout(() => stepIn(doc, st), i * 1600));
+  const clickIn = (doc: Document, text?: string) => {
+    // The deepest element whose text is exactly `text`, first in the page.
+    const all = [...doc.querySelectorAll("body *")].filter(
+      (e) => e.textContent?.trim() === text
     );
-    (
-      (el?.closest("tr,button,a,[role=button],li") ?? el) as HTMLElement | null
-    )?.click();
+    const el = all.find((e) => !all.some((o) => o !== e && e.contains(o)));
+    const target = (el?.closest("tr,button,a,[role=button],li") ??
+      el) as HTMLElement | null;
+    if (!target) return;
+    // The full press, for controls that listen to pointer events, not only click.
+    const win = doc.defaultView ?? window;
+    for (const type of ["pointerdown", "mousedown", "pointerup", "mouseup"])
+      target.dispatchEvent(
+        new (type.startsWith("pointer") ? win.PointerEvent : win.MouseEvent)(
+          type,
+          { bubbles: true, cancelable: true }
+        )
+      );
+    target.click();
   };
   const play = () => {
     frames.current.forEach((f) => {
@@ -1390,29 +1450,35 @@ function Composition({
       if (media.play === "click") {
         if (played.current && doc.body.dataset.clicked) {
           pendingClick.current = true;
+          if (media.playSetup?.length) setVeiled(true);
           f.contentWindow?.location.reload();
         } else {
           doc.body.dataset.clicked = "1";
-          clickIn(doc);
+          runSteps(doc);
         }
         return;
       }
       if (media.play === "reload") f.contentWindow?.location.reload();
       else if (media.play === "case")
         (doc.querySelector(".r4-demo__play") as HTMLElement | null)?.click();
-      else
+      else {
         (
           [...doc.querySelectorAll("button")].find((b) =>
             b.textContent?.includes("Repetir")
           ) as HTMLElement | undefined
         )?.click();
+        setVeiled(false);
+      }
     });
   };
   useEffect(() => {
     if (!media.play || played.current || !seen || loaded < liveCount) return;
     played.current = true;
     // Give the board a moment to mount its components after load.
-    const t = setTimeout(play, media.play === "reload" ? 0 : 900);
+    const t = setTimeout(
+      play,
+      media.play === "reload" ? 0 : media.play === "click" ? 1800 : 900
+    );
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seen, loaded, liveCount, media.play]);
@@ -1455,7 +1521,19 @@ function Composition({
                 ? "linear-gradient(180deg, #000 72%, transparent)"
                 : undefined;
           return (
-            <div key={k} className="absolute" style={{ left, top, width: iw }}>
+            <div
+              key={k}
+              className="absolute"
+              style={{
+                left,
+                top,
+                width: iw,
+                // Hidden while its board gets ready, then fades in: never an empty
+                // white card.
+                opacity: veiled && it.src ? 0 : 1,
+                transition: "opacity 300ms",
+              }}
+            >
               {it.label && (
                 <span
                   className="absolute -top-5 left-0 text-[11px] font-medium text-[#4f5761]"
@@ -1476,8 +1554,8 @@ function Composition({
                       ? sharedRadius
                       : it.radius !== undefined
                         ? it.radius *
-                          (it.rect
-                            ? iw / it.rect.w
+                          (rectOf(k)
+                            ? iw / rectOf(k)!.w
                             : it.sourceW
                               ? iw / it.sourceW
                               : 1)
@@ -1498,7 +1576,7 @@ function Composition({
                 ) : (
                   near &&
                   it.src &&
-                  it.rect && (
+                  rectOf(k) && (
                     <iframe
                       ref={(el) => {
                         frames.current[k] = el;
@@ -1515,14 +1593,42 @@ function Composition({
                             "*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}";
                           d.head.appendChild(st);
                         }
-                        if (pendingClick.current && d) {
-                          pendingClick.current = false;
-                          setTimeout(() => {
-                            d.body.dataset.clicked = "1";
-                            clickIn(d);
-                          }, 1400);
-                        }
-                        setLoaded((n) => n + 1);
+                        const after = () => {
+                          if (it.track && d) {
+                            const el = d.querySelector<HTMLElement>(it.track);
+                            const pad = it.trackPad ?? 0;
+                            const read = () => {
+                              if (!el) return;
+                              const r = el.getBoundingClientRect();
+                              setTracked((m) => ({
+                                ...m,
+                                [k]: {
+                                  x: r.x - pad,
+                                  y: r.y - pad,
+                                  w: r.width + 2 * pad,
+                                  h: r.height + 2 * pad,
+                                },
+                              }));
+                            };
+                            read();
+                            if (el && d.defaultView)
+                              new d.defaultView.ResizeObserver(read).observe(
+                                el
+                              );
+                          }
+                          if (media.play !== "lab") setVeiled(false);
+                          if (pendingClick.current && d) {
+                            pendingClick.current = false;
+                            setTimeout(() => {
+                              d.body.dataset.clicked = "1";
+                              runSteps(d);
+                            }, 900);
+                          }
+                          setLoaded((n) => n + 1);
+                        };
+                        if (media.playSetup?.length && d) {
+                          void runSetup(d).then(after);
+                        } else after();
                       }}
                       src={it.src}
                       title=""
@@ -1536,7 +1642,7 @@ function Composition({
                         colorScheme: "light",
                         width: it.viewport?.w ?? 1440,
                         height: it.viewport?.h ?? 900,
-                        transform: `scale(${iw / it.rect.w}) translate(${-it.rect.x}px, ${-it.rect.y}px)`,
+                        transform: `scale(${iw / rectOf(k)!.w}) translate(${-rectOf(k)!.x}px, ${-rectOf(k)!.y}px)`,
                       }}
                     />
                   )

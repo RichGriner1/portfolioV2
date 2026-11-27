@@ -137,13 +137,17 @@ function Media({ media }: { media: StoryMedia }) {
   if (media.kind === "embed") return <Embed media={media} />;
   if (media.kind === "composition")
     return (
-      <div className="flex flex-col gap-3">
+      <div className={`flex flex-col ${beat ? "" : "gap-3"}`}>
         <Composition media={media} />
         {media.legend && (
-          <ol className="text-muted-foreground flex flex-col gap-1 text-xs leading-relaxed">
+          <ol
+            className={`flex flex-col gap-1 text-xs leading-relaxed ${beat ? "px-7 pb-7 text-[#4f5761]" : "text-muted-foreground"}`}
+          >
             {media.legend.map((l, k) => (
               <li key={k} className="flex gap-2">
-                <span className="bg-foreground text-background inline-flex size-4 shrink-0 items-center justify-center rounded-full font-mono text-[9px]">
+                <span
+                  className={`inline-flex size-4 shrink-0 items-center justify-center rounded-full font-mono text-[9px] ${beat ? "bg-[#062D3F] text-white" : "bg-foreground text-background"}`}
+                >
                   {k + 1}
                 </span>
                 {pick(l, lang)}
@@ -153,7 +157,7 @@ function Media({ media }: { media: StoryMedia }) {
         )}
         {media.caption && (
           <p
-            className={`text-muted-foreground max-w-2xl leading-relaxed ${beat ? "text-xs" : "text-sm"}`}
+            className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
           >
             {pick(media.caption, lang)}
           </p>
@@ -166,7 +170,7 @@ function Media({ media }: { media: StoryMedia }) {
         <LiveCrop media={media} />
         {media.caption && (
           <p
-            className={`text-muted-foreground max-w-2xl leading-relaxed ${beat ? "text-xs" : "text-sm"}`}
+            className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
           >
             {pick(media.caption, lang)}
           </p>
@@ -183,7 +187,7 @@ function Media({ media }: { media: StoryMedia }) {
         </div>
         {media.caption && (
           <p
-            className={`text-muted-foreground max-w-2xl leading-relaxed ${beat ? "text-xs" : "text-sm"}`}
+            className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
           >
             {pick(media.caption, lang)}
           </p>
@@ -196,7 +200,7 @@ function Media({ media }: { media: StoryMedia }) {
       <Frame clip={media.clip} />
       {caption && (
         <p
-          className={`text-muted-foreground max-w-2xl leading-relaxed ${beat ? "text-xs" : "text-sm"}`}
+          className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
         >
           {caption}
         </p>
@@ -791,12 +795,12 @@ function Stats({ media }: { media: Extract<StoryMedia, { kind: "stats" }> }) {
   const beat = useContext(BeatContext);
   return (
     <dl
-      className={`grid grid-cols-2 gap-px overflow-hidden rounded-xl ${beat ? "bg-[#e4e7eb]" : "bg-border border-border border sm:grid-cols-4"}`}
+      className={`grid grid-cols-2 gap-px overflow-hidden rounded-xl ${beat ? "rounded-none bg-[#dde2e8]" : "bg-border border-border border sm:grid-cols-4"}`}
     >
       {media.items.map((it, k) => (
         <div
           key={k}
-          className={`flex flex-col gap-1 p-5 ${beat ? "bg-[#f7f8f9] text-[#1f2328]" : "bg-background"}`}
+          className={`flex flex-col gap-1 p-5 ${beat ? "bg-[#eef1f4] p-6 text-[#1f2328]" : "bg-background"}`}
         >
           <dt className="sr-only">{pick(it.label, lang)}</dt>
           <dd
@@ -1043,7 +1047,11 @@ function BeatRow({
     >
       {top}
       <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-[minmax(0,1fr)_260px] md:gap-10">
-        <div className="bg-muted/70 flex flex-col justify-center gap-4 rounded-md p-4 sm:p-6">
+        <div
+          // One surface: the light product stage, the same in both themes, so a
+          // component never sits inside three frames.
+          className="flex flex-col justify-center overflow-hidden rounded-md bg-[#eef1f4] text-[#1f2328]"
+        >
           <div
             ref={visual}
             className="flex flex-col justify-center gap-4"
@@ -1255,12 +1263,17 @@ function LiveCrop({ media }: { media: Extract<StoryMedia, { kind: "live" }> }) {
  * read as components, not as pieces of a screen. Nothing is cropped by the stage: on a
  * phone the same picture is simply smaller.
  */
+/** Padding inside a beat's stage, on every side; the legend and caption share it. */
+const STAGE_PAD = 28;
+const REPLAY_BAND = 24;
+
 function Composition({
   media,
 }: {
   media: Extract<StoryMedia, { kind: "composition" }>;
 }) {
   const { lang } = useLang();
+  const beat = useContext(BeatContext);
   const aspect = media.aspect ?? 1.6;
   const box = useRef<HTMLDivElement>(null);
   const [W, setW] = useState(0);
@@ -1285,7 +1298,56 @@ function Composition({
       io.disconnect();
     };
   }, []);
-  const H = W / aspect;
+  // Inside a beat the stage fits its contents: the items' bounding box plus the same
+  // padding on every side, so every card in the story has the same air around it.
+  const geo = media.items.map((it) => {
+    const w = it.w / 100;
+    const h = w * (it.rect ? it.rect.h / it.rect.w : (it.imageRatio ?? 0.625));
+    return {
+      l: it.x / 100 - w / 2,
+      t: it.y / 100 / aspect - h / 2,
+      w,
+      h,
+      label: !!it.label,
+    };
+  });
+  const markPts = (media.marks ?? []).map((m) => ({
+    x: m.x / 100,
+    y: m.y / 100 / aspect,
+  }));
+  const markPx = Math.max(16, W / 30);
+  let fit: { U: number; x0: number; y0: number; h: number } | null = null;
+  if (beat && W > 0 && geo.length) {
+    let U = 1;
+    let b = { x0: 0, x1: 0, y0: 0, y1: 0 };
+    for (let pass = 0; pass < 3; pass++) {
+      const r = pass ? markPx / 2 / U : 0;
+      const lab = pass ? 22 / U : 0;
+      b = {
+        x0: Math.min(...geo.map((g) => g.l), ...markPts.map((m) => m.x - r)),
+        x1: Math.max(
+          ...geo.map((g) => g.l + g.w),
+          ...markPts.map((m) => m.x + r)
+        ),
+        y0: Math.min(
+          ...geo.map((g) => g.t - (g.label ? lab : 0)),
+          ...markPts.map((m) => m.y - r)
+        ),
+        y1: Math.max(
+          ...geo.map((g) => g.t + g.h),
+          ...markPts.map((m) => m.y + r)
+        ),
+      };
+      U = (W - 2 * STAGE_PAD) / (b.x1 - b.x0);
+    }
+    fit = {
+      U,
+      x0: b.x0,
+      y0: b.y0,
+      // A band under the content for Replay, so the button never covers the component.
+      h: (b.y1 - b.y0) * U + 2 * STAGE_PAD + (media.play ? REPLAY_BAND : 0),
+    };
+  }
   // Play once when half on screen, then on demand. The boards are same-origin copies,
   // so the stage can press their own controls.
   const frames = useRef<(HTMLIFrameElement | null)[]>([]);
@@ -1328,27 +1390,37 @@ function Composition({
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seen, loaded, liveCount, media.play]);
+  // One radius for every piece, taken from the item `radiusFrom` names, so pieces
+  // drawn at different scales still have the same corners on the stage.
+  const sharedRadius = (() => {
+    const ref =
+      media.radiusFrom !== undefined ? media.items[media.radiusFrom] : null;
+    if (!ref || ref.radius === undefined) return undefined;
+    const g = geo[media.radiusFrom!];
+    const iw = fit ? g.w * fit.U : g.w * W;
+    const base = ref.rect ? ref.rect.w : (ref.sourceW ?? iw);
+    return ref.radius * (iw / base);
+  })();
   return (
     <div
       ref={box}
       role="img"
       aria-label={pick(media.title, lang)}
-      className="relative w-full overflow-hidden rounded-md"
+      className={`relative w-full ${beat ? "" : "overflow-hidden rounded-md"}`}
       style={{
-        aspectRatio: `${aspect}`,
-        background:
-          "radial-gradient(120% 90% at 50% 40%, #f7f8f9 0%, #eceef0 100%)",
+        ...(beat && fit ? { height: fit.h } : { aspectRatio: `${aspect}` }),
+        background: beat
+          ? "transparent"
+          : "radial-gradient(120% 90% at 50% 40%, #f7f8f9 0%, #eceef0 100%)",
       }}
     >
       {W > 0 &&
         media.items.map((it, k) => {
-          const iw = (it.w / 100) * W;
-          const ratio = it.rect
-            ? it.rect.h / it.rect.w
-            : (it.imageRatio ?? 0.625);
-          const ih = iw * ratio;
-          const left = (it.x / 100) * W - iw / 2;
-          const top = (it.y / 100) * H - ih / 2;
+          const g = geo[k];
+          const iw = fit ? g.w * fit.U : g.w * W;
+          const ih = fit ? g.h * fit.U : g.h * W;
+          const left = fit ? (g.l - fit.x0) * fit.U + STAGE_PAD : g.l * W;
+          const top = fit ? (g.t - fit.y0) * fit.U + STAGE_PAD : g.t * W;
           const mask =
             it.fade === "right"
               ? "linear-gradient(90deg, #000 78%, transparent)"
@@ -1373,16 +1445,18 @@ function Composition({
                   height: ih,
                   // The component's real radius, scaled; 10 px when it has none given.
                   borderRadius:
-                    it.radius !== undefined
-                      ? it.radius *
-                        (it.rect
-                          ? iw / it.rect.w
-                          : it.sourceW
-                            ? iw / it.sourceW
-                            : 1)
-                      : it.flat
-                        ? 0
-                        : 10,
+                    sharedRadius !== undefined
+                      ? sharedRadius
+                      : it.radius !== undefined
+                        ? it.radius *
+                          (it.rect
+                            ? iw / it.rect.w
+                            : it.sourceW
+                              ? iw / it.sourceW
+                              : 1)
+                        : it.flat
+                          ? 0
+                          : 10,
                   WebkitMaskImage: mask,
                   maskImage: mask,
                 }}
@@ -1405,10 +1479,10 @@ function Composition({
                       onLoad={() => setLoaded((n) => n + 1)}
                       src={it.src}
                       title=""
-                      tabIndex={-1}
-                      aria-hidden="true"
+                      tabIndex={it.interactive ? 0 : -1}
+                      aria-hidden={it.interactive ? undefined : true}
                       loading="lazy"
-                      className="pointer-events-none absolute top-0 left-0 origin-top-left border-0"
+                      className={`absolute top-0 left-0 origin-top-left border-0 ${it.interactive ? "" : "pointer-events-none"}`}
                       style={{
                         // Same colour scheme as the board, or the browser paints an opaque
                         // white canvas behind it on the dark site.
@@ -1428,7 +1502,7 @@ function Composition({
         <button
           type="button"
           onClick={play}
-          className="focus-visible:ring-ring absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-[11px] font-medium text-[#1f2328] shadow-[0_1px_2px_rgba(0,0,0,.08),0_4px_12px_rgba(0,0,0,.08)] backdrop-blur transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:outline-none"
+          className={`focus-visible:ring-ring absolute ${fit ? "right-7 bottom-4" : "right-3 bottom-3"} inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-[11px] font-medium text-[#1f2328] shadow-[0_1px_2px_rgba(0,0,0,.08),0_4px_12px_rgba(0,0,0,.08)] backdrop-blur transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:outline-none`}
         >
           <span aria-hidden="true">↺</span>
           {lang === "es" ? "Repetir" : "Replay"}
@@ -1441,10 +1515,12 @@ function Composition({
             aria-hidden="true"
             className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#062D3F] font-mono font-medium text-white shadow-[0_0_0_3px_rgba(255,255,255,.9)]"
             style={{
-              left: `${m.x}%`,
-              top: `${m.y}%`,
-              width: Math.max(16, W / 30),
-              height: Math.max(16, W / 30),
+              left: fit ? (m.x / 100 - fit.x0) * fit.U + STAGE_PAD : `${m.x}%`,
+              top: fit
+                ? (m.y / 100 / aspect - fit.y0) * fit.U + STAGE_PAD
+                : `${m.y}%`,
+              width: markPx,
+              height: markPx,
               fontSize: Math.max(9, W / 60),
             }}
           >

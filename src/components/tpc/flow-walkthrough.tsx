@@ -39,13 +39,13 @@ const NODES: Node[] = [
   { id: "publish", col: 1, lane: "admin" },
   { id: "assign", col: 2, lane: "admin" },
   { id: "send", col: 3, lane: "admin" },
-  { id: "sign-in", col: 4, lane: "supplier" },
-  { id: "answer", col: 5, lane: "supplier" },
-  { id: "submit", col: 6, lane: "supplier" },
-  { id: "review", col: 7, lane: "review" },
-  { id: "return", col: 8, lane: "review" },
-  { id: "correct", col: 8, lane: "supplier" },
-  { id: "approve", col: 9, lane: "review" },
+  { id: "sign-in", col: 3, lane: "supplier" },
+  { id: "answer", col: 4, lane: "supplier" },
+  { id: "submit", col: 5, lane: "supplier" },
+  { id: "review", col: 5, lane: "review" },
+  { id: "return", col: 6, lane: "review" },
+  { id: "correct", col: 6, lane: "supplier" },
+  { id: "approve", col: 7, lane: "review" },
 ];
 const NODE_OF: Record<string, string> = { "review-again": "review" };
 const nodeFor = (stepId: string) => NODE_OF[stepId] ?? stepId;
@@ -109,7 +109,7 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
   return (
     <div
       ref={rootRef}
-      className="border-border/60 bg-card @container overflow-hidden rounded-xl border"
+      className="border-border/60 bg-card text-card-foreground @container overflow-hidden rounded-xl border"
       role="group"
       aria-roledescription={
         lang === "es" ? "recorrido animado" : "animated walkthrough"
@@ -380,7 +380,7 @@ function Board({
     >
       <div
         ref={gridRef}
-        className="relative grid grid-cols-[1.25rem_repeat(9,minmax(0,1fr))] grid-rows-3 gap-x-1.5 gap-y-4 @4xl:grid-cols-[5.5rem_repeat(9,minmax(0,1fr))] @4xl:gap-x-3 @4xl:gap-y-5"
+        className="relative grid grid-cols-[1.25rem_repeat(7,minmax(0,1fr))] grid-rows-3 gap-x-2 gap-y-4 @4xl:grid-cols-[5.5rem_repeat(7,minmax(0,1fr))] @4xl:gap-x-3 @4xl:gap-y-5"
       >
         {/* Lane labels and bands */}
         {(Object.keys(LANES) as Lane[]).map((lane) => (
@@ -495,7 +495,7 @@ function Board({
               }
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "relative z-10 flex min-h-11 cursor-pointer items-center justify-center rounded-lg border px-1 py-1.5 text-center text-[11px] leading-tight @4xl:min-h-12 @4xl:px-2 @4xl:py-2 @4xl:text-xs @4xl:leading-snug",
+                "relative z-10 flex min-h-11 cursor-pointer items-center justify-center rounded-lg border px-2 py-1.5 text-center text-[11px] leading-tight @4xl:min-h-12 @4xl:px-2 @4xl:py-2 @4xl:text-xs @4xl:leading-snug",
                 "focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
                 !isCurrent && "hover:border-foreground/40",
                 "ease-out-soft transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-base)]",

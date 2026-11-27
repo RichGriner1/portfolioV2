@@ -1778,17 +1778,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   "wealth-planner": {
     tagline: {
       en: "Showing advisers what a change does, while they make it",
-      // TODO(afi-redaccion)
-      es: "Enseñar al gestor qué hace un cambio mientras lo hace",
+      es: "Mostrar al gestor el efecto de cada cambio mientras lo hace",
     },
     intro: {
       en: "Wealth Planner is Afi's simulator for wealth advisers: they enter a client's family, assets, income and goals, and the plan shows what the client will have and leave behind. In three days and ten prototypes we reorganised where everything lives, so every change shows its effect while the adviser types.",
-      // TODO(afi-redaccion)
-      es: "Wealth Planner es el simulador de Afi para gestores patrimoniales: introducen la familia, el patrimonio, los ingresos y los objetivos de un cliente, y el plan enseña lo que tendrá y lo que dejará. En tres días y diez prototipos reorganizamos dónde vive cada cosa, para que cada cambio enseñe su efecto mientras el gestor escribe.",
+      es: "Wealth Planner es el simulador de Afi para gestores patrimoniales: introducen la familia, el patrimonio, los ingresos y los objetivos de un cliente, y el plan muestra lo que tendrá y lo que dejará. En tres días y diez prototipos reorganizamos dónde está cada cosa para que cada cambio muestre su efecto mientras el gestor escribe.",
     },
     role: {
       en: "Systems and UX/UI designer",
-      // TODO(afi-redaccion)
       es: "Diseñador de sistemas y UX/UI",
     },
     contributions: {
@@ -1799,7 +1796,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Prototyping",
         "Design-system proposals",
       ],
-      // TODO(afi-redaccion)
       es: [
         "Arquitectura de la información",
         "Diseño de interacción",
@@ -1813,32 +1809,27 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     demo: { href: "/work/wealth-planner/demo/P312-main.html" },
     closing: {
       en: "That's the whole idea: the plan beside the page, answering as you type.",
-      // TODO(afi-redaccion)
-      es: "Esa es toda la idea: el plan al lado de la página, respondiendo mientras escribes.",
+      es: "Toda la idea cabe aquí: el plan al lado de la página, que responde mientras escribes.",
     },
     story: [
       {
         kicker: {
           en: "Context",
-          // TODO(afi-redaccion)
           es: "Contexto",
         },
         heading: {
           en: "The team wanted the plan in view.",
-          // TODO(afi-redaccion)
           es: "El equipo quería el plan a la vista.",
         },
         navLabel: { en: "Context", es: "Contexto" },
         body: [
           {
             en: "The live product had just had a UI redesign, and we kept adding to it. The team's favourite addition was a drawer you could pin to watch the plan update live.",
-            // TODO(afi-redaccion)
-            es: "El producto en vivo acababa de tener un rediseño de la interfaz y seguíamos añadiéndole cosas. Lo que más le gustó al equipo fue un panel que se podía fijar para ver el plan actualizarse en vivo.",
+            es: "El producto en vivo acababa de estrenar una interfaz nueva y seguíamos ampliándolo. Lo que más gustó al equipo fue un panel que se podía fijar para ver cómo se actualizaba el plan en vivo.",
           },
           {
             en: "Then they asked for it half and half, beside the page. Advisers use the plan with the client in the room, so they wanted it in view, always.",
-            // TODO(afi-redaccion)
-            es: "Luego lo pidieron a mitades, al lado de la página. Los gestores usan el plan con el cliente delante, así que lo querían a la vista, siempre.",
+            es: "Después pidieron verlo a media pantalla, junto a la página. Los gestores usan el plan con el cliente delante, así que lo querían siempre a la vista.",
           },
         ],
         media: [
@@ -1846,7 +1837,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kind: "composition",
             title: {
               en: "The plan updating live after an edit",
-              es: "El plan actualizándose en vivo tras una edición",
+              es: "El plan se actualiza en vivo tras una edición",
             },
             items: [
               {
@@ -1861,8 +1852,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
             caption: {
               en: "The plan answering an edit, live.",
-              // TODO(afi-redaccion)
-              es: "El plan respondiendo a una edición, en vivo.",
+              es: "El plan responde a una edición, en vivo.",
             },
           },
         ],
@@ -1870,25 +1860,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "The problem",
-          // TODO(afi-redaccion)
           es: "El problema",
         },
         heading: {
           en: "The results lived in five places.",
-          // TODO(afi-redaccion)
           es: "Los resultados vivían en cinco sitios.",
         },
         navLabel: { en: "The problem", es: "El problema" },
         body: [
           {
             en: "It's a dense product: every page asks for a lot, and the plan answers with a lot. We had moved the detail from dialogs into drawers, which held it better, but the results were still spread across five places. You always had to go looking. Patrimonio, once its own page, had moved inside Legado: where did it go?",
-            // TODO(afi-redaccion)
-            es: "Es un producto denso: cada página pide mucho y el plan responde con mucho. Habíamos pasado el detalle de diálogos a paneles, que lo contenían mejor, pero los resultados seguían repartidos en cinco sitios. Siempre había que ir a buscarlos. Patrimonio, que antes tenía su página, ahora vivía dentro de Legado: ¿dónde se había ido?",
+            es: "Es un producto denso: cada página pide mucho y el plan responde con mucho. Habíamos pasado el detalle de diálogos a paneles, que lo contenían mejor, pero los resultados seguían repartidos en cinco sitios. Siempre había que ir a buscarlos. Patrimonio, que antes tenía su página, ahora estaba dentro de Legado: ¿dónde había ido a parar?",
           },
           {
             en: "A teammate wanted to show the AI generating the plan. With five places, there was nowhere to show it.",
-            // TODO(afi-redaccion)
-            es: "Un compañero quería enseñar a la IA generando el plan. Con cinco sitios, no había dónde enseñarlo.",
+            es: "Un compañero quería mostrar cómo la IA genera el plan. Con cinco sitios, no había dónde mostrarlo.",
           },
         ],
         media: [
@@ -1896,7 +1882,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kind: "composition",
             title: {
               en: "The live product: the five places the plan's results lived",
-              es: "El producto en vivo: los cinco sitios donde vivían los resultados del plan",
+              es: "El producto en vivo: los cinco sitios donde estaban los resultados del plan",
             },
             aspect: 1,
             radiusFrom: 1,
@@ -1943,27 +1929,22 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             legend: [
               {
                 en: "The verdict, in two pills at the top: Legado and Liquidez.",
-                // TODO(afi-redaccion)
                 es: "El veredicto, en dos píldoras arriba: Legado y Liquidez.",
               },
               {
                 en: "The page's own result cards, on Ingresos and Gastos.",
-                // TODO(afi-redaccion)
                 es: "Las tarjetas de resultados de cada página, en Ingresos y Gastos.",
               },
               {
                 en: "The detail, in the «Impacto en el plan» drawer.",
-                // TODO(afi-redaccion)
                 es: "El detalle, en el panel «Impacto en el plan».",
               },
               {
                 en: "The liquidity gap, inside Generación de liquidez.",
-                // TODO(afi-redaccion)
                 es: "El déficit de liquidez, dentro de Generación de liquidez.",
               },
               {
                 en: "The minimum return, inside each optimization's results.",
-                // TODO(afi-redaccion)
                 es: "La rentabilidad mínima, dentro de los resultados de cada optimización.",
               },
             ],
@@ -1973,25 +1954,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "The question",
-          // TODO(afi-redaccion)
           es: "La pregunta",
         },
         heading: {
           en: "What if you never left the page?",
-          // TODO(afi-redaccion)
           es: "¿Y si nunca salieras de la página?",
         },
         navLabel: { en: "The question", es: "La pregunta" },
         body: [
           {
             en: "The drawers weren't bad. People liked them, most of all pinned, with two views side by side. That was the hint.",
-            // TODO(afi-redaccion)
             es: "Los paneles no estaban mal. A la gente le gustaban, sobre todo fijados, con dos vistas una al lado de la otra. Esa fue la pista.",
           },
           {
             en: "So the design question was: what if you could do everything without leaving the workflow, and without the blur?",
-            // TODO(afi-redaccion)
-            es: "Así que la pregunta de diseño fue: ¿y si pudieras hacerlo todo sin salir del flujo de trabajo, y sin el desenfoque?",
+            es: "La pregunta de diseño fue, entonces: ¿y si pudieras hacerlo todo sin salir del flujo de trabajo y sin el desenfoque?",
           },
         ],
         media: [
@@ -1999,7 +1976,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kind: "composition",
             title: {
               en: "The live product: the plan's drawer pinned over a blurred page",
-              es: "El producto en vivo: el panel del plan fijado sobre una página emborronada",
+              es: "El producto en vivo: el panel del plan fijado sobre una página desenfocada",
             },
             items: [
               {
@@ -2018,13 +1995,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             legend: [
               {
                 en: "The drawer, pinned: people liked keeping the plan in view.",
-                // TODO(afi-redaccion)
                 es: "El panel, fijado: a la gente le gustaba tener el plan a la vista.",
               },
               {
                 en: "The page, blurred: every check meant clicking out and back in.",
-                // TODO(afi-redaccion)
-                es: "La página, emborronada: cada comprobación obligaba a salir y volver a entrar.",
+                es: "La página, desenfocada: cada comprobación obligaba a salir y volver a entrar.",
               },
             ],
           },
@@ -2033,20 +2008,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "Chapter 1 · Architecture",
-          // TODO(afi-redaccion)
           es: "Capítulo 1 · Arquitectura",
         },
         heading: {
           en: "One place for everything: menu, form, plan.",
-          // TODO(afi-redaccion)
           es: "Un solo sitio para todo: menú, formulario, plan.",
         },
         navLabel: { en: "Architecture", es: "Arquitectura" },
         body: [
           {
             en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Tesler's law guided it: complexity can't be removed, only moved, so the product carries it.",
-            // TODO(afi-redaccion)
-            es: "Las 27 piezas que el producto en vivo enseñaba fuera de la página tuvieron un solo sitio cada una, y el menú pasó de 13 páginas a 7. Nos guio la ley de Tesler: la complejidad no se elimina, solo se traslada, así que la carga el producto.",
+            es: "Cada una de las 27 piezas que el producto en vivo mostraba fuera de la página pasó a tener un solo sitio, y el menú bajó de 13 páginas a 7. Nos guio la ley de Tesler: la complejidad no se elimina, solo se traslada, así que la asume el producto.",
           },
         ],
         switch: [
@@ -2054,13 +2026,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Menu, form, plan", es: "Menú, formulario, plan" },
             heading: {
               en: "Left to right.",
-              // TODO(afi-redaccion)
               es: "De izquierda a derecha.",
             },
             body: [
               {
                 en: "The menu says where you are, the form is the page you edit, and the plan answers it.",
-                // TODO(afi-redaccion)
                 es: "El menú dice dónde estás, el formulario es la página que editas y el plan le responde.",
               },
             ],
@@ -2106,17 +2076,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 legend: [
                   {
                     en: "Menu · where you are",
-                    // TODO(afi-redaccion)
                     es: "Menú · dónde estás",
                   },
                   {
                     en: "Form · what you change",
-                    // TODO(afi-redaccion)
                     es: "Formulario · lo que cambias",
                   },
                   {
                     en: "Plan · what it does",
-                    // TODO(afi-redaccion)
                     es: "Plan · lo que hace",
                   },
                 ],
@@ -2127,19 +2094,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Follows the page", es: "Sigue a la página" },
             heading: {
               en: "The plan opens on what the page affects.",
-              // TODO(afi-redaccion)
-              es: "El plan se abre en lo que la página afecta.",
+              es: "El plan abre lo que la página afecta.",
             },
             body: [
               {
                 en: "The live product's two pills were the same on every page. Now each page opens the plan tab it affects: Ingresos opens Liquidez.",
-                // TODO(afi-redaccion)
                 es: "Las dos píldoras del producto en vivo eran iguales en todas las páginas. Ahora cada página abre la pestaña del plan a la que afecta: Ingresos abre Liquidez.",
               },
               {
                 en: "A switch to choose the tab came first. It was one more thing to manage, so it went.",
-                // TODO(afi-redaccion)
-                es: "Primero hubo un interruptor para elegir la pestaña. Era una cosa más que gestionar, así que se fue.",
+                es: "Primero hubo un interruptor para elegir la pestaña. Era una cosa más que gestionar, así que lo quitamos.",
               },
             ],
             media: [
@@ -2179,14 +2143,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Detail in place", es: "Detalle en su sitio" },
             heading: {
               en: "The detail never covers the page.",
-              // TODO(afi-redaccion)
               es: "El detalle nunca tapa la página.",
             },
             body: [
               {
                 en: "The detail unfolds inside the plan, beside the page, instead of in a drawer over it. From 1680 px, page and plan split the screen in half: the double screen the team asked for.",
-                // TODO(afi-redaccion)
-                es: "El detalle se despliega dentro del plan, al lado de la página, en vez de en un panel encima. Desde 1680 px, página y plan se reparten la pantalla a mitades: la pantalla doble que pidió el equipo.",
+                es: "El detalle se despliega dentro del plan, al lado de la página, en lugar de en un panel superpuesto. A partir de 1.680 px, página y plan se reparten la pantalla a partes iguales: la pantalla doble que pidió el equipo.",
               },
             ],
             media: [
@@ -2194,7 +2156,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "composition",
                 title: {
                   en: "The drawer over the page, and the detail beside it in iteration 1",
-                  es: "El panel encima de la página y el detalle a su lado en la iteración 1",
+                  es: "El panel superpuesto a la página y, en la iteración 1, el detalle a su lado",
                 },
                 items: [
                   {
@@ -2227,20 +2189,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "Chapter 2 · The UI",
-          // TODO(afi-redaccion)
           es: "Capítulo 2 · La interfaz",
         },
         heading: {
           en: "Calmer, and you edit where you read.",
-          // TODO(afi-redaccion)
-          es: "Más tranquila, y se edita donde se lee.",
+          es: "Más tranquila: se edita donde se lee.",
         },
         navLabel: { en: "The UI", es: "La interfaz" },
         body: [
           {
             en: "The team liked the newer Afi apps design system, so we brought in its structure, tokens and micro-animations. Tables follow rows.gg: you edit a row where it sits. Stripe set the bar for calm density.",
-            // TODO(afi-redaccion)
-            es: "Al equipo le gustaba el sistema de diseño Afi apps, más nuevo, así que trajimos su estructura, sus tokens y sus microanimaciones. Las tablas siguen a rows.gg: una fila se edita donde está. Stripe marcó el listón de la densidad tranquila.",
+            es: "Al equipo le gustaba Afi apps, el sistema de diseño más reciente, así que adoptamos su estructura, sus tokens y sus microanimaciones. Las tablas siguen el modelo de rows.gg: cada fila se edita donde está. Stripe fijó el listón de una densidad tranquila.",
           },
         ],
         switch: [
@@ -2248,14 +2207,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Tables in place", es: "Tablas en su sitio" },
             heading: {
               en: "Edit a row where it sits.",
-              // TODO(afi-redaccion)
               es: "Una fila se edita donde está.",
             },
             body: [
               {
                 en: "No dialog to add or change an income: the row opens in the list, the plan beside it recalculates, and figures count up to their new value.",
-                // TODO(afi-redaccion)
-                es: "Sin diálogo para añadir o cambiar un ingreso: la fila se abre en la lista, el plan de al lado recalcula y las cifras suben hasta su nuevo valor.",
+                es: "Sin diálogo para añadir o cambiar un ingreso: la fila se abre en la lista, el plan contiguo se recalcula y las cifras suben hasta su nuevo valor.",
               },
             ],
             media: [
@@ -2290,20 +2247,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         heading: {
           en: "Retirement needed an objective first.",
-          // TODO(afi-redaccion)
           es: "La jubilación necesitaba primero un objetivo.",
         },
         navLabel: { en: "Retirement", es: "Jubilación" },
         body: [
           {
             en: "Jubilación (retirement) had no pattern to follow and little information: a date in a dropdown and a few figures. Nobody had defined what the adviser came to do. In a team meeting we pinned it down: compare retirement ages and see how the pension changes.",
-            // TODO(afi-redaccion)
-            es: "Jubilación no tenía un patrón que seguir y apenas información: una fecha en un desplegable y unas cifras. Nadie había definido a qué venía el gestor. En una reunión de equipo lo concretamos: comparar edades de jubilación y ver cómo cambia la pensión.",
+            es: "La página Jubilación no seguía ningún patrón y apenas tenía información: una fecha en un desplegable y unas cifras. Nadie había definido qué venía a hacer el gestor. En una reunión de equipo lo concretamos: comparar edades de jubilación y ver cómo cambia la pensión.",
           },
           {
             en: "So the age became a slider, with the date and type beside it. The ages to compare became stacked cards, each with its pension, instead of a table where the pension sat columns away from its age.",
-            // TODO(afi-redaccion)
-            es: "Así, la edad pasó a ser un control deslizante, con la fecha y el tipo al lado. Las edades para comparar pasaron a tarjetas apiladas, cada una con su pensión, en lugar de una tabla donde la pensión quedaba a varias columnas de su edad.",
+            es: "Por eso la edad se convirtió en un control deslizante, con la fecha y el tipo al lado, y las edades que se comparan, en tarjetas apiladas con su pensión, en lugar de una tabla donde la pensión quedaba a varias columnas de su edad.",
           },
         ],
         switch: [
@@ -2311,13 +2265,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Before", es: "Antes" },
             heading: {
               en: "A date in a list, a table behind a link.",
-              // TODO(afi-redaccion)
               es: "Una fecha en una lista y una tabla tras un enlace.",
             },
             body: [
               {
                 en: "In the live product you pick a date from a list. The other ages hide under «Ver otras opciones» (see other options), in a table where each pension sits four columns from its age.",
-                // TODO(afi-redaccion)
                 es: "En el producto en vivo se elige una fecha de una lista. Las demás edades se esconden tras «Ver otras opciones», en una tabla donde cada pensión queda a cuatro columnas de su edad.",
               },
             ],
@@ -2326,7 +2278,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "composition",
                 title: {
                   en: "The live product's Jubilación page opening its table of other ages",
-                  es: "La página Jubilación del producto en vivo abriendo su tabla de otras edades",
+                  es: "La página Jubilación del producto en vivo abre su tabla de otras edades",
                 },
                 play: "click",
                 playSetup: [
@@ -2361,13 +2313,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "After", es: "Después" },
             heading: {
               en: "Slide the age, see the pension.",
-              // TODO(afi-redaccion)
-              es: "Desliza la edad y ve la pensión.",
+              es: "Mueve la edad y mira cómo cambia la pensión.",
             },
             body: [
               {
                 en: "The age is a slider, with the date and the type of retirement as a tag beside it. Common ages are stacked cards: age, type and pension together. Press one and the figures below change.",
-                // TODO(afi-redaccion)
                 es: "La edad es un control deslizante, con la fecha y el tipo de jubilación como etiqueta al lado. Las edades habituales son tarjetas apiladas: edad, tipo y pensión juntos. Al pulsar una, cambian las cifras de abajo.",
               },
             ],
@@ -2422,24 +2372,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "Chapter 3 · The AI, in front",
-          // TODO(afi-redaccion)
           es: "Capítulo 3 · La IA, delante",
         },
         heading: {
           en: "Say something happened, without the fireworks.",
-          // TODO(afi-redaccion)
           es: "Avisar de que algo ha pasado, sin fuegos artificiales.",
         },
         navLabel: { en: "The AI", es: "La IA" },
         body: [
           {
             en: "Afi is a traditional firm, and its advisers sit with clients deciding about their savings. The AI had to feel powerful without feeling like a toy: say something happened, and never be cheesy.",
-            // TODO(afi-redaccion)
-            es: "Afi es una firma tradicional, y sus gestores se sientan con clientes que deciden sobre sus ahorros. La IA tenía que sentirse potente sin parecer un juguete: avisar de que ha pasado algo, y nunca resultar empalagosa.",
+            es: "Afi es una firma tradicional, y sus gestores se sientan con clientes que deciden sobre sus ahorros. La IA tenía que sentirse potente sin parecer un juguete: avisar de que ha pasado algo y nunca resultar empalagosa.",
           },
           {
             en: "A teammate's review ranked every moment from 1, quiet, to 4, loud. Editing a figure stays quiet; only «Aplicar al plan» (apply to the plan) is loud.",
-            // TODO(afi-redaccion)
             es: "La revisión de un compañero ordenó cada momento del 1, silencioso, al 4, llamativo. Editar una cifra sigue siendo silencioso; solo «Aplicar al plan» es llamativo.",
           },
         ],
@@ -2448,13 +2394,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "The chat", es: "El chat" },
             heading: {
               en: "Ask anything, get a simulation.",
-              // TODO(afi-redaccion)
               es: "Pregunta lo que sea y recibe una simulación.",
             },
             body: [
               {
                 en: "In the live product the AI was a button in the corner, and it felt like a canned assistant. Now «Preguntar» (ask) sits under the page: type anything, and the answer is a change you can apply to the plan.",
-                // TODO(afi-redaccion)
                 es: "En el producto en vivo la IA era un botón en una esquina y parecía un asistente de respuestas enlatadas. Ahora «Preguntar» está debajo de la página: escribe lo que quieras y la respuesta es un cambio que puedes aplicar al plan.",
               },
             ],
@@ -2486,13 +2430,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 1 · quiet", es: "Nivel 1 · silencioso" },
             heading: {
               en: "Editing is quiet.",
-              // TODO(afi-redaccion)
               es: "Editar es silencioso.",
             },
             body: [
               {
                 en: "Figures dim while the plan recalculates, then count up. No light.",
-                // TODO(afi-redaccion)
                 es: "Las cifras se atenúan mientras el plan recalcula y luego suben. Sin luz.",
               },
             ],
@@ -2522,13 +2464,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 2", es: "Nivel 2" },
             heading: {
               en: "Only the thinking moves.",
-              // TODO(afi-redaccion)
               es: "Solo se mueve lo que piensa.",
             },
             body: [
               {
                 en: "While the AI works, a spark moves beside «Pensando…» (thinking). It's the only motion that repeats, and it stops when the answer lands.",
-                // TODO(afi-redaccion)
                 es: "Mientras la IA trabaja, una chispa se mueve junto a «Pensando…». Es el único movimiento que se repite, y se para cuando llega la respuesta.",
               },
             ],
@@ -2560,14 +2500,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 3", es: "Nivel 3" },
             heading: {
               en: "Light only where the plan changed.",
-              // TODO(afi-redaccion)
               es: "Luz solo donde cambió el plan.",
             },
             body: [
               {
                 en: "A section that changed gets the same light as applying: it rises once and leaves by the edges, and the figure counts to its new value. Sections that didn't change stay still.",
-                // TODO(afi-redaccion)
-                es: "Una sección que cambió recibe la misma luz que al aplicar: sube de un tirón y sale por los bordes, y la cifra cuenta hasta su nuevo valor. Las secciones que no cambiaron se quedan quietas.",
+                es: "Una sección que cambió recibe la misma luz que al aplicar: sube de golpe, sale por los bordes y la cifra avanza hasta su nuevo valor. Las secciones que no cambiaron se quedan quietas.",
               },
             ],
             media: [
@@ -2575,7 +2513,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "composition",
                 title: {
                   en: "A plan section with its chart lighting up once",
-                  es: "Una sección del plan con su gráfico iluminándose una vez",
+                  es: "Una sección del plan cuyo gráfico se ilumina una vez",
                 },
                 play: "lab",
                 aspect: 1.7,
@@ -2598,19 +2536,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 3", es: "Nivel 3" },
             heading: {
               en: "The icon tells the story.",
-              // TODO(afi-redaccion)
               es: "El icono cuenta la historia.",
             },
             body: [
               {
                 en: "Each part of the plan keeps its icon. When the AI works on it, the icon goes from rest to applied, each state born from the one before.",
-                // TODO(afi-redaccion)
-                es: "Cada parte del plan tiene su icono. Cuando la IA trabaja en ella, el icono va de reposo a aplicado, cada estado nacido del anterior.",
+                es: "Cada parte del plan tiene su icono. Cuando la IA trabaja en ella, el icono va de reposo a aplicado, y cada estado nace del anterior.",
               },
               {
                 en: "Flat colour is Afi; the gradient, Afi blue with a touch of violet, is the AI. We tried indigo and violet first.",
-                // TODO(afi-redaccion)
-                es: "El color plano es Afi; el degradado, azul Afi con un toque de violeta, es la IA. Probamos antes índigo y violeta.",
+                es: "El color plano es Afi; el degradado, azul Afi con un toque de violeta, es la IA. Antes probamos índigo y violeta.",
               },
             ],
             media: [
@@ -2618,7 +2553,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "composition",
                 title: {
                   en: "One plan tab, its icon going from rest to applied",
-                  es: "Una pestaña del plan, con su icono pasando de reposo a aplicado",
+                  es: "Una pestaña del plan cuyo icono pasa de reposo a aplicado",
                 },
                 play: "lab",
                 items: [
@@ -2649,14 +2584,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
               en: "The light rises and leaves.",
-              // TODO(afi-redaccion)
               es: "La luz sube y se va.",
             },
             body: [
               {
                 en: "Applying sends one band of light through the plan card: navy, Afi blue and a touch of violet, no pause. In the plan selector below, the light rises through each part that changed and leaves its icon tinted. We took the timing from a reference we broke down frame by frame.",
-                // TODO(afi-redaccion)
-                es: "Al aplicar, una banda de luz recorre la tarjeta del plan: azul profundo, azul Afi y un toque de violeta, sin pausa. En el selector del plan, debajo, la luz sube por cada parte que cambia y deja su icono teñido. Sacamos el tiempo de una referencia que desmontamos fotograma a fotograma.",
+                es: "Al aplicar, una banda de luz recorre la tarjeta del plan: azul profundo, azul Afi y un toque de violeta, sin pausa. En el selector del plan, debajo, la luz sube por cada parte que cambia y deja su icono teñido. Tomamos el ritmo de una referencia que analizamos fotograma a fotograma.",
               },
             ],
             media: [
@@ -2664,7 +2597,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "composition",
                 title: {
                   en: "A band of light rising through a plan card",
-                  es: "Una banda de luz recorriendo una tarjeta del plan",
+                  es: "Una banda de luz recorre una tarjeta del plan",
                 },
                 play: "lab",
                 aspect: 1.7,
@@ -2698,14 +2631,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
               en: "Applying says so, once.",
-              // TODO(afi-redaccion)
-              es: "Aplicar lo dice, una vez.",
+              es: "Al aplicar, un solo aviso.",
             },
             body: [
               {
                 en: "One toast confirms it: the spinner becomes a check, and the text names the result, so nobody goes looking for it.",
-                // TODO(afi-redaccion)
-                es: "Un aviso lo confirma: el indicador de carga se convierte en un check y el texto dice el resultado, así que nadie tiene que buscarlo.",
+                es: "Un aviso lo confirma: el indicador de carga se convierte en una marca de confirmación y el texto indica el resultado, así que nadie tiene que buscarlo.",
               },
             ],
             media: [
@@ -2736,14 +2667,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
               en: "Only one moment is loud.",
-              // TODO(afi-redaccion)
               es: "Solo un momento hace ruido.",
             },
             body: [
               {
                 en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light through the plan, the one moment the whole plan lights up.",
-                // TODO(afi-redaccion)
-                es: "«Aplicar al plan» es el único gran momento: un anillo de luz que recorre el plan, el único momento en que se ilumina todo el plan.",
+                es: "«Aplicar al plan» es el único gran momento: un anillo de luz recorre el plan entero, y es la única vez que se ilumina completo.",
               },
             ],
             media: [
@@ -2775,19 +2704,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "Feedback",
-          // TODO(afi-redaccion)
           es: "Crítica",
         },
         heading: {
           en: "A teammate said it was too busy.",
-          // TODO(afi-redaccion)
           es: "Un compañero dijo que estaba demasiado cargado.",
         },
         navLabel: { en: "Feedback", es: "Crítica" },
         body: [
           {
             en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, shown above.",
-            // TODO(afi-redaccion)
             es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, que se ve más arriba.",
           },
         ],
@@ -2797,18 +2723,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Change 1", es: "Cambio 1" },
             heading: {
               en: "Tabs switch, cards choose.",
-              // TODO(afi-redaccion)
               es: "Las pestañas cambian de vista; las tarjetas eligen.",
             },
             body: [
               {
                 en: "The plan tabs were cards with an icon, a sub-line and a chip, and they grew when a simulation landed. We tried thin cards and a segmented control, and kept a two-line one: name and figure, the same height in every state.",
-                // TODO(afi-redaccion)
                 es: "Las pestañas del plan eran tarjetas con icono, subtítulo y etiqueta, y crecían al llegar una simulación. Probamos tarjetas finas y un control segmentado, y nos quedamos con uno de dos líneas: nombre y cifra, con la misma altura en todos los estados.",
               },
               {
                 en: "The rule went to the design system: switching a view is a segmented control; choosing an option is a card.",
-                // TODO(afi-redaccion)
                 es: "La regla pasó al sistema de diseño: cambiar de vista es un control segmentado; elegir una opción es una tarjeta.",
               },
             ],
@@ -2855,18 +2778,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kicker: { en: "Change 2", es: "Cambio 2" },
             heading: {
               en: "One chart open per tab.",
-              // TODO(afi-redaccion)
               es: "Un gráfico abierto por pestaña.",
             },
             body: [
               {
                 en: "Every section had its chart open, so everything asked for attention at once. Now the verdict is the tab's title and its scenarios sit right under it.",
-                // TODO(afi-redaccion)
                 es: "Cada sección tenía su gráfico abierto, así que todo pedía atención a la vez. Ahora el veredicto es el título de la pestaña y sus escenarios van justo debajo.",
               },
               {
                 en: "One chart stays open; the rest wait behind «Ver escenarios» and «Ver desglose» (see the scenarios, see the breakdown). Titles are quieter and figures a step smaller.",
-                // TODO(afi-redaccion)
                 es: "Un gráfico queda abierto; el resto espera tras «Ver escenarios» y «Ver desglose». Los títulos son más discretos y las cifras, un paso más pequeñas.",
               },
             ],
@@ -2917,25 +2837,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: {
           en: "Result",
-          // TODO(afi-redaccion)
           es: "Resultado",
         },
         heading: {
           en: "Ten prototypes in three days.",
-          // TODO(afi-redaccion)
           es: "Diez prototipos en tres días.",
         },
         navLabel: { en: "Result", es: "Resultado" },
         body: [
           {
             en: "Each idea was tested by using it, so the wrong ones were cheap to drop: a switch, a menu, five places for a sparkle, pulses on every keystroke.",
-            // TODO(afi-redaccion)
-            es: "Cada idea se probó usándola, así que las equivocadas fueron baratas de quitar: un interruptor, un menú, cinco sitios para un destello y pulsos con cada tecla.",
+            es: "Probamos cada idea usándola, así que descartar las equivocadas costó poco: un interruptor, un menú, cinco sitios para un destello y pulsos con cada tecla.",
           },
           {
             en: "The rules that repeat went back to the Afi apps design system as proposals. The workstation is the base for 4.0.",
-            // TODO(afi-redaccion)
-            es: "Las reglas que se repiten volvieron al sistema de diseño Afi apps como propuestas. La estación de trabajo es la base de la 4.0.",
+            es: "Las reglas que se repiten pasaron al sistema de diseño Afi apps como propuestas. La estación de trabajo es la base de la 4.0.",
           },
         ],
         media: [

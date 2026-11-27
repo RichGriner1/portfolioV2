@@ -5,7 +5,7 @@ import { useState, type ReactNode } from "react";
 import { Tabs } from "@base-ui/react/tabs";
 
 import { BackLink } from "@/components/back-link";
-import { BeforeAfterGallery } from "@/components/tpc/before-after-gallery";
+import { DiagnosticPlayer } from "@/components/tpc/diagnostic-player";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
 import { BackDemo } from "@/components/tpc/demos";
@@ -142,21 +142,23 @@ function RuleExplorer({ items }: { items: ExplorerItem[] }) {
       onValueChange={(v) => setActive(String(v))}
       className="flex flex-col gap-5"
     >
-      <Tabs.List className="bg-card border-border flex w-full flex-wrap gap-1 rounded-xl border p-1 lg:w-fit">
+      <Tabs.List className="bg-card border-border relative isolate flex w-full flex-wrap gap-1 rounded-xl border p-1 lg:w-fit">
         {items.map((it) => (
           <Tabs.Tab
             key={it.rule.id}
             value={it.rule.id}
             className={cn(
               "text-muted-foreground hover:text-foreground cursor-pointer rounded-lg px-3.5 py-2 text-left text-sm font-medium",
-              "ease-out-soft transition-[background-color,color,box-shadow] duration-[var(--duration-base)]",
-              "data-[active]:bg-foreground data-[active]:text-background",
+              "ease-out-soft transition-colors duration-[var(--duration-base)]",
+              "data-[active]:text-background data-[active]:hover:text-background",
               "focus-visible:ring-ring/50 outline-none focus-visible:ring-3"
             )}
           >
             {pick(it.rule.title, lang)}
           </Tabs.Tab>
         ))}
+        {/* The selected pill slides between segments instead of jumping. */}
+        <Tabs.Indicator className="bg-foreground ease-out-soft absolute top-[var(--active-tab-top)] left-[var(--active-tab-left)] -z-10 h-[var(--active-tab-height)] w-[var(--active-tab-width)] rounded-lg transition-[left,top,width,height] duration-[var(--duration-base)] motion-reduce:transition-none" />
       </Tabs.List>
       <Tabs.Panel
         value={current.rule.id}
@@ -280,7 +282,13 @@ function BeforeAfter({ rule }: { rule: C.Rule }) {
           )}
         </div>
       </Reveal>
-      <BeforeAfterGallery shots={shots} title={rule.title} />
+      <Reveal>
+        <DiagnosticPlayer
+          diagnostic={C.DIAGNOSTIC}
+          shots={[shots[0], shots[1]]}
+          title={rule.title}
+        />
+      </Reveal>
     </div>
   );
 }
@@ -372,7 +380,7 @@ export function TpcPage({
             ))}
           </div>
           <Reveal>
-            <p className="dark bg-card text-foreground font-display rounded-2xl px-8 py-10 text-2xl leading-tight font-bold tracking-tight text-balance sm:px-12 sm:py-14 sm:text-3xl">
+            <p className="bg-muted text-foreground border-foreground max-w-3xl rounded-r-xl border-l-2 px-6 py-5 text-lg leading-snug font-medium text-balance sm:px-8 sm:py-6 sm:text-xl">
               {pick(C.OUTCOME, lang)}
             </p>
           </Reveal>
@@ -532,7 +540,7 @@ export function TpcPage({
             </div>
           </Reveal>
           <Reveal>
-            <p className="dark bg-card text-foreground font-display rounded-2xl px-8 py-10 text-2xl leading-tight font-bold tracking-tight text-balance sm:px-12 sm:py-14 sm:text-3xl">
+            <p className="bg-muted text-foreground border-foreground max-w-3xl rounded-r-xl border-l-2 px-6 py-5 text-lg leading-snug font-medium text-balance sm:px-8 sm:py-6 sm:text-xl">
               {pick(C.DS_QUOTE, lang)}
             </p>
           </Reveal>
@@ -557,7 +565,7 @@ export function TpcPage({
             </div>
           </Reveal>
           <Reveal>
-            <p className="dark bg-card text-foreground font-display rounded-2xl px-8 py-10 text-2xl leading-tight font-bold tracking-tight text-balance sm:px-12 sm:py-14 sm:text-3xl">
+            <p className="bg-muted text-foreground border-foreground max-w-3xl rounded-r-xl border-l-2 px-6 py-5 text-lg leading-snug font-medium text-balance sm:px-8 sm:py-6 sm:text-xl">
               {pick(C.TEST_MISS, lang)}
             </p>
           </Reveal>

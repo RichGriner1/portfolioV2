@@ -11,7 +11,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Pause, Play, RotateCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { DURATION, EASE, EASE_CLOSE, EASE_IN_OUT } from "@/lib/motion";
+import { DURATION, EASE, EASE_CLOSE, EASE_IN_OUT, SPRING } from "@/lib/motion";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { FlowStep } from "@/components/tpc/copy";
@@ -45,8 +45,8 @@ const NODE_OF: Record<string, string> = { "review-again": "review" };
 const nodeFor = (stepId: string) => NODE_OF[stepId] ?? stepId;
 
 /** Time on each beat, and the hold on the last one before it loops. */
-const DWELL_MS = 3400;
-const END_HOLD_MS = 2600;
+const DWELL_MS = 2400;
+const END_HOLD_MS = 1800;
 
 /* ------------------------------------------------------------ component */
 
@@ -178,15 +178,15 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={step.id}
-              initial={reduced ? false : { opacity: 0, y: 6 }}
+              initial={reduced ? false : { opacity: 0, x: 12 }}
               animate={{
                 opacity: 1,
-                y: 0,
+                x: 0,
                 transition: { duration: DURATION.base, ease: EASE },
               }}
               exit={{
                 opacity: 0,
-                y: -4,
+                x: -8,
                 transition: { duration: DURATION.enter, ease: EASE_CLOSE },
               }}
               className="flex flex-col gap-1.5"
@@ -408,13 +408,42 @@ function Board({
           })}
         </svg>
 
+        {/* A dot runs along the connection being drawn, so the eye follows the hand-off. */}
+        {!reduced &&
+          (() => {
+            const e = edges[edges.length - 1];
+            const a = e && rects[e.from];
+            const b = e && rects[e.to];
+            if (!e || !a || !b) return null;
+            return (
+              <motion.span
+                key={`dot-${beat}`}
+                aria-hidden
+                className="bg-foreground pointer-events-none absolute top-0 left-0 z-20 size-2 rounded-full"
+                style={{
+                  offsetPath: `path("${pathBetween(a, b)}")`,
+                  offsetRotate: "0deg",
+                }}
+                initial={{ offsetDistance: "0%", opacity: 1 }}
+                animate={{ offsetDistance: "100%", opacity: [1, 1, 0] }}
+                transition={{
+                  offsetDistance: {
+                    duration: DURATION.move,
+                    ease: EASE_IN_OUT,
+                  },
+                  opacity: { duration: DURATION.move, times: [0, 0.85, 1] },
+                }}
+              />
+            );
+          })()}
+
         {/* Steps */}
         {NODES.map((n) => {
           const isCurrent = n.id === current;
           const isVisited = visited.has(n.id);
           const label = steps.find((s) => nodeFor(s.id) === n.id)?.title;
           return (
-            <div
+            <motion.div
               key={n.id}
               ref={(el) => {
                 nodeRefs.current[n.id] = el;
@@ -429,9 +458,12 @@ function Board({
                     : "bg-card text-muted-foreground border-border/60"
               )}
               style={{ gridColumn: n.col + 1, gridRow: LANE_ROW[n.lane] }}
+              // The step lands with the DS spring: a small overshoot, then settles.
+              animate={{ scale: isCurrent && !reduced ? 1.04 : 1 }}
+              transition={SPRING}
             >
               {label ? pick(label, lang) : n.id}
-            </div>
+            </motion.div>
           );
         })}
       </div>

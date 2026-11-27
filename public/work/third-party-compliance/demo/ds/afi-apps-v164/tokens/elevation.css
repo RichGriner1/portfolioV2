@@ -1,0 +1,18 @@
+/* elevation.css — Primitive Elevation (7 levels + pressed) and semantic roles
+   Source: Coherence/libs/tokens/foundations-modern/ (generated from Figma AFI-FOUNDATIONS-MODERN).
+   Values copied verbatim. */
+:root{
+  --elevation-0:none;
+  --elevation-1:var(--dimension-0) var(--dimension-0-25) var(--dimension-0-5) var(--dimension-0) #0000001a, var(--dimension-0) var(--dimension-1) var(--dimension-2) var(--dimension-0) #0000000a;
+  --elevation-2:var(--dimension-0) var(--dimension-0-5) var(--dimension-1) var(--dimension-0) #0000001a, var(--dimension-0) var(--dimension-1) var(--dimension-4) var(--dimension-0) #0000000d;
+  --elevation-3:var(--dimension-0) var(--dimension-1) var(--dimension-2) var(--dimension-0) #0000001a, var(--dimension-0) var(--dimension-2) var(--dimension-6) var(--dimension-0) #0000000f;
+  --elevation-4:var(--dimension-0) var(--dimension-2) var(--dimension-4) var(--dimension-0) #0000001a, var(--dimension-0) var(--dimension-4) var(--dimension-10) var(--dimension-0) #00000014;
+  --elevation-5:var(--dimension-0) var(--dimension-3) var(--dimension-6) var(--dimension-0) #0000001a, var(--dimension-0) var(--dimension-6) var(--dimension-14) var(--dimension-0) #0000001a;
+  --elevation-6:var(--dimension-0) var(--dimension-4) var(--dimension-8) var(--dimension-0) #0000001f, var(--dimension-0) var(--dimension-8) var(--dimension-18) var(--dimension-0) #0000001f;
+  --elevation-pressed-inner:inset var(--dimension-0) var(--dimension-0-25) var(--dimension-2) var(--dimension-0) #000000e5;
+  --elevation-pressed-inner-inverted:inset var(--dimension-0) var(--dimension-0-25) var(--dimension-2) var(--dimension-0) #3e3e3ee5;
+  --elevation-pressed-box:var(--dimension-0) var(--dimension-1) var(--dimension-2-5) var(--dimension-0) #00000029;
+  --elevation-sticky:var(--dimension-0) var(--dimension-2) var(--dimension-5) var(--dimension-0) rgba(20,24,36,.10), var(--dimension-0) var(--dimension-0-25) var(--dimension-0-75) var(--dimension-0) rgba(20,24,36,.06); /* v70: a bar stuck over scrolling content (not from Figma) */
+  --elevation-sticky-soft:var(--dimension-0) var(--dimension-2) var(--dimension-5) var(--dimension-0) rgba(20,24,36,.10);
+  --elevation-card:var(--elevation-1);--elevation-tooltip:var(--elevation-2);--elevation-menu:var(--elevation-3);--elevation-drawer:var(--elevation-4);--elevation-dialog:var(--elevation-5);
+}

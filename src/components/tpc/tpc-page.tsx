@@ -463,7 +463,7 @@ export function TpcPage({
         <Step n={2} title={C.STEP_FLOWS.title} body={C.STEP_FLOWS.body}>
           <Reveal>
             <div className="flex flex-col gap-3">
-              <FlowWalkthrough />
+              <FlowWalkthrough steps={C.FLOW_STEPS} />
               <p className="text-muted-foreground text-sm">
                 {pick(C.FLOW_CAPTION, lang)}
               </p>

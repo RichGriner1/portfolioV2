@@ -14,17 +14,11 @@ import { Button } from "@/components/ui/button";
 import { DURATION, EASE, EASE_CLOSE, EASE_IN_OUT } from "@/lib/motion";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import type { FlowStep } from "@/components/tpc/copy";
 
 /* ------------------------------------------------------------------ data */
 
-type Lane = "admin" | "supplier" | "review";
-
-export type FlowStep = {
-  id: string;
-  lane: Lane;
-  title: Bilingual<string>;
-  caption: Bilingual<string>;
-};
+type Lane = FlowStep["lane"];
 
 const LANES: Record<Lane, Bilingual<string>> = {
   admin: { en: "Afi admin", es: "Administración Afi" },
@@ -33,121 +27,15 @@ const LANES: Record<Lane, Bilingual<string>> = {
 };
 const LANE_ROW: Record<Lane, number> = { admin: 1, supplier: 2, review: 3 };
 
-/**
- * Placeholder copy in the shape copy.ts will export as FLOW_STEPS. The beats
- * play in this order; "review-again" lands on the same node as "review".
- */
-export const FLOW_STEPS_DRAFT: FlowStep[] = [
-  {
-    id: "publish",
-    lane: "admin",
-    title: { en: "Publish a template", es: "Publicar una plantilla" },
-    caption: {
-      en: "Afi publishes the questionnaire. Only published templates can be sent, so nobody gets a draft.",
-      es: "Afi publica el cuestionario. Solo se envían plantillas publicadas, así nadie recibe un borrador.",
-    },
-  },
-  {
-    id: "assign",
-    lane: "admin",
-    title: { en: "New assignment", es: "Nueva asignación" },
-    caption: {
-      en: "From the overview, pick the supplier, the template and a due date. A new supplier can be created right there.",
-      es: "Desde el panel se elige proveedor, plantilla y fecha límite. Un proveedor nuevo se crea en el mismo sitio.",
-    },
-  },
-  {
-    id: "send",
-    lane: "admin",
-    title: { en: "Send to contacts", es: "Enviar a los contactos" },
-    caption: {
-      en: "It goes to the supplier's authorised contacts, the people allowed to answer for the company.",
-      es: "Llega a los contactos autorizados del proveedor, quienes pueden responder por la empresa.",
-    },
-  },
-  {
-    id: "signin",
-    lane: "supplier",
-    title: { en: "Sign in with a code", es: "Entrar con un código" },
-    caption: {
-      en: "The contact opens the email and enters a one-time code. No account, no password to forget.",
-      es: "El contacto abre el correo e introduce un código de un solo uso. Sin cuenta ni contraseña.",
-    },
-  },
-  {
-    id: "answer",
-    lane: "supplier",
-    title: { en: "Answer or save", es: "Responder o guardar" },
-    caption: {
-      en: "They answer page by page and can save and come back. Follow-up questions appear only when they apply.",
-      es: "Responde página a página y puede guardar y volver. Las preguntas de seguimiento solo salen cuando aplican.",
-    },
-  },
-  {
-    id: "check",
-    lane: "supplier",
-    title: { en: "Check and send", es: "Revisar y enviar" },
-    caption: {
-      en: "A summary shows every answer before sending, so nothing goes out by mistake.",
-      es: "Un resumen muestra todas las respuestas antes de enviar, para que nada salga por error.",
-    },
-  },
-  {
-    id: "review",
-    lane: "review",
-    title: { en: "Review each answer", es: "Revisar cada respuesta" },
-    caption: {
-      en: "Afi decides answer by answer. The approve and return buttons say what is still undecided.",
-      es: "Afi decide respuesta a respuesta. Los botones de aprobar y devolver dicen qué queda por decidir.",
-    },
-  },
-  {
-    id: "return",
-    lane: "review",
-    title: { en: "Return with comments", es: "Devolver con comentarios" },
-    caption: {
-      en: "If anything needs more information, it goes back with a comment on that answer.",
-      es: "Si algo necesita más información, vuelve con un comentario en esa respuesta.",
-    },
-  },
-  {
-    id: "correct",
-    lane: "supplier",
-    title: { en: "Correct and resend", es: "Corregir y reenviar" },
-    caption: {
-      en: "The supplier sees only what was returned, fixes it and sends again.",
-      es: "El proveedor ve solo lo devuelto, lo corrige y lo vuelve a enviar.",
-    },
-  },
-  {
-    id: "review-again",
-    lane: "review",
-    title: { en: "Review again", es: "Revisar de nuevo" },
-    caption: {
-      en: "Back in review. The loop runs until every answer is compliant.",
-      es: "De vuelta a revisión. El ciclo sigue hasta que todas las respuestas cumplen.",
-    },
-  },
-  {
-    id: "approve",
-    lane: "review",
-    title: { en: "Approve", es: "Aprobar" },
-    caption: {
-      en: "All compliant: the supplier is approved and every step stays on record.",
-      es: "Todo cumple: el proveedor queda aprobado y cada paso queda registrado.",
-    },
-  },
-];
-
 /** Where each node sits: column across, lane down. Beats that revisit a node point at it. */
 type Node = { id: string; col: number; lane: Lane };
 const NODES: Node[] = [
   { id: "publish", col: 1, lane: "admin" },
   { id: "assign", col: 2, lane: "admin" },
   { id: "send", col: 3, lane: "admin" },
-  { id: "signin", col: 4, lane: "supplier" },
+  { id: "sign-in", col: 4, lane: "supplier" },
   { id: "answer", col: 5, lane: "supplier" },
-  { id: "check", col: 6, lane: "supplier" },
+  { id: "submit", col: 6, lane: "supplier" },
   { id: "review", col: 7, lane: "review" },
   { id: "return", col: 8, lane: "review" },
   { id: "correct", col: 8, lane: "supplier" },
@@ -162,11 +50,7 @@ const END_HOLD_MS = 2600;
 
 /* ------------------------------------------------------------ component */
 
-export function FlowWalkthrough({
-  steps = FLOW_STEPS_DRAFT,
-}: {
-  steps?: FlowStep[];
-}) {
+export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
   const { lang } = useLang();
   const reduced = useReducedMotion() ?? false;
   const rootRef = useRef<HTMLDivElement>(null);
@@ -386,10 +270,10 @@ function edgesUpTo(steps: FlowStep[], beat: number): Edge[] {
 const ALL_EDGES: Edge[] = [
   ["publish", "assign"],
   ["assign", "send"],
-  ["send", "signin"],
-  ["signin", "answer"],
-  ["answer", "check"],
-  ["check", "review"],
+  ["send", "sign-in"],
+  ["sign-in", "answer"],
+  ["answer", "submit"],
+  ["submit", "review"],
   ["review", "return"],
   ["return", "correct"],
   ["correct", "review"],

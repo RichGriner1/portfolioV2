@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { EASE, EASE_SPRING } from "@/lib/motion";
 
 /**
  * Audemic — SIBLINGS.
@@ -26,7 +27,7 @@ export function SiblingsGlyph() {
           rest: { pathLength: 0.6, opacity: 0.5 },
           hover: { pathLength: 1, opacity: 1 },
         }}
-        transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
+        transition={{ duration: 0.5, ease: EASE }}
       />
 
       {/* Sibling 1 */}
@@ -37,7 +38,7 @@ export function SiblingsGlyph() {
           rest: { cx: 12, cy: 34, scale: 1 },
           hover: { cx: 14, cy: 32, scale: 1.1 },
         }}
-        transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+        transition={{ duration: 0.3, ease: EASE_SPRING }}
       />
 
       {/* Sibling 2 */}
@@ -51,7 +52,7 @@ export function SiblingsGlyph() {
         transition={{
           duration: 0.3,
           delay: 0.05,
-          ease: [0.34, 1.56, 0.64, 1],
+          ease: EASE_SPRING,
         }}
       />
     </svg>

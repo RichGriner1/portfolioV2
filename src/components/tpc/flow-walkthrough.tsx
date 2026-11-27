@@ -32,6 +32,7 @@ const LANES: Record<Lane, Bilingual<string>> = {
   review: { en: "Afi review", es: "Revisión Afi" },
 };
 const LANE_ROW: Record<Lane, number> = { admin: 1, supplier: 2, review: 3 };
+const LANE_ORDER = Object.keys(LANE_ROW) as Lane[];
 
 /** Where each node sits: column across, lane down. Beats that revisit a node point at it. */
 type Node = { id: string; col: number; lane: Lane };
@@ -182,30 +183,17 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
         className="hidden @lg:block"
       />
 
-      {/* Phone: the same beats as a vertical stepper */}
-      <ol className="flex flex-col gap-1 px-4 pt-4 @lg:hidden">
-        {steps.map((s, i) => (
-          <li key={s.id}>
-            <button
-              type="button"
-              onClick={() => jump(i)}
-              className={cn(
-                "ease-out-soft flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left text-sm transition-colors duration-[var(--duration-base)]",
-                i === beat
-                  ? "bg-foreground text-background"
-                  : i < beat
-                    ? "text-foreground"
-                    : "text-muted-foreground"
-              )}
-            >
-              <span className="w-16 shrink-0 font-mono text-[10px] uppercase opacity-70">
-                {pick(LANES[s.lane], lang)}
-              </span>
-              {pick(s.title, lang)}
-            </button>
-          </li>
-        ))}
-      </ol>
+      {/* Phone: the same board turned on its side, lanes across and steps down */}
+      <Board
+        steps={steps}
+        beat={beat}
+        onJump={jump}
+        visited={visited}
+        edges={edges}
+        reduced={reduced}
+        vertical
+        className="@lg:hidden"
+      />
 
       {/* Caption: what is happening on this beat */}
       <div className="flex flex-col gap-4 px-4 pt-4 pb-4 sm:px-6">
@@ -323,6 +311,7 @@ function Board({
   visited,
   edges,
   reduced,
+  vertical = false,
   className,
   onJump,
 }: {
@@ -332,6 +321,8 @@ function Board({
   visited: Set<string>;
   edges: Edge[];
   reduced: boolean;
+  /** Phone layout: lanes become columns and the steps run top to bottom. */
+  vertical?: boolean;
   className?: string;
 }) {
   const { lang } = useLang();
@@ -375,26 +366,46 @@ function Board({
     <div
       className={cn(
         "bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] px-2 py-5 @4xl:px-4 @4xl:py-6",
+        vertical && "px-3",
         className
       )}
     >
       <div
         ref={gridRef}
-        className="relative grid grid-cols-[1.25rem_repeat(7,minmax(0,1fr))] grid-rows-3 gap-x-2 gap-y-4 @4xl:grid-cols-[5.5rem_repeat(7,minmax(0,1fr))] @4xl:gap-x-3 @4xl:gap-y-5"
+        className={cn(
+          "relative grid",
+          vertical
+            ? "grid-cols-3 grid-rows-[auto_repeat(7,auto)] gap-x-2 gap-y-5"
+            : "grid-cols-[1.25rem_repeat(7,minmax(0,1fr))] grid-rows-3 gap-x-2 gap-y-4 @4xl:grid-cols-[5.5rem_repeat(7,minmax(0,1fr))] @4xl:gap-x-3 @4xl:gap-y-5"
+        )}
       >
-        {/* Lane labels and bands */}
-        {(Object.keys(LANES) as Lane[]).map((lane) => (
-          <div
-            key={lane}
-            className="text-muted-foreground border-border/60 col-span-full col-start-1 flex items-center border-t border-dashed pt-0 font-mono text-[10px] tracking-wide uppercase first:border-t-0"
-            style={{ gridRow: LANE_ROW[lane] }}
-          >
-            {/* Narrow board: the lane name runs up the side, so the steps get the width. */}
-            <span className="rotate-180 text-[8px] [writing-mode:vertical-rl] @4xl:rotate-0 @4xl:text-[10px] @4xl:[writing-mode:horizontal-tb]">
+        {/* Lane labels: a header row over each column on the phone board */}
+        {vertical &&
+          LANE_ORDER.map((lane) => (
+            <div
+              key={lane}
+              lang={lang}
+              className="text-muted-foreground row-start-1 text-center font-mono text-[9px] tracking-normal hyphens-auto uppercase"
+              style={{ gridColumn: LANE_ROW[lane] }}
+            >
               {pick(LANES[lane], lang)}
-            </span>
-          </div>
-        ))}
+            </div>
+          ))}
+
+        {/* Lane labels and bands */}
+        {!vertical &&
+          LANE_ORDER.map((lane) => (
+            <div
+              key={lane}
+              className="text-muted-foreground border-border/60 col-span-full col-start-1 flex items-center border-t border-dashed pt-0 font-mono text-[10px] tracking-wide uppercase first:border-t-0"
+              style={{ gridRow: LANE_ROW[lane] }}
+            >
+              {/* Narrow board: the lane name runs up the side, so the steps get the width. */}
+              <span className="rotate-180 text-[8px] [writing-mode:vertical-rl] @4xl:rotate-0 @4xl:text-[10px] @4xl:[writing-mode:horizontal-tb]">
+                {pick(LANES[lane], lang)}
+              </span>
+            </div>
+          ))}
 
         {/* Connections */}
         <svg
@@ -505,7 +516,11 @@ function Board({
                     ? "bg-card text-foreground border-border"
                     : "bg-card text-muted-foreground border-border/60"
               )}
-              style={{ gridColumn: n.col + 1, gridRow: LANE_ROW[n.lane] }}
+              style={
+                vertical
+                  ? { gridColumn: LANE_ROW[n.lane], gridRow: n.col + 1 }
+                  : { gridColumn: n.col + 1, gridRow: LANE_ROW[n.lane] }
+              }
               // The step lands with the DS spring: a small overshoot, then settles.
               animate={{ scale: isCurrent && !reduced ? 1.04 : 1 }}
               transition={SPRING}

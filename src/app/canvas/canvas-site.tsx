@@ -216,7 +216,7 @@ type Placed = {
  * lopsided composition at the old coordinates put the intro's bounding box 94px
  * left of the claim, which is the one thing the opening shot exists to centre.
  */
-const CASE_STUDY_FRAMES = 4;
+const CASE_STUDY_FRAMES = 3;
 const WRITING_FRAMES = 3;
 
 /**

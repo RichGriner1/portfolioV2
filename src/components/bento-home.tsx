@@ -102,9 +102,9 @@ export function BentoHome() {
           </BlurFade>
         </div>
         <div className="sm:col-span-2 sm:row-span-2">
-          {/* Wealth Planner took the flagship slot on 2026-11-27, on Richard's
-              call: the newest case study leads. Visual Identity moved down a row,
-              still at 2×2. */}
+          {/* Home shows only the three current case studies (Richard's call,
+              2026-11-27): Wealth Planner beside the intro, SAREVI and Compliance
+              on the next row. The older studies live on /projects. */}
           <WorkCard
             item={bySlug("wealth-planner")}
             index={0}
@@ -113,111 +113,47 @@ export function BentoHome() {
           />
         </div>
 
-        {/* Rows 3–4 — Visual Identity, 2×2 on the left */}
+        {/* Rows 3–4 — the two other current studies, side by side at 2×2 */}
+        <div className="sm:col-span-2 sm:row-span-2">
+          <WorkCard item={bySlug("sarevi")} index={1} fill caption={false} />
+        </div>
         <div className="sm:col-span-2 sm:row-span-2">
           <WorkCard
-            item={bySlug("visual-identity")}
-            index={1}
-            fill
-            caption={false}
-          />
-        </div>
-
-        {/* Row 3 — Afi DS takes the wide, the two brand/process squares follow */}
-        {/* Stays one row. It briefly got `row-span-2` alongside the loop tile, but
-            the bank list was never what clipped — measurement only ever showed the
-            loop scene overflowing (47px at 375px). Two rows just gave the list a
-            cell far taller than four rows of content need, and the figure centers
-            itself in it, so the extra height showed up as white space above the
-            list. Only the tile that actually overflows gets the taller cell. */}
-        {/* Modern UI in 2026 took this slot from the Afi Design System case study
-            on 2026-08-06. The DS case study is the deeper piece, but it was the
-            third Afi tile on a home that already leads with Afi Visual Identity,
-            and it's one click away from /projects. The research post earns the
-            slot by being the only thing here that shows the thinking BEFORE the
-            design — everything else on the page is an outcome. */}
-        <div className="sm:col-span-2 sm:row-span-1">
-          <WorkCard
-            item={bySlug("modern-ui-2026")}
+            item={bySlug("third-party-compliance")}
             index={2}
             fill
             caption={false}
           />
         </div>
-        <div className="sm:col-span-1 sm:row-span-1">
-          <WorkCard item={bySlug("mindfulme")} index={3} fill caption={false} />
+
+        {/* Rows 5–6 — writing beside the contact tile. `order-last` below `sm`
+            only: stacked, a contact CTA in the middle would ask for the decision
+            before the work that earns it. */}
+        <div className="order-last sm:order-none sm:col-span-2 sm:row-span-2">
+          <TalkTile />
         </div>
-        <div className="sm:col-span-1 sm:row-span-1">
+        <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
-            item={bySlug("design-md-primeng-wealth-manager")}
+            item={bySlug("modern-ui-2026")}
+            index={3}
+            fill
+            caption={false}
+          />
+        </div>
+        <div className="sm:col-span-2 sm:row-span-1">
+          <WorkCard
+            item={bySlug("color-methodology")}
             index={4}
             fill
             caption={false}
           />
         </div>
 
-        {/* Rows 5–6 — the two newest Afi product case studies, side by side at
-            2×2, so the three current studies all sit above the fold-to-fold
-            middle of the page (Richard's call, 2026-11-27). */}
-        <div className="sm:col-span-2 sm:row-span-2">
-          <WorkCard item={bySlug("sarevi")} index={5} fill caption={false} />
-        </div>
-        <div className="sm:col-span-2 sm:row-span-2">
+        {/* Row 7 — design.md, the one more piece of writing, as a wide */}
+        <div className="sm:col-span-4 sm:row-span-1">
           <WorkCard
-            item={bySlug("third-party-compliance")}
-            index={6}
-            fill
-            caption={false}
-          />
-        </div>
-
-        {/* Rows 4–5 — the three tiles whose media is a small layout rather than
-            a single mark, each sized to what its content actually needs. The
-            token video is 1080² and unreadable below ~400px, so it takes the
-            2×2; the loop figure is authored on a 300×190 canvas and the KT360
-            terminal is landscape, so both take wides on the right. A 1×1 gives
-            the loop figure a 170px scene for 366px of fixed-width nodes — that
-            was the smoosh. The second 2×2 also answers the two at the top. */}
-        {/* Let's talk takes the 2×2 the token video used to hold. Two reasons:
-            the tile wanted height more than the 976×238 strip gave it, and
-            keeping "Building color in four layers" off the home leaves /writing
-            something of its own. The home now carries only current, highest-value
-            work; everything else is a click away from the footer index. */}
-        {/* `order-last` below `sm` only. Stacked into one column, the bento reads
-            top to bottom as a single sequence, and a contact CTA sitting in the
-            middle of it asks for the decision before the work that earns it —
-            there were still two tiles below it. On `sm` and up the grid is 4-col
-            and this tile shares a row with the two wides beside it, so the reading
-            order is no longer purely vertical and the authored position stands. */}
-        <div className="order-last sm:order-none sm:col-span-2 sm:row-span-2">
-          <TalkTile />
-        </div>
-        {/* The Afi Design System case study lands here rather than coming off the
-            home altogether — it moved out of the row-3 slot when Modern UI took it,
-            and took KT360's place on 2026-08-06. KT360 is the weaker of the two for
-            this page: the DS work is the current, ongoing thing and the one the
-            other Afi tiles build toward. KT360 stays on /projects.
-
-            It sits ABOVE the loops tile: the case study is the stronger of the two,
-            and stacked on mobile this block reads top to bottom, so the weaker tile
-            takes the last position rather than the case study getting buried. */}
-        <div className="sm:col-span-2 sm:row-span-1">
-          <WorkCard
-            item={bySlug("afi-design-system")}
-            index={7}
-            fill
-            caption={false}
-          />
-        </div>
-        {/* The color methodology took this slot from the loops post on 2026-08-06.
-            It's the stronger of the two here: it's Part 1 of the design-system series,
-            it's the only interactive piece on the home, and it argues the thing the
-            portfolio is positioned on. The loops post is about AI workflow — good, but
-            narrower, and it stays on /writing. */}
-        <div className="sm:col-span-2 sm:row-span-1">
-          <WorkCard
-            item={bySlug("color-methodology")}
-            index={8}
+            item={bySlug("design-md-primeng-wealth-manager")}
+            index={5}
             fill
             caption={false}
           />

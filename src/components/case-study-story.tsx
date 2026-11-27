@@ -116,7 +116,7 @@ function Frame({ clip, tag }: { clip: StoryClip; tag?: string }) {
           />
         )}
         {tag && (
-          <span className="bg-background/90 text-foreground absolute top-3 left-3 rounded-full px-2.5 py-1 font-mono text-[10px] font-medium tracking-wider uppercase backdrop-blur">
+          <span className="bg-background/90 text-foreground absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] font-medium backdrop-blur">
             {tag}
           </span>
         )}
@@ -272,7 +272,7 @@ function Variants({ step }: { step: StoryStep }) {
             >
               {pick(x.label, lang)}
               {x.chosen && (
-                <span className="bg-primary text-primary-foreground rounded-full px-1.5 py-0.5 font-mono text-[9px] tracking-wider uppercase">
+                <span className="bg-primary text-primary-foreground rounded-full px-1.5 py-0.5 text-[9px]">
                   {lang === "es" ? "Elegida" : "Kept"}
                 </span>
               )}
@@ -349,7 +349,7 @@ function Steps({
                     : "text-muted-foreground hover:bg-muted"
                 }`}
               >
-                <span className="font-mono text-[10px] tracking-wider uppercase opacity-80">
+                <span className="text-[10px] opacity-80">
                   {word} {k + 1}
                 </span>
                 <span className="text-sm leading-snug font-semibold">
@@ -403,9 +403,7 @@ function MapColumn({
   const { lang } = useLang();
   return (
     <div className="border-border bg-card flex flex-col gap-4 rounded-xl border p-5">
-      <p className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-        {pick(col.title, lang)}
-      </p>
+      <p className="text-muted-foreground text-xs">{pick(col.title, lang)}</p>
       <ol className="flex flex-col gap-3">
         {col.groups.map((g, k) => (
           <li
@@ -520,7 +518,7 @@ function Options({
   const current = selected >= 0 ? options[selected] : undefined;
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+      <p className="text-muted-foreground text-xs">
         {label
           ? pick(label, lang)
           : lang === "es"
@@ -532,7 +530,7 @@ function Options({
           const row = (
             <>
               <span
-                className={`w-fit rounded-full px-2.5 py-0.5 font-mono text-[10px] font-medium tracking-wider uppercase ${OUTCOME_STYLE[o.outcome]}`}
+                className={`w-fit rounded-full px-2.5 py-0.5 text-[10px] font-medium ${OUTCOME_STYLE[o.outcome]}`}
               >
                 {pick(OUTCOME_LABEL[o.outcome], lang)}
               </span>
@@ -671,7 +669,7 @@ export function CaseStudyStory({
             <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
               <div className="flex flex-col gap-3">
                 {decision && (
-                  <span className="bg-foreground text-background w-fit rounded-full px-3 py-1 font-mono text-[10px] font-medium tracking-wider uppercase">
+                  <span className="bg-foreground text-background w-fit rounded-full px-3 py-1 text-xs font-medium">
                     {pick(section.kicker!, lang)}
                   </span>
                 )}
@@ -1006,7 +1004,6 @@ function Beats({ sections, nav }: { sections: StorySection[]; nav: boolean }) {
 function BeatRow({
   index,
   nav,
-  kicker,
   heading,
   body,
   media,
@@ -1067,11 +1064,9 @@ function BeatRow({
           </div>
         </div>
         <div className="flex flex-col gap-2.5 md:pt-0.5">
-          {kicker && (
-            <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
-              {pick(kicker, lang)}
-            </span>
-          )}
+          {/* No eyebrow above the headline (Richard, 2026-11-27: all-caps kickers
+              read as AI-made). `kicker` stays in the data for the nav and
+              screen readers' context, and is not shown. */}
           <H
             id={level === 2 ? `story-${index}` : undefined}
             className="font-display text-[17px] leading-[1.25] font-medium tracking-[-0.025em] text-balance"
@@ -1113,11 +1108,6 @@ function SwitchBeat({
   const cur = items[k];
   const top = (
     <div className="flex flex-col gap-3">
-      {section.kicker && (
-        <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
-          {pick(section.kicker, lang)}
-        </span>
-      )}
       <h2
         id={`story-${index}`}
         className="font-display text-[22px] leading-[1.2] font-medium tracking-[-0.03em] text-balance"
@@ -1453,7 +1443,7 @@ function Composition({
             <div key={k} className="absolute" style={{ left, top, width: iw }}>
               {it.label && (
                 <span
-                  className="absolute -top-5 left-0 font-mono text-[10px] tracking-wider text-[#4f5761] uppercase"
+                  className="absolute -top-5 left-0 text-[11px] font-medium text-[#4f5761]"
                   style={{ fontSize: Math.max(8, Math.min(11, W / 64)) }}
                 >
                   {pick(it.label, lang)}

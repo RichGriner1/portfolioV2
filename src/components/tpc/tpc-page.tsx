@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import { Tabs } from "@base-ui/react/tabs";
 
 import { BackLink } from "@/components/back-link";
+import { buttonVariants } from "@/components/ui/button";
 import { DiagnosticPlayer } from "@/components/tpc/diagnostic-player";
 import { HyperText } from "@/components/magicui/hyper-text";
 import { MoreWork } from "@/components/more-work";
@@ -293,6 +294,8 @@ function BeforeAfter({ rule }: { rule: C.Rule }) {
   );
 }
 
+const DEMO_HREF = "/work/third-party-compliance/demo/V164-Prototipo.dc.html";
+
 export function TpcPage({
   item,
 }: {
@@ -343,6 +346,24 @@ export function TpcPage({
                 </span>
                 {C.CONTRIBUTIONS[lang].join(", ")}
               </p>
+            </div>
+            {/* The live prototype, in a new tab: the export under
+                public/work/third-party-compliance/demo runs on its own. */}
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={DEMO_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonVariants({ size: "lg" })}
+              >
+                {lang === "es" ? "Ver la demo ↗" : "Enjoy the demo ↗"}
+              </a>
+              <a
+                href="#problem"
+                className={buttonVariants({ variant: "ghost", size: "lg" })}
+              >
+                {lang === "es" ? "Leer la historia ↓" : "Read the story ↓"}
+              </a>
             </div>
           </div>
         </header>

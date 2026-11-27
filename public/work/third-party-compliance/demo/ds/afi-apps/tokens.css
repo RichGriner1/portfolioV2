@@ -1,0 +1,736 @@
+/* Afi Apps Design System — generated from tokens.json */
+:root, [data-theme="light"] {
+  --color-control-0: #ffffff; /* Control ramp (blue-grey chrome): control fills and table chrome, step 0. Primitive: bind components to a semantic role, never to this. */
+  --color-control-25: #fcfcfd; /* Control ramp (blue-grey chrome): control fills and table chrome, step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-control-50: #f9fafb; /* Control ramp (blue-grey chrome): control fills and table chrome, step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-control-100: #f2f4f7; /* Control ramp (blue-grey chrome): control fills and table chrome, step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-control-200: #e4e7ec; /* Control ramp (blue-grey chrome): control fills and table chrome, step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-control-300: #d0d5dd; /* Control ramp (blue-grey chrome): control fills and table chrome, step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-control-400: #98a2b3; /* Control ramp (blue-grey chrome): control fills and table chrome, step 400. Primitive: bind components to a semantic role, never to this. */
+  --color-control-500: #667085; /* Control ramp (blue-grey chrome): control fills and table chrome, step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-control-600: #475467; /* Control ramp (blue-grey chrome): control fills and table chrome, step 600. Primitive: bind components to a semantic role, never to this. */
+  --color-control-700: #344054; /* Control ramp (blue-grey chrome): control fills and table chrome, step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-control-800: #1d2939; /* Control ramp (blue-grey chrome): control fills and table chrome, step 800. Primitive: bind components to a semantic role, never to this. */
+  --color-control-900: #101828; /* Control ramp (blue-grey chrome): control fills and table chrome, step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-control-950: #0c111d; /* Control ramp (blue-grey chrome): control fills and table chrome, step 950. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-0: #ffffff; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 0. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-25: #fcfcfc; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-50: #fafafa; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-100: #f4f4f5; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-200: #e4e4e7; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-300: #d4d4d8; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-400: #a1a1aa; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 400. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-500: #71717a; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-600: #52525b; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 600. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-700: #3f3f46; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-800: #27272a; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 800. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-900: #18181b; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-primary-700-20: #3f3f4633; /* Primary ramp, the action ramp; still the neutral-zinc placeholder in Figma (brand accents deferred), step 700 at 20% alpha. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-0: #ffffff; /* Neutral ramp: surfaces and text, step 0. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-25: #fafafa; /* Neutral ramp: surfaces and text, step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-50: #f5f5f5; /* Neutral ramp: surfaces and text, step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-100: #f1f3f5; /* Neutral ramp: surfaces and text, step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-200: #e4e7eb; /* Neutral ramp: surfaces and text, step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-300: #d1d6db; /* Neutral ramp: surfaces and text, step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-400: #b0b8c1; /* Neutral ramp: surfaces and text, step 400. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-500: #8a949e; /* Neutral ramp: surfaces and text, step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-600: #6b7480; /* Neutral ramp: surfaces and text, step 600. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-700: #4f5761; /* Neutral ramp: surfaces and text, step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-800: #343a40; /* Neutral ramp: surfaces and text, step 800. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-900: #1f2328; /* Neutral ramp: surfaces and text, step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-neutral-500-20: #343a4033; /* Neutral ramp: surfaces and text, step 500 at 20% alpha. Primitive: bind components to a semantic role, never to this. */
+  --color-info-25: #f8fbff; /* Info status ramp, step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-info-50: #f0f6ff; /* Info status ramp, step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-info-100: #e0edff; /* Info status ramp, step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-info-200: #c7dbff; /* Info status ramp, step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-info-300: #9ec5fe; /* Info status ramp, step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-info-500: #4c8dff; /* Info status ramp, step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-info-700: #2f5fcc; /* Info status ramp, step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-info-900: #1c3a80; /* Info status ramp, step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-success-25: #f8fdf9; /* Success status ramp, step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-success-50: #f2fbf5; /* Success status ramp, step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-success-100: #e3f6e8; /* Success status ramp, step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-success-200: #c1e9cd; /* Success status ramp, step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-success-300: #97d7ad; /* Success status ramp, step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-success-500: #3fae6a; /* Success status ramp, step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-success-700: #2c7a4a; /* Success status ramp, step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-success-900: #1a4a2d; /* Success status ramp, step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-25: #fffef5; /* Warning status ramp, step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-50: #fffbea; /* Warning status ramp, step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-100: #fff5cc; /* Warning status ramp, step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-200: #ffe9a3; /* Warning status ramp, step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-300: #ffd666; /* Warning status ramp, step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-500: #ffc107; /* Warning status ramp, step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-700: #b28704; /* Warning status ramp, step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-warning-900: #6d5300; /* Warning status ramp, step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-error-25: #fff8f8; /* Error status ramp, step 25. Primitive: bind components to a semantic role, never to this. */
+  --color-error-50: #fef3f2; /* Error status ramp, step 50. Primitive: bind components to a semantic role, never to this. */
+  --color-error-100: #fdecec; /* Error status ramp, step 100. Primitive: bind components to a semantic role, never to this. */
+  --color-error-200: #f9d3d3; /* Error status ramp, step 200. Primitive: bind components to a semantic role, never to this. */
+  --color-error-300: #f5a3a3; /* Error status ramp, step 300. Primitive: bind components to a semantic role, never to this. */
+  --color-error-500: #e54848; /* Error status ramp, step 500. Primitive: bind components to a semantic role, never to this. */
+  --color-error-700: #b53030; /* Error status ramp, step 700. Primitive: bind components to a semantic role, never to this. */
+  --color-error-900: #6e1d1d; /* Error status ramp, step 900. Primitive: bind components to a semantic role, never to this. */
+  --color-data-viz-series-1: #062d3f; /* Data-viz series colour 1 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-2: #37bbf4; /* Data-viz series colour 2 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-3: #c8dae2; /* Data-viz series colour 3 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-4: #f3f3f3; /* Data-viz series colour 4 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-5: #72c971; /* Data-viz series colour 5 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-6: #367b35; /* Data-viz series colour 6 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-7: #eb5656; /* Data-viz series colour 7 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-series-8: #eb8787; /* Data-viz series colour 8 of 8. Primitive behind the --chart-* roles. */
+  --color-data-viz-monochrome-1: var(--color-neutral-25); /* Data-viz monochrome ramp step 1, for single-metric charts; resolves to `color-neutral-25`. */
+  --color-data-viz-monochrome-2: var(--color-primary-100); /* Data-viz monochrome ramp step 2, for single-metric charts; resolves to `color-primary-100`. */
+  --color-data-viz-monochrome-3: var(--color-primary-300); /* Data-viz monochrome ramp step 3, for single-metric charts; resolves to `color-primary-300`. */
+  --color-data-viz-monochrome-4: var(--color-primary-500); /* Data-viz monochrome ramp step 4, for single-metric charts; resolves to `color-primary-500`. */
+  --color-data-viz-monochrome-5: var(--color-primary-700); /* Data-viz monochrome ramp step 5, for single-metric charts; resolves to `color-primary-700`. */
+  --color-data-viz-monochrome-6: var(--color-primary-900); /* Data-viz monochrome ramp step 6, for single-metric charts; resolves to `color-primary-900`. */
+  --color-data-viz-monochrome-7: var(--color-neutral-900); /* Data-viz monochrome ramp step 7, for single-metric charts; resolves to `color-neutral-900`. */
+  --color-data-viz-monochrome-8: var(--color-control-700); /* Data-viz monochrome ramp step 8, for single-metric charts; resolves to `color-control-700`. */
+  --color-data-viz-monochrome-9: var(--color-control-500); /* Data-viz monochrome ramp step 9, for single-metric charts; resolves to `color-control-500`. */
+  --color-data-viz-monochrome-10: var(--color-control-300); /* Data-viz monochrome ramp step 10, for single-metric charts; resolves to `color-control-300`. */
+  --color-data-viz-positive-subtle: #c6f3c6; /* Data-viz positive subtle fill. Primitive behind the --chart-positive-* / --chart-negative-* roles. */
+  --color-data-viz-positive-default: #72c971; /* Data-viz positive default fill. Primitive behind the --chart-positive-* / --chart-negative-* roles. */
+  --color-data-viz-positive-strong: #367b35; /* Data-viz positive strong fill. Primitive behind the --chart-positive-* / --chart-negative-* roles. */
+  --color-data-viz-negative-subtle: #eb8787; /* Data-viz negative subtle fill. Primitive behind the --chart-positive-* / --chart-negative-* roles. */
+  --color-data-viz-negative-default: #eb5656; /* Data-viz negative default fill. Primitive behind the --chart-positive-* / --chart-negative-* roles. */
+  --color-data-viz-neutral-axis: #d0d5dd; /* Data-viz chrome: chart axis. */
+  --color-data-viz-neutral-grid: #f2f4f7; /* Data-viz chrome: chart grid. */
+  --color-data-viz-neutral-label: #344054; /* Data-viz chrome: chart label. */
+  --color-data-viz-neutral-tooltip-background: #ffffff; /* Data-viz chrome: chart tooltip background. */
+  --color-data-viz-neutral-tooltip-border: #e4e7ec; /* Data-viz chrome: chart tooltip border. */
+  --color-data-viz-neutral-tooltip-text: #0c111d; /* Data-viz chrome: chart tooltip text. */
+  --brand-afi-blue: #007cbc; /* Logo blue, read off assets/logos/afi-color.svg. Documentation only: not wired into any role. */
+  --brand-afi-ink: #141414; /* Logo ink, read off assets/logos/afi-color.svg. Documentation only: not wired into any role. */
+  --background-canvas: var(--color-neutral-0); /* Background role: background canvas; resolves to `color-neutral-0`. */
+  --background-surface: var(--color-neutral-0); /* Background role: background surface; resolves to `color-neutral-0`. */
+  --background-elevated: var(--color-neutral-0); /* Background role: background elevated; resolves to `color-neutral-0`. */
+  --background-hover: var(--color-neutral-25); /* Background role: background hover; resolves to `color-neutral-25`. */
+  --background-active: var(--color-neutral-50); /* Background role: background active; resolves to `color-neutral-50`. */
+  --background-selected: var(--color-neutral-100); /* Background role: background selected; resolves to `color-neutral-100`. */
+  --background-inverse: var(--color-neutral-900); /* Background role: background inverse; resolves to `color-neutral-900`. */
+  --control-background-default: var(--color-control-50); /* Control background role: control background default; resolves to `color-control-50`. */
+  --control-background-hover: var(--color-control-100); /* Control background role: control background hover; resolves to `color-control-100`. */
+  --control-background-active: var(--color-control-200); /* Control background role: control background active; resolves to `color-control-200`. */
+  --control-background-selected: var(--color-control-200); /* Control background role: control background selected; resolves to `color-control-200`. */
+  --control-background-disabled: var(--disabled-background); /* Control background role: control background disabled; resolves to `disabled-background`. */
+  --borders-default: var(--color-neutral-300); /* Border role: borders default; resolves to `color-neutral-300`. 1px hairlines. */
+  --borders-hover: var(--color-neutral-500); /* Border role: borders hover; resolves to `color-neutral-500`. */
+  --borders-focus: var(--color-info-500); /* Border role: borders focus; resolves to `color-info-500`. Focus ring colour: outline 2px solid, zero offset. */
+  --borders-disabled: var(--disabled-border); /* Border role: borders disabled; resolves to `disabled-border`. */
+  --borders-strong: var(--color-neutral-700); /* Border role: borders strong; resolves to `color-neutral-700`. */
+  --borders-selected: var(--color-primary-700-20); /* Border role: borders selected; resolves to `color-primary-700-20`. A 20% tint. */
+  --error-background: var(--color-error-50); /* Error status role: error background; resolves to `color-error-50`. */
+  --error-foreground: var(--color-error-700); /* Error status role: error foreground; resolves to `color-error-700`. */
+  --error-border: var(--color-error-300); /* Error status role: error border; resolves to `color-error-300`. */
+  --warning-background: var(--color-warning-50); /* Warning status role: warning background; resolves to `color-warning-50`. */
+  --warning-foreground: var(--color-warning-900); /* Warning status role: warning foreground; resolves to `color-warning-900`. */
+  --warning-border: var(--color-warning-300); /* Warning status role: warning border; resolves to `color-warning-300`. */
+  --info-background: var(--color-info-50); /* Info status role: info background; resolves to `color-info-50`. */
+  --info-foreground: var(--color-info-700); /* Info status role: info foreground; resolves to `color-info-700`. */
+  --info-border: var(--color-info-300); /* Info status role: info border; resolves to `color-info-300`. */
+  --success-background: var(--color-success-50); /* Success status role: success background; resolves to `color-success-50`. */
+  --success-foreground: var(--color-success-700); /* Success status role: success foreground; resolves to `color-success-700`. */
+  --success-border: var(--color-success-300); /* Success status role: success border; resolves to `color-success-300`. */
+  --disabled-background: var(--color-neutral-100); /* Disabled-state role: disabled background; resolves to `color-neutral-100`. */
+  --disabled-content: var(--color-neutral-500); /* Disabled-state role: disabled content; resolves to `color-neutral-500`. */
+  --disabled-border: var(--color-neutral-300); /* Disabled-state role: disabled border; resolves to `color-neutral-300`. */
+  --chart-primary-primary: var(--color-data-viz-series-1); /* Chart role: chart primary primary; resolves to `color-data-viz-series-1`. */
+  --chart-primary-secondary: var(--color-data-viz-series-2); /* Chart role: chart primary secondary; resolves to `color-data-viz-series-2`. */
+  --chart-primary-tertiary: var(--color-data-viz-series-3); /* Chart role: chart primary tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-positive-background: var(--color-data-viz-positive-subtle); /* Chart role: chart positive background; resolves to `color-data-viz-positive-subtle`. */
+  --chart-positive-default: var(--color-data-viz-positive-default); /* Chart role: chart positive default; resolves to `color-data-viz-positive-default`. */
+  --chart-positive-strong: var(--color-data-viz-positive-strong); /* Chart role: chart positive strong; resolves to `color-data-viz-positive-strong`. */
+  --chart-negative-background: var(--color-data-viz-negative-subtle); /* Chart role: chart negative background; resolves to `color-data-viz-negative-subtle`. */
+  --chart-negative-default: var(--color-data-viz-negative-default); /* Chart role: chart negative default; resolves to `color-data-viz-negative-default`. */
+  --chart-secondary-primary: var(--color-data-viz-series-1); /* Chart role: chart secondary primary; resolves to `color-data-viz-series-1`. */
+  --chart-secondary-secondary: var(--color-data-viz-series-2); /* Chart role: chart secondary secondary; resolves to `color-data-viz-series-2`. */
+  --chart-secondary-tertiary: var(--color-data-viz-series-3); /* Chart role: chart secondary tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-comparison-primary: var(--color-data-viz-series-1); /* Chart role: chart comparison primary; resolves to `color-data-viz-series-1`. */
+  --chart-comparison-secondary: var(--color-data-viz-series-2); /* Chart role: chart comparison secondary; resolves to `color-data-viz-series-2`. */
+  --chart-comparison-tertiary: var(--color-data-viz-series-3); /* Chart role: chart comparison tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-forecast-primary: var(--color-data-viz-series-1); /* Chart role: chart forecast primary; resolves to `color-data-viz-series-1`. */
+  --chart-forecast-secondary: var(--color-data-viz-series-2); /* Chart role: chart forecast secondary; resolves to `color-data-viz-series-2`. */
+  --chart-forecast-tertiary: var(--color-data-viz-series-3); /* Chart role: chart forecast tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-neutral-primary: var(--color-data-viz-series-1); /* Chart role: chart neutral primary; resolves to `color-data-viz-series-1`. */
+  --chart-neutral-secondary: var(--color-data-viz-series-2); /* Chart role: chart neutral secondary; resolves to `color-data-viz-series-2`. */
+  --chart-neutral-tertiary: var(--color-data-viz-series-3); /* Chart role: chart neutral tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-grid-primary: var(--color-data-viz-series-1); /* Chart role: chart grid primary; resolves to `color-data-viz-series-1`. */
+  --chart-grid-secondary: var(--color-data-viz-series-2); /* Chart role: chart grid secondary; resolves to `color-data-viz-series-2`. */
+  --chart-grid-tertiary: var(--color-data-viz-series-3); /* Chart role: chart grid tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-axis-primary: var(--color-data-viz-series-1); /* Chart role: chart axis primary; resolves to `color-data-viz-series-1`. */
+  --chart-axis-secondary: var(--color-data-viz-series-2); /* Chart role: chart axis secondary; resolves to `color-data-viz-series-2`. */
+  --chart-axis-tertiary: var(--color-data-viz-series-3); /* Chart role: chart axis tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-labels-primary: var(--color-data-viz-series-1); /* Chart role: chart labels primary; resolves to `color-data-viz-series-1`. */
+  --chart-labels-secondary: var(--color-data-viz-series-2); /* Chart role: chart labels secondary; resolves to `color-data-viz-series-2`. */
+  --chart-labels-tertiary: var(--color-data-viz-series-3); /* Chart role: chart labels tertiary; resolves to `color-data-viz-series-3`. */
+  --chart-monochrome-strong: var(--color-data-viz-monochrome-7); /* Chart role: chart monochrome strong; resolves to `color-data-viz-monochrome-7`. */
+  --chart-monochrome-medium: var(--color-data-viz-monochrome-5); /* Chart role: chart monochrome medium; resolves to `color-data-viz-monochrome-5`. */
+  --chart-monochrome-soft: var(--color-data-viz-monochrome-3); /* Chart role: chart monochrome soft; resolves to `color-data-viz-monochrome-3`. */
+  --chart-monochrome-faint: var(--color-data-viz-monochrome-2); /* Chart role: chart monochrome faint; resolves to `color-data-viz-monochrome-2`. */
+  --brand-background-default: var(--color-primary-700); /* Brand (primary action) background role: brand background default; resolves to `color-primary-700`. Resolves to #3f3f46 while the brand accent is deferred. */
+  --brand-background-hover: var(--color-primary-600); /* Brand (primary action) background role: brand background hover; resolves to `color-primary-600`. */
+  --brand-background-pressed: var(--color-primary-800); /* Brand (primary action) background role: brand background pressed; resolves to `color-primary-800`. */
+  --brand-background-disabled: var(--disabled-background); /* Brand (primary action) background role: brand background disabled; resolves to `disabled-background`. */
+  --brand-background-active: var(--color-primary-800); /* Brand (primary action) background role: brand background active; resolves to `color-primary-800`. */
+  --content-disabled: var(--disabled-content); /* Text and icon role: content disabled; resolves to `disabled-content`. */
+  --content-placeholder: var(--color-neutral-600); /* Text and icon role: content placeholder; resolves to `color-neutral-600`. */
+  --content-inverse: var(--color-neutral-0); /* Text and icon role: content inverse; resolves to `color-neutral-0`. */
+  --content-primary: var(--color-neutral-900); /* Text and icon role: content primary; resolves to `color-neutral-900`. */
+  --content-secondary: var(--color-neutral-800); /* Text and icon role: content secondary; resolves to `color-neutral-800`. */
+  --content-tertiary: var(--color-neutral-700); /* Text and icon role: content tertiary; resolves to `color-neutral-700`. */
+  --tag-background-default: var(--color-neutral-100); /* Tag role: tag background default; resolves to `color-neutral-100`. */
+  --badge-dot-neutral: var(--color-neutral-700); /* Badge status dot role: badge dot neutral; resolves to `color-neutral-700`. */
+  --badge-dot-success: var(--color-success-500); /* Badge status dot role: badge dot success; resolves to `color-success-500`. */
+  --badge-dot-warning: var(--color-warning-500); /* Badge status dot role: badge dot warning; resolves to `color-warning-500`. */
+  --badge-dot-critical: var(--color-error-500); /* Badge status dot role: badge dot critical; resolves to `color-error-500`. */
+  --badge-dot-info: var(--color-info-500); /* Badge status dot role: badge dot info; resolves to `color-info-500`. */
+  --overlay-blanket: #1f232899; /* Scrim behind a dialog. No Figma token yet; documented gap carried over from dialog-v2. */
+  --button-destructive-background: var(--color-error-700); /* Destructive button fill (background). */
+  --button-destructive-background-hover: var(--color-error-500); /* Destructive button fill (background hover). */
+  --button-destructive-pressed-background: var(--color-error-900); /* Destructive button fill (pressed background). */
+  --afi-navy-600: #174557; /* Afi navy hover: primary buttons and selected controls under the pointer (Afi Modern variant). */
+  --afi-navy-700: #062d3f; /* Afi navy (Azul profundo): the Afi Modern action colour, primary buttons, selected controls, toggles, strong borders. */
+  --afi-navy-800: #052636; /* Afi navy pressed state (Afi Modern variant). */
+  --elevation-0: none; /* Flat, no shadow. */
+  --elevation-1: 0 1px 2px 0 #0000001a, 0 4px 8px 0 #0000000a; /* Elevation level 1: a contact shadow plus an ambient shadow, black at low alpha. */
+  --elevation-2: 0 2px 4px 0 #0000001a, 0 4px 16px 0 #0000000d; /* Elevation level 2: a contact shadow plus an ambient shadow, black at low alpha. */
+  --elevation-3: 0 4px 8px 0 #0000001a, 0 8px 24px 0 #0000000f; /* Elevation level 3: a contact shadow plus an ambient shadow, black at low alpha. */
+  --elevation-4: 0 8px 16px 0 #0000001a, 0 16px 40px 0 #00000014; /* Elevation level 4: a contact shadow plus an ambient shadow, black at low alpha. */
+  --elevation-5: 0 12px 24px 0 #0000001a, 0 24px 56px 0 #0000001a; /* Elevation level 5: a contact shadow plus an ambient shadow, black at low alpha. */
+  --elevation-6: 0 16px 32px 0 #0000001f, 0 32px 72px 0 #0000001f; /* Elevation level 6: a contact shadow plus an ambient shadow, black at low alpha. */
+  --elevation-pressed-inner: inset 0 1px 8px 0 #000000e5; /* Pressed state, inner shadow. */
+  --elevation-pressed-inner-inverted: inset 0 1px 8px 0 #3e3e3ee5; /* Pressed state, inner shadow on inverted surfaces. */
+  --elevation-pressed-box: 0 4px 10px 0 #00000029; /* Pressed state, outer box shadow. */
+  --elevation-card: 0 1px 2px 0 #0000001a, 0 4px 8px 0 #0000000a; /* Card elevation role: same value as `elevation-1`. */
+  --elevation-tooltip: 0 2px 4px 0 #0000001a, 0 4px 16px 0 #0000000d; /* Tooltip elevation role: same value as `elevation-2`. */
+  --elevation-menu: 0 4px 8px 0 #0000001a, 0 8px 24px 0 #0000000f; /* Menu elevation role: same value as `elevation-3`. */
+  --elevation-drawer: 0 8px 16px 0 #0000001a, 0 16px 40px 0 #00000014; /* Drawer elevation role: same value as `elevation-4`. */
+  --elevation-dialog: 0 12px 24px 0 #0000001a, 0 24px 56px 0 #0000001a; /* Dialog elevation role: same value as `elevation-5`. */
+  --button-raised-primary: inset 0 -1px 0 1px #000000cc, inset 0 0 0 1px #303030, inset 0 0.5px 0 1px #ffffff40; /* Button effect style (hand-authored Figma effect style), raised primary: inset rims that draw the raised face. */
+  --button-raised-neutral: inset 0 -1px 0 0 #b5b5b5, inset 0 0 0 1px #0000001a, inset 0 0.5px 0 1.5px #ffffff; /* Button effect style (hand-authored Figma effect style), raised neutral: inset rims that draw the raised face. */
+  --button-raised-danger: inset 0 -1px 0 1px #8e1f0bcc, inset 0 0 0 1px #b5260bcc, inset 0 0.5px 0 1.5px #ffffff59; /* Button effect style (hand-authored Figma effect style), raised danger: inset rims that draw the raised face. */
+  --button-pressed-primary: inset 0 1px 8px 0 #000000e5, 0 4px 10px 0 #00000029; /* Button effect style (hand-authored Figma effect style), pressed primary. */
+  --button-pressed-secondary: inset 0 1px 2px 0 #3e3e3ee5, 0 4px 10px 0 #00000029; /* Button effect style (hand-authored Figma effect style), pressed secondary. */
+}
+[data-theme="dark"] {
+  --color-data-viz-monochrome-1: var(--color-neutral-25);
+  --color-data-viz-monochrome-2: var(--color-primary-100);
+  --color-data-viz-monochrome-3: var(--color-primary-300);
+  --color-data-viz-monochrome-4: var(--color-primary-500);
+  --color-data-viz-monochrome-5: var(--color-primary-700);
+  --color-data-viz-monochrome-6: var(--color-primary-900);
+  --color-data-viz-monochrome-7: var(--color-neutral-900);
+  --color-data-viz-monochrome-8: var(--color-control-700);
+  --color-data-viz-monochrome-9: var(--color-control-500);
+  --color-data-viz-monochrome-10: var(--color-control-300);
+  --background-canvas: var(--color-neutral-0);
+  --background-surface: var(--color-neutral-0);
+  --background-elevated: var(--color-neutral-0);
+  --background-hover: var(--color-neutral-25);
+  --background-active: var(--color-neutral-50);
+  --background-selected: var(--color-neutral-100);
+  --background-inverse: var(--color-neutral-900);
+  --control-background-default: var(--color-control-50);
+  --control-background-hover: var(--color-control-100);
+  --control-background-active: var(--color-control-200);
+  --control-background-selected: var(--color-control-200);
+  --control-background-disabled: var(--disabled-background);
+  --borders-default: var(--color-neutral-300);
+  --borders-hover: var(--color-neutral-500);
+  --borders-focus: var(--color-info-500);
+  --borders-disabled: var(--disabled-border);
+  --borders-strong: var(--color-neutral-100);
+  --borders-selected: var(--color-neutral-500-20);
+  --error-background: var(--color-error-50);
+  --error-foreground: var(--color-error-700);
+  --error-border: var(--color-error-300);
+  --warning-background: var(--color-warning-50);
+  --warning-foreground: var(--color-warning-900);
+  --warning-border: var(--color-warning-300);
+  --info-background: var(--color-info-50);
+  --info-foreground: var(--color-info-700);
+  --info-border: var(--color-info-300);
+  --success-background: var(--color-success-50);
+  --success-foreground: var(--color-success-700);
+  --success-border: var(--color-success-300);
+  --disabled-background: var(--color-neutral-500);
+  --disabled-content: var(--color-neutral-500);
+  --disabled-border: var(--color-neutral-300);
+  --chart-primary-primary: var(--color-data-viz-series-1);
+  --chart-primary-secondary: var(--color-data-viz-series-2);
+  --chart-primary-tertiary: var(--color-data-viz-series-3);
+  --chart-positive-background: var(--color-data-viz-positive-subtle);
+  --chart-positive-default: var(--color-data-viz-positive-default);
+  --chart-positive-strong: var(--color-data-viz-positive-strong);
+  --chart-negative-background: var(--color-data-viz-negative-subtle);
+  --chart-negative-default: var(--color-data-viz-negative-default);
+  --chart-secondary-primary: var(--color-data-viz-series-1);
+  --chart-secondary-secondary: var(--color-data-viz-series-2);
+  --chart-secondary-tertiary: var(--color-data-viz-series-3);
+  --chart-comparison-primary: var(--color-data-viz-series-1);
+  --chart-comparison-secondary: var(--color-data-viz-series-2);
+  --chart-comparison-tertiary: var(--color-data-viz-series-3);
+  --chart-forecast-primary: var(--color-data-viz-series-1);
+  --chart-forecast-secondary: var(--color-data-viz-series-2);
+  --chart-forecast-tertiary: var(--color-data-viz-series-3);
+  --chart-neutral-primary: var(--color-data-viz-series-1);
+  --chart-neutral-secondary: var(--color-data-viz-series-2);
+  --chart-neutral-tertiary: var(--color-data-viz-series-3);
+  --chart-grid-primary: var(--color-data-viz-series-1);
+  --chart-grid-secondary: var(--color-data-viz-series-2);
+  --chart-grid-tertiary: var(--color-data-viz-series-3);
+  --chart-axis-primary: var(--color-data-viz-series-1);
+  --chart-axis-secondary: var(--color-data-viz-series-2);
+  --chart-axis-tertiary: var(--color-data-viz-series-3);
+  --chart-labels-primary: var(--color-data-viz-series-1);
+  --chart-labels-secondary: var(--color-data-viz-series-2);
+  --chart-labels-tertiary: var(--color-data-viz-series-3);
+  --chart-monochrome-strong: var(--color-data-viz-monochrome-7);
+  --chart-monochrome-medium: var(--color-data-viz-monochrome-5);
+  --chart-monochrome-soft: var(--color-data-viz-monochrome-3);
+  --chart-monochrome-faint: var(--color-data-viz-monochrome-2);
+  --brand-background-default: var(--color-primary-700);
+  --brand-background-hover: var(--color-primary-600);
+  --brand-background-pressed: var(--color-primary-500);
+  --brand-background-disabled: var(--disabled-background);
+  --brand-background-active: var(--color-primary-800);
+  --content-disabled: var(--disabled-content);
+  --content-placeholder: var(--color-neutral-600);
+  --content-inverse: var(--color-neutral-0);
+  --content-primary: var(--color-neutral-900);
+  --content-secondary: var(--color-neutral-800);
+  --content-tertiary: var(--color-neutral-700);
+  --tag-background-default: var(--color-neutral-100);
+  --badge-dot-neutral: var(--color-neutral-700);
+  --badge-dot-success: var(--color-success-500);
+  --badge-dot-warning: var(--color-warning-500);
+  --badge-dot-critical: var(--color-error-500);
+  --badge-dot-info: var(--color-info-500);
+  --button-destructive-background: var(--color-error-700);
+  --button-destructive-background-hover: var(--color-error-500);
+  --button-destructive-pressed-background: var(--color-error-900);
+}
+:root {
+  --pad-table-cell-inline-compact: 8px; /* Pad table cell inline compact; resolves to `dimension-2` (8px). */
+  --pad-table-cell-inline-default: 12px; /* Pad table cell inline default; resolves to `dimension-3` (12px). */
+  --gap-table-cell-content: 8px; /* Gap table cell content; resolves to `dimension-2` (8px). */
+  --pad-control-xs: 6px; /* Pad control xs; resolves to `dimension-1-5` (6px). */
+  --pad-control-sm: 8px; /* Pad control sm; resolves to `dimension-2` (8px). */
+  --pad-control-md: 10px; /* Pad control md; resolves to `dimension-2-5` (10px). */
+  --pad-control-lg: 12px; /* Pad control lg; resolves to `dimension-3` (12px). */
+  --pad-card: 16px; /* Pad card; resolves to `dimension-4` (16px). */
+  --pad-dialog: 24px; /* Pad dialog; resolves to `dimension-6` (24px). */
+  --pad-drawer: 24px; /* Pad drawer; resolves to `dimension-6` (24px). */
+  --pad-toggle-track: 2px; /* Pad toggle track; resolves to `dimension-0-5` (2px). */
+  --pad-sidebar-block: 12px; /* Pad sidebar block; resolves to `dimension-3` (12px). */
+  --gap-control-xs: 2px; /* Gap control xs; resolves to `dimension-0-5` (2px). */
+  --gap-control-sm: 4px; /* Gap control sm; resolves to `dimension-1` (4px). */
+  --gap-control-md: 6px; /* Gap control md; resolves to `dimension-1-5` (6px). */
+  --gap-control-label: 8px; /* Gap control label; resolves to `dimension-2` (8px). */
+  --gap-field-label: 4px; /* Gap field label; resolves to `dimension-1` (4px). */
+  --gap-menu-item: 2px; /* Gap menu item; resolves to `dimension-0-5` (2px). */
+  --gap-dialog-actions: 8px; /* Gap dialog actions; resolves to `dimension-2` (8px). */
+  --gap-sidebar-item-content: 8px; /* Gap sidebar item content; resolves to `dimension-2` (8px). */
+  --gap-sidebar-items: 2px; /* Gap sidebar items; resolves to `dimension-0-5` (2px). */
+  --gap-sidebar-label-to-items: 8px; /* Gap sidebar label to items; resolves to `dimension-2` (8px). */
+  --gap-sidebar-groups: 12px; /* Gap sidebar groups; resolves to `dimension-3` (12px). */
+  --gap-sidebar-header-to-nav: 32px; /* Gap sidebar header to nav; resolves to `dimension-8` (32px). */
+  --pad-navbar-inline: 16px; /* Pad navbar inline; resolves to `dimension-4` (16px). */
+  --gap-navbar-zones: 16px; /* Gap navbar zones; resolves to `dimension-4` (16px). */
+  --gap-navbar-actions: 8px; /* Gap navbar actions; resolves to `dimension-2` (8px). */
+  --radius-none: 0; /* No rounding. Resolves to `dimension-0`. */
+  --radius-xs: 2px; /* Extra-small corners. Resolves to `dimension-0-5`. */
+  --radius-sm: 4px; /* Small corners, e.g. tooltips. Resolves to `dimension-1`. */
+  --radius-md: 6px; /* Controls (buttons). Resolves to `dimension-1-5`. */
+  --radius-lg: 8px; /* Fields and tracks. Resolves to `dimension-2`. */
+  --radius-xl: 12px; /* Cards, dialogs and menus. Resolves to `dimension-3`. */
+  --radius-full: 999px; /* Pills. Resolves to `dimension-249-75`. */
+  --height-component-xs: 24px; /* Height component xs; resolves to `dimension-6` (24px). */
+  --height-component-sm: 28px; /* Height component sm; resolves to `dimension-7` (28px). */
+  --height-component-md: 32px; /* Height component md; resolves to `dimension-8` (32px). */
+  --height-component-lg: 40px; /* Height component lg; resolves to `dimension-10` (40px). */
+  --height-badge: 20px; /* Height badge; resolves to `dimension-5` (20px). */
+  --height-toggle: 20px; /* Height toggle; resolves to `dimension-5` (20px). */
+  --width-sidebar-expanded: 280px; /* Width sidebar expanded; resolves to `dimension-70` (280px). */
+  --width-sidebar-collapsed: 72px; /* Width sidebar collapsed; resolves to `dimension-18` (72px). */
+  --width-drawer-sm: 360px; /* Width drawer sm; resolves to `dimension-90` (360px). */
+  --width-drawer-md: 480px; /* Width drawer md; resolves to `dimension-120` (480px). */
+  --width-drawer-lg: 640px; /* Width drawer lg; resolves to `dimension-160` (640px). */
+  --width-dialog-sm: 400px; /* Width dialog sm; resolves to `dimension-100` (400px). */
+  --width-dialog-md: 560px; /* Width dialog md; resolves to `dimension-140` (560px). */
+  --width-dialog-lg: 720px; /* Width dialog lg; resolves to `dimension-180` (720px). */
+  --width-dialog-xl: 800px; /* Width dialog xl; resolves to `dimension-200` (800px). */
+  --width-dialog-xxl: 960px; /* Width dialog xxl; resolves to `dimension-240` (960px). */
+  --width-menu-min: 200px; /* Width menu min; resolves to `dimension-50` (200px). */
+  --width-toggle: 36px; /* Width toggle; resolves to `dimension-9` (36px). */
+  --stroke-hairline: 1px; /* Stroke hairline; resolves to `dimension-0-25` (1px). */
+  --stroke-default: 1px; /* Stroke default; resolves to `dimension-0-25` (1px). */
+  --stroke-medium: 1.5px; /* Stroke medium; resolves to `dimension-0-375` (1.5px). */
+  --stroke-strong: 2px; /* Stroke strong; resolves to `dimension-0-5` (2px). */
+  --stroke-focus: 2px; /* Stroke focus; resolves to `dimension-0-5` (2px). */
+  --icon-xs: 12px; /* Icon xs; resolves to `dimension-3` (12px). */
+  --icon-sm: 16px; /* Icon sm; resolves to `dimension-4` (16px). */
+  --icon-md: 20px; /* Icon md; resolves to `dimension-5` (20px). */
+  --icon-lg: 24px; /* Icon lg; resolves to `dimension-6` (24px). */
+  --icon-xl: 32px; /* Icon xl; resolves to `dimension-8` (32px). */
+  --size-toggle-thumb: 16px; /* Size toggle thumb; resolves to `dimension-4` (16px). */
+  --size-checkbox: 16px; /* Size checkbox; resolves to `dimension-4` (16px). */
+  --size-badge-dot: 8px; /* Size badge dot; resolves to `dimension-2` (8px). */
+  --size-radio: 16px; /* Size radio; resolves to `dimension-4` (16px). */
+  --size-radio-dot: 6px; /* Size radio dot; resolves to `dimension-1-5` (6px). */
+  --navigation-navbar-height: 64px; /* Navigation navbar height; resolves to `dimension-16` (64px). */
+  --navigation-toolbar-height: 48px; /* Navigation toolbar height; resolves to `dimension-12` (48px). */
+  --navigation-sidebar-item-height: 40px; /* Navigation sidebar item height; resolves to `dimension-10` (40px). */
+  --navigation-tab-height: 40px; /* Navigation tab height; resolves to `dimension-10` (40px). */
+  --table-row-compact: 32px; /* Table row compact; resolves to `dimension-8` (32px). */
+  --table-row-default: 40px; /* Table row default; resolves to `dimension-10` (40px). */
+  --table-row-comfortable: 48px; /* Table row comfortable; resolves to `dimension-12` (48px). */
+  --table-header-height: 40px; /* Table header height; resolves to `dimension-10` (40px). */
+  --width-table-selection-column: 40px; /* Width table selection column; resolves to `dimension-10` (40px). */
+  --avatar-xs: 20px; /* Avatar xs; resolves to `dimension-5` (20px). */
+  --avatar-sm: 24px; /* Avatar sm; resolves to `dimension-6` (24px). */
+  --avatar-md: 32px; /* Avatar md; resolves to `dimension-8` (32px). */
+  --avatar-lg: 40px; /* Avatar lg; resolves to `dimension-10` (40px). */
+  --avatar-xl: 56px; /* Avatar xl; resolves to `dimension-14` (56px). */
+  --width-navbar-search: 360px; /* Width navbar search; resolves to `dimension-90` (360px). */
+  --dimension-0: 0; /* Base-4 dimension scale step (Primitive Numbers): 0. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-0-25: 1px; /* Base-4 dimension scale step (Primitive Numbers): 1px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-0-375: 1.5px; /* Base-4 dimension scale step (Primitive Numbers): 1.5px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-0-5: 2px; /* Base-4 dimension scale step (Primitive Numbers): 2px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-1: 4px; /* Base-4 dimension scale step (Primitive Numbers): 4px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-1-5: 6px; /* Base-4 dimension scale step (Primitive Numbers): 6px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-2: 8px; /* Base-4 dimension scale step (Primitive Numbers): 8px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-2-5: 10px; /* Base-4 dimension scale step (Primitive Numbers): 10px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-3: 12px; /* Base-4 dimension scale step (Primitive Numbers): 12px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-3-25: 13px; /* Base-4 dimension scale step (Primitive Numbers): 13px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-3-5: 14px; /* Base-4 dimension scale step (Primitive Numbers): 14px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-4: 16px; /* Base-4 dimension scale step (Primitive Numbers): 16px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-4-5: 18px; /* Base-4 dimension scale step (Primitive Numbers): 18px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-5: 20px; /* Base-4 dimension scale step (Primitive Numbers): 20px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-6: 24px; /* Base-4 dimension scale step (Primitive Numbers): 24px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-7: 28px; /* Base-4 dimension scale step (Primitive Numbers): 28px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-8: 32px; /* Base-4 dimension scale step (Primitive Numbers): 32px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-9: 36px; /* Base-4 dimension scale step (Primitive Numbers): 36px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-10: 40px; /* Base-4 dimension scale step (Primitive Numbers): 40px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-11: 44px; /* Base-4 dimension scale step (Primitive Numbers): 44px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-12: 48px; /* Base-4 dimension scale step (Primitive Numbers): 48px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-13: 52px; /* Base-4 dimension scale step (Primitive Numbers): 52px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-14: 56px; /* Base-4 dimension scale step (Primitive Numbers): 56px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-15: 60px; /* Base-4 dimension scale step (Primitive Numbers): 60px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-16: 64px; /* Base-4 dimension scale step (Primitive Numbers): 64px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-17: 68px; /* Base-4 dimension scale step (Primitive Numbers): 68px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-18: 72px; /* Base-4 dimension scale step (Primitive Numbers): 72px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-19: 76px; /* Base-4 dimension scale step (Primitive Numbers): 76px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-20: 80px; /* Base-4 dimension scale step (Primitive Numbers): 80px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-21: 84px; /* Base-4 dimension scale step (Primitive Numbers): 84px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-22: 88px; /* Base-4 dimension scale step (Primitive Numbers): 88px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-23: 92px; /* Base-4 dimension scale step (Primitive Numbers): 92px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-24: 96px; /* Base-4 dimension scale step (Primitive Numbers): 96px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-25: 100px; /* Base-4 dimension scale step (Primitive Numbers): 100px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-26: 104px; /* Base-4 dimension scale step (Primitive Numbers): 104px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-27: 108px; /* Base-4 dimension scale step (Primitive Numbers): 108px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-28: 112px; /* Base-4 dimension scale step (Primitive Numbers): 112px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-29: 116px; /* Base-4 dimension scale step (Primitive Numbers): 116px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-30: 120px; /* Base-4 dimension scale step (Primitive Numbers): 120px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-31: 124px; /* Base-4 dimension scale step (Primitive Numbers): 124px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-32: 128px; /* Base-4 dimension scale step (Primitive Numbers): 128px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-33: 132px; /* Base-4 dimension scale step (Primitive Numbers): 132px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-34: 136px; /* Base-4 dimension scale step (Primitive Numbers): 136px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-35: 140px; /* Base-4 dimension scale step (Primitive Numbers): 140px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-36: 144px; /* Base-4 dimension scale step (Primitive Numbers): 144px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-37: 148px; /* Base-4 dimension scale step (Primitive Numbers): 148px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-38: 152px; /* Base-4 dimension scale step (Primitive Numbers): 152px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-39: 156px; /* Base-4 dimension scale step (Primitive Numbers): 156px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-40: 160px; /* Base-4 dimension scale step (Primitive Numbers): 160px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-41: 164px; /* Base-4 dimension scale step (Primitive Numbers): 164px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-42: 168px; /* Base-4 dimension scale step (Primitive Numbers): 168px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-43: 172px; /* Base-4 dimension scale step (Primitive Numbers): 172px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-44: 176px; /* Base-4 dimension scale step (Primitive Numbers): 176px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-45: 180px; /* Base-4 dimension scale step (Primitive Numbers): 180px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-46: 184px; /* Base-4 dimension scale step (Primitive Numbers): 184px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-47: 188px; /* Base-4 dimension scale step (Primitive Numbers): 188px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-48: 192px; /* Base-4 dimension scale step (Primitive Numbers): 192px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-49: 196px; /* Base-4 dimension scale step (Primitive Numbers): 196px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-50: 200px; /* Base-4 dimension scale step (Primitive Numbers): 200px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-52: 208px; /* Base-4 dimension scale step (Primitive Numbers): 208px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-54: 216px; /* Base-4 dimension scale step (Primitive Numbers): 216px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-55: 220px; /* Base-4 dimension scale step (Primitive Numbers): 220px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-56: 224px; /* Base-4 dimension scale step (Primitive Numbers): 224px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-58: 232px; /* Base-4 dimension scale step (Primitive Numbers): 232px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-60: 240px; /* Base-4 dimension scale step (Primitive Numbers): 240px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-62: 248px; /* Base-4 dimension scale step (Primitive Numbers): 248px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-64: 256px; /* Base-4 dimension scale step (Primitive Numbers): 256px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-66: 264px; /* Base-4 dimension scale step (Primitive Numbers): 264px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-68: 272px; /* Base-4 dimension scale step (Primitive Numbers): 272px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-70: 280px; /* Base-4 dimension scale step (Primitive Numbers): 280px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-72: 288px; /* Base-4 dimension scale step (Primitive Numbers): 288px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-74: 296px; /* Base-4 dimension scale step (Primitive Numbers): 296px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-76: 304px; /* Base-4 dimension scale step (Primitive Numbers): 304px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-78: 312px; /* Base-4 dimension scale step (Primitive Numbers): 312px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-80: 320px; /* Base-4 dimension scale step (Primitive Numbers): 320px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-82: 328px; /* Base-4 dimension scale step (Primitive Numbers): 328px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-84: 336px; /* Base-4 dimension scale step (Primitive Numbers): 336px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-86: 344px; /* Base-4 dimension scale step (Primitive Numbers): 344px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-88: 352px; /* Base-4 dimension scale step (Primitive Numbers): 352px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-90: 360px; /* Base-4 dimension scale step (Primitive Numbers): 360px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-92: 368px; /* Base-4 dimension scale step (Primitive Numbers): 368px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-94: 376px; /* Base-4 dimension scale step (Primitive Numbers): 376px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-96: 384px; /* Base-4 dimension scale step (Primitive Numbers): 384px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-98: 392px; /* Base-4 dimension scale step (Primitive Numbers): 392px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-100: 400px; /* Base-4 dimension scale step (Primitive Numbers): 400px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-102: 408px; /* Base-4 dimension scale step (Primitive Numbers): 408px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-104: 416px; /* Base-4 dimension scale step (Primitive Numbers): 416px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-106: 424px; /* Base-4 dimension scale step (Primitive Numbers): 424px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-108: 432px; /* Base-4 dimension scale step (Primitive Numbers): 432px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-110: 440px; /* Base-4 dimension scale step (Primitive Numbers): 440px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-112: 448px; /* Base-4 dimension scale step (Primitive Numbers): 448px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-114: 456px; /* Base-4 dimension scale step (Primitive Numbers): 456px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-116: 464px; /* Base-4 dimension scale step (Primitive Numbers): 464px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-118: 472px; /* Base-4 dimension scale step (Primitive Numbers): 472px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-120: 480px; /* Base-4 dimension scale step (Primitive Numbers): 480px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-122: 488px; /* Base-4 dimension scale step (Primitive Numbers): 488px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-124: 496px; /* Base-4 dimension scale step (Primitive Numbers): 496px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-126: 504px; /* Base-4 dimension scale step (Primitive Numbers): 504px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-128: 512px; /* Base-4 dimension scale step (Primitive Numbers): 512px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-130: 520px; /* Base-4 dimension scale step (Primitive Numbers): 520px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-132: 528px; /* Base-4 dimension scale step (Primitive Numbers): 528px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-134: 536px; /* Base-4 dimension scale step (Primitive Numbers): 536px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-135: 540px; /* Base-4 dimension scale step (Primitive Numbers): 540px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-136: 544px; /* Base-4 dimension scale step (Primitive Numbers): 544px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-138: 552px; /* Base-4 dimension scale step (Primitive Numbers): 552px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-140: 560px; /* Base-4 dimension scale step (Primitive Numbers): 560px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-142: 568px; /* Base-4 dimension scale step (Primitive Numbers): 568px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-144: 576px; /* Base-4 dimension scale step (Primitive Numbers): 576px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-146: 584px; /* Base-4 dimension scale step (Primitive Numbers): 584px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-148: 592px; /* Base-4 dimension scale step (Primitive Numbers): 592px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-150: 600px; /* Base-4 dimension scale step (Primitive Numbers): 600px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-152: 608px; /* Base-4 dimension scale step (Primitive Numbers): 608px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-154: 616px; /* Base-4 dimension scale step (Primitive Numbers): 616px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-156: 624px; /* Base-4 dimension scale step (Primitive Numbers): 624px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-158: 632px; /* Base-4 dimension scale step (Primitive Numbers): 632px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-160: 640px; /* Base-4 dimension scale step (Primitive Numbers): 640px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-162: 648px; /* Base-4 dimension scale step (Primitive Numbers): 648px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-164: 656px; /* Base-4 dimension scale step (Primitive Numbers): 656px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-166: 664px; /* Base-4 dimension scale step (Primitive Numbers): 664px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-168: 672px; /* Base-4 dimension scale step (Primitive Numbers): 672px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-170: 680px; /* Base-4 dimension scale step (Primitive Numbers): 680px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-172: 688px; /* Base-4 dimension scale step (Primitive Numbers): 688px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-174: 696px; /* Base-4 dimension scale step (Primitive Numbers): 696px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-176: 704px; /* Base-4 dimension scale step (Primitive Numbers): 704px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-178: 712px; /* Base-4 dimension scale step (Primitive Numbers): 712px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-180: 720px; /* Base-4 dimension scale step (Primitive Numbers): 720px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-182: 728px; /* Base-4 dimension scale step (Primitive Numbers): 728px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-184: 736px; /* Base-4 dimension scale step (Primitive Numbers): 736px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-186: 744px; /* Base-4 dimension scale step (Primitive Numbers): 744px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-188: 752px; /* Base-4 dimension scale step (Primitive Numbers): 752px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-190: 760px; /* Base-4 dimension scale step (Primitive Numbers): 760px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-192: 768px; /* Base-4 dimension scale step (Primitive Numbers): 768px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-194: 776px; /* Base-4 dimension scale step (Primitive Numbers): 776px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-196: 784px; /* Base-4 dimension scale step (Primitive Numbers): 784px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-198: 792px; /* Base-4 dimension scale step (Primitive Numbers): 792px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-200: 800px; /* Base-4 dimension scale step (Primitive Numbers): 800px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-240: 960px; /* Base-4 dimension scale step (Primitive Numbers): 960px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-249-75: 999px; /* Base-4 dimension scale step (Primitive Numbers): 999px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-285: 1140px; /* Base-4 dimension scale step (Primitive Numbers): 1140px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --dimension-330: 1320px; /* Base-4 dimension scale step (Primitive Numbers): 1320px. Primitive: semantic spacing, size and radius tokens resolve to it. */
+  --type-button-size: 13px; /* Type role button size; resolves to `dimension-3-25`. */
+  --type-button-weight: 500; /* Type role button weight; resolves to `font-weight-medium`. */
+  --type-button-line-height: 18px; /* Type role button line height; resolves to `dimension-4-5`. */
+  --type-label-size: 12px; /* Type role label size; resolves to `dimension-3`. */
+  --type-label-weight: 500; /* Type role label weight; resolves to `font-weight-medium`. */
+  --type-label-line-height: 16px; /* Type role label line height; resolves to `dimension-4`. */
+  --type-caption-size: 12px; /* Type role caption size; resolves to `dimension-3`. */
+  --type-caption-line-height: 16px; /* Type role caption line height; resolves to `dimension-4`. */
+  --type-caption-weight: 500; /* Type role caption weight; resolves to `font-weight-medium`. */
+  --type-section-label-weight: 600; /* Type role section label weight; resolves to `font-weight-semibold`. */
+  --type-display-size: 40px; /* Type role display size; resolves to `dimension-10`. */
+  --type-display-weight: 700; /* Type role display weight; resolves to `font-weight-bold`. */
+  --type-display-line-height: 48px; /* Type role display line height; resolves to `dimension-12`. */
+  --type-display-metric-size: 32px; /* Type role display metric size; resolves to `dimension-8`. */
+  --type-display-metric-weight: 600; /* Type role display metric weight; resolves to `font-weight-semibold`. */
+  --type-display-metric-line-height: 40px; /* Type role display metric line height; resolves to `dimension-10`. */
+  --type-h1-size: 32px; /* Type role h1 size; resolves to `dimension-8`. */
+  --type-h1-weight: 600; /* Type role h1 weight; resolves to `font-weight-semibold`. */
+  --type-h1-line-height: 40px; /* Type role h1 line height; resolves to `dimension-10`. */
+  --type-h2-size: 24px; /* Type role h2 size; resolves to `dimension-6`. */
+  --type-h2-weight: 600; /* Type role h2 weight; resolves to `font-weight-semibold`. */
+  --type-h2-line-height: 32px; /* Type role h2 line height; resolves to `dimension-8`. */
+  --type-h3-size: 20px; /* Type role h3 size; resolves to `dimension-5`. */
+  --type-h3-weight: 600; /* Type role h3 weight; resolves to `font-weight-semibold`. */
+  --type-h3-line-height: 28px; /* Type role h3 line height; resolves to `dimension-7`. */
+  --type-h4-size: 18px; /* Type role h4 size; resolves to `dimension-4-5`. */
+  --type-h4-weight: 600; /* Type role h4 weight; resolves to `font-weight-semibold`. */
+  --type-h4-line-height: 24px; /* Type role h4 line height; resolves to `dimension-6`. */
+  --type-body-large-size: 16px; /* Type role body large size; resolves to `dimension-4`. */
+  --type-body-large-weight: 400; /* Type role body large weight; resolves to `font-weight-regular`. */
+  --type-body-large-line-height: 24px; /* Type role body large line height; resolves to `dimension-6`. */
+  --type-body-default-size: 14px; /* Type role body default size; resolves to `dimension-3-5`. */
+  --type-body-default-weight: 400; /* Type role body default weight; resolves to `font-weight-regular`. */
+  --type-body-default-line-height: 18px; /* Type role body default line height; resolves to `dimension-4-5`. */
+  --type-body-small-size: 13px; /* Type role body small size; resolves to `dimension-3-25`. */
+  --type-body-small-weight: 400; /* Type role body small weight; resolves to `font-weight-regular`. */
+  --type-body-small-line-height: 18px; /* Type role body small line height; resolves to `dimension-4-5`. */
+  --type-table-size: 13px; /* Type role table size; resolves to `dimension-3-25`. */
+  --type-table-weight: 400; /* Type role table weight; resolves to `font-weight-regular`. */
+  --type-table-line-height: 18px; /* Type role table line height; resolves to `dimension-4-5`. */
+  --type-table-header-weight: 500; /* Type role table header weight; resolves to `font-weight-medium`. */
+  --type-code-size: 13px; /* Type role code size; resolves to `dimension-3-25`. */
+  --type-code-weight: 400; /* Type role code weight; resolves to `font-weight-regular`. */
+  --type-code-line-height: 18px; /* Type role code line height; resolves to `dimension-4-5`. */
+  --type-metric-size: 48px; /* Type role metric size; resolves to `dimension-12`. */
+  --type-metric-weight: 600; /* Type role metric weight; resolves to `font-weight-semibold`. */
+  --type-metric-line-height: 56px; /* Type role metric line height; resolves to `dimension-14`. */
+  --type-help-size: 10px; /* Type role help size; resolves to `dimension-2-5`. */
+  --type-help-weight: 400; /* Type role help weight; resolves to `font-weight-regular`. */
+  --type-help-line-height: 12px; /* Type role help line height; resolves to `dimension-3`. */
+  --button-font-size-xs: 12px; /* Extra-small button font size; resolves to `dimension-3`. */
+  --button-line-height-xs: 16px; /* Extra-small button line height; resolves to `dimension-4`. */
+  --font-weight-regular: 400; /* Regular weight (400). */
+  --font-weight-medium: 500; /* Medium weight (500). */
+  --font-weight-semibold: 600; /* Semibold weight (600). */
+  --font-weight-bold: 700; /* Bold weight (700). */
+  --font-letter-spacing-tight: -0.01em; /* Tight letter spacing. */
+  --font-letter-spacing-normal: 0; /* Normal letter spacing. */
+  --font-letter-spacing-wide: 0.02em; /* Wide letter spacing. */
+  --button-sheen: linear-gradient(180deg, #27272a33 0%, #ffffff33 100%); /* The button sheen, #27272a33 to #ffffff33 at 180deg: the one gradient in the system besides the GradientGraph fade. */
+  --z-overlay: 1000; /* Stacking level for the dialog scrim and tooltips. */
+  --font-family-primary: 'Libre Franklin Afi', 'Libre Franklin', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family-mono: 'Libre Franklin Afi', 'Libre Franklin', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family-afi: 'Libre Franklin Afi', 'Libre Franklin', system-ui, sans-serif;
+  --text-type-display: 700 40px/48px var(--font-family-primary); /* The --type-display-* role: 40px/48px, weight 700. */
+  --text-type-display-metric: 600 32px/40px var(--font-family-primary); /* The --type-display-metric-* role: 32px/40px, weight 600. */
+  --text-type-metric: 600 48px/56px var(--font-family-primary); /* The --type-metric-* role: 48px/56px, weight 600. */
+  --text-type-h1: 600 32px/40px var(--font-family-primary); /* The --type-h1-* role: 32px/40px, weight 600. */
+  --text-type-h2: 600 24px/32px var(--font-family-primary); /* The --type-h2-* role: 24px/32px, weight 600. */
+  --text-type-h3: 600 20px/28px var(--font-family-primary); /* The --type-h3-* role: 20px/28px, weight 600. */
+  --text-type-h4: 600 18px/24px var(--font-family-primary); /* The --type-h4-* role: 18px/24px, weight 600. */
+  --text-type-body-large: 400 16px/24px var(--font-family-primary); /* The --type-body-large-* role: 16px/24px, weight 400. */
+  --text-type-body-default: 400 14px/18px var(--font-family-primary); /* The --type-body-default-* role: 14px/18px, weight 400. */
+  --text-type-body-small: 400 13px/18px var(--font-family-primary); /* The --type-body-small-* role: 13px/18px, weight 400. */
+  --text-type-table: 400 13px/18px var(--font-family-primary); /* The --type-table-* role: 13px/18px, weight 400. */
+  --text-type-button: 500 13px/18px var(--font-family-primary); /* The --type-button-* role: 13px/18px, weight 500. */
+  --text-type-label: 500 12px/16px var(--font-family-primary); /* The --type-label-* role: 12px/16px, weight 500. */
+  --text-type-caption: 500 12px/16px var(--font-family-primary); /* The --type-caption-* role: 12px/16px, weight 500. */
+  --text-type-help: 400 10px/12px var(--font-family-primary); /* The --type-help-* role: 10px/12px, weight 400. */
+  --text-type-code: 400 13px/18px var(--font-family-mono); /* The --type-code-* role: 13px/18px, weight 400. */
+}
+.type-display {
+  font-family: var(--font-family-primary);
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.type-display-metric {
+  font-family: var(--font-family-primary);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.type-metric {
+  font-family: var(--font-family-primary);
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.type-h1 {
+  font-family: var(--font-family-primary);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.type-h2 {
+  font-family: var(--font-family-primary);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.type-h3 {
+  font-family: var(--font-family-primary);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.type-h4 {
+  font-family: var(--font-family-primary);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.type-body-large {
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.type-body-default {
+  font-family: var(--font-family-primary);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.type-body-small {
+  font-family: var(--font-family-primary);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.type-table {
+  font-family: var(--font-family-primary);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.type-button {
+  font-family: var(--font-family-primary);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.type-label {
+  font-family: var(--font-family-primary);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.type-caption {
+  font-family: var(--font-family-primary);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.type-help {
+  font-family: var(--font-family-primary);
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.type-code {
+  font-family: var(--font-family-mono);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@font-face {
+  font-family: "Libre Franklin Afi";
+  src: url("fonts/LibreFranklinAfi-VF.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}

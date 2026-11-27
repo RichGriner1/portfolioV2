@@ -8,10 +8,9 @@ import { pick, t, useLang, type Bilingual } from "@/lib/i18n";
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
 /**
- * `lead` sets the scope in one sentence; `bullets` carry the evidence. The
- * modal mirrors the 2026-09-09 resume: four bullets on the two main roles
- * (Afi, Audemic), one or two on the rest, and `lead` is optional — the
- * shorter roles skip it and go straight to bullets.
+ * `lead` says what the company is; `bullets` carry the evidence. The modal
+ * mirrors the 2026-09-16 CV: five bullets on Afi, four on Audemic, fewer on
+ * the rest. `lead` is optional, so the shorter roles go straight to bullets.
  */
 type CvExperience = {
   role: Bilingual<string>;
@@ -35,31 +34,35 @@ const CV: {
   experience: CvExperience[];
   skills: CvSkillLine[];
   /**
+   * One line per qualification, as the CV sets them.
+   *
    * No dates. The correct ones (BA 2016, master's 2021) left a visible
    * 2016–2022 gap next to a CV whose earliest listed role starts in 2021 —
    * Richard was teaching English through that period, and it isn't on here.
    * Degrees and schools stand on their own; add dates back only alongside
    * the roles that fill the gap, or the gap is the thing the reader notices.
    */
-  education: Bilingual<string>;
+  education: Bilingual<string[]>;
 } = {
   name: "Richard Griner",
   email: "richardgrinerdesigns@gmail.com",
   website: "richardgriner.com",
   linkedin: "linkedin.com/in/richardgriner",
   profile: {
-    en: "Product designer working between Figma and production code. Sole designer at a financial consultancy, for five engineering teams. Before that, product manager on a research app taken from B2C into the enterprise. Prototypes in Claude Code daily.",
-    es: "Diseñador de producto que trabaja entre Figma y el código en producción. Único diseñador en una consultora financiera, para cinco equipos de ingeniería. Antes, product manager en una app de investigación reconvertida de B2C a enterprise. Prototipa a diario con Claude Code.",
+    en: "Product designer with B2B and B2C experience, from research and prototyping to UI, design systems and working alongside engineering. I'm currently the only full-time designer at a financial consultancy, working with five engineering teams on products and experiences for financial institutions.",
+    es: "Diseñador de producto con experiencia en B2B y B2C, desde research y prototipado hasta UI, sistemas de diseño y trabajo con ingeniería. Actualmente soy el único diseñador a tiempo completo en una consultora financiera y colaboro con cinco equipos de ingeniería en productos y experiencias para entidades financieras.",
   },
   /**
-   * Content mirrors the one-page resume master in ~/Documents/CV, dated
-   * 2026-09-09. Home Genius
-   * Exteriors is off — the resume dropped it. Titles, companies, dates and
-   * bullets are the resume's, verbatim in English; Spanish is a Peninsular
-   * translation of the same copy.
+   * Content mirrors the one-page CV dated 2026-09-16 (the Garaje de Ideas
+   * version). That CV was written in Spanish, so the Spanish here is Richard's
+   * copy verbatim, with role titles in sentence case, and the English is a
+   * translation of it. Both, plus the PDFs, live in applications/garaje-de-ideas/,
+   * which is gitignored because the CV carries a phone number. The phone number
+   * stays off this page for the same reason.
    *
-   * Story Architect stays off: cited as delivered work, but the site never
-   * shipped. Don't re-add it without a live link.
+   * Home Genius Exteriors is off, as it is on the CV. Story Architect stays off:
+   * cited as delivered work, but the site never shipped. Don't re-add it without
+   * a live link.
    */
   experience: [
     {
@@ -70,47 +73,49 @@ const CV: {
       company: "Afi",
       period: { en: "2025 – present", es: "2025 – actualidad" },
       lead: {
-        en: "Sole designer on two white-label financial products, working in agile sprints with forty engineers across five teams, from product flows through to the live interface.",
-        es: "Único diseñador en dos productos financieros de marca blanca; trabajo en sprints ágiles con cuarenta ingenieros de cinco equipos, desde los flujos de producto hasta la interfaz en producción.",
+        en: "Spanish financial consultancy that builds digital products for banks and other financial institutions.",
+        es: "Consultora financiera española que desarrolla productos digitales para bancos y otras entidades financieras.",
       },
       bullets: {
         en: [
-          "Lead the 2026 Wealth Planner redesign, directing a second freelance designer. The design definition, typeface, token vocabulary and component library are now published in Claude Design for product owners to build with.",
-          "Built and maintain a three-tier token architecture in Figma and Angular, so a white-label client is rebranded with a single token swap instead of edits across twenty component files.",
-          "Designed and documented an Angular component playground covering every state, token and brand variant, so five engineering teams implement components from one source.",
-          "Tested the playground with engineers, who read raw values over token names, and added an inspector showing both; built a feedback tool that pins comments to components and exports them to the change log.",
+          "Led the 2026 visual redesign of Wealth Planner, defining the interface, states, responsive behaviour and interaction patterns, and coordinating a second freelance designer.",
+          "Designed financial simulators, many of them white-label, for institutions such as Santander, Unicaja and Bankinter, adapting each one to business, brand and user requirements and working with development through to implementation.",
+          "Audited Wealth Planner's screens and components with engineering ahead of its migration to PrimeNG, identifying inconsistencies and defining reusable patterns.",
+          "Created a token architecture and a Figma component library to keep products consistent and adapt the interface to different brands.",
+          "Built an interactive component playground in Claude Code, used by five engineering teams; while testing it with them, spotted usability issues and added an inspector that links visual values to their tokens.",
         ],
         es: [
-          "Lidero el rediseño del Wealth Planner 2026 y dirijo a un segundo diseñador freelance. La definición de diseño, la tipografía, el vocabulario de tokens y la librería de componentes ya están publicados en Claude Design para que los product owners construyan con ellos.",
-          "Construí y mantengo una arquitectura de tokens en tres niveles en Figma y Angular, de modo que un cliente de marca blanca actualiza su marca con un solo cambio de tokens en lugar de ediciones en veinte archivos de componentes.",
-          "Diseñé y documenté un playground de componentes en Angular que cubre cada estado, token y variante de marca, para que cinco equipos de ingeniería implementen los componentes desde una única fuente.",
-          "Probé el playground con ingenieros, que leen los valores en bruto antes que los nombres de los tokens, y añadí un inspector que muestra ambos; construí una herramienta de feedback que fija comentarios a los componentes y los exporta al changelog.",
+          "Lideré el rediseño visual 2026 de Wealth Planner, definiendo la interfaz, los estados, el comportamiento responsive y los patrones de interacción, y coordinando a una segunda diseñadora freelance.",
+          "Diseñé simuladores financieros, muchos de ellos white-label, para entidades como Santander, Unicaja y Bankinter, adaptando cada solución a los requisitos de negocio, marca y usuario y trabajando con desarrollo hasta su implementación.",
+          "Audité las pantallas y componentes de Wealth Planner junto con ingeniería antes de su migración a PrimeNG, detectando inconsistencias y definiendo patrones reutilizables.",
+          "Creé una arquitectura de tokens y una librería de componentes en Figma para mantener la consistencia entre productos y adaptar la interfaz a distintas marcas.",
+          "Construí en Claude Code un playground interactivo de componentes utilizado por cinco equipos de ingeniería; al probarlo con ellos, detecté problemas de uso y añadí un inspector que relaciona los valores visuales con sus tokens.",
         ],
       },
     },
     {
       role: {
-        en: "Senior Digital Product Manager",
-        es: "Product manager digital sénior",
+        en: "Senior Product Manager & Product Designer",
+        es: "Senior Product Manager & Product Designer",
       },
       company: "Audemic",
       period: { en: "2024 – 2025", es: "2024 – 2025" },
       lead: {
-        en: "Product manager and sole designer for a B2C research app at $6K/month; led its pivot to B2B enterprise after investors flagged the built-in churn of a student user base.",
-        es: "Product manager y único diseñador de una app de investigación B2C con 6.000 $/mes de ingresos; lideré su giro hacia el segmento B2B empresarial después de que los inversores señalaran el abandono estructural de una base de usuarios estudiantil.",
+        en: "AI-powered research product. Combined product management and design in B2C, and later in exploring a B2B model.",
+        es: "Producto de investigación basado en IA. Combiné product management y diseño en B2C y, más adelante, en la exploración de un modelo B2B.",
       },
       bullets: {
         en: [
-          "Interviewed UN analysts and vaccine researchers, found they lost 20 hours a month searching for information, and launched a B2B beta that produced 20 qualified leads in its first week of paid ads.",
-          "Analysed the onboarding funnel in Mixpanel, where 38% of sign-ups skipped onboarding and 18% reached topic selection, and redesigned it to lead with search and five personalised summaries before asking for anything.",
-          "Shipped AI summaries iterated against OpenAI and Claude models, a paper view that puts each summary on its source text, and in-app feedback that never interrupts a task, growing revenue from $6K to $10K a month.",
-          "Prioritised the backlog with Reach × Impact × Confidence ÷ Effort, so user feedback entered the roadmap in order of business value.",
+          "Interviewed UN analysts and vaccine researchers and found they spent up to 20 hours a month tracking down relevant information.",
+          "Analysed the onboarding funnel in Mixpanel and found that 38% of sign-ups skipped it; redesigned onboarding to show the product's value before asking for setup.",
+          "Designed and iterated on AI-generated summaries, a reading experience that connects each summary to its source text, and an in-app feedback system.",
+          "Used surveys, user tests, in-app feedback and RICE to prioritise opportunities; took part in an early B2B beta that generated 20 qualified leads in its first week of paid ads.",
         ],
         es: [
-          "Entrevisté a analistas de la ONU e investigadores de vacunas, descubrí que perdían 20 horas al mes buscando información, y lancé una beta B2B que generó 20 leads cualificados en su primera semana de publicidad de pago.",
-          "Analicé el embudo de onboarding en Mixpanel, donde el 38 % de los registros se saltaba el onboarding y solo el 18 % llegaba a la selección de temas, y lo rediseñé para empezar con la búsqueda y cinco resúmenes personalizados antes de pedir nada.",
-          "Lancé resúmenes de IA iterados sobre modelos de OpenAI y Claude, una vista de artículo que sitúa cada resumen sobre su texto original, y feedback dentro de la app que nunca interrumpe una tarea; los ingresos crecieron de 6.000 $ a 10.000 $ al mes.",
-          "Prioricé el backlog con la fórmula RICE (Reach × Impact × Confidence ÷ Effort), de modo que el feedback de los usuarios entraba en el roadmap por orden de valor de negocio.",
+          "Entrevisté a analistas de la ONU e investigadores de vacunas e identifiqué hasta 20 horas mensuales dedicadas a localizar información relevante.",
+          "Analicé el funnel de onboarding en Mixpanel y detecté que el 38 % de los registros se lo saltaba; rediseñé el onboarding para mostrar el valor del producto antes de pedir configuración.",
+          "Diseñé e iteré resúmenes generados con IA, una experiencia de lectura que conecta cada resumen con su texto original y un sistema de feedback in-app.",
+          "Utilicé encuestas, tests de usuario, feedback in-app y RICE para priorizar oportunidades; participé en una primera beta B2B que generó 20 leads cualificados en su primera semana de anuncios de pago.",
         ],
       },
     },
@@ -123,12 +128,14 @@ const CV: {
       period: { en: "2021 – present", es: "2021 – actualidad" },
       bullets: {
         en: [
-          "Encoded KT360's brand rules, component specs and motion tokens as files AI agents read and enforce, so a team with no in-house designer ships on-brand pages.",
-          "Delivered Mindfulme's brand, onboarding and mobile MVP, a B2C affirmation product shaped by beta feedback.",
+          "Built internal tools for KT360 with Claude Code, such as a brand playground where the team can browse and download logos as SVG and PNG in every colour and size, cutting repeat requests for assets and Figma links.",
+          "Designed the identity, onboarding and MVP for the Mindfulme mobile app, as well as the visual identity and logo for Beetested.",
+          "Redesigned a school's website, replacing a basic HTML page with an experience built for families and admissions; enrolments doubled in the month after launch.",
         ],
         es: [
-          "Codifiqué las reglas de marca, especificaciones de componentes y tokens de movimiento de KT360 en archivos que los agentes de IA leen y aplican, para que un equipo sin diseñador interno publique páginas coherentes con la marca.",
-          "Entregué la marca, el onboarding y el MVP móvil de Mindfulme, un producto B2C de afirmaciones moldeado por el feedback de la beta.",
+          "Construí con Claude Code herramientas internas para KT360, como un playground de marca donde el equipo puede consultar y descargar logotipos en SVG y PNG con sus colores y tamaños, evitando peticiones repetitivas de assets y enlaces de Figma.",
+          "Diseñé la identidad, el onboarding y el MVP de la app móvil Mindfulme, además de la identidad visual y el logotipo de Beetested.",
+          "Rediseñé la web de un centro educativo, sustituyendo una página HTML básica por una experiencia orientada a familias y captación; tras el lanzamiento, las matriculaciones aumentaron un 100 % durante el mes siguiente.",
         ],
       },
     },
@@ -138,45 +145,61 @@ const CV: {
       period: { en: "2023 – 2024", es: "2023 – 2024" },
       bullets: {
         en: [
-          "Audited the agency's sites, researched AI and SEO, and segmented content by client geography, doubling monthly revenue from $15K to $30K.",
+          "Audited websites and combined user, market and SEO research to improve their structure and content; also segmented the experience by market and client location.",
         ],
         es: [
-          "Audité los sitios de la agencia, investigué IA y SEO, y segmenté el contenido según la geografía de cada cliente, duplicando los ingresos mensuales de 15.000 $ a 30.000 $.",
+          "Audité webs y combiné research de usuarios, mercado y SEO para mejorar la arquitectura y el contenido; también segmenté las experiencias por mercado y ubicación del cliente.",
         ],
       },
     },
   ],
   skills: [
     {
-      label: { en: "Product", es: "Producto" },
+      label: { en: "Product design", es: "Diseño de producto" },
       text: {
-        en: "Discovery interviews · user testing · Mixpanel funnels · beta launches · RICE prioritisation · LLM-drafted specs",
-        es: "Entrevistas de descubrimiento · testing con usuarios · embudos en Mixpanel · lanzamientos de beta · priorización RICE · especificaciones redactadas con LLM",
+        en: "Research · interviews · user testing · information architecture · user flows · wireframes · prototyping · interaction · UI · responsive · accessibility · design systems",
+        es: "Research · entrevistas · tests de usuario · arquitectura de información · user flows · wireframes · prototipado · interacción · UI · responsive · accesibilidad · design systems",
       },
     },
     {
-      label: { en: "Design", es: "Diseño" },
+      label: { en: "Product & analytics", es: "Producto y analítica" },
       text: {
-        en: "Figma · design systems and tokens · component specs · typography and layout · motion · accessibility",
-        es: "Figma · sistemas de diseño y tokens · especificaciones de componentes · tipografía y maquetación · movimiento · accesibilidad",
+        en: "Mixpanel · funnels · UX audits · experimentation · in-app feedback · RICE · agile teams",
+        es: "Mixpanel · funnels · auditorías UX · experimentación · feedback in-app · RICE · equipos ágiles",
       },
     },
     {
-      label: { en: "Build", es: "Desarrollo" },
+      label: { en: "Tools", es: "Herramientas" },
       text: {
-        en: "Prototyping and production code with Claude Code, daily: React · TypeScript · Next.js · Tailwind CSS · Angular (PrimeNG) · shadcn/ui · open-source portfolio at github.com/RichGriner1",
-        es: "Prototipado y código de producción con Claude Code, a diario: React · TypeScript · Next.js · Tailwind CSS · Angular (PrimeNG) · shadcn/ui · portfolio de código abierto en github.com/RichGriner1",
+        en: "Figma · Claude Design · Claude Code · Codex · prototyping in React, Next.js and Angular",
+        es: "Figma · Claude Design · Claude Code · Codex · prototipado en React, Next.js y Angular",
+      },
+    },
+    {
+      label: { en: "Languages", es: "Idiomas" },
+      text: {
+        en: "English, native. Spanish, professional working proficiency.",
+        es: "Inglés nativo · Español profesional",
       },
     },
   ],
   education: {
-    en: "Master's in Digital Product & Service Design, IED Madrid · BA Anthropology, University of Maryland",
-    es: "Máster en diseño de producto digital y de servicios, IED Madrid · Grado en Antropología, University of Maryland",
+    en: [
+      "Master's in Digital Product & Service Design · IED Madrid",
+      "AI Design Systems Certificate · Memorisely",
+      "BA in Anthropology · University of Maryland",
+    ],
+    es: [
+      "Máster en Diseño de Producto y Servicio Digital · IED Madrid",
+      "Certificado AI Design Systems · Memorisely",
+      "Grado en Antropología · University of Maryland",
+    ],
   },
 };
 
+// Sentence case, like the CV it mirrors and every other label on the site.
 const SECTION_HEADING =
-  "text-muted-foreground border-border mt-6 mb-2 border-b pb-1 text-xs font-bold tracking-wider uppercase";
+  "text-muted-foreground border-border mt-6 mb-2 border-b pb-1 text-xs font-bold";
 
 /**
  * Uncontrolled by default: renders its own "CV" trigger and owns `open`.
@@ -379,7 +402,7 @@ export function CvModal({
               <div className="flex flex-col gap-1.5">
                 {CV.skills.map((s) => (
                   <p key={s.label.en} className="text-xs leading-relaxed">
-                    <span className="text-muted-foreground mr-1.5 text-xs font-bold tracking-wider uppercase">
+                    <span className="text-muted-foreground mr-1.5 text-xs font-bold">
                       {pick(s.label, lang)}
                     </span>
                     <span className="text-foreground">
@@ -392,9 +415,16 @@ export function CvModal({
               <h3 className={SECTION_HEADING}>
                 {t("cv.education_heading", lang)}
               </h3>
-              <p className="text-foreground text-xs leading-relaxed">
-                {pick(CV.education, lang)}
-              </p>
+              <div className="flex flex-col gap-1">
+                {pick(CV.education, lang).map((line) => (
+                  <p
+                    key={line}
+                    className="text-foreground text-xs leading-relaxed"
+                  >
+                    {line}
+                  </p>
+                ))}
+              </div>
             </motion.div>
           </>
         )}

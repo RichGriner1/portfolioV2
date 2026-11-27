@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Hand, HandGrab } from "lucide-react";
 
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -191,6 +192,8 @@ export function CanvasCursor({
   const [inside, setInside] = useState(false);
   /** True while the pointer is over the backdrop rather than the CV panel. */
   const [overBackdrop, setOverBackdrop] = useState(false);
+  /** Over something draggable: an open hand, or a closed one while pressed. */
+  const [grab, setGrab] = useState<"open" | "closed" | null>(null);
 
   const { lang } = useLang();
   /**
@@ -347,8 +350,12 @@ export function CanvasCursor({
      *
      * `DRAG_THRESHOLD` is what separates a click from a pan, and it is the
      * honest test: past 24px the board has moved, whatever sat under the
-     * pointer. A click that never crosses it still navigates and still teaches
-     * nothing, which is the case the old exclusion was actually aiming at.
+     * pointer, unless the press started on a drag HANDLE (`[data-cursor-drag]`):
+     * the gesture legend, or a section's name tag. Those move an object, not
+     * the board, so `onDown` below rules them out before the distance check
+     * ever runs. A click that never crosses it still navigates and still
+     * teaches nothing, which is the case the old exclusion was actually aiming
+     * at.
      */
     const onBoard = (e: Event) => {
       const target = e.target as HTMLElement | null;
@@ -357,6 +364,13 @@ export function CanvasCursor({
 
     let from: { x: number; y: number } | null = null;
     const onDown = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null;
+      // A press on a drag handle moves that object, not the board, so it must
+      // not be read as the start of a pan below.
+      if (target?.closest("[data-cursor-drag]")) {
+        from = null;
+        return;
+      }
       from = onBoard(e) ? { x: e.clientX, y: e.clientY } : null;
     };
     const onMove = (e: PointerEvent) => {
@@ -521,9 +535,20 @@ export function CanvasCursor({
         const hit = document.elementFromPoint(e.clientX, e.clientY);
         setOverBackdrop(!hit?.closest("[data-cv-dialog]"));
       }
+
+      // Read off the event target rather than a hit test, so an ordinary pan
+      // pays nothing for it. During a drag the legend holds pointer capture, so
+      // the target stays the legend. Its × is a button, not a handle.
+      const el = e.target instanceof Element ? e.target : null;
+      const draggable =
+        !!el?.closest("[data-cursor-drag]") && !el.closest("button");
+      setGrab(draggable ? (e.buttons & 1 ? "closed" : "open") : null);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    // A press or release changes the hand without the pointer moving.
+    window.addEventListener("pointerdown", onMove, { passive: true });
+    window.addEventListener("pointerup", onMove, { passive: true });
 
     let frame = 0;
     const tick = () => {
@@ -542,6 +567,8 @@ export function CanvasCursor({
 
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onMove);
+      window.removeEventListener("pointerup", onMove);
       cancelAnimationFrame(frame);
     };
   }, [enabled, reduced, closeMode]);
@@ -581,7 +608,29 @@ export function CanvasCursor({
             </svg>
           </div>
         </div>
-      ) : !inside ? null : (
+      ) : !inside ? null : grab ? (
+        /* Over a drag handle, the gesture legend or a section's name tag: a
+           hand, centred on the pointer the way an OS grab cursor is, closing
+           while pressed. No label. People hover the legend to read it, and a
+           "Drag" chip beside "Scroll, up and down" read as a second
+           instruction for moving the board. */
+        <div
+          ref={arrow}
+          className="absolute top-0 left-0 will-change-transform"
+        >
+          {grab === "open" ? (
+            <Hand
+              className="text-primary -m-3 size-6 drop-shadow-sm"
+              strokeWidth={2}
+            />
+          ) : (
+            <HandGrab
+              className="text-primary -m-3 size-6 drop-shadow-sm"
+              strokeWidth={2}
+            />
+          )}
+        </div>
+      ) : (
         <>
           <div
             ref={arrow}

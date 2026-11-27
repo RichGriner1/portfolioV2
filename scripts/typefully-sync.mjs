@@ -54,13 +54,28 @@ const REPO = resolve(__dirname, "..");
 const SOCIAL = join(REPO, "content", "social");
 const EMITTER = join(__dirname, "typefully-schedule-backlog.mjs");
 const STATE_FILE = join(SOCIAL, ".typefully-state.json");
-const BASE_URL = (process.env.TYPEFULLY_BASE_URL || "https://api.typefully.com").replace(/\/$/, "");
+const BASE_URL = (
+  process.env.TYPEFULLY_BASE_URL || "https://api.typefully.com"
+).replace(/\/$/, "");
 
 function parseArgs(argv) {
-  const a = { platform: "x", from: null, to: null, limit: null,
-              time1: "09:00", time2: "14:00", time3: "11:30", tz: "+02:00",
-              socialSet: process.env.TYPEFULLY_SOCIAL_SET_ID || null,
-              list: false, adopt: false, send: false, prune: false, json: false, liveFile: null };
+  const a = {
+    platform: "x",
+    from: null,
+    to: null,
+    limit: null,
+    time1: "09:00",
+    time2: "14:00",
+    time3: "11:30",
+    tz: "+02:00",
+    socialSet: process.env.TYPEFULLY_SOCIAL_SET_ID || null,
+    list: false,
+    adopt: false,
+    send: false,
+    prune: false,
+    json: false,
+    liveFile: null,
+  };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === "--platform") a.platform = argv[++i];
@@ -78,13 +93,20 @@ function parseArgs(argv) {
     else if (t === "--prune") a.prune = true;
     else if (t === "--json") a.json = true;
     else if (t === "--live-file") a.liveFile = argv[++i];
-    else if (t === "-h" || t === "--help") { help(); process.exit(0); }
-    else { process.stderr.write(`unknown arg: ${t}\n`); process.exit(2); }
+    else if (t === "-h" || t === "--help") {
+      help();
+      process.exit(0);
+    } else {
+      process.stderr.write(`unknown arg: ${t}\n`);
+      process.exit(2);
+    }
   }
   return a;
 }
 function help() {
-  process.stdout.write("See header comment in scripts/typefully-sync.mjs for usage.\n");
+  process.stdout.write(
+    "See header comment in scripts/typefully-sync.mjs for usage.\n"
+  );
 }
 
 const norm = (s) => (s || "").replace(/\r\n/g, "\n").trim();
@@ -93,7 +115,9 @@ const eq = (isoA, isoB) => Date.parse(isoA) === Date.parse(isoB);
 function requireKey() {
   const key = process.env.TYPEFULLY_API_KEY;
   if (!key) {
-    process.stderr.write("TYPEFULLY_API_KEY is not set. Export it in this shell before running.\n");
+    process.stderr.write(
+      "TYPEFULLY_API_KEY is not set. Export it in this shell before running.\n"
+    );
     process.exit(1);
   }
   return key;
@@ -103,15 +127,25 @@ async function api(method, path, body) {
   const key = requireKey();
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
-    headers: { Authorization: `Bearer ${key}`, ...(body ? { "Content-Type": "application/json" } : {}) },
+    headers: {
+      Authorization: `Bearer ${key}`,
+      ...(body ? { "Content-Type": "application/json" } : {}),
+    },
     body: body ? JSON.stringify(body) : undefined,
   });
   if (res.status === 429) {
-    process.stderr.write(`rate limited (429). Retry after ${res.headers.get("X-RateLimit-User-Reset") || "a bit"}.\n`);
+    process.stderr.write(
+      `rate limited (429). Retry after ${res.headers.get("X-RateLimit-User-Reset") || "a bit"}.\n`
+    );
     process.exit(1);
   }
   const text = await res.text();
-  let json; try { json = text ? JSON.parse(text) : null; } catch { json = text; }
+  let json;
+  try {
+    json = text ? JSON.parse(text) : null;
+  } catch {
+    json = text;
+  }
   if (!res.ok) throw new Error(`${method} ${path} -> ${res.status}: ${text}`);
   return json;
 }
@@ -125,11 +159,18 @@ async function resolveSocialSet(args) {
   const sets = data.results || [];
   if (sets.length === 1) {
     args.socialSet = sets[0].id;
-    process.stderr.write(`social set: auto-selected ${sets[0].id} (${sets[0].username || "?"})\n`);
+    process.stderr.write(
+      `social set: auto-selected ${sets[0].id} (${sets[0].username || "?"})\n`
+    );
     return;
   }
-  if (sets.length === 0) { process.stderr.write("no Typefully social sets found for this key.\n"); process.exit(2); }
-  process.stderr.write(`multiple social sets — pass --social-set <id>:\n${sets.map((s) => `  ${s.id}  ${s.username || "?"}`).join("\n")}\n`);
+  if (sets.length === 0) {
+    process.stderr.write("no Typefully social sets found for this key.\n");
+    process.exit(2);
+  }
+  process.stderr.write(
+    `multiple social sets — pass --social-set <id>:\n${sets.map((s) => `  ${s.id}  ${s.username || "?"}`).join("\n")}\n`
+  );
   process.exit(2);
 }
 
@@ -140,13 +181,27 @@ function loadDesired(args) {
   if (args.from) emitArgs.push("--from", args.from);
   if (args.to) emitArgs.push("--to", args.to);
   if (args.limit) emitArgs.push("--limit", String(args.limit));
-  emitArgs.push("--time1", args.time1, "--time2", args.time2, "--time3", args.time3, "--tz", args.tz);
+  emitArgs.push(
+    "--time1",
+    args.time1,
+    "--time2",
+    args.time2,
+    "--time3",
+    args.time3,
+    "--tz",
+    args.tz
+  );
   let out;
   try {
     // stderr inherited so emit warnings are visible; non-zero exit throws below.
-    out = execFileSync("node", [EMITTER, ...emitArgs], { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] });
-  } catch (e) {
-    process.stderr.write("aborting: could not build a complete desired state from backlog.md (see emit errors above).\n");
+    out = execFileSync("node", [EMITTER, ...emitArgs], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "inherit"],
+    });
+  } catch {
+    process.stderr.write(
+      "aborting: could not build a complete desired state from backlog.md (see emit errors above).\n"
+    );
     process.exit(1);
   }
   return JSON.parse(out); // [{ contentKey, when, platform, text, ... }]
@@ -161,14 +216,22 @@ function loadDesired(args) {
 async function loadLive(args) {
   if (args.liveFile) {
     const raw = JSON.parse(await readFile(args.liveFile, "utf8"));
-    return (Array.isArray(raw) ? raw : raw.results || []);
+    return Array.isArray(raw) ? raw : raw.results || [];
   }
   const setId = args.socialSet;
-  if (!setId) { process.stderr.write("no social set — pass --social-set <id> or set TYPEFULLY_SOCIAL_SET_ID\n"); process.exit(2); }
+  if (!setId) {
+    process.stderr.write(
+      "no social set — pass --social-set <id> or set TYPEFULLY_SOCIAL_SET_ID\n"
+    );
+    process.exit(2);
+  }
   const all = [];
   let offset = 0;
   for (;;) {
-    const page = await api("GET", `/v2/social-sets/${setId}/drafts?limit=50&offset=${offset}`);
+    const page = await api(
+      "GET",
+      `/v2/social-sets/${setId}/drafts?limit=50&offset=${offset}`
+    );
     const results = page.results || [];
     all.push(...results);
     if (!page.next || results.length < 50) break; // null next OR a short page = last page
@@ -181,14 +244,21 @@ function liveForPlatform(drafts, platform) {
   return drafts
     .filter((d) => d?.[`${platform}_post_enabled`])
     .filter((d) => d.status !== "published" && d.status !== "publishing")
-    .map((d) => ({ id: d.id, when: d.scheduled_date ?? d.publish_at ?? null, status: d.status, preview: norm(d.preview || "") }));
+    .map((d) => ({
+      id: d.id,
+      when: d.scheduled_date ?? d.publish_at ?? null,
+      status: d.status,
+      preview: norm(d.preview || ""),
+    }));
 }
 
 // `preview` is the tweet text truncated with a trailing ellipsis. Treat a row as
 // unchanged when the desired text starts with that stem. If the stem is empty we
 // can't tell, so assume unchanged (never push an edit we can't verify).
 function previewMatches(desiredText, preview) {
-  const core = norm(preview).replace(/(\.\.\.|…)$/, "").trim();
+  const core = norm(preview)
+    .replace(/(\.\.\.|…)$/, "")
+    .trim();
   if (!core) return true;
   return norm(desiredText).startsWith(core);
 }
@@ -218,17 +288,28 @@ function indexByInstant(live, claimed) {
 function adopt(desired, live, state) {
   const claimed = new Set(Object.values(state.map).map((v) => v.draftId));
   const byInstant = indexByInstant(live, claimed);
-  let matched = 0; const unmatched = [];
+  let matched = 0;
+  const unmatched = [];
   for (const row of desired) {
-    if (state.map[row.contentKey]) { matched++; continue; }
-    const cands = (byInstant.get(Date.parse(row.when)) || []).filter((x) => !claimed.has(x.id));
+    if (state.map[row.contentKey]) {
+      matched++;
+      continue;
+    }
+    const cands = (byInstant.get(Date.parse(row.when)) || []).filter(
+      (x) => !claimed.has(x.id)
+    );
     if (cands.length === 1) {
       state.map[row.contentKey] = { draftId: cands[0].id, when: row.when };
-      claimed.add(cands[0].id); matched++;
+      claimed.add(cands[0].id);
+      matched++;
     } else if (cands.length > 1) {
-      unmatched.push(`${row.contentKey}  (AMBIGUOUS: ${cands.length} live drafts at ${row.when})`);
+      unmatched.push(
+        `${row.contentKey}  (AMBIGUOUS: ${cands.length} live drafts at ${row.when})`
+      );
     } else {
-      unmatched.push(`${row.contentKey}  (no live draft at ${row.when} — will be CREATEd)`);
+      unmatched.push(
+        `${row.contentKey}  (no live draft at ${row.when} — will be CREATEd)`
+      );
     }
   }
   return { matched, unmatched };
@@ -243,7 +324,11 @@ function plan(desired, live, state) {
   const unclaimedByInstant = indexByInstant(live, claimed);
 
   const usedIds = new Set();
-  const creates = [], reschedules = [], edits = [], missing = [], skippedPast = [];
+  const creates = [],
+    reschedules = [],
+    edits = [],
+    missing = [],
+    skippedPast = [];
   for (const row of desired) {
     let link = state.map[row.contentKey];
     let d = link ? liveById.get(link.draftId) : null;
@@ -252,7 +337,9 @@ function plan(desired, live, state) {
     // time before deciding to create. This is what stops a forgotten --adopt (or
     // a renamed content key) from re-creating a post that already exists.
     if (!link) {
-      const cands = (unclaimedByInstant.get(Date.parse(row.when)) || []).filter((x) => !claimed.has(x.id));
+      const cands = (unclaimedByInstant.get(Date.parse(row.when)) || []).filter(
+        (x) => !claimed.has(x.id)
+      );
       if (cands.length === 1) {
         d = liveById.get(cands[0].id);
         state.map[row.contentKey] = { draftId: cands[0].id, when: row.when };
@@ -263,17 +350,27 @@ function plan(desired, live, state) {
 
     // Known draft that has vanished from the live queue (published or deleted
     // externally). NEVER re-create it — that's the duplicate-post footgun.
-    if (link && !d) { missing.push({ row, id: link.draftId }); continue; }
+    if (link && !d) {
+      missing.push({ row, id: link.draftId });
+      continue;
+    }
 
     if (!d) {
-      if (Date.parse(row.when) < now) { skippedPast.push(row); continue; } // don't schedule into the past
+      if (Date.parse(row.when) < now) {
+        skippedPast.push(row);
+        continue;
+      } // don't schedule into the past
       creates.push(row);
       continue;
     }
 
     usedIds.add(d.id);
-    if (Date.parse(row.when) < now) { skippedPast.push(row); continue; } // already exists and in the past — leave it
-    if (!d.when || !eq(d.when, row.when)) reschedules.push({ row, from: d.when, to: row.when, id: d.id });
+    if (Date.parse(row.when) < now) {
+      skippedPast.push(row);
+      continue;
+    } // already exists and in the past — leave it
+    if (!d.when || !eq(d.when, row.when))
+      reschedules.push({ row, from: d.when, to: row.when, id: d.id });
     if (!previewMatches(row.text, d.preview)) edits.push({ row, id: d.id });
   }
   const orphans = live.filter((d) => !usedIds.has(d.id));
@@ -287,49 +384,98 @@ function printPlan(p, args) {
   line(`CREATE     ${p.creates.length}`);
   line(`RESCHEDULE ${p.reschedules.length}`);
   line(`EDIT       ${p.edits.length}`);
-  line(`ORPHAN     ${p.orphans.length}${p.orphans.length && !args.prune ? "  (reported only — pass --prune to DELETE)" : ""}`);
-  if (p.missing.length) line(`MISSING    ${p.missing.length}  (known drafts gone from live — published or deleted; NOT re-created)`);
-  if (p.skippedPast.length) line(`SKIP-PAST  ${p.skippedPast.length}  (slot time already passed)`);
+  line(
+    `ORPHAN     ${p.orphans.length}${p.orphans.length && !args.prune ? "  (reported only — pass --prune to DELETE)" : ""}`
+  );
+  if (p.missing.length)
+    line(
+      `MISSING    ${p.missing.length}  (known drafts gone from live — published or deleted; NOT re-created)`
+    );
+  if (p.skippedPast.length)
+    line(`SKIP-PAST  ${p.skippedPast.length}  (slot time already passed)`);
   line("");
-  for (const r of p.creates) line(`  + CREATE      ${r.when}  ${r.tag} ${r.letter}  "${r.text.slice(0, 46).replace(/\n/g, " ")}…"`);
-  for (const r of p.reschedules) line(`  ~ RESCHEDULE  ${r.from} -> ${r.to}  ${r.row.tag} ${r.row.letter}`);
-  for (const r of p.edits) line(`  ~ EDIT text   ${r.row.when}  ${r.row.tag} ${r.row.letter}`);
-  for (const d of p.orphans) line(`  ${args.prune ? "- DELETE" : "! ORPHAN"}      ${d.when || "(unscheduled)"}  #${d.id} [${d.status}]  "${d.preview.slice(0, 40).replace(/\n/g, " ")}…"`);
-  for (const m of p.missing) line(`  ? MISSING     #${m.id}  ${m.row.tag} ${m.row.letter}  (run --adopt to reconcile if this is wrong)`);
+  for (const r of p.creates)
+    line(
+      `  + CREATE      ${r.when}  ${r.tag} ${r.letter}  "${r.text.slice(0, 46).replace(/\n/g, " ")}…"`
+    );
+  for (const r of p.reschedules)
+    line(`  ~ RESCHEDULE  ${r.from} -> ${r.to}  ${r.row.tag} ${r.row.letter}`);
+  for (const r of p.edits)
+    line(`  ~ EDIT text   ${r.row.when}  ${r.row.tag} ${r.row.letter}`);
+  for (const d of p.orphans)
+    line(
+      `  ${args.prune ? "- DELETE" : "! ORPHAN"}      ${d.when || "(unscheduled)"}  #${d.id} [${d.status}]  "${d.preview.slice(0, 40).replace(/\n/g, " ")}…"`
+    );
+  for (const m of p.missing)
+    line(
+      `  ? MISSING     #${m.id}  ${m.row.tag} ${m.row.letter}  (run --adopt to reconcile if this is wrong)`
+    );
   line("");
 }
 
 async function apply(p, state, args) {
   const setId = args.socialSet;
-  let done = 0, failed = 0;
+  let done = 0,
+    failed = 0;
   for (const row of p.creates) {
     try {
-      const body = { platforms: { [args.platform]: { enabled: true, posts: [{ text: row.text }] } }, publish_at: row.when };
+      const body = {
+        platforms: {
+          [args.platform]: { enabled: true, posts: [{ text: row.text }] },
+        },
+        publish_at: row.when,
+      };
       const res = await api("POST", `/v2/social-sets/${setId}/drafts`, body);
       const id = res?.id ?? res?.draft_id;
       if (id) state.map[row.contentKey] = { draftId: id, when: row.when };
-      process.stdout.write(`  ✓ CREATE     ${row.when}  ${row.tag} ${row.letter}  #${id}\n`); done++;
-    } catch (e) { failed++; process.stdout.write(`  ✗ CREATE     ${row.tag} ${row.letter} — ${e.message}\n`); }
+      process.stdout.write(
+        `  ✓ CREATE     ${row.when}  ${row.tag} ${row.letter}  #${id}\n`
+      );
+      done++;
+    } catch (e) {
+      failed++;
+      process.stdout.write(
+        `  ✗ CREATE     ${row.tag} ${row.letter} — ${e.message}\n`
+      );
+    }
   }
   for (const r of p.reschedules) {
     try {
-      await api("PATCH", `/v2/social-sets/${setId}/drafts/${r.id}`, { publish_at: r.to });
+      await api("PATCH", `/v2/social-sets/${setId}/drafts/${r.id}`, {
+        publish_at: r.to,
+      });
       if (state.map[r.row.contentKey]) state.map[r.row.contentKey].when = r.to;
-      process.stdout.write(`  ✓ RESCHEDULE #${r.id}  -> ${r.to}\n`); done++;
-    } catch (e) { failed++; process.stdout.write(`  ✗ RESCHEDULE #${r.id} — ${e.message}\n`); }
+      process.stdout.write(`  ✓ RESCHEDULE #${r.id}  -> ${r.to}\n`);
+      done++;
+    } catch (e) {
+      failed++;
+      process.stdout.write(`  ✗ RESCHEDULE #${r.id} — ${e.message}\n`);
+    }
   }
   for (const r of p.edits) {
     try {
-      await api("PATCH", `/v2/social-sets/${setId}/drafts/${r.id}`, { platforms: { [args.platform]: { posts: [{ text: r.row.text }] } } });
-      process.stdout.write(`  ✓ EDIT       #${r.id}  ${r.row.tag} ${r.row.letter}\n`); done++;
-    } catch (e) { failed++; process.stdout.write(`  ✗ EDIT       #${r.id} — ${e.message}\n`); }
+      await api("PATCH", `/v2/social-sets/${setId}/drafts/${r.id}`, {
+        platforms: { [args.platform]: { posts: [{ text: r.row.text }] } },
+      });
+      process.stdout.write(
+        `  ✓ EDIT       #${r.id}  ${r.row.tag} ${r.row.letter}\n`
+      );
+      done++;
+    } catch (e) {
+      failed++;
+      process.stdout.write(`  ✗ EDIT       #${r.id} — ${e.message}\n`);
+    }
   }
   if (args.prune) {
     for (const d of p.orphans) {
       try {
         await api("DELETE", `/v2/social-sets/${setId}/drafts/${d.id}`);
-        process.stdout.write(`  ✓ DELETE     #${d.id}\n`); done++;
-      } catch (e) { failed++; process.stdout.write(`  ✗ DELETE     #${d.id} — ${e.message}\n`); }
+        process.stdout.write(`  ✓ DELETE     #${d.id}\n`);
+        done++;
+      } catch (e) {
+        failed++;
+        process.stdout.write(`  ✗ DELETE     #${d.id} — ${e.message}\n`);
+      }
     }
   }
   return { done, failed };
@@ -343,12 +489,23 @@ async function main() {
   // --list: read-only. Print the live queue so we can verify the API shape.
   if (args.list) {
     const drafts = await loadLive(args);
-    if (args.json) { process.stdout.write(JSON.stringify(drafts, null, 2) + "\n"); return; }
-    const rows = liveForPlatform(drafts, args.platform)
-      .sort((a, b) => Date.parse(a.when || 0) - Date.parse(b.when || 0));
-    process.stdout.write(`\n── live drafts (${args.platform}, editable) : ${rows.length} ──\n`);
-    for (const r of rows) process.stdout.write(`  #${r.id}  ${r.when || "(unscheduled)"} [${r.status}]  "${r.preview.slice(0, 52).replace(/\n/g, " ")}…"\n`);
-    process.stdout.write(`\n(${drafts.length} total drafts across all platforms/statuses)\n`);
+    if (args.json) {
+      process.stdout.write(JSON.stringify(drafts, null, 2) + "\n");
+      return;
+    }
+    const rows = liveForPlatform(drafts, args.platform).sort(
+      (a, b) => Date.parse(a.when || 0) - Date.parse(b.when || 0)
+    );
+    process.stdout.write(
+      `\n── live drafts (${args.platform}, editable) : ${rows.length} ──\n`
+    );
+    for (const r of rows)
+      process.stdout.write(
+        `  #${r.id}  ${r.when || "(unscheduled)"} [${r.status}]  "${r.preview.slice(0, 52).replace(/\n/g, " ")}…"\n`
+      );
+    process.stdout.write(
+      `\n(${drafts.length} total drafts across all platforms/statuses)\n`
+    );
     return;
   }
 
@@ -361,7 +518,9 @@ async function main() {
   if (args.adopt) {
     const { matched, unmatched } = adopt(desired, live, state);
     await saveState(state);
-    process.stdout.write(`\nadopt: ${matched} matched, ${unmatched.length} unmatched.\n`);
+    process.stdout.write(
+      `\nadopt: ${matched} matched, ${unmatched.length} unmatched.\n`
+    );
     for (const u of unmatched) process.stdout.write(`  · ${u}\n`);
     process.stdout.write(`\nwrote ${STATE_FILE}\n`);
     return;
@@ -371,12 +530,19 @@ async function main() {
   printPlan(p, args);
 
   if (!args.send) {
-    process.stdout.write("DRY-RUN — nothing sent. Re-run with --send to apply (add --prune to delete orphans).\n");
+    process.stdout.write(
+      "DRY-RUN — nothing sent. Re-run with --send to apply (add --prune to delete orphans).\n"
+    );
     return;
   }
   const { done, failed } = await apply(p, state, args);
   await saveState(state);
-  process.stdout.write(`\nAPPLIED: ${done} ok, ${failed} failed. State written to ${STATE_FILE}\n`);
+  process.stdout.write(
+    `\nAPPLIED: ${done} ok, ${failed} failed. State written to ${STATE_FILE}\n`
+  );
 }
 
-main().catch((e) => { process.stderr.write(`unexpected: ${e.stack || e}\n`); process.exit(1); });
+main().catch((e) => {
+  process.stderr.write(`unexpected: ${e.stack || e}\n`);
+  process.exit(1);
+});

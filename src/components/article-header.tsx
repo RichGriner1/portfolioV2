@@ -47,9 +47,13 @@ export function ArticleHeader({
 
       {/* No hover replay on an article title — it's the largest type on the site,
           and a pointer crossing it on the way down the page would set the whole
-          thing churning. The mount and language-change runs are the point. */}
+          thing churning. The mount and language-change runs are the point, and the
+          `lang` key is what guarantees the second one: three post titles are the
+          same string in both languages, so `children` alone never changes. */}
       <h1 className="text-foreground font-display text-5xl font-black tracking-tight text-balance md:text-6xl lg:text-7xl">
-        <HyperText animateOnHover={false}>{pick(title, lang)}</HyperText>
+        <HyperText key={lang} animateOnHover={false}>
+          {pick(title, lang)}
+        </HyperText>
       </h1>
     </header>
   );

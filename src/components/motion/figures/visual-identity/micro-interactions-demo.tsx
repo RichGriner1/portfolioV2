@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import type { Bilingual, Lang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-import { useReducedMotion } from "./use-reduced-motion";
-
 // Section 7 — micro-interactions. Each control follows the motion recipe of its
 // afi-*-v2 counterpart in Coherence (libs/ui/src/{checkbox,radio,toggle,button}-v2),
 // mapped onto this repo's tokens: brand fill → primary, content-inverse →

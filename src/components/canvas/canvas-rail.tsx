@@ -184,9 +184,12 @@ function ZoomMenu({ zoom }: { zoom: RailZoom }) {
           onValueChange={(value) => zoom.onSet(Number(value))}
         >
           {ZOOM_PRESETS.map((level) => (
+            // A preset is pick-and-done, unlike the steppers above. Left open, the
+            // menu's dismiss layer sits over the board and swallows its hover.
             <DropdownMenuRadioItem
               key={level}
               value={String(level)}
+              closeOnClick
               className="text-xs"
             >
               {level * 100}%

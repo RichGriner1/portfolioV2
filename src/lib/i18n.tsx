@@ -96,6 +96,13 @@ export const UI = {
   "nav.socials": { en: "Socials", es: "Redes sociales" },
   // The canvas board's escape hatch out of a section and into the real index page.
   "nav.see_all": { en: "See all", es: "Ver todo" },
+  // The home page's layout switch. Plain words, because the people it's for are the
+  // ones the word "canvas" means nothing to. "Traditional" says the plain site is
+  // here without calling the canvas hard.
+  // TODO(afi-redaccion)
+  "view.label": { en: "Page layout", es: "Diseño de la página" },
+  "view.canvas": { en: "Canvas", es: "Lienzo" },
+  "view.list": { en: "Traditional", es: "Tradicional" },
   // The board's zoom menu. `zoom` names the trigger for anyone who can't see it —
   // the visible label is the current percentage, so the aria label can't just repeat
   // it. Same split `LangToggle` makes between its code and "Select language".
@@ -111,6 +118,13 @@ export const UI = {
     es: "Moverte por el lienzo",
   },
   "canvas.help_close": { en: "Close", es: "Cerrar" },
+  // The hint beside the ? after the legend closes, so a visitor who dismissed
+  // it knows where it went.
+  // TODO(afi-redaccion)
+  "canvas.help_hint": {
+    en: "Controls are here anytime",
+    es: "Los controles siguen aquí",
+  },
   // The bento card's header row. `card.live` marks the one card holding the real
   // running app rather than a drawing of it — the claim the page most needs to make
   // and the one a reader would otherwise have to guess at. `card.fullscreen` names
@@ -126,10 +140,11 @@ export const UI = {
   "cv.skills_heading": { en: "Skills", es: "Habilidades" },
   "cv.education_heading": { en: "Education", es: "Formación" },
   "cv.close": { en: "Close", es: "Cerrar" },
-  // The role line under the name, verbatim from the 2026-09-09 resume.
+  // The role line under the name. The 2026-09-16 CV has no title line; this is
+  // how its profile opens.
   "cv.title": {
-    en: "Product Designer · discovery to production code",
-    es: "Diseñador de producto · del descubrimiento al código en producción",
+    en: "Product Designer",
+    es: "Diseñador de producto",
   },
   "cv.location": { en: "Madrid, Spain", es: "Madrid, España" },
   "work.back": { en: "← back", es: "← volver" },

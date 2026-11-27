@@ -79,8 +79,8 @@ Light theme lives in `:root`, dark theme in `.dark`. Theme-switching is class-ba
 
 This repo uses a multi-agent [Claude Code](https://claude.com/claude-code) setup — see [AGENTS.md](AGENTS.md) for the full explanation. Two loops are defined:
 
-- **Dev loop** — `code-writer` → `test-runner` → `code-reviewer` auto-hands off on every feature/fix.
-- **Content loop** — `/journal` invokes a scribe that captures end-of-day thoughts; `/polish <file>` hands a journal entry to an editor to shape it into a publishable post.
+- **Dev loop**: the main session writes the change and runs lint, build, format and the `check:*` ship gates itself; real features also get a second opinion from a `code-reviewer` agent.
+- **Content loop**: `/journal` invokes a scribe that captures end-of-day thoughts; `/polish <file>` hands a journal entry to an editor to shape it into a publishable post.
 
 ## License
 

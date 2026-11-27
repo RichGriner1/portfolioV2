@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { IntroPreviewLink } from "@/components/intro-preview-link";
+import type { DiagramKey } from "@/lib/content/diagrams";
 import type { Bilingual } from "@/lib/i18n";
 
 /**
@@ -44,6 +45,11 @@ export type BentoCard = {
      * it reads as a recording of another surface, not as part of this page.
      */
     media?: string;
+    /**
+     * A diagram drawn after the sections, from src/lib/content/diagrams.ts. For the
+     * part a recording can't show: what happens once the click is over.
+     */
+    diagram?: DiagramKey;
   };
   image?: string;
   images?: string[];
@@ -167,8 +173,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Construyendo la infraestructura de diseño para una consultora fintech",
     },
     intro: {
-      en: "Afi is a financial consultancy that added a digital team during the dot-com boom and grew it as engineers: 40 programmers hired for math and CS, no dedicated designers until 2021, and no design system. Afi runs three brands; this is the system for Afi web, the internal and client-facing sites that carry the Afi brand. It's what someone reaches for to mock up a concept before committing time to real UI and internal solutions.",
-      es: "Afi es una consultora financiera que montó su equipo digital durante la burbuja de las .com y lo hizo crecer como equipo de ingeniería: 40 programadores contratados por su perfil de matemáticas e informática, sin diseñadores dedicados hasta 2021 y sin sistema de diseño. Afi tiene tres marcas; este es el sistema de Afi web, los sitios internos y de cliente que llevan la marca Afi. Es a lo que se recurre para maquetar un concepto antes de dedicar tiempo a la UI real y a las soluciones internas.",
+      en: "Afi is a financial consultancy that added a digital team during the dot-com boom and grew it as an engineering team. It hired 40 programmers for math and CS, had no dedicated designers until 2021, and had no design system. Afi runs three brands. This is the system for Afi web, the internal and client-facing sites that carry the Afi brand. It's what someone reaches for to mock up a concept before committing time to real UI and internal solutions.",
+      es: "Afi es una consultora financiera que montó su equipo digital durante la burbuja de las .com y lo hizo crecer como equipo de ingeniería. Contrató a 40 programadores por su perfil de matemáticas e informática, no tuvo diseñadores dedicados hasta 2021 y no tenía sistema de diseño. Afi tiene tres marcas. Este es el sistema de Afi web, los sitios internos y de cliente que llevan la marca Afi. Es a lo que se recurre para maquetar un concepto antes de dedicar tiempo a la UI real y a las soluciones internas.",
     },
     role: {
       en: "Design Systems Lead",
@@ -176,6 +182,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     },
     contributions: {
       en: [
+        "UI design",
         "Design systems",
         "Token architecture",
         "Component library",
@@ -183,6 +190,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "White-label strategy",
       ],
       es: [
+        "Diseño de interfaz",
         "Sistemas de diseño",
         "Arquitectura de tokens",
         "Librería de componentes",
@@ -403,6 +411,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               },
             },
           ],
+          // The recording stops when the comment lands. This is the rest of the trip.
+          diagram: "feedback-round-trip",
         },
         // Captured from the demo shell on 2026-08-25, on Familia: comment mode
         // on, click the `Residencia fiscal` select, type, publish, hold on the
@@ -477,51 +487,57 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   },
   "visual-identity": {
     tagline: {
-      en: "Turning a brief into an identity",
-      es: "Convertir un encargo en una identidad",
+      en: "Redesigning a white-label wealth planner from the tokens up",
+      // TODO(afi-redaccion)
+      es: "Rediseñar un wealth planner de marca blanca empezando por los tokens",
     },
     intro: {
       /**
-       * Cut to a context paragraph, not a summary of the whole project.
+       * A context paragraph, not a summary of the project: what the product is,
+       * what was wrong, and what came out. The arc is the cards' job.
        *
-       * The long version told the entire arc — strategy, personas, moodboards,
-       * principles, tokens — before a visitor had seen a single card. That's the
-       * cards' job now. What's left is the only thing they need to read the cards
-       * at all: what the product is, what was actually wrong, and what came out.
+       * Richard's wording. The last line names the deliverable, a token system
+       * and component library ahead of a design system migration, and the
+       * tagline, role and contributions all describe that same work.
        */
-      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief: make it look more modern. The product was built from static Figma screens, developers worked screen by screen, and nobody shared a definition of the word. I'm leading the work with Miguel, a freelance designer working with us part-time. We wrote the definition first, then turned it into a token vocabulary, a typeface and a component library for the live product.",
-      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea: que parezca más moderno. El producto estaba hecho de pantallas estáticas de Figma, los desarrolladores trabajaban pantalla a pantalla y nadie compartía una definición de esa palabra. Lidero el trabajo con Miguel, un diseñador freelance que colabora con nosotros a tiempo parcial. Primero escribimos la definición y después la convertimos en un vocabulario de tokens, una tipografía y una librería de componentes para el producto en producción.",
+      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief: make it look more modern. The product was built from static Figma screens, and developers worked screen by screen. I'm leading the work with Miguel, a freelance designer working with us part-time. We created the token system and component library in preparation for a design system migration.",
+      // TODO(afi-redaccion)
+      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea: que parezca más moderno. El producto estaba hecho de pantallas estáticas de Figma y los desarrolladores trabajaban pantalla a pantalla. Lidero el trabajo con Miguel, un diseñador freelance que colabora con nosotros a tiempo parcial. Creamos el sistema de tokens y la librería de componentes de cara a una migración de sistema de diseño.",
     },
     role: {
-      en: "Brand & Visual Identity Lead",
-      es: "Responsable de marca e identidad visual",
+      en: "Design Lead",
+      // TODO(afi-redaccion)
+      es: "Líder de diseño",
     },
     contributions: {
       en: [
-        "Brand strategy",
-        "Persona definition",
+        "UX/UI design",
+        "Design research",
         "Design principles",
-        "Typography & tokens",
-        "Micro-interaction design",
+        "Token system",
+        "Typography",
         "Component library",
+        "Micro-interaction design",
       ],
+      // TODO(afi-redaccion)
       es: [
-        "Estrategia de marca",
-        "Definición de personas",
+        "Diseño UX/UI",
+        "Investigación de diseño",
         "Principios de diseño",
-        "Tipografía y tokens",
-        "Diseño de microinteracciones",
+        "Sistema de tokens",
+        "Tipografía",
         "Librería de componentes",
+        "Diseño de microinteracciones",
       ],
     },
     /**
      * The same shape afi-design-system uses: context, then a demo, then cards.
      *
-     * Distilled from the long-form article at src/app/work/visual-identity/, which
-     * tells the story in nine sections and about 750 lines. Nothing here is new
-     * material — each card is one of that article's sections compressed to the beat
-     * a visitor needs at a glance, with the detail popup carrying the rest. The
-     * article stays the deep version; this is the one that reads in thirty seconds.
+     * Distilled from the long-form post on the Coherence site
+     * (coherence-wealth-manager.vercel.app/blog/identidad-visual), which tells
+     * the story in nine sections. Nothing here is new material: each card is one
+     * of that post's sections compressed to the beat a visitor needs at a
+     * glance, with the detail popup carrying the rest.
      *
      * Card order follows the work, not the writing: define the word, find the
      * references, agree the rules, build the foundations, then what got made on top.
@@ -560,8 +576,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Defining modern", es: "Definir moderno" },
         sublabel: {
-          en: "Four things you can see on a screen, so a review tests a choice instead of preferring one.",
-          es: "Cuatro cosas que se ven en pantalla, para que una revisión pruebe una decisión en vez de quedarse con la que más gusta.",
+          en: "Desk research that turned “more modern” into a six-point checklist the redesign is reviewed against.",
+          // TODO(afi-redaccion)
+          es: "Investigación que convirtió «más moderno» en una lista de control de seis puntos con la que se revisa el rediseño.",
         },
         // The Modern UI in 2026 thumbnail — the kinetic-type clip for the very
         // post this card links to, so the card face and the piece it points at
@@ -576,20 +593,52 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "The brief was one line: make it look more modern. My boss liked what the demo did and called how it looked dated, so interactivity was never the blocker. In one review the word meant a new typeface; in the next, more color or more motion. Wealth Planner was built from static Figma screens, so every reading of it could enter the product on its own.",
-                es: "El encargo era de una línea: que parezca más moderno. A mi jefe le gustaba lo que hacía la demo y el aspecto le parecía anticuado, así que la interactividad nunca fue el problema. En una revisión la palabra era otra tipografía; en la siguiente, más color o más movimiento. El Wealth Planner estaba hecho de pantallas estáticas de Figma, así que cada interpretación podía colarse en el producto por su cuenta.",
+                en: "The brief was one line: make it look more modern. My boss had no complaint about what the product did, only about how dated it looked. Without a shared definition of modern, every review turns into taste arguing with taste. In a product designed screen by screen, each person's version of the word could land on a different screen.",
+                // TODO(afi-redaccion)
+                es: "El encargo era de una línea: que parezca más moderno. A mi jefe no le molestaba lo que hacía el producto, solo lo anticuado que se veía. Sin una definición compartida de moderno, cada revisión se convierte en un gusto discutiendo con otro. En un producto diseñado pantalla a pantalla, la versión de cada persona podía acabar en una pantalla distinta.",
               },
             },
             {
               body: {
-                en: "Wrote the definition as things you can see on a screen: easy to scan, detail on demand, feedback that makes a change obvious, and a visual system that stays quiet around the numbers.",
-                es: "Escribimos la definición como cosas que se ven en pantalla: fácil de escanear, detalle bajo demanda, feedback que deja claro el cambio y un sistema visual que no compite con las cifras.",
+                en: (
+                  <>
+                    Before opening Figma, I did the desk research and wrote it
+                    up as{" "}
+                    <IntroPreviewLink slug="modern-ui-2026" newTab>
+                      Modern UI in 2026
+                    </IntroPreviewLink>
+                    . It ends on six checks the redesign gets reviewed against:
+                    a shared design language, screens built around user intent,
+                    motion that explains state, neutral surfaces with color kept
+                    for meaning, semantic tokens an AI can build on, and
+                    interactions that stay transparent, consistent and
+                    responsive.
+                  </>
+                ),
+                // TODO(afi-redaccion)
+                es: (
+                  <>
+                    Antes de abrir Figma hice la investigación y la publiqué
+                    como{" "}
+                    <IntroPreviewLink slug="modern-ui-2026" newTab>
+                      UI moderno en 2026
+                    </IntroPreviewLink>
+                    . Termina en una lista de control de seis puntos con la que
+                    se revisa el rediseño: un lenguaje de diseño compartido,
+                    pantallas construidas en torno a la intención del usuario,
+                    movimiento que explica estados, superficies neutras con el
+                    color reservado para el significado, tokens semánticos sobre
+                    los que una IA puede construir, e interacciones con
+                    transparencia, consistencia y capacidad de respuesta.
+                  </>
+                ),
               },
             },
             {
               body: {
-                en: "Now a review tests a choice instead of preferring one. A dashboard where every value competes fails the scan test, however current the styling. Color that decorates a card has a weaker case than color marking a negative number.",
-                es: "Ahora una revisión pone a prueba una decisión en vez de quedarse con la que más gusta. Un panel donde todos los valores compiten falla la prueba del escaneo, por actual que sea el estilo. El color que decora una tarjeta tiene menos argumento que el que marca un número negativo.",
+                en: "Now a review tests a screen against the checklist instead of someone's taste. Color that decorates a card loses to color that marks a negative number, because the checklist keeps color for meaning.",
+                // TODO(afi-redaccion)
+                es: "Ahora una revisión contrasta una pantalla con la lista de control, no con el gusto de alguien. El color que decora una tarjeta pierde frente al que marca un número negativo, porque la lista reserva el color para el significado.",
               },
             },
           ],
@@ -598,8 +647,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Moodboards", es: "Moodboards" },
         sublabel: {
-          en: "The six we kept going back to: Wise, Cursor, Shopify, Clerk, Notion and Granola.",
-          es: "Las seis a las que volvíamos siempre: Wise, Cursor, Shopify, Clerk, Notion y Granola.",
+          en: "Two boards built separately kept landing on Wise, Cursor, Shopify, Clerk, Notion and Granola, so those six set the direction.",
+          // TODO(afi-redaccion)
+          es: "Dos moodboards hechos por separado acababan en Wise, Cursor, Shopify, Clerk, Notion y Granola, así que esas seis marcaron la dirección.",
         },
         animation: "vi-moodboard",
         details: {
@@ -610,20 +660,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "A wide reference set gives you plenty to react to and no direction. Worse, almost everything we liked was SaaS: a handful of common actions a whole team has scoped down. Wealth Planner accumulates options because it gets built to whatever a client needed that day.",
-                es: "Un conjunto amplio de referencias da mucho material y ninguna dirección. Peor: casi todo lo que nos gustaba era SaaS, un puñado de acciones comunes que un equipo entero ha acotado. El Wealth Planner acumula opciones porque se construye según lo que un cliente necesitaba ese día.",
+                en: "A wide reference set gives you plenty to react to and no direction. And almost everything we liked was SaaS, built around a few common actions. Wealth Planner keeps adding options because it gets built to whatever a client needed that day, so no single product was going to fit it whole.",
+                // TODO(afi-redaccion)
+                es: "Un conjunto amplio de referencias da mucho material y ninguna dirección. Además, casi todo lo que nos gustaba era SaaS, construido en torno a unas pocas acciones comunes. El Wealth Planner no para de sumar opciones porque se construye según lo que un cliente necesitaba ese día, así que ningún producto iba a encajar entero.",
               },
             },
             {
               body: {
-                en: "Miguel noticed we kept going back to the same six: Wise, Cursor, Shopify, Clerk, Notion and Granola. We took the repetition as the signal.",
-                es: "Miguel se dio cuenta de que volvíamos siempre a las mismas seis: Wise, Cursor, Shopify, Clerk, Notion y Granola. Tomamos esa repetición como la señal.",
+                en: "So we collected by component, not by product. Miguel and I each built a board in Mobbin, separately: buttons, inputs, menus, cards, dialogs, sidebar and filters, three or four screens each. Going through both boards one component at a time, Miguel noticed we kept picking the same six apps. We took the repetition as the signal.",
+                // TODO(afi-redaccion)
+                es: "Así que recopilamos por componente, no por producto. Miguel y yo construimos cada uno un moodboard en Mobbin, por separado: botones, inputs, menús, tarjetas, diálogos, barra lateral y filtros, tres o cuatro pantallas por componente. Al recorrer los dos componente a componente, Miguel se dio cuenta de que elegíamos siempre las mismas seis aplicaciones. Tomamos esa repetición como la señal.",
               },
             },
             {
               body: {
-                en: "Wise was the only one from our domain and it settled color: a financial interface can stay mostly black and white and spend color on the data. The other five kept showing the same three things, which were clear hierarchy, restrained surfaces, and small interactions that explain state.",
-                es: "Wise era la única de nuestro sector y resolvió el color: una interfaz financiera puede ser casi toda blanco y negro y gastar el color en los datos. Las otras cinco repetían las mismas tres cosas: jerarquía clara, superficies contenidas e interacciones pequeñas que explican el estado.",
+                en: "The session gave us directions, not designs: buttons compact like Cursor's, menus like Clerk's with options only and no icons, Shopify for charts on cards. Wise, the only reference from our own domain, settled color: a financial interface can stay mostly black and white and spend color on the data.",
+                // TODO(afi-redaccion)
+                es: "La sesión nos dio direcciones, no diseños: botones compactos como los de Cursor, menús como los de Clerk, solo opciones y sin iconos, y Shopify para las gráficas sobre tarjetas. Wise, la única referencia de nuestro sector, resolvió el color: una interfaz financiera puede ser casi toda blanco y negro y gastar el color en los datos.",
               },
             },
           ],
@@ -632,8 +685,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Nine principles", es: "Nueve principios" },
         sublabel: {
-          en: "Nine rules about roles, so a pro tag and a beta tag stop looking the same.",
-          es: "Nueve reglas sobre roles, para que una etiqueta de pro y una de beta dejen de parecer iguales.",
+          en: "The patterns we kept picking, written down as nine principles, so the same question gets one answer on every screen.",
+          // TODO(afi-redaccion)
+          es: "Los patrones que elegíamos una y otra vez, escritos como nueve principios, para que la misma pregunta tenga una sola respuesta en cada pantalla.",
         },
         animation: "vi-nine-principles",
         details: {
@@ -650,14 +704,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             {
               body: {
-                en: "Nine principles, each with a direction and the thing to avoid: essential information first, detail on demand, and context kept with drawers, inline editing and expandable cards.",
-                es: "Nueve principios, cada uno con una dirección y con lo que hay que evitar: primero la información esencial, el detalle bajo demanda y el contexto mantenido con paneles laterales, edición en línea y tarjetas desplegables.",
+                en: "We tied the patterns we kept picking back to the research and wrote them down as nine principles. Among them: information density without visual density, progressive disclosure, consistency above novelty, and context over pages, so an edit happens in a drawer, inline or in an expandable card instead of on a new page. A second list names four things to avoid, starting with Material Design, whose opinions we had spent our time working around.",
+                // TODO(afi-redaccion)
+                es: "Conectamos los patrones que elegíamos una y otra vez con la investigación y los escribimos como nueve principios. Entre ellos: densidad de información sin densidad visual, revelado progresivo, consistencia por encima de novedad y contexto por encima de páginas, para que una edición ocurra en un panel lateral, en línea o en una tarjeta desplegable y no en otra página. Una segunda lista recoge cuatro cosas que evitar, empezando por Material Design, cuyas opiniones nos habíamos pasado el tiempo sorteando.",
               },
             },
             {
               body: {
-                en: "The ones that earn their place are about roles. An add-on tag and a beta tag describe what you are looking at; a pro tag is selling you something, so it cannot look the same. Page navigation is tabs, mutually exclusive options are a segmented control. That last rule fixed what we kept hitting: one component appearing twice on a page meaning two things.",
-                es: "Los que se ganan el sitio son los de roles. Una etiqueta de add-on y una de beta describen lo que estás viendo; una de pro te está vendiendo algo, así que no puede parecer lo mismo. La navegación de página son pestañas, las opciones excluyentes son un control segmentado. Esa última regla resolvió lo de siempre: un mismo componente que aparece dos veces en una página con dos significados.",
+                en: "The rules that earn their place are about roles: one component, one meaning. Page navigation is tabs; mutually exclusive options are a segmented control. An add-on tag and a beta tag describe what you're looking at, but a pro tag is selling you something, so it can't look like them. That fixed the problem we kept hitting: one component appearing twice on a page, meaning two things.",
+                // TODO(afi-redaccion)
+                es: "Las reglas que se ganan el sitio son las de roles: un componente, un significado. La navegación de página son pestañas; las opciones excluyentes son un control segmentado. Una etiqueta de add-on y una de beta describen lo que estás viendo, pero una de pro te está vendiendo algo, así que no puede parecerse a ellas. Eso resolvió lo que nos pasaba una y otra vez: un mismo componente que aparece dos veces en una página con dos significados.",
               },
             },
           ],
@@ -666,8 +722,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Foundations", es: "Fundamentos" },
         sublabel: {
-          en: "Tokens named by role, and the typeface that keeps 0000 and 4444 the same width.",
-          es: "Tokens nombrados por su papel y la tipografía que mantiene 0000 y 4444 al mismo ancho.",
+          en: "Tokens named by role, and a typeface that keeps 0000 and 4444 the same width so columns line up.",
+          // TODO(afi-redaccion)
+          es: "Tokens nombrados por su papel y una tipografía que mantiene 0000 y 4444 al mismo ancho para que las columnas se alineen.",
         },
         animation: "vi-type-test",
         details: {
@@ -684,14 +741,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             {
               body: {
-                en: "Named tokens by role first, background canvas and background elevated, and assigned values after. Compared Space Grotesk, Fira Sans, Geist and IBM Plex Sans on the same number patterns. Corner radius caps at 6px.",
-                es: "Primero nombramos los tokens por su papel, background canvas y background elevated, y asignamos valores después. Comparamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans con los mismos patrones numéricos. El radio de esquina tiene un tope de 6 px.",
+                en: "We set up the primitive and semantic tokens in black and white and named each by its role, background canvas or background elevated, before picking a single color. Spacing got the same treatment, like nav-to-content and canvas padding, and no corner is rounder than 6px. For type, we ran Space Grotesk, Fira Sans, Geist and IBM Plex Sans through the same number patterns.",
+                // TODO(afi-redaccion)
+                es: "Montamos los tokens primitivos y semánticos en blanco y negro y nombramos cada uno por su papel, background canvas o background elevated, antes de elegir un solo color. El espaciado recibió el mismo trato, como la distancia de la navegación al contenido o el padding del lienzo, y ninguna esquina pasa de 6 px de radio. En tipografía, pasamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans por los mismos patrones de cifras.",
               },
             },
             {
               body: {
-                en: "A screen asks for a canvas, not a hex value, so the value can change without renaming anything. IBM Plex Sans won because its default figures held those patterns in line. The test did not turn on tabular numerals, so the claim stops there. Shadows and dimensions are the next two passes.",
-                es: "Una pantalla pide un canvas, no un hexadecimal, así que el valor puede cambiar sin renombrar nada. IBM Plex Sans ganó porque sus cifras por defecto mantenían esos patrones alineados. La prueba no activó numerales tabulares, así que la conclusión llega hasta ahí. Las sombras y las dimensiones son las dos pasadas siguientes.",
+                en: "A screen asks for a canvas, not a hex value, so the palette can change later without renaming anything. Space Grotesk, Fira Sans and Geist drifted; IBM Plex Sans held, so it became the type family. The test used each font's default figures, which is what a screen gets unless someone turns on tabular numerals. Shadows and dimensions are the next two passes.",
+                // TODO(afi-redaccion)
+                es: "Una pantalla pide un canvas, no un hexadecimal, así que la paleta puede cambiar después sin renombrar nada. Space Grotesk, Fira Sans y Geist variaban; IBM Plex Sans se mantuvo, así que se convirtió en la familia tipográfica. La prueba usó las cifras por defecto de cada fuente, que es lo que recibe una pantalla si nadie activa los numerales tabulares. Las sombras y las dimensiones son las dos pasadas siguientes.",
               },
             },
           ],
@@ -700,14 +759,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Components", es: "Componentes" },
         sublabel: {
-          en: "Chip, badge, card and table on my side; tag, dialog, navbar and tabs on Miguel's.",
-          es: "Chip, badge, card y table por mi parte; tag, dialog, navbar y tabs por la de Miguel.",
+          en: "Primitives built in code first, then rebuilt in Figma by AI on the same variables, so both stay in sync.",
+          // TODO(afi-redaccion)
+          es: "Primitivos hechos primero en código y llevados a Figma por la IA con las mismas variables, para que Figma y el código no se separen.",
         },
         animation: "vi-components",
         details: {
           heading: {
-            en: "Building from shared components",
-            es: "Construir desde componentes compartidos",
+            en: "Components in code, documentation in Figma",
+            // TODO(afi-redaccion)
+            es: "Componentes en código, documentación en Figma",
           },
           sections: [
             {
@@ -718,14 +779,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             {
               body: {
-                en: "Split the primitives. I took chip, badge, card and table; Miguel took tag, dialog, navbar and tabs. Buttons, inputs, checkboxes and toggles we built together first. Everything is compact by default, which is a preference and not a finding.",
-                es: "Repartimos los primitivos. Yo cogí chip, badge, card y table; Miguel cogió tag, dialog, navbar y tabs. Botones, inputs, checkboxes y toggles los hicimos juntos primero. Todo es compacto por defecto, que es una preferencia y no un hallazgo.",
+                en: "We split the primitives: chip, badge, card and table for me; tag, dialog, navbar and tabs for Miguel. Buttons, inputs, checkboxes and toggles we built together first, to agree on one workflow. Each component starts in code, from the moodboard. An AI agent then builds it in Figma with the correct variables, adds any that are missing and drafts the documentation. We adjust it, then build it into the Afi library through the Figma MCP.",
+                // TODO(afi-redaccion)
+                es: "Nos repartimos los primitivos: chip, badge, tarjeta y tabla para mí; tag, diálogo, barra de navegación y pestañas para Miguel. Botones, inputs, checkboxes y toggles los hicimos juntos primero, para acordar un solo flujo de trabajo. Cada componente empieza en código, a partir del moodboard. Después un agente de IA lo construye en Figma con las variables correctas, crea las que falten y redacta la documentación. Lo ajustamos y lo llevamos a la librería de Afi con el MCP de Figma.",
               },
             },
             {
               body: {
-                en: "The card treatment is the one worth naming. Shopify nests a card inside a card, and moving the nested panel to the top gives it the double-layer depth a wallet has. Details like that carry more weight here, because underneath them the product is tables and graphs.",
-                es: "El tratamiento de las tarjetas es el que merece mención. Shopify anida una tarjeta dentro de otra, y colocar el panel anidado arriba le da la profundidad de doble capa de una cartera. Detalles así pesan más aquí, porque debajo el producto son tablas y gráficas.",
+                en: "Two skills keep the library consistent. /ds-cleanup audits a component or page, flags where it drifts from the system and fixes it on a second prompt. /ship commits and pushes, then hands back a Figma prompt for any variable that changed, so Figma and code don't drift apart. The workbench at the top of this page is where the team reviews each component on its own.",
+                // TODO(afi-redaccion)
+                es: "Dos skills mantienen la librería coherente. /ds-cleanup audita un componente o una página, señala dónde se desvía del sistema y lo corrige con un segundo prompt. /ship hace commit y push, y devuelve un prompt de Figma con cada variable que cambió, para que Figma y el código no se separen. El workbench del principio de esta página es donde el equipo revisa cada componente por separado.",
               },
             },
           ],
@@ -734,8 +797,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Micro-interactions", es: "Microinteracciones" },
         sublabel: {
-          en: "The check that draws itself, and the press state that goes in.",
-          es: "La marca que se dibuja sola y el estado de pulsado que se hunde.",
+          en: "Motion that explains state: a check that draws itself, a button that sinks when you press it.",
+          // TODO(afi-redaccion)
+          es: "Movimiento que explica estados: una marca que se dibuja sola y un botón que se hunde al pulsarlo.",
         },
         animation: "vi-micro",
         details: {
@@ -752,14 +816,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             {
               body: {
-                en: "Reverse-engineered the animations from the interfaces that set the direction. Where that failed, started from a React library and ported it to Angular. Press states go in, the way a physical button does.",
-                es: "Sacamos las animaciones por ingeniería inversa de las interfaces que marcaron la dirección. Donde eso no salió, partimos de una librería de React y la portamos a Angular. Los estados de pulsado se hunden, como un botón físico.",
+                en: "We didn't invent most of the animations. We reverse-engineered the ones that inspired us, or took a React library like Magic UI or Animate UI, ported it to Angular and iterated. The press state came out of the moodboard session: the button sinks in, the way a physical one does.",
+                // TODO(afi-redaccion)
+                es: "La mayoría de las animaciones no las inventamos. Recreamos por ingeniería inversa las que nos inspiraban, o cogimos una librería de React como Magic UI o Animate UI, la portamos a Angular e iteramos. El estado de pulsado salió de la sesión de moodboards: el botón se hunde, como uno físico.",
               },
             },
             {
               body: {
-                en: "A checkbox draws its check, a radio fills, a toggle carries its own movement, and a send button runs from action to sending to sent. Rules, not decoration, so a larger pattern reuses the response instead of inventing one.",
-                es: "Un checkbox dibuja su marca, un radio se rellena, un toggle lleva su propio movimiento y un botón de enviar recorre acción, enviando y enviado. Son reglas, no decoración, así que un patrón mayor reutiliza la respuesta en vez de inventarse otra.",
+                en: "A checkbox draws its check, a radio fills, a toggle flips, and a send button runs from send to sending to sent. They're rules, not decoration, so a larger pattern reuses the response instead of inventing its own.",
+                // TODO(afi-redaccion)
+                es: "Un checkbox dibuja su marca, un radio se rellena, un toggle gira y un botón de enviar recorre enviar, enviando y enviado. Son reglas, no decoración, así que un patrón mayor reutiliza la respuesta en vez de inventarse otra.",
               },
             },
           ],
@@ -1395,8 +1461,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Un entorno de IA construido para un equipo que no tiene un departamento de diseño completo",
     },
     intro: {
-      en: "KT360 is an early-stage AI startup. The brand had to look nothing like AI — playful, human, deliberately distinct. The harder problem: no designer on the team. We encoded the brand into the environment. Rules, component specs, and motion patterns live as files an AI can read, check, and enforce. Marketing writes a blog post, a developer ships a page — both come out looking like the same hand because the rules do the work.",
-      es: "KT360 es una startup de IA en fase inicial. La marca no podía parecer de IA: lúdica, humana, deliberadamente distinta. El problema de verdad: no había diseñador en el equipo. Codificamos la marca dentro del entorno. Las reglas, las especificaciones de componentes y los patrones de movimiento viven como archivos que una IA puede leer, comprobar y hacer cumplir. Marketing escribe un artículo y un desarrollador publica una página, y los dos salen de la misma mano porque las reglas hacen el trabajo.",
+      en: "KT360 is an early-stage AI startup. The brand had to look nothing like AI, so it's playful, human, and deliberately distinct. The harder problem was that there was no designer on the team. We encoded the brand into the environment. Rules, component specs, and motion patterns live as files an AI can read, check, and enforce. When marketing writes a blog post and a developer ships a page, both come out looking like the same hand because the rules do the work.",
+      es: "KT360 es una startup de IA en fase inicial. La marca no podía parecer de IA, así que es lúdica, humana y deliberadamente distinta. El problema de verdad era que no había diseñador en el equipo. Codificamos la marca dentro del entorno. Las reglas, las especificaciones de componentes y los patrones de movimiento viven como archivos que una IA puede leer, comprobar y hacer cumplir. Marketing escribe un artículo y un desarrollador publica una página, y los dos salen de la misma mano porque las reglas hacen el trabajo.",
     },
     role: {
       en: "Freelance Designer & AI Builder",
@@ -1404,6 +1470,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     },
     contributions: {
       en: [
+        "UX/UI design",
         "Brand strategy",
         "Visual identity",
         "Design systems",
@@ -1411,6 +1478,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Prototype infrastructure",
       ],
       es: [
+        "Diseño UX/UI",
         "Estrategia de marca",
         "Identidad visual",
         "Sistemas de diseño",
@@ -1527,15 +1595,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Una base B2C fiel y ningún sitio donde crecer",
     },
     intro: {
-      en: "A B2C product with a loyal base and a structural ceiling: students graduate, so the users you win you lose on a schedule. The question was never how to make Scholar better. It was who else reads research for a living, and whether they'd pay.",
-      es: "Un producto B2C con una base fiel y un techo estructural: los estudiantes se gradúan, así que a los usuarios que ganas los pierdes con fecha fija. La pregunta nunca fue cómo mejorar Scholar, sino quién más lee investigación para ganarse la vida y si pagaría por ello.",
+      en: "Heading into the next funding round, investors wanted to know how Scholar would scale. The problem was the customer lifecycle. Its loyal users were undergraduate and graduate students, so every user it won came with a leaving date. Growth had to come from someone else who reads research for a living, and who'd pay for it.",
+      es: "De cara a la siguiente ronda de financiación, los inversores querían saber cómo iba a escalar Scholar. El problema era el ciclo de vida del cliente. Sus usuarios fieles eran estudiantes de grado y posgrado, así que cada usuario que ganaba llegaba con fecha de salida. El crecimiento tenía que venir de otra gente que lee investigación como parte de su trabajo y que estuviera dispuesta a pagar por ello.",
     },
     role: {
-      en: "Senior Digital Product Manager",
-      es: "Senior Digital Product Manager",
+      en: "Senior Product Designer & Product Manager",
+      es: "Diseñador de producto sénior y Product Manager",
     },
     contributions: {
       en: [
+        "Product design",
         "Product strategy",
         "Discovery research",
         "Journey mapping",
@@ -1543,6 +1612,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Roadmap prioritization",
       ],
       es: [
+        "Diseño de producto",
         "Estrategia de producto",
         "Investigación exploratoria",
         "Mapa de experiencia",
@@ -1557,17 +1627,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           en: "$8,000 a month since 2022, and a user base with an expiry date.",
           es: "8.000 $ al mes desde 2022 y una base de usuarios con fecha de caducidad.",
         },
-        // The Context slide's own photo. It stays on the Context card rather than
-        // moving to the intro, which has no image slot — the deck pairs this text
-        // with this picture and the pairing is the point.
-        // No media. This card is the product explained in three sentences and it
-        // opens the study, so the first image anyone sees is the paper view on
-        // the card below rather than a photo of a room.
-        //
-        // The workshop shot that used to sit here came off on 2026-08-26. It's
-        // also the one asset on either Audemic page that no re-export reaches:
-        // every other file is at least 2x its rendered size and sharp, and that
-        // one is soft in the original — handheld, low light.
+        // No media, so the first image in the study is the product itself: the
+        // paper view on the next card.
         span: "wide",
         details: {
           heading: {
@@ -1577,14 +1638,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "Audemic Scholar is a web app that allows university students to listen to the full text research paper and reports. Since 2022, Scholar has established a loyal user base in the B2C market, generating $8,000 per month in revenue.",
-                es: "Audemic Scholar es una aplicación web que permite a los estudiantes universitarios escuchar artículos de investigación e informes completos. Desde 2022, Scholar había consolidado una base de usuarios fiel en el mercado B2C, con unos ingresos de 8.000 $ al mes.",
+                en: "Audemic Scholar is a web app that lets university students listen to full-text research papers and reports. Since 2022 it had built a loyal B2C user base and was making $8,000 a month.",
+                es: "Audemic Scholar es una aplicación web que permite a los estudiantes universitarios escuchar artículos de investigación e informes completos. Desde 2022 había consolidado una base de usuarios B2C fiel y facturaba 8.000 $ al mes.",
               },
             },
             {
               body: {
-                en: "But investors raised concerns about the product's scalability due to the lifecycle of undergraduate and post graduate students.",
-                es: "Pero los inversores plantearon dudas sobre la escalabilidad del producto por el ciclo de vida de los estudiantes de grado y posgrado.",
+                en: "Investors doubted it could scale, because undergraduate and graduate students only stay users until they graduate.",
+                es: "Los inversores dudaban de que pudiera escalar, porque los estudiantes de grado y posgrado solo son usuarios hasta que se gradúan.",
               },
             },
           ],
@@ -1619,20 +1680,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "The user need was tools that cut the workload of finding and organizing information. The business need was new markets from the insights we already had, and a clear ideal customer profile. Early hypotheses pointed at the social sciences, because 60% of Scholar users came from that field.",
-                es: "La necesidad de usuario eran herramientas que redujeran el trabajo de encontrar y organizar información. La de negocio, nuevos mercados a partir de las conclusiones que ya teníamos y un perfil de cliente ideal claro. Las primeras hipótesis apuntaban a las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
+                en: "The user need was tools that cut the workload of finding and organizing information. The business need was a new market, found from what we already knew about our users, and a clear ideal customer profile. Early hypotheses pointed at the social sciences, because 60% of Scholar users came from that field.",
+                es: "La necesidad de usuario eran herramientas que redujeran el trabajo de encontrar y organizar información. La de negocio era un mercado nuevo, a partir de lo que ya sabíamos de nuestros usuarios, y un perfil de cliente ideal claro. Las primeras hipótesis apuntaban a las ciencias sociales, porque el 60 % de los usuarios de Scholar venía de ese campo.",
               },
             },
             {
               body: {
-                en: "Both roll up into one product vision: streamline access to critical information for professionals in fast-paced industries, so they can spend their time on the work that has impact.",
-                es: "Ambas se resumen en una visión de producto: simplificar el acceso a la información crítica para profesionales de sectores de ritmo rápido, para que dediquen su tiempo al trabajo que tiene impacto.",
+                en: "Both roll up into one product vision. Give professionals in fast-paced industries quicker access to critical information, so they spend their time on the work that has impact.",
+                es: "Ambas se resumen en una visión de producto. Dar a los profesionales de sectores de ritmo rápido un acceso más ágil a la información crítica, para que dediquen su tiempo al trabajo que tiene impacto.",
               },
             },
             {
               body: {
-                en: "Three changes came out of it. Summaries iterated against OpenAI and Claude models with survey and interview feedback between rounds. A redesigned audio page that puts the summary on the full-text paper, so a researcher understands new work without reading all of it. And in-app feedback that collects insight passively instead of stopping someone mid-task to ask.",
-                es: "De ahí salieron tres cambios. Resúmenes iterados sobre modelos de OpenAI y Claude, con feedback de encuestas y entrevistas entre rondas. Una página de audio rediseñada que pone el resumen sobre el paper completo, para entender un trabajo nuevo sin leerlo entero. Y feedback dentro de la app que recoge información de forma pasiva en vez de parar a alguien a media tarea para preguntarle.",
+                en: "Three changes came out of it. First, AI summaries, iterated across OpenAI and Claude models with survey and interview feedback between rounds. Second, a redesigned paper view that puts the summary on top of the full text, so a researcher can understand new work without reading all of it. Third, in-app feedback that collects insight quietly instead of stopping someone mid-task to ask.",
+                es: "De ahí salieron tres cambios. Primero, resúmenes con IA, iterados sobre modelos de OpenAI y Claude, con feedback de encuestas y entrevistas entre rondas. Segundo, una vista de paper rediseñada que pone el resumen encima del texto completo, para que un investigador entienda un trabajo nuevo sin leerlo entero. Tercero, feedback dentro de la app que recoge información sin hacer ruido, en vez de parar a alguien a media tarea para preguntarle.",
               },
             },
           ],
@@ -1657,14 +1718,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "By interviewing UN analysts and vaccine researchers, we discovered researchers lose 20 hours a month searching for information, costing organizations like NIH nearly $10 million monthly in lost productivity.",
-                es: "Entrevistando a analistas de la ONU e investigadores de vacunas descubrimos que los investigadores pierden 20 horas al mes buscando información, lo que cuesta a organizaciones como el NIH cerca de 10 millones de dólares mensuales en productividad perdida.",
+                en: "We interviewed UN analysts and vaccine researchers. Each of them loses about 20 hours a month just searching for information. At the scale of an organization like NIH, that's close to $10 million a month in lost productivity.",
+                es: "Entrevistamos a analistas de la ONU y a investigadores de vacunas. Cada uno pierde unas 20 horas al mes solo buscando información. En una organización del tamaño del NIH, eso son cerca de 10 millones de dólares al mes en productividad perdida.",
               },
             },
             {
               body: {
-                en: "Every interview was cut into four columns: the job as it stands, pains, current solutions, and the motivation underneath. The pattern only shows up when you can read one column straight down.",
-                es: "Cada entrevista se repartió en cuatro columnas: el trabajo tal y como es, los problemas, las soluciones actuales y la motivación de fondo. El patrón solo aparece cuando puedes leer una columna de arriba abajo.",
+                en: "We sorted every interview into four columns covering the job as it stands, the pains, the current workarounds, and the motivation underneath. The pattern only shows up when you read one column straight down.",
+                es: "Repartimos cada entrevista en cuatro columnas, con el trabajo tal y como es, los problemas, las soluciones que usan hoy y la motivación de fondo. El patrón solo aparece cuando lees una columna de arriba abajo.",
               },
             },
           ],
@@ -1676,8 +1737,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "02 — Cocreación y testing",
         },
         sublabel: {
-          en: "Mapped the as-is journey, then launched a beta against it.",
-          es: "Mapeamos el recorrido tal cual y lanzamos una beta a partir de él.",
+          en: "Mapped how researchers work today, then launched a beta against it.",
+          es: "Mapeamos cómo trabajan hoy los investigadores y lanzamos una beta a partir de ahí.",
         },
         image: "/work/audemic-business-growth/process-02-journey-map.webp",
         details: {
@@ -1688,14 +1749,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "After mapping the as-is customer journey, we launched a Beta 24/7 junior analyst solution to help researchers stay informed. Within a week, we captured 20 quality leads through paid ads.",
-                es: "Después de mapear el recorrido de cliente tal y como era, lanzamos una beta de analista junior 24/7 para ayudar a los investigadores a estar al día. En una semana captamos 20 leads de calidad con publicidad de pago.",
+                en: "Once we'd mapped how researchers work today, we launched a beta of a 24/7 junior analyst that keeps them up to date. Paid ads brought in 20 quality leads in the first week.",
+                es: "Con el recorrido actual mapeado, lanzamos una beta de un analista junior 24/7 que mantiene a los investigadores al día. La publicidad de pago trajo 20 leads de calidad en la primera semana.",
               },
             },
             {
               body: {
-                en: "Stage one is where the time goes. Scanning dozens of reports from 70+ analysts, reading external publications alongside their own research, skimming summaries selectively — across company databases, analyst reports, subscriptions like WSJ and Foreign Policy, and Ground News for bias checking.",
-                es: "La primera etapa es donde se va el tiempo. Revisar decenas de informes de más de 70 analistas, leer publicaciones externas junto a su propia investigación, repasar resúmenes de forma selectiva: entre bases de datos internas, informes de analistas, suscripciones como WSJ y Foreign Policy, y Ground News para contrastar sesgos.",
+                en: "The first stage of the journey is where the time goes. Researchers scan dozens of reports from more than 70 analysts, read outside publications alongside their own research, and skim summaries to decide what's worth reading. That work is spread across company databases, analyst reports, subscriptions like WSJ and Foreign Policy, and Ground News for bias checks.",
+                es: "La primera etapa del recorrido es donde se va el tiempo. Los investigadores revisan decenas de informes de más de 70 analistas, leen publicaciones externas junto a su propia investigación y repasan resúmenes para decidir qué merece la pena leer. Todo eso ocurre entre bases de datos internas, informes de analistas, suscripciones como WSJ y Foreign Policy, y Ground News para contrastar sesgos.",
               },
             },
           ],
@@ -1719,8 +1780,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "We learned from users that summaries lacked critical context, such as societal impact and effects on studied groups, limiting deeper understanding. Users struggled to move beyond a superficial understanding.",
-                es: "Los usuarios nos hicieron ver que a los resúmenes les faltaba contexto crítico, como el impacto social y los efectos sobre los grupos estudiados, lo que limitaba una comprensión más profunda. Les costaba pasar de una comprensión superficial.",
+                en: "Beta users told us the summaries left out critical context, like the societal impact of a study and its effects on the groups studied. Without it, they got the gist and couldn't go any deeper.",
+                es: "Los usuarios beta nos dijeron que los resúmenes dejaban fuera contexto crítico, como el impacto social de un estudio y sus efectos sobre los grupos estudiados. Sin eso, captaban la idea general y no podían ir más allá.",
               },
             },
           ],
@@ -1744,14 +1805,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sections: [
             {
               body: {
-                en: "We aligned beta-user feedback with our roadmap, prioritizing pain points to position the product for B2B clients. Equation for prioritization: Reach × Impact × Confidence ÷ Effort.",
-                es: "Alineamos el feedback de los usuarios beta con nuestra hoja de ruta, priorizando los puntos de dolor para posicionar el producto ante clientes B2B. Ecuación de priorización: Alcance × Impacto × Confianza ÷ Esfuerzo.",
+                en: "We ranked the beta users' pain points against the roadmap to get the product ready for B2B clients. Each one got a score of Reach × Impact × Confidence ÷ Effort.",
+                es: "Ordenamos los problemas de los usuarios beta frente a la hoja de ruta para preparar el producto para clientes B2B. Cada uno recibió una puntuación de Alcance × Impacto × Confianza ÷ Esfuerzo.",
               },
             },
             {
               body: {
-                en: "Mark-read-on-papers scored 11160, renaming boards and files 7440, drag-and-drop upload 5115, the note-taking MVP 4133. Writing the arithmetic on the sticky note is the point: an argument about whether renaming matters more than uploading goes nowhere, an argument about whether its reach is really 620 goes somewhere.",
-                es: "Marcar como leído en la pestaña de papers puntuó 11.160, renombrar tableros y archivos 7.440, la subida por arrastre 5.115 y el MVP de notas 4.133. Escribir la aritmética en el post-it es justo el objetivo: discutir si renombrar importa más que subir archivos no lleva a ninguna parte; discutir si su alcance es de verdad 620, sí.",
+                en: "Marking papers as read scored 11,160, renaming boards and files 7,440, drag-and-drop upload 5,115, and the note-taking MVP 4,133. Writing the arithmetic on the sticky note is the point. Discussing whether renaming matters more than uploading goes nowhere. Discussing whether renaming really reaches all 620 students goes somewhere.",
+                es: "Marcar como leído en la pestaña de papers puntuó 11.160, renombrar tableros y archivos 7.440, la subida por arrastre 5.115 y el MVP de notas 4.133. Escribir la aritmética en el post-it es justo el objetivo. Hablar de si renombrar importa más que subir archivos no lleva a ninguna parte. Hablar de si renombrar llega de verdad a los 620 estudiantes, sí.",
               },
             },
           ],
@@ -1765,12 +1826,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Enseñar el valor antes de pedir nada",
     },
     intro: {
-      en: "Audemic Insights is a mobile app: a 24/7 junior analyst for the intellectually curious that finds and extracts key insights from research papers and reports, and turns them into audio summaries personalized to your goals. Retention was the problem. Users came for a seamless AI experience, met a form, and left before the app had shown them anything.",
-      es: "Audemic Insights es una app móvil: un analista junior 24/7 para gente intelectualmente curiosa que encuentra y extrae las ideas clave de artículos de investigación e informes, y las convierte en resúmenes de audio personalizados según tus objetivos. El problema era la retención. Los usuarios venían por una experiencia de IA fluida, se encontraban un formulario y se iban antes de que la app les hubiera enseñado nada.",
+      en: "Audemic Insights is a mobile app that works like a 24/7 junior analyst for the intellectually curious. It finds and extracts key insights from research papers and reports, and turns them into audio summaries personalized to your goals. Retention was the problem. Users came for a seamless AI experience, met a form, and left before the app had shown them anything.",
+      es: "Audemic Insights es una app móvil que funciona como un analista junior 24/7 para gente intelectualmente curiosa. Encuentra y extrae las ideas clave de artículos de investigación e informes, y las convierte en resúmenes de audio personalizados según tus objetivos. El problema era la retención. Los usuarios venían por una experiencia de IA fluida, se encontraban un formulario y se iban antes de que la app les hubiera enseñado nada.",
     },
     role: {
-      en: "Senior Digital Product Manager",
-      es: "Senior Digital Product Manager",
+      en: "Senior Product Designer & Product Manager",
+      es: "Diseñador de producto sénior y Product Manager",
     },
     contributions: {
       en: [
@@ -1931,18 +1992,18 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Una app de meditación con IA que se adapta al camino de cada persona",
     },
     intro: {
-      en: "Chinwuba had built a site where users could generate affirmations from their goals — audio guides with tips. Users liked it but wanted to edit, save, and build their own library. The problem with most mindfulness apps: generic categories, generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user — so the next session knows what the last one taught.",
-      es: "Chinwuba había construido una web donde los usuarios generaban afirmaciones a partir de sus objetivos: guías de audio con consejos. Les gustaba, pero querían editar, guardar y construir su propia biblioteca. El problema de la mayoría de apps de mindfulness: categorías genéricas, meditaciones genéricas, nada hecho a la medida de quien la usa. Mindfulme usa IA para crear meditaciones y afirmaciones que evolucionan con cada usuario, de modo que cada sesión sabe lo que enseñó la anterior.",
+      en: "Chinwuba had built a site where users could generate affirmations from their goals, delivered as audio guides with tips. Users liked it but wanted to edit, save, and build their own library. Most mindfulness apps offer generic categories and generic meditations, none of it shaped to the person using it. Mindfulme uses AI to craft meditations and affirmations that evolve with each user, so the next session knows what the last one taught.",
+      es: "Chinwuba había construido una web donde los usuarios generaban afirmaciones a partir de sus objetivos, en forma de guías de audio con consejos. Les gustaba, pero querían editar, guardar y construir su propia biblioteca. La mayoría de apps de mindfulness ofrecen categorías genéricas y meditaciones genéricas, nada hecho a la medida de quien las usa. Mindfulme usa IA para crear meditaciones y afirmaciones que evolucionan con cada usuario, de modo que cada sesión sabe lo que enseñó la anterior.",
     },
     role: {
       en: "Freelance Designer & Product Lead",
       es: "Diseñador freelance y responsable de producto",
     },
     contributions: {
-      en: ["Brand identity", "Product design", "User research", "MVP delivery"],
+      en: ["Product design", "Brand identity", "User research", "MVP delivery"],
       es: [
-        "Identidad de marca",
         "Diseño de producto",
+        "Identidad de marca",
         "Investigación con usuarios",
         "Entrega del MVP",
       ],
@@ -1954,7 +2015,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Una app de mindfulness que te encuentra donde estás",
         },
         sublabel: {
-          en: "Built around personal journeys, not generic categories — AI personalizes meditation and affirmations for each user",
+          en: "Built around personal journeys, not generic categories: AI personalizes meditation and affirmations for each user",
           es: "Construida sobre caminos personales, no sobre categorías genéricas: la IA personaliza meditaciones y afirmaciones para cada persona",
         },
         image: "/mindfulme/screens/poster.jpg",
@@ -1963,7 +2024,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Five focus areas", es: "Cinco áreas de enfoque" },
         sublabel: {
-          en: "Mental Health, Physical Health, Finance, Career — each with its own visual language",
+          en: "Mental Health, Physical Health, Finance, Career: each with its own visual language",
           es: "Salud mental, salud física, finanzas, carrera profesional: cada una con su propio lenguaje visual",
         },
         images: [
@@ -1976,7 +2037,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Brand language", es: "Lenguaje de marca" },
         sublabel: {
-          en: "Hand-drawn over sterile iconography — organic shapes, peaceful palette, genuine typography",
+          en: "Hand-drawn over sterile iconography: organic shapes, peaceful palette, genuine typography",
           es: "Trazo a mano frente a la iconografía estéril: formas orgánicas, paleta serena, tipografía con carácter",
         },
         images: [
@@ -1989,7 +2050,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "The core experience", es: "La experiencia central" },
         sublabel: {
-          en: "Home, favorites, and personalized affirmations — every screen tuned to the user's selected focuses",
+          en: "Home, favorites, and personalized affirmations: every screen tuned to the user's selected focuses",
           es: "Inicio, favoritos y afirmaciones personalizadas: cada pantalla ajustada a las áreas que la persona ha elegido",
         },
         image: "/mindfulme/screens/home-favorites-affirmation.png",
@@ -2001,7 +2062,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           es: "Recordatorios, en sus términos",
         },
         sublabel: {
-          en: "Customizable instead of standardized — users decide when the practice fits their day",
+          en: "Customizable instead of standardized: users decide when the practice fits their day",
           es: "Personalizables, no estandarizados: la persona decide cuándo encaja la práctica en su día",
         },
         image: "/mindfulme/screens/reminders-goals-adjustment.png",
@@ -2009,7 +2070,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Beyond the screen", es: "Más allá de la pantalla" },
         sublabel: {
-          en: "The visual language carries to merch and print — the brand has to live in three dimensions",
+          en: "The visual language carries to merch and print: the brand has to live in three dimensions",
           es: "El lenguaje visual se traslada al merchandising y al papel: la marca tiene que vivir en tres dimensiones",
         },
         image: "/mindfulme/screens/tote-bag-mockup.jpg",
@@ -2017,7 +2078,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Color as meaning", es: "El color como significado" },
         sublabel: {
-          en: "Brand colors became functional indicators — orange is always the CTA, each category has its own hue",
+          en: "Brand colors became functional indicators: orange is always the CTA, each category has its own hue",
           es: "Los colores de marca se convirtieron en indicadores funcionales: el naranja es siempre el CTA y cada categoría tiene su tono",
         },
         image: "/mindfulme/screens/visual-consistency.png",
@@ -2026,7 +2087,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Technology that nurtures", es: "Tecnología que nutre" },
         sublabel: {
-          en: "Mindfulme isn't another meditation tool — it's an AI companion for self-awareness, evolving with each user",
+          en: "Mindfulme isn't another meditation tool. It's an AI companion for self-awareness, evolving with each user",
           es: "Mindfulme no es una herramienta de meditación más, sino una compañera de IA para el autoconocimiento que evoluciona con cada persona",
         },
         image: "/mindfulme/screens/conclusion.jpg",

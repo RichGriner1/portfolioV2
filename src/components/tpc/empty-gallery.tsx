@@ -272,7 +272,7 @@ export function EmptyGallery({ heading }: { heading: ReactNode }) {
                       : "hover:bg-muted/50 border-transparent"
                   )}
                 >
-                  <span className="bg-foreground text-background mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full font-mono text-[10px] font-medium">
+                  <span className="bg-annotation text-annotation-foreground mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full font-mono text-[10px] font-medium">
                     {i + 1}
                   </span>
                   <span>

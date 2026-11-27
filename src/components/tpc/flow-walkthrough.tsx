@@ -8,7 +8,13 @@ import {
   useState,
 } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Pause, Play, RotateCcw } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+  RotateCcw,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DURATION, EASE, EASE_CLOSE, EASE_IN_OUT, SPRING } from "@/lib/motion";
@@ -89,8 +95,10 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
     setBeat(0);
     setUserPaused(false);
   };
+  // Any click on a step, a segment or back/next pauses, so the reader can walk
+  // through at their own pace; Play picks up from where they stopped.
   const jump = (i: number) => {
-    setBeat(i);
+    setBeat((i + steps.length) % steps.length);
     setUserPaused(true);
   };
 
@@ -107,6 +115,10 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
         lang === "es" ? "recorrido animado" : "animated walkthrough"
       }
       aria-label={lang === "es" ? "El ciclo completo" : "The whole loop"}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") jump(beat + 1);
+        if (e.key === "ArrowLeft") jump(beat - 1);
+      }}
     >
       {/* Header: where we are, and the controls */}
       <div className="border-border/60 flex items-center justify-between gap-3 border-b px-4 py-2.5">
@@ -115,6 +127,22 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
           {String(steps.length).padStart(2, "0")}
         </span>
         <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => jump(beat - 1)}
+            aria-label={lang === "es" ? "Paso anterior" : "Previous step"}
+          >
+            <ChevronLeft aria-hidden />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => jump(beat + 1)}
+            aria-label={lang === "es" ? "Paso siguiente" : "Next step"}
+          >
+            <ChevronRight aria-hidden />
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -141,6 +169,7 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
       <Board
         steps={steps}
         beat={beat}
+        onJump={jump}
         visited={visited}
         edges={edges}
         reduced={reduced}
@@ -289,9 +318,11 @@ function Board({
   edges,
   reduced,
   className,
+  onJump,
 }: {
   steps: FlowStep[];
   beat: number;
+  onJump: (i: number) => void;
   visited: Set<string>;
   edges: Edge[];
   reduced: boolean;
@@ -299,7 +330,7 @@ function Board({
 }) {
   const { lang } = useLang();
   const gridRef = useRef<HTMLDivElement>(null);
-  const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const nodeRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const [rects, setRects] = useState<Record<string, Rect>>({});
   const [size, setSize] = useState({ w: 0, h: 0 });
 
@@ -443,13 +474,21 @@ function Board({
           const isVisited = visited.has(n.id);
           const label = steps.find((s) => nodeFor(s.id) === n.id)?.title;
           return (
-            <motion.div
+            <motion.button
               key={n.id}
+              type="button"
               ref={(el) => {
                 nodeRefs.current[n.id] = el;
               }}
+              // Jumps to the first beat on this step and pauses there.
+              onClick={() =>
+                onJump(steps.findIndex((s) => nodeFor(s.id) === n.id))
+              }
+              aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "relative z-10 flex min-h-12 items-center justify-center rounded-lg border px-2 py-2 text-center text-xs leading-snug",
+                "relative z-10 flex min-h-12 cursor-pointer items-center justify-center rounded-lg border px-2 py-2 text-center text-xs leading-snug",
+                "focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
+                !isCurrent && "hover:border-foreground/40",
                 "ease-out-soft transition-[background-color,color,border-color,box-shadow] duration-[var(--duration-base)]",
                 isCurrent
                   ? "bg-foreground text-background border-foreground shadow-md"
@@ -463,7 +502,7 @@ function Board({
               transition={SPRING}
             >
               {label ? pick(label, lang) : n.id}
-            </motion.div>
+            </motion.button>
           );
         })}
       </div>

@@ -3,7 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Maximize2, Pause, Play, RotateCcw } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  Pause,
+  Play,
+  RotateCcw,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -104,6 +111,12 @@ export function DiagnosticPlayer({
     return () => window.clearTimeout(id);
   }, [playing, beat, beats.length]);
 
+  // Back/next and the arrow keys pause, so a reader can go pin by pin.
+  const step = (dir: 1 | -1) => {
+    setBeat((b) => (b + dir + beats.length) % beats.length);
+    setUserPaused(true);
+  };
+
   const cur = beats[beat];
   const showingAfter = cur.kind === "after";
   const pins =
@@ -147,6 +160,11 @@ export function DiagnosticPlayer({
         lang === "es" ? "diagnóstico animado" : "animated diagnostic"
       }
       aria-label={pick(title, lang)}
+      onKeyDown={(e) => {
+        if (viewer.open) return;
+        if (e.key === "ArrowRight") step(1);
+        if (e.key === "ArrowLeft") step(-1);
+      }}
     >
       {/* Header: phase, counter, controls */}
       <div className="border-border flex items-center justify-between gap-3 border-b px-4 py-2.5">
@@ -160,6 +178,22 @@ export function DiagnosticPlayer({
           </span>
         </div>
         <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => step(-1)}
+            aria-label={lang === "es" ? "Paso anterior" : "Previous step"}
+          >
+            <ChevronLeft aria-hidden />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => step(1)}
+            aria-label={lang === "es" ? "Paso siguiente" : "Next step"}
+          >
+            <ChevronRight aria-hidden />
+          </Button>
           <Button
             variant="ghost"
             size="sm"

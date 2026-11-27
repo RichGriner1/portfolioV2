@@ -16,6 +16,13 @@
     var media = function (t) { return h(DS.PropertyModel, { type: t, active: tipo === t }); };
     return h("div", { className: "pf" },
       h("section", { className: "pf-col" },
+        h(DS.Select, {
+          label: "¿En qué municipio se encuentra?",
+          placeholder: "Selecciona el municipio",
+          value: muni,
+          onChange: setMuni,
+          options: ["Alicante", "Barcelona", "Bilbao", "Córdoba", "Gijón", "Granada", "Madrid", "Málaga", "Sevilla", "Valencia"].map(function (v) { return { value: v, label: v }; }),
+        }),
         h("p", { className: "pf-label" }, "¿De qué tipo es tu vivienda?"),
         h(DS.ChoiceCardGroup, {
           label: "¿De qué tipo es tu vivienda?",
@@ -29,13 +36,6 @@
             { value: "chalet", title: "Chalet independiente", media: media("chalet") },
           ],
         }),
-        h(DS.Select, {
-          label: "¿En qué municipio se encuentra?",
-          placeholder: "Selecciona el municipio",
-          value: muni,
-          onChange: setMuni,
-          options: ["Alicante", "Barcelona", "Bilbao", "Córdoba", "Gijón", "Granada", "Madrid", "Málaga", "Sevilla", "Valencia"].map(function (v) { return { value: v, label: v }; }),
-        })
       ),
       h("section", { className: "pf-col" },
         h("div", { className: "pf-card" },

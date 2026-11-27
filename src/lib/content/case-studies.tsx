@@ -1196,7 +1196,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               es: "Controles de Afi apps en vivo: tarjetas con imagen, un desplegable, casillas y un interruptor",
             },
             width: 880,
-            height: 560,
+            height: 408,
           },
         ],
       },

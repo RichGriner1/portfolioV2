@@ -246,9 +246,10 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/wealth-planner",
     image: "/work/wealth-planner/r10-ingresos-poster.jpg",
-    // Thumbnail: the plan selector from the 4.14 canvas (Animaciones IA, «Selector
-    // del plan · IA»): the light rises through each changed part and tints its icon.
-    // One light clip for every language and theme. Takes precedence over `image`.
+    // Thumbnail: the plan selector from the 4.14 canvas (Animaciones IA, «Icono en
+    // la pestaña · todo el recorrido»): each changed part's icon goes from rest to
+    // working, simulation and applied. One cycle; one light clip for every
+    // language and theme. Takes precedence over `image`.
     video: "/work/wealth-planner/card",
     ongoing: true,
     // First on the home board and the canvas since 2026-11-27 (Richard's call):

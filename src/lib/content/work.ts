@@ -230,16 +230,17 @@ export const WORK: WorkItem[] = [
     // The v1.1 template editor with the diagnostic's red pins: the work, shown as a review.
     image: "/work/third-party-compliance/card.webp",
     ongoing: true,
-    // In progress: kept off the home board until the screens are added and Richard
-    // says it's ready. /projects still lists it, and the page is reachable by URL.
-    homeHidden: true,
+    // On the home board with SAREVI and Wealth Planner since 2026-11-27. Rank 0
+    // like them: the three current studies lead, in date order among themselves.
+    homeRank: 0,
   },
   {
     slug: "sarevi",
     title: { en: "SAREVI", es: "SAREVI" },
     description: {
-      en: "Redesigning an energy-efficiency simulator Afi sells to banks: ask less, compute more, and lead with the saving.",
-      es: "Rediseño de un simulador de eficiencia energética que Afi vende a bancos: preguntar menos, calcular más y empezar por el ahorro.",
+      en: "Redesigning the energy-efficiency simulator Afi sells to banks, on a new design system with motion and 3D houses.",
+      // TODO(afi-redaccion)
+      es: "Rediseño del simulador de eficiencia energética que Afi vende a bancos, sobre un sistema de diseño nuevo con movimiento y casas en 3D.",
     },
     year: 2026,
     type: "brand-ds",
@@ -250,10 +251,9 @@ export const WORK: WorkItem[] = [
     // pale stage, dark on near-black. No text change by language, so en and es match.
     video: "/work/sarevi/card",
     ongoing: true,
-    // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board
-    // until Richard says it's ready (Spanish has had one pass, not a final review).
-    hidden: false,
-    homeHidden: true,
+    // On the home board since 2026-11-27 (Richard's call). Rank 0 with Wealth
+    // Planner and Compliance, so the three current studies lead.
+    homeRank: 0,
   },
   {
     slug: "wealth-planner",

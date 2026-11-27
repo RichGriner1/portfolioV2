@@ -67,7 +67,7 @@ Follow [visuals.md](visuals.md). In code:
 
 ## Demo
 
-The demo opens at `/work/<slug>/demo`, full screen, with a "← Back to <project>" pill. Client work is gated (see the project's `demo` settings and the access note in the README).
+The demo opens at `/work/<slug>/demo`, full screen, with a "← Back to <project>" pill. Demos are open, with no password (Richard's call, 2026-11-27).
 
 ## Copy
 

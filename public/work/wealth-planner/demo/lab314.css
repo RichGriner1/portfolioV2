@@ -1,0 +1,535 @@
+/* 3.14 element lab — the «light pass» in Afi colours (azul profundo, Afi blue, Afi blue mixed with white; success green only for the check) */
+.lab{--blue:var(--brand-afi-blue);--deep:var(--brand-background-default);--sky:color-mix(in srgb,var(--brand-afi-blue) 45%,#fff);--ice:color-mix(in srgb,var(--brand-afi-blue) 18%,#fff);
+  --spring:cubic-bezier(.34,1.56,.64,1);--out:cubic-bezier(.16,1,.3,1);--soft:cubic-bezier(.45,0,.2,1);
+  min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:var(--color-control-50,#f9fafb);font-family:var(--font-family-sans,'Libre Franklin',sans-serif);color:var(--content-primary)}
+.lab-head{display:flex;align-items:center;gap:8px;padding:14px 20px;border-bottom:1px solid var(--borders-subtle);background:#fff;font-size:14px;font-weight:600}
+.lab-sp{flex:1}
+.lab-stage{flex:1;display:grid;place-items:center;padding:28px}
+.lab-row{display:grid;grid-template-columns:repeat(3,200px);gap:10px}
+.lab-row--sm{grid-template-columns:repeat(2,190px)}
+.lab-col{display:flex;flex-direction:column;gap:16px;width:min(620px,100%)}
+.lab-col--c{align-items:center}
+
+/* surfaces */
+.lab-tab,.lab-sec,.lab-frame{position:relative;isolation:isolate;overflow:hidden;background:#fff;border-radius:12px;box-shadow:inset 0 0 0 1px var(--borders-subtle)}
+.lab-tab{padding:12px}
+.lab-tab.is-on{box-shadow:0 2px 6px rgba(16,24,40,.08),inset 0 0 0 1px var(--borders-subtle)}
+.lab-tab.is-on::after{content:'';position:absolute;left:12px;right:12px;top:0;height:3px;border-radius:0 0 3px 3px;background:var(--deep);z-index:3}
+.lab-in{position:relative;z-index:2;display:flex;flex-direction:column;gap:3px}
+.lab-tab__h{display:flex;align-items:center;gap:6px;font-size:13px}
+.lab-tab strong{font-size:18px;font-variant-numeric:tabular-nums}
+.lab-tab__s{font-size:12px;color:var(--content-secondary)}
+.lab-chip{align-self:flex-start;display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:1px 7px;border-radius:999px;font-size:12px;font-weight:500;color:var(--brand-afi-blue-strong);background:var(--ice)}
+.lab-chip.is-empty{visibility:hidden}
+.lab-sec{padding:16px;width:100%}
+.lab-sec h4{margin:0 0 6px;font-size:16px}
+.lab-delta{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--brand-afi-blue-strong)}.lab-delta s{color:var(--content-secondary)}.lab-delta em{font-style:normal;color:var(--content-success,#027a48)}
+.lab-fig{font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;margin:6px 0}
+.lab-bars{display:flex;align-items:flex-end;gap:4px;height:90px}.lab-bars i{flex:1;background:var(--color-control-200);border-radius:2px 2px 0 0}
+.lab-frame{width:440px;padding:18px;border:8px solid var(--deep);box-shadow:0 8px 24px rgba(16,24,40,.12)}
+.lab-frame__h{display:flex;align-items:center;justify-content:space-between}.lab-frame p{margin:2px 0 10px;font-size:13px}
+.lab-ok{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:999px;color:#fff;background:var(--color-success-600,#12b76a);animation:lab-pop .7s var(--spring) .62s both}
+
+/* the light: a soft horizon rising from the bottom edge, then falling back */
+.lab-bloom{position:absolute;z-index:1;left:-35%;right:-35%;top:100%;height:170%;border-radius:50% 50% 0 0/38% 38% 0 0;pointer-events:none;
+  background:radial-gradient(60% 22% at 50% 4%,rgba(255,255,255,.95),transparent 70%),radial-gradient(70% 30% at 50% 8%,var(--sky),transparent 72%),radial-gradient(85% 45% at 50% 14%,color-mix(in srgb,var(--blue) 70%,transparent),transparent 74%),radial-gradient(95% 70% at 50% 30%,color-mix(in srgb,var(--sky) 55%,transparent),transparent 80%);
+  filter:blur(16px) saturate(1.2);opacity:0;animation:lab-bloom 1.15s var(--soft) .1s both}
+.lab-bloom--soft{opacity:0;animation-name:lab-bloom-soft}
+@keyframes lab-bloom{0%{transform:translateY(0);opacity:0}28%{transform:translateY(-62%);opacity:1}48%{transform:translateY(-88%);opacity:.95}100%{transform:translateY(-30%);opacity:0}}
+@keyframes lab-bloom-soft{0%{transform:translateY(0);opacity:0}30%{transform:translateY(-45%);opacity:.55}100%{transform:translateY(-18%);opacity:0}}
+/* content: out of focus while the light passes, then back */
+.lab-hit .lab-in{animation:lab-focus 1.15s var(--soft) .1s both}
+@keyframes lab-focus{0%,12%{filter:none}42%{filter:blur(5px)}78%,100%{filter:none}}
+.lab-hit{animation:lab-bounce 1.3s var(--out) .1s both}
+@keyframes lab-bounce{0%{transform:none}38%{transform:scale(1.015)}66%{transform:scale(.996)}100%{transform:none}}
+/* the rim light stays: Afi blue on one side to light blue on the other, fading slowly */
+.lab-rim{position:absolute;z-index:2;inset:0;border-radius:inherit;padding:2px;pointer-events:none;background:linear-gradient(115deg,var(--blue) 0%,var(--sky) 28%,transparent 48%,transparent 62%,var(--sky) 84%,var(--blue) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:blur(.6px);opacity:0;animation:lab-rim 3.4s var(--out) .55s both}
+.lab-rim--frame{inset:-8px;padding:8px}
+@keyframes lab-rim{0%{opacity:0}18%{opacity:1}100%{opacity:.4}}
+/* ring outside the frame */
+.lab-frame.lab-hit{animation:lab-bounce 1.3s var(--out) .1s both,lab-ring 1.2s var(--out) .55s both}
+@keyframes lab-ring{0%{box-shadow:0 8px 24px rgba(16,24,40,.12),0 0 0 0 color-mix(in srgb,var(--blue) 40%,transparent)}100%{box-shadow:0 8px 24px rgba(16,24,40,.12),0 0 0 18px transparent}}
+
+/* icon chip */
+.lab-ic{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;color:var(--content-secondary)}
+.lab-ic--hit,.lab-ic--s2,.lab-ic--s3{color:#fff;background:linear-gradient(135deg,var(--brand-background-pressed,#04202d) 0%,var(--deep) 55%,color-mix(in srgb,var(--deep) 60%,var(--sky)) 100%)}
+.lab-ic--hit{animation:lab-pop .8s var(--spring) .62s both}
+.lab-chip--hit{animation:lab-chip .6s var(--out) .8s both}
+@keyframes lab-pop{0%{transform:scale(.6);opacity:0;filter:blur(3px)}55%{transform:scale(1.18);opacity:1;filter:none}100%{transform:none}}
+@keyframes lab-chip{0%{opacity:0;transform:translateY(4px);filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
+.lab-icons{display:flex;gap:40px}
+.lab-icfig{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0;font-size:12px;color:var(--content-secondary)}
+.lab-ic--xl{width:56px;height:56px;border-radius:16px;box-shadow:inset 0 0 0 1px var(--borders-subtle);position:relative;overflow:hidden}
+.lab-ic--s1{animation:lab-breathe 1.6s ease-in-out infinite}
+@keyframes lab-breathe{50%{opacity:.4}}
+.lab-ic--s2{box-shadow:none;animation:lab-pop .9s var(--spring) .3s both}
+.lab-ic--s2::before{content:'';position:absolute;inset:-40%;background:radial-gradient(circle at 50% 100%,rgba(255,255,255,.9),var(--sky) 30%,transparent 60%);filter:blur(6px);animation:lab-bloom .9s var(--soft) .25s both}
+.lab-ic--s3{box-shadow:0 0 0 3px var(--ice)}
+
+/* grid: dots light up in a wave from the bottom-left, then stay faint */
+.lab-gridwrap{position:relative;width:560px;height:380px;border-radius:12px;overflow:hidden;background:#fff;border:8px solid var(--deep)}
+.lab-grid,.lab-grid::after{position:absolute;inset:0;background:radial-gradient(color-mix(in srgb,var(--blue) 16%,transparent) 1px,transparent 1.5px) 0 0/14px 14px}
+.lab-grid{opacity:0;animation:lab-fade 1.4s var(--out) 1.2s both}
+.lab-grid::after{content:'';background:radial-gradient(color-mix(in srgb,var(--blue) 75%,transparent) 1.4px,transparent 1.9px) 0 0/14px 14px;
+  -webkit-mask:radial-gradient(circle at 0 100%,transparent var(--w),#000 calc(var(--w) + 6%),transparent calc(var(--w) + 16%));mask:radial-gradient(circle at 0 100%,transparent var(--w),#000 calc(var(--w) + 6%),transparent calc(var(--w) + 16%));animation:lab-wave 1.8s var(--soft) .2s both}
+@property --w{syntax:'<percentage>';inherits:false;initial-value:-20%}
+@keyframes lab-wave{from{--w:-20%}to{--w:150%}}
+@keyframes lab-fade{from{opacity:0}to{opacity:1}}
+.lab-gridcard{position:absolute;left:24px;right:24px;top:24px;padding:14px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px var(--borders-subtle)}
+.lab-gridcard--b{top:150px}
+
+/* toast pill: light sweeps through left → right, the icon turns into a check, the text cross-fades */
+.lab-pill{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;width:420px;padding:10px 10px 10px 12px;border-radius:999px;background:#fff;box-shadow:0 6px 20px rgba(16,24,40,.12),inset 0 0 0 1px var(--borders-subtle)}
+.lab-sweep{position:absolute;z-index:1;top:-60%;bottom:-60%;left:-45%;width:55%;pointer-events:none;background:radial-gradient(closest-side,rgba(255,255,255,.95),var(--sky) 40%,color-mix(in srgb,var(--blue) 55%,transparent) 65%,transparent);filter:blur(14px);animation:lab-sweep 1.2s var(--soft) .2s both}
+@keyframes lab-sweep{0%{transform:translateX(0);opacity:0}15%{opacity:1}100%{transform:translateX(330%);opacity:0}}
+.lab-pill__ic{position:relative;z-index:2;display:grid;place-items:center;width:38px;height:38px;border-radius:999px;flex:none}
+.lab-pill__spin,.lab-pill__ok{position:absolute;inset:0;display:grid;place-items:center;border-radius:999px}
+.lab-pill__spin{color:var(--blue);background:var(--ice);animation:lab-out .35s var(--soft) .55s both}.lab-pill__spin svg{animation:r4-spin 1s linear infinite}
+.lab-pill__ok{color:#fff;background:var(--color-success-600,#12b76a);animation:lab-pop .8s var(--spring) .6s both}
+.lab-pill__txt{position:relative;z-index:2;flex:1;display:grid}
+.lab-pill__a,.lab-pill__b{grid-area:1/1;display:flex;flex-direction:column;line-height:1.25}
+.lab-pill__txt strong{font-size:14px}.lab-pill__txt small{font-size:12px;color:var(--content-secondary)}
+.lab-pill__a{animation:lab-out .45s var(--soft) .5s both}
+.lab-pill__b{animation:lab-chip .6s var(--out) .65s both}
+.lab-pill__btn{position:relative;z-index:2;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;background:var(--color-control-100);animation:lab-chip .5s var(--out) 1s both}
+@keyframes lab-out{to{opacity:0;filter:blur(5px);transform:scale(.96)}}
+@keyframes r4-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.lab *,.lab *::before,.lab *::after{animation-duration:1ms!important;animation-delay:0s!important}}
+.lab-stage>.lab-row,.lab-stage>.lab-col,.lab-stage>.lab-icons{zoom:1.45}.lab-stage>.lab-gridwrap{zoom:1.1}
+/* ===== v2: the light is a growing ring, as in the reference ===== */
+@property --R{syntax:'<length>';inherits:false;initial-value:0px}
+/* the ring: centre below the surface; its radius grows so the bright edge sweeps up through it in ~0.35 s */
+.lab-bloom,.lab-bloom--soft{left:0!important;right:0!important;top:0!important;height:100%!important;border-radius:inherit!important;filter:blur(5px)!important;opacity:1!important;transform:none!important;
+  background:radial-gradient(circle at 50% calc(100% + 140px),
+    color-mix(in srgb,var(--blue) 7%,transparent) calc(var(--R) - 120px),
+    color-mix(in srgb,var(--sky) 35%,transparent) calc(var(--R) - 34px),
+    color-mix(in srgb,var(--blue) 70%,transparent) calc(var(--R) - 12px),
+    rgba(255,255,255,.98) calc(var(--R) - 3px),
+    color-mix(in srgb,var(--sky) 80%,transparent) calc(var(--R) + 4px),
+    transparent calc(var(--R) + 16px))!important;
+  animation:lab-ring-grow 1.15s both!important;animation-delay:.08s!important}
+.lab-bloom--soft{filter:blur(7px)!important;mix-blend-mode:multiply;opacity:.7!important}
+@keyframes lab-ring-grow{
+  0%{--R:0px;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}
+  6%{opacity:1}
+  42%{--R:560px;opacity:1;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  100%{--R:900px;opacity:0}}
+/* content: out of focus exactly while the edge crosses it (with a slight blue fringe), back in focus over ~0.4 s; no scaling */
+.lab-hit{animation:none!important}
+.lab-frame.lab-hit{animation:lab-ring 1.2s var(--out) .5s both!important}
+.lab-hit .lab-in{animation:lab-focus2 1.15s .08s both!important}
+@keyframes lab-focus2{
+  0%,10%{filter:none}
+  24%{filter:blur(6px) drop-shadow(2px 0 0 color-mix(in srgb,var(--blue) 55%,transparent)) drop-shadow(-2px 0 0 color-mix(in srgb,var(--sky) 70%,transparent));animation-timing-function:cubic-bezier(.2,0,.2,1)}
+  40%{filter:blur(7px) drop-shadow(1px 0 0 color-mix(in srgb,var(--blue) 40%,transparent)) drop-shadow(-1px 0 0 color-mix(in srgb,var(--sky) 50%,transparent))}
+  80%,100%{filter:blur(0) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent)}}
+/* the status mark scales in still blurred, then sharpens (reference: 0.5–0.9 s) */
+@keyframes lab-pop{0%{transform:scale(.55);opacity:0;filter:blur(6px)}40%{opacity:1;filter:blur(3px)}70%{transform:scale(1.08);filter:blur(0)}100%{transform:none;filter:none}}
+.lab-ic--hit,.lab-ok,.lab-pill__ok{animation-timing-function:cubic-bezier(.34,1.45,.64,1)!important}
+/* the rim lights up as the ring leaves and fades slowly */
+.lab-rim{animation:lab-rim 3.2s cubic-bezier(.16,1,.3,1) .45s both!important}
+/* pill: the same ring, coming from the left */
+.lab-sweep{left:0!important;right:0!important;top:0!important;bottom:0!important;width:auto!important;border-radius:inherit;filter:blur(4px)!important;transform:none!important;
+  background:radial-gradient(circle at -140px 50%,color-mix(in srgb,var(--blue) 7%,transparent) calc(var(--R) - 120px),color-mix(in srgb,var(--sky) 35%,transparent) calc(var(--R) - 30px),color-mix(in srgb,var(--blue) 65%,transparent) calc(var(--R) - 10px),rgba(255,255,255,.98) calc(var(--R) - 2px),color-mix(in srgb,var(--sky) 80%,transparent) calc(var(--R) + 4px),transparent calc(var(--R) + 14px))!important;
+  animation:lab-ring-grow-x 1.1s both!important;animation-delay:.15s!important}
+@keyframes lab-ring-grow-x{0%{--R:0px;opacity:0;animation-timing-function:cubic-bezier(.45,0,.25,1)}6%{opacity:1}55%{--R:620px;opacity:1;animation-timing-function:cubic-bezier(.3,0,.2,1)}100%{--R:820px;opacity:0}}
+.lab-pill .lab-pill__txt,.lab-pill .lab-pill__ic{animation:lab-focus2 1.1s .15s both}
+/* icon chip: a small ring inside it */
+.lab-ic--s2::before{inset:0!important;filter:blur(2px)!important;transform:none!important;background:radial-gradient(circle at 50% calc(100% + 24px),transparent calc(var(--R) - 18px),color-mix(in srgb,var(--sky) 60%,transparent) calc(var(--R) - 6px),rgba(255,255,255,.95) calc(var(--R) - 1px),transparent calc(var(--R) + 5px))!important;animation:lab-ring-grow-s .9s cubic-bezier(.4,0,.2,1) .25s both!important}
+@keyframes lab-ring-grow-s{0%{--R:0px;opacity:0}10%{opacity:1}60%{--R:90px;opacity:1}100%{--R:120px;opacity:0}}
+/* on a white surface the ring needs colour, not white: Afi blue edge, light-blue halo, faint blue inside */
+.lab-bloom,.lab-bloom--soft{filter:blur(4px)!important;background:radial-gradient(circle at 50% calc(100% + 140px),
+    color-mix(in srgb,var(--blue) 9%,transparent) calc(var(--R) - 140px),
+    color-mix(in srgb,var(--sky) 45%,transparent) calc(var(--R) - 44px),
+    color-mix(in srgb,var(--blue) 70%,transparent) calc(var(--R) - 16px),
+    var(--brand-afi-blue-strong) calc(var(--R) - 5px),
+    color-mix(in srgb,var(--blue) 75%,transparent) calc(var(--R) + 1px),
+    color-mix(in srgb,var(--sky) 55%,transparent) calc(var(--R) + 7px),
+    transparent calc(var(--R) + 20px))!important}
+.lab-bloom--soft{opacity:.6!important;mix-blend-mode:normal}
+.lab-sweep{filter:blur(4px)!important;background:radial-gradient(circle at -140px 50%,color-mix(in srgb,var(--blue) 9%,transparent) calc(var(--R) - 130px),color-mix(in srgb,var(--sky) 45%,transparent) calc(var(--R) - 40px),color-mix(in srgb,var(--blue) 70%,transparent) calc(var(--R) - 14px),var(--brand-afi-blue-strong) calc(var(--R) - 4px),color-mix(in srgb,var(--sky) 55%,transparent) calc(var(--R) + 6px),transparent calc(var(--R) + 18px))!important}
+.lab-ic--s2::before{background:radial-gradient(circle at 50% calc(100% + 24px),transparent calc(var(--R) - 20px),color-mix(in srgb,var(--sky) 70%,transparent) calc(var(--R) - 7px),#fff calc(var(--R) - 1px),transparent calc(var(--R) + 6px))!important}
+/* the ring is sized to its surface so the edge always takes ~0.5 s to cross it */
+.lab-bloom,.lab-bloom--soft{--c:60px;--r0:30px;--r1:230px;background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    color-mix(in srgb,var(--blue) 9%,transparent) calc(var(--R) - 90px),
+    color-mix(in srgb,var(--sky) 45%,transparent) calc(var(--R) - 32px),
+    color-mix(in srgb,var(--blue) 70%,transparent) calc(var(--R) - 12px),
+    var(--brand-afi-blue-strong) calc(var(--R) - 4px),
+    color-mix(in srgb,var(--blue) 70%,transparent) calc(var(--R) + 1px),
+    color-mix(in srgb,var(--sky) 55%,transparent) calc(var(--R) + 6px),
+    transparent calc(var(--R) + 16px))!important;animation:lab-ring-fit 1.2s both!important;animation-delay:.08s!important}
+.lab-sec .lab-bloom{--c:110px;--r0:60px;--r1:520px}
+.lab-frame .lab-bloom{--c:110px;--r0:60px;--r1:470px}
+@keyframes lab-ring-fit{0%{--R:var(--r0);opacity:0;animation-timing-function:cubic-bezier(.45,0,.3,1)}8%{opacity:1}52%{--R:var(--r1);opacity:1;animation-timing-function:cubic-bezier(.2,0,.2,1)}100%{--R:calc(var(--r1) * 1.3);opacity:0}}
+.lab-sweep{--c:80px;--r0:40px;--r1:560px;background:radial-gradient(circle at calc(var(--c) * -1) 50%,color-mix(in srgb,var(--blue) 9%,transparent) calc(var(--R) - 90px),color-mix(in srgb,var(--sky) 45%,transparent) calc(var(--R) - 30px),color-mix(in srgb,var(--blue) 70%,transparent) calc(var(--R) - 11px),var(--brand-afi-blue-strong) calc(var(--R) - 3px),color-mix(in srgb,var(--sky) 55%,transparent) calc(var(--R) + 5px),transparent calc(var(--R) + 15px))!important;animation:lab-ring-fit 1.2s both!important;animation-delay:.15s!important}
+/* content blur follows the ring: out of focus from the moment the edge enters until it leaves */
+@keyframes lab-focus2{0%,12%{filter:none}30%{filter:blur(6px) drop-shadow(2px 0 0 color-mix(in srgb,var(--blue) 55%,transparent)) drop-shadow(-2px 0 0 color-mix(in srgb,var(--sky) 70%,transparent));animation-timing-function:cubic-bezier(.2,0,.2,1)}50%{filter:blur(6px) drop-shadow(1px 0 0 color-mix(in srgb,var(--blue) 40%,transparent)) drop-shadow(-1px 0 0 color-mix(in srgb,var(--sky) 50%,transparent))}88%,100%{filter:blur(0) drop-shadow(0 0 0 transparent) drop-shadow(0 0 0 transparent)}}
+.lab-ic--hit,.lab-ok,.lab-pill__ok{animation-delay:.62s!important}
+/* softer band: colour core with a pale leading edge, like the reference's bright rim */
+.lab-bloom,.lab-bloom--soft{background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    color-mix(in srgb,var(--blue) 7%,transparent) calc(var(--R) - 90px),
+    color-mix(in srgb,var(--sky) 38%,transparent) calc(var(--R) - 30px),
+    color-mix(in srgb,var(--blue) 55%,transparent) calc(var(--R) - 10px),
+    color-mix(in srgb,var(--blue) 78%,transparent) calc(var(--R) - 4px),
+    var(--ice) calc(var(--R) + 1px),
+    color-mix(in srgb,var(--sky) 45%,transparent) calc(var(--R) + 6px),
+    transparent calc(var(--R) + 16px))!important}
+/* 2026-11-27 · Richard: the leading line read at full opacity. Core 78 % → 40 %, the pale edge becomes see-through, the halo fades sooner. */
+.lab-bloom,.lab-bloom--soft{background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    color-mix(in srgb,var(--blue) 5%,transparent) calc(var(--R) - 90px),
+    color-mix(in srgb,var(--sky) 26%,transparent) calc(var(--R) - 30px),
+    color-mix(in srgb,var(--blue) 32%,transparent) calc(var(--R) - 10px),
+    color-mix(in srgb,var(--blue) 40%,transparent) calc(var(--R) - 4px),
+    color-mix(in srgb,var(--ice) 60%,transparent) calc(var(--R) + 1px),
+    color-mix(in srgb,var(--sky) 25%,transparent) calc(var(--R) + 6px),
+    transparent calc(var(--R) + 14px))!important}
+.lab-sweep{background:radial-gradient(circle at calc(var(--c) * -1) 50%,color-mix(in srgb,var(--blue) 5%,transparent) calc(var(--R) - 90px),color-mix(in srgb,var(--sky) 28%,transparent) calc(var(--R) - 30px),color-mix(in srgb,var(--blue) 36%,transparent) calc(var(--R) - 11px),color-mix(in srgb,var(--blue) 42%,transparent) calc(var(--R) - 3px),color-mix(in srgb,var(--sky) 30%,transparent) calc(var(--R) + 5px),transparent calc(var(--R) + 14px))!important}
+/* 2026-11-27 · comment: use the middle tab's look; the left one's top line fights the light. The selected tab drops its 3 px bar and lift. */
+.lab-tab.is-on::after{display:none!important}
+.lab-tab.is-on{box-shadow:inset 0 0 0 1px var(--borders-subtle)}
+/* ===== 7 · Aplicar, versión lenta (2026-11-27) — the reference's timing and a three-layer band =====
+   Reference, measured at 60 fps: rise 0.15→0.45 s, hold 0.45→0.55 s (light covers the card, content fully blurred),
+   recede 0.55→0.9 s (light sinks back to the edges, check pops), rim fades over ~2 s.
+   Band, outside → inside: soft Afi-blue glow · white gloss (with a thin blue shadow so it reads on white) · Afi blue body · azul profundo tail. */
+.lab-frame.lab-v2 .lab-bloom{--c:110px;--r0:50px;--rp:400px;filter:blur(6px)!important;opacity:1!important;
+  background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    transparent calc(var(--R) - 180px),
+    color-mix(in srgb,var(--deep) 10%,transparent) calc(var(--R) - 130px),
+    color-mix(in srgb,var(--deep) 20%,transparent) calc(var(--R) - 75px),
+    color-mix(in srgb,var(--blue) 34%,transparent) calc(var(--R) - 34px),
+    color-mix(in srgb,var(--blue) 44%,transparent) calc(var(--R) - 14px),
+    rgba(255,255,255,.88) calc(var(--R) - 6px),
+    rgba(255,255,255,.7) calc(var(--R) - 2px),
+    color-mix(in srgb,var(--blue) 20%,transparent) calc(var(--R) + 3px),
+    color-mix(in srgb,var(--blue) 7%,transparent) calc(var(--R) + 26px),
+    transparent calc(var(--R) + 52px))!important;
+  animation:lab-v2-ring 1.05s both!important;animation-delay:.1s!important}
+@keyframes lab-v2-ring{
+  0%{--R:var(--r0);opacity:0;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  8%{opacity:1}
+  33%{--R:var(--rp);opacity:1;animation-timing-function:linear}
+  48%{--R:calc(var(--rp) + 14px);opacity:1;animation-timing-function:cubic-bezier(.5,0,.6,1)}
+  100%{--R:var(--r0);opacity:0}}
+.lab-frame.lab-v2 .lab-in{animation:lab-v2-focus 1.05s .1s both!important}
+@keyframes lab-v2-focus{0%,12%{filter:blur(0)}36%,52%{filter:blur(6px)}90%,100%{filter:blur(0)}}
+.lab-frame.lab-v2 .lab-ok{animation-delay:.7s!important}
+.lab-frame.lab-v2.lab-hit{animation:lab-ring 1.2s var(--out) .6s both!important}
+@media (prefers-reduced-motion:reduce){.lab-frame.lab-v2 .lab-bloom,.lab-frame.lab-v2 .lab-in{animation:none!important}.lab-frame.lab-v2 .lab-bloom{opacity:0!important}}
+/* 7 · tuning after the first render: azul profundo alone reads grey on white, so it is mixed with Afi blue; the inside of the arc
+   keeps a light fill (the reference lights the whole card at the peak); the peak stops in the upper third, not on the edge */
+.lab-frame.lab-v2 .lab-bloom{--rp:330px;--pf:color-mix(in srgb,var(--deep) 45%,var(--blue));
+  background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    color-mix(in srgb,var(--pf) 9%,transparent) 0,
+    color-mix(in srgb,var(--pf) 12%,transparent) calc(var(--R) - 150px),
+    color-mix(in srgb,var(--pf) 24%,transparent) calc(var(--R) - 80px),
+    color-mix(in srgb,var(--blue) 36%,transparent) calc(var(--R) - 36px),
+    color-mix(in srgb,var(--blue) 46%,transparent) calc(var(--R) - 14px),
+    rgba(255,255,255,.9) calc(var(--R) - 6px),
+    rgba(255,255,255,.72) calc(var(--R) - 2px),
+    color-mix(in srgb,var(--blue) 22%,transparent) calc(var(--R) + 3px),
+    color-mix(in srgb,var(--blue) 8%,transparent) calc(var(--R) + 26px),
+    transparent calc(var(--R) + 52px))!important}
+.lab-frame.lab-v2 .lab-bloom{z-index:3!important}
+/* ===== 8 · Icono en la pestaña · todo el recorrido (2026-11-27, Richard's comment on board 3)
+   7 s timeline: 0–1 reposo · 1–2.4 trabajando · 2.4–3 llega el cambio (the outline draws on the resting icon, no pop from zero)
+   · 3–4.6 simulación (held) · 4.6–5.3 aplicado (the fill rises from the outline with board 3's inner light, small spring) · then settled. */
+.lf{gap:22px!important}
+.lf-track{display:flex;gap:2px;padding:3px;border-radius:12px;background:var(--color-neutral-100,#F2F4F7);width:640px}
+.lf-seg{flex:1 1 auto;display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;align-content:center;height:52px;padding:0 10px;border-radius:9px}
+.lf-seg.is-on{background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.08),0 0 0 1px var(--borders-subtle)}
+.lf-name{grid-column:2;font-size:12px;color:var(--content-secondary);white-space:nowrap}
+.lf-fig{grid-column:2;position:relative;height:18px;font-size:13px;font-weight:600;white-space:nowrap}
+.lf-fig>span{position:absolute;left:0;top:0}.lf-fig em{font-style:normal;color:var(--brand-afi-blue-strong)}
+.lf-ic{grid-row:1 / span 2;position:relative;overflow:hidden;display:grid;place-items:center;width:28px;height:28px;border-radius:8px;color:var(--content-secondary);
+  animation:lf-work 7s linear both}
+.lf-seg.is-ai .lf-ic{animation:lf-ic 7s linear both}
+.lf-seg.is-ai .lf-ic::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at 50% calc(100% + 20px),transparent calc(var(--R) - 18px),color-mix(in srgb,var(--sky) 70%,transparent) calc(var(--R) - 7px),#fff calc(var(--R) - 1px),transparent calc(var(--R) + 6px));
+  animation:lf-light 7s linear both}
+.lf-ic svg{position:relative;z-index:1}
+@keyframes lf-work{0%,14%{opacity:1}20%{opacity:.4}26%{opacity:1}31%{opacity:.4}34.3%,100%{opacity:1}}
+@keyframes lf-ic{
+  0%,14%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:inset 0 0 0 0 transparent,0 0 0 0 transparent;transform:none}
+  20%{opacity:.4}26%{opacity:1}31%{opacity:.4}
+  34.3%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:inset 0 0 0 0 color-mix(in srgb,var(--brand-afi-blue) 40%,transparent),0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+  39%{background:color-mix(in srgb,var(--brand-afi-blue) 12%,#fff);color:var(--brand-afi-blue-strong);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--brand-afi-blue) 45%,transparent),0 0 0 5px color-mix(in srgb,var(--brand-afi-blue) 14%,transparent);transform:scale(1.05)}
+  43%,65.7%{background:color-mix(in srgb,var(--brand-afi-blue) 12%,#fff);color:var(--brand-afi-blue-strong);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--brand-afi-blue) 35%,transparent),0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  70%{background:var(--brand-afi-blue-strong);color:#fff;box-shadow:inset 0 0 0 1px transparent,0 0 0 6px color-mix(in srgb,var(--brand-afi-blue) 18%,transparent);transform:scale(1.12);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  75%,100%{background:linear-gradient(135deg,var(--brand-background-pressed,#04202d) 0%,var(--deep) 55%,color-mix(in srgb,var(--deep) 60%,var(--sky)) 100%);color:#fff;box-shadow:inset 0 0 0 0 transparent,0 0 0 0 transparent;transform:none}}
+@keyframes lf-light{0%,65%{--R:0px;opacity:0}66%{--R:4px;opacity:1}76%{--R:46px;opacity:1}80%,100%{--R:52px;opacity:0}}
+/* the figure line: before → the change → the new figure */
+.lf-a{animation:lf-a 7s linear both}.lf-b{opacity:0;animation:lf-b 7s linear both}.lf-c{opacity:0;animation:lf-c 7s linear both}
+.lf-seg:not(.is-ai) .lf-b,.lf-seg:not(.is-ai) .lf-c{display:none}.lf-seg:not(.is-ai) .lf-a{animation:lf-work 7s linear both}
+@keyframes lf-a{0%,37%{opacity:1;filter:none}31%{opacity:.4}40%,100%{opacity:0}}
+@keyframes lf-b{0%,38%{opacity:0}42%,66%{opacity:1}70%,100%{opacity:0}}
+@keyframes lf-c{0%,68%{opacity:0;filter:blur(3px)}74%,100%{opacity:1;filter:none}}
+/* the step strip follows the timeline */
+.lf-steps{display:flex;gap:6px;margin:0;padding:0;list-style:none;font-size:12px;color:var(--content-tertiary)}
+.lf-steps li{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:999px}
+.lf-steps b{display:grid;place-items:center;width:18px;height:18px;border-radius:999px;background:var(--color-neutral-100,#F2F4F7);font-size:11px}
+.lf-s0{animation:lf-s0 7s linear both}.lf-s1{animation:lf-s1 7s linear both}.lf-s2{animation:lf-s2 7s linear both}.lf-s3{animation:lf-s3 7s linear both}.lf-s4{animation:lf-s4 7s linear both}
+@keyframes lf-s0{0%,14%{background:#fff;color:var(--content-primary);box-shadow:0 0 0 1px var(--borders-subtle)}15%,100%{background:transparent;color:var(--content-tertiary);box-shadow:none}}
+@keyframes lf-s1{0%,14%{background:transparent}15%,34%{background:#fff;color:var(--content-primary);box-shadow:0 0 0 1px var(--borders-subtle)}35%,100%{background:transparent;color:var(--content-tertiary);box-shadow:none}}
+@keyframes lf-s2{0%,34%{background:transparent}35%,43%{background:#fff;color:var(--content-primary);box-shadow:0 0 0 1px var(--borders-subtle)}44%,100%{background:transparent;color:var(--content-tertiary);box-shadow:none}}
+@keyframes lf-s3{0%,43%{background:transparent}44%,65%{background:#fff;color:var(--content-primary);box-shadow:0 0 0 1px var(--borders-subtle)}66%,100%{background:transparent;color:var(--content-tertiary);box-shadow:none}}
+@keyframes lf-s4{0%,65%{background:transparent;color:var(--content-tertiary)}66%,100%{background:#fff;color:var(--content-primary);box-shadow:0 0 0 1px var(--borders-subtle)}}
+.lf-note{max-width:640px;margin:0;font-size:13px;color:var(--content-secondary);text-align:center}
+@media (prefers-reduced-motion:reduce){.lf *{animation-duration:1ms!important;animation-delay:0s!important}}
+/* 2026-11-27 · comment: the selected card shows as the current style, lifted (4 px up, elevation-2), with no top line */
+.lab-tab.is-on{transform:translateY(-4px);box-shadow:0 6px 16px rgba(16,24,40,.10),0 2px 4px rgba(16,24,40,.06),inset 0 0 0 1px var(--borders-subtle)!important}
+.lab-row{padding-top:6px}
+/* ===== 1 · now the segmented switcher (2026-11-27 comment): grey track, white thumb for the selected part, icon + name + figure */
+.lab-row--seg{display:flex!important;gap:2px!important;padding:3px!important;border-radius:12px;background:var(--color-neutral-100,#F2F4F7);width:660px}
+.lab-row--seg .lab-tab{flex:1 1 auto;padding:0 10px!important;height:52px;border-radius:9px;background:transparent;box-shadow:none!important;transform:none!important}
+.lab-row--seg .lab-tab.is-on{background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.08),0 0 0 1px var(--borders-subtle)!important}
+.lab-row--seg .lab-tab.is-on::after{display:none!important}
+.lab-row--seg .lab-in{display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:8px;align-content:center;height:100%}
+.lab-row--seg .lab-tab__h{display:contents;font-size:12px;color:var(--content-secondary)}
+.lab-row--seg .lab-ic{grid-row:1 / span 2;width:28px;height:28px;border-radius:8px;background:transparent;color:var(--content-secondary)}
+.lab-row--seg .lab-ic--hit{background:color-mix(in srgb,var(--blue) 12%,#fff)!important;color:var(--brand-afi-blue-strong)!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 40%,transparent)}
+.lab-row--seg .lab-tab strong{grid-column:2;font-size:13px;font-weight:600;white-space:nowrap}
+.lab-row--seg .lab-tab strong em{font-style:normal;color:var(--brand-afi-blue-strong)}
+.lab-row--seg .lab-tab__s,.lab-row--seg .lab-chip{display:none!important}
+.lab-row--seg .lab-tab:not(.is-on) .lab-tab__h{white-space:nowrap}
+/* 7 · Richard: "it goes up and then it stops". The recede faded out halfway, so the light vanished in place.
+   Now it stays bright on the way down and leaves through the bottom edge; only the last 12 % fades. The rim then takes over. */
+@keyframes lab-v2-ring{
+  0%{--R:var(--r0);opacity:0;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  8%{opacity:1}
+  33%{--R:var(--rp);opacity:1;animation-timing-function:linear}
+  46%{--R:calc(var(--rp) + 12px);opacity:1;animation-timing-function:cubic-bezier(.55,0,.75,.4)}
+  88%{--R:40px;opacity:1}
+  100%{--R:0px;opacity:0}}
+.lab-frame.lab-v2 .lab-bloom{animation-duration:1.15s!important}
+.lab-frame.lab-v2 .lab-rim{animation-delay:.95s!important}
+/* 8 · «Llega el cambio» = the gradient arc of the frame, small: it draws once around the icon and settles as a soft arc,
+   the same mark the sections carry. No solid outline. Strength stays low so it works for small, frequent changes. */
+@property --lfa{syntax:'<angle>';inherits:false;initial-value:0deg}
+.lf-seg.is-ai .lf-ic::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:0;
+  background:conic-gradient(from var(--lfa),transparent 0deg,transparent 150deg,color-mix(in srgb,var(--brand-afi-blue) 35%,transparent) 230deg,var(--brand-afi-blue) 300deg,color-mix(in srgb,var(--brand-afi-blue) 45%,#fff) 340deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:lf-arc 7s linear both}
+@keyframes lf-arc{0%,34%{opacity:0;--lfa:-90deg}35%{opacity:1;--lfa:-90deg;animation-timing-function:cubic-bezier(.25,.6,.3,1)}44%{opacity:1;--lfa:270deg}50%,64%{opacity:.75;--lfa:290deg}69%,100%{opacity:0;--lfa:290deg}}
+@keyframes lf-ic{
+  0%,14%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none}
+  20%{opacity:.4}26%{opacity:1}31%{opacity:.4}
+  34.3%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+  40%{background:color-mix(in srgb,var(--brand-afi-blue) 8%,#fff);color:var(--brand-afi-blue-strong);box-shadow:0 0 0 4px color-mix(in srgb,var(--brand-afi-blue) 10%,transparent)}
+  46%,65.7%{background:color-mix(in srgb,var(--brand-afi-blue) 8%,#fff);color:var(--brand-afi-blue-strong);box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  70%{background:var(--brand-afi-blue-strong);color:#fff;box-shadow:0 0 0 6px color-mix(in srgb,var(--brand-afi-blue) 18%,transparent);transform:scale(1.12);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  75%,100%{background:linear-gradient(135deg,var(--brand-background-pressed,#04202d) 0%,var(--deep) 55%,color-mix(in srgb,var(--deep) 60%,var(--sky)) 100%);color:#fff;box-shadow:0 0 0 0 transparent;transform:none}}
+/* 7 · Richard: it should not go back down; after the hold the light keeps going out past the edges and dissolves, like boards 1–6.
+   Same slow rise and hold; then it bursts outward on an ease-out and fades. The rim follows as it leaves. */
+@keyframes lab-v2-ring{
+  0%{--R:var(--r0);opacity:0;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  8%{opacity:1}
+  33%{--R:var(--rp);opacity:1;animation-timing-function:linear}
+  45%{--R:calc(var(--rp) + 14px);opacity:1;animation-timing-function:cubic-bezier(.2,.65,.25,1)}
+  72%{opacity:.85}
+  100%{--R:calc(var(--rp) * 2.3);opacity:0}}
+.lab-frame.lab-v2 .lab-bloom{animation-duration:1.25s!important}
+.lab-frame.lab-v2 .lab-rim{animation-delay:.62s!important}
+.lab-frame.lab-v2.lab-hit{animation:lab-ring 1.2s var(--out) .62s both!important}
+@keyframes lab-v2-focus{0%,12%{filter:blur(0)}34%,48%{filter:blur(6px)}78%,100%{filter:blur(0)}}
+/* 8 · softer pulse: the halo around the icon and the gradient arc come down a step (llega el cambio and aplicado) */
+@keyframes lf-arc{0%,34%{opacity:0;--lfa:-90deg}35%{opacity:.8;--lfa:-90deg;animation-timing-function:cubic-bezier(.25,.6,.3,1)}44%{opacity:.8;--lfa:270deg}50%,64%{opacity:.55;--lfa:290deg}69%,100%{opacity:0;--lfa:290deg}}
+@keyframes lf-ic{
+  0%,14%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none}
+  20%{opacity:.4}26%{opacity:1}31%{opacity:.4}
+  34.3%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+  40%{background:color-mix(in srgb,var(--brand-afi-blue) 6%,#fff);color:var(--brand-afi-blue-strong);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-afi-blue) 5%,transparent)}
+  46%,65.7%{background:color-mix(in srgb,var(--brand-afi-blue) 6%,#fff);color:var(--brand-afi-blue-strong);box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  70%{background:var(--brand-afi-blue-strong);color:#fff;box-shadow:0 0 0 5px color-mix(in srgb,var(--brand-afi-blue) 10%,transparent);transform:scale(1.1);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  75%,100%{background:linear-gradient(135deg,var(--brand-background-pressed,#04202d) 0%,var(--deep) 55%,color-mix(in srgb,var(--deep) 60%,var(--sky)) 100%);color:#fff;box-shadow:0 0 0 0 transparent;transform:none}}
+/* ===== AI colour comparison (2026-11-27): flat colour is Afi, the gradient is the AI.
+   Brand stays as it is (navy frame, navy fills, neutral text). Only the AI marks change hue: the light, the arcs, the icon tint.
+   The change on the figure line goes to dark text, so the only colour left is the mark. */
+.lab--indigo{--blue:#4B57D6;--sky:color-mix(in srgb,#4B57D6 40%,#fff);--ice:color-mix(in srgb,#4B57D6 14%,#fff);
+  --brand-afi-blue:#4B57D6;--brand-afi-blue-strong:#3B44B8;--brand-afi-blue-light:#9AA2F0}
+.lab--violet{--blue:#7A5AF0;--sky:color-mix(in srgb,#E46BC8 45%,#fff);--ice:color-mix(in srgb,#7A5AF0 12%,#fff);
+  --brand-afi-blue:#7A5AF0;--brand-afi-blue-strong:#5E3FD0;--brand-afi-blue-light:#F09ADB}
+/* the gradient runs Afi blue → hue: the light's body starts in Afi blue and the leading edge carries the new hue */
+.lab--indigo .lab-frame.lab-v2 .lab-bloom,.lab--violet .lab-frame.lab-v2 .lab-bloom{--pf:#007CBC}
+.lab--indigo .lab-bloom,.lab--violet .lab-bloom{filter:blur(6px) saturate(1.1)!important}
+/* icon arc: Afi blue → hue → light hue */
+.lab--indigo .lf-seg.is-ai .lf-ic::after,.lab--violet .lf-seg.is-ai .lf-ic::after{background:conic-gradient(from var(--lfa),transparent 0deg,transparent 150deg,color-mix(in srgb,#007CBC 45%,transparent) 220deg,var(--brand-afi-blue) 290deg,var(--brand-afi-blue-light) 340deg,transparent 360deg)}
+/* filled icon on apply: navy → hue, so the AI moment carries the colour */
+.lab--indigo .lf-seg.is-ai .lf-ic,.lab--violet .lf-seg.is-ai .lf-ic{--deep:#062D3F}
+.lab--indigo .lf-fig em,.lab--violet .lf-fig em,.lab--indigo .lab-row--seg .lab-tab strong em,.lab--violet .lab-row--seg .lab-tab strong em,.lab--indigo .lab-delta b,.lab--violet .lab-delta b{color:var(--content-primary)!important}
+.lab--indigo .lab-delta svg,.lab--violet .lab-delta svg{color:var(--brand-afi-blue)}
+.lab-head .lab-hue{display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:12px;color:var(--content-secondary)}
+.lab-hue i{width:44px;height:8px;border-radius:4px;background:linear-gradient(90deg,#062D3F,#007CBC 45%,var(--brand-afi-blue) 80%,var(--brand-afi-blue-light))}
+/* 3 · azul Afi con un toque de violeta y rosa (2026-11-27): everything stays our blue; only the leading edge of the light,
+   the halo and the tip of the icon arc carry a hint of violet → pink. */
+.lab--hint{--hv:#8B6CF2;--hp:#EC7BCB;--sky:color-mix(in srgb,#8B6CF2 30%,color-mix(in srgb,#EC7BCB 30%,#fff));--ice:color-mix(in srgb,#EC7BCB 22%,#fff);--brand-afi-blue-light:#B79BF6}
+.lab--hint .lab-frame.lab-v2 .lab-bloom{
+  background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    color-mix(in srgb,var(--pf) 9%,transparent) 0,
+    color-mix(in srgb,var(--pf) 12%,transparent) calc(var(--R) - 150px),
+    color-mix(in srgb,var(--pf) 24%,transparent) calc(var(--R) - 80px),
+    color-mix(in srgb,var(--blue) 36%,transparent) calc(var(--R) - 36px),
+    color-mix(in srgb,var(--hv) 30%,color-mix(in srgb,var(--blue) 20%,transparent)) calc(var(--R) - 16px),
+    rgba(255,255,255,.9) calc(var(--R) - 6px),
+    color-mix(in srgb,var(--hp) 30%,rgba(255,255,255,.7)) calc(var(--R) - 2px),
+    color-mix(in srgb,var(--hp) 22%,transparent) calc(var(--R) + 4px),
+    color-mix(in srgb,var(--hv) 8%,transparent) calc(var(--R) + 28px),
+    transparent calc(var(--R) + 54px))!important}
+.lab--hint .lab-rim{background:linear-gradient(115deg,var(--blue) 0%,var(--hv) 26%,transparent 48%,transparent 62%,var(--hp) 84%,var(--blue) 100%)}
+.lab--hint .lf-seg.is-ai .lf-ic::after{background:conic-gradient(from var(--lfa),transparent 0deg,transparent 150deg,color-mix(in srgb,var(--brand-afi-blue) 40%,transparent) 220deg,var(--brand-afi-blue) 285deg,var(--hv) 325deg,var(--hp) 348deg,transparent 360deg)}
+.lab--hint .lf-fig em,.lab--hint .lab-row--seg .lab-tab strong em,.lab--hint .lab-delta b{color:var(--content-primary)!important}
+.lab--hint .lab-hue i{background:linear-gradient(90deg,#062D3F,#007CBC 55%,#8B6CF2 82%,#EC7BCB)}
+/* option 3 · the pink one step darker and closer to purple (Richard, 2026-11-27): #EC7BCB → #C96AD3 */
+.lab--hint{--hp:#C96AD3;--sky:color-mix(in srgb,#8B6CF2 32%,color-mix(in srgb,#C96AD3 26%,#fff));--ice:color-mix(in srgb,#C96AD3 20%,#fff)}
+.lab--hint .lab-hue i{background:linear-gradient(90deg,#062D3F,#007CBC 55%,#8B6CF2 82%,#C96AD3)}
+/* 7 · fix (2026-11-27): the card stayed blue-grey after the light. An !important opacity on the bloom beat the animation, so the
+   fade never ran and the inner fill stayed. Opacity now reads an animated custom property, and the card ends white. */
+@property --lo{syntax:'<number>';inherits:false;initial-value:0}
+.lab-frame.lab-v2 .lab-bloom{opacity:var(--lo)!important}
+@keyframes lab-v2-ring{
+  0%{--R:var(--r0);--lo:0;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  8%{--lo:1}
+  33%{--R:var(--rp);--lo:1;animation-timing-function:linear}
+  45%{--R:calc(var(--rp) + 14px);--lo:1;animation-timing-function:cubic-bezier(.2,.65,.25,1)}
+  70%{--lo:.7}
+  100%{--R:calc(var(--rp) * 2.3);--lo:0}}
+/* ===== Chosen palette, round 2 (2026-11-27): violet a step closer to blue, the pink pulled toward purple ===== */
+.lab--hint{--hv:#7C6EF0;--hp:#A66AE0;--sky:color-mix(in srgb,#7C6EF0 30%,color-mix(in srgb,#A66AE0 24%,#fff));--ice:color-mix(in srgb,#A66AE0 18%,#fff);--brand-afi-blue-light:#ABA3F6}
+.lab--hint .lab-hue i{background:linear-gradient(90deg,#062D3F,#007CBC 55%,#7C6EF0 82%,#A66AE0)}
+/* the same light on the section with the chart (section2), sized for the larger surface */
+.lab-sec.lab-v2 .lab-bloom{--c:140px;--r0:60px;--rp:430px;--pf:color-mix(in srgb,var(--deep) 45%,var(--blue));z-index:3!important;filter:blur(6px)!important;mix-blend-mode:normal!important;opacity:var(--lo)!important;animation:lab-v2-ring 1.25s both!important;animation-delay:.1s!important}
+.lab-sec.lab-v2 .lab-in{animation:lab-v2-focus 1.05s .1s both!important}
+.lab--hint :is(.lab-frame,.lab-sec).lab-v2 .lab-bloom{
+  background:radial-gradient(circle at 50% calc(100% + var(--c)),
+    color-mix(in srgb,var(--pf) 9%,transparent) 0,
+    color-mix(in srgb,var(--pf) 12%,transparent) calc(var(--R) - 150px),
+    color-mix(in srgb,var(--pf) 24%,transparent) calc(var(--R) - 80px),
+    color-mix(in srgb,var(--blue) 36%,transparent) calc(var(--R) - 36px),
+    color-mix(in srgb,var(--hv) 30%,color-mix(in srgb,var(--blue) 20%,transparent)) calc(var(--R) - 16px),
+    rgba(255,255,255,.9) calc(var(--R) - 6px),
+    color-mix(in srgb,var(--hp) 26%,rgba(255,255,255,.7)) calc(var(--R) - 2px),
+    color-mix(in srgb,var(--hp) 20%,transparent) calc(var(--R) + 4px),
+    color-mix(in srgb,var(--hv) 8%,transparent) calc(var(--R) + 28px),
+    transparent calc(var(--R) + 54px))!important}
+/* Aplicado: the fill is the AI gradient (Afi blue → violet → purple), not a flash of solid Afi blue; it settles to navy with a violet edge */
+.lab--hint .lf-seg.is-ai .lf-ic{animation-name:lf-ic-hint}
+@keyframes lf-ic-hint{
+  0%,14%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none}
+  20%{opacity:.4}26%{opacity:1}31%{opacity:.4}
+  34.3%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+  40%{background:color-mix(in srgb,var(--brand-afi-blue) 6%,#fff);color:color-mix(in srgb,var(--brand-afi-blue-strong) 75%,var(--hv));box-shadow:0 0 0 3px color-mix(in srgb,var(--hv) 6%,transparent)}
+  46%,65.7%{background:color-mix(in srgb,var(--brand-afi-blue) 6%,#fff);color:color-mix(in srgb,var(--brand-afi-blue-strong) 75%,var(--hv));box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  66%{background:linear-gradient(135deg,color-mix(in srgb,#007CBC 20%,#fff),color-mix(in srgb,var(--hv) 20%,#fff))}
+  70%{background:linear-gradient(135deg,#007CBC 0%,var(--hv) 62%,var(--hp) 100%);color:#fff;box-shadow:0 0 0 5px color-mix(in srgb,var(--hv) 10%,transparent);transform:scale(1.1);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  75%,100%{background:linear-gradient(135deg,#062D3F 0%,#0B4766 50%,color-mix(in srgb,#007CBC 55%,var(--hv)) 100%);color:#fff;box-shadow:0 0 0 0 transparent;transform:none}}
+/* hold trimmed (2026-11-27): the pause at the peak keeps its tension but is a fraction shorter (≈0.15 s → ≈0.1 s),
+   and it eases into the burst instead of sitting still */
+@keyframes lab-v2-ring{
+  0%{--R:var(--r0);--lo:0;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  8%{--lo:1}
+  33%{--R:var(--rp);--lo:1;animation-timing-function:cubic-bezier(.4,0,.6,1)}
+  41%{--R:calc(var(--rp) + 16px);--lo:1;animation-timing-function:cubic-bezier(.25,.6,.25,1)}
+  70%{--lo:.7}
+  100%{--R:calc(var(--rp) * 2.3);--lo:0}}
+@keyframes lab-v2-focus{0%,12%{filter:blur(0)}33%,44%{filter:blur(6px)}76%,100%{filter:blur(0)}}
+/* ===== Panel completo (2026-11-27): the whole plan panel on «Aplicar», in the chosen look ===== */
+.lab-stage>.lab-col--panel{zoom:1.05}
+.lab-panel{width:620px;padding:18px 20px 20px}
+.lab-panel .lab-in{position:relative;z-index:1}
+.lab-panel .lab-frame__h strong{font-size:16px}
+.lab-panel .lab-row--seg{width:auto;margin-bottom:12px}
+.lab-panel .lab-pcard{position:relative;padding:14px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px var(--borders-subtle)}
+.lab-panel .lab-pcard h4{margin:0 0 4px;font-size:14px}
+.lab-panel .lab-bars{margin-top:8px}
+/* the dots: the same 14 px grid as the prototype, waving out from the bottom centre with the light, then staying faint */
+.lab-panel .lab-grid{z-index:0;opacity:0;animation:lab-fade 1.2s var(--out) .35s both}
+.lab-panel .lab-grid::after{-webkit-mask:radial-gradient(circle at 50% 120%,transparent var(--w),#000 calc(var(--w) + 6%),transparent calc(var(--w) + 16%));mask:radial-gradient(circle at 50% 120%,transparent var(--w),#000 calc(var(--w) + 6%),transparent calc(var(--w) + 16%));animation:lab-wave 1.5s var(--soft) .2s both}
+/* the changed parts: tinted, then the gradient fill pops in as the light leaves, then navy with a violet edge */
+.lab-panel .lab-row--seg .lab-ic--hit{animation:lab-pfill .8s linear .55s both!important}
+@keyframes lab-pfill{0%{background:color-mix(in srgb,var(--brand-afi-blue) 6%,#fff);color:var(--brand-afi-blue-strong);transform:scale(.92);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  45%{background:linear-gradient(135deg,#007CBC 0%,var(--hv,#7C6EF0) 62%,var(--hp,#A66AE0) 100%);color:#fff;transform:scale(1.12);box-shadow:0 0 0 5px color-mix(in srgb,var(--hv,#7C6EF0) 10%,transparent)}
+  60%{background:linear-gradient(135deg,#007CBC 0%,var(--hv,#7C6EF0) 62%,var(--hp,#A66AE0) 100%);color:#fff;transform:none}
+  100%{background:linear-gradient(135deg,#062D3F 0%,#0B4766 50%,color-mix(in srgb,#007CBC 55%,var(--hv,#7C6EF0)) 100%);color:#fff;transform:none;box-shadow:none}}
+.lab-panel .lab-bloom{--c:180px;--r0:80px;--rp:520px}
+/* panel fix: the switcher's !important tint beat the fill animation; the panel's icons read their colours from custom properties the animation sets */
+.lab-panel .lab-row--seg .lab-ic--hit{background:var(--pbg,color-mix(in srgb,var(--brand-afi-blue) 6%,#fff))!important;color:var(--pc,var(--brand-afi-blue-strong))!important;animation:lab-pfill2 .8s linear .55s both!important}
+@keyframes lab-pfill2{0%{--pbg:color-mix(in srgb,var(--brand-afi-blue) 6%,#fff);--pc:var(--brand-afi-blue-strong);transform:scale(.92);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  40%{--pbg:linear-gradient(135deg,#007CBC 0%,var(--hv,#7C6EF0) 62%,var(--hp,#A66AE0) 100%);--pc:#fff;transform:scale(1.12);box-shadow:0 0 0 5px color-mix(in srgb,var(--hv,#7C6EF0) 10%,transparent)}
+  60%{transform:none}
+  80%,100%{--pbg:linear-gradient(135deg,#062D3F 0%,#0B4766 50%,color-mix(in srgb,#007CBC 55%,var(--hv,#7C6EF0)) 100%);--pc:#fff;transform:none;box-shadow:none}}
+/* aviso · the loader sits on a light Afi blue → violet gradient (it read as a pink disc with a blue spinner on top) */
+.lab--hint .lab-pill__spin{background:linear-gradient(135deg,color-mix(in srgb,#007CBC 14%,#fff),color-mix(in srgb,var(--hv) 16%,#fff));color:color-mix(in srgb,#007CBC 70%,var(--hv))}
+/* the pause at the peak, smoother again: no plateau, the light decelerates into the top and accelerates out of it */
+@keyframes lab-v2-ring{
+  0%{--R:var(--r0);--lo:0;animation-timing-function:cubic-bezier(.3,0,.25,1)}
+  8%{--lo:1}
+  36%{--R:var(--rp);--lo:1;animation-timing-function:cubic-bezier(.45,0,.35,1)}
+  100%{--R:calc(var(--rp) * 2.3);--lo:0}}
+@keyframes lab-v2-focus{0%,12%{filter:blur(0)}34%,42%{filter:blur(6px)}76%,100%{filter:blur(0)}}
+/* panel frame · during the light the navy frame turns into the AI gradient, which sweeps once round it, then returns to navy:
+   after «Aplicar» the plan is the real plan again, and the real plan is navy */
+@property --pa{syntax:'<angle>';inherits:false;initial-value:0deg}
+@property --gm{syntax:'<percentage>';inherits:false;initial-value:100%}
+.lab-panel.lab-frame{border-color:transparent;
+  background:linear-gradient(#fff,#fff) padding-box,
+    conic-gradient(from var(--pa),color-mix(in srgb,#062D3F var(--gm),#062D3F) 0deg,color-mix(in srgb,#062D3F var(--gm),#007CBC) 120deg,color-mix(in srgb,#062D3F var(--gm),var(--hv,#7C6EF0)) 200deg,color-mix(in srgb,#062D3F var(--gm),var(--hp,#A66AE0)) 250deg,color-mix(in srgb,#062D3F var(--gm),#007CBC) 310deg,color-mix(in srgb,#062D3F var(--gm),#062D3F) 360deg) border-box;
+  animation:lab-pframe 1.8s cubic-bezier(.3,.2,.3,1) .1s both, lab-ring 1.2s var(--out) .62s both!important}
+@keyframes lab-pframe{0%{--gm:100%;--pa:-60deg}18%{--gm:0%}62%{--gm:0%}100%{--gm:100%;--pa:300deg}}
+.lab-frame.lab-v2.lab-hit.lab-panel{animation:lab-pframe 1.8s cubic-bezier(.3,.2,.3,1) .1s both,lab-ring 1.2s var(--out) .62s both!important}
+/* Botones destructivos board */
+.lab-dg{display:flex;flex-direction:column;gap:22px;width:860px;padding:8px 0}
+.lab-dg__row{display:flex;flex-direction:column;gap:10px}
+.lab-dg__h{display:flex;flex-direction:column;gap:2px}.lab-dg__h strong{font-size:15px}.lab-dg__h span{font-size:13px;color:var(--content-secondary)}
+.lab-dg__cells{display:flex;gap:14px;flex-wrap:wrap}
+.lab-dg__cell{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:140px;padding:14px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px var(--borders-subtle)}
+.lab-dg__cell small{font-size:12px;color:var(--content-tertiary)}
+/* ===== One light, one set of tokens (2026-11-27). Every surface uses the same duration, delay and curve;
+   only the geometry changes, and the peak always reaches the top edge (rp ≈ distance from the centre to the top). ===== */
+.lab{--light-dur:1.25s;--light-delay:.1s;--light-leave:.78s}
+:is(.lab-frame,.lab-sec).lab-v2 .lab-bloom{animation:lab-v2-ring var(--light-dur) both!important;animation-delay:var(--light-delay)!important}
+:is(.lab-frame,.lab-sec).lab-v2 .lab-in{animation:lab-v2-focus var(--light-dur) var(--light-delay) both!important}
+.lab-panel .lab-bloom{--c:180px;--r0:80px;--rp:620px}
+/* the panel moves one thing at a time: light first; as it leaves, the icons fill; the frame gradient follows the light out
+   and returns to navy; no extra rings outside the frame (the frame gradient does that job) */
+.lab-frame.lab-v2.lab-hit.lab-panel{animation:lab-pframe 2.2s cubic-bezier(.3,.2,.3,1) .45s both!important}
+.lab-panel .lab-row--seg .lab-ic--hit{animation:lab-pfill2 .8s linear var(--light-leave) both!important}
+.lab-panel .lab-ok{animation-delay:calc(var(--light-leave) + .1s)!important}
+.lab-panel .lab-grid::after{animation:lab-wave var(--light-dur) var(--soft) var(--light-delay) both}
+/* aviso loader · a white disc with a turning gradient ring (Afi blue → violet → transparent), not a coloured disc */
+@property --sp{syntax:'<angle>';inherits:false;initial-value:0deg}
+.lab--hint .lab-pill__spin{background:#fff!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,#007CBC 12%,transparent)}
+.lab--hint .lab-pill__spin svg{display:none}
+.lab--hint .lab-pill__spin::before{content:'';position:absolute;inset:7px;border-radius:999px;padding:2.5px;
+  background:conic-gradient(from var(--sp),transparent 0deg,color-mix(in srgb,#007CBC 30%,transparent) 90deg,#007CBC 200deg,var(--hv,#7C6EF0) 300deg,var(--hp,#A66AE0) 350deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:lab-sp 1s linear infinite}
+@keyframes lab-sp{to{--sp:360deg}}
+/* panel · one continuous curve: the light speeds up from the bottom and keeps going out, no pause at the top (on the big surface the pause read as a stop) */
+@keyframes lab-v2-ring-smooth{
+  0%{--R:var(--r0);--lo:0;animation-timing-function:cubic-bezier(.35,.1,.3,1)}
+  8%{--lo:1}
+  70%{--lo:.8}
+  100%{--R:calc(var(--rp) * 2.1);--lo:0}}
+.lab-panel.lab-v2 .lab-bloom{animation-name:lab-v2-ring-smooth!important}
+@keyframes lab-v2-focus-smooth{0%,10%{filter:blur(0)}35%{filter:blur(6px)}70%,100%{filter:blur(0)}}
+.lab-panel.lab-v2 .lab-in{animation-name:lab-v2-focus-smooth!important}
+.lab--hint .lab-pill__spin>*{display:none!important}
+/* every surface uses board 5's continuous light — no pause anywhere (2026-11-27) */
+:is(.lab-frame,.lab-sec).lab-v2 .lab-bloom{animation-name:lab-v2-ring-smooth!important}
+:is(.lab-frame,.lab-sec).lab-v2 .lab-in{animation-name:lab-v2-focus-smooth!important}
+/* loader ring smaller: 18 px ring in the 38 px disc */
+.lab--hint .lab-pill__spin::before{inset:10px;padding:2px}
+
+/* board 2 · simulation state, round 2: white ground and a full gradient ring (it read too faint on the grey track) */
+@keyframes lf-ic-hint2{
+  0%,14%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none}
+  20%{opacity:.4}26%{opacity:1}31%{opacity:.4}
+  34.3%{opacity:1;background:transparent;color:var(--content-secondary);box-shadow:0 0 0 0 transparent;transform:none;animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  40%{background:#fff;color:color-mix(in srgb,#007CBC 70%,var(--hv));box-shadow:0 1px 2px rgba(16,24,40,.08);transform:scale(1.06)}
+  46%,65.7%{background:#fff;color:color-mix(in srgb,#007CBC 70%,var(--hv));box-shadow:0 1px 2px rgba(16,24,40,.08);transform:none;animation-timing-function:cubic-bezier(.3,0,.2,1)}
+  66%{background:linear-gradient(135deg,color-mix(in srgb,#007CBC 20%,#fff),color-mix(in srgb,var(--hv) 20%,#fff))}
+  70%{background:linear-gradient(135deg,#007CBC 0%,var(--hv) 62%,var(--hp) 100%);color:#fff;box-shadow:0 0 0 5px color-mix(in srgb,var(--hv) 10%,transparent);transform:scale(1.1);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  75%,100%{background:linear-gradient(135deg,#062D3F 0%,#0B4766 50%,color-mix(in srgb,#007CBC 55%,var(--hv)) 100%);color:#fff;box-shadow:none;transform:none}}
+.lab--hint .lf-seg.is-ai .lf-ic{animation-name:lf-ic-hint2!important}
+.lab--hint .lf-seg.is-ai .lf-ic::after{background:conic-gradient(from 200deg,#007CBC,var(--hv) 35%,var(--hp) 55%,var(--hv) 75%,#007CBC)!important;animation:lf-ring2 7s linear both!important}
+@keyframes lf-ring2{0%,34%{opacity:0;transform:scale(.8)}40%{opacity:1;transform:scale(1.04)}44%,65%{opacity:1;transform:none}70%,100%{opacity:0}}

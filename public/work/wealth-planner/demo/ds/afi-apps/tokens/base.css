@@ -1,0 +1,5 @@
+/* base.css — minimal element defaults so specimen cards and kits inherit the system voice. */
+body{margin:0;font-family:var(--font-family-primary);color:var(--content-primary);background:var(--background-canvas);-webkit-font-smoothing:antialiased}
+a{color:var(--content-primary);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--content-tertiary)}
+*{box-sizing:border-box}

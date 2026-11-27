@@ -7,6 +7,10 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Droplets, Landmark, Percent, type LucideIcon } from "lucide-react";
 
 import { type Bilingual, pick, useLang } from "@/lib/i18n";
+import { TEMPLATES_AFTER, TEMPLATES_BEFORE } from "@/components/tpc/clips";
+import * as TPC from "@/components/tpc/copy";
+import { DiagnosticPlayer } from "@/components/tpc/diagnostic-player";
+import { FlowWalkthrough } from "@/components/tpc/flow-walkthrough";
 
 /**
  * Hand-built artboards for case studies, drawn in code instead of screenshots.
@@ -565,6 +569,18 @@ const ARTBOARDS: Record<string, () => ReactNode> = {
   "wp-ages": () => <ArtAges />,
   "wp-ai-icon": () => <ArtIconFlow />,
   "wp-ai-toast": () => <ArtToast />,
+  // Third-party compliance: the loop and the annotated before/after, as players.
+  "tpc-flow": () => <FlowWalkthrough steps={TPC.FLOW_STEPS} />,
+  "tpc-diagnostic": () => (
+    <DiagnosticPlayer
+      diagnostic={TPC.DIAGNOSTIC}
+      shots={[
+        { label: TPC.VERSION_LABELS.before, still: TEMPLATES_BEFORE },
+        { label: TPC.VERSION_LABELS.after, still: TEMPLATES_AFTER },
+      ]}
+      title={TPC.BEFORE_EXAMPLE.title}
+    />
+  ),
 };
 
 export function Artboard({ name }: { name: string }) {

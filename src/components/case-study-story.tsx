@@ -1210,6 +1210,8 @@ function LiveCrop({ media }: { media: Extract<StoryMedia, { kind: "live" }> }) {
   return (
     <div
       ref={box}
+      // A crop of a live page on purpose: the responsive check skips it.
+      data-crop
       className="relative w-full overflow-hidden rounded-md bg-white"
       style={{
         height: frameH || undefined,
@@ -1364,6 +1366,8 @@ function Composition({
                 </span>
               )}
               <div
+                // Shows only `rect` of a live page on purpose: the responsive check skips it.
+                data-crop
                 className={`relative overflow-hidden ${it.flat ? "" : "bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(15,23,42,.12)]"}`}
                 style={{
                   height: ih,

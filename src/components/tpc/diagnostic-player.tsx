@@ -16,7 +16,7 @@ import type {
   DiagPinBefore,
 } from "@/components/tpc/copy";
 import { pick, useLang } from "@/lib/i18n";
-import { DURATION, EASE, EASE_CLOSE, SPRING } from "@/lib/motion";
+import { DURATION, EASE, EASE_CLOSE, EASE_IN_OUT, SPRING } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Diagnostic = typeof DIAGNOSTIC;
@@ -205,120 +205,205 @@ export function DiagnosticPlayer({
         </div>
       </div>
 
-      {/* Stage: the screenshot, its pins, and the audit card over it */}
-      <div className="bg-muted/40 p-2 sm:p-4">
-        <div className="relative aspect-[1440/1120] overflow-hidden rounded-lg">
-          {shots.map((s, i) => (
+      {/* Stage and notes side by side on a wide screen, so the screenshot and
+          what is being said about it fit in one view without scrolling. */}
+      <div className="bg-muted/40 grid grid-cols-1 gap-4 p-2 sm:p-4 lg:grid-cols-[minmax(0,1fr)_17rem]">
+        {/* Stage: the screenshot, its pins, and the audit card over it */}
+        <div>
+          <div className="relative aspect-[1440/1120] overflow-hidden rounded-lg">
+            {shots.map((s, i) => (
+              <motion.div
+                key={s.still.src}
+                className="absolute inset-0"
+                initial={false}
+                animate={{
+                  opacity: (i === 1) === showingAfter ? 1 : 0,
+                }}
+                transition={{
+                  duration: reduced ? 0 : DURATION.move,
+                  ease: EASE,
+                }}
+              >
+                <Image
+                  src={s.still.src}
+                  alt={pick(s.still.alt, lang)}
+                  fill
+                  sizes="(min-width: 1024px) 976px, 100vw"
+                  className="object-cover object-top"
+                />
+              </motion.div>
+            ))}
+
+            {/* Dim the screen while the audit counts are up */}
             <motion.div
-              key={s.still.src}
-              className="absolute inset-0"
+              aria-hidden
+              className="bg-background/70 absolute inset-0"
               initial={false}
-              animate={{
-                opacity: (i === 1) === showingAfter ? 1 : 0,
-              }}
-              transition={{ duration: reduced ? 0 : DURATION.move, ease: EASE }}
-            >
-              <Image
-                src={s.still.src}
-                alt={pick(s.still.alt, lang)}
-                fill
-                sizes="(min-width: 1024px) 976px, 100vw"
-                className="object-cover object-top"
-              />
-            </motion.div>
-          ))}
+              animate={{ opacity: cur.kind === "audit" ? 1 : 0 }}
+              transition={{ duration: DURATION.base, ease: EASE }}
+            />
 
-          {/* Dim the screen while the audit counts are up */}
-          <motion.div
-            aria-hidden
-            className="bg-background/70 absolute inset-0"
-            initial={false}
-            animate={{ opacity: cur.kind === "audit" ? 1 : 0 }}
-            transition={{ duration: DURATION.base, ease: EASE }}
-          />
+            {pins.map((p) => (
+              <AnimatePresence key={`${showingAfter ? "a" : "b"}-${p.n}`}>
+                {p.shown && (
+                  <motion.span
+                    aria-hidden
+                    className={cn(
+                      "bg-annotation text-annotation-foreground absolute z-10 flex size-4 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-mono text-[9px] font-medium shadow-sm sm:size-7 sm:text-xs",
+                      p.active ? "ring-annotation/25 ring-[6px]" : "opacity-90"
+                    )}
+                    style={{
+                      left: `${p.at[0] * 100}%`,
+                      top: `${p.at[1] * 100}%`,
+                    }}
+                    initial={reduced ? false : { scale: 0, opacity: 0 }}
+                    animate={{ scale: p.active ? 1.1 : 1, opacity: 1 }}
+                    exit={{
+                      scale: 0.6,
+                      opacity: 0,
+                      transition: {
+                        duration: DURATION.close,
+                        ease: EASE_CLOSE,
+                      },
+                    }}
+                    transition={SPRING}
+                  >
+                    {p.n}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            ))}
 
-          {pins.map((p) => (
-            <AnimatePresence key={`${showingAfter ? "a" : "b"}-${p.n}`}>
-              {p.shown && (
-                <motion.span
-                  aria-hidden
-                  className={cn(
-                    // A .dark island: the screenshots are always light, so the
-                    // pins stay dark ink in both site themes.
-                    "dark absolute z-10 flex size-4 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-mono text-[9px] font-medium sm:size-7 sm:text-xs",
-                    p.active
-                      ? "bg-background text-foreground ring-background/25 ring-[6px]"
-                      : "bg-background/85 text-foreground"
-                  )}
-                  style={{
-                    left: `${p.at[0] * 100}%`,
-                    top: `${p.at[1] * 100}%`,
-                  }}
-                  initial={reduced ? false : { scale: 0, opacity: 0 }}
-                  animate={{ scale: p.active ? 1.1 : 1, opacity: 1 }}
+            <AnimatePresence>
+              {cur.kind === "audit" && (
+                <motion.div
+                  key="audit"
+                  className="absolute inset-0 z-20 flex items-center justify-center p-4"
+                  initial={reduced ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{
-                    scale: 0.6,
                     opacity: 0,
+                    y: -6,
                     transition: { duration: DURATION.close, ease: EASE_CLOSE },
                   }}
-                  transition={SPRING}
+                  transition={{ duration: DURATION.reveal.normal, ease: EASE }}
                 >
-                  {p.n}
-                </motion.span>
+                  <div className="dark bg-card text-foreground border-border w-full max-w-2xl rounded-2xl border p-5 shadow-xl sm:p-8">
+                    <p className="text-muted-foreground mb-4 font-mono text-xs uppercase">
+                      {pick(diagnostic.heading, lang)}
+                    </p>
+                    <div className="grid grid-cols-3 gap-4">
+                      {diagnostic.audit.map((a, i) => (
+                        <motion.div
+                          key={a.id}
+                          className="flex flex-col gap-1"
+                          initial={reduced ? false : { opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: DURATION.reveal.normal,
+                            delay: 0.15 + i * 0.07,
+                            ease: EASE,
+                          }}
+                        >
+                          <span className="font-display text-3xl leading-none font-bold tracking-tight sm:text-5xl">
+                            {pick(a.value, lang)}
+                          </span>
+                          <span className="text-muted-foreground text-xs leading-snug sm:text-sm">
+                            {pick(a.label, lang)}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
               )}
             </AnimatePresence>
-          ))}
-
-          <AnimatePresence>
-            {cur.kind === "audit" && (
-              <motion.div
-                key="audit"
-                className="absolute inset-0 z-20 flex items-center justify-center p-4"
-                initial={reduced ? false : { opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{
-                  opacity: 0,
-                  y: -6,
-                  transition: { duration: DURATION.close, ease: EASE_CLOSE },
-                }}
-                transition={{ duration: DURATION.reveal.normal, ease: EASE }}
-              >
-                <div className="dark bg-card text-foreground border-border w-full max-w-2xl rounded-2xl border p-5 shadow-xl sm:p-8">
-                  <p className="text-muted-foreground mb-4 font-mono text-xs uppercase">
-                    {pick(diagnostic.heading, lang)}
-                  </p>
-                  <div className="grid grid-cols-3 gap-4">
-                    {diagnostic.audit.map((a, i) => (
-                      <motion.div
-                        key={a.id}
-                        className="flex flex-col gap-1"
-                        initial={reduced ? false : { opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: DURATION.reveal.normal,
-                          delay: 0.15 + i * 0.07,
-                          ease: EASE,
-                        }}
-                      >
-                        <span className="font-display text-3xl leading-none font-bold tracking-tight sm:text-5xl">
-                          {pick(a.value, lang)}
-                        </span>
-                        <span className="text-muted-foreground text-xs leading-snug sm:text-sm">
-                          {pick(a.label, lang)}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          </div>
         </div>
+
+        {/* Notes: every pin of this screen, the one in focus opened */}
+        <aside className="hidden flex-col gap-1 lg:flex" aria-live="polite">
+          <p className="text-muted-foreground px-2 pb-2 font-mono text-xs">
+            {pick(phase, lang)}
+          </p>
+          {cur.kind === "audit"
+            ? diagnostic.audit.map((a) => (
+                <div
+                  key={a.id}
+                  className="flex items-baseline gap-3 px-2 py-1.5"
+                >
+                  <span className="font-display w-10 shrink-0 text-2xl leading-none font-bold">
+                    {pick(a.value, lang)}
+                  </span>
+                  <span className="text-foreground text-sm leading-snug">
+                    {pick(a.label, lang)}
+                  </span>
+                </div>
+              ))
+            : (cur.kind === "before"
+                ? diagnostic.before
+                : diagnostic.after
+              ).map((pin, i) => {
+                const active = i === cur.i;
+                const seen = i <= cur.i;
+                return (
+                  <button
+                    key={pin.id}
+                    type="button"
+                    onClick={() => {
+                      setBeat(
+                        beats.findIndex((b) => b.kind === cur.kind && b.i === i)
+                      );
+                      setUserPaused(true);
+                    }}
+                    className={cn(
+                      "ease-out-soft flex cursor-pointer items-start gap-3 rounded-lg px-2 py-2 text-left transition-colors duration-[var(--duration-base)]",
+                      active ? "bg-card shadow-sm" : "hover:bg-card/60"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full font-mono text-[10px] transition-colors duration-[var(--duration-base)]",
+                        seen
+                          ? "bg-annotation text-annotation-foreground"
+                          : "bg-border text-muted-foreground"
+                      )}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="flex min-w-0 flex-col gap-1">
+                      <span
+                        className={cn(
+                          "text-sm leading-snug font-semibold",
+                          !seen && "text-muted-foreground"
+                        )}
+                      >
+                        {pick(pin.title, lang)}
+                      </span>
+                      <motion.span
+                        initial={false}
+                        animate={{
+                          height: active ? "auto" : 0,
+                          opacity: active ? 1 : 0,
+                        }}
+                        transition={{
+                          duration: DURATION.fold,
+                          ease: EASE_IN_OUT,
+                        }}
+                        className="text-muted-foreground overflow-hidden text-sm leading-relaxed"
+                      >
+                        {pick(pin.note, lang)}
+                      </motion.span>
+                    </span>
+                  </button>
+                );
+              })}
+        </aside>
       </div>
 
-      {/* Caption for the pin in focus */}
+      {/* Caption for the pin in focus (below the stage, when there's no room beside it) */}
       <div className="flex flex-col gap-4 px-4 pt-4 pb-4 sm:px-6">
-        <div className="min-h-[4.5rem]" aria-live="polite">
+        <div className="min-h-[4.5rem] lg:hidden" aria-live="polite">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${cur.kind}-${"i" in cur ? cur.i : 0}`}
@@ -337,7 +422,7 @@ export function DiagnosticPlayer({
             >
               {caption ? (
                 <>
-                  <span className="bg-foreground text-background mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px]">
+                  <span className="bg-annotation text-annotation-foreground mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full font-mono text-[11px]">
                     {"i" in cur ? cur.i + 1 : ""}
                   </span>
                   <div className="flex flex-col gap-1">

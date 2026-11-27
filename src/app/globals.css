@@ -48,6 +48,10 @@
   --color-md-red: var(--md-red);
   --color-md-gold: var(--md-gold);
 
+  /* Annotation pins on case-study screenshots — see the note in :root */
+  --color-annotation: var(--annotation);
+  --color-annotation-foreground: var(--annotation-foreground);
+
   /* Mock window chrome in case-study illustrations — see the note in :root */
   --color-mock-window-close: var(--mock-window-close);
   --color-mock-window-minimize: var(--mock-window-minimize);
@@ -281,6 +285,12 @@
      or a surface without adding a proper semantic token first. */
   --md-red: oklch(0.593 0.2 25.4);
   --md-gold: oklch(0.876 0.177 92.4);
+
+  /* Annotation pins laid over case-study screenshots (the red of a design
+     review's redlines). Not themed: the screenshots are always light, so the
+     pin and its white number stay the same in both site themes. */
+  --annotation: oklch(0.577 0.245 27.325);
+  --annotation-foreground: oklch(0.985 0 0);
 
   /* Mock app windows and terminals drawn inside case-study illustrations
      (case-study-bento.tsx). They picture someone else's software, so like the

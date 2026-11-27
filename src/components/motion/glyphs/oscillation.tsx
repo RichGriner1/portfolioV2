@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { EASE_IN_OUT } from "@/lib/motion";
+import { DURATION, EASE_IN_OUT } from "@/lib/motion";
 
 /**
  * Beetested — OSCILLATION.
@@ -28,7 +28,7 @@ export function OscillationGlyph() {
           rest: { opacity: 0.6 },
           hover: { opacity: 1 },
         }}
-        transition={{ duration: 0.25 }}
+        transition={{ duration: DURATION.base }}
       />
 
       {/* Oscillating dot */}

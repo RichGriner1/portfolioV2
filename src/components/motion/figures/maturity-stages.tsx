@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 /**
  * Diagram 1 — the five stages of design maturity, as a rising ladder.
@@ -91,7 +92,7 @@ export function MaturityStagesFigure() {
                     height: on ? `${stage.height}%` : "12%",
                     opacity: on ? 1 : 0.35,
                   }}
-                  transition={{ duration: 0.45, ease: EASE_SOFT }}
+                  transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
                 />
               </div>
               <span className="text-foreground text-[10px] leading-tight font-medium">

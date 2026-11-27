@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION } from "@/lib/motion";
 
 /**
  * SSPC — SCHEDULE / MESSAGING.
@@ -26,7 +27,7 @@ export function ScheduleGlyph() {
           rest: { opacity: 0.5 },
           hover: { opacity: 1 },
         }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: DURATION.enter, ease: "easeOut" }}
       />
       <motion.rect
         x={18}
@@ -39,7 +40,7 @@ export function ScheduleGlyph() {
           rest: { opacity: 0.35 },
           hover: { opacity: 1 },
         }}
-        transition={{ duration: 0.2, delay: 0.1, ease: "easeOut" }}
+        transition={{ duration: DURATION.enter, delay: 0.1, ease: "easeOut" }}
       />
       <motion.rect
         x={8}
@@ -52,7 +53,7 @@ export function ScheduleGlyph() {
           rest: { opacity: 0.2 },
           hover: { opacity: 1 },
         }}
-        transition={{ duration: 0.2, delay: 0.2, ease: "easeOut" }}
+        transition={{ duration: DURATION.enter, delay: 0.2, ease: "easeOut" }}
       />
     </svg>
   );

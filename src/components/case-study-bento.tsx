@@ -31,6 +31,7 @@ import {
   SPRING_SNAP,
   SPRING_SOFT,
 } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 /**
  * The three tiers, named the way the color methodology names them.
@@ -111,7 +112,7 @@ function LayersAnimation({ active }: AnimationProps) {
                     ? "color-mix(in oklab, var(--muted) 40%, transparent)"
                     : "color-mix(in oklab, var(--muted) 0%, transparent)",
                 }}
-                transition={{ duration: 0.4, ease: EASE }}
+                transition={{ duration: DURATION.base, ease: EASE }}
               >
                 {isButton ? (
                   // Decorative button mock, not interactive — a <span> so it can
@@ -119,7 +120,7 @@ function LayersAnimation({ active }: AnimationProps) {
                   <motion.span
                     className="bg-primary text-primary-foreground inline-block rounded-md px-2 py-1 font-mono text-[10px] font-medium"
                     animate={{ scale: isActive ? 1.06 : 1 }}
-                    transition={{ duration: 0.35, ease: EASE }}
+                    transition={{ duration: DURATION.base, ease: EASE }}
                   >
                     {token.label}
                   </motion.span>
@@ -133,7 +134,7 @@ function LayersAnimation({ active }: AnimationProps) {
                             : "bg-primary h-3 w-3 shrink-0 rounded-sm"
                         }
                         animate={{ scale: isActive ? 1.2 : 1 }}
-                        transition={{ duration: 0.35, ease: EASE }}
+                        transition={{ duration: DURATION.base, ease: EASE }}
                       />
                     </div>
                     <span className="text-foreground font-mono text-[10px]">
@@ -153,7 +154,7 @@ function LayersAnimation({ active }: AnimationProps) {
                     initial={false}
                     animate={{ scaleY: connectorDrawn ? 1 : 0 }}
                     transition={{
-                      duration: 0.3,
+                      duration: DURATION.base,
                       delay: connectorDrawn ? i * 0.15 : 0,
                       ease: EASE,
                     }}
@@ -266,7 +267,7 @@ function CommentPinsAnimation({ active }: AnimationProps) {
                 scale: visible ? 1 : 0.5,
               }}
               transition={{
-                duration: 0.25,
+                duration: DURATION.base,
                 delay: visible ? i * 0.05 : 0,
                 ease: EASE,
               }}
@@ -281,7 +282,7 @@ function CommentPinsAnimation({ active }: AnimationProps) {
               <motion.div
                 className="border-border/40 bg-muted rounded-sm border px-1 font-mono text-[7px] text-transparent"
                 animate={{ opacity: resolved ? 0 : 0.7 }}
-                transition={{ duration: 0.3, ease: EASE }}
+                transition={{ duration: DURATION.base, ease: EASE }}
               >
                 {pin.chipLabel}
               </motion.div>
@@ -294,7 +295,7 @@ function CommentPinsAnimation({ active }: AnimationProps) {
       <motion.div
         className="bg-foreground/10 text-muted-foreground rounded-full px-3 py-0.5 font-mono text-[9px] tracking-wider uppercase"
         animate={{ opacity: showCollapsed ? 1 : 0, y: showCollapsed ? 0 : 4 }}
-        transition={{ duration: 0.3, ease: EASE }}
+        transition={{ duration: DURATION.base, ease: EASE }}
       >
         ✓ resolved
       </motion.div>
@@ -362,6 +363,7 @@ function NodesAnimation({ active }: AnimationProps) {
     <svg viewBox="0 0 130 110" className="w-full max-w-[280px]" aria-hidden>
       {OUTER_NODES.map((n) => (
         <motion.line
+          initial={false}
           key={`line-${n.id}`}
           x1={phase === "scattered" ? n.sx : HUB.x}
           y1={phase === "scattered" ? n.sy : HUB.y}
@@ -373,12 +375,17 @@ function NodesAnimation({ active }: AnimationProps) {
             opacity:
               phase === "scattered" ? 0 : phase === "connecting" ? 0.5 : 0.25,
           }}
-          transition={{ duration: 0.5, delay: n.id * 0.07, ease: EASE }}
+          transition={{
+            duration: DURATION.reveal.normal,
+            delay: n.id * 0.07,
+            ease: EASE,
+          }}
         />
       ))}
 
       {OUTER_NODES.map((n) => (
         <motion.circle
+          initial={false}
           key={`node-${n.id}`}
           r={4}
           fill="currentColor"
@@ -398,12 +405,17 @@ function NodesAnimation({ active }: AnimationProps) {
             opacity: phase === "unified" ? 0 : 0.55,
             scale: phase === "connecting" ? 0.8 : 1,
           }}
-          transition={{ duration: 0.7, delay: n.id * 0.06, ease: EASE }}
+          transition={{
+            duration: DURATION.move,
+            delay: n.id * 0.06,
+            ease: EASE,
+          }}
         />
       ))}
 
       {OUTER_NODES.map((n) => (
         <motion.text
+          initial={false}
           key={`label-${n.id}`}
           x={n.lx}
           y={n.ly}
@@ -412,13 +424,18 @@ function NodesAnimation({ active }: AnimationProps) {
           className="fill-muted-foreground font-mono"
           style={{ fontSize: 6, letterSpacing: 0.4 }}
           animate={{ opacity: phase === "unified" ? 0 : 0.85 }}
-          transition={{ duration: 0.5, delay: n.id * 0.05, ease: EASE }}
+          transition={{
+            duration: DURATION.reveal.normal,
+            delay: n.id * 0.05,
+            ease: EASE,
+          }}
         >
           {n.label}
         </motion.text>
       ))}
 
       <motion.circle
+        initial={false}
         cx={HUB.x}
         cy={HUB.y}
         fill="currentColor"
@@ -427,10 +444,11 @@ function NodesAnimation({ active }: AnimationProps) {
           opacity:
             phase === "scattered" ? 0.3 : phase === "connecting" ? 0.7 : 1,
         }}
-        transition={{ duration: 0.6, ease: EASE }}
+        transition={{ duration: DURATION.reveal.heavy, ease: EASE }}
       />
 
       <motion.circle
+        initial={false}
         cx={HUB.x}
         cy={HUB.y}
         fill="none"
@@ -440,10 +458,11 @@ function NodesAnimation({ active }: AnimationProps) {
           r: phase === "unified" ? 14 : 0,
           opacity: phase === "unified" ? 0.25 : 0,
         }}
-        transition={{ duration: 0.5, ease: EASE }}
+        transition={{ duration: DURATION.reveal.normal, ease: EASE }}
       />
 
       <motion.text
+        initial={false}
         x={HUB.x}
         y={HUB.y + 22}
         textAnchor="middle"
@@ -451,7 +470,7 @@ function NodesAnimation({ active }: AnimationProps) {
         className="fill-muted-foreground font-mono"
         style={{ fontSize: 6, letterSpacing: 0.4 }}
         animate={{ opacity: phase === "unified" ? 0.85 : 0 }}
-        transition={{ duration: 0.5, ease: EASE }}
+        transition={{ duration: DURATION.reveal.normal, ease: EASE }}
       >
         platform
       </motion.text>
@@ -538,7 +557,11 @@ function MoodboardAnimation({ active }: AnimationProps) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.45, delay: i * 0.04, ease: EASE_SOFT }}
+              transition={{
+                duration: DURATION.fold,
+                delay: i * 0.04,
+                ease: EASE_SOFT,
+              }}
             />
           ))}
         </AnimatePresence>
@@ -584,7 +607,7 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             <div className="border-background/10 flex items-center gap-1 border-b px-2 py-1">
               <div className="bg-background/20 h-1.5 w-1.5 rounded-full" />
@@ -650,7 +673,7 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
                       initial={{ opacity: 0, x: -4 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{
-                        duration: 0.4,
+                        duration: DURATION.base,
                         delay: i * 0.05 + j * 0.03,
                         ease: EASE_SOFT,
                       }}
@@ -667,7 +690,7 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             <div className="border-border flex items-center gap-1 border-b px-2 py-1">
               <div className="bg-muted h-1.5 w-1.5 rounded-full" />
@@ -682,25 +705,41 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
                 className="bg-foreground h-2 w-20 rounded-sm"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.05, ease: EASE_SOFT }}
+                transition={{
+                  duration: DURATION.base,
+                  delay: 0.05,
+                  ease: EASE_SOFT,
+                }}
               />
               <motion.div
                 className="bg-muted h-1.5 w-full rounded-full"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1, ease: EASE_SOFT }}
+                transition={{
+                  duration: DURATION.base,
+                  delay: 0.1,
+                  ease: EASE_SOFT,
+                }}
               />
               <motion.div
                 className="bg-muted h-1.5 w-4/5 rounded-full"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15, ease: EASE_SOFT }}
+                transition={{
+                  duration: DURATION.base,
+                  delay: 0.15,
+                  ease: EASE_SOFT,
+                }}
               />
               <motion.div
                 className="bg-primary text-primary-foreground mt-0.5 inline-flex w-fit rounded px-1.5 py-0.5 font-mono text-[8px] font-medium"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2, ease: EASE_SOFT }}
+                transition={{
+                  duration: DURATION.base,
+                  delay: 0.2,
+                  ease: EASE_SOFT,
+                }}
               >
                 Launch
               </motion.div>
@@ -765,7 +804,7 @@ function PulseAnimation({ active }: AnimationProps) {
                 repeat: Infinity,
                 ease: "easeInOut",
               }
-            : { duration: 0.3, ease: EASE }
+            : { duration: DURATION.base, ease: EASE }
         }
       />
     </div>
@@ -829,7 +868,7 @@ export function PaletteAnimation({
     <motion.div
       className="flex w-full flex-1 flex-col justify-center gap-1.5 self-stretch px-3 py-3"
       animate={{ backgroundColor: bank.color + "20" }}
-      transition={{ duration: 0.5, ease: EASE }}
+      transition={{ duration: DURATION.reveal.normal, ease: EASE }}
     >
       {banks.map((b, i) => (
         <motion.div
@@ -840,7 +879,7 @@ export function PaletteAnimation({
             scale: i === activeIdx ? 1 : 0.97,
             opacity: i === activeIdx ? 1 : 0.45,
           }}
-          transition={{ duration: 0.4, ease: EASE }}
+          transition={{ duration: DURATION.base, ease: EASE }}
           style={
             i === activeIdx
               ? { border: `1px solid ${b.color}55` }
@@ -947,7 +986,7 @@ function RulesAnimation({ active }: AnimationProps) {
                     ? "color-mix(in oklab, var(--primary) 50%, transparent)"
                     : "var(--foreground)",
               }}
-              transition={{ duration: 0.35, ease: EASE }}
+              transition={{ duration: DURATION.base, ease: EASE }}
             >
               <motion.span
                 animate={{
@@ -957,7 +996,7 @@ function RulesAnimation({ active }: AnimationProps) {
                       ? "var(--primary)"
                       : "var(--muted-foreground)",
                 }}
-                transition={{ duration: 0.35, ease: EASE }}
+                transition={{ duration: DURATION.base, ease: EASE }}
               >
                 {isWrong ? "⚠" : "✓"}
               </motion.span>
@@ -970,7 +1009,7 @@ function RulesAnimation({ active }: AnimationProps) {
                   initial={{ opacity: 0, y: 3 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -3 }}
-                  transition={{ duration: 0.35, ease: EASE_SOFT }}
+                  transition={{ duration: DURATION.base, ease: EASE_SOFT }}
                 >
                   {isWrong ? check.wrong : check.fix}
                 </motion.span>
@@ -1271,7 +1310,7 @@ function CursorAnimation({ active }: AnimationProps) {
           x: 28,
           y: 18,
           opacity: 1,
-          transition: { duration: 0.7, ease: EASE },
+          transition: { duration: DURATION.move, ease: EASE },
         });
         if (cancelled) break;
         setPressed(true);
@@ -1326,11 +1365,11 @@ function CursorAnimation({ active }: AnimationProps) {
                 type="button"
                 className="bg-primary text-primary-foreground rounded-md px-2 py-1 font-mono text-[9px] font-medium"
                 animate={{ scale: pressed ? 0.92 : 1 }}
-                transition={{ duration: 0.18, ease: EASE_SOFT }}
+                transition={{ duration: DURATION.enter, ease: EASE_SOFT }}
                 initial={false}
                 exit={{
                   opacity: 0,
-                  transition: { duration: 0.3, ease: EASE_SOFT },
+                  transition: { duration: DURATION.base, ease: EASE_SOFT },
                 }}
               >
                 Publish
@@ -1417,7 +1456,7 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
       className="relative flex w-full items-center justify-center overflow-hidden rounded-xl"
       style={{ height: 130 }}
       animate={{ backgroundColor: current.bg }}
-      transition={{ duration: 0.55, ease: EASE }}
+      transition={{ duration: DURATION.reveal.normal, ease: EASE }}
     >
       {/* Theme label — top right */}
       <AnimatePresence mode="wait">
@@ -1428,7 +1467,7 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 4 }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           {current.label}
         </motion.span>
@@ -1440,18 +1479,19 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
         width={108}
         height={108}
         animate={{ color: current.dot }}
-        transition={{ duration: 0.55, ease: EASE }}
+        transition={{ duration: DURATION.reveal.normal, ease: EASE }}
         aria-hidden
       >
         {KT_DOT_PATHS.map((d, i) => (
           <motion.path
+            initial={false}
             key={i}
             d={d}
             fill="currentColor"
             animate={{ opacity: 1 }}
             transition={
               active
-                ? { duration: 0.35, delay: i * 0.048, ease: EASE }
+                ? { duration: DURATION.base, delay: i * 0.048, ease: EASE }
                 : { duration: 0 }
             }
           />
@@ -1469,7 +1509,7 @@ function LogoIdentityAnimation({ active }: AnimationProps) {
               width: i === themeIdx ? 14 : 4,
               opacity: i === themeIdx ? 1 : 0.35,
             }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           />
         ))}
       </div>
@@ -1527,7 +1567,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
           x,
           y,
           opacity: 1,
-          transition: { duration: 0.4, ease: EASE },
+          transition: { duration: DURATION.base, ease: EASE },
         });
         if (cancelled) break;
         await new Promise((r) => setTimeout(r, 200));
@@ -1540,7 +1580,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
           // brief reset pause before continuing
           await cursor.start({
             opacity: 0,
-            transition: { duration: 0.25, ease: EASE },
+            transition: { duration: DURATION.base, ease: EASE },
           });
           setTargetIdx(null);
           setDownloadedIdx(null);
@@ -1582,7 +1622,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
                 animate={{
                   scale: isDownloaded ? [1, 1.08, 1] : 1,
                 }}
-                transition={{ duration: 0.5, ease: EASE }}
+                transition={{ duration: DURATION.reveal.normal, ease: EASE }}
               >
                 <motion.div
                   className="h-2 w-2 rounded-full"
@@ -1594,7 +1634,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
                         ? 0.9
                         : 0.6,
                   }}
-                  transition={{ duration: 0.5, ease: EASE }}
+                  transition={{ duration: DURATION.reveal.normal, ease: EASE }}
                 />
                 <span
                   className="absolute right-0.5 bottom-0.5 font-mono text-[6px] tracking-wider uppercase"
@@ -1645,7 +1685,7 @@ function AssetPortalAnimation({ active }: AnimationProps) {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.35, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               <span className="text-foreground">
                 logo-{downloadedTheme.label.toLowerCase()}.{downloaded.format}
@@ -1718,7 +1758,7 @@ export function CanvasAnimation({
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               <div className="border-border bg-foreground/5 relative flex items-center border-b px-2 py-1.5">
                 <div className="flex gap-1.5">
@@ -1761,7 +1801,7 @@ export function CanvasAnimation({
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               <span className="text-muted-foreground">$ </span>
               <span className="text-foreground">{GIT_CMD.slice(0, chars)}</span>
@@ -1781,7 +1821,7 @@ export function CanvasAnimation({
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               <div className="border-border bg-foreground/5 relative flex items-center border-b px-2 py-1.5">
                 <div className="flex gap-1.5">
@@ -1821,7 +1861,7 @@ export function CanvasAnimation({
                     initial={{ opacity: 0, x: -4 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{
-                      duration: 0.35,
+                      duration: DURATION.base,
                       delay: i * 0.1,
                       ease: EASE_SOFT,
                     }}
@@ -1839,7 +1879,7 @@ export function CanvasAnimation({
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               <span className="text-foreground font-medium">kt360-env/</span>
               {FILE_TREE.map((f, i) => (
@@ -1849,7 +1889,7 @@ export function CanvasAnimation({
                   initial={{ opacity: 0, x: -4 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
-                    duration: 0.35,
+                    duration: DURATION.base,
                     delay: i * 0.1,
                     ease: EASE_SOFT,
                   }}
@@ -1869,7 +1909,7 @@ export function CanvasAnimation({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             <div className="border-border flex shrink-0 items-center gap-1.5 border-b px-2 py-1.5">
               {[
@@ -1997,7 +2037,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
               color: p === page ? "#5e5eed" : "var(--foreground)",
               fontWeight: p === page ? 600 : 400,
             }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             {p}
           </motion.span>
@@ -2012,7 +2052,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             {KT_SWATCHES.map((s, i) => (
               <motion.div
@@ -2021,7 +2061,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{
-                  duration: 0.35,
+                  duration: DURATION.base,
                   delay: i * 0.04,
                   ease: EASE_SOFT,
                 }}
@@ -2049,7 +2089,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             {[
               { size: "text-xl", weight: "font-bold", label: "Display — Bold" },
@@ -2070,7 +2110,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
                 initial={{ opacity: 0, x: -4 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
-                  duration: 0.35,
+                  duration: DURATION.base,
                   delay: i * 0.07,
                   ease: EASE_SOFT,
                 }}
@@ -2088,7 +2128,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             <div className="flex flex-wrap gap-1.5">
               <div
@@ -2168,7 +2208,7 @@ function WordpressAnimation({ active }: AnimationProps) {
         className="flex flex-col items-center gap-2"
         initial={{ opacity: 0, x: 24 }}
         animate={{ opacity: transitioning ? 0 : 1, x: transitioning ? -24 : 0 }}
-        transition={{ duration: 0.35, ease: EASE }}
+        transition={{ duration: DURATION.base, ease: EASE }}
       >
         <div className="border-border bg-card flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-2xl border">
           <span className="text-foreground text-2xl leading-none">
@@ -2194,7 +2234,7 @@ function WordpressAnimation({ active }: AnimationProps) {
                 i === step ? "var(--foreground)" : "var(--border)",
             }}
             style={{ height: 4 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           />
         ))}
       </div>
@@ -2322,7 +2362,7 @@ function JourneySceneAnimation({ active }: AnimationProps) {
                   : { opacity: 0.7, scale: 1 }
               }
               transition={{
-                duration: 0.8,
+                duration: DURATION.move,
                 delay: active ? JOURNEY_DURATIONS[i] + 0.1 : 0,
                 ease: EASE_SOFT,
               }}
@@ -2426,7 +2466,7 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.45, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
           >
             <p className="text-foreground text-center font-serif text-base italic">
               {words.map((w, i) => (
@@ -2436,7 +2476,7 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 0.5,
+                    duration: DURATION.reveal.normal,
                     delay: 0.08 + i * 0.08,
                     ease: EASE_SOFT,
                   }}
@@ -2474,7 +2514,7 @@ function AffirmationMorphAnimation({ active }: AnimationProps) {
             borderRadius: AFFIRMATION_SHAPES[activeIdx],
             rotate: activeIdx * 30,
           }}
-          transition={{ duration: 0.9, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.move, ease: EASE_SOFT }}
         />
 
         <div className="flex gap-1.5">
@@ -2586,7 +2626,7 @@ function OrganicBundleAnimation({ active }: AnimationProps) {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }
-                : { duration: 0.8, ease: EASE_SOFT }
+                : { duration: DURATION.move, ease: EASE_SOFT }
             }
           />
         ))}
@@ -2621,7 +2661,7 @@ function FeedbackScreen({
             ? "0 0 0 2px color-mix(in oklab, var(--primary) 25%, transparent)"
             : "0 0 0 0 color-mix(in oklab, var(--primary) 0%, transparent)",
       }}
-      transition={{ duration: 0.45, ease: EASE_SOFT }}
+      transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
     >
       {stage === 1 && <div className="bg-muted h-0.5 w-full rounded-full" />}
       {stage === 2 && (
@@ -2671,7 +2711,7 @@ function UserIcon({ pulse }: { pulse: boolean }) {
         opacity: pulse ? 1 : 0.35,
         scale: pulse ? [1, 1.3, 1] : 1,
       }}
-      transition={{ duration: 0.45, ease: EASE_SOFT }}
+      transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
       style={{ color: "currentColor" }}
     >
       <circle cx="5" cy="3" r="2" fill="currentColor" />
@@ -2745,7 +2785,7 @@ function UserFeedbackAnimation({ active }: AnimationProps) {
       <motion.span
         className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase"
         animate={{ opacity: active ? 1 : 0.6 }}
-        transition={{ duration: 0.4, ease: EASE_SOFT }}
+        transition={{ duration: DURATION.base, ease: EASE_SOFT }}
       >
         shaped by users
       </motion.span>
@@ -2843,7 +2883,7 @@ function AudiencePivotAnimation({ active }: AnimationProps) {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               {aud.metric}
             </motion.span>
@@ -2961,7 +3001,7 @@ function HoursStatAnimation({ active }: AnimationProps) {
               ? "0 0 0 6px color-mix(in oklab, var(--primary) 15%, transparent)"
               : "0 0 0 0 color-mix(in oklab, var(--primary) 0%, transparent)",
           }}
-          transition={{ duration: 0.6, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.reveal.heavy, ease: EASE_SOFT }}
         >
           {/* Ring of 20 dots */}
           <svg
@@ -2983,7 +3023,7 @@ function HoursStatAnimation({ active }: AnimationProps) {
                     scale: countingHours && i < litCount ? [1, 1.6, 1] : 1,
                   }}
                   transition={{
-                    duration: 0.35,
+                    duration: DURATION.base,
                     delay: countingHours ? i * 0.05 : 0,
                     ease: EASE_SOFT,
                   }}
@@ -3039,7 +3079,7 @@ function HoursStatAnimation({ active }: AnimationProps) {
           initial={{ opacity: 0, y: 3 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -3 }}
-          transition={{ duration: 0.35, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           {isMoney ? "monthly opportunity" : "hrs/month lost"}
         </motion.span>
@@ -3138,7 +3178,10 @@ function LeadsFunnelAnimation({ active }: AnimationProps) {
               <motion.span
                 className="bg-primary h-1.5 w-1.5 shrink-0 rounded-full"
                 animate={{ scale: [1, 1.5, 1] }}
-                transition={{ duration: 0.55, ease: EASE_SOFT }}
+                transition={{
+                  duration: DURATION.reveal.normal,
+                  ease: EASE_SOFT,
+                }}
               />
               <span className="text-foreground flex-1 font-mono text-[10px]">
                 New lead · {n.day}
@@ -3235,7 +3278,7 @@ function ModelIterationAnimation({ active }: AnimationProps) {
               key={name}
               className="bg-card border-border/60 relative flex flex-1 flex-col gap-1.5 rounded-lg border p-2.5"
               animate={{ opacity: isActive ? 1 : 0.5 }}
-              transition={{ duration: 0.45, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
             >
               {/* Header row */}
               <div className="flex items-center justify-between">
@@ -3262,7 +3305,7 @@ function ModelIterationAnimation({ active }: AnimationProps) {
                     initial={{ opacity: 0, y: 3 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -3 }}
-                    transition={{ duration: 0.35, ease: EASE_SOFT }}
+                    transition={{ duration: DURATION.base, ease: EASE_SOFT }}
                   >
                     {lines.map((w, li) => (
                       <motion.div
@@ -3353,7 +3396,7 @@ function CodedLogoAnimation({ active }: AnimationProps) {
           backgroundColor: isDark ? "var(--foreground)" : "var(--card)",
           boxShadow: "0 0 0 1px var(--border)",
         }}
-        transition={{ duration: 0.7, ease: EASE_SOFT }}
+        transition={{ duration: DURATION.move, ease: EASE_SOFT }}
       >
         {/* Simplified geometric "A" mark — circle with internal crossbar */}
         <motion.svg
@@ -3368,7 +3411,7 @@ function CodedLogoAnimation({ active }: AnimationProps) {
                 : "var(--foreground)"
               : "var(--primary)",
           }}
-          transition={{ duration: 0.6, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.reveal.heavy, ease: EASE_SOFT }}
         >
           {/* Outer circle */}
           <circle
@@ -3408,7 +3451,7 @@ function CodedLogoAnimation({ active }: AnimationProps) {
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -4 }}
-          transition={{ duration: 0.35, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
             {meta.swatch}
@@ -3430,7 +3473,7 @@ function CodedLogoAnimation({ active }: AnimationProps) {
               opacity: i === variantIdx ? 1 : 0.25,
             }}
             style={{ height: 4 }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           />
         ))}
       </div>
@@ -3485,7 +3528,7 @@ function TokenInspectAnimation({ active }: AnimationProps) {
           scale: stage === "hover" || stage === "popup" ? 1.04 : 1,
           y: stage === "hover" || stage === "popup" ? -1 : 0,
         }}
-        transition={{ duration: 0.25, ease: EASE_SOFT }}
+        transition={{ duration: DURATION.base, ease: EASE_SOFT }}
       >
         Save changes
       </motion.div>
@@ -3497,7 +3540,7 @@ function TokenInspectAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.22, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             style={{
               backgroundColor: "var(--mock-terminal)",
               color: "var(--mock-terminal-foreground)",
@@ -3510,7 +3553,7 @@ function TokenInspectAnimation({ active }: AnimationProps) {
                 initial={{ opacity: 0, x: -3 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
-                  duration: 0.2,
+                  duration: DURATION.enter,
                   delay: 0.08 + i * 0.07,
                   ease: EASE_SOFT,
                 }}
@@ -3589,7 +3632,7 @@ function PlaygroundAnimation({ active }: AnimationProps) {
             paddingRight: toggle1 ? 14 : 10,
           }}
           style={{ paddingTop: 5, paddingBottom: 5 }}
-          transition={{ duration: 0.4, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           Button
         </motion.div>
@@ -3603,12 +3646,12 @@ function PlaygroundAnimation({ active }: AnimationProps) {
           animate={{
             backgroundColor: toggle1 ? "var(--primary)" : "var(--muted)",
           }}
-          transition={{ duration: 0.45, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
         >
           <motion.div
             className="bg-primary-foreground absolute top-0.5 h-2 w-2 rounded-full"
             animate={{ x: toggle1 ? 12 : 2 }}
-            transition={{ duration: 0.45, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
           />
         </motion.div>
         <span className="text-muted-foreground text-[9px]">size</span>
@@ -3619,12 +3662,12 @@ function PlaygroundAnimation({ active }: AnimationProps) {
           animate={{
             backgroundColor: toggle2 ? "var(--primary)" : "var(--muted)",
           }}
-          transition={{ duration: 0.45, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
         >
           <motion.div
             className="bg-primary-foreground absolute top-0.5 h-2 w-2 rounded-full"
             animate={{ x: toggle2 ? 12 : 2 }}
-            transition={{ duration: 0.45, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.fold, ease: EASE_SOFT }}
           />
         </motion.div>
         <span className="text-muted-foreground text-[9px]">variant</span>
@@ -3639,7 +3682,7 @@ function PlaygroundAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 3 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -3 }}
-            transition={{ duration: 0.3, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             {paddingToken}
           </motion.span>
@@ -3651,7 +3694,7 @@ function PlaygroundAnimation({ active }: AnimationProps) {
             initial={{ opacity: 0, y: 3 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -3 }}
-            transition={{ duration: 0.3, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             {colorToken}
           </motion.span>
@@ -3753,7 +3796,7 @@ function AITeammateAnimation({ active }: AnimationProps) {
                   ? "var(--primary)"
                   : "var(--muted-foreground)",
             }}
-            transition={{ duration: 0.5, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.reveal.normal, ease: EASE_SOFT }}
           >
             {f}
           </motion.div>
@@ -3771,7 +3814,7 @@ function AITeammateAnimation({ active }: AnimationProps) {
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               exit={{ scaleX: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             />
           )}
         </AnimatePresence>
@@ -3797,7 +3840,10 @@ function AITeammateAnimation({ active }: AnimationProps) {
                     ? "var(--primary)"
                     : "var(--muted-foreground)",
                 }}
-                transition={{ duration: 0.5, ease: EASE_SOFT }}
+                transition={{
+                  duration: DURATION.reveal.normal,
+                  ease: EASE_SOFT,
+                }}
               >
                 {label}
               </motion.div>
@@ -3846,7 +3892,7 @@ function PillSegments({ pos, dim }: { pos: number; dim?: boolean }) {
             <motion.div
               layoutId={dim ? "ang-pill" : "react-pill"}
               className="bg-primary/20 border-primary/50 absolute inset-0 rounded-full border"
-              transition={{ duration: 0.4, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             />
           )}
         </div>
@@ -3948,7 +3994,7 @@ function PortDiffAnimation({ active }: AnimationProps) {
             animate={{
               opacity: arrowIdx === i ? 1 : 0.25,
             }}
-            transition={{ duration: 0.4, ease: EASE_SOFT }}
+            transition={{ duration: DURATION.base, ease: EASE_SOFT }}
           >
             <span className="text-muted-foreground font-mono text-[7px]">
               {lbl}
@@ -3971,7 +4017,7 @@ function PortDiffAnimation({ active }: AnimationProps) {
               className="bg-foreground/15 h-1.5 rounded-full"
               animate={{ width: angularLines > i ? `${w}%` : "0%" }}
               transition={{
-                duration: 0.5,
+                duration: DURATION.reveal.normal,
                 delay: i * 0.1,
                 ease: EASE_SOFT,
               }}
@@ -4067,7 +4113,7 @@ function MotionTokensAnimation({ active }: AnimationProps) {
           initial={{ opacity: 0, y: 3 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -3 }}
-          transition={{ duration: 0.3, ease: EASE_SOFT }}
+          transition={{ duration: DURATION.base, ease: EASE_SOFT }}
         >
           {labelText}
         </motion.span>
@@ -4570,7 +4616,7 @@ function BentoCardItem({
             <motion.div
               initial={false}
               animate={{ height: expanded ? "auto" : 44 }}
-              transition={{ duration: 0.4, ease: EASE }}
+              transition={{ duration: DURATION.base, ease: EASE }}
               className="overflow-hidden"
             >
               <div className="flex flex-col gap-3">
@@ -4601,7 +4647,7 @@ function BentoCardItem({
               aria-hidden
               initial={false}
               animate={{ opacity: expanded ? 0 : 1 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: DURATION.base }}
               className="from-card pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t to-transparent"
             />
           </div>
@@ -4679,7 +4725,11 @@ export function CaseStudyBento({
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
+              transition={{
+                duration: DURATION.fold,
+                delay: i * 0.07,
+                ease: EASE,
+              }}
             >
               <BentoCardItem
                 card={card}
@@ -4704,7 +4754,7 @@ export function CaseStudyBento({
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.45, delay: i * 0.07, ease: EASE }}
+          transition={{ duration: DURATION.fold, delay: i * 0.07, ease: EASE }}
         >
           <BentoCardItem card={card} gallery={gallery} diagrams={diagrams} />
         </motion.div>

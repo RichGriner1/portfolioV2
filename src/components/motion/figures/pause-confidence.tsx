@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
+import { DURATION } from "@/lib/motion";
 
 /**
  * Diagram 4 — the 150–250ms beat that makes a high-stakes action feel real.
@@ -61,7 +62,7 @@ function Row({
       <motion.div
         className="border-border bg-card flex h-10 flex-1 items-center justify-center gap-2 rounded-lg border text-[11px] font-medium"
         animate={{ scale: phase === "pressed" ? 0.97 : 1 }}
-        transition={{ duration: 0.1, ease: EASE_SOFT }}
+        transition={{ duration: DURATION.enter, ease: EASE_SOFT }}
       >
         <AnimatePresence mode="wait" initial={false}>
           {phase === "done" ? (
@@ -70,7 +71,7 @@ function Row({
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.16, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.enter, ease: EASE_SOFT }}
               className="text-foreground inline-flex items-center gap-1.5"
             >
               <Check className="size-3.5" />
@@ -82,7 +83,7 @@ function Row({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.08 }}
+              transition={{ duration: DURATION.press }}
               className="text-muted-foreground inline-flex items-center gap-1.5"
             >
               <Loader2 className="size-3.5 animate-spin" />
@@ -94,7 +95,7 @@ function Row({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.12 }}
+              transition={{ duration: DURATION.enter }}
               className="text-foreground"
             >
               Confirm payment

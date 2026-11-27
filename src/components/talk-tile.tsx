@@ -6,6 +6,7 @@ import { ArrowUpRight, Check, Copy } from "lucide-react";
 
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { DURATION } from "@/lib/motion";
 
 /**
  * The contact tile, lifted out of bento-home.tsx so it has one implementation.
@@ -225,7 +226,7 @@ export function TalkTile({ className }: { className?: string }) {
           <motion.span
             className="pointer-events-auto cursor-text whitespace-nowrap select-all"
             animate={{ opacity: copied ? 1 : 0.7 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: DURATION.enter }}
           >
             {EMAIL}
           </motion.span>
@@ -247,7 +248,7 @@ export function TalkTile({ className }: { className?: string }) {
                 initial={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
                 animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
                 exit={{ scale: 0, opacity: 0.4, filter: "blur(4px)" }}
-                transition={{ duration: 0.25 }}
+                transition={{ duration: DURATION.base }}
                 className="block"
               >
                 {copied ? (

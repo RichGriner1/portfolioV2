@@ -1096,15 +1096,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         ],
         media: [
           {
-            kind: "clip",
-            clip: {
-              src: "/work/sarevi/hero-new.mp4",
-              poster: "/work/sarevi/hero-new-poster.webp",
-              alt: {
-                en: "The redesigned landing: the two house cards colouring in on hover, then a click into the first question",
-                es: "La portada rediseñada: las dos tarjetas de casa se colorean al pasar el ratón y un clic lleva a la primera pregunta",
-              },
+            kind: "composition",
+            title: {
+              en: "The SAREVI landing: the promise and the three steps",
+              es: "La portada de SAREVI: la promesa y los tres pasos",
             },
+            items: [
+              {
+                src: "/work/sarevi/demo/A-Inicio-Portada.dc.html",
+                viewport: { w: 1440, h: 688 },
+                rect: { x: 168, y: 83, w: 544, h: 484 },
+                x: 50,
+                y: 50,
+                w: 56,
+                radius: 16,
+              },
+            ],
+            play: "reload",
           },
         ],
       },
@@ -1177,111 +1185,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "I took Dive Club's easing curves and made them tokens, so every control moves the same way. A move reads as done in about 200 ms. Things that appear get a spring; things that close get a quicker ease.",
             es: "Tomé las curvas de Dive Club y las convertí en tokens, para que todos los controles se muevan igual. Un movimiento parece terminado en unos 200 ms. Lo que aparece lleva efecto muelle; lo que se cierra, una curva más rápida.",
           },
+          {
+            en: "Try them: pick a home, open the list, tick a measure, flip the switch.",
+            es: "Pruébalos: elige una vivienda, abre la lista, marca una medida y cambia el interruptor.",
+          },
         ],
-        switch: [
+        media: [
           {
-            label: { en: "Dropdowns", es: "Desplegables" },
-            heading: {
-              en: "Lists drop open and settle.",
-              es: "Las listas se abren y se asientan.",
+            kind: "embed",
+            src: "/work/sarevi/demo/PF-Controles.html",
+            title: {
+              en: "Live Afi apps controls: picture cards, a dropdown, checkboxes and a switch",
+              es: "Controles de Afi apps en vivo: tarjetas con imagen, un desplegable, casillas y un interruptor",
             },
-            body: [
-              {
-                en: "The select opens on the enter curve and closes in 300 ms. Every list in the product uses the same pair.",
-                es: "El desplegable se abre con la curva de entrada y se cierra en 300 ms. Todas las listas del producto usan esas mismas curvas.",
-              },
-            ],
-            media: [
-              {
-                kind: "clip",
-                clip: {
-                  src: "/work/sarevi/motion-select.mp4",
-                  poster: "/work/sarevi/motion-select-poster.webp",
-                  alt: {
-                    en: "The municipality dropdown opening, the pointer moving down the list, then closing",
-                    es: "El desplegable de municipio abriéndose, el puntero bajando por la lista y cerrándose",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            label: { en: "Picture cards", es: "Tarjetas" },
-            heading: {
-              en: "Picking a home colours it in.",
-              es: "Elegir una vivienda la colorea.",
-            },
-            body: [
-              {
-                en: "In Datos (your details) the home types are cards with the 3D models. The one you pick takes its colour; the rest stay grey.",
-                es: "En Datos, los tipos de vivienda son tarjetas con los modelos 3D. La que eliges toma su color; el resto queda en gris.",
-              },
-            ],
-            media: [
-              {
-                kind: "clip",
-                clip: {
-                  src: "/work/sarevi/motion-cards.mp4",
-                  poster: "/work/sarevi/motion-cards-poster.webp",
-                  alt: {
-                    en: "Choosing Chalet adosado, then Chalet independiente, then Piso: each picked card colours in",
-                    es: "Eligiendo Chalet adosado, Chalet independiente y Piso: cada tarjeta elegida se colorea",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            label: { en: "Checkboxes", es: "Casillas" },
-            heading: {
-              en: "The tick draws itself.",
-              es: "La marca se dibuja sola.",
-            },
-            body: [
-              {
-                en: "The box fills on the spring, then the tick draws in. I shortened the gap between the two after it felt slow.",
-                es: "La casilla se rellena con efecto muelle y después se dibuja la marca. Acorté el tiempo entre las dos porque se notaba lento.",
-              },
-            ],
-            media: [
-              {
-                kind: "clip",
-                clip: {
-                  src: "/work/sarevi/motion-check.mp4",
-                  poster: "/work/sarevi/motion-check-poster.webp",
-                  alt: {
-                    en: "Ticking two measures and unticking one in the Medidas list",
-                    es: "Marcando dos medidas y desmarcando una en la lista de Medidas",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            label: { en: "Switches", es: "Interruptores" },
-            heading: {
-              en: "Switches slide, they don't jump.",
-              es: "Los interruptores se deslizan, no saltan.",
-            },
-            body: [
-              {
-                en: "The thumb uses the ease-out, not the spring: a switch should feel firm. Turning auto-calc off makes the cost the one editable field.",
-                es: "El botón deslizante usa la curva de salida, no el efecto muelle: un interruptor debe transmitir firmeza. Al apagar el cálculo automático, el coste pasa a ser el único campo editable.",
-              },
-            ],
-            media: [
-              {
-                kind: "clip",
-                clip: {
-                  src: "/work/sarevi/motion-switch.mp4",
-                  poster: "/work/sarevi/motion-switch-poster.webp",
-                  alt: {
-                    en: "The Cálculo automático switch in the drawer turning off and on",
-                    es: "El interruptor de Cálculo automático del panel apagándose y encendiéndose",
-                  },
-                },
-              },
-            ],
+            width: 880,
+            height: 440,
           },
         ],
       },
@@ -1313,15 +1231,41 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
             media: [
               {
-                kind: "clip",
-                clip: {
-                  src: "/work/sarevi/panel.mp4",
-                  poster: "/work/sarevi/panel-poster.webp",
-                  alt: {
-                    en: "Ticking measures: the results panel beside the list blurs and updates each time",
-                    es: "Marcando medidas: el panel de resultados junto a la lista se difumina y se actualiza cada vez",
-                  },
+                kind: "composition",
+                title: {
+                  en: "Two measures beside the results they change",
+                  es: "Dos medidas junto a los resultados que cambian",
                 },
+                items: [
+                  {
+                    src: "/work/sarevi/demo/B-Viv-Medidas-Basica.dc.html",
+                    viewport: { w: 1440, h: 1695 },
+                    rect: { x: 154, y: 367, w: 680, h: 84 },
+                    x: 33,
+                    y: 36,
+                    w: 52,
+                    radius: 16,
+                  },
+                  {
+                    src: "/work/sarevi/demo/B-Viv-Medidas-Basica.dc.html",
+                    viewport: { w: 1440, h: 1695 },
+                    rect: { x: 154, y: 577, w: 680, h: 84 },
+                    x: 33,
+                    y: 62,
+                    w: 52,
+                    radius: 16,
+                  },
+                  {
+                    src: "/work/sarevi/demo/B-Viv-Medidas-Basica.dc.html",
+                    viewport: { w: 1440, h: 1695 },
+                    rect: { x: 866, y: 186, w: 420, h: 584 },
+                    x: 79,
+                    y: 50,
+                    w: 34,
+                    radius: 16,
+                  },
+                ],
+                play: "reload",
               },
             ],
           },
@@ -1339,15 +1283,24 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
             media: [
               {
-                kind: "clip",
-                clip: {
-                  src: "/work/sarevi/drawer.mp4",
-                  poster: "/work/sarevi/drawer-poster.webp",
-                  alt: {
-                    en: "Medidas with the Personalizar drawer sliding in from the right",
-                    es: "Medidas con el panel Personalizar entrando desde la derecha",
-                  },
+                kind: "composition",
+                title: {
+                  en: "The Personalizar drawer for one measure",
+                  es: "El panel Personalizar de una medida",
                 },
+                items: [
+                  {
+                    src: "/work/sarevi/demo/B-Viv-Personalizar.dc.html",
+                    viewport: { w: 1440, h: 1695 },
+                    rect: { x: 1040, y: 0, w: 400, h: 620 },
+                    x: 50,
+                    y: 52,
+                    w: 30,
+                    radius: 16,
+                    fade: "bottom",
+                  },
+                ],
+                play: "reload",
               },
             ],
           },
@@ -1397,15 +1350,41 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         ],
         media: [
           {
-            kind: "clip",
-            clip: {
-              src: "/work/sarevi/charts-new.mp4",
-              poster: "/work/sarevi/charts-new-poster.webp",
-              alt: {
-                en: "Resumen loading: the cards and bars animate in, the saving counts up, and the grade moves from D to A last",
-                es: "Resumen cargando: entran las tarjetas y las barras, sube el ahorro y la letra pasa de D a A al final",
-              },
+            kind: "composition",
+            title: {
+              en: "Resumen: the saving and grade card, then consumption and emissions",
+              es: "Resumen: la tarjeta de ahorro y letra, después consumo y emisiones",
             },
+            items: [
+              {
+                src: "/work/sarevi/demo/B-Viv-Resumen.dc.html",
+                viewport: { w: 1440, h: 2184 },
+                rect: { x: 60, y: 254, w: 552, h: 321 },
+                x: 27,
+                y: 50,
+                w: 46,
+                radius: 16,
+              },
+              {
+                src: "/work/sarevi/demo/B-Viv-Resumen.dc.html",
+                viewport: { w: 1440, h: 2184 },
+                rect: { x: 628, y: 254, w: 368, h: 321 },
+                x: 63,
+                y: 50,
+                w: 23,
+                radius: 16,
+              },
+              {
+                src: "/work/sarevi/demo/B-Viv-Resumen.dc.html",
+                viewport: { w: 1440, h: 2184 },
+                rect: { x: 1012, y: 254, w: 368, h: 321 },
+                x: 87.5,
+                y: 50,
+                w: 23,
+                radius: 16,
+              },
+            ],
+            play: "reload",
           },
         ],
       },
@@ -1431,20 +1410,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             body: [
               {
-                en: "Hover a card: the colour fades in and the trees grow, one after the other, with a bounce. This is the live landing.",
-                es: "Pasa el ratón por una tarjeta: entra el color y crecen los árboles, uno tras otro, con rebote. Esta es la portada en vivo.",
+                en: "Hover a card: the colour fades in and the trees grow, one after the other, with a bounce. These are the live cards.",
+                es: "Pasa el ratón por una tarjeta: entra el color y crecen los árboles, uno tras otro, con rebote. Son las tarjetas en vivo.",
               },
             ],
             media: [
               {
                 kind: "embed",
-                src: "/work/sarevi/demo/A-Inicio-Portada.dc.html",
+                src: "/work/sarevi/demo/PF-Casas.html",
                 title: {
-                  en: "SAREVI landing, live",
-                  es: "Portada de SAREVI, en vivo",
+                  en: "The two landing cards, live: hover them",
+                  es: "Las dos tarjetas de la portada, en vivo: pasa el ratón",
                 },
-                width: 1440,
-                height: 688,
+                width: 560,
+                height: 460,
               },
             ],
           },

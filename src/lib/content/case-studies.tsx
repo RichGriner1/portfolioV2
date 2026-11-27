@@ -1888,11 +1888,79 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Architecture", es: "Arquitectura" },
         body: [
           {
-            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Complexity can't be removed, only moved, so the product carries it, not the adviser. Left to right: the menu says where you are, the form is the page you edit, and the plan answers it.",
-            es: "Cada una de las 27 piezas que el producto en vivo mostraba fuera de la página pasó a tener un solo sitio, y el menú bajó de 13 páginas a 7. La complejidad no se elimina, solo se traslada, así que la asume el producto y no el gestor. De izquierda a derecha: el menú dice dónde estás, el formulario es la página que editas y el plan le responde.",
+            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Complexity can't be removed, only moved, so the product carries it, not the adviser.",
+            es: "Cada una de las 27 piezas que el producto en vivo mostraba fuera de la página pasó a tener un solo sitio, y el menú bajó de 13 páginas a 7. La complejidad no se elimina, solo se traslada, así que la asume el producto y no el gestor.",
           },
         ],
         switch: [
+          {
+            label: { en: "Menu, form, plan", es: "Menú, formulario, plan" },
+            heading: {
+              en: "Left to right.",
+              es: "De izquierda a derecha.",
+            },
+            body: [
+              {
+                en: "The menu says where you are, the form is the page you edit, and the plan answers it.",
+                es: "El menú dice dónde estás, el formulario es la página que editas y el plan le responde.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The workstation pulled apart into menu, form and plan",
+                  es: "La estación de trabajo separada en menú, formulario y plan",
+                },
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos.html",
+                    rect: { x: 0, y: 48, w: 64, h: 852 },
+                    x: 9,
+                    y: 52,
+                    w: 4.2,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 72, y: 64, w: 682, h: 824 },
+                    x: 37,
+                    y: 52,
+                    w: 41,
+                    fade: "bottom",
+                    radius: 10,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 766, y: 64, w: 662, h: 824 },
+                    x: 79.5,
+                    y: 52,
+                    w: 39,
+                    fade: "bottom",
+                    radius: 18,
+                  },
+                ],
+                marks: [
+                  { x: 9, y: 8, n: 1 },
+                  { x: 37, y: 8, n: 2 },
+                  { x: 79.5, y: 8, n: 3 },
+                ],
+                legend: [
+                  {
+                    en: "Menu · where you are",
+                    es: "Menú · dónde estás",
+                  },
+                  {
+                    en: "Form · what you change",
+                    es: "Formulario · lo que cambias",
+                  },
+                  {
+                    en: "Plan · what it does",
+                    es: "Plan · lo que hace",
+                  },
+                ],
+              },
+            ],
+          },
           {
             label: { en: "Always in view", es: "Siempre a la vista" },
             heading: {

@@ -2715,7 +2715,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-cards-ref.html",
-                    rect: { x: 798, y: 179, w: 598, h: 122 },
+                    rect: { x: 782, y: 163, w: 630, h: 154 },
                     viewport: { w: 1440, h: 1000 },
                     x: 50,
                     y: 30,
@@ -2724,14 +2724,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                       en: "Before the review",
                       es: "Antes de la revisión",
                     },
-                    flat: true,
                   },
                   {
                     src: "/work/wealth-planner/demo/wp-ingresos.html",
-                    rect: { x: 798, y: 179, w: 598, h: 58 },
+                    rect: { x: 782, y: 163, w: 630, h: 90 },
                     viewport: { w: 1440, h: 900 },
                     x: 50,
-                    y: 64,
+                    y: 72,
                     w: 90,
                     label: {
                       en: "After the review",

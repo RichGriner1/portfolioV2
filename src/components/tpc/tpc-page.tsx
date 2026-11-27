@@ -203,7 +203,7 @@ function Step({
       <Reveal>
         <div className="grid grid-cols-1 gap-x-10 gap-y-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
           <div className="flex items-start gap-3">
-            <span className="bg-annotation text-annotation-foreground flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-medium">
+            <span className="bg-foreground text-background flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-medium">
               {n}
             </span>
             <h3

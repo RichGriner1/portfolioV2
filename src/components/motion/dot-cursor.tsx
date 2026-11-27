@@ -128,7 +128,13 @@ export function DotCursor() {
       if (el.style.opacity !== nextOpacity) el.style.opacity = nextOpacity;
 
       const over = hit?.closest("[data-cursor-invert]");
-      const next = over ? "var(--primary-foreground)" : "var(--foreground)";
+      // A surface that keeps one colour in both themes (the light stage of a
+      // case-study visual) names its own ink, since neither token fits it.
+      const fixed = hit
+        ?.closest("[data-cursor-ink]")
+        ?.getAttribute("data-cursor-ink");
+      const next =
+        fixed || (over ? "var(--primary-foreground)" : "var(--foreground)");
       if (next !== ink.current) {
         ink.current = next;
         el.style.backgroundColor = next;

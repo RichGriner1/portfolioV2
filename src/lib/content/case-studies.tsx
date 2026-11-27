@@ -267,7 +267,9 @@ export type StoryMedia =
        * "case" presses a use case's ▶, "reload" reloads the page. It plays once when the
        * stage is half on screen, and a Replay button plays it again.
        */
-      play?: "lab" | "case" | "reload";
+      play?: "lab" | "case" | "reload" | "click";
+      /** With `play: "click"`: the exact text of the element the board clicks. */
+      playClick?: string;
       /** Every item takes this item's corner radius, as drawn on the stage. */
       radiusFrom?: number;
       legend?: Bilingual<string>[];
@@ -2144,7 +2146,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   },
                   {
                     src: "/work/wealth-planner/demo/wp-ingresos.html",
-                    rect: { x: 798, y: 179, w: 598, h: 58 },
+                    rect: { x: 782, y: 163, w: 630, h: 90 },
                     x: 50,
                     y: 68,
                     w: 78,
@@ -2245,14 +2247,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   en: "Ingresos as a list you edit in place",
                   es: "Ingresos como una lista que se edita en su sitio",
                 },
+                // Opens the first income in place, as the adviser would.
+                play: "click",
+                playClick: "Nómina Titular",
                 items: [
                   {
-                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
-                    rect: { x: 72, y: 64, w: 682, h: 420 },
+                    src: "/work/wealth-planner/demo/wp-ingresos.html",
+                    rect: { x: 72, y: 64, w: 682, h: 540 },
                     x: 50,
                     y: 52,
                     w: 80,
-                    fade: "bottom",
                     radius: 10,
                   },
                 ],
@@ -2666,9 +2670,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Feedback", es: "Crítica" },
         body: [
           {
-            en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, in Chapter 3.",
+            en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, shown above.",
             // TODO(afi-redaccion)
-            es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, en el capítulo 3.",
+            es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, que se ve más arriba.",
           },
         ],
         switch: [
@@ -2760,12 +2764,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 aspect: 1.6,
                 items: [
                   {
-                    src: "/work/wealth-planner/demo/P314-dens-today.html",
-                    rect: { x: 60, y: 54, w: 600, h: 640 },
-                    viewport: { w: 720, h: 1000 },
-                    x: 26,
+                    src: "/work/wealth-planner/demo/wp-before-pat.html",
+                    rect: { x: 766, y: 64, w: 662, h: 706 },
+                    viewport: { w: 1440, h: 1000 },
+                    x: 26.5,
                     y: 50,
-                    w: 44,
+                    w: 48,
                     label: {
                       en: "Before the review",
                       es: "Antes de la revisión",
@@ -2777,9 +2781,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                     src: "/work/wealth-planner/demo/P314-dens-quiet.html",
                     rect: { x: 60, y: 54, w: 600, h: 640 },
                     viewport: { w: 720, h: 1900 },
-                    x: 74,
-                    y: 50,
-                    w: 44,
+                    x: 75.5,
+                    y: 46.2,
+                    w: 43.5,
                     label: {
                       en: "After the review",
                       es: "Después de la revisión",

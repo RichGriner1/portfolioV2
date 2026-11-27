@@ -268,10 +268,14 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/wealth-planner",
     image: "/work/wealth-planner/r10-ingresos-poster.jpg",
+    // Thumbnail: «Panel completo» from the 4.14 canvas (Animaciones IA), the plan
+    // applying an AI change. Recorded from the demo board, one light clip for every
+    // language and theme. Takes precedence over `image`.
+    video: "/work/wealth-planner/card",
     ongoing: true,
-    // Draft in progress (2026-11-27): intro and problem only. Off the home board
-    // until Richard says it's ready.
-    homeHidden: true,
+    // First on the home board and the canvas since 2026-11-27 (Richard's call):
+    // rank 0 sorts it ahead of Visual Identity's 1.
+    homeRank: 0,
   },
   {
     slug: "kt360",

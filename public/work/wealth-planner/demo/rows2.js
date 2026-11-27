@@ -266,7 +266,7 @@
         C('SidebarGroup', { label: 'Situación actual' }, nav('wallet', 'Patrimonio', 'patrimonio'), nav('banknote', 'Ingresos', 'ingresos'), nav('receipt', 'Gastos')),
         C('SidebarGroup', { label: 'Objetivos' }, nav('landmark', 'Legado y liquidez'), nav('armchair', 'Jubilación')),
         C('SidebarGroup', { label: 'Optimizaciones' }, nav('pie-chart', 'Asset allocation'), nav('droplets', 'Generación de liquidez')));
-      const bar = ({ menuButton }) => C('AppHeader', { lead: h('span', { className: 'r2-lead' }, menuButton, logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: h('span', { className: 'r2-muted r2-client' }, 'Borja Foncillas García · Borja PFC') });
+      const bar = ({ menuButton }) => C('AppHeader', { lead: h('span', { className: 'r2-lead' }, menuButton, logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: h('span', { className: 'r2-muted r2-client' }, 'Andrés Molina Vega · Plan patrimonial') });
       const ing = s.screen === 'ingresos';
       return C('ShellFrame', { bar, rail, railTitle: 'Menú', menuOpen: s.nav, onMenuOpenChange: (o) => this.setState({ nav: o }) },
         h('div', { className: 'r2-work' },

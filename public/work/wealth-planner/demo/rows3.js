@@ -160,7 +160,7 @@
         group('Situación actual', nav('wallet', 'Patrimonio', 'patrimonio'), nav('banknote', 'Ingresos', 'ingresos'), nav('receipt', 'Gastos', 'gastos')),
         group('Objetivos', nav('landmark', 'Legado y liquidez', 'legado'), nav('armchair', 'Jubilación', 'jubilacion')),
         group('Optimizaciones', nav('pie-chart', 'Asset allocation', 'aa'), nav('droplets', 'Generación de liquidez', 'gl')));
-      const bar = ({ menuButton }) => C('AppHeader', { lead: h('span', { className: 'r2-lead' }, menuButton, h('span', { className: 'r3-railbtn' }, C('IconButton', { variant: 'ghost', size: 'sm', label: rc ? 'Expandir el menú' : 'Contraer el menú', onClick: () => this.setState({ railC: !rc }) }, I(rc ? 'panel-left-open' : 'panel-left-close', 18))), logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: h('span', { className: 'r2-muted r2-client' }, 'Borja Foncillas García · Borja PFC') });
+      const bar = ({ menuButton }) => C('AppHeader', { lead: h('span', { className: 'r2-lead' }, menuButton, h('span', { className: 'r3-railbtn' }, C('IconButton', { variant: 'ghost', size: 'sm', label: rc ? 'Expandir el menú' : 'Contraer el menú', onClick: () => this.setState({ railC: !rc }) }, I(rc ? 'panel-left-open' : 'panel-left-close', 18))), logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: h('span', { className: 'r2-muted r2-client' }, 'Andrés Molina Vega · Plan patrimonial') });
       const w = this.width();
       return C('ShellFrame', { bar, rail, railTitle: 'Menú', menuOpen: s.nav, onMenuOpenChange: (o) => this.setState({ nav: o }) },
         h('div', { className: 'r3-work' + (s.drag != null ? ' is-dragging' : '') },

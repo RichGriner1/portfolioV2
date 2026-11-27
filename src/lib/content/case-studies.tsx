@@ -267,6 +267,8 @@ export type StoryMedia =
        * stage is half on screen, and a Replay button plays it again.
        */
       play?: "lab" | "case" | "reload";
+      /** Every item takes this item's corner radius, as drawn on the stage. */
+      radiusFrom?: number;
       legend?: Bilingual<string>[];
       caption?: Bilingual<string>;
     }
@@ -1888,21 +1890,22 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               en: "The live product: the five places the plan's results lived",
               es: "El producto en vivo: los cinco sitios donde vivían los resultados del plan",
             },
-            aspect: 1.25,
+            aspect: 1,
+            radiusFrom: 1,
             items: [
               {
                 image: "/work/wealth-planner/live-ingresos.jpg",
                 imageRatio: 0.625,
-                x: 34.0,
-                y: 30.4375,
+                x: 34,
+                y: 21.75,
                 w: 60,
                 radius: 8,
               },
               {
                 image: "/work/wealth-planner/live-drawer.png",
                 imageRatio: 1.9644,
-                x: 81.0,
-                y: 40.37777777777777,
+                x: 81,
+                y: 30.5,
                 w: 28,
                 radius: 12,
                 sourceW: 450,
@@ -1910,28 +1913,24 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               {
                 image: "/work/wealth-planner/live-gl.png",
                 imageRatio: 0.1187,
-                x: 34.0,
-                y: 63.3,
+                x: 34,
+                y: 47.06,
                 w: 60,
-                radius: 8,
-                sourceW: 1112,
               },
               {
-                image: "/work/wealth-planner/live-ren.png",
-                imageRatio: 0.1101,
-                x: 34.0,
-                y: 75.9,
-                w: 60,
-                flat: true,
-                radius: 8,
+                image: "/work/wealth-planner/live-ren-card.png",
+                imageRatio: 0.1444,
+                x: 24,
+                y: 56.49,
+                w: 40,
               },
             ],
             marks: [
-              { x: 48.4, y: 3.2, n: 1 },
-              { x: 26.1, y: 19.7, n: 2 },
-              { x: 67.5, y: 3.2, n: 3 },
-              { x: 1.8, y: 63.3, n: 4 },
-              { x: 1.8, y: 75.9, n: 5 },
+              { x: 48.4, y: 0.5, n: 1 },
+              { x: 26.1, y: 13.2, n: 2 },
+              { x: 81, y: 0.5, n: 3 },
+              { x: 1.2, y: 47.06, n: 4 },
+              { x: 1.2, y: 56.49, n: 5 },
             ],
             legend: [
               {
@@ -2341,6 +2340,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             // TODO(afi-redaccion)
             es: "Afi es una firma tradicional, y sus gestores se sientan con clientes que deciden sobre sus ahorros. La IA tenía que sentirse potente sin parecer un juguete: avisar de que ha pasado algo, y nunca resultar empalagosa.",
           },
+          {
+            en: "A teammate's review ranked every moment from 1, quiet, to 4, loud. Editing a figure stays quiet; only «Aplicar al plan» (apply to the plan) is loud.",
+            // TODO(afi-redaccion)
+            es: "La revisión de un compañero ordenó cada momento del 1, silencioso, al 4, llamativo. Editar una cifra sigue siendo silencioso; solo «Aplicar al plan» es llamativo.",
+          },
         ],
         switch: [
           {
@@ -2369,7 +2373,81 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/wp-dock-1.html",
-                    rect: { x: 100, y: 96, w: 760, h: 430 },
+                    rect: { x: 112, y: 240, w: 736, h: 158 },
+                    x: 50,
+                    y: 50,
+                    w: 90,
+                    viewport: { w: 960, h: 560 },
+                    flat: true,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Editing", es: "Editar" },
+            kicker: { en: "Level 1 · quiet", es: "Nivel 1 · silencioso" },
+            heading: {
+              en: "Editing is quiet.",
+              // TODO(afi-redaccion)
+              es: "Editar es silencioso.",
+            },
+            body: [
+              {
+                en: "Figures dim while the plan recalculates, then count up. No light.",
+                // TODO(afi-redaccion)
+                es: "Las cifras se atenúan mientras el plan recalcula y luego suben. Sin luz.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The plan panel recalculating quietly",
+                  es: "El panel del plan recalculando en silencio",
+                },
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 766, y: 64, w: 662, h: 824 },
+                    x: 50,
+                    y: 52,
+                    w: 46,
+                    fade: "bottom",
+                    radius: 18,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Thinking", es: "Pensando" },
+            kicker: { en: "Level 2", es: "Nivel 2" },
+            heading: {
+              en: "Only the thinking moves.",
+              // TODO(afi-redaccion)
+              es: "Solo se mueve lo que piensa.",
+            },
+            body: [
+              {
+                en: "While the AI works, a spark moves beside «Pensando…» (thinking). It's the only motion that repeats, and it stops when the answer lands.",
+                // TODO(afi-redaccion)
+                es: "Mientras la IA trabaja, una chispa se mueve junto a «Pensando…». Es el único movimiento que se repite, y se para cuando llega la respuesta.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The «Preguntar» bar",
+                  es: "La barra «Preguntar»",
+                },
+                play: "case",
+                aspect: 1.52,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/wp-dock-2.html",
+                    rect: { x: 112, y: 120, w: 736, h: 397 },
                     x: 50,
                     y: 50,
                     w: 90,
@@ -2382,6 +2460,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
           {
             label: { en: "Changed section", es: "Sección que cambia" },
+            kicker: { en: "Level 3", es: "Nivel 3" },
             heading: {
               en: "Light only where the plan changed.",
               // TODO(afi-redaccion)
@@ -2406,7 +2485,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-hue-hint-section.html",
-                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    rect: { x: 23, y: 176, w: 915, h: 329 },
                     x: 50,
                     y: 50,
                     w: 100,
@@ -2419,6 +2498,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
           {
             label: { en: "Icon in the tab", es: "Icono en la pestaña" },
+            kicker: { en: "Level 3", es: "Nivel 3" },
             heading: {
               en: "The icon tells the story.",
               // TODO(afi-redaccion)
@@ -2469,6 +2549,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
           {
             label: { en: "Apply", es: "Aplicar" },
+            kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
               en: "The light rises and leaves.",
               // TODO(afi-redaccion)
@@ -2493,7 +2574,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-hue-hint-apply2.html",
-                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    rect: { x: 143, y: 165, w: 674, h: 365 },
                     x: 50,
                     y: 50,
                     w: 100,
@@ -2506,6 +2587,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
           {
             label: { en: "Toast on apply", es: "Aviso al aplicar" },
+            kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
               en: "Applying says so, once.",
               // TODO(afi-redaccion)
@@ -2530,7 +2612,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-hue-hint-toast.html",
-                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    rect: { x: 161, y: 290, w: 639, h: 118 },
                     x: 50,
                     y: 50,
                     w: 100,
@@ -2543,6 +2625,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           },
           {
             label: { en: "Whole plan", es: "Todo el plan" },
+            kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
               en: "Only one moment is loud.",
               // TODO(afi-redaccion)
@@ -2567,7 +2650,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 items: [
                   {
                     src: "/work/wealth-planner/demo/P314-hue-hint-panel.html",
-                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    rect: { x: 140, y: 142, w: 681, h: 413 },
                     x: 50,
                     y: 50,
                     w: 100,
@@ -2595,157 +2678,127 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Feedback", es: "Crítica" },
         body: [
           {
-            en: "Once everything sat in one panel, it got busy fast. A teammate said so: too much at once, nothing saying where to look, a light on every keystroke. We worked through it together and ranked every moment, quiet to loud.",
+            en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, in Chapter 3.",
             // TODO(afi-redaccion)
-            es: "En cuanto todo estuvo en un panel, se cargó enseguida. Un compañero lo dijo: demasiado a la vez, nada que dijera adónde mirar, una luz con cada tecla. Le dimos vueltas juntos y ordenamos cada momento, de silencioso a llamativo.",
+            es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, en el capítulo 3.",
           },
         ],
         switch: [
           {
-            label: { en: "1 · Edit", es: "1 · Editar" },
-            kicker: { en: "Level 1", es: "Nivel 1" },
+            label: { en: "Tabs", es: "Pestañas" },
+            kicker: { en: "Change 1", es: "Cambio 1" },
             heading: {
-              en: "Editing is quiet.",
+              en: "Tabs switch, cards choose.",
               // TODO(afi-redaccion)
-              es: "Editar es silencioso.",
+              es: "Las pestañas cambian de vista; las tarjetas eligen.",
             },
             body: [
               {
-                en: "Figures dim while the plan recalculates, then count up. No light.",
+                en: "The plan tabs were cards with an icon, a sub-line and a chip, and they grew when a simulation landed. We tried thin cards and a segmented control, and kept a two-line one: name and figure, the same height in every state.",
                 // TODO(afi-redaccion)
-                es: "Las cifras se atenúan mientras el plan recalcula y luego suben. Sin luz.",
+                es: "Las pestañas del plan eran tarjetas con icono, subtítulo y etiqueta, y crecían al llegar una simulación. Probamos tarjetas finas y un control segmentado, y nos quedamos con uno de dos líneas: nombre y cifra, con la misma altura en todos los estados.",
+              },
+              {
+                en: "The rule went to the design system: switching a view is a segmented control; choosing an option is a card.",
+                // TODO(afi-redaccion)
+                es: "La regla pasó al sistema de diseño: cambiar de vista es un control segmentado; elegir una opción es una tarjeta.",
               },
             ],
             media: [
               {
                 kind: "composition",
                 title: {
-                  en: "The plan panel recalculating quietly",
-                  es: "El panel del plan recalculando en silencio",
+                  en: "The plan tabs as cards, then as a two-line segmented control",
+                  es: "Las pestañas del plan como tarjetas y después como control segmentado de dos líneas",
                 },
+                aspect: 1.6,
                 items: [
                   {
-                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
-                    rect: { x: 766, y: 64, w: 662, h: 824 },
+                    src: "/work/wealth-planner/demo/P314-cards-ref.html",
+                    rect: { x: 798, y: 179, w: 598, h: 122 },
+                    viewport: { w: 1440, h: 1000 },
                     x: 50,
-                    y: 52,
-                    w: 46,
-                    fade: "bottom",
+                    y: 30,
+                    w: 90,
+                    label: {
+                      en: "Before the review",
+                      es: "Antes de la revisión",
+                    },
+                    flat: true,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos.html",
+                    rect: { x: 798, y: 179, w: 598, h: 58 },
+                    viewport: { w: 1440, h: 900 },
+                    x: 50,
+                    y: 64,
+                    w: 90,
+                    label: {
+                      en: "After the review",
+                      es: "Después de la revisión",
+                    },
+                    radius: 12,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Disclosures", es: "Desplegables" },
+            kicker: { en: "Change 2", es: "Cambio 2" },
+            heading: {
+              en: "One chart open per tab.",
+              // TODO(afi-redaccion)
+              es: "Un gráfico abierto por pestaña.",
+            },
+            body: [
+              {
+                en: "Every section had its chart open, so everything asked for attention at once. Now the verdict is the tab's title and its scenarios sit right under it.",
+                // TODO(afi-redaccion)
+                es: "Cada sección tenía su gráfico abierto, así que todo pedía atención a la vez. Ahora el veredicto es el título de la pestaña y sus escenarios van justo debajo.",
+              },
+              {
+                en: "One chart stays open; the rest wait behind «Ver escenarios» and «Ver desglose» (see the scenarios, see the breakdown). Titles are quieter and figures a step smaller.",
+                // TODO(afi-redaccion)
+                es: "Un gráfico queda abierto; el resto espera tras «Ver escenarios» y «Ver desglose». Los títulos son más discretos y las cifras, un paso más pequeñas.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The plan panel with every chart open, then with one",
+                  es: "El panel del plan con todos los gráficos abiertos y después con uno",
+                },
+                aspect: 1.6,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-dens-today.html",
+                    rect: { x: 60, y: 54, w: 600, h: 640 },
+                    viewport: { w: 720, h: 1000 },
+                    x: 26,
+                    y: 50,
+                    w: 44,
+                    label: {
+                      en: "Before the review",
+                      es: "Antes de la revisión",
+                    },
                     radius: 18,
+                    fade: "bottom",
                   },
-                ],
-              },
-            ],
-          },
-          {
-            label: { en: "2 · The AI thinks", es: "2 · La IA piensa" },
-            kicker: { en: "Level 2", es: "Nivel 2" },
-            heading: {
-              en: "Only the thinking moves.",
-              // TODO(afi-redaccion)
-              es: "Solo se mueve lo que piensa.",
-            },
-            body: [
-              {
-                en: "While the AI works, a spark moves beside «Pensando…» (thinking). It's the only motion that repeats, and it stops when the answer lands.",
-                // TODO(afi-redaccion)
-                es: "Mientras la IA trabaja, una chispa se mueve junto a «Pensando…». Es el único movimiento que se repite, y se para cuando llega la respuesta.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The «Preguntar» bar",
-                  es: "La barra «Preguntar»",
-                },
-                play: "case",
-                aspect: 1.52,
-                items: [
                   {
-                    src: "/work/wealth-planner/demo/wp-dock-2.html",
-                    rect: { x: 100, y: 96, w: 760, h: 430 },
-                    x: 50,
+                    src: "/work/wealth-planner/demo/P314-dens-quiet.html",
+                    rect: { x: 60, y: 54, w: 600, h: 640 },
+                    viewport: { w: 720, h: 1900 },
+                    x: 74,
                     y: 50,
-                    w: 90,
-                    viewport: { w: 960, h: 560 },
-                    flat: true,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: { en: "3 · Simulation", es: "3 · Simulación" },
-            kicker: { en: "Level 3", es: "Nivel 3" },
-            heading: {
-              en: "A simulation opens quietly.",
-              // TODO(afi-redaccion)
-              es: "Una simulación se abre en silencio.",
-            },
-            body: [
-              {
-                en: "Switching on «Simulación», the light rises through the bar once and the space grows. Nothing is real yet.",
-                // TODO(afi-redaccion)
-                es: "Al activar «Simulación», la luz sube una vez por la barra y su espacio crece. Todavía no es real.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The «Preguntar» bar",
-                  es: "La barra «Preguntar»",
-                },
-                play: "case",
-                aspect: 1.52,
-                items: [
-                  {
-                    src: "/work/wealth-planner/demo/wp-dock-1.html",
-                    rect: { x: 100, y: 96, w: 760, h: 430 },
-                    x: 50,
-                    y: 50,
-                    w: 90,
-                    viewport: { w: 960, h: 560 },
-                    flat: true,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: { en: "4 · Apply", es: "4 · Aplicar" },
-            kicker: { en: "Level 4", es: "Nivel 4" },
-            heading: {
-              en: "Applying is the loud one.",
-              // TODO(afi-redaccion)
-              es: "Aplicar es el llamativo.",
-            },
-            body: [
-              {
-                en: "«Aplicar al plan»: the big pulse runs through the bar and the toast says what changed. Then quiet again.",
-                // TODO(afi-redaccion)
-                es: "«Aplicar al plan»: el pulso grande recorre la barra y el aviso dice qué cambió. Después, silencio otra vez.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The «Preguntar» bar",
-                  es: "La barra «Preguntar»",
-                },
-                play: "case",
-                aspect: 1.52,
-                items: [
-                  {
-                    src: "/work/wealth-planner/demo/wp-dock-4.html",
-                    rect: { x: 100, y: 96, w: 760, h: 430 },
-                    x: 50,
-                    y: 50,
-                    w: 90,
-                    viewport: { w: 960, h: 560 },
-                    flat: true,
+                    w: 44,
+                    label: {
+                      en: "After the review",
+                      es: "Después de la revisión",
+                    },
+                    radius: 18,
+                    fade: "bottom",
                   },
                 ],
               },

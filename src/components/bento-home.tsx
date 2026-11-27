@@ -102,9 +102,22 @@ export function BentoHome() {
           </BlurFade>
         </div>
         <div className="sm:col-span-2 sm:row-span-2">
+          {/* Wealth Planner took the flagship slot on 2026-11-27, on Richard's
+              call: the newest case study leads. Visual Identity moved down a row,
+              still at 2×2. */}
+          <WorkCard
+            item={bySlug("wealth-planner")}
+            index={0}
+            fill
+            caption={false}
+          />
+        </div>
+
+        {/* Rows 3–4 — Visual Identity, 2×2 on the left */}
+        <div className="sm:col-span-2 sm:row-span-2">
           <WorkCard
             item={bySlug("visual-identity")}
-            index={0}
+            index={1}
             fill
             caption={false}
           />
@@ -126,18 +139,18 @@ export function BentoHome() {
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("modern-ui-2026")}
-            index={1}
+            index={2}
             fill
             caption={false}
           />
         </div>
         <div className="sm:col-span-1 sm:row-span-1">
-          <WorkCard item={bySlug("mindfulme")} index={2} fill caption={false} />
+          <WorkCard item={bySlug("mindfulme")} index={3} fill caption={false} />
         </div>
         <div className="sm:col-span-1 sm:row-span-1">
           <WorkCard
             item={bySlug("design-md-primeng-wealth-manager")}
-            index={3}
+            index={4}
             fill
             caption={false}
           />
@@ -176,7 +189,7 @@ export function BentoHome() {
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("afi-design-system")}
-            index={4}
+            index={5}
             fill
             caption={false}
           />
@@ -189,7 +202,7 @@ export function BentoHome() {
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("color-methodology")}
-            index={5}
+            index={6}
             fill
             caption={false}
           />

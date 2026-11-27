@@ -2682,9 +2682,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Feedback", es: "Crítica" },
         body: [
           {
-            en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, in Chapter 3.",
+            en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, shown above.",
             // TODO(afi-redaccion)
-            es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, en el capítulo 3.",
+            es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, que se ve más arriba.",
           },
         ],
         switch: [

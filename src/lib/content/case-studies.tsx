@@ -1036,23 +1036,19 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
    *
    * Stats count things in the file or the sessions: 40 boards on the v1.0 page, 6
    * Resumen directions, 4 picture styles, 2 brands to 1. Known gaps: no outcome data, no
-   * test with a bank customer. Spanish is unreviewed: run afi-redaccion over every `es`
-   * string before publishing.
+   * test with a bank customer. Spanish had an afi-redaccion pass on 2026-11-27.
    */
   sarevi: {
     tagline: {
       en: "Redesigning a bank simulator to look and move like a modern product",
-      // TODO(afi-redaccion)
       es: "Rediseñar un simulador bancario para que se vea y se mueva como un producto actual",
     },
     intro: {
       en: "SAREVI is Afi's energy-efficiency simulator for banks: a customer describes their home and sees what a reform costs, saves and how to pay for it. I'm its only full-time designer, and I redesigned it on a new design system so Afi can keep selling it.",
-      // TODO(afi-redaccion)
       es: "SAREVI es el simulador de eficiencia energética de Afi para bancos: el cliente describe su vivienda y ve cuánto cuesta una reforma, cuánto ahorra y cómo pagarla. Soy su único diseñador a tiempo completo y lo he rediseñado sobre un sistema de diseño nuevo para que Afi pueda seguir vendiéndolo.",
     },
     role: {
       en: "Only full-time designer",
-      // TODO(afi-redaccion)
       es: "Único diseñador a tiempo completo",
     },
     contributions: {
@@ -1064,7 +1060,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "3D picture style",
         "Prototype",
       ],
-      // TODO(afi-redaccion)
       es: [
         "Rediseño",
         "Sistema de diseño",
@@ -1079,7 +1074,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     demo: { href: "/work/sarevi/demo/P-Prototipo.dc.html" },
     closing: {
       en: "Same calculation, same three steps. It just looks and moves like something a bank would want on its site.",
-      // TODO(afi-redaccion)
       es: "El mismo cálculo y los mismos tres pasos. Solo que ahora se ve y se mueve como algo que un banco querría en su web.",
     },
     story: [
@@ -1087,19 +1081,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "Context", es: "Contexto" },
         heading: {
           en: "The flow worked. It looked its age.",
-          // TODO(afi-redaccion)
           es: "El flujo funcionaba. Se le notaba la edad.",
         },
         navLabel: { en: "Context", es: "Contexto" },
         body: [
           {
             en: "Banks put our simulators on their sites as a free tool, and Afi sells the calculation. SAREVI's flow came from the version we built for one client bank, improved bit by bit for a year and a half.",
-            // TODO(afi-redaccion)
             es: "Los bancos ponen nuestros simuladores en sus webs como herramienta gratuita, y Afi vende el cálculo. El flujo de SAREVI venía de la versión que hicimos para un banco cliente, mejorada poco a poco durante año y medio.",
           },
           {
             en: "Next to the banks' own products it looked dated. One client stepped back and usage was below target. So the brief was a redesign: same calculation, modern look.",
-            // TODO(afi-redaccion)
             es: "Al lado de los productos de los propios bancos se veía anticuado. Un cliente se retiró y el uso estaba por debajo del objetivo. Así que el encargo fue un rediseño: el mismo cálculo, con un aspecto actual.",
           },
         ],
@@ -1111,7 +1102,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               poster: "/work/sarevi/hero-new-poster.webp",
               alt: {
                 en: "The redesigned landing: the two house cards colouring in on hover, then a click into the first question",
-                // TODO(afi-redaccion)
                 es: "La portada rediseñada: las dos tarjetas de casa se colorean al pasar el ratón y un clic lleva a la primera pregunta",
               },
             },
@@ -1122,20 +1112,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "The system", es: "El sistema" },
         heading: {
           en: "A new design system, not Wealth Planner's.",
-          // TODO(afi-redaccion)
           es: "Un sistema de diseño nuevo, no el de Wealth Planner.",
         },
         navLabel: { en: "The system", es: "El sistema" },
         body: [
           {
             en: "Wealth Planner's system is built for advisers at a desk. SAREVI faces a bank's customers, once, on a phone or a laptop, so it needed its own: Afi apps.",
-            // TODO(afi-redaccion)
-            es: "El sistema de Wealth Planner está pensado para gestores en su mesa. SAREVI lo usa el cliente de un banco, una vez, en el móvil o el portátil, así que necesitaba el suyo: Afi apps.",
+            es: "El sistema de Wealth Planner está pensado para gestores que trabajan en su mesa. SAREVI lo usa el cliente de un banco, una vez, en el móvil o el portátil, así que necesitaba el suyo: Afi apps.",
           },
           {
             en: "It uses Libre Franklin, Afi's deep blue for actions, softer corners and its own tokens. Cumplimiento and the other simulators now build on it too.",
-            // TODO(afi-redaccion)
-            es: "Usa Libre Franklin, el azul profundo de Afi para las acciones, esquinas más suaves y sus propios tokens. Cumplimiento y los demás simuladores se construyen ya sobre él.",
+            es: "Usa Libre Franklin, el azul profundo de Afi para las acciones, esquinas más suaves y sus propios tokens. Cumplimiento y los demás simuladores ya se construyen sobre él.",
           },
         ],
         media: [
@@ -1143,7 +1130,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             kind: "composition",
             title: {
               en: "Four Afi apps components from SAREVI: a landing card, the results panel, the Resumen hero and a measure row",
-              // TODO(afi-redaccion)
               es: "Cuatro componentes de Afi apps en SAREVI: una tarjeta de portada, el panel de resultados, la cabecera de Resumen y una fila de medida",
             },
             items: [
@@ -1183,15 +1169,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "Chapter 1 · Motion", es: "Capítulo 1 · Movimiento" },
         heading: {
           en: "Every control got the same motion.",
-          // TODO(afi-redaccion)
           es: "Todos los controles se mueven igual.",
         },
         navLabel: { en: "Motion", es: "Movimiento" },
         body: [
           {
             en: "I took Dive Club's easing curves and made them tokens, so every control moves the same way. A move reads as done in about 200 ms. Things that appear get a spring; things that close get a quicker ease.",
-            // TODO(afi-redaccion)
-            es: "Tomé las curvas de Dive Club y las convertí en tokens, para que todos los controles se muevan igual. Un movimiento se lee como terminado en unos 200 ms. Lo que aparece lleva un muelle; lo que se cierra, una curva más rápida.",
+            es: "Tomé las curvas de Dive Club y las convertí en tokens, para que todos los controles se muevan igual. Un movimiento parece terminado en unos 200 ms. Lo que aparece lleva efecto muelle; lo que se cierra, una curva más rápida.",
           },
         ],
         switch: [
@@ -1199,14 +1183,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Dropdowns", es: "Desplegables" },
             heading: {
               en: "Lists drop open and settle.",
-              // TODO(afi-redaccion)
               es: "Las listas se abren y se asientan.",
             },
             body: [
               {
                 en: "The select opens on the enter curve and closes in 300 ms. Every list in the product uses the same pair.",
-                // TODO(afi-redaccion)
-                es: "El desplegable se abre con la curva de entrada y se cierra en 300 ms. Todas las listas del producto usan esa misma pareja.",
+                es: "El desplegable se abre con la curva de entrada y se cierra en 300 ms. Todas las listas del producto usan esas mismas curvas.",
               },
             ],
             media: [
@@ -1217,7 +1199,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   poster: "/work/sarevi/motion-select-poster.webp",
                   alt: {
                     en: "The municipality dropdown opening, the pointer moving down the list, then closing",
-                    // TODO(afi-redaccion)
                     es: "El desplegable de municipio abriéndose, el puntero bajando por la lista y cerrándose",
                   },
                 },
@@ -1228,13 +1209,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Picture cards", es: "Tarjetas" },
             heading: {
               en: "Picking a home colours it in.",
-              // TODO(afi-redaccion)
               es: "Elegir una vivienda la colorea.",
             },
             body: [
               {
                 en: "In Datos (your details) the home types are cards with the 3D models. The one you pick takes its colour; the rest stay grey.",
-                // TODO(afi-redaccion)
                 es: "En Datos, los tipos de vivienda son tarjetas con los modelos 3D. La que eliges toma su color; el resto queda en gris.",
               },
             ],
@@ -1246,7 +1225,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   poster: "/work/sarevi/motion-cards-poster.webp",
                   alt: {
                     en: "Choosing Chalet adosado, then Chalet independiente, then Piso: each picked card colours in",
-                    // TODO(afi-redaccion)
                     es: "Eligiendo Chalet adosado, Chalet independiente y Piso: cada tarjeta elegida se colorea",
                   },
                 },
@@ -1257,14 +1235,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Checkboxes", es: "Casillas" },
             heading: {
               en: "The tick draws itself.",
-              // TODO(afi-redaccion)
               es: "La marca se dibuja sola.",
             },
             body: [
               {
                 en: "The box fills on the spring, then the tick draws in. I shortened the gap between the two after it felt slow.",
-                // TODO(afi-redaccion)
-                es: "La casilla se rellena con el muelle y después se dibuja la marca. Acorté el tiempo entre las dos porque se notaba lento.",
+                es: "La casilla se rellena con efecto muelle y después se dibuja la marca. Acorté el tiempo entre las dos porque se notaba lento.",
               },
             ],
             media: [
@@ -1275,7 +1251,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   poster: "/work/sarevi/motion-check-poster.webp",
                   alt: {
                     en: "Ticking two measures and unticking one in the Medidas list",
-                    // TODO(afi-redaccion)
                     es: "Marcando dos medidas y desmarcando una en la lista de Medidas",
                   },
                 },
@@ -1286,14 +1261,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Switches", es: "Interruptores" },
             heading: {
               en: "Switches slide, they don't jump.",
-              // TODO(afi-redaccion)
               es: "Los interruptores se deslizan, no saltan.",
             },
             body: [
               {
                 en: "The thumb uses the ease-out, not the spring: a switch should feel firm. Turning auto-calc off makes the cost the one editable field.",
-                // TODO(afi-redaccion)
-                es: "El botón usa la curva de salida, no el muelle: un interruptor debe sentirse firme. Al apagar el cálculo automático, el coste pasa a ser el único campo editable.",
+                es: "El botón deslizante usa la curva de salida, no el efecto muelle: un interruptor debe transmitir firmeza. Al apagar el cálculo automático, el coste pasa a ser el único campo editable.",
               },
             ],
             media: [
@@ -1304,7 +1277,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   poster: "/work/sarevi/motion-switch-poster.webp",
                   alt: {
                     en: "The Cálculo automático switch in the drawer turning off and on",
-                    // TODO(afi-redaccion)
                     es: "El interruptor de Cálculo automático del panel apagándose y encendiéndose",
                   },
                 },
@@ -1317,15 +1289,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "Chapter 2 · Medidas", es: "Capítulo 2 · Medidas" },
         heading: {
           en: "Tick a measure, watch the results move.",
-          // TODO(afi-redaccion)
-          es: "Marca una medida y mira moverse los resultados.",
+          es: "Marca una medida y verás cómo se mueven los resultados.",
         },
         navLabel: { en: "Medidas", es: "Medidas" },
         body: [
           {
             en: "Medidas (the measures) is where the user decides. In the old flow the results sat below a long list. Now they sit beside it and animate with every tick, so you see what each choice does.",
-            // TODO(afi-redaccion)
-            es: "Medidas es donde el usuario decide. En el flujo antiguo los resultados quedaban debajo de una lista larga. Ahora están al lado y se animan con cada marca, así que se ve lo que hace cada decisión.",
+            es: "Medidas es donde el usuario decide. En el flujo antiguo los resultados quedaban debajo de una lista larga. Ahora están al lado y se animan con cada marca, así que se ve el efecto de cada decisión.",
           },
         ],
         switch: [
@@ -1333,13 +1303,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Results beside", es: "Resultados al lado" },
             heading: {
               en: "The numbers answer every tick.",
-              // TODO(afi-redaccion)
               es: "Los números responden a cada marca.",
             },
             body: [
               {
                 en: "The panel blurs for a beat while it recalculates, then the new figures count in. No spinner.",
-                // TODO(afi-redaccion)
                 es: "El panel se difumina un instante mientras recalcula y después entran las cifras nuevas. Sin indicador de carga.",
               },
             ],
@@ -1351,7 +1319,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   poster: "/work/sarevi/panel-poster.webp",
                   alt: {
                     en: "Ticking measures: the results panel beside the list blurs and updates each time",
-                    // TODO(afi-redaccion)
                     es: "Marcando medidas: el panel de resultados junto a la lista se difumina y se actualiza cada vez",
                   },
                 },
@@ -1362,14 +1329,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Details", es: "Detalles" },
             heading: {
               en: "Details open in one drawer.",
-              // TODO(afi-redaccion)
               es: "Los detalles se abren en un panel.",
             },
             body: [
               {
                 en: "Detalles opens a drawer from the right, like every other detail in the product, with the cost, the paperwork and what the measure is.",
-                // TODO(afi-redaccion)
-                es: "Detalles abre un panel desde la derecha, como el resto de detalles del producto, con el coste, la tramitación y qué es la medida.",
+                es: "Detalles abre un panel desde la derecha, como en el resto del producto, con el coste, la tramitación y en qué consiste la medida.",
               },
             ],
             media: [
@@ -1380,7 +1345,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   poster: "/work/sarevi/drawer-poster.webp",
                   alt: {
                     en: "Medidas with the Personalizar drawer sliding in from the right",
-                    // TODO(afi-redaccion)
                     es: "Medidas con el panel Personalizar entrando desde la derecha",
                   },
                 },
@@ -1391,14 +1355,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Try it", es: "Pruébalo" },
             heading: {
               en: "Tick something.",
-              // TODO(afi-redaccion)
               es: "Marca algo.",
             },
             body: [
               {
                 en: "This is the prototype itself. Tick and untick measures, change the reform type, open a drawer.",
-                // TODO(afi-redaccion)
-                es: "Esto es el propio prototipo. Marca y desmarca medidas, cambia el tipo de reforma, abre un panel.",
+                es: "Este es el propio prototipo. Marca y desmarca medidas, cambia el tipo de reforma, abre un panel.",
               },
             ],
             media: [
@@ -1407,7 +1369,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 src: "/work/sarevi/demo/PF-Medidas.dc.html",
                 title: {
                   en: "SAREVI Medidas, live",
-                  // TODO(afi-redaccion)
                   es: "Medidas de SAREVI, en vivo",
                 },
                 width: 1440,
@@ -1421,20 +1382,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "Chapter 3 · Resumen", es: "Capítulo 3 · Resumen" },
         heading: {
           en: "The grade you'll get lands last.",
-          // TODO(afi-redaccion)
           es: "La letra que vas a conseguir llega la última.",
         },
         navLabel: { en: "Resumen", es: "Resumen" },
         body: [
           {
             en: "Resumen (the summary) listed the numbers and left you to work out what changed. I compared six directions with the team. The before and after bars won, so consumption and emissions each get their own.",
-            // TODO(afi-redaccion)
-            es: "Resumen enumeraba los números y te dejaba deducir qué había cambiado. Comparé seis direcciones con el equipo. Ganaron las barras de antes y después, así que consumo y emisiones tienen cada uno las suyas.",
+            es: "Resumen enumeraba los números y te dejaba deducir qué había cambiado. Comparé seis propuestas con el equipo. Ganaron las barras de antes y después, así que consumo y emisiones tienen cada uno las suyas.",
           },
           {
             en: "The order is on purpose. The context animates in first, the saving counts up, and the new energy grade is the last thing to land: the one thing you came for.",
-            // TODO(afi-redaccion)
-            es: "El orden es intencionado. Primero entra el contexto, después sube el ahorro y la nueva letra energética es lo último en llegar: lo que venías a buscar.",
+            es: "El orden es intencionado. Primero entra el contexto, después sube la cifra de ahorro y la nueva letra energética es lo último en llegar: lo que venías a buscar.",
           },
         ],
         media: [
@@ -1445,7 +1403,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               poster: "/work/sarevi/charts-new-poster.webp",
               alt: {
                 en: "Resumen loading: the cards and bars animate in, the saving counts up, and the grade moves from D to A last",
-                // TODO(afi-redaccion)
                 es: "Resumen cargando: entran las tarjetas y las barras, sube el ahorro y la letra pasa de D a A al final",
               },
             },
@@ -1456,15 +1413,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "Chapter 4 · Pictures", es: "Capítulo 4 · Imagen" },
         heading: {
           en: "3D houses instead of flat pictures.",
-          // TODO(afi-redaccion)
           es: "Casas en 3D en lugar de imágenes planas.",
         },
         navLabel: { en: "Pictures", es: "Imagen" },
         body: [
           {
             en: "The landing asks one question: a home or a whole building. I wanted that choice to feel like an object, not an icon.",
-            // TODO(afi-redaccion)
-            es: "La portada hace una sola pregunta: una vivienda o un edificio entero. Quería que esa elección se sintiera como un objeto, no como un icono.",
+            es: "La portada hace una sola pregunta: una vivienda o un edificio entero. Quería que esa elección pareciera un objeto, no un icono.",
           },
         ],
         switch: [
@@ -1472,13 +1427,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Try the hover", es: "Prueba el hover" },
             heading: {
               en: "Grey at rest, colour on hover.",
-              // TODO(afi-redaccion)
               es: "Gris en reposo, color al pasar el ratón.",
             },
             body: [
               {
                 en: "Hover a card: the colour fades in and the trees grow, one after the other, with a bounce. This is the live landing.",
-                // TODO(afi-redaccion)
                 es: "Pasa el ratón por una tarjeta: entra el color y crecen los árboles, uno tras otro, con rebote. Esta es la portada en vivo.",
               },
             ],
@@ -1488,7 +1441,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 src: "/work/sarevi/demo/A-Inicio-Portada.dc.html",
                 title: {
                   en: "SAREVI landing, live",
-                  // TODO(afi-redaccion)
                   es: "Portada de SAREVI, en vivo",
                 },
                 width: 1440,
@@ -1500,13 +1452,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             label: { en: "Four styles", es: "Cuatro estilos" },
             heading: {
               en: "Four styles before one stuck.",
-              // TODO(afi-redaccion)
               es: "Cuatro estilos antes de dar con uno.",
             },
             body: [
               {
                 en: "A grid of digits was too psychedelic. Coloured dioramas came back too playful, and a line drawing didn't catch anyone's attention. Most of the feedback was a plain \"I don't like it\", so I kept going until the white model did.",
-                // TODO(afi-redaccion)
                 es: "Una cuadrícula de dígitos resultó demasiado psicodélica. Los dioramas en color, demasiado infantiles, y un dibujo de línea no llamó la atención de nadie. Casi toda la respuesta era un «no me gusta», así que seguí hasta que funcionó el modelo blanco.",
               },
             ],
@@ -1515,7 +1465,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "composition",
                 title: {
                   en: "The four picture styles: digit grid, coloured dioramas, line drawing, white model",
-                  // TODO(afi-redaccion)
                   es: "Los cuatro estilos de imagen: cuadrícula de dígitos, dioramas en color, dibujo de línea y modelo blanco",
                 },
                 aspect: 1.25,
@@ -1571,20 +1520,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: { en: "Result", es: "Resultado" },
         heading: {
           en: "Not public yet. The system is.",
-          // TODO(afi-redaccion)
           es: "Aún no es público. El sistema sí.",
         },
         navLabel: { en: "Result", es: "Resultado" },
         body: [
           {
             en: "The redesign isn't public yet, so there are no outcomes. First checks: do more people start from the new landing, and does support still hear whether the figure is binding.",
-            // TODO(afi-redaccion)
-            es: "El rediseño aún no es público, así que no hay resultados. Primeras comprobaciones: si más gente empieza desde la portada nueva y si atención al cliente sigue oyendo si la cifra es vinculante.",
+            es: "El rediseño aún no es público, así que no hay resultados. Primeras comprobaciones: si más gente empieza desde la portada nueva y si atención al cliente sigue recibiendo preguntas sobre si la cifra es vinculante.",
           },
           {
             en: "What it left behind is Afi apps: the tokens, the motion and the house models, now under the other simulators too.",
-            // TODO(afi-redaccion)
-            es: "Lo que deja es Afi apps: los tokens, el movimiento y los modelos de casa, que ya están también debajo de los otros simuladores.",
+            es: "Lo que deja es Afi apps: los tokens, el movimiento y los modelos de casa, que ya sirven de base a los demás simuladores.",
           },
         ],
         media: [
@@ -1593,7 +1539,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             items: [
               {
                 value: "40",
-                // TODO(afi-redaccion)
                 label: {
                   en: "boards in the v1.0 design file",
                   es: "tableros en el archivo de diseño v1.0",
@@ -1601,15 +1546,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               },
               {
                 value: "6",
-                // TODO(afi-redaccion)
                 label: {
                   en: "Resumen directions compared",
-                  es: "direcciones de Resumen comparadas",
+                  es: "propuestas de Resumen comparadas",
                 },
               },
               {
                 value: "4",
-                // TODO(afi-redaccion)
                 label: {
                   en: "picture styles tried",
                   es: "estilos de imagen probados",
@@ -1617,7 +1560,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               },
               {
                 value: "2 → 1",
-                // TODO(afi-redaccion)
                 label: {
                   en: "brands, down to Afi's own",
                   es: "marcas, reducidas a la de Afi",

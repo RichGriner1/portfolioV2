@@ -243,7 +243,6 @@ export const WORK: WorkItem[] = [
     title: { en: "SAREVI", es: "SAREVI" },
     description: {
       en: "Redesigning the energy-efficiency simulator Afi sells to banks, on a new design system with motion and 3D houses.",
-      // TODO(afi-redaccion)
       es: "Rediseño del simulador de eficiencia energética que Afi vende a bancos, sobre un sistema de diseño nuevo con movimiento y casas en 3D.",
     },
     year: 2026,

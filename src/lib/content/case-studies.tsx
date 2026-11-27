@@ -2654,9 +2654,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             body: [
               {
-                en: "Applying sends one band of light through the plan card: navy, Afi blue and a touch of violet, no pause. We took the timing from a reference we broke down frame by frame.",
+                en: "Applying sends one band of light through the plan card: navy, Afi blue and a touch of violet, no pause. In the plan selector below, the light rises through each part that changed and leaves its icon tinted. We took the timing from a reference we broke down frame by frame.",
                 // TODO(afi-redaccion)
-                es: "Al aplicar, una banda de luz recorre la tarjeta del plan: azul profundo, azul Afi y un toque de violeta, sin pausa. Sacamos el tiempo de una referencia que desmontamos fotograma a fotograma.",
+                es: "Al aplicar, una banda de luz recorre la tarjeta del plan: azul profundo, azul Afi y un toque de violeta, sin pausa. En el selector del plan, debajo, la luz sube por cada parte que cambia y deja su icono teñido. Sacamos el tiempo de una referencia que desmontamos fotograma a fotograma.",
               },
             ],
             media: [
@@ -2673,10 +2673,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                     src: "/work/wealth-planner/demo/P314-hue-hint-apply2.html",
                     rect: { x: 143, y: 165, w: 674, h: 365 },
                     x: 50,
-                    y: 50,
-                    w: 100,
+                    y: 33.6,
+                    w: 62,
                     flat: true,
                     viewport: { w: 960, h: 620 },
+                  },
+                  {
+                    // The plan selector on the same apply: the light rises through
+                    // each part that changed and leaves its icon tinted.
+                    src: "/work/wealth-planner/demo/P314-hue-hint-tab.html",
+                    rect: { x: 60, y: 284, w: 981, h: 108 },
+                    x: 50,
+                    y: 79.1,
+                    w: 90,
+                    flat: true,
+                    viewport: { w: 1100, h: 620 },
                   },
                 ],
               },

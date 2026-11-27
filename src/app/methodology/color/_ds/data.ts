@@ -68,7 +68,7 @@ export function primitiveHex(ramp: string, step: string): string {
 }
 
 export function durationMs(d: "fast" | "base" | "slow" | "slower"): number {
-  return { fast: 120, base: 200, slow: 320, slower: 500 }[d];
+  return { fast: 400, base: 400, slow: 400, slower: 800 }[d];
 }
 
 // WCAG relative luminance for a #rrggbb hex. null if unparseable.

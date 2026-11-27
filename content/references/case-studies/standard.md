@@ -28,7 +28,7 @@ A hero with two ways in (the demo, the story), then 6 to 8 beats, each one claim
 
 ## A beat
 
-- **Label** (kicker): 10 px mono uppercase. "The problem", "Chapter 1 · Architecture".
+- **No eyebrow.** No all-caps or mono label above the headline, and no "Chapter 1" numbering: it reads as AI-made (Richard, 2026-11-27). `kicker` may stay in the data for the side nav; it is not shown. Labels inside visuals are sentence case too ("Before the review").
 - **Headline**: a full claim, about 8 words or fewer, sentence case, with a period. Read alone, the headlines tell the story.
 - **Body**: two paragraphs, about 40 words each. First what was wrong, then what we did and why. Gloss product terms in another language once, in brackets.
 - **Visual**: on the left, a composition on a quiet stage (`composition`). Never a crop of a screen.
@@ -42,9 +42,22 @@ Follow [visuals.md](visuals.md). In code:
 |---|---|---|
 | Whole real components on a stage | `composition` | Items are live elements (`src` + the element's exact `rect` and the board's `viewport`) or element screenshots (`image`). The stage scales as one. |
 | Where things were | `composition` + `marks` + `legend` | Numbered markers beside, not on, the text they point at. |
-| A motion | `composition` + `play` | `"lab"`, `"case"` or `"reload"`. Plays once on screen, then ↺ Replay. |
+| A motion | `composition` + `play` | `"lab"`, `"case"`, `"reload"` or `"click"`. Plays once on screen, then ↺ Replay. |
 | Before and after | two items labelled "The live product" and "Iteration N" | The before is always the shipped version. |
 | Numbers | `stats` | 4 figures with short labels. |
+
+**Corners and padding (one standard for every visual):**
+
+| Part | Rule |
+|---|---|
+| The card | One light surface, `#eef1f4`, the same in both themes. Nothing frames it again inside. The dot cursor is navy on it (`data-cursor-ink`). |
+| Stage padding | 28 px on every side (`STAGE_PAD`). The stage fits its pieces, so the air is the same on all four sides. The legend and caption use the same 28 px. |
+| A piece | Either a whole component with its own edge (a card, a drawer, a toast), or a **panel piece**: the component plus 16 px of its own panel on every side, white, corner 12 px. Never a component on a cut rectangle of its page. |
+| Corners | The component's own radius. When pieces in one visual are drawn at different scales, set `radiusFrom` so they share one radius on screen. |
+| Gaps | The same gap between every piece in a visual, about 3% of the stage width. A label above a piece takes 22 px of it. |
+| Edges | No board background, scrollbar or neighbouring element shows at a piece's edge. The stage hides the boards' scrollbars; check with classic scrollbars on (Playwright `ignoreDefaultArgs: ['--hide-scrollbars']`). |
+| Replay | In its own band under the pieces, never over them. |
+| Motion a person starts | `play: "click"` with `playClick` presses the real control (opening a row). Replay reloads the board and presses it again. |
 
 **How to get the pieces:**
 - **Live elements**: copy the Claude Design export into `public/work/<slug>/demo/` (the boards, `ds/`, `_runtime/` and the page scripts). Render each board at its canvas frame size (from `canvas.json`), measure the element with Playwright, and use its exact rect. The frame size usually already isolates one element.

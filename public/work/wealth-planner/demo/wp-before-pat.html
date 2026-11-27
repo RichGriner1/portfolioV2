@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Plan menos cargado · Hoy · todo abierto</title>
+<title>Pestañas como tarjetas (3.5 a 3.14), sustituidas por el control segmentado</title>
 <script src="./_runtime/react.js"></script>
 <script src="./_runtime/react-dom.js"></script>
 <script src="./_runtime/support.js"></script>
@@ -17,25 +17,15 @@
 <script src="rows2.js"></script>
 <script src="rows3.js"></script>
 <script src="rows4.js"></script>
-</head>
+<style>.r4-leglink{display:none!important}</style></head>
 <body>
 <x-dc>
 <helmet>
-<style>body{margin:0}
-body *{visibility:hidden}
-.r3-plan,.r3-plan *,.r4-demo,.r4-demo *{visibility:visible}
-*:has(.r3-plan){transform:none!important;filter:none!important;contain:none!important}
-.r3-plan{position:fixed!important;left:360px!important;top:54px!important;transform:translateX(-50%)!important;width:600px!important;height:calc(100vh - 70px)!important;margin:0!important}
-.r4-demo{position:fixed!important;top:10px!important;left:12px!important;right:auto!important;bottom:auto!important;transform:none!important;margin:0!important;z-index:60}
-html,body{background:#F7F8FA!important}
-html{min-width:1440px}
-html,body{overflow:hidden!important}
-*:has(.r4-demo){transform:none!important;filter:none!important;contain:none!important;overflow:visible!important}
-</style>
+<style>body{margin:0}</style>
 </helmet>
-<x-import component-from-global-scope="WPRows4.App" estado='{"tabStyle": "seg2", "v32": true, "v36": true, "v38": true, "v39": true, "v310": true, "v311": true, "v312": true, "viewMode": "E", "look": "fill r4-look--white r4-look--whitesec r4-look--panelwhite r4-look--serious r4-look--open r4-look--panes r4-look--cap r4-look--resp r4-look--frame", "flow": false, "btnBar": false, "ia": "tabs2", "hoy": "hbar", "screen": "patrimonio", "iaTab": "leg", "agentUI": "dock", "aiLook": "mix", "aiHue": "hint", "keepTab": true}' hint-size="100%,100%"></x-import>
+<x-import component-from-global-scope="WPRows4.App" estado='{"v32": true, "v36": true, "v38": true, "v39": true, "v310": true, "v311": true, "v312": true, "viewMode": "E", "look": "fill r4-look--white r4-look--whitesec r4-look--panelwhite r4-look--serious r4-look--open r4-look--panes r4-look--cap r4-look--resp r4-look--frame", "flow": false, "btnBar": false, "ia": "tabs2", "hoy": "hbar", "home": false, "screen": "patrimonio", "iaTab": "leg", "hoyLeg": true, "debtLeg": true, "agentUI": "dock"}' hint-size="100%,100%"></x-import>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":720,"height":1000}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
 /* RING: focus ring on the control pressed to reach the next step (found by its text or aria-label; rows count too). */
 const RING = null;
 class Component extends DCLogic {
@@ -47,7 +37,7 @@ class Component extends DCLogic {
   }
   run(n) {
     if (!RING) return;
-    const el = typeof RING === 'string' ? document.querySelector(RING) : this.find(RING);
+    const el = this.find(RING);
     if (!el) { if (n < 8) this.t.push(setTimeout(() => this.run(n + 1), 700)); return; }
     el.style.outline = '2px solid var(--borders-focus, #4c8dff)'; el.style.outlineOffset = el.tagName === 'TR' ? '-2px' : '4px';
   }

@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  type CSSProperties,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { BackLink } from "@/components/back-link";
 import { HyperText } from "@/components/magicui/hyper-text";
@@ -8,7 +14,8 @@ import { MoreWork } from "@/components/more-work";
 import { BackDemo } from "@/components/tpc/demos";
 import * as C from "@/components/tpc/copy";
 import { Reveal } from "@/components/tpc/reveal";
-import { Diagram, type DiagramSvgs } from "@/components/diagram";
+import { type DiagramSvgs } from "@/components/diagram";
+import { FlowWalkthrough } from "@/components/tpc/flow-walkthrough";
 import { ClipSlot, StillFrame } from "@/components/tpc/clip-slot";
 import { TEMPLATES_AFTER, TEMPLATES_BEFORE } from "@/components/tpc/clips";
 import { EmptyGallery } from "@/components/tpc/empty-gallery";
@@ -16,14 +23,30 @@ import { type WorkItem, formatYears } from "@/lib/content/work";
 import { type Bilingual, pick, t, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
+/** Chapter order, so each section heading carries its number. */
+const CHAPTERS = ["problem", "before", "did", "cleanup", "ds", "test"];
+
+/**
+ * A chapter opener: a rule across the page and the chapter number above the
+ * heading, so the six sections read as separate parts rather than one run of
+ * heading-plus-paragraph blocks.
+ */
 function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
+  const n = CHAPTERS.indexOf(id) + 1;
   return (
-    <h2
-      id={id}
-      className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
-    >
-      {children}
-    </h2>
+    <div className="flex flex-col gap-3">
+      {n > 0 && (
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {String(n).padStart(2, "0")}
+        </span>
+      )}
+      <h2
+        id={id}
+        className="font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
+      >
+        {children}
+      </h2>
+    </div>
   );
 }
 
@@ -126,8 +149,11 @@ function RuleExplorer({ items }: { items: ExplorerItem[] }) {
   const cancelHover = () => window.clearTimeout(intent.current);
   useEffect(() => () => window.clearTimeout(intent.current), []);
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-      <ul className="flex flex-col gap-1">
+    <div className="flex flex-col gap-4">
+      <ul
+        className="grid grid-cols-1 gap-2 lg:grid-cols-[repeat(var(--rules),minmax(0,1fr))]"
+        style={{ "--rules": items.length } as CSSProperties}
+      >
         {items.map((it, i) => {
           const on = i === active;
           return (
@@ -143,7 +169,7 @@ function RuleExplorer({ items }: { items: ExplorerItem[] }) {
                   setActive(i);
                 }}
                 className={cn(
-                  "w-full cursor-pointer rounded-xl border px-4 py-3 text-left transition-colors duration-[var(--duration-base)]",
+                  "h-full w-full cursor-pointer rounded-xl border px-4 py-3 text-left transition-colors duration-[var(--duration-base)]",
                   on
                     ? "border-border bg-muted"
                     : "hover:bg-muted/50 border-transparent"
@@ -165,8 +191,8 @@ function RuleExplorer({ items }: { items: ExplorerItem[] }) {
           );
         })}
       </ul>
-      <div className="lg:sticky lg:top-24 lg:self-start">
-        <div className="border-border bg-card rounded-xl border p-4 sm:p-5">
+      <div>
+        <div className="border-border bg-card rounded-xl border p-2 sm:p-3">
           <Reveal key={current.rule.id} tier="light" immediate>
             {current.demo}
           </Reveal>
@@ -198,7 +224,7 @@ function Step({
             </span>
             <h3
               id={`step-${n}`}
-              className="font-display text-xl leading-tight font-bold tracking-tight sm:text-2xl"
+              className="font-display text-lg leading-tight font-bold tracking-tight sm:text-xl"
             >
               {pick(title, lang)}
             </h3>
@@ -221,21 +247,17 @@ function BackDemoCard() {
   );
 }
 
-/** Text on one side, a screen on the other, swapping sides down the page. */
-function Split({
-  rule,
-  reverse,
-  screen,
-}: {
-  rule: C.Rule;
-  reverse?: boolean;
-  screen: ReactNode;
-}) {
+/**
+ * The point first, then its screen at the full width of the page: the
+ * recordings are of a whole desktop app, and anything narrower makes the
+ * interface too small to read.
+ */
+function Split({ rule, screen }: { rule: C.Rule; screen: ReactNode }) {
   const { lang } = useLang();
   return (
     <Reveal>
-      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.9fr)] md:gap-10">
-        <div className={cn("flex flex-col gap-2", reverse && "md:order-2")}>
+      <div className="flex flex-col gap-5">
+        <div className="flex max-w-prose flex-col gap-2">
           <h4 className="text-base font-semibold">{pick(rule.title, lang)}</h4>
           <p className="text-foreground text-base leading-relaxed">
             {pick(rule.body, lang)}
@@ -246,7 +268,7 @@ function Split({
             </p>
           )}
         </div>
-        <div className={cn("min-w-0", reverse && "md:order-1")}>{screen}</div>
+        <div className="min-w-0">{screen}</div>
       </div>
     </Reveal>
   );
@@ -297,11 +319,10 @@ function BeforeAfter({ rule }: { rule: C.Rule }) {
 
 export function TpcPage({
   item,
-  flow,
 }: {
   item: WorkItem;
-  /** The user flow diagram, rendered to SVG by the server page. */
-  flow: Bilingual<DiagramSvgs>;
+  /** The static user flow diagram. The page now shows the loop as FlowWalkthrough. */
+  flow?: Bilingual<DiagramSvgs>;
 }) {
   const { lang } = useLang();
   return (
@@ -347,7 +368,10 @@ export function TpcPage({
       </header>
 
       {/* Problem */}
-      <section className="flex flex-col gap-10" aria-labelledby="problem">
+      <section
+        className="border-border flex flex-col gap-10 border-t pt-10"
+        aria-labelledby="problem"
+      >
         <Reveal>
           <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
             <SectionHeading id="problem">
@@ -383,7 +407,10 @@ export function TpcPage({
       </section>
 
       {/* Before: v1.0 */}
-      <section className="flex flex-col gap-10" aria-labelledby="before">
+      <section
+        className="border-border flex flex-col gap-10 border-t pt-10"
+        aria-labelledby="before"
+      >
         <Reveal>
           <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
             <SectionHeading id="before">
@@ -412,7 +439,10 @@ export function TpcPage({
       </section>
 
       {/* What we did */}
-      <section className="flex flex-col gap-16" aria-labelledby="did">
+      <section
+        className="border-border flex flex-col gap-16 border-t pt-10"
+        aria-labelledby="did"
+      >
         <Reveal>
           <SectionHeading id="did">{pick(C.DID_HEADING, lang)}</SectionHeading>
         </Reveal>
@@ -424,7 +454,6 @@ export function TpcPage({
               screen={<ClipSlot id="overview" />}
             />
             <Split
-              reverse
               rule={C.UX_RULES.assignment}
               screen={<ClipSlot id="assignment" />}
             />
@@ -434,7 +463,7 @@ export function TpcPage({
         <Step n={2} title={C.STEP_FLOWS.title} body={C.STEP_FLOWS.body}>
           <Reveal>
             <div className="flex flex-col gap-3">
-              <Diagram svgs={pick(flow, lang)} />
+              <FlowWalkthrough />
               <p className="text-muted-foreground text-sm">
                 {pick(C.FLOW_CAPTION, lang)}
               </p>
@@ -473,7 +502,10 @@ export function TpcPage({
       </section>
 
       {/* Cleanup */}
-      <section className="flex flex-col gap-10" aria-labelledby="cleanup">
+      <section
+        className="border-border flex flex-col gap-10 border-t pt-10"
+        aria-labelledby="cleanup"
+      >
         <Reveal>
           <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
             <SectionHeading id="cleanup">
@@ -503,7 +535,10 @@ export function TpcPage({
       </section>
 
       {/* Design system */}
-      <section className="flex flex-col gap-8" aria-labelledby="ds">
+      <section
+        className="border-border flex flex-col gap-8 border-t pt-10"
+        aria-labelledby="ds"
+      >
         <Reveal>
           <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
             <SectionHeading id="ds">{pick(C.DS_HEADING, lang)}</SectionHeading>
@@ -523,7 +558,10 @@ export function TpcPage({
       </section>
 
       {/* Test */}
-      <section className="flex flex-col gap-8" aria-labelledby="test">
+      <section
+        className="border-border flex flex-col gap-8 border-t pt-10"
+        aria-labelledby="test"
+      >
         <Reveal>
           <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
             <SectionHeading id="test">

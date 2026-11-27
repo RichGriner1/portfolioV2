@@ -2378,6 +2378,43 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
           },
           {
+            label: { en: "Changed section", es: "Sección que cambia" },
+            heading: {
+              en: "Light only where the plan changed.",
+              // TODO(afi-redaccion)
+              es: "Luz solo donde cambió el plan.",
+            },
+            body: [
+              {
+                en: "A section that changed gets the same light as applying: it rises once and leaves by the edges, and the figure counts to its new value. Sections that didn't change stay still.",
+                // TODO(afi-redaccion)
+                es: "Una sección que cambió recibe la misma luz que al aplicar: sube de un tirón y sale por los bordes, y la cifra cuenta hasta su nuevo valor. Las secciones que no cambiaron se quedan quietas.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "A plan section with its chart lighting up once",
+                  es: "Una sección del plan con su gráfico iluminándose una vez",
+                },
+                play: "lab",
+                aspect: 1.7,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-hue-hint-section.html",
+                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    x: 50,
+                    y: 50,
+                    w: 100,
+                    flat: true,
+                    viewport: { w: 960, h: 620 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
             label: { en: "Icon in the tab", es: "Icono en la pestaña" },
             heading: {
               en: "The icon tells the story.",
@@ -2420,6 +2457,43 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                     x: 50,
                     y: 66,
                     w: 88,
+                    flat: true,
+                    viewport: { w: 960, h: 620 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Apply", es: "Aplicar" },
+            heading: {
+              en: "The light rises and leaves.",
+              // TODO(afi-redaccion)
+              es: "La luz sube y se va.",
+            },
+            body: [
+              {
+                en: "Applying sends one band of light through the plan card: navy, Afi blue and a touch of violet, no pause. We took the timing from a reference we broke down frame by frame.",
+                // TODO(afi-redaccion)
+                es: "Al aplicar, una banda de luz recorre la tarjeta del plan: azul profundo, azul Afi y un toque de violeta, sin pausa. Sacamos el tiempo de una referencia que desmontamos fotograma a fotograma.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "A band of light rising through a plan card",
+                  es: "Una banda de luz recorriendo una tarjeta del plan",
+                },
+                play: "lab",
+                aspect: 1.7,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-hue-hint-apply2.html",
+                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    x: 50,
+                    y: 50,
+                    w: 100,
                     flat: true,
                     viewport: { w: 960, h: 620 },
                   },
@@ -2473,9 +2547,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             body: [
               {
-                en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light through the plan, timed from a reference we broke down frame by frame (0.35 s up, 0.15 s hold, 0.45 s out).",
+                en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light through the plan, the one moment the whole plan lights up.",
                 // TODO(afi-redaccion)
-                es: "«Aplicar al plan» es el único gran momento: un anillo de luz que recorre el plan, cronometrado a partir de una referencia que desmontamos fotograma a fotograma (0,35 s de subida, 0,15 s de pausa, 0,45 s de salida).",
+                es: "«Aplicar al plan» es el único gran momento: un anillo de luz que recorre el plan, el único momento en que se ilumina todo el plan.",
               },
             ],
             media: [

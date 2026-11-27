@@ -222,10 +222,17 @@ function DemoActions({
     <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
       <a
         href={href}
+        target="_blank"
+        rel="noopener"
         className="bg-foreground text-background focus-visible:ring-ring inline-flex items-center gap-2 rounded-[9px] px-[22px] py-3 text-[13px] font-medium transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]"
       >
         {lang === "es" ? "Probar la demo" : "Enjoy the demo"}
-        <span aria-hidden="true">→</span>
+        <span aria-hidden="true">↗</span>
+        <span className="sr-only">
+          {lang === "es"
+            ? "(se abre en una pestaña nueva)"
+            : "(opens in a new tab)"}
+        </span>
       </a>
       {story && (
         <a

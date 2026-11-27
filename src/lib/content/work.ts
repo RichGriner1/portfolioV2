@@ -223,10 +223,9 @@ export const WORK: WorkItem[] = [
     type: "brand-ds",
     kind: "case-study",
     href: "/work/sarevi",
-    // The landing's house hover, square: the vivienda then the edificio model colouring
-    // in as their trees grow, rendered from the PropertyModel images and CSS. Light
-    // theme on white; dark theme on Afi azul profundo. No text, so en and es are
-    // identical per theme.
+    // The Resumen hero, square: the card blurs in, the yearly saving counts up and
+    // the new grade lands last (recorded from the v1.0 board at 2x). Light theme on a
+    // pale stage, dark on near-black. No text change by language, so en and es match.
     video: "/work/sarevi/card",
     ongoing: true,
     // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board

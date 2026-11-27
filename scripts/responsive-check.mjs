@@ -276,6 +276,10 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
      * outside it and are still fully checked.
      */
     if (el.closest("[data-canvas]")) continue;
+    // A case-study composition is exempt for the same reason: each live item is a
+    // full-size prototype page in an iframe, scaled and cropped to one component on
+    // purpose, so its unscaled box always "overflows" the frame it sits in.
+    if (el.closest("[data-composition]")) continue;
 
     const clips = ["hidden", "clip"].includes(cs.overflowX);
     if (clips && !scrollable(cs) && el.scrollWidth > el.clientWidth + 1) {

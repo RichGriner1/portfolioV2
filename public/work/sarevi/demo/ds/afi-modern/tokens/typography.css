@@ -1,0 +1,28 @@
+/* typography.css — Primitive Type + Semantic Typography + @font-face
+   Source: Coherence/libs/tokens/foundations-modern/ (generated from Figma AFI-FOUNDATIONS-MODERN).
+   Values copied from Coherence, EXCEPT the typeface: the Afi product font is Libre Franklin (self-hosted 'Libre Franklin Afi', @font-face in skin-modern.css). */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap');
+:root{
+  --font-family-primary:'Libre Franklin Afi', 'Libre Franklin', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family-mono:var(--font-family-primary);
+  --font-weight-regular:400;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;
+  --font-letter-spacing-tight:-0.01em;--font-letter-spacing-normal:0;--font-letter-spacing-wide:0.02em;
+
+  --type-button-size:var(--dimension-3-25);--type-button-weight:var(--font-weight-medium);--type-button-line-height:var(--dimension-4-5);
+  --type-label-size:var(--dimension-3);--type-label-weight:var(--font-weight-medium);--type-label-line-height:var(--dimension-4);
+  --type-caption-size:var(--dimension-3);--type-caption-line-height:var(--dimension-4);--type-caption-weight:var(--font-weight-medium);
+  --type-section-label-weight:var(--font-weight-semibold);
+  --type-display-size:var(--dimension-10);--type-display-weight:var(--font-weight-bold);--type-display-line-height:var(--dimension-12);
+  --type-display-metric-size:var(--dimension-8);--type-display-metric-weight:var(--font-weight-semibold);--type-display-metric-line-height:var(--dimension-10);
+  --type-h1-size:var(--dimension-8);--type-h1-weight:var(--font-weight-semibold);--type-h1-line-height:var(--dimension-10);
+  --type-h2-size:var(--dimension-6);--type-h2-weight:var(--font-weight-semibold);--type-h2-line-height:var(--dimension-8);
+  --type-h3-size:var(--dimension-5);--type-h3-weight:var(--font-weight-semibold);--type-h3-line-height:var(--dimension-7);
+  --type-h4-size:var(--dimension-4-5);--type-h4-weight:var(--font-weight-semibold);--type-h4-line-height:var(--dimension-6);
+  --type-body-large-size:var(--dimension-4);--type-body-large-weight:var(--font-weight-regular);--type-body-large-line-height:var(--dimension-6);
+  --type-body-default-size:var(--dimension-3-5);--type-body-default-weight:var(--font-weight-regular);--type-body-default-line-height:var(--dimension-4-5);
+  --type-body-small-size:var(--dimension-3-25);--type-body-small-weight:var(--font-weight-regular);--type-body-small-line-height:var(--dimension-4-5);
+  --type-table-size:var(--dimension-3-25);--type-table-weight:var(--font-weight-regular);--type-table-line-height:var(--dimension-4-5);--type-table-header-weight:var(--font-weight-medium);
+  --type-code-size:var(--dimension-3-25);--type-code-weight:var(--font-weight-regular);--type-code-line-height:var(--dimension-4-5);
+  --type-metric-size:var(--dimension-12);--type-metric-weight:var(--font-weight-semibold);--type-metric-line-height:var(--dimension-14);
+  --type-help-size:var(--dimension-2-5);--type-help-weight:var(--font-weight-regular);--type-help-line-height:var(--dimension-3);
+}

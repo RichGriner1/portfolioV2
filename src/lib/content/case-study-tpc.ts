@@ -80,36 +80,52 @@ export const TPC_STUDY: CaseStudy = {
   layout: "beats",
   demo: { href: `${DEMO}/V164-Prototipo.dc.html` },
   closing: {
-    en: "That's the whole tool: one way of asking, one place to track it.",
+    en: "Try the loop yourself: send a questionnaire, answer it as the supplier, then review it.",
     // TODO(afi-redaccion)
-    es: "Esa es toda la herramienta: una forma de preguntar y un sitio para seguirlo.",
+    es: "Prueba el circuito: envía un cuestionario, respóndelo como proveedor y revísalo.",
   },
   story: [
     {
       kicker: { en: "Context", es: "Contexto" },
       heading: {
-        en: "A developer built it with AI, from our system.",
+        en: "A developer built v1.0 with AI, from our system.",
         // TODO(afi-redaccion)
-        es: "Un desarrollador lo construyó con IA, desde nuestro sistema.",
+        es: "Un desarrollador hizo la v1.0 con IA, a partir de nuestro sistema.",
       },
       navLabel: { en: "Context", es: "Contexto" },
       body: [
-        C.BEFORE_LEAD,
-        ...C.BEFORE_ISSUES.slice(0, 1).map((i) => both(i.title, i.text)),
+        {
+          en: "Three people use it: an Afi admin who sends questionnaires, a supplier contact who answers them, and an Afi reviewer who decides. Before, those questionnaires traveled by email and spreadsheets.",
+          // TODO(afi-redaccion)
+          es: "La usan tres personas: un administrador de Afi que envía cuestionarios, un contacto del proveedor que los responde y un revisor de Afi que decide. Antes, esos cuestionarios iban y venían por correo y hojas de cálculo.",
+        },
+        {
+          en: "v1.0 used our components, so it looked close. It still read as AI-made, not like our other products.",
+          // TODO(afi-redaccion)
+          es: "La v1.0 usaba nuestros componentes, así que se parecía. Aun así se notaba hecha por una IA, no como nuestros otros productos.",
+        },
       ],
       media: [V10],
     },
     {
       kicker: { en: "The problem", es: "El problema" },
       heading: {
-        en: "Three things slowed every supplier check.",
+        en: "The template editor alone showed five problems.",
         // TODO(afi-redaccion)
-        es: "Tres cosas frenaban cada revisión de un proveedor.",
+        es: "Solo el editor de plantillas tenía cinco problemas.",
       },
       navLabel: { en: "The problem", es: "El problema" },
       body: [
-        C.PROBLEM_LEAD,
-        both(C.BEFORE_ISSUES[1].title, C.BEFORE_ISSUES[1].text),
+        {
+          en: "v1.0 stacked the template list, the question editor and the activation rules on one page, and editing happened in five drawers.",
+          // TODO(afi-redaccion)
+          es: "La v1.0 apilaba la lista de plantillas, el editor de preguntas y las reglas de activación en una página, y la edición se hacía en cinco cajones.",
+        },
+        {
+          en: "Across the rest of the tool, actions were missing, some parts were broken and the flows weren't defined.",
+          // TODO(afi-redaccion)
+          es: "En el resto de la herramienta faltaban acciones, había partes rotas y los flujos no estaban definidos.",
+        },
       ],
       media: [
         {
@@ -128,17 +144,21 @@ export const TPC_STUDY: CaseStudy = {
     {
       kicker: { en: "The question", es: "La pregunta" },
       heading: {
-        en: "Can someone busy build something usable from it?",
+        en: "What if nobody had to ask a designer first?",
         // TODO(afi-redaccion)
-        es: "¿Puede alguien con prisa construir algo usable con él?",
+        es: "¿Y si nadie tuviera que preguntar antes a un diseñador?",
       },
       navLabel: { en: "The question", es: "La pregunta" },
       body: [
-        { en: C.INTRO.en[2] ?? "", es: C.INTRO.es[2] ?? "" },
         {
-          en: "A usability audit of the prototype as it was handed over put numbers on it.",
+          en: "The developer is busy, and every question he sends me is a wait. If the rules live in the system and in a requirements sheet, his AI can follow them without asking.",
           // TODO(afi-redaccion)
-          es: "Una auditoría de usabilidad del prototipo tal como se entregó le puso cifras.",
+          es: "El desarrollador va con prisa, y cada pregunta que me manda es una espera. Si las reglas están en el sistema y en una hoja de requisitos, su IA puede seguirlas sin preguntar.",
+        },
+        {
+          en: "So v1.1 had two jobs: fix the tool, and find the rules the system was missing.",
+          // TODO(afi-redaccion)
+          es: "Así que la v1.1 tenía dos tareas: arreglar la herramienta y encontrar las reglas que le faltaban al sistema.",
         },
       ],
       media: [
@@ -164,13 +184,32 @@ export const TPC_STUDY: CaseStudy = {
     },
     {
       kicker: { en: "Chapter 1 · Flows", es: "Capítulo 1 · Flujos" },
-      heading: C.STEP_FLOWS.title,
+      heading: {
+        en: "Every button in v1.1 opens a defined flow.",
+        // TODO(afi-redaccion)
+        es: "Cada botón de la v1.1 abre un flujo definido.",
+      },
       navLabel: { en: "Flows", es: "Flujos" },
-      body: [C.STEP_FLOWS.body],
+      body: [
+        {
+          en: "I defined one flow per row: v1.0's 14 screens became 7 areas and 48 flows.",
+          // TODO(afi-redaccion)
+          es: "Definí un flujo por fila: las 14 pantallas de la v1.0 se convirtieron en 7 áreas y 48 flujos.",
+        },
+        {
+          en: "Main cases came first, then edge cases. Two of the first flows turned out to be states of one page, so flows and states got separate rows.",
+          // TODO(afi-redaccion)
+          es: "Primero los casos principales, después los casos límite. Dos de los primeros flujos resultaron ser estados de una misma página, así que flujos y estados pasaron a filas distintas.",
+        },
+      ],
       switch: [
         {
           label: { en: "The loop", es: "El ciclo" },
-          heading: C.FLOW_CAPTION,
+          heading: {
+            en: "One loop runs from template to approval.",
+            // TODO(afi-redaccion)
+            es: "Un solo circuito va de la plantilla a la aprobación.",
+          },
           body: [
             {
               en: "Afi publishes a template and assigns it; the supplier answers; Afi reviews, returns or approves. Step through it, or let it play.",
@@ -181,8 +220,16 @@ export const TPC_STUDY: CaseStudy = {
           media: [{ kind: "artboard", name: "tpc-flow" }],
         },
         {
-          label: C.UX_RULES.assignment.title,
-          heading: C.UX_RULES.assignment.title,
+          label: {
+            en: "New assignment",
+            // TODO(afi-redaccion)
+            es: "Nueva asignación",
+          },
+          heading: {
+            en: "The most used action starts on the overview.",
+            // TODO(afi-redaccion)
+            es: "La acción más usada empieza en el panel.",
+          },
           body: ruleBody(C.UX_RULES.assignment),
           media: [
             {
@@ -205,8 +252,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: backRule.title,
-          heading: backRule.title,
+          label: {
+            en: "Back",
+            // TODO(afi-redaccion)
+            es: "Volver",
+          },
+          heading: {
+            en: "Back returns to the screen you came from.",
+            // TODO(afi-redaccion)
+            es: "Volver regresa a la pantalla de la que vienes.",
+          },
           body: ruleBody(backRule),
           media: [
             {
@@ -245,8 +300,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: previewRule.title,
-          heading: previewRule.title,
+          label: {
+            en: "Preview",
+            // TODO(afi-redaccion)
+            es: "Vista previa",
+          },
+          heading: {
+            en: "Preview shows the supplier's real portal.",
+            // TODO(afi-redaccion)
+            es: "La vista previa muestra el portal real del proveedor.",
+          },
           body: ruleBody(previewRule),
           media: [
             {
@@ -276,13 +339,36 @@ export const TPC_STUDY: CaseStudy = {
         en: "Chapter 2 · Behaviour",
         es: "Capítulo 2 · Comportamiento",
       },
-      heading: C.STEP_BEHAVIOR.title,
+      heading: {
+        en: "Each pattern got one rule the AI can follow.",
+        // TODO(afi-redaccion)
+        es: "Cada patrón tiene una regla que la IA puede seguir.",
+      },
       navLabel: { en: "Behaviour", es: "Comportamiento" },
-      body: [C.STEP_BEHAVIOR.body],
+      body: [
+        {
+          en: "In v1.0, every row repeated its own buttons, and a disabled button gave no reason.",
+          // TODO(afi-redaccion)
+          es: "En la v1.0, cada fila repetía sus propios botones, y un botón desactivado no daba motivo.",
+        },
+        {
+          en: "I set one rule per pattern, so the developer's AI applies it the same way on every screen.",
+          // TODO(afi-redaccion)
+          es: "Fijé una regla por patrón, para que la IA del desarrollador la aplique igual en todas las pantallas.",
+        },
+      ],
       switch: [
         {
-          label: rowsRule.title,
-          heading: rowsRule.title,
+          label: {
+            en: "Row actions",
+            // TODO(afi-redaccion)
+            es: "Acciones de fila",
+          },
+          heading: {
+            en: "Row actions wait until you point at the row.",
+            // TODO(afi-redaccion)
+            es: "Las acciones de fila solo aparecen al pasar por ella.",
+          },
           body: ruleBody(rowsRule),
           media: [
             {
@@ -305,8 +391,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: termsRule.title,
-          heading: termsRule.title,
+          label: {
+            en: "Definitions",
+            // TODO(afi-redaccion)
+            es: "Definiciones",
+          },
+          heading: {
+            en: "«Compliance» and «criticality» carry their own definition.",
+            // TODO(afi-redaccion)
+            es: "«Conformidad» y «criticidad» llevan su propia definición.",
+          },
           body: ruleBody(termsRule),
           media: [
             {
@@ -330,8 +424,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: disabledRule.title,
-          heading: disabledRule.title,
+          label: {
+            en: "Disabled buttons",
+            // TODO(afi-redaccion)
+            es: "Botones desactivados",
+          },
+          heading: {
+            en: "A disabled button says what's missing.",
+            // TODO(afi-redaccion)
+            es: "Un botón desactivado dice qué falta.",
+          },
           body: ruleBody(disabledRule),
           media: [
             {
@@ -364,8 +466,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: destructiveRule.title,
-          heading: destructiveRule.title,
+          label: {
+            en: "Deleting",
+            // TODO(afi-redaccion)
+            es: "Borrar",
+          },
+          heading: {
+            en: "Anything that deletes is red and asks first.",
+            // TODO(afi-redaccion)
+            es: "Todo lo que borra va en rojo y pide confirmación.",
+          },
           body: ruleBody(destructiveRule),
           media: [
             {
@@ -388,8 +498,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: C.EMPTY_RULE.title,
-          heading: C.EMPTY_RULE.title,
+          label: {
+            en: "Empty states",
+            // TODO(afi-redaccion)
+            es: "Estados vacíos",
+          },
+          heading: {
+            en: "An empty screen always says what to do next.",
+            // TODO(afi-redaccion)
+            es: "Una pantalla vacía siempre dice qué hacer después.",
+          },
           body: ruleBody(C.EMPTY_RULE),
           media: [
             {
@@ -415,13 +533,25 @@ export const TPC_STUDY: CaseStudy = {
     },
     {
       kicker: { en: "Chapter 3 · The system", es: "Capítulo 3 · El sistema" },
-      heading: C.CLEANUP_HEADING,
+      heading: {
+        en: "Nearly half the components hand-built their own parts.",
+        // TODO(afi-redaccion)
+        es: "Casi la mitad de los componentes se hacían sus piezas a mano.",
+      },
       navLabel: { en: "The system", es: "El sistema" },
       body: [C.CLEANUP_PARAS[0]],
       switch: [
         {
-          label: C.CLEANUP_HEADING,
-          heading: C.CLEANUP_HEADING,
+          label: {
+            en: "The check",
+            // TODO(afi-redaccion)
+            es: "La comprobación",
+          },
+          heading: {
+            en: "A check in code now passes or fails each component.",
+            // TODO(afi-redaccion)
+            es: "Ahora una comprobación en código aprueba o suspende cada componente.",
+          },
           body: C.CLEANUP_PARAS.slice(1),
           media: [
             {
@@ -432,7 +562,8 @@ export const TPC_STUDY: CaseStudy = {
                   label: s.label,
                 })),
                 {
-                  value: "96",
+                  // The latest atomic-check run (2026-11-20, v107): 143 components, 0 failing.
+                  value: "143",
                   label: {
                     en: "components checked, pass or fail, after every change",
                     // TODO(afi-redaccion)
@@ -444,8 +575,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: C.DS_HEADING,
-          heading: C.DS_HEADING,
+          label: {
+            en: "Shadows",
+            // TODO(afi-redaccion)
+            es: "Sombras",
+          },
+          heading: {
+            en: "This tool exposed gaps SAREVI never hit.",
+            // TODO(afi-redaccion)
+            es: "Esta herramienta destapó huecos que SAREVI nunca tocó.",
+          },
           body: C.DS_PARAS,
           media: [
             {
@@ -468,8 +607,16 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
         {
-          label: { en: "The empty-state set", es: "Los estados vacíos" },
-          heading: C.EMPTY_GALLERY_HEADING,
+          label: {
+            en: "3D objects",
+            // TODO(afi-redaccion)
+            es: "Objetos 3D",
+          },
+          heading: {
+            en: "Ten 3D objects in Afi blue fill the empty screens.",
+            // TODO(afi-redaccion)
+            es: "Diez objetos 3D en azul Afi llenan las pantallas vacías.",
+          },
           body: [
             {
               en: "Ten 3D objects in Blender: one light, matte materials, the Afi blue and the Afi symbol, so the small moments internal tools skip get a touch of brand.",
@@ -497,7 +644,11 @@ export const TPC_STUDY: CaseStudy = {
         },
         {
           label: { en: "Requirements sheet", es: "Hoja de requisitos" },
-          heading: C.STEP_REQS.title,
+          heading: {
+            en: "The requirements sheet is written for the developer's AI.",
+            // TODO(afi-redaccion)
+            es: "La hoja de requisitos está escrita para la IA del desarrollador.",
+          },
           body: [C.STEP_REQS.body],
           media: [
             {
@@ -525,7 +676,11 @@ export const TPC_STUDY: CaseStudy = {
     },
     {
       kicker: { en: "Feedback", es: "Revisión" },
-      heading: C.DIAGNOSTIC.heading,
+      heading: {
+        en: "An audit counted 15 controls that did nothing.",
+        // TODO(afi-redaccion)
+        es: "Una auditoría contó 15 controles que no hacían nada.",
+      },
       navLabel: { en: "The audit", es: "La auditoría" },
       body: [
         {
@@ -543,9 +698,24 @@ export const TPC_STUDY: CaseStudy = {
     },
     {
       kicker: { en: "Result", es: "Resultado" },
-      heading: C.TEST_HEADING,
+      heading: {
+        en: "The rules held, but the theme didn't load.",
+        // TODO(afi-redaccion)
+        es: "Las reglas se cumplieron, pero el tema no cargó.",
+      },
       navLabel: { en: "Result", es: "Resultado" },
-      body: [...C.TEST_PARAS, C.TEST_MISS],
+      body: [
+        {
+          en: "On 19 November, one-line prompts built two new products from the system. The component and copy rules held. The theme didn't load, because the README left out its folder.",
+          // TODO(afi-redaccion)
+          es: "El 19 de noviembre, instrucciones de una sola línea generaron dos productos nuevos con el sistema. Las reglas de componentes y de texto se cumplieron. El tema no cargó, porque el README no mencionaba su carpeta.",
+        },
+        {
+          en: "A second run laid out the supplier questionnaire three ways, as an experiment. There was no user test before the handoff. Next is the README, so the next product loads the theme without me.",
+          // TODO(afi-redaccion)
+          es: "Una segunda prueba distribuyó el cuestionario del proveedor de tres formas, como experimento. No hubo prueba con usuarios antes de la entrega. Lo siguiente es el README, para que el próximo producto cargue el tema sin mí.",
+        },
+      ],
       media: [
         {
           kind: "stats",

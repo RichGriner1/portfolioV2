@@ -2794,7 +2794,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                     rect: { x: 60, y: 54, w: 600, h: 640 },
                     viewport: { w: 720, h: 1900 },
                     x: 75.5,
-                    y: 50,
+                    y: 46.2,
                     w: 43.5,
                     label: {
                       en: "After the review",

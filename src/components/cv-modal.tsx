@@ -10,8 +10,9 @@ const EASE = [0.2, 0.8, 0.2, 1] as const;
 
 /**
  * `lead` says what the company is; `bullets` carry the evidence. The modal
- * mirrors the 2026-09-16 CV: five bullets on Afi, four on Audemic, fewer on
- * the rest. `lead` is optional, so the shorter roles go straight to bullets.
+ * started from the 2026-09-16 CV: six bullets on Afi (updated 2026-11-27),
+ * four on Audemic, fewer on the rest. `lead` is optional, so the shorter
+ * roles go straight to bullets.
  */
 type CvExperience = {
   role: Bilingual<string>;
@@ -61,6 +62,11 @@ const CV: {
    * which is gitignored because the CV carries a phone number. The phone number
    * stays off this page for the same reason.
    *
+   * Exception, 2026-11-27: the Afi bullets are newer than the PDF. Added the
+   * Afi apps design system, the seven client design systems and the
+   * accessibility audit; dropped the PrimeNG audit of Wealth Planner to keep
+   * six. Blender joined Tools. Update the PDF to match before sending it.
+   *
    * Home Genius Exteriors is off, as it is on the CV. Story Architect stays off:
    * cited as delivered work, but the site never shipped. Don't re-add it without
    * a live link.
@@ -80,15 +86,17 @@ const CV: {
       bullets: {
         en: [
           "Led the 2026 visual redesign of Wealth Planner, defining the interface, states, responsive behaviour and interaction patterns, and coordinating a second freelance designer.",
-          "Designed financial simulators, many of them white-label, for institutions such as Santander, Unicaja and Bankinter, adapting each one to business, brand and user requirements and working with development through to implementation.",
-          "Audited Wealth Planner's screens and components with engineering ahead of its migration to PrimeNG, identifying inconsistencies and defining reusable patterns.",
+          "Created the design system behind Afi's simulators and internal tools, starting from the SAREVI simulator redesign, and wrote the rules and automated checks that AI tools follow when they build with it. Hand-built parts went from 107 to 0.",
+          "Built design systems for seven clients in four weeks, including Santander, Unicaja, Bankinter and Laboral Kutxa, and adapted Afi's white-label simulators and reports to each brand. Turned the rebrand into a repeatable AI workflow: a new bank's 76-screen simulator had its first draft 18 minutes after the brand file arrived.",
+          "Audited a regional government's investment portal for accessibility and fixed 21 issues in its design system, raising keyboard focus contrast from 1.37:1 to 11.67:1.",
           "Created a token architecture and a Figma component library to keep products consistent and adapt the interface to different brands.",
           "Built an interactive component playground in Claude Code, used by five engineering teams; while testing it with them, spotted usability issues and added an inspector that links visual values to their tokens.",
         ],
         es: [
           "Lideré el rediseño visual 2026 de Wealth Planner, definiendo la interfaz, los estados, el comportamiento responsive y los patrones de interacción, y coordinando a una segunda diseñadora freelance.",
-          "Diseñé simuladores financieros, muchos de ellos white-label, para entidades como Santander, Unicaja y Bankinter, adaptando cada solución a los requisitos de negocio, marca y usuario y trabajando con desarrollo hasta su implementación.",
-          "Audité las pantallas y componentes de Wealth Planner junto con ingeniería antes de su migración a PrimeNG, detectando inconsistencias y definiendo patrones reutilizables.",
+          "Creé el sistema de diseño de los simuladores y herramientas internas de Afi a partir del rediseño del simulador SAREVI, y escribí las reglas y comprobaciones automáticas que siguen las herramientas de IA al construir con él. Las piezas hechas a mano pasaron de 107 a 0.",
+          "Construí sistemas de diseño para siete clientes en cuatro semanas, entre ellos Santander, Unicaja, Bankinter y Laboral Kutxa, y adapté a cada marca los simuladores e informes white-label de Afi. Convertí el cambio de marca en un flujo de trabajo repetible con IA: el simulador de 76 pantallas de un nuevo banco tuvo su primer borrador 18 minutos después de recibir el archivo de marca.",
+          "Audité la accesibilidad del portal de inversiones de un gobierno autonómico y corregí 21 incidencias en su sistema de diseño; el contraste del foco de teclado pasó de 1,37:1 a 11,67:1.",
           "Creé una arquitectura de tokens y una librería de componentes en Figma para mantener la consistencia entre productos y adaptar la interfaz a distintas marcas.",
           "Construí en Claude Code un playground interactivo de componentes utilizado por cinco equipos de ingeniería; al probarlo con ellos, detecté problemas de uso y añadí un inspector que relaciona los valores visuales con sus tokens.",
         ],
@@ -172,8 +180,8 @@ const CV: {
     {
       label: { en: "Tools", es: "Herramientas" },
       text: {
-        en: "Figma · Claude Design · Claude Code · Codex · prototyping in React, Next.js and Angular",
-        es: "Figma · Claude Design · Claude Code · Codex · prototipado en React, Next.js y Angular",
+        en: "Figma · Claude Design · Claude Code · Codex · Blender · prototyping in React, Next.js and Angular",
+        es: "Figma · Claude Design · Claude Code · Codex · Blender · prototipado en React, Next.js y Angular",
       },
     },
     {

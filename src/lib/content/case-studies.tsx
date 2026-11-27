@@ -1888,93 +1888,25 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Architecture", es: "Arquitectura" },
         body: [
           {
-            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Complexity can't be removed, only moved, so the product carries it, not the adviser.",
-            es: "Las 27 piezas que el producto en vivo enseñaba fuera de la página tuvieron un solo sitio cada una, y el menú pasó de 13 páginas a 7. La complejidad no se elimina, solo se mueve, así que la carga el producto, no el gestor.",
+            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Complexity can't be removed, only moved, so the product carries it, not the adviser. Left to right: the menu says where you are, the form is the page you edit, and the plan answers it.",
+            es: "Cada una de las 27 piezas que el producto en vivo mostraba fuera de la página pasó a tener un solo sitio, y el menú bajó de 13 páginas a 7. La complejidad no se elimina, solo se traslada, así que la asume el producto y no el gestor. De izquierda a derecha: el menú dice dónde estás, el formulario es la página que editas y el plan le responde.",
           },
         ],
         switch: [
           {
-            label: { en: "Menu, form, plan", es: "Menú, formulario, plan" },
+            label: { en: "Always in view", es: "Siempre a la vista" },
             heading: {
-              en: "Left to right.",
-              es: "De izquierda a derecha.",
+              en: "The plan stays in view, in three tabs.",
+              es: "El plan queda a la vista, en tres pestañas.",
             },
             body: [
               {
-                en: "The menu says where you are, the form is the page you edit, and the plan answers it.",
-                es: "El menú dice dónde estás, el formulario es la página que editas y el plan le responde.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The workstation pulled apart into menu, form and plan",
-                  es: "La estación de trabajo separada en menú, formulario y plan",
-                },
-                items: [
-                  {
-                    src: "/work/wealth-planner/demo/wp-ingresos.html",
-                    rect: { x: 0, y: 48, w: 64, h: 852 },
-                    x: 9,
-                    y: 52,
-                    w: 4.2,
-                  },
-                  {
-                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
-                    rect: { x: 72, y: 64, w: 682, h: 824 },
-                    x: 37,
-                    y: 52,
-                    w: 41,
-                    fade: "bottom",
-                    radius: 10,
-                  },
-                  {
-                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
-                    rect: { x: 766, y: 64, w: 662, h: 824 },
-                    x: 79.5,
-                    y: 52,
-                    w: 39,
-                    fade: "bottom",
-                    radius: 18,
-                  },
-                ],
-                marks: [
-                  { x: 9, y: 8, n: 1 },
-                  { x: 37, y: 8, n: 2 },
-                  { x: 79.5, y: 8, n: 3 },
-                ],
-                legend: [
-                  {
-                    en: "Menu · where you are",
-                    es: "Menú · dónde estás",
-                  },
-                  {
-                    en: "Form · what you change",
-                    es: "Formulario · lo que cambias",
-                  },
-                  {
-                    en: "Plan · what it does",
-                    es: "Plan · lo que hace",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: { en: "Follows the page", es: "Sigue a la página" },
-            heading: {
-              en: "The plan opens on what the page affects.",
-              es: "El plan abre lo que la página afecta.",
-            },
-            body: [
-              {
-                en: "The live product's two pills were the same on every page. Now each page opens the plan tab it affects: Ingresos opens Liquidez.",
-                es: "Las dos píldoras del producto en vivo eran iguales en todas las páginas. Ahora cada página abre la pestaña del plan a la que afecta: Ingresos abre Liquidez.",
+                en: "In the live product the verdict was two pills, and the detail opened over the page. Now the plan sits beside the page and stays visible. As one long scroll it was too much to take in, so we split it into tabs: Patrimonio y legado, Liquidez and Rentabilidad.",
+                es: "En el producto en vivo, el veredicto eran dos píldoras y el detalle se abría encima de la página. Ahora el plan está al lado de la página y siempre a la vista. En un solo desplazamiento era demasiado, así que lo dividimos en pestañas: Patrimonio y legado, Liquidez y Rentabilidad.",
               },
               {
-                en: "A switch to choose the tab came first. It was one more thing to manage, so it went.",
-                es: "Primero hubo un interruptor para elegir la pestaña. Era una cosa más que gestionar, así que lo quitamos.",
+                en: "Each page opens the tab it affects: Ingresos opens Liquidez. A switch to choose the tab came first. It was one more thing to manage, so it went.",
+                es: "Cada página abre la pestaña a la que afecta: Ingresos abre Liquidez. Primero hubo un interruptor para elegir la pestaña. Era una cosa más que gestionar, así que lo quitamos.",
               },
             ],
             media: [

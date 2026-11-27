@@ -1159,37 +1159,40 @@ function SwitchBeat({
           {pick(para, lang)}
         </p>
       ))}
-      <div className="-mx-1 overflow-x-auto px-1 pb-1">
-        <div
-          role="tablist"
-          aria-label={pick(section.heading, lang)}
-          onKeyDown={onKeyDown}
-          className="border-border bg-muted/40 flex w-max gap-1 rounded-lg border p-1"
-        >
-          {items.map((it, j) => (
-            <button
-              key={j}
-              ref={(el) => {
-                refs.current[j] = el;
-              }}
-              type="button"
-              role="tab"
-              id={`${id}-t${j}`}
-              aria-selected={j === k}
-              tabIndex={j === k ? 0 : -1}
-              onClick={() => setK(j)}
-              className={`focus-visible:ring-ring relative isolate rounded-md px-3 py-1.5 text-[12px] font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none ${
-                j === k
-                  ? "text-background"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {j === k && <SegmentPill group={id} className="rounded-md" />}
-              {pick(it.label, lang)}
-            </button>
-          ))}
+      {/* One item needs no selector: a single tab is a control with nothing to switch. */}
+      {items.length > 1 && (
+        <div className="-mx-1 overflow-x-auto px-1 pb-1">
+          <div
+            role="tablist"
+            aria-label={pick(section.heading, lang)}
+            onKeyDown={onKeyDown}
+            className="border-border bg-muted/40 flex w-max gap-1 rounded-lg border p-1"
+          >
+            {items.map((it, j) => (
+              <button
+                key={j}
+                ref={(el) => {
+                  refs.current[j] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`${id}-t${j}`}
+                aria-selected={j === k}
+                tabIndex={j === k ? 0 : -1}
+                onClick={() => setK(j)}
+                className={`focus-visible:ring-ring relative isolate rounded-md px-3 py-1.5 text-[12px] font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+                  j === k
+                    ? "text-background"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {j === k && <SegmentPill group={id} className="rounded-md" />}
+                {pick(it.label, lang)}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
   return (
@@ -1416,10 +1419,16 @@ function Composition({
   );
   const runSetup = async (doc: Document) => {
     const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    await wait(1500);
+    // Each click goes as soon as its control exists, so setup takes as long as
+    // the board needs and no longer.
+    const has = (t: string) =>
+      [...doc.querySelectorAll("body *")].some(
+        (e) => e.children.length === 0 && e.textContent?.trim() === t
+      );
     for (const t of media.playSetup ?? []) {
+      for (let n = 0; n < 40 && !has(t); n++) await wait(100);
       clickIn(doc, t);
-      await wait(700);
+      await wait(250);
     }
   };
   const steps = Array.isArray(media.playClick)
@@ -1573,9 +1582,9 @@ function Composition({
                 left,
                 top,
                 width: iw,
-                // Hidden while its board gets ready, then fades in: never an empty
-                // white card.
-                opacity: veiled && it.src ? 0 : 1,
+                // While its board gets ready the piece shows as its own outline,
+                // gently pulsing, so the stage is never empty.
+                opacity: veiled && it.src && it.flat ? 0 : 1,
                 transition: "opacity 300ms",
               }}
             >
@@ -1590,7 +1599,7 @@ function Composition({
               <div
                 // Shows only `rect` of a live page on purpose: the responsive check skips it.
                 data-crop
-                className={`relative overflow-hidden ${it.flat ? "" : "bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(15,23,42,.12)]"}`}
+                className={`relative overflow-hidden ${it.flat ? "" : "bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(15,23,42,.12)]"} ${veiled && it.src && !it.flat ? "animate-pulse" : ""}`}
                 style={{
                   height: ih,
                   // The component's real radius, scaled; 10 px when it has none given.
@@ -1685,6 +1694,8 @@ function Composition({
                         // Same colour scheme as the board, or the browser paints an opaque
                         // white canvas behind it on the dark site.
                         colorScheme: "light",
+                        opacity: veiled ? 0 : 1,
+                        transition: "opacity 300ms",
                         width: it.viewport?.w ?? 1440,
                         height: it.viewport?.h ?? 900,
                         transform: `scale(${iw / rectOf(k)!.w}) translate(${-rectOf(k)!.x}px, ${-rectOf(k)!.y}px)`,

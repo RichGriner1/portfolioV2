@@ -151,9 +151,9 @@ export const TPC_STUDY: CaseStudy = {
       navLabel: { en: "The question", es: "La pregunta" },
       body: [
         {
-          en: "The developer is busy, and every question he sends me is a wait. If the rules live in the system and in a requirements sheet, his AI can follow them without asking.",
+          en: "The developer is busy, and every question he sends me means waiting. The rules had to live in the system and a requirements sheet, where his AI can follow them without asking.",
           // TODO(afi-redaccion)
-          es: "El desarrollador va con prisa, y cada pregunta que me manda es una espera. Si las reglas están en el sistema y en una hoja de requisitos, su IA puede seguirlas sin preguntar.",
+          es: "El desarrollador está ocupado y cada pregunta que me manda es una espera. Las reglas tenían que vivir en el sistema y en una hoja de requisitos, donde su IA puede seguirlas sin preguntar.",
         },
         {
           en: "So v1.1 had two jobs: fix the tool, and find the rules the system was missing.",
@@ -685,9 +685,9 @@ export const TPC_STUDY: CaseStudy = {
       navLabel: { en: "The audit", es: "La auditoría" },
       body: [
         {
-          en: "The audit read the prototype as it was handed over and found what looked fine: controls with nothing behind them, gaps in the flows, and accessibility fixes.",
+          en: "The audit checked the prototype as it was handed over and found problems that looked fine: controls with nothing behind them, gaps in the flows, accessibility fixes.",
           // TODO(afi-redaccion)
-          es: "La auditoría leyó el prototipo tal como se entregó y encontró lo que parecía estar bien: controles sin nada detrás, huecos en los flujos y arreglos de accesibilidad.",
+          es: "La auditoría revisó el prototipo tal como se entregó y encontró problemas que parecían estar bien: controles sin nada detrás, huecos en los flujos y arreglos de accesibilidad.",
         },
         {
           en: "Play it through: the problems pinned on v1.0, the audit's counts, then what changed in v1.1.",

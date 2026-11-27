@@ -1092,9 +1092,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "Los bancos ponen nuestros simuladores en sus webs como herramienta gratuita, y Afi vende el cálculo. El flujo de SAREVI venía de la versión que hicimos para un banco cliente, mejorada poco a poco durante año y medio.",
           },
           {
-            en: "It looked dated next to the banks' own products, one client stepped back and usage was below target. The brief was a redesign: same calculation, made modern and appealing.",
+            en: "Next to the banks' own products it looked dated. One client stepped back and usage was below target. So the brief was a redesign: same calculation, modern look.",
             // TODO(afi-redaccion)
-            es: "Se veía anticuado al lado de los productos de los propios bancos, un cliente se retiró y el uso estaba por debajo del objetivo. El encargo fue un rediseño: el mismo cálculo, más moderno y atractivo.",
+            es: "Al lado de los productos de los propios bancos se veía anticuado. Un cliente se retiró y el uso estaba por debajo del objetivo. Así que el encargo fue un rediseño: el mismo cálculo, con un aspecto actual.",
           },
         ],
         media: [
@@ -1127,9 +1127,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "El sistema de Wealth Planner está pensado para gestores en su mesa. SAREVI lo usa el cliente de un banco, una vez, en el móvil o el portátil, así que necesitaba el suyo: Afi apps.",
           },
           {
-            en: "Libre Franklin, Afi's deep blue for actions, softer corners and its own tokens. The other simulators, such as Cumplimiento, now build on it too.",
+            en: "It uses Libre Franklin, Afi's deep blue for actions, softer corners and its own tokens. Cumplimiento and the other simulators now build on it too.",
             // TODO(afi-redaccion)
-            es: "Libre Franklin, el azul profundo de Afi para las acciones, esquinas más suaves y sus propios tokens. Los demás simuladores, como Cumplimiento, se construyen ya sobre él.",
+            es: "Usa Libre Franklin, el azul profundo de Afi para las acciones, esquinas más suaves y sus propios tokens. Cumplimiento y los demás simuladores se construyen ya sobre él.",
           },
         ],
         media: [
@@ -1183,9 +1183,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Motion", es: "Movimiento" },
         body: [
           {
-            en: "I took the easing family from Dive Club and made it tokens: a move reads as done in about 200 ms and the rest is cushion. A spring for things that appear, a quicker ease for things that close.",
+            en: "I took Dive Club's easing curves and made them tokens, so every control moves the same way. A move reads as done in about 200 ms. Things that appear get a spring; things that close get a quicker ease.",
             // TODO(afi-redaccion)
-            es: "Tomé la familia de curvas de Dive Club y la convertí en tokens: un movimiento se lee como terminado en unos 200 ms y el resto es amortiguación. Un muelle para lo que aparece y una curva más rápida para lo que se cierra.",
+            es: "Tomé las curvas de Dive Club y las convertí en tokens, para que todos los controles se muevan igual. Un movimiento se lee como terminado en unos 200 ms. Lo que aparece lleva un muelle; lo que se cierra, una curva más rápida.",
           },
         ],
         switch: [
@@ -1421,9 +1421,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Resumen", es: "Resumen" },
         body: [
           {
-            en: "Resumen (the summary) used to list the numbers and leave you to work out what changed. I compared six directions with the team; the before and after bars won, so consumption and emissions each get their own.",
+            en: "Resumen (the summary) listed the numbers and left you to work out what changed. I compared six directions with the team. The before and after bars won, so consumption and emissions each get their own.",
             // TODO(afi-redaccion)
-            es: "Resumen enumeraba los números y te dejaba deducir qué había cambiado. Comparé seis direcciones con el equipo; ganaron las barras de antes y después, así que consumo y emisiones tienen cada uno las suyas.",
+            es: "Resumen enumeraba los números y te dejaba deducir qué había cambiado. Comparé seis direcciones con el equipo. Ganaron las barras de antes y después, así que consumo y emisiones tienen cada uno las suyas.",
           },
           {
             en: "The order is on purpose. The context animates in first, the saving counts up, and the new energy grade is the last thing to land: the one thing you came for.",
@@ -1813,14 +1813,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Context", es: "Contexto" },
         body: [
           {
-            en: "The live product had just had a UI redesign, and we kept adding to it. The team's favourite addition was a drawer you could pin to watch the plan update live.",
+            en: "The live product had just been redesigned. The team's favourite addition was a drawer you could pin to watch the plan update.",
             // TODO(afi-redaccion)
-            es: "El producto en vivo acababa de tener un rediseño de la interfaz y seguíamos añadiéndole cosas. Lo que más le gustó al equipo fue un panel que se podía fijar para ver el plan actualizarse en vivo.",
+            es: "El producto en vivo acababa de rediseñarse. Lo que más gustó al equipo fue un panel que se podía fijar para ver cómo se actualizaba el plan.",
           },
           {
-            en: "Then they asked for it half and half, beside the page. Advisers use the plan with the client in the room, so they wanted it in view, always.",
+            en: "Then they asked for it beside the page, half and half. Advisers use the plan with the client in the room, so it has to stay in view.",
             // TODO(afi-redaccion)
-            es: "Luego lo pidieron a mitades, al lado de la página. Los gestores usan el plan con el cliente delante, así que lo querían a la vista, siempre.",
+            es: "Después lo pidieron al lado de la página, a mitades. Los gestores usan el plan con el cliente delante, así que tiene que estar siempre a la vista.",
           },
         ],
         media: [
@@ -1863,9 +1863,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "The problem", es: "El problema" },
         body: [
           {
-            en: "It's a dense product: every page asks for a lot, and the plan answers with a lot. We had moved the detail from dialogs into drawers, which held it better, but the results were still spread across five places. You always had to go looking. Patrimonio, once its own page, had moved inside Legado: where did it go?",
+            en: "It's a dense product: every page asks for a lot, and the plan answers with a lot. Drawers held the detail better than dialogs, but the results were still spread across five places, so you always had to go looking.",
             // TODO(afi-redaccion)
-            es: "Es un producto denso: cada página pide mucho y el plan responde con mucho. Habíamos pasado el detalle de diálogos a paneles, que lo contenían mejor, pero los resultados seguían repartidos en cinco sitios. Siempre había que ir a buscarlos. Patrimonio, que antes tenía su página, ahora vivía dentro de Legado: ¿dónde se había ido?",
+            es: "Es un producto denso: cada página pide mucho y el plan responde con mucho. Los paneles contenían el detalle mejor que los diálogos, pero los resultados seguían repartidos en cinco sitios, así que siempre había que ir a buscarlos.",
           },
           {
             en: "A teammate wanted to show the AI generating the plan. With five places, there was nowhere to show it.",
@@ -1971,9 +1971,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "Los paneles no estaban mal. A la gente le gustaban, sobre todo fijados, con dos vistas una al lado de la otra. Esa fue la pista.",
           },
           {
-            en: "So the design question was: what if you could do everything without leaving the workflow, and without the blur?",
+            en: "So we asked: what if you never left the page, and nothing blurred?",
             // TODO(afi-redaccion)
-            es: "Así que la pregunta de diseño fue: ¿y si pudieras hacerlo todo sin salir del flujo de trabajo, y sin el desenfoque?",
+            es: "Así que nos preguntamos: ¿y si nunca salieras de la página y nada se emborronara?",
           },
         ],
         media: [
@@ -2026,9 +2026,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Architecture", es: "Arquitectura" },
         body: [
           {
-            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Tesler's law guided it: complexity can't be removed, only moved, so the product carries it.",
+            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Complexity can't be removed, only moved, so the product carries it, not the adviser.",
             // TODO(afi-redaccion)
-            es: "Las 27 piezas que el producto en vivo enseñaba fuera de la página tuvieron un solo sitio cada una, y el menú pasó de 13 páginas a 7. Nos guio la ley de Tesler: la complejidad no se elimina, solo se traslada, así que la carga el producto.",
+            es: "Las 27 piezas que el producto en vivo enseñaba fuera de la página tuvieron un solo sitio cada una, y el menú pasó de 13 páginas a 7. La complejidad no se elimina, solo se mueve, así que la carga el producto, no el gestor.",
           },
         ],
         switch: [
@@ -2328,9 +2328,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "The AI", es: "La IA" },
         body: [
           {
-            en: "Afi is a traditional firm, and its advisers sit with clients deciding about their savings. The AI had to feel powerful without feeling like a toy: say something happened, and never be cheesy.",
+            en: "Afi is a traditional firm. Its advisers sit with clients deciding about their savings, so the AI had to feel capable, not like a toy: clear when something happened, never cheesy.",
             // TODO(afi-redaccion)
-            es: "Afi es una firma tradicional, y sus gestores se sientan con clientes que deciden sobre sus ahorros. La IA tenía que sentirse potente sin parecer un juguete: avisar de que ha pasado algo, y nunca resultar empalagosa.",
+            es: "Afi es una firma tradicional. Sus gestores se sientan con clientes que deciden sobre sus ahorros, así que la IA tenía que parecer capaz, no un juguete: clara cuando algo pasa y nunca hortera.",
           },
           {
             en: "A teammate's review ranked every moment from 1, quiet, to 4, loud. Editing a figure stays quiet; only «Aplicar al plan» (apply to the plan) is loud.",
@@ -2625,9 +2625,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             body: [
               {
-                en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light through the plan, the one moment the whole plan lights up.",
+                en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light runs through the whole plan.",
                 // TODO(afi-redaccion)
-                es: "«Aplicar al plan» es el único gran momento: un anillo de luz que recorre el plan, el único momento en que se ilumina todo el plan.",
+                es: "«Aplicar al plan» es el único gran momento: un anillo de luz recorre todo el plan.",
               },
             ],
             media: [
@@ -2670,9 +2670,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         navLabel: { en: "Feedback", es: "Crítica" },
         body: [
           {
-            en: "Another designer reviewed it: the plan panel was busy, most of all on Patrimonio and Legado (assets and legacy). Nothing said where to look. We worked through it together and changed two things. The same review ranked the AI's motion, shown above.",
+            en: "Another designer reviewed it. The plan panel was busy, most of all on Patrimonio and Legado (assets and legacy), and nothing said where to look. We worked through it together and changed two things.",
             // TODO(afi-redaccion)
-            es: "Otro diseñador lo revisó: el panel del plan estaba cargado, sobre todo en Patrimonio y Legado. Nada decía adónde mirar. Lo trabajamos juntos y cambiamos dos cosas. La misma revisión ordenó el movimiento de la IA, que se ve más arriba.",
+            es: "Otro diseñador lo revisó. El panel del plan estaba recargado, sobre todo en Patrimonio y Legado, y nada indicaba dónde mirar. Lo trabajamos juntos y cambiamos dos cosas.",
           },
         ],
         switch: [

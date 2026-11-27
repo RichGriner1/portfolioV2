@@ -1,16 +1,11 @@
-import type { Transition } from "motion/react";
-
-// Shared easing/spring vocabulary — mirrors the constants in case-study-bento.tsx.
-// Figures import from here instead of the (large) bento module.
-export const EASE = [0.2, 0.8, 0.2, 1] as const;
-export const EASE_SOFT = [0.32, 0.72, 0.18, 1] as const;
-export const SPRING_SOFT: Transition = {
-  type: "spring",
-  stiffness: 180,
-  damping: 22,
-};
-export const SPRING_SNAP: Transition = {
-  type: "spring",
-  stiffness: 260,
-  damping: 20,
-};
+// The names figures and the bento already import, pointed at the one motion
+// module (src/lib/motion). EASE_SOFT and the two springs collapse onto the DS's
+// single out-curve and single spring.
+export {
+  EASE,
+  EASE as EASE_SOFT,
+  EASE_IN_OUT as EASE_IN_OUT_SOFT,
+  EASE_SPRING,
+  SPRING as SPRING_SOFT,
+  SPRING as SPRING_SNAP,
+} from "@/lib/motion";

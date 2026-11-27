@@ -1,0 +1,56 @@
+/* semantic-colors.css — Semantic Colors (69 roles)
+   Source: Coherence/libs/tokens/foundations-modern/ (generated from Figma AFI-FOUNDATIONS-MODERN).
+   Values copied verbatim. The partial dark block (4 roles) was removed 2026-11-06: no dark mode for now; the Accent highlight block at the end is not from Figma. */
+:root{
+  --background-canvas:var(--color-neutral-0);--background-surface:var(--color-neutral-0);--background-elevated:var(--color-neutral-0);--background-hover:var(--color-neutral-25);--background-active:var(--color-neutral-50);--background-selected:var(--color-neutral-100);--background-inverse:var(--color-neutral-900);
+  --control-background-default:var(--color-control-50);--control-background-hover:var(--color-control-100);--control-background-active:var(--color-control-200);--control-background-selected:var(--color-control-200);--control-background-disabled:var(--disabled-background);
+  --borders-control:var(--color-neutral-500);--borders-control-hover:var(--color-neutral-600); /* v152: the edge of a form control, read by Input, Select and Textarea (they carried the same values as fallbacks) */
+  --borders-default:var(--color-neutral-300);--borders-hover:var(--color-neutral-500);--borders-focus:var(--color-info-500);--borders-disabled:var(--disabled-border);--borders-strong:var(--color-primary-700);--borders-selected:var(--color-zinc-700-20);--borders-subtle:var(--color-neutral-200); /* lighter line for things inside a bordered container (nested cards, table row dividers); not from Figma */
+  --error-background:var(--color-error-50);--error-foreground:var(--color-error-700);--error-border:var(--color-error-300);
+  --warning-background:var(--color-warning-50);--warning-foreground:var(--color-warning-900);--warning-border:var(--color-warning-300);
+  --info-background:var(--color-info-50);--info-foreground:var(--color-info-700);--info-border:var(--color-info-300);
+  --success-background:var(--color-success-50);--success-foreground:var(--color-success-700);--success-border:var(--color-success-300);
+  --disabled-background:var(--color-neutral-100);--disabled-content:var(--color-neutral-500);--disabled-border:var(--color-neutral-300);
+  --chart-primary-primary:var(--color-data-viz-series-1);--chart-primary-secondary:var(--color-data-viz-series-2);--chart-primary-tertiary:var(--color-data-viz-series-3);
+  --chart-positive-background:var(--color-data-viz-positive-subtle);--chart-positive-default:var(--color-data-viz-positive-default);--chart-positive-strong:var(--color-data-viz-positive-strong);
+  --chart-negative-background:var(--color-data-viz-negative-subtle);--chart-negative-default:var(--color-data-viz-negative-default);
+  --chart-secondary-primary:var(--color-data-viz-series-1);--chart-secondary-secondary:var(--color-data-viz-series-2);--chart-secondary-tertiary:var(--color-data-viz-series-3);
+  --chart-comparison-primary:var(--color-data-viz-series-1);--chart-comparison-secondary:var(--color-data-viz-series-2);--chart-comparison-tertiary:var(--color-data-viz-series-3);
+  --chart-forecast-primary:var(--color-data-viz-series-1);--chart-forecast-secondary:var(--color-data-viz-series-2);--chart-forecast-tertiary:var(--color-data-viz-series-3);
+  --chart-neutral-primary:var(--color-data-viz-series-1);--chart-neutral-secondary:var(--color-data-viz-series-2);--chart-neutral-tertiary:var(--color-data-viz-series-3);
+  --chart-grid-primary:var(--color-data-viz-neutral-grid);--chart-grid-secondary:var(--color-data-viz-neutral-grid);--chart-grid-tertiary:var(--color-data-viz-neutral-grid);
+  --chart-axis-primary:var(--color-data-viz-neutral-axis);--chart-axis-secondary:var(--color-data-viz-neutral-axis);--chart-axis-tertiary:var(--color-data-viz-neutral-axis);
+  --chart-labels-primary:var(--color-data-viz-neutral-label);--chart-labels-secondary:var(--color-data-viz-neutral-label);--chart-labels-tertiary:var(--color-data-viz-neutral-label);
+  --chart-tooltip-background:var(--background-surface);--chart-tooltip-border:var(--borders-default);--chart-tooltip-text:var(--content-primary); /* v152: the tooltip of every chart; products that load styles.css had none, so the tooltip had no background */
+  --chart-monochrome-strong:var(--color-data-viz-monochrome-7);--chart-monochrome-medium:var(--color-data-viz-monochrome-5);--chart-monochrome-soft:var(--color-data-viz-monochrome-3);--chart-monochrome-faint:var(--color-data-viz-monochrome-2);
+  --brand-background-default:var(--color-primary-700);--brand-background-hover:var(--color-primary-600);--brand-background-pressed:var(--color-primary-800);--brand-background-disabled:var(--disabled-background);--brand-background-active:var(--color-primary-800);
+  --content-disabled:var(--disabled-content);--content-placeholder:var(--color-neutral-600);--content-inverse:var(--color-neutral-0);--content-primary:var(--color-neutral-900);--content-secondary:var(--color-neutral-800);--content-tertiary:var(--color-neutral-700);
+  --tag-background-default:var(--color-neutral-100);
+  --highlight-gradient-from:color-mix(in srgb,var(--brand-afi-blue) 78%,var(--color-afi-navy-700));--highlight-gradient-via:var(--brand-afi-blue);--highlight-gradient-to:color-mix(in srgb,var(--brand-afi-blue) 78%,var(--brand-afi-blue-light)); /* v72: the Afi blue gradient of a highlighted figure (MetricCard --highlight), 135deg, via at 55% */
+  --background-subtle:rgba(0,0,0,.08); /* v70: a faint fill on top of a tinted or accent surface (not from Figma) */
+  --badge-dot-neutral:var(--color-neutral-700);--badge-dot-success:var(--color-success-500);--badge-dot-warning:var(--color-warning-500);--badge-dot-critical:var(--color-error-500);--badge-dot-info:var(--color-info-500);
+  /* overlay scrim — no Figma token yet; documented gap carried over from dialog-v2 */
+  --overlay-blanket:#1f232899;
+  --z-overlay:1000; /* @kind other */
+}
+/* Accent highlight ("look here", never "click here"): one hero surface that carries the result, e.g. the yearly saving and grade card on Resumen.
+   A 135deg gradient from -from through -base to -to, a white wash for faded elements on top of it (-wash, -wash-soft). The content colour --accent-highlight-on is NOT defined here: it is the brand colour of the skin, so declare it on the container where the skin tokens resolve (--accent-highlight-on:var(--brand-background-default)); at :root it would take the base brand value.
+   Never for a clickable thing. Default = lime; set data-accent="pink" on any ancestor for the pink ramp. Primitives: --color-accent-lime-*, --color-accent-pink-*. */
+:root{
+  --accent-highlight-from:var(--color-accent-lime-100);--accent-highlight-base:var(--color-accent-lime-300);--accent-highlight-to:var(--color-accent-lime-500);--accent-highlight-stop-to:100%;
+  --accent-highlight-wash:rgba(255,255,255,.45);--accent-highlight-wash-soft:rgba(255,255,255,.25);
+}
+[data-accent='pink']{
+  --accent-highlight-from:var(--color-accent-pink-100);--accent-highlight-base:var(--color-accent-pink-300);--accent-highlight-to:var(--color-accent-pink-500);
+}
+/* Glass bars: the translucent blurred surface a sticky bar takes once the page has scrolled under it (AppHeader and StepperBar, modifier --stuck). One recipe, so the two bars always match. */
+:root{
+  --bar-glass-background:color-mix(in srgb,var(--background-surface) 72%,transparent);
+  --bar-glass-filter:blur(var(--dimension-3-5)) saturate(1.3);
+}
+
+/* Energy certificate scale (regulatory, not brand: identical in every skin) */
+:root{--energy-a:#1E9E4A;--energy-a-on:#FFFFFF;--energy-b:#5DB53B;--energy-b-on:#FFFFFF;--energy-c:#B9CB1A;--energy-c-on:#1C2200;--energy-d:#F2C200;--energy-d-on:#2B2200;--energy-e:#F59B00;--energy-e-on:#2B1800;--energy-f:#EC6A1A;--energy-f-on:#FFFFFF;--energy-g:#D5261E;--energy-g-on:#FFFFFF}
+
+/* Media tile gradients (landing cards, MediaCard `--card-media-background`): light Afi blue at rest, strong Afi blue on hover */
+:root{--card-media-gradient:linear-gradient(180deg,#8CCBEF,#4BAEE3);--card-media-gradient-hover:linear-gradient(180deg,#2E9AD6,#006AA3)}

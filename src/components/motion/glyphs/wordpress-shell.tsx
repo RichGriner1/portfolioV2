@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION, EASE } from "@/lib/motion";
 
 export function WordpressShellGlyph(_props?: { active?: boolean }) {
   return (
@@ -21,7 +22,7 @@ export function WordpressShellGlyph(_props?: { active?: boolean }) {
           rest: { opacity: 0.35 },
           hover: { opacity: 0.6 },
         }}
-        transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+        transition={{ duration: DURATION.base, ease: EASE }}
       />
 
       <motion.line
@@ -37,7 +38,7 @@ export function WordpressShellGlyph(_props?: { active?: boolean }) {
           hover: { pathLength: 1, opacity: 0.7 },
         }}
         transition={{
-          duration: 0.25,
+          duration: DURATION.base,
           delay: 0.32,
           ease: "linear",
         }}
@@ -53,7 +54,7 @@ export function WordpressShellGlyph(_props?: { active?: boolean }) {
           rest: { y: 12, opacity: 0.6 },
           hover: { y: 18, opacity: 1 },
         }}
-        transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+        transition={{ duration: DURATION.base, ease: EASE }}
       />
     </svg>
   );

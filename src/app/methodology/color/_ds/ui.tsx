@@ -74,7 +74,7 @@ export function Section({
 
 /**
  * Semantic token card. Collapsed = just the label. On hover it grows
- * vertically (grid-rows 0fr → 1fr, fast-in ease-out-soft) to reveal the
+ * vertically (grid-rows 0fr → 1fr, a fold: --duration-fold on --ease-in-out-soft) to reveal the
  * overview, use cases, and the primitive + hex behind bg/fg.
  */
 export function SemanticCard({
@@ -140,7 +140,7 @@ export function SemanticCard({
         </div>
         <div
           className={cn(
-            "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+            "ease-in-out-soft grid transition-[grid-template-rows] duration-[var(--duration-fold)] group-hover:grid-rows-[1fr]",
             rowsClass
           )}
         >
@@ -233,7 +233,7 @@ export function PrimitiveRampCard({
       {/* Overview + use cases + full-bleed ramp; revealed on hover or tap. */}
       <div
         className={cn(
-          "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+          "ease-in-out-soft grid transition-[grid-template-rows] duration-[var(--duration-fold)] group-hover:grid-rows-[1fr]",
           rowsClass
         )}
       >
@@ -348,7 +348,7 @@ export function AccessibilityCard({
       {/* Overview + per-color use cases; revealed on hover or tap. */}
       <div
         className={cn(
-          "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+          "ease-in-out-soft grid transition-[grid-template-rows] duration-[var(--duration-fold)] group-hover:grid-rows-[1fr]",
           rowsClass
         )}
       >
@@ -427,7 +427,7 @@ export function BorderRingCard({
         </div>
         <div
           className={cn(
-            "grid transition-[grid-template-rows] duration-[var(--duration-slow)] ease-[var(--ease-out-soft)] group-hover:grid-rows-[1fr]",
+            "ease-in-out-soft grid transition-[grid-template-rows] duration-[var(--duration-fold)] group-hover:grid-rows-[1fr]",
             rowsClass
           )}
         >

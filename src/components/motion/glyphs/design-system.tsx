@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION } from "@/lib/motion";
 
 const TOP = { cx: 40, cy: 10 };
 const MIDS = [
@@ -47,10 +48,13 @@ export function DesignSystemGlyph(_props?: { active?: boolean }) {
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.5 }}
           variants={{
-            rest: { opacity: 0.5, transition: { duration: 0.2 } },
-            hover: { opacity: 1, transition: { duration: 0.25, delay: 0.1 } },
+            rest: { opacity: 0.5, transition: { duration: DURATION.enter } },
+            hover: {
+              opacity: 1,
+              transition: { duration: DURATION.base, delay: 0.1 },
+            },
           }}
-          transition={{ duration: 0.45, delay: i * 0.06, ease: EASE }}
+          transition={{ duration: DURATION.fold, delay: i * 0.06, ease: EASE }}
         />
       ))}
 
@@ -66,10 +70,17 @@ export function DesignSystemGlyph(_props?: { active?: boolean }) {
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.5 }}
           variants={{
-            rest: { opacity: 0.5, transition: { duration: 0.2 } },
-            hover: { opacity: 1, transition: { duration: 0.25, delay: 0.3 } },
+            rest: { opacity: 0.5, transition: { duration: DURATION.enter } },
+            hover: {
+              opacity: 1,
+              transition: { duration: DURATION.base, delay: 0.3 },
+            },
           }}
-          transition={{ duration: 0.45, delay: 0.12 + i * 0.06, ease: EASE }}
+          transition={{
+            duration: DURATION.fold,
+            delay: 0.12 + i * 0.06,
+            ease: EASE,
+          }}
         />
       ))}
 
@@ -81,14 +92,18 @@ export function DesignSystemGlyph(_props?: { active?: boolean }) {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 0.9, scale: 1 }}
         variants={{
-          rest: { opacity: 0.9, scale: 1, transition: { duration: 0.2 } },
+          rest: {
+            opacity: 0.9,
+            scale: 1,
+            transition: { duration: DURATION.enter },
+          },
           hover: {
             opacity: 1,
             scale: 1.2,
-            transition: { duration: 0.3, delay: 0 },
+            transition: { duration: DURATION.base, delay: 0 },
           },
         }}
-        transition={{ duration: 0.3, delay: 0.38 }}
+        transition={{ duration: DURATION.base, delay: 0.38 }}
       />
 
       {MIDS.map((m, i) => (
@@ -101,14 +116,18 @@ export function DesignSystemGlyph(_props?: { active?: boolean }) {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.65, scale: 1 }}
           variants={{
-            rest: { opacity: 0.65, scale: 1, transition: { duration: 0.2 } },
+            rest: {
+              opacity: 0.65,
+              scale: 1,
+              transition: { duration: DURATION.enter },
+            },
             hover: {
               opacity: 1,
               scale: 1.1,
-              transition: { duration: 0.3, delay: 0.2 },
+              transition: { duration: DURATION.base, delay: 0.2 },
             },
           }}
-          transition={{ duration: 0.3, delay: 0.5 + i * 0.06 }}
+          transition={{ duration: DURATION.base, delay: 0.5 + i * 0.06 }}
         />
       ))}
 
@@ -122,14 +141,18 @@ export function DesignSystemGlyph(_props?: { active?: boolean }) {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.4, scale: 1 }}
           variants={{
-            rest: { opacity: 0.4, scale: 1, transition: { duration: 0.2 } },
+            rest: {
+              opacity: 0.4,
+              scale: 1,
+              transition: { duration: DURATION.enter },
+            },
             hover: {
               opacity: 1,
               scale: 1.2,
-              transition: { duration: 0.3, delay: 0.4 + i * 0.04 },
+              transition: { duration: DURATION.base, delay: 0.4 + i * 0.04 },
             },
           }}
-          transition={{ duration: 0.3, delay: 0.65 + i * 0.05 }}
+          transition={{ duration: DURATION.base, delay: 0.65 + i * 0.05 }}
         />
       ))}
     </svg>

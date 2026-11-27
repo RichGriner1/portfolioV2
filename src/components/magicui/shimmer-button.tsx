@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
  * the spark and the inner glow are derived from `--primary-foreground`, so the
  * pair inverts with the theme like every other button on the site.
  *
- * Three other changes:
+ * Four other changes:
  *
  * 1. **`--radius` is not overridden.** Upstream sets `--radius: 100px` inline for
  *    its pill shape. In this repo `--radius` is the base the entire radius scale
@@ -37,6 +37,14 @@ import { cn } from "@/lib/utils";
  *
  * 3. **The spark is dropped under `prefers-reduced-motion`.** It's an infinite
  *    loop, which is the exact thing that setting exists to stop.
+ *
+ * 4. **Hover and press have a real fill.** Upstream ships no hover/press state
+ *    at all. The fill lives on the backdrop span, not the root — the backdrop
+ *    is the opaque layer inset by `--shimmer-cut` that actually paints the
+ *    button's face, so that's where `group-hover:`/`group-active:` swap in
+ *    `--primary-hover` / `--primary-active` (globals.css). The root gets the
+ *    same two colors on its own `hover:`/`active:` so the hairline rim stays
+ *    the same ink as the face.
  */
 type ShimmerButtonProps = ComponentPropsWithoutRef<"button"> & {
   /**
@@ -74,7 +82,7 @@ export function ShimmerButton({
   // shimmer and a plain button at the same height show the same 38px fill
   // side by side instead of this one reading 2px taller.
   const classes = cn(
-    "group bg-primary text-primary-foreground relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-transparent bg-clip-padding px-4 text-sm font-medium whitespace-nowrap",
+    "group bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-transparent bg-clip-padding px-4 text-sm font-medium whitespace-nowrap",
     "focus-visible:border-ring focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
     "ease-out-soft transform-gpu transition-transform duration-[var(--duration-base)] active:translate-y-px",
     className
@@ -105,16 +113,7 @@ export function ShimmerButton({
           visible as a rim. */}
       <span
         aria-hidden
-        className="bg-primary absolute [inset:var(--shimmer-cut)] -z-20 rounded-[inherit]"
-      />
-
-      {/* Hover tint. 20% page background over the fill reads the same as the
-          site's own primary hover (`bg-primary/80`), which can't be used here:
-          the fill is two stacked layers, so fading them just shows one through
-          the other. `-z-10` puts the tint over the backdrop and under the label. */}
-      <span
-        aria-hidden
-        className="bg-background/20 ease-out-soft absolute inset-0 -z-10 rounded-[inherit] opacity-0 transition-opacity duration-[var(--duration-base)] group-hover:opacity-100"
+        className="ease-out-soft bg-primary group-hover:bg-primary-hover group-active:bg-primary-active absolute [inset:var(--shimmer-cut)] -z-20 rounded-[inherit] transition-colors duration-[var(--duration-base)]"
       />
     </>
   );

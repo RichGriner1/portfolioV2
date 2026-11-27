@@ -15,6 +15,7 @@ import { ViewSwitch } from "@/components/view-switch";
 import type { HomeView } from "@/lib/home-view";
 import { t, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { DURATION } from "@/lib/motion";
 
 const NAV = [
   { href: "/", key: "nav.home" as const },
@@ -48,9 +49,9 @@ const PANEL = {
     height: BAR,
     opacity: 0,
     transition: {
-      height: { duration: 0.24, ease: EASE_SOFT },
-      maxWidth: { duration: 0.26, delay: 0.18, ease: EASE_SOFT },
-      opacity: { duration: 0.12, delay: 0.36 },
+      height: { duration: DURATION.base, ease: EASE_SOFT },
+      maxWidth: { duration: DURATION.base, delay: 0.18, ease: EASE_SOFT },
+      opacity: { duration: DURATION.enter, delay: 0.36 },
     },
   },
   open: {
@@ -58,9 +59,9 @@ const PANEL = {
     height: "auto",
     opacity: 1,
     transition: {
-      opacity: { duration: 0.1 },
-      maxWidth: { duration: 0.3, ease: EASE_SOFT },
-      height: { duration: 0.36, delay: 0.24, ease: EASE_SOFT },
+      opacity: { duration: DURATION.enter },
+      maxWidth: { duration: DURATION.base, ease: EASE_SOFT },
+      height: { duration: DURATION.base, delay: 0.24, ease: EASE_SOFT },
     },
   },
 } as const;

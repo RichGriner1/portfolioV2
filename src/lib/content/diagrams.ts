@@ -31,6 +31,50 @@ export const DIAGRAMS = {
   E --> F[Queda en el registro de cambios]
   F -.-> A`,
   },
+  // The whole loop of the third-party compliance tool, checked against the v1.1
+  // requirements sheet (flows 2.3, 3.3, 4.2–4.4, 7.1–7.5). The ES had its afi-redaccion pass.
+  "tpc-user-flow": {
+    en: `flowchart TD
+  accTitle: The compliance loop, from template to approval
+  accDescr: Afi publishes a template and assigns it to a supplier. The supplier's contact signs in with a one-time code, answers and sends. Afi reviews each answer, then approves or returns it with comments, and the supplier corrects and resends.
+  subgraph afi[Afi]
+    T[Publish a template] --> N[New assignment: supplier, template, due date]
+    N --> S[Send to the authorized contacts]
+  end
+  subgraph sup[Supplier]
+    C[Email and one-time code, no password] --> Q[Answer, or save and continue later]
+    Q --> R[Check the summary and send]
+  end
+  subgraph rev[Afi review]
+    V[Review each answer]
+    V -->|all compliant| A[Approve]
+    V -->|any needs more info| D[Return with comments]
+  end
+  S --> C
+  R --> V
+  D --> F[Supplier corrects and resends]
+  F --> V`,
+    es: `flowchart TD
+  accTitle: El circuito de cumplimiento, de la plantilla a la aprobación
+  accDescr: Afi publica una plantilla y se la asigna a un proveedor. El contacto del proveedor entra con un código de un solo uso, responde y envía. Afi revisa cada respuesta y la aprueba o la devuelve con comentarios, y el proveedor corrige y reenvía.
+  subgraph afi[Afi]
+    T[Publicar una plantilla] --> N[Nueva asignación: proveedor, plantilla, fecha límite]
+    N --> S[Enviar a los contactos autorizados]
+  end
+  subgraph sup[Proveedor]
+    C[Correo y código de un solo uso, sin contraseña] --> Q[Responder, o guardar y seguir más tarde]
+    Q --> R[Revisar el resumen y enviar]
+  end
+  subgraph rev[Revisión de Afi]
+    V[Revisar cada respuesta]
+    V -->|todo conforme| A[Aprobar]
+    V -->|falta información| D[Devolver con comentarios]
+  end
+  S --> C
+  R --> V
+  D --> F[El proveedor corrige y reenvía]
+  F --> V`,
+  },
 } satisfies Record<string, Bilingual<string>>;
 
 export type DiagramKey = keyof typeof DIAGRAMS;

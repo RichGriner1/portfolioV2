@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { EASE_SOFT } from "@/components/motion/constants";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
+import { DURATION } from "@/lib/motion";
 
 /**
  * The four levels of a token: raw value → primitive → semantic → component.
@@ -179,7 +180,7 @@ export function TokenLevelsFigure() {
               }
               initial={false}
               animate={{ opacity: on ? 1 : 0.25 }}
-              transition={{ duration: 0.3, ease: EASE_SOFT }}
+              transition={{ duration: DURATION.base, ease: EASE_SOFT }}
             >
               <span className="flex shrink-0 items-baseline gap-1.5">
                 <span className="text-foreground text-[10px] font-semibold whitespace-nowrap @[24rem]:text-xs @[36rem]:text-sm">
@@ -197,7 +198,7 @@ export function TokenLevelsFigure() {
                 initial={false}
                 animate={{ opacity: on ? 1 : 0, scale: on ? 1 : 0.94 }}
                 transition={{
-                  duration: 0.28,
+                  duration: DURATION.base,
                   delay: on ? 0.06 : 0,
                   ease: EASE_SOFT,
                 }}

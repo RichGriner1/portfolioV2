@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION, EASE } from "@/lib/motion";
 
 const BLOCKS = [
   { x: 6, y: 6, w: 48, h: 10, rx: 2, opacity: 0.7, hoverX: 0, hoverY: -2 },
@@ -39,9 +40,9 @@ export function VisualStrategyGlyph(_props?: { active?: boolean }) {
             },
           }}
           transition={{
-            duration: 0.4,
+            duration: DURATION.base,
             delay: DELAYS[i],
-            ease: [0.2, 0.8, 0.2, 1],
+            ease: EASE,
           }}
         />
       ))}

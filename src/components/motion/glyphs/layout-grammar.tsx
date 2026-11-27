@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION } from "@/lib/motion";
 
 const EASE = [0.2, 0.8, 0.2, 1] as const;
 
@@ -57,7 +58,7 @@ export function LayoutGrammarGlyph(_props?: { active?: boolean }) {
         strokeWidth={1.5}
         initial={{ opacity: 0, pathLength: 0 }}
         animate={{ opacity: 0.55, pathLength: 1 }}
-        transition={{ duration: 0.7, ease: EASE }}
+        transition={{ duration: DURATION.move, ease: EASE }}
       />
 
       <motion.line
@@ -70,7 +71,7 @@ export function LayoutGrammarGlyph(_props?: { active?: boolean }) {
         strokeLinecap="round"
         initial={{ opacity: 0, pathLength: 0 }}
         animate={{ opacity: 0.95, pathLength: 1 }}
-        transition={{ duration: 0.45, delay: 0.2, ease: EASE }}
+        transition={{ duration: DURATION.fold, delay: 0.2, ease: EASE }}
       />
 
       <motion.circle
@@ -80,7 +81,7 @@ export function LayoutGrammarGlyph(_props?: { active?: boolean }) {
         fill="currentColor"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 0.9, scale: 1 }}
-        transition={{ duration: 0.4, delay: 0.35, ease: EASE }}
+        transition={{ duration: DURATION.base, delay: 0.35, ease: EASE }}
       />
 
       <motion.line
@@ -92,7 +93,11 @@ export function LayoutGrammarGlyph(_props?: { active?: boolean }) {
         strokeWidth={1}
         initial={{ opacity: 0, pathLength: 0 }}
         animate={{ opacity: 0.3, pathLength: 1 }}
-        transition={{ duration: 0.55, delay: 0.4, ease: EASE }}
+        transition={{
+          duration: DURATION.reveal.normal,
+          delay: 0.4,
+          ease: EASE,
+        }}
       />
 
       {/* Slot — cycles forever. Same chrome, different content. */}

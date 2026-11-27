@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { t, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { DURATION } from "@/lib/motion";
 
 /**
  * The board's navigation, using the site header's own open/close move.
@@ -52,8 +53,8 @@ const GROUP = {
     maxWidth: 0,
     opacity: 0,
     transition: {
-      maxWidth: { duration: 0.3, ease: EASE_SOFT },
-      opacity: { duration: 0.12 },
+      maxWidth: { duration: DURATION.base, ease: EASE_SOFT },
+      opacity: { duration: DURATION.enter },
     },
   },
   open: {
@@ -61,8 +62,8 @@ const GROUP = {
     maxWidth: 640,
     opacity: 1,
     transition: {
-      maxWidth: { duration: 0.34, ease: EASE_SOFT },
-      opacity: { duration: 0.16, delay: 0.08 },
+      maxWidth: { duration: DURATION.base, ease: EASE_SOFT },
+      opacity: { duration: DURATION.enter, delay: 0.08 },
     },
   },
 } as const;
@@ -73,13 +74,13 @@ const LABEL = {
     maxWidth: 64,
     opacity: 1,
     marginLeft: 8,
-    transition: { duration: 0.28, ease: EASE_SOFT, delay: 0.06 },
+    transition: { duration: DURATION.base, ease: EASE_SOFT, delay: 0.06 },
   },
   open: {
     maxWidth: 0,
     opacity: 0,
     marginLeft: 0,
-    transition: { duration: 0.2, ease: EASE_SOFT },
+    transition: { duration: DURATION.enter, ease: EASE_SOFT },
   },
 } as const;
 

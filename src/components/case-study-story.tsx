@@ -35,7 +35,7 @@ const BeatContext = createContext(false);
  * it leaves. With `prefers-reduced-motion` the clip stays on its poster and shows the
  * native controls instead, so motion is something the reader asks for.
  */
-function LoopVideo({
+export function LoopVideo({
   clip,
   label,
   className = "aspect-[8/5] h-auto w-full",
@@ -1218,6 +1218,8 @@ function LiveCrop({ media }: { media: Extract<StoryMedia, { kind: "live" }> }) {
   return (
     <div
       ref={box}
+      // A crop of a live page on purpose: the responsive check skips it.
+      data-crop
       className="relative w-full overflow-hidden rounded-md bg-white"
       style={{
         height: frameH || undefined,
@@ -1437,6 +1439,8 @@ function Composition({
                 </span>
               )}
               <div
+                // Shows only `rect` of a live page on purpose: the responsive check skips it.
+                data-crop
                 className={`relative overflow-hidden ${it.flat ? "" : "bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_12px_32px_rgba(15,23,42,.12)]"}`}
                 style={{
                   height: ih,

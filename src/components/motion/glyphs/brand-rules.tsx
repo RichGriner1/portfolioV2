@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DURATION } from "@/lib/motion";
 
 const ROWS = [12, 24, 36];
 
@@ -17,7 +18,7 @@ export function BrandRulesGlyph(_props?: { active?: boolean }) {
           key={i}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: i * 0.12 }}
+          transition={{ duration: DURATION.base, delay: i * 0.12 }}
         >
           <motion.circle
             cx={10}
@@ -30,7 +31,7 @@ export function BrandRulesGlyph(_props?: { active?: boolean }) {
               rest: { opacity: 0.35 },
               hover: { opacity: 1 },
             }}
-            transition={{ duration: 0.3, delay: i * 0.1 }}
+            transition={{ duration: DURATION.base, delay: i * 0.1 }}
           />
           <motion.path
             d={`M7.5 ${y} l2 2 l4 -4`}
@@ -44,7 +45,7 @@ export function BrandRulesGlyph(_props?: { active?: boolean }) {
               hover: { pathLength: 1, opacity: 1 },
             }}
             transition={{
-              duration: 0.3,
+              duration: DURATION.base,
               delay: i * 0.1 + 0.05,
               ease: "easeOut",
             }}
@@ -60,7 +61,7 @@ export function BrandRulesGlyph(_props?: { active?: boolean }) {
               rest: { opacity: 0.25 },
               hover: { opacity: 0.65 },
             }}
-            transition={{ duration: 0.3, delay: i * 0.1 }}
+            transition={{ duration: DURATION.base, delay: i * 0.1 }}
           />
         </motion.g>
       ))}

@@ -63,7 +63,13 @@ export default async function WorkDetailPage({ params }: { params: Params }) {
       {/* Third-party compliance is laid out by hand (text beside working copies of
           its patterns) rather than through the bento or story renderers. */}
       {slug === "third-party-compliance" ? (
-        <TpcPage item={item} />
+        <TpcPage
+          item={item}
+          flow={{
+            en: renderDiagram(DIAGRAMS["tpc-user-flow"].en, "tpc-user-flow-en"),
+            es: renderDiagram(DIAGRAMS["tpc-user-flow"].es, "tpc-user-flow-es"),
+          }}
+        />
       ) : (
         <CaseStudyPage
           item={item}

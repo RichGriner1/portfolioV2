@@ -5,6 +5,7 @@ import type { Bilingual } from "@/lib/i18n";
  * Screen recordings of the real prototype, one per flow. A clip with no `clip` renders
  * as a dashed placeholder, so the page reads honestly until the file exists. Files live
  * in public/work/third-party-compliance/ as silent, looping mp4s with a jpg poster.
+ * `still` is for a board captured from the canvas rather than recorded from the prototype.
  */
 export type ClipId =
   | "overview"
@@ -17,9 +18,17 @@ export type ClipId =
   | "disabled"
   | "requirements";
 
+export type Still = {
+  src: string;
+  width: number;
+  height: number;
+  alt: Bilingual<string>;
+};
+
 type ClipSpec = {
   label: Bilingual<string>;
   clip?: StoryClip;
+  still?: Still;
 };
 
 const BASE = "/work/third-party-compliance";
@@ -104,8 +113,38 @@ export const CLIPS: Record<ClipId, ClipSpec> = {
       "Grabación: los dos botones de revisión están desactivados y el texto junto a ellos dice cuántas preguntas faltan por decidir."
     ),
   },
-  // Not recorded yet: the requirements sheet lives on the canvas, not in the prototype.
+  // The sheet lives on the canvas, not in the prototype: the top of page 1 of 3.
   requirements: {
     label: { en: "Requirements sheet", es: "Hoja de requisitos" },
+    still: {
+      src: `${BASE}/requirements.webp`,
+      width: 1440,
+      height: 1150,
+      alt: {
+        en: "The top of the requirements sheet: a product summary (what it is, who uses it, what it replaces, what this version leaves out), then the user flows table, one story per row with the canvas flow that shows it.",
+        es: "La parte superior de la hoja de requisitos: un resumen del producto (qué es, quién lo usa, qué sustituye, qué deja fuera esta versión) y la tabla de flujos de usuario, una historia por fila con el flujo del lienzo donde se ve.",
+      },
+    },
+  },
+};
+
+/** The template editor before and after, captured from the canvas's v1.0 page and page 5. */
+export const TEMPLATES_BEFORE: Still = {
+  src: `${BASE}/plantillas-v10.webp`,
+  width: 1440,
+  height: 1120,
+  alt: {
+    en: "v1.0 Templates page: the template library table, the full question designer and the activation rules, all stacked on one page.",
+    es: "Página Plantillas de la v1.0: la tabla de la biblioteca, el diseñador de preguntas completo y las reglas de activación, todo apilado en una sola página.",
+  },
+};
+
+export const TEMPLATES_AFTER: Still = {
+  src: `${BASE}/plantillas-v11.webp`,
+  width: 1440,
+  height: 1120,
+  alt: {
+    en: "v1.1 template editor on its own page: a back link to Templates, the draft's name and status, pages on the left and that page's questions on the right.",
+    es: "Editor de plantillas de la v1.1 en su propia página: enlace para volver a Plantillas, nombre y estado del borrador, páginas a la izquierda y las preguntas de la página a la derecha.",
   },
 };

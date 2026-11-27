@@ -8,7 +8,9 @@ import { MoreWork } from "@/components/more-work";
 import { BackDemo } from "@/components/tpc/demos";
 import * as C from "@/components/tpc/copy";
 import { Reveal } from "@/components/tpc/reveal";
-import { ClipSlot } from "@/components/tpc/clip-slot";
+import { Diagram, type DiagramSvgs } from "@/components/diagram";
+import { ClipSlot, StillFrame } from "@/components/tpc/clip-slot";
+import { TEMPLATES_AFTER, TEMPLATES_BEFORE } from "@/components/tpc/clips";
 import { EmptyGallery } from "@/components/tpc/empty-gallery";
 import { type WorkItem, formatYears } from "@/lib/content/work";
 import { type Bilingual, pick, t, useLang } from "@/lib/i18n";
@@ -252,7 +254,55 @@ function Split({
 
 /* ----------------------------------------------------------------- page */
 
-export function TpcPage({ item }: { item: WorkItem }) {
+/** The rule as text, then v1.0 and v1.1 side by side (stacked on a phone). */
+function BeforeAfter({ rule }: { rule: C.Rule }) {
+  const { lang } = useLang();
+  const shots = [
+    { label: C.VERSION_LABELS.before, still: TEMPLATES_BEFORE },
+    { label: C.VERSION_LABELS.after, still: TEMPLATES_AFTER },
+  ];
+  return (
+    <div className="flex flex-col gap-6">
+      <Reveal>
+        <div className="flex max-w-prose flex-col gap-2">
+          <h4 className="text-base font-semibold">{pick(rule.title, lang)}</h4>
+          <p className="text-foreground text-base leading-relaxed">
+            {pick(rule.body, lang)}
+          </p>
+          {rule.why && (
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              {pick(rule.why, lang)}
+            </p>
+          )}
+        </div>
+      </Reveal>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {shots.map((s, i) => (
+          <Reveal key={s.still.src} index={i}>
+            <figure className="flex flex-col gap-2">
+              <StillFrame
+                still={s.still}
+                sizes="(min-width: 768px) 480px, 100vw"
+              />
+              <figcaption className="text-muted-foreground font-mono text-xs">
+                {pick(s.label, lang)}
+              </figcaption>
+            </figure>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function TpcPage({
+  item,
+  flow,
+}: {
+  item: WorkItem;
+  /** The user flow diagram, rendered to SVG by the server page. */
+  flow: Bilingual<DiagramSvgs>;
+}) {
   const { lang } = useLang();
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-24 px-6 pt-8 pb-24 sm:gap-28 sm:pt-12">
@@ -332,15 +382,42 @@ export function TpcPage({ item }: { item: WorkItem }) {
         </Reveal>
       </section>
 
+      {/* Before: v1.0 */}
+      <section className="flex flex-col gap-10" aria-labelledby="before">
+        <Reveal>
+          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+            <SectionHeading id="before">
+              {pick(C.BEFORE_HEADING, lang)}
+            </SectionHeading>
+            <p className="text-foreground max-w-prose text-lg leading-relaxed">
+              {pick(C.BEFORE_LEAD, lang)}
+            </p>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {C.BEFORE_ISSUES.map((issue, i) => (
+            <Reveal key={issue.id} index={i}>
+              <div className="border-border bg-card flex h-full flex-col gap-1.5 rounded-xl border p-5">
+                <h3 className="text-sm font-semibold">
+                  {pick(issue.title, lang)}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {pick(issue.text, lang)}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <BeforeAfter rule={C.BEFORE_EXAMPLE} />
+      </section>
+
       {/* What we did */}
       <section className="flex flex-col gap-16" aria-labelledby="did">
         <Reveal>
           <SectionHeading id="did">{pick(C.DID_HEADING, lang)}</SectionHeading>
         </Reveal>
 
-        <Step n={1} title={C.STEP_START.title} body={C.STEP_START.body} />
-
-        <Step n={2} title={C.STEP_UX.title} body={C.STEP_UX.body}>
+        <Step n={1} title={C.STEP_UX.title} body={C.STEP_UX.body}>
           <div className="flex flex-col gap-12">
             <Split
               rule={C.UX_RULES.overview}
@@ -354,7 +431,15 @@ export function TpcPage({ item }: { item: WorkItem }) {
           </div>
         </Step>
 
-        <Step n={3} title={C.STEP_FLOWS.title} body={C.STEP_FLOWS.body}>
+        <Step n={2} title={C.STEP_FLOWS.title} body={C.STEP_FLOWS.body}>
+          <Reveal>
+            <div className="flex flex-col gap-3">
+              <Diagram svgs={pick(flow, lang)} />
+              <p className="text-muted-foreground text-sm">
+                {pick(C.FLOW_CAPTION, lang)}
+              </p>
+            </div>
+          </Reveal>
           <RuleExplorer
             items={[
               { rule: C.FLOW_RULES[0], demo: <ClipSlot id="back" /> },
@@ -365,7 +450,7 @@ export function TpcPage({ item }: { item: WorkItem }) {
           />
         </Step>
 
-        <Step n={4} title={C.STEP_BEHAVIOR.title} body={C.STEP_BEHAVIOR.body}>
+        <Step n={3} title={C.STEP_BEHAVIOR.title} body={C.STEP_BEHAVIOR.body}>
           <RuleExplorer
             items={[
               { rule: C.BEHAVIOR_RULES[0], demo: <ClipSlot id="rows" /> },
@@ -382,9 +467,39 @@ export function TpcPage({ item }: { item: WorkItem }) {
           />
         </Step>
 
-        <Step n={5} title={C.STEP_REQS.title} body={C.STEP_REQS.body}>
+        <Step n={4} title={C.STEP_REQS.title} body={C.STEP_REQS.body}>
           <ClipSlot id="requirements" />
         </Step>
+      </section>
+
+      {/* Cleanup */}
+      <section className="flex flex-col gap-10" aria-labelledby="cleanup">
+        <Reveal>
+          <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+            <SectionHeading id="cleanup">
+              {pick(C.CLEANUP_HEADING, lang)}
+            </SectionHeading>
+            <div className="flex max-w-prose flex-col gap-4">
+              {C.CLEANUP_PARAS.map((p, i) => (
+                <Para key={i} text={p} />
+              ))}
+            </div>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {C.CLEANUP_STATS.map((s, i) => (
+            <Reveal key={s.id} index={i}>
+              <div className="border-border bg-card flex h-full flex-col gap-2 rounded-xl border p-5">
+                <p className="font-display text-4xl leading-none font-bold tracking-tight">
+                  {pick(s.value, lang)}
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {pick(s.label, lang)}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* Design system */}
@@ -407,17 +522,24 @@ export function TpcPage({ item }: { item: WorkItem }) {
         <Split rule={C.DS_RULE} screen={<BackDemoCard />} />
       </section>
 
-      {/* Next */}
-      <section className="flex flex-col gap-4" aria-labelledby="next">
+      {/* Test */}
+      <section className="flex flex-col gap-8" aria-labelledby="test">
         <Reveal>
           <div className="grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-            <SectionHeading id="next">
-              {pick(C.NEXT_HEADING, lang)}
+            <SectionHeading id="test">
+              {pick(C.TEST_HEADING, lang)}
             </SectionHeading>
-            <p className="text-foreground max-w-prose text-base leading-relaxed">
-              {pick(C.NEXT_BODY, lang)}
-            </p>
+            <div className="flex max-w-prose flex-col gap-4">
+              {C.TEST_PARAS.map((p, i) => (
+                <Para key={i} text={p} />
+              ))}
+            </div>
           </div>
+        </Reveal>
+        <Reveal>
+          <p className="bg-muted max-w-3xl rounded-xl px-6 py-5 text-lg leading-snug font-semibold">
+            {pick(C.TEST_MISS, lang)}
+          </p>
         </Reveal>
       </section>
 

@@ -235,6 +235,24 @@ export const WORK: WorkItem[] = [
     homeHidden: true,
   },
   {
+    slug: "wealth-planner",
+    title: { en: "Wealth Planner", es: "Wealth Planner" },
+    description: {
+      en: "Showing wealth advisers what a change does to the plan while they make it.",
+      // TODO(afi-redaccion)
+      es: "Enseñar al gestor patrimonial qué hace un cambio en el plan mientras lo hace.",
+    },
+    year: 2026,
+    type: "design-system",
+    kind: "case-study",
+    href: "/work/wealth-planner",
+    image: "/work/wealth-planner/r10-ingresos-poster.jpg",
+    ongoing: true,
+    // Draft in progress (2026-11-27): intro and problem only. Off the home board
+    // until Richard says it's ready.
+    homeHidden: true,
+  },
+  {
     slug: "kt360",
     title: { en: "KnowThyself360", es: "KnowThyself360" },
     description: {

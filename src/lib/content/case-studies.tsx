@@ -126,11 +126,159 @@ export type StoryClip = {
   alt: Bilingual<string>;
 };
 
-export type StoryMedia = {
-  kind: "clip";
+/**
+ * One version of a screen inside a step: "3.61" against "Round 10", or A / B / C.
+ * `chosen` marks the one we kept; the segmented control shows it with a tag.
+ */
+export type StoryVariant = {
+  label: Bilingual<string>;
+  chosen?: boolean;
+  note?: Bilingual<string>;
   clip: StoryClip;
-  caption?: Bilingual<string>;
 };
+
+/** One stop in a stepper: why we tried it, then its screens. */
+export type StoryStep = {
+  label: Bilingual<string>;
+  title?: Bilingual<string>;
+  body?: Bilingual<string>[];
+  variants: StoryVariant[];
+};
+
+/** A two-column map: where things were, where they went. Static, so motion can replace it later. */
+export type StoryMapColumn = {
+  title: Bilingual<string>;
+  groups: { name: Bilingual<string>; items: Bilingual<string>[] }[];
+};
+
+export type StoryMedia =
+  | {
+      kind: "clip";
+      clip: StoryClip;
+      caption?: Bilingual<string>;
+    }
+  | {
+      /**
+       * Screens that switch in place instead of stacking down the page. One step
+       * shows only its segmented control; several get a row of step tabs on top.
+       * `stepWord` prefixes the tab number ("Iteration 1").
+       */
+      kind: "steps";
+      steps: StoryStep[];
+      stepWord?: Bilingual<string>;
+    }
+  | {
+      kind: "map";
+      before: StoryMapColumn;
+      after: StoryMapColumn;
+      caption?: Bilingual<string>;
+    }
+  | {
+      /** Two crops side by side, tagged Before / After. Crop to the part that changed. */
+      kind: "pair";
+      before: StoryClip;
+      after: StoryClip;
+      /** Toggle labels inside a beat; "Before" / "After" when absent. */
+      beforeLabel?: Bilingual<string>;
+      afterLabel?: Bilingual<string>;
+      /** Show the after as a live crop of the real prototype instead of `after`'s image. */
+      afterLive?: {
+        src: string;
+        title: Bilingual<string>;
+        crop: { x: number; y: number; w: number; h: number };
+        cropSmall?: { x: number; y: number; w: number; h: number };
+      };
+      caption?: Bilingual<string>;
+    }
+  | {
+      /** A ladder from quiet to loud: one row per level, the bar shows how strong it is. */
+      kind: "scale";
+      levels: { name: Bilingual<string>; note: Bilingual<string> }[];
+      caption?: Bilingual<string>;
+    }
+  | {
+      /**
+       * A live prototype in an iframe, drawn at desktop size (`width` × `height`, default
+       * 1440 × 900) and scaled down to the column, so it shows the real layout instead of
+       * its narrow one. `title` names it for screen readers.
+       */
+      kind: "embed";
+      src: string;
+      title: Bilingual<string>;
+      width?: number;
+      height?: number;
+      caption?: Bilingual<string>;
+    }
+  | {
+      /**
+       * A live crop of a real prototype page: the page runs at `viewport` size (CSS px) in
+       * an iframe and the box shows only `crop`, scaled to fit, so it stays sharp at any
+       * size and plays the real animation. `cropSmall` is the tighter crop for a narrow
+       * box (a phone). `frame` fixes the box's height-to-width ratio so a selector that
+       * swaps crops doesn't make the page jump; the crop sits centred in it.
+       */
+      kind: "live";
+      src: string;
+      title: Bilingual<string>;
+      crop: { x: number; y: number; w: number; h: number };
+      cropSmall?: { x: number; y: number; w: number; h: number };
+      viewport?: { w: number; h: number };
+      frame?: number;
+      caption?: Bilingual<string>;
+    }
+  | {
+      /**
+       * A composition made for its slot (see content/references/case-studies/visuals.md):
+       * whole components placed on a quiet stage of fixed shape (`aspect`, width / height,
+       * default 1.6) that scales as one, so nothing is ever cut. Each item is either a live
+       * element of a real prototype page (`src` + the element's exact `rect` in that page's
+       * CSS px) or an image. `x`, `y` are the item's centre and `w` its width, all in % of
+       * the stage. `marks` are numbered markers, also in %.
+       */
+      kind: "composition";
+      aspect?: number;
+      title: Bilingual<string>;
+      items: {
+        src?: string;
+        image?: string;
+        rect?: { x: number; y: number; w: number; h: number };
+        imageRatio?: number;
+        viewport?: { w: number; h: number };
+        x: number;
+        y: number;
+        w: number;
+        label?: Bilingual<string>;
+        fade?: "right" | "bottom";
+        flat?: boolean;
+        /**
+         * The component's own corner radius, in its source CSS px (scaled with the item),
+         * so the stage never cuts a corner the component doesn't have. For images,
+         * `sourceW` is the image's width in those CSS px.
+         */
+        radius?: number;
+        sourceW?: number;
+      }[];
+      marks?: { x: number; y: number; n: number }[];
+      /**
+       * How the composition's live items animate: "lab" presses the board's own «Repetir»,
+       * "case" presses a use case's ▶, "reload" reloads the page. It plays once when the
+       * stage is half on screen, and a Replay button plays it again.
+       */
+      play?: "lab" | "case" | "reload";
+      legend?: Bilingual<string>[];
+      caption?: Bilingual<string>;
+    }
+  | {
+      /** A hand-built artboard, drawn in code so it stays sharp at any size. `name` picks it from the registry in `case-study-artboards.tsx`. */
+      kind: "artboard";
+      name: string;
+      caption?: Bilingual<string>;
+    }
+  | {
+      /** A strip of figures, each with a short label. */
+      kind: "stats";
+      items: { value: string; label: Bilingual<string> }[];
+    };
 
 /**
  * One direction that was on the table for a decision, and what became of it.
@@ -148,8 +296,23 @@ export type StorySection = {
   /** Set on the few consequential decisions ("Decision 1"); they get more weight than the context sections. */
   kicker?: Bilingual<string>;
   heading: Bilingual<string>;
+  /** Short name for the side menu (`CaseStudy.nav`); the heading when absent. */
+  navLabel?: Bilingual<string>;
+  /**
+   * Beats layout only: several beats behind one selector. Picking one swaps the visual
+   * and the text in place, so a run of related beats doesn't become a long scroll.
+   */
+  switch?: {
+    label: Bilingual<string>;
+    kicker?: Bilingual<string>;
+    heading: Bilingual<string>;
+    body: Bilingual<string>[];
+    media: StoryMedia[];
+  }[];
   /** One entry per paragraph. */
   body: Bilingual<string>[];
+  /** The small heading above `options`; "Directions considered" when absent. */
+  optionsLabel?: Bilingual<string>;
   /** Directions considered, shown between the first paragraph (the problem) and the clip. */
   options?: StoryOption[];
   media?: StoryMedia[];
@@ -164,6 +327,17 @@ export type CaseStudy = {
   bento: BentoCard[];
   confidential?: Bilingual<string>;
   gallery?: boolean;
+  /** Story studies only: a sticky list of the sections in the left margin on wide screens. */
+  nav?: boolean;
+  /**
+   * Story studies only. "beats" is the house standard (2026-11-27, after rows.gg): each
+   * section is one claim, a small visual on the left and two short paragraphs on the right.
+   */
+  layout?: "beats";
+  /** A live prototype. The header and the end of the story get an "Enjoy the demo" action. */
+  demo?: { href: string };
+  /** One sentence before the closing demo action. */
+  closing?: Bilingual<string>;
 };
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
@@ -1702,6 +1876,976 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
    * image the deck pairs it with, and a card can carry one or the other, not both.
    * They're in the registry in case-study-bento.tsx if you want them back.
    */
+  "wealth-planner": {
+    tagline: {
+      en: "Showing advisers what a change does, while they make it",
+      // TODO(afi-redaccion)
+      es: "Enseñar al gestor qué hace un cambio mientras lo hace",
+    },
+    intro: {
+      en: "Wealth Planner is Afi's simulator for wealth advisers: they enter a client's family, assets, income and goals, and the plan shows what the client will have and leave behind. In three days and ten prototypes we reorganised where everything lives, so every change shows its effect while the adviser types.",
+      // TODO(afi-redaccion)
+      es: "Wealth Planner es el simulador de Afi para gestores patrimoniales: introducen la familia, el patrimonio, los ingresos y los objetivos de un cliente, y el plan enseña lo que tendrá y lo que dejará. En tres días y diez prototipos reorganizamos dónde vive cada cosa, para que cada cambio enseñe su efecto mientras el gestor escribe.",
+    },
+    role: {
+      en: "Systems and UX/UI designer",
+      // TODO(afi-redaccion)
+      es: "Diseñador de sistemas y UX/UI",
+    },
+    contributions: {
+      en: [
+        "Information architecture",
+        "Interaction design",
+        "AI states and motion",
+        "Prototyping",
+        "Design-system proposals",
+      ],
+      // TODO(afi-redaccion)
+      es: [
+        "Arquitectura de la información",
+        "Diseño de interacción",
+        "Estados y movimiento de la IA",
+        "Prototipado",
+        "Propuestas al sistema de diseño",
+      ],
+    },
+    bento: [],
+    layout: "beats",
+    demo: { href: "/work/wealth-planner/demo/P312-main.html" },
+    closing: {
+      en: "That's the whole idea: the plan beside the page, answering as you type.",
+      // TODO(afi-redaccion)
+      es: "Esa es toda la idea: el plan al lado de la página, respondiendo mientras escribes.",
+    },
+    story: [
+      {
+        kicker: {
+          en: "Context",
+          // TODO(afi-redaccion)
+          es: "Contexto",
+        },
+        heading: {
+          en: "The team wanted the plan in view.",
+          // TODO(afi-redaccion)
+          es: "El equipo quería el plan a la vista.",
+        },
+        navLabel: { en: "Context", es: "Contexto" },
+        body: [
+          {
+            en: "The live product had just had a UI redesign, and we kept adding to it. The team's favourite addition was a drawer you could pin to watch the plan update live.",
+            // TODO(afi-redaccion)
+            es: "El producto en vivo acababa de tener un rediseño de la interfaz y seguíamos añadiéndole cosas. Lo que más le gustó al equipo fue un panel que se podía fijar para ver el plan actualizarse en vivo.",
+          },
+          {
+            en: "Then they asked for it half and half, beside the page. Advisers use the plan with the client in the room, so they wanted it in view, always.",
+            // TODO(afi-redaccion)
+            es: "Luego lo pidieron a mitades, al lado de la página. Los gestores usan el plan con el cliente delante, así que lo querían a la vista, siempre.",
+          },
+        ],
+        media: [
+          {
+            kind: "composition",
+            title: {
+              en: "The plan updating live after an edit",
+              es: "El plan actualizándose en vivo tras una edición",
+            },
+            items: [
+              {
+                src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                rect: { x: 766, y: 64, w: 662, h: 824 },
+                x: 50,
+                y: 52,
+                w: 46,
+                fade: "bottom",
+                radius: 18,
+              },
+            ],
+            caption: {
+              en: "The plan answering an edit, live.",
+              // TODO(afi-redaccion)
+              es: "El plan respondiendo a una edición, en vivo.",
+            },
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "The problem",
+          // TODO(afi-redaccion)
+          es: "El problema",
+        },
+        heading: {
+          en: "The results lived in five places.",
+          // TODO(afi-redaccion)
+          es: "Los resultados vivían en cinco sitios.",
+        },
+        navLabel: { en: "The problem", es: "El problema" },
+        body: [
+          {
+            en: "It's a dense product: every page asks for a lot, and the plan answers with a lot. We had moved the detail from dialogs into drawers, which held it better, but the results were still spread across five places. You always had to go looking. Patrimonio, once its own page, had moved inside Legado: where did it go?",
+            // TODO(afi-redaccion)
+            es: "Es un producto denso: cada página pide mucho y el plan responde con mucho. Habíamos pasado el detalle de diálogos a paneles, que lo contenían mejor, pero los resultados seguían repartidos en cinco sitios. Siempre había que ir a buscarlos. Patrimonio, que antes tenía su página, ahora vivía dentro de Legado: ¿dónde se había ido?",
+          },
+          {
+            en: "A teammate wanted to show the AI generating the plan. With five places, there was nowhere to show it.",
+            // TODO(afi-redaccion)
+            es: "Un compañero quería enseñar a la IA generando el plan. Con cinco sitios, no había dónde enseñarlo.",
+          },
+        ],
+        media: [
+          {
+            kind: "composition",
+            title: {
+              en: "The live product: the five places the plan's results lived",
+              es: "El producto en vivo: los cinco sitios donde vivían los resultados del plan",
+            },
+            aspect: 1.25,
+            items: [
+              {
+                image: "/work/wealth-planner/live-ingresos.jpg",
+                imageRatio: 0.625,
+                x: 34.0,
+                y: 30.4375,
+                w: 60,
+                radius: 8,
+              },
+              {
+                image: "/work/wealth-planner/live-drawer.png",
+                imageRatio: 1.9644,
+                x: 81.0,
+                y: 40.37777777777777,
+                w: 28,
+                radius: 12,
+                sourceW: 450,
+              },
+              {
+                image: "/work/wealth-planner/live-gl.png",
+                imageRatio: 0.1187,
+                x: 34.0,
+                y: 63.3,
+                w: 60,
+                radius: 8,
+                sourceW: 1112,
+              },
+              {
+                image: "/work/wealth-planner/live-ren.png",
+                imageRatio: 0.1101,
+                x: 34.0,
+                y: 75.9,
+                w: 60,
+                flat: true,
+                radius: 8,
+              },
+            ],
+            marks: [
+              { x: 48.4, y: 3.2, n: 1 },
+              { x: 26.1, y: 19.7, n: 2 },
+              { x: 67.5, y: 3.2, n: 3 },
+              { x: 1.8, y: 63.3, n: 4 },
+              { x: 1.8, y: 75.9, n: 5 },
+            ],
+            legend: [
+              {
+                en: "The verdict, in two pills at the top: Legado and Liquidez.",
+                // TODO(afi-redaccion)
+                es: "El veredicto, en dos píldoras arriba: Legado y Liquidez.",
+              },
+              {
+                en: "The page's own result cards, on Ingresos and Gastos.",
+                // TODO(afi-redaccion)
+                es: "Las tarjetas de resultados de cada página, en Ingresos y Gastos.",
+              },
+              {
+                en: "The detail, in the «Impacto en el plan» drawer.",
+                // TODO(afi-redaccion)
+                es: "El detalle, en el panel «Impacto en el plan».",
+              },
+              {
+                en: "The liquidity gap, inside Generación de liquidez.",
+                // TODO(afi-redaccion)
+                es: "El déficit de liquidez, dentro de Generación de liquidez.",
+              },
+              {
+                en: "The minimum return, inside each optimization's results.",
+                // TODO(afi-redaccion)
+                es: "La rentabilidad mínima, dentro de los resultados de cada optimización.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "The question",
+          // TODO(afi-redaccion)
+          es: "La pregunta",
+        },
+        heading: {
+          en: "What if you never left the page?",
+          // TODO(afi-redaccion)
+          es: "¿Y si nunca salieras de la página?",
+        },
+        navLabel: { en: "The question", es: "La pregunta" },
+        body: [
+          {
+            en: "The drawers weren't bad. People liked them, most of all pinned, with two views side by side. That was the hint.",
+            // TODO(afi-redaccion)
+            es: "Los paneles no estaban mal. A la gente le gustaban, sobre todo fijados, con dos vistas una al lado de la otra. Esa fue la pista.",
+          },
+          {
+            en: "So the design question was: what if you could do everything without leaving the workflow, and without the blur?",
+            // TODO(afi-redaccion)
+            es: "Así que la pregunta de diseño fue: ¿y si pudieras hacerlo todo sin salir del flujo de trabajo, y sin el desenfoque?",
+          },
+        ],
+        media: [
+          {
+            kind: "composition",
+            title: {
+              en: "The live product: the plan's drawer pinned over a blurred page",
+              es: "El producto en vivo: el panel del plan fijado sobre una página emborronada",
+            },
+            items: [
+              {
+                image: "/work/wealth-planner/d2-before.jpg",
+                imageRatio: 0.625,
+                x: 50,
+                y: 50,
+                w: 92,
+                radius: 8,
+              },
+            ],
+            marks: [
+              { x: 80.4, y: 15.0, n: 1 },
+              { x: 31.6, y: 45.4, n: 2 },
+            ],
+            legend: [
+              {
+                en: "The drawer, pinned: people liked keeping the plan in view.",
+                // TODO(afi-redaccion)
+                es: "El panel, fijado: a la gente le gustaba tener el plan a la vista.",
+              },
+              {
+                en: "The page, blurred: every check meant clicking out and back in.",
+                // TODO(afi-redaccion)
+                es: "La página, emborronada: cada comprobación obligaba a salir y volver a entrar.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Chapter 1 · Architecture",
+          // TODO(afi-redaccion)
+          es: "Capítulo 1 · Arquitectura",
+        },
+        heading: {
+          en: "One place for everything: menu, form, plan.",
+          // TODO(afi-redaccion)
+          es: "Un solo sitio para todo: menú, formulario, plan.",
+        },
+        navLabel: { en: "Architecture", es: "Arquitectura" },
+        body: [
+          {
+            en: "The 27 pieces the live product showed off the page each got one home, and the menu went from 13 pages to 7. Tesler's law guided it: complexity can't be removed, only moved, so the product carries it.",
+            // TODO(afi-redaccion)
+            es: "Las 27 piezas que el producto en vivo enseñaba fuera de la página tuvieron un solo sitio cada una, y el menú pasó de 13 páginas a 7. Nos guio la ley de Tesler: la complejidad no se elimina, solo se traslada, así que la carga el producto.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "Menu, form, plan", es: "Menú, formulario, plan" },
+            heading: {
+              en: "Left to right.",
+              // TODO(afi-redaccion)
+              es: "De izquierda a derecha.",
+            },
+            body: [
+              {
+                en: "The menu says where you are, the form is the page you edit, and the plan answers it.",
+                // TODO(afi-redaccion)
+                es: "El menú dice dónde estás, el formulario es la página que editas y el plan le responde.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The workstation pulled apart into menu, form and plan",
+                  es: "La estación de trabajo separada en menú, formulario y plan",
+                },
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos.html",
+                    rect: { x: 0, y: 48, w: 64, h: 852 },
+                    x: 9,
+                    y: 52,
+                    w: 4.2,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 72, y: 64, w: 682, h: 824 },
+                    x: 37,
+                    y: 52,
+                    w: 41,
+                    fade: "bottom",
+                    radius: 10,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 766, y: 64, w: 662, h: 824 },
+                    x: 79.5,
+                    y: 52,
+                    w: 39,
+                    fade: "bottom",
+                    radius: 18,
+                  },
+                ],
+                marks: [
+                  { x: 9, y: 8, n: 1 },
+                  { x: 37, y: 8, n: 2 },
+                  { x: 79.5, y: 8, n: 3 },
+                ],
+                legend: [
+                  {
+                    en: "Menu · where you are",
+                    // TODO(afi-redaccion)
+                    es: "Menú · dónde estás",
+                  },
+                  {
+                    en: "Form · what you change",
+                    // TODO(afi-redaccion)
+                    es: "Formulario · lo que cambias",
+                  },
+                  {
+                    en: "Plan · what it does",
+                    // TODO(afi-redaccion)
+                    es: "Plan · lo que hace",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Follows the page", es: "Sigue a la página" },
+            heading: {
+              en: "The plan opens on what the page affects.",
+              // TODO(afi-redaccion)
+              es: "El plan se abre en lo que la página afecta.",
+            },
+            body: [
+              {
+                en: "The live product's two pills were the same on every page. Now each page opens the plan tab it affects: Ingresos opens Liquidez.",
+                // TODO(afi-redaccion)
+                es: "Las dos píldoras del producto en vivo eran iguales en todas las páginas. Ahora cada página abre la pestaña del plan a la que afecta: Ingresos abre Liquidez.",
+              },
+              {
+                en: "A switch to choose the tab came first. It was one more thing to manage, so it went.",
+                // TODO(afi-redaccion)
+                es: "Primero hubo un interruptor para elegir la pestaña. Era una cosa más que gestionar, así que se fue.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The live product's two pills, and the plan's tabs in iteration 10",
+                  es: "Las dos píldoras del producto en vivo y las pestañas del plan en la iteración 10",
+                },
+                items: [
+                  {
+                    image: "/work/wealth-planner/live-pills.png",
+                    imageRatio: 0.1023,
+                    x: 50,
+                    y: 27,
+                    w: 78,
+                    label: {
+                      en: "The live product",
+                      es: "El producto en vivo",
+                    },
+                    radius: 8,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos.html",
+                    rect: { x: 798, y: 179, w: 598, h: 58 },
+                    x: 50,
+                    y: 68,
+                    w: 78,
+                    label: { en: "Iteration 10", es: "Iteración 10" },
+                    radius: 12,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Detail in place", es: "Detalle en su sitio" },
+            heading: {
+              en: "The detail never covers the page.",
+              // TODO(afi-redaccion)
+              es: "El detalle nunca tapa la página.",
+            },
+            body: [
+              {
+                en: "The detail unfolds inside the plan, beside the page, instead of in a drawer over it. From 1680 px, page and plan split the screen in half: the double screen the team asked for.",
+                // TODO(afi-redaccion)
+                es: "El detalle se despliega dentro del plan, al lado de la página, en vez de en un panel encima. Desde 1680 px, página y plan se reparten la pantalla a mitades: la pantalla doble que pidió el equipo.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The drawer over the page, and the detail beside it in iteration 1",
+                  es: "El panel encima de la página y el detalle a su lado en la iteración 1",
+                },
+                items: [
+                  {
+                    image: "/work/wealth-planner/d2-before.jpg",
+                    imageRatio: 0.625,
+                    x: 26,
+                    y: 55,
+                    w: 45,
+                    label: {
+                      en: "The live product",
+                      es: "El producto en vivo",
+                    },
+                    radius: 8,
+                  },
+                  {
+                    image: "/work/wealth-planner/d2-after.jpg",
+                    imageRatio: 0.625,
+                    x: 74,
+                    y: 55,
+                    w: 45,
+                    label: { en: "Iteration 1", es: "Iteración 1" },
+                    radius: 8,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Chapter 2 · The UI",
+          // TODO(afi-redaccion)
+          es: "Capítulo 2 · La interfaz",
+        },
+        heading: {
+          en: "Calmer, and you edit where you read.",
+          // TODO(afi-redaccion)
+          es: "Más tranquila, y se edita donde se lee.",
+        },
+        navLabel: { en: "The UI", es: "La interfaz" },
+        body: [
+          {
+            en: "The team liked the newer Afi apps design system, so we brought in its structure, tokens and micro-animations. Tables follow rows.gg: you edit a row where it sits. Stripe set the bar for calm density.",
+            // TODO(afi-redaccion)
+            es: "Al equipo le gustaba el sistema de diseño Afi apps, más nuevo, así que trajimos su estructura, sus tokens y sus microanimaciones. Las tablas siguen a rows.gg: una fila se edita donde está. Stripe marcó el listón de la densidad tranquila.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "Tables in place", es: "Tablas en su sitio" },
+            heading: {
+              en: "Edit a row where it sits.",
+              // TODO(afi-redaccion)
+              es: "Una fila se edita donde está.",
+            },
+            body: [
+              {
+                en: "No dialog to add or change an income: the row opens in the list, the plan beside it recalculates, and figures count up to their new value.",
+                // TODO(afi-redaccion)
+                es: "Sin diálogo para añadir o cambiar un ingreso: la fila se abre en la lista, el plan de al lado recalcula y las cifras suben hasta su nuevo valor.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "Ingresos as a list you edit in place",
+                  es: "Ingresos como una lista que se edita en su sitio",
+                },
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 72, y: 64, w: 682, h: 420 },
+                    x: 50,
+                    y: 52,
+                    w: 80,
+                    fade: "bottom",
+                    radius: 10,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Answers first", es: "La respuesta primero" },
+            heading: {
+              en: "Every age shows its pension first.",
+              // TODO(afi-redaccion)
+              es: "Cada edad enseña su pensión primero.",
+            },
+            body: [
+              {
+                en: "The live product asked for a retirement date in a dropdown and showed one pension. Now the common ages are cards, each with its pension, before you choose. We tried eight directions; this was the eighth.",
+                // TODO(afi-redaccion)
+                es: "El producto en vivo pedía una fecha de jubilación en un desplegable y enseñaba una pensión. Ahora las edades habituales son tarjetas, cada una con su pensión, antes de elegir. Probamos ocho direcciones; esta fue la octava.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "One age from a dropdown, then every age as a card with its pension",
+                  es: "Una edad desde un desplegable y después cada edad como tarjeta con su pensión",
+                },
+                aspect: 1.25,
+                items: [
+                  {
+                    image: "/work/wealth-planner/live-jub.jpg",
+                    imageRatio: 0.2593,
+                    x: 50,
+                    y: 25,
+                    w: 72,
+                    label: {
+                      en: "The live product",
+                      es: "El producto en vivo",
+                    },
+                    radius: 8,
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/wp-jub.html",
+                    rect: { x: 72, y: 338, w: 671, h: 347 },
+                    x: 50,
+                    y: 70,
+                    w: 72,
+                    label: { en: "Iteration 9", es: "Iteración 9" },
+                    fade: "bottom",
+                    radius: 10,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Chapter 3 · The AI, in front",
+          // TODO(afi-redaccion)
+          es: "Capítulo 3 · La IA, delante",
+        },
+        heading: {
+          en: "Say something happened, without the fireworks.",
+          // TODO(afi-redaccion)
+          es: "Avisar de que algo ha pasado, sin fuegos artificiales.",
+        },
+        navLabel: { en: "The AI", es: "La IA" },
+        body: [
+          {
+            en: "Afi is a traditional firm, and its advisers sit with clients deciding about their savings. The AI had to feel powerful without feeling like a toy: say something happened, and never be cheesy.",
+            // TODO(afi-redaccion)
+            es: "Afi es una firma tradicional, y sus gestores se sientan con clientes que deciden sobre sus ahorros. La IA tenía que sentirse potente sin parecer un juguete: avisar de que ha pasado algo, y nunca resultar empalagosa.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "The chat", es: "El chat" },
+            heading: {
+              en: "Ask anything, get a simulation.",
+              // TODO(afi-redaccion)
+              es: "Pregunta lo que sea y recibe una simulación.",
+            },
+            body: [
+              {
+                en: "In the live product the AI was a button in the corner, and it felt like a canned assistant. Now «Preguntar» (ask) sits under the page: type anything, and the answer is a change you can apply to the plan.",
+                // TODO(afi-redaccion)
+                es: "En el producto en vivo la IA era un botón en una esquina y parecía un asistente de respuestas enlatadas. Ahora «Preguntar» está debajo de la página: escribe lo que quieras y la respuesta es un cambio que puedes aplicar al plan.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The «Preguntar» bar",
+                  es: "La barra «Preguntar»",
+                },
+                play: "case",
+                aspect: 1.52,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-dock-D-3.html",
+                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    x: 50,
+                    y: 50,
+                    w: 92,
+                    viewport: { w: 960, h: 560 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Icon in the tab", es: "Icono en la pestaña" },
+            heading: {
+              en: "The icon tells the story.",
+              // TODO(afi-redaccion)
+              es: "El icono cuenta la historia.",
+            },
+            body: [
+              {
+                en: "Each part of the plan keeps its icon. When the AI works on it, the icon goes from rest to applied, each state born from the one before.",
+                // TODO(afi-redaccion)
+                es: "Cada parte del plan tiene su icono. Cuando la IA trabaja en ella, el icono va de reposo a aplicado, cada estado nacido del anterior.",
+              },
+              {
+                en: "Flat colour is Afi; the gradient, Afi blue with a touch of violet, is the AI. We tried indigo and violet first.",
+                // TODO(afi-redaccion)
+                es: "El color plano es Afi; el degradado, azul Afi con un toque de violeta, es la IA. Probamos antes índigo y violeta.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "One plan tab, its icon going from rest to applied",
+                  es: "Una pestaña del plan, con su icono pasando de reposo a aplicado",
+                },
+                play: "lab",
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-hue-hint-iconflow.html",
+                    rect: { x: 32, y: 216, w: 356, h: 75 },
+                    x: 50,
+                    y: 40,
+                    w: 50,
+                    flat: true,
+                    viewport: { w: 960, h: 620 },
+                  },
+                  {
+                    src: "/work/wealth-planner/demo/P314-hue-hint-iconflow.html",
+                    rect: { x: 118, y: 327, w: 748, h: 38 },
+                    x: 50,
+                    y: 66,
+                    w: 88,
+                    flat: true,
+                    viewport: { w: 960, h: 620 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Toast on apply", es: "Aviso al aplicar" },
+            heading: {
+              en: "Applying says so, once.",
+              // TODO(afi-redaccion)
+              es: "Aplicar lo dice, una vez.",
+            },
+            body: [
+              {
+                en: "One toast confirms it: the spinner becomes a check, and the text names the result, so nobody goes looking for it.",
+                // TODO(afi-redaccion)
+                es: "Un aviso lo confirma: el indicador de carga se convierte en un check y el texto dice el resultado, así que nadie tiene que buscarlo.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The toast after applying a simulation",
+                  es: "El aviso tras aplicar una simulación",
+                },
+                play: "lab",
+                aspect: 1.7,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-hue-hint-toast.html",
+                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    x: 50,
+                    y: 50,
+                    w: 100,
+                    flat: true,
+                    viewport: { w: 960, h: 620 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "Whole plan", es: "Todo el plan" },
+            heading: {
+              en: "Only one moment is loud.",
+              // TODO(afi-redaccion)
+              es: "Solo un momento hace ruido.",
+            },
+            body: [
+              {
+                en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light through the plan, timed from a reference we broke down frame by frame (0.35 s up, 0.15 s hold, 0.45 s out).",
+                // TODO(afi-redaccion)
+                es: "«Aplicar al plan» es el único gran momento: un anillo de luz que recorre el plan, cronometrado a partir de una referencia que desmontamos fotograma a fotograma (0,35 s de subida, 0,15 s de pausa, 0,45 s de salida).",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The whole plan on «Aplicar al plan»",
+                  es: "Todo el plan al pulsar «Aplicar al plan»",
+                },
+                play: "lab",
+                aspect: 1.7,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-hue-hint-panel.html",
+                    rect: { x: 0, y: 57, w: 960, h: 563 },
+                    x: 50,
+                    y: 50,
+                    w: 100,
+                    flat: true,
+                    viewport: { w: 960, h: 620 },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        kicker: {
+          en: "Feedback",
+          // TODO(afi-redaccion)
+          es: "Crítica",
+        },
+        heading: {
+          en: "A teammate said it was too busy.",
+          // TODO(afi-redaccion)
+          es: "Un compañero dijo que estaba demasiado cargado.",
+        },
+        navLabel: { en: "Feedback", es: "Crítica" },
+        body: [
+          {
+            en: "Once everything sat in one panel, it got busy fast. A teammate said so: too much at once, nothing saying where to look, a light on every keystroke. We worked through it together and ranked every moment, quiet to loud.",
+            // TODO(afi-redaccion)
+            es: "En cuanto todo estuvo en un panel, se cargó enseguida. Un compañero lo dijo: demasiado a la vez, nada que dijera adónde mirar, una luz con cada tecla. Le dimos vueltas juntos y ordenamos cada momento, de silencioso a llamativo.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "1 · Edit", es: "1 · Editar" },
+            kicker: { en: "Level 1", es: "Nivel 1" },
+            heading: {
+              en: "Editing is quiet.",
+              // TODO(afi-redaccion)
+              es: "Editar es silencioso.",
+            },
+            body: [
+              {
+                en: "Figures dim while the plan recalculates, then count up. No light.",
+                // TODO(afi-redaccion)
+                es: "Las cifras se atenúan mientras el plan recalcula y luego suben. Sin luz.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The plan panel recalculating quietly",
+                  es: "El panel del plan recalculando en silencio",
+                },
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
+                    rect: { x: 766, y: 64, w: 662, h: 824 },
+                    x: 50,
+                    y: 52,
+                    w: 46,
+                    fade: "bottom",
+                    radius: 18,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "2 · The AI thinks", es: "2 · La IA piensa" },
+            kicker: { en: "Level 2", es: "Nivel 2" },
+            heading: {
+              en: "Only the thinking moves.",
+              // TODO(afi-redaccion)
+              es: "Solo se mueve lo que piensa.",
+            },
+            body: [
+              {
+                en: "While the AI works, a spark moves beside «Pensando…» (thinking). It's the only motion that repeats, and it stops when the answer lands.",
+                // TODO(afi-redaccion)
+                es: "Mientras la IA trabaja, una chispa se mueve junto a «Pensando…». Es el único movimiento que se repite, y se para cuando llega la respuesta.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The «Preguntar» bar",
+                  es: "La barra «Preguntar»",
+                },
+                play: "case",
+                aspect: 1.52,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-dock-D-2.html",
+                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    x: 50,
+                    y: 50,
+                    w: 92,
+                    viewport: { w: 960, h: 560 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "3 · Simulation", es: "3 · Simulación" },
+            kicker: { en: "Level 3", es: "Nivel 3" },
+            heading: {
+              en: "A simulation opens quietly.",
+              // TODO(afi-redaccion)
+              es: "Una simulación se abre en silencio.",
+            },
+            body: [
+              {
+                en: "Switching on «Simulación», the light rises through the bar once and the space grows. Nothing is real yet.",
+                // TODO(afi-redaccion)
+                es: "Al activar «Simulación», la luz sube una vez por la barra y su espacio crece. Todavía no es real.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The «Preguntar» bar",
+                  es: "La barra «Preguntar»",
+                },
+                play: "case",
+                aspect: 1.52,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-dock-D-1.html",
+                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    x: 50,
+                    y: 50,
+                    w: 92,
+                    viewport: { w: 960, h: 560 },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: { en: "4 · Apply", es: "4 · Aplicar" },
+            kicker: { en: "Level 4", es: "Nivel 4" },
+            heading: {
+              en: "Applying is the loud one.",
+              // TODO(afi-redaccion)
+              es: "Aplicar es el llamativo.",
+            },
+            body: [
+              {
+                en: "«Aplicar al plan»: the big pulse runs through the bar and the toast says what changed. Then quiet again.",
+                // TODO(afi-redaccion)
+                es: "«Aplicar al plan»: el pulso grande recorre la barra y el aviso dice qué cambió. Después, silencio otra vez.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The «Preguntar» bar",
+                  es: "La barra «Preguntar»",
+                },
+                play: "case",
+                aspect: 1.52,
+                items: [
+                  {
+                    src: "/work/wealth-planner/demo/P314-dock-D-4.html",
+                    rect: { x: 110, y: 66, w: 740, h: 486 },
+                    x: 50,
+                    y: 50,
+                    w: 92,
+                    viewport: { w: 960, h: 560 },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        kicker: {
+          en: "Result",
+          // TODO(afi-redaccion)
+          es: "Resultado",
+        },
+        heading: {
+          en: "Ten prototypes in three days.",
+          // TODO(afi-redaccion)
+          es: "Diez prototipos en tres días.",
+        },
+        navLabel: { en: "Result", es: "Resultado" },
+        body: [
+          {
+            en: "Each idea was tested by using it, so the wrong ones were cheap to drop: a switch, a menu, five places for a sparkle, pulses on every keystroke.",
+            // TODO(afi-redaccion)
+            es: "Cada idea se probó usándola, así que las equivocadas fueron baratas de quitar: un interruptor, un menú, cinco sitios para un destello y pulsos con cada tecla.",
+          },
+          {
+            en: "The rules that repeat went back to the Afi apps design system as proposals. The workstation is the base for 4.0.",
+            // TODO(afi-redaccion)
+            es: "Las reglas que se repiten volvieron al sistema de diseño Afi apps como propuestas. La estación de trabajo es la base de la 4.0.",
+          },
+        ],
+        media: [
+          {
+            kind: "stats",
+            items: [
+              {
+                value: "27",
+                label: {
+                  en: "pieces given one home",
+                  es: "piezas con un solo sitio",
+                },
+              },
+              {
+                value: "13 → 7",
+                label: { en: "menu pages", es: "páginas en el menú" },
+              },
+              {
+                value: "10",
+                label: {
+                  en: "prototypes in 3 days",
+                  es: "prototipos en 3 días",
+                },
+              },
+              {
+                value: "9",
+                label: {
+                  en: "rules proposed to the design system",
+                  es: "reglas propuestas al sistema de diseño",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
   "audemic-business-growth": {
     tagline: {
       en: "A loyal B2C base, and nowhere to grow",

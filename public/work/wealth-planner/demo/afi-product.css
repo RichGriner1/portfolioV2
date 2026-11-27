@@ -1,0 +1,69 @@
+/* afi-product.css: the page layer every Afi product shares (simulators, consoles, portals).
+   It only places things. Every colour, size, radius and font is a DS token; every control is a DS component.
+   Numbers come from SAREVI Afi and Cumplimiento de terceros (measured on their renders). Class prefix: ap-. */
+
+.ap { min-height: 100%; display: flex; flex-direction: column; background: var(--background-canvas); color: var(--content-primary); font: 400 var(--type-body-default-size)/var(--type-body-default-line-height) var(--font-family-primary); -webkit-font-smoothing: antialiased; }
+.ap[data-scroll] { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; scroll-behavior: smooth; }
+.ap h1, .ap h2, .ap h3 { margin: 0; letter-spacing: -.02em; }
+.ap p { margin: 0; }
+.ap-main { flex: 1; width: 100%; }
+
+/* ---- the page: one centred column, 1132 for forms and results, 820 inside it for reading ---- */
+.ap-page { box-sizing: border-box; width: 100%; max-width: 1132px; margin-inline: auto; padding: var(--dimension-8) var(--dimension-6) var(--dimension-16); display: flex; flex-direction: column; gap: var(--dimension-6); }
+.ap-page--wide { max-width: 1200px; gap: var(--dimension-10); }
+
+/* ---- page head: title 20/600, one quiet line under it, then the step strip ---- */
+.ap-head { display: flex; flex-direction: column; gap: var(--dimension-1); }
+.ap-head h1 { font-size: var(--type-h3-size); line-height: var(--type-h3-line-height); font-weight: var(--font-weight-semibold); }
+.ap-head p { font-size: var(--type-body-small-size); color: var(--content-secondary); }
+.ap-head .afi-progress-segments-v2 { margin-top: var(--dimension-3); }
+
+/* ---- sections: no card around the form, a hairline between sections ---- */
+.ap-sec { display: flex; flex-direction: column; gap: var(--dimension-4); padding-top: var(--dimension-6); border-top: var(--stroke-hairline) solid var(--borders-default); }
+.ap-sec:first-of-type { padding-top: 0; border-top: 0; }
+.ap-sec > h2 { font-size: var(--type-body-large-size); line-height: var(--type-body-large-line-height); font-weight: var(--font-weight-semibold); }
+.ap-sec > .ap-lead { font-size: var(--type-body-small-size); color: var(--content-secondary); margin-top: calc(var(--dimension-2) * -1); }
+.ap-page--wide .ap-sec { padding-top: var(--dimension-10); }
+.ap-page--wide .ap-sec:first-of-type { padding-top: 0; }
+.ap-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--dimension-4) var(--dimension-6); max-width: 680px; }
+.ap-form > .ap-full { grid-column: 1 / -1; }
+.ap-q { font: 500 var(--type-label-size)/var(--type-label-line-height) var(--font-family-primary); }
+.ap-stack { display: flex; flex-direction: column; gap: var(--dimension-2); max-width: 680px; }
+.ap-short { max-width: 240px; }
+
+/* ---- results ---- */
+.ap-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--dimension-2); }
+.ap-note { font-size: var(--type-body-small-size); color: var(--content-secondary); max-width: 68ch; }
+.ap-ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--dimension-2); }
+.ap-ticks li { display: flex; align-items: flex-start; gap: var(--dimension-2); font-size: var(--type-body-small-size); line-height: var(--type-body-default-line-height); }
+.ap-ticks li > span:first-child { display: flex; padding-top: 1px; color: var(--success-foreground); }
+.ap-split { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--dimension-8); align-items: start; }
+.ap-chart { display: flex; flex-direction: column; gap: var(--dimension-3); min-width: 0; }
+.ap-land { flex: 1; }
+.ap-land .afi-landing-hero { padding-block: var(--dimension-16); }
+.ap-start { display: flex; flex-direction: column; gap: var(--dimension-4); padding: var(--dimension-6); border: var(--stroke-hairline) solid var(--borders-default); border-radius: var(--radius-xl); background: var(--background-surface); }
+.ap-start h3 { font-size: var(--type-h4-size); font-weight: var(--font-weight-semibold); }
+.ap-start p { color: var(--content-secondary); font-size: var(--type-body-small-size); }
+.ap-dlg { display: flex; flex-direction: column; gap: var(--dimension-5); }
+.afi-action-bar-v2--pill .btn-v2 { white-space: nowrap; }
+
+/* ---- motion: a screen enters as its parts rise in, one after another (SAREVI "mo-in"; DS reveal tokens) ---- */
+@keyframes ap-in { from { opacity: 0; transform: translateY(var(--motion-reveal-rise-normal)); filter: blur(var(--motion-reveal-blur-normal)); } to { opacity: 1; transform: none; filter: blur(0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .ap-in > * { animation: ap-in var(--motion-duration-base) var(--motion-easing-standard) backwards; }
+  .ap-in > :nth-child(2) { animation-delay: var(--motion-reveal-stagger-normal); }
+  .ap-in > :nth-child(3) { animation-delay: calc(var(--motion-reveal-stagger-normal) * 2); }
+  .ap-in > :nth-child(4) { animation-delay: calc(var(--motion-reveal-stagger-normal) * 3); }
+}
+.ap-hl { outline: var(--stroke-focus) solid var(--borders-focus) !important; outline-offset: 4px !important; border-radius: var(--radius-control, var(--radius-lg)); }
+
+@media (max-width: 860px) {
+  .ap-form { grid-template-columns: 1fr; }
+  .ap-split { grid-template-columns: 1fr; gap: var(--dimension-6); }
+  .ap-page { padding-block: var(--dimension-6) var(--dimension-12); }
+}
+
+/* ---- sheet (below 1000): the panel scrolls inside its card, so the primary action stays pinned at the bottom of the card ---- */
+@media (max-width: 999px) {
+  .afi-preview-layout--sheet .afi-preview-panel__actions { position: sticky; inset-block-end: calc(var(--dimension-4) * -1); margin-block-end: calc(var(--dimension-4) * -1); padding-block: var(--dimension-3) var(--dimension-4); background: var(--background-surface); }
+}

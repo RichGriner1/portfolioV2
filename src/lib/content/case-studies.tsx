@@ -2496,42 +2496,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
           },
           {
-            label: { en: "Changed section", es: "Sección que cambia" },
-            kicker: { en: "Level 3", es: "Nivel 3" },
-            heading: {
-              en: "Light only where the plan changed.",
-              es: "Luz solo donde cambió el plan.",
-            },
-            body: [
-              {
-                en: "A section that changed gets the same light as applying: it rises once and leaves by the edges, and the figure counts to its new value. Sections that didn't change stay still.",
-                es: "Una sección que cambió recibe la misma luz que al aplicar: sube de golpe, sale por los bordes y la cifra avanza hasta su nuevo valor. Las secciones que no cambiaron se quedan quietas.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "A plan section with its chart lighting up once",
-                  es: "Una sección del plan cuyo gráfico se ilumina una vez",
-                },
-                play: "lab",
-                aspect: 1.7,
-                items: [
-                  {
-                    src: "/work/wealth-planner/demo/P314-hue-hint-section.html",
-                    rect: { x: 23, y: 176, w: 915, h: 329 },
-                    x: 50,
-                    y: 50,
-                    w: 100,
-                    flat: true,
-                    viewport: { w: 960, h: 620 },
-                  },
-                ],
-              },
-            ],
-          },
-          {
             label: { en: "Icon in the tab", es: "Icono en la pestaña" },
             kicker: { en: "Level 3", es: "Nivel 3" },
             heading: {
@@ -2580,53 +2544,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
           },
           {
-            label: { en: "Apply", es: "Aplicar" },
-            kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
-            heading: {
-              en: "The light rises and leaves.",
-              es: "La luz sube y se va.",
-            },
-            body: [
-              {
-                en: "Applying sends one band of light through the plan card: navy, Afi blue and a touch of violet, no pause. In the plan selector below, the light rises through each part that changed and leaves its icon tinted. We took the timing from a reference we broke down frame by frame.",
-                es: "Al aplicar, una banda de luz recorre la tarjeta del plan: azul profundo, azul Afi y un toque de violeta, sin pausa. En el selector del plan, debajo, la luz sube por cada parte que cambia y deja su icono teñido. Tomamos el ritmo de una referencia que analizamos fotograma a fotograma.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "A band of light rising through a plan card",
-                  es: "Una banda de luz recorre una tarjeta del plan",
-                },
-                play: "lab",
-                aspect: 1.7,
-                items: [
-                  {
-                    src: "/work/wealth-planner/demo/P314-hue-hint-apply2.html",
-                    rect: { x: 143, y: 165, w: 674, h: 365 },
-                    x: 50,
-                    y: 33.6,
-                    w: 62,
-                    flat: true,
-                    viewport: { w: 960, h: 620 },
-                  },
-                  {
-                    // The plan selector on the same apply: the light rises through
-                    // each part that changed and leaves its icon tinted.
-                    src: "/work/wealth-planner/demo/P314-hue-hint-tab.html",
-                    rect: { x: 60, y: 284, w: 981, h: 108 },
-                    x: 50,
-                    y: 79.1,
-                    w: 90,
-                    flat: true,
-                    viewport: { w: 1100, h: 620 },
-                  },
-                ],
-              },
-            ],
-          },
-          {
             label: { en: "Toast on apply", es: "Aviso al aplicar" },
             kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
             heading: {
@@ -2652,42 +2569,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   {
                     src: "/work/wealth-planner/demo/P314-hue-hint-toast.html",
                     rect: { x: 161, y: 290, w: 639, h: 118 },
-                    x: 50,
-                    y: 50,
-                    w: 100,
-                    flat: true,
-                    viewport: { w: 960, h: 620 },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: { en: "Whole plan", es: "Todo el plan" },
-            kicker: { en: "Level 4 · loud", es: "Nivel 4 · llamativo" },
-            heading: {
-              en: "Only one moment is loud.",
-              es: "Solo un momento hace ruido.",
-            },
-            body: [
-              {
-                en: "«Aplicar al plan» (apply to the plan) is the one big moment: a ring of light through the plan, the one moment the whole plan lights up.",
-                es: "«Aplicar al plan» es el único gran momento: un anillo de luz recorre el plan entero, y es la única vez que se ilumina completo.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The whole plan on «Aplicar al plan»",
-                  es: "Todo el plan al pulsar «Aplicar al plan»",
-                },
-                play: "lab",
-                aspect: 1.7,
-                items: [
-                  {
-                    src: "/work/wealth-planner/demo/P314-hue-hint-panel.html",
-                    rect: { x: 140, y: 142, w: 681, h: 413 },
                     x: 50,
                     y: 50,
                     w: 100,

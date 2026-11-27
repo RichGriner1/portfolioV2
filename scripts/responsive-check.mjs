@@ -279,6 +279,13 @@ function collectFindings({ minTap, navTargets, touch, deviceWidth }) {
      */
     if (el.closest("[data-canvas]")) continue;
 
+    /**
+     * A case-study crop (`data-crop`) shows one box of a live prototype page and
+     * hides the rest on purpose, so "content wider than its box" is how it works.
+     * The page-level horizontal-scroll check still covers it.
+     */
+    if (el.closest("[data-crop]")) continue;
+
     const clips = ["hidden", "clip"].includes(cs.overflowX);
     if (clips && !scrollable(cs) && el.scrollWidth > el.clientWidth + 1) {
       clipped.push({

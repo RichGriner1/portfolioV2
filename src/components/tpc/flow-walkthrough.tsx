@@ -109,7 +109,7 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
   return (
     <div
       ref={rootRef}
-      className="border-border/60 bg-card overflow-hidden rounded-xl border"
+      className="border-border/60 bg-card @container overflow-hidden rounded-xl border"
       role="group"
       aria-roledescription={
         lang === "es" ? "recorrido animado" : "animated walkthrough"
@@ -122,12 +122,13 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
     >
       {/* Header: where we are, and the controls */}
       <div className="border-border/60 flex items-center justify-between gap-3 border-b px-4 py-2.5">
-        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+        <span className="text-muted-foreground font-mono text-xs whitespace-nowrap tabular-nums">
           {String(beat + 1).padStart(2, "0")} /{" "}
           {String(steps.length).padStart(2, "0")}
         </span>
         <div className="flex items-center gap-1">
           <Button
+            className="hidden @xs:inline-flex"
             variant="ghost"
             size="icon-sm"
             onClick={() => jump(beat - 1)}
@@ -136,6 +137,7 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
             <ChevronLeft aria-hidden />
           </Button>
           <Button
+            className="hidden @xs:inline-flex"
             variant="ghost"
             size="icon-sm"
             onClick={() => jump(beat + 1)}
@@ -150,17 +152,21 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
             aria-pressed={!playing}
           >
             {playing ? <Pause aria-hidden /> : <Play aria-hidden />}
-            {playing
-              ? lang === "es"
-                ? "Pausa"
-                : "Pause"
-              : lang === "es"
-                ? "Reproducir"
-                : "Play"}
+            <span className="sr-only @md:not-sr-only">
+              {playing
+                ? lang === "es"
+                  ? "Pausa"
+                  : "Pause"
+                : lang === "es"
+                  ? "Reproducir"
+                  : "Play"}
+            </span>
           </Button>
           <Button variant="ghost" size="sm" onClick={replay}>
             <RotateCcw aria-hidden />
-            {lang === "es" ? "Repetir" : "Replay"}
+            <span className="sr-only @md:not-sr-only">
+              {lang === "es" ? "Repetir" : "Replay"}
+            </span>
           </Button>
         </div>
       </div>
@@ -173,11 +179,11 @@ export function FlowWalkthrough({ steps }: { steps: FlowStep[] }) {
         visited={visited}
         edges={edges}
         reduced={reduced}
-        className="hidden lg:block"
+        className="hidden @3xl:block"
       />
 
       {/* Phone: the same beats as a vertical stepper */}
-      <ol className="flex flex-col gap-1 px-4 pt-4 lg:hidden">
+      <ol className="flex flex-col gap-1 px-4 pt-4 @3xl:hidden">
         {steps.map((s, i) => (
           <li key={s.id}>
             <button

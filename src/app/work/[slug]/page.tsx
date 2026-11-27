@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { CaseStudyPage } from "@/components/case-study-page";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { TpcPage } from "@/components/tpc/tpc-page";
 import { renderDiagram } from "@/lib/diagram";
 import { CASE_STUDIES, type CaseStudy } from "@/lib/content/case-studies";
 import { DIAGRAMS, type RenderedDiagrams } from "@/lib/content/diagrams";
@@ -60,23 +59,11 @@ export default async function WorkDetailPage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader />
-      {/* Third-party compliance is laid out by hand (text beside working copies of
-          its patterns) rather than through the bento or story renderers. */}
-      {slug === "third-party-compliance" ? (
-        <TpcPage
-          item={item}
-          flow={{
-            en: renderDiagram(DIAGRAMS["tpc-user-flow"].en, "tpc-user-flow-en"),
-            es: renderDiagram(DIAGRAMS["tpc-user-flow"].es, "tpc-user-flow-es"),
-          }}
-        />
-      ) : (
-        <CaseStudyPage
-          item={item}
-          study={study}
-          diagrams={renderStudyDiagrams(study)}
-        />
-      )}
+      <CaseStudyPage
+        item={item}
+        study={study}
+        diagrams={renderStudyDiagrams(study)}
+      />
       <SiteFooter />
     </>
   );

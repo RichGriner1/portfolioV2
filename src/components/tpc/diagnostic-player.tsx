@@ -153,7 +153,7 @@ export function DiagnosticPlayer({
   return (
     <div
       ref={rootRef}
-      className="border-border bg-card overflow-hidden rounded-xl border"
+      className="border-border bg-card @container overflow-hidden rounded-xl border"
       role="group"
       aria-roledescription={
         lang === "es" ? "diagnóstico animado" : "animated diagnostic"
@@ -172,12 +172,13 @@ export function DiagnosticPlayer({
             {String(beat + 1).padStart(2, "0")} /{" "}
             {String(beats.length).padStart(2, "0")}
           </span>
-          <span className="hidden truncate font-mono text-xs sm:inline">
+          <span className="hidden truncate font-mono text-xs @xl:inline">
             {pick(phase, lang)}
           </span>
         </div>
         <div className="flex items-center gap-1">
           <Button
+            className="hidden @xs:inline-flex"
             variant="ghost"
             size="icon-sm"
             onClick={() => step(-1)}
@@ -186,6 +187,7 @@ export function DiagnosticPlayer({
             <ChevronLeft aria-hidden />
           </Button>
           <Button
+            className="hidden @xs:inline-flex"
             variant="ghost"
             size="icon-sm"
             onClick={() => step(1)}
@@ -200,7 +202,7 @@ export function DiagnosticPlayer({
             aria-pressed={!playing}
           >
             {playing ? <Pause aria-hidden /> : <Play aria-hidden />}
-            <span className="sr-only sm:not-sr-only">
+            <span className="sr-only @xl:not-sr-only">
               {playing
                 ? lang === "es"
                   ? "Pausa"
@@ -219,7 +221,7 @@ export function DiagnosticPlayer({
             }}
           >
             <RotateCcw aria-hidden />
-            <span className="sr-only sm:not-sr-only">
+            <span className="sr-only @xl:not-sr-only">
               {lang === "es" ? "Repetir" : "Replay"}
             </span>
           </Button>
@@ -231,7 +233,7 @@ export function DiagnosticPlayer({
             }
           >
             <Maximize2 aria-hidden />
-            <span className="sr-only sm:not-sr-only">
+            <span className="sr-only @xl:not-sr-only">
               {lang === "es" ? "Ampliar" : "Expand"}
             </span>
           </Button>
@@ -240,7 +242,7 @@ export function DiagnosticPlayer({
 
       {/* Stage and notes side by side on a wide screen, so the screenshot and
           what is being said about it fit in one view without scrolling. */}
-      <div className="bg-muted/40 grid grid-cols-1 gap-4 p-2 sm:p-4 lg:grid-cols-[minmax(0,1fr)_17rem]">
+      <div className="bg-muted/40 grid grid-cols-1 gap-4 p-2 sm:p-4 @4xl:grid-cols-[minmax(0,1fr)_17rem]">
         {/* Stage: the screenshot, its pins, and the audit card over it */}
         <div>
           <div className="relative aspect-[1440/1120] overflow-hidden rounded-lg">
@@ -355,7 +357,7 @@ export function DiagnosticPlayer({
         </div>
 
         {/* Notes: every pin of this screen, the one in focus opened */}
-        <aside className="hidden flex-col gap-1 lg:flex" aria-live="polite">
+        <aside className="hidden flex-col gap-1 @4xl:flex" aria-live="polite">
           <p className="text-muted-foreground px-2 pb-2 font-mono text-xs">
             {pick(phase, lang)}
           </p>
@@ -436,7 +438,7 @@ export function DiagnosticPlayer({
 
       {/* Caption for the pin in focus (below the stage, when there's no room beside it) */}
       <div className="flex flex-col gap-4 px-4 pt-4 pb-4 sm:px-6">
-        <div className="min-h-[4.5rem] lg:hidden" aria-live="polite">
+        <div className="min-h-[4.5rem] @4xl:hidden" aria-live="polite">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${cur.kind}-${"i" in cur ? cur.i : 0}`}

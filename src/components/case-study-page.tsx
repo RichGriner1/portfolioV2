@@ -18,8 +18,13 @@ type Props = {
 
 export function CaseStudyPage({ item, study, diagrams }: Props) {
   const { lang } = useLang();
+  // The beats layout (house standard, after rows.gg) reads calmer: a narrower column
+  // and smaller type. Other studies keep the wide layout.
+  const beats = study?.layout === "beats";
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-16 px-6 pt-8 pb-24 sm:pt-12">
+    <main
+      className={`mx-auto flex w-full flex-1 flex-col gap-16 px-6 pt-8 pb-24 sm:pt-12 ${beats ? "max-w-[1028px]" : "max-w-5xl"}`}
+    >
       {/* mb-0: this main already gaps 64px, which is the target. */}
       <BackLink className="mb-0" />
 
@@ -27,9 +32,11 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
         <>
           <div
             className={
-              study.story
-                ? "flex flex-col gap-10"
-                : "grid grid-cols-1 gap-10 sm:grid-cols-2"
+              beats
+                ? "flex flex-col gap-5"
+                : study.story
+                  ? "flex flex-col gap-10"
+                  : "grid grid-cols-1 gap-10 sm:grid-cols-2"
             }
           >
             <div className="flex flex-col gap-3">
@@ -49,9 +56,11 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
               </div>
               <h1
                 className={
-                  study.story
-                    ? "font-display text-4xl leading-tight font-bold tracking-tight sm:text-6xl"
-                    : "font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
+                  beats
+                    ? "font-display max-w-[720px] text-[28px] leading-[1.1] font-medium tracking-[-0.03em] text-balance sm:text-[32px]"
+                    : study.story
+                      ? "font-display text-4xl leading-tight font-bold tracking-tight sm:text-6xl"
+                      : "font-display text-3xl leading-tight font-bold tracking-tight sm:text-4xl"
                 }
               >
                 {/* The project name scrambles; the tagline beside it doesn't. Two
@@ -75,9 +84,11 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
 
             <div
               className={
-                study.story
-                  ? "flex max-w-2xl flex-col gap-6"
-                  : "flex flex-col gap-6"
+                beats
+                  ? "flex max-w-2xl flex-col gap-5"
+                  : study.story
+                    ? "flex max-w-2xl flex-col gap-6"
+                    : "flex flex-col gap-6"
               }
             >
               {/* Split on blank lines: an intro is written in beats, and squeezing
@@ -90,26 +101,43 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
                   .map((para, i) => (
                     <p
                       key={i}
-                      className="text-foreground text-base leading-relaxed"
+                      className={
+                        beats
+                          ? "text-foreground text-[14px] leading-[1.6]"
+                          : "text-foreground text-base leading-relaxed"
+                      }
                     >
                       {para.trim()}
                     </p>
                   ))}
               </div>
-              <div className="flex flex-col gap-2">
-                <p className="text-base">
+              {/* Beats: the meta (role, contribution) sits right under the title, as facts
+                  to scan; the intro follows. */}
+              <div
+                className={
+                  beats
+                    ? "text-muted-foreground order-first flex flex-col gap-1 pb-2"
+                    : "flex flex-col gap-2"
+                }
+              >
+                <p className={beats ? "text-[13px]" : "text-base"}>
                   <span className="text-muted-foreground">
                     {t("work.role", lang)}:{" "}
                   </span>
                   {pick(study.role, lang)}
                 </p>
-                <p className="text-base">
+                <p className={beats ? "text-[13px]" : "text-base"}>
                   <span className="text-muted-foreground">
                     {t("work.contribution", lang)}:{" "}
                   </span>
                   {study.contributions[lang].join(", ")}
                 </p>
               </div>
+              {study.demo && (
+                <div className={beats ? "pt-3" : undefined}>
+                  <DemoActions href={`/work/${item.slug}/demo`} />
+                </div>
+              )}
             </div>
           </div>
 
@@ -120,7 +148,23 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
           )}
 
           {study.story ? (
-            <CaseStudyStory sections={study.story} />
+            <div id="story" className="flex scroll-mt-28 flex-col gap-24">
+              <CaseStudyStory
+                sections={study.story}
+                nav={study.nav}
+                beats={study.layout === "beats"}
+              />
+              {study.demo && (
+                <div className="flex max-w-xl flex-col gap-6">
+                  {study.closing && (
+                    <p className="text-foreground text-[15px] leading-[1.55]">
+                      {pick(study.closing, lang)}
+                    </p>
+                  )}
+                  <DemoActions href={`/work/${item.slug}/demo`} story={false} />
+                </div>
+              )}
+            </div>
           ) : (
             <CaseStudyBento
               cards={study.bento}
@@ -158,5 +202,40 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
         </>
       )}
     </main>
+  );
+}
+
+/**
+ * The two ways into a study, side by side: play with the thing, or read how it got
+ * made. A case study is opened by someone deciding fast; the demo is the proof and the
+ * story is for whoever wants the why.
+ */
+function DemoActions({
+  href,
+  story = true,
+}: {
+  href: string;
+  story?: boolean;
+}) {
+  const { lang } = useLang();
+  return (
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+      <a
+        href={href}
+        className="bg-foreground text-background focus-visible:ring-ring inline-flex items-center gap-2 rounded-[9px] px-[22px] py-3 text-[13px] font-medium transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:outline-none active:scale-[0.98]"
+      >
+        {lang === "es" ? "Probar la demo" : "Enjoy the demo"}
+        <span aria-hidden="true">→</span>
+      </a>
+      {story && (
+        <a
+          href="#story"
+          className="text-foreground inline-flex items-center gap-2 text-[13px] font-medium hover:underline hover:underline-offset-4"
+        >
+          {lang === "es" ? "Leer la historia" : "Read the story"}
+          <span aria-hidden="true">↓</span>
+        </a>
+      )}
+    </div>
   );
 }

@@ -1070,8 +1070,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     layout: "beats",
     demo: { href: "/work/sarevi/demo/P-Prototipo.dc.html" },
     closing: {
-      en: "Same calculation, same three steps. It just looks and moves like something a bank would want on its site.",
-      es: "El mismo cálculo y los mismos tres pasos. Solo que ahora se ve y se mueve como algo que un banco querría en su web.",
+      en: "Pick a home, tick a few measures and see your grade.",
+      es: "Elige una vivienda, marca unas medidas y mira tu letra.",
     },
     story: [
       {
@@ -1616,8 +1616,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     layout: "beats",
     demo: { href: "/work/wealth-planner/demo/P312-main.html" },
     closing: {
-      en: "That's the whole idea: the plan beside the page, answering as you type.",
-      es: "Toda la idea cabe aquí: el plan al lado de la página, que responde mientras escribes.",
+      en: "Change an income and watch the plan answer.",
+      es: "Cambia un ingreso y mira cómo responde el plan.",
     },
     story: [
       {

@@ -80,8 +80,8 @@ export const TPC_STUDY: CaseStudy = {
   layout: "beats",
   demo: { href: `${DEMO}/V164-Prototipo.dc.html` },
   closing: {
-    en: "Try the loop yourself: send a questionnaire, answer it as the supplier, then review it.",
-    es: "Prueba el circuito: envía un cuestionario, respóndelo como proveedor y revísalo.",
+    en: "Send a questionnaire, answer it as the supplier, then review it.",
+    es: "Envía un cuestionario, respóndelo como proveedor y revísalo.",
   },
   story: [
     {

@@ -273,11 +273,11 @@ export const TPC_STUDY: CaseStudy = {
               items: [
                 {
                   src: `${DEMO}/cs-ficha-panel.html`,
-                  rect: { x: 296, y: 80, w: 340, h: 104 },
+                  rect: { x: 288, y: 72, w: 388, h: 124 },
                   x: 27,
-                  y: 50,
+                  y: 52,
                   w: 42,
-                  flat: true,
+                  radius: 12,
                   label: {
                     en: "From an overview card",
                     es: "Desde una tarjeta del panel",
@@ -285,11 +285,11 @@ export const TPC_STUDY: CaseStudy = {
                 },
                 {
                   src: `${DEMO}/cs-ficha.html`,
-                  rect: { x: 296, y: 80, w: 340, h: 104 },
+                  rect: { x: 288, y: 72, w: 388, h: 124 },
                   x: 73,
-                  y: 50,
+                  y: 52,
                   w: 42,
-                  flat: true,
+                  radius: 12,
                   label: {
                     en: "From the sidebar",
                     es: "Desde la barra lateral",
@@ -446,11 +446,11 @@ export const TPC_STUDY: CaseStudy = {
                 {
                   src: `${DEMO}/cs-rev.html`,
                   viewport: { w: 1440, h: 1000 },
-                  rect: { x: 905, y: 80, w: 487, h: 48 },
+                  rect: { x: 893, y: 72, w: 507, h: 64 },
                   x: 50,
-                  y: 18,
-                  w: 60,
-                  flat: true,
+                  y: 17,
+                  w: 62,
+                  radius: 12,
                 },
                 {
                   src: `${DEMO}/cs-rev.html`,
@@ -523,7 +523,7 @@ export const TPC_STUDY: CaseStudy = {
                   x: 50,
                   y: 50,
                   w: 86,
-                  flat: true,
+                  radius: 12,
                 },
               ],
             },
@@ -594,14 +594,15 @@ export const TPC_STUDY: CaseStudy = {
                 es: "Las tarjetas de cifras del panel: una sola regla de sombra para cada superficie",
               },
               items: [
-                {
+                ...[312, 562, 813].map((x, i) => ({
                   src: `${DEMO}/cs-panel.html`,
-                  rect: { x: 304, y: 158, w: 752, h: 140 },
-                  x: 50,
+                  rect: { x, y: 166, w: 235, h: 124 },
+                  x: 19 + i * 31,
                   y: 50,
-                  w: 86,
+                  w: 29,
                   flat: true,
-                },
+                  radius: 12,
+                })),
               ],
             },
           ],

@@ -148,16 +148,6 @@ export function BentoHome() {
             caption={false}
           />
         </div>
-
-        {/* Row 7 — design.md, the one more piece of writing, as a wide */}
-        <div className="sm:col-span-4 sm:row-span-1">
-          <WorkCard
-            item={bySlug("design-md-primeng-wealth-manager")}
-            index={5}
-            fill
-            caption={false}
-          />
-        </div>
       </div>
     </main>
   );

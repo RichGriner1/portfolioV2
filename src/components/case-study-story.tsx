@@ -801,17 +801,15 @@ function Stats({ media }: { media: Extract<StoryMedia, { kind: "stats" }> }) {
   const beat = useContext(BeatContext);
   return (
     <dl
-      className={`grid grid-cols-2 gap-px overflow-hidden rounded-xl ${beat ? "rounded-none bg-[#dde2e8]" : "bg-border border-border border sm:grid-cols-4"}`}
+      className={`bg-border grid grid-cols-2 gap-px overflow-hidden rounded-xl ${beat ? "" : "border-border border sm:grid-cols-4"}`}
     >
       {media.items.map((it, k) => (
         <div
           key={k}
-          className={`flex flex-col gap-1 p-5 ${beat ? "bg-[#eef1f4] p-6 text-[#1f2328]" : "bg-background"}`}
+          className={`bg-card flex flex-col gap-1 ${beat ? "p-6" : "p-5"}`}
         >
           <dt className="sr-only">{pick(it.label, lang)}</dt>
-          <dd
-            className={`font-display text-3xl font-bold tracking-tight tabular-nums ${beat ? "" : "text-foreground"}`}
-          >
+          <dd className="font-display text-foreground text-3xl font-bold tracking-tight tabular-nums">
             {it.value}
           </dd>
           <dd

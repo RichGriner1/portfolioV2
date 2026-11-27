@@ -223,9 +223,10 @@ export const WORK: WorkItem[] = [
     type: "brand-ds",
     kind: "case-study",
     href: "/work/sarevi",
-    // The numeral morph (digits forming a house, a globe, a building), square. Light
-    // theme: forest digits on white. Dark theme: lime digits on forest (Bosque). The
-    // clip has no text, so en and es are identical per theme.
+    // The landing's house hover, square: the vivienda then the edificio model colouring
+    // in as their trees grow, rendered from the PropertyModel images and CSS. Light
+    // theme on white; dark theme on Afi azul profundo. No text, so en and es are
+    // identical per theme.
     video: "/work/sarevi/card",
     ongoing: true,
     // Unhidden locally 2026-10-30 so it can be reviewed; Keep it off the home board

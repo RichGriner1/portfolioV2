@@ -835,15 +835,18 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   },
   /**
    * SAREVI — work in progress. Narrative spine (situation → ambiguity → user and
-   * inherited flow → three decisions with the directions considered → constraints and
+   * inherited flow → four decisions with the directions considered → constraints and
    * ownership → where it stands → supporting work). Facts come from Richard's own
-   * account (2026-11-03) plus the Opciones de gráficos and Simulator Decisions
-   * artifacts; nothing is claimed that those don't support. Known gaps:
+   * account (2026-11-03), the Opciones de gráficos and Simulator Decisions artifacts,
+   * and the SAREVI Afi canvas and its sessions (2026-11-06 to 11-25); nothing is
+   * claimed that those don't support. Known gaps:
    *   - the Dirección change is worded "as I understand it" (partnership left out);
    *   - no quote from a senior or developer yet;
    *   - any outcome data, and a real user test.
-   * Spanish is unreviewed: run afi-redaccion over every `es` string before publishing.
-   * No `confidential` note: footage comes from the Afi-branded Simulator Exploration file.
+   * "Before" clips come from the Simulator Exploration file; "after" clips and the
+   * picture clips from the SAREVI Afi canvas (Prototipo board) and the PropertyModel
+   * hover page. Spanish is unreviewed: run afi-redaccion over every `es` string before
+   * publishing. No `confidential` note: all footage is Afi-branded.
    */
   sarevi: {
     tagline: {
@@ -852,9 +855,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       es: "Modernizar un simulador bancario paso a paso, sin hoja de ruta",
     },
     intro: {
-      en: "SAREVI is Afi's energy-efficiency simulator for banks. I'm its only full-time designer, modernising the flow and look so Afi can keep selling it. It's early: nothing has shipped.",
+      en: "SAREVI is Afi's energy-efficiency simulator for banks. I'm its only full-time designer, modernising the flow and look so Afi can keep selling it. None of it is public yet.",
       // TODO(afi-redaccion)
-      es: "SAREVI es el simulador de eficiencia energética de Afi para bancos. Soy su único diseñador a tiempo completo y estoy modernizando el flujo y el aspecto para que Afi pueda seguir vendiéndolo. Es pronto: nada se ha publicado.",
+      es: "SAREVI es el simulador de eficiencia energética de Afi para bancos. Soy su único diseñador a tiempo completo y estoy modernizando el flujo y el aspecto para que Afi pueda seguir vendiéndolo. Nada de esto es público todavía.",
     },
     role: {
       en: "Only full-time designer",
@@ -904,9 +907,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "The seniors asked for a brand for the simulators, without deciding between one per simulator or one for all. I built both: a modern direction iterated from our Wealth Planner brand, and Bosque, in green and lime, for a sustainability angle.",
+            en: "The seniors asked for a brand for the simulators, without deciding between one per simulator or one for all. I built both: a modern direction iterated from our Wealth Planner brand, and Bosque, in green and lime, for a sustainability angle. We kept one: the Afi brand.",
             // TODO(afi-redaccion)
-            es: "Los responsables pidieron una marca para los simuladores, sin decidir entre una por simulador o una para todos. Construí ambas: una dirección moderna iterada desde nuestra marca de Wealth Planner y Bosque, en verde y lima, con un enfoque de sostenibilidad.",
+            es: "Los responsables pidieron una marca para los simuladores, sin decidir entre una por simulador o una para todos. Construí ambas: una dirección moderna iterada desde nuestra marca de Wealth Planner y Bosque, en verde y lima, con un enfoque de sostenibilidad. Nos quedamos con una: la marca Afi.",
           },
           {
             en: "The harder question was how much to change at once. AI makes a redesign cheap to produce, not safe to ship, so each change sits behind a switch until it's validated.",
@@ -966,9 +969,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "El panel Personalizar tapaba Resultados, los números que el usuario quiere mover, y el diseño apilado los escondía bajo una lista larga. Probé varias direcciones con el equipo.",
           },
           {
-            en: "Results beside the list is my proposal. Where the editor opens is still debated.",
+            en: "The results now sit beside the list. The editor opens in a drawer from Detalles, the same pattern as every other detail.",
             // TODO(afi-redaccion)
-            es: "Los resultados junto a la lista son mi propuesta. Dónde se abre el editor sigue en debate.",
+            es: "Los resultados están ahora junto a la lista. El editor se abre en un panel desde Detalles, el mismo patrón que el resto de detalles.",
           },
         ],
         options: [
@@ -1017,7 +1020,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           },
           {
-            outcome: "proposed",
+            outcome: "chosen",
             name: {
               en: "Results beside the list",
               // TODO(afi-redaccion)
@@ -1039,20 +1042,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           },
           {
-            outcome: "open",
+            outcome: "chosen",
             name: {
               en: "Editor in a right-hand drawer",
               // TODO(afi-redaccion)
               es: "Editor en un panel derecho",
             },
             note: {
-              en: "Matches other drawers; code exists.",
+              en: "Matches every other drawer.",
               // TODO(afi-redaccion)
-              es: "Coincide con otros paneles; ya hay código.",
+              es: "Coincide con todos los demás paneles.",
             },
             clip: {
-              src: "/work/sarevi/autocalc.mp4",
-              poster: "/work/sarevi/autocalc-poster.webp",
+              src: "/work/sarevi/drawer.mp4",
+              poster: "/work/sarevi/drawer-poster.webp",
               alt: {
                 en: "Personalizar drawer opening from the right with the results beside it",
                 // TODO(afi-redaccion)
@@ -1061,16 +1064,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           },
           {
-            outcome: "open",
+            outcome: "dropped",
             name: {
               en: "Editor inside the measure",
               // TODO(afi-redaccion)
               es: "Editor dentro de la medida",
             },
             note: {
-              en: "Used in other products.",
+              en: "Used in other products. Two patterns for one job.",
               // TODO(afi-redaccion)
-              es: "Se usa en otros productos.",
+              es: "Se usa en otros productos. Dos patrones para lo mismo.",
             },
             clip: {
               src: "/work/sarevi/inline.mp4",
@@ -1102,9 +1105,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "Resumen dejaba al usuario deducir qué cambia. Hice una lluvia de ideas con el equipo, un Crazy Eights y comparé seis direcciones.",
           },
           {
-            en: "I chose a combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric. After review the headers merged and the download button moved beside the grade.",
+            en: "I first chose a combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric. The team liked the before and after bars, so the card split. The saving and the grade scale share one navy card; consumption and emissions each get their own bars.",
             // TODO(afi-redaccion)
-            es: "Elegí una tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica. Tras la revisión, las cabeceras se unieron y el botón de descarga pasó junto a la letra.",
+            es: "Primero elegí una tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica. Al equipo le gustaron las barras de antes y después, así que la tarjeta se dividió. El ahorro y la escala de letras comparten una tarjeta azul marino; consumo y emisiones tienen cada uno sus barras.",
           },
         ],
         options: [
@@ -1175,16 +1178,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           },
           {
-            outcome: "open",
+            outcome: "merged",
             name: {
               en: "C · Grade scale",
               // TODO(afi-redaccion)
               es: "C · Escala de calificación",
             },
             note: {
-              en: "Grade jump at a glance, no amount. Suggested for Datos.",
+              en: "Grade jump at a glance, no amount.",
               // TODO(afi-redaccion)
-              es: "Salto de letra de un vistazo, sin importe. Sugerida para Datos.",
+              es: "Salto de letra de un vistazo, sin importe.",
             },
             clip: {
               src: "/work/sarevi/opt-C.mp4",
@@ -1241,24 +1244,46 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
           },
           {
-            outcome: "chosen",
+            outcome: "merged",
             name: {
               en: "F · Combined card",
               // TODO(afi-redaccion)
               es: "F · Tarjeta combinada",
             },
             note: {
-              en: "Pieces of A, B, E and D's header, in one card.",
+              en: "Pieces of A, B, E and D's header, in one card. My first pick.",
               // TODO(afi-redaccion)
-              es: "Piezas de A, B, E y la cabecera de D, en una tarjeta.",
+              es: "Piezas de A, B, E y la cabecera de D, en una tarjeta. Mi primera elección.",
+            },
+            clip: {
+              src: "/work/sarevi/opt-F.mp4",
+              poster: "/work/sarevi/opt-F-poster.webp",
+              alt: {
+                en: "Resumen with the combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric",
+                // TODO(afi-redaccion)
+                es: "Resumen con la tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica",
+              },
+            },
+          },
+          {
+            outcome: "chosen",
+            name: {
+              en: "Saving and grade, then two metrics",
+              // TODO(afi-redaccion)
+              es: "Ahorro y letra, después dos magnitudes",
+            },
+            note: {
+              en: "C's scale in the hero; A and E's bars per metric. The new grade lands last.",
+              // TODO(afi-redaccion)
+              es: "La escala de C en la cabecera; las barras de A y E por magnitud. La letra nueva llega la última.",
             },
             clip: {
               src: "/work/sarevi/charts-new.mp4",
               poster: "/work/sarevi/charts-new-poster.webp",
               alt: {
-                en: "Resumen with the combined card: a metric switch, before and after bars, the saving as a filled area and a range row per metric",
+                en: "Resumen: a navy card with the yearly saving and the grade moving from D to A, then consumption and emissions as before and after bars",
                 // TODO(afi-redaccion)
-                es: "Resumen con la tarjeta combinada: interruptor de métrica, barras de antes y después, el ahorro como área rellena y una fila de rango por métrica",
+                es: "Resumen: una tarjeta azul marino con el ahorro anual y la letra pasando de D a A, y después consumo y emisiones como barras de antes y después",
               },
             },
           },
@@ -1282,9 +1307,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             es: "La portada antigua abría con el nombre de la herramienta y tres pasos. Decía qué es el simulador, no qué se obtiene.",
           },
           {
-            en: "The new one leads with the outcome, makes the Vivienda/Edificio choice the call to action, and says it's an estimate. Nobody on the team has seen it yet: it's a proposal. The check is whether more people start the flow.",
+            en: "The new one leads with what you get: the saving, the cost and how to pay for it. The Vivienda/Edificio choice is the call to action, and the copy says it's an estimate. The check is whether more people start the flow.",
             // TODO(afi-redaccion)
-            es: "La nueva abre con el resultado, convierte la elección Vivienda/Edificio en llamada a la acción y avisa de que es una estimación. Nadie del equipo la ha visto: es una propuesta. La comprobación es si más gente empieza el flujo.",
+            es: "La nueva abre con lo que se obtiene: el ahorro, el coste y cómo pagarlo. La elección Vivienda/Edificio es la llamada a la acción y el texto avisa de que es una estimación. La comprobación es si más gente empieza el flujo.",
           },
         ],
         options: [
@@ -1326,9 +1351,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               src: "/work/sarevi/hero-new.mp4",
               poster: "/work/sarevi/hero-new-poster.webp",
               alt: {
-                en: "The new landing: the saving as the headline, Edificio and Vivienda cards with animated numerals, then a click into the first question",
+                en: "The new landing: saving, cost and payment as the headline, the Edificio and Vivienda cards colouring in on hover, then a click into the first question",
                 // TODO(afi-redaccion)
-                es: "La nueva portada: el ahorro como titular, tarjetas Edificio y Vivienda con números animados y un clic hasta la primera pregunta",
+                es: "La nueva portada: ahorro, coste y pago como titular, las tarjetas Edificio y Vivienda que se colorean al pasar el ratón y un clic hasta la primera pregunta",
               },
             },
           },
@@ -1343,6 +1368,120 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               en: "How long, documents, free and anonymous. Left out until confirmed.",
               // TODO(afi-redaccion)
               es: "Cuánto tarda, documentos, gratis y anónimo. Fuera hasta confirmarlo.",
+            },
+          },
+        ],
+      },
+      {
+        kicker: {
+          en: "Decision 4",
+          // TODO(afi-redaccion)
+          es: "Decisión 4",
+        },
+        heading: {
+          en: "A picture that fits a bank",
+          // TODO(afi-redaccion)
+          es: "Una imagen que encaje en un banco",
+        },
+        body: [
+          {
+            en: "The landing cards needed a picture for Vivienda and Edificio. My first was a grid of digits that morphed between a house and a building. The feedback I got: too psychedelic, especially the transitions. Coloured 3D dioramas came next and came back too playful.",
+            // TODO(afi-redaccion)
+            es: "Las tarjetas de la portada necesitaban una imagen para Vivienda y Edificio. La primera fue una cuadrícula de dígitos que se transformaba entre una casa y un edificio. La respuesta: demasiado psicodélica, sobre todo las transiciones. Después vinieron dioramas 3D en color, y resultaron demasiado infantiles.",
+          },
+          {
+            en: "A line drawing followed and didn't catch anyone's attention. Most of the feedback was a plain \"I don't like it\", so I kept trying until something did. The model that stuck is plain and white: grey at rest, and on hover the colour fades in and the trees grow. The same models now show the housing types in Datos.",
+            // TODO(afi-redaccion)
+            es: "Después vino un dibujo de línea, que no llamó la atención de nadie. Casi toda la respuesta era un «no me gusta», así que seguí probando hasta que algo funcionó. El modelo que se quedó es sencillo y blanco: gris en reposo y, al pasar el ratón, entra el color y crecen los árboles. Los mismos modelos muestran ahora los tipos de vivienda en Datos.",
+          },
+        ],
+        options: [
+          {
+            outcome: "dropped",
+            name: {
+              en: "Digit grid",
+              // TODO(afi-redaccion)
+              es: "Cuadrícula de dígitos",
+            },
+            note: {
+              en: "Too psychedelic. Retired from the design system.",
+              // TODO(afi-redaccion)
+              es: "Demasiado psicodélica. Retirada del sistema de diseño.",
+            },
+            clip: {
+              src: "/work/sarevi/morph.mp4",
+              poster: "/work/sarevi/morph-poster.webp",
+              alt: {
+                en: "A grid of digits morphing between a house, a globe and a building",
+                // TODO(afi-redaccion)
+                es: "Una cuadrícula de dígitos transformándose entre una casa, un globo y un edificio",
+              },
+            },
+          },
+          {
+            outcome: "dropped",
+            name: {
+              en: "Coloured 3D dioramas",
+              // TODO(afi-redaccion)
+              es: "Dioramas 3D en color",
+            },
+            note: {
+              en: "Terracotta roofs on sand. Too playful.",
+              // TODO(afi-redaccion)
+              es: "Tejados de terracota sobre arena. Demasiado infantiles.",
+            },
+            clip: {
+              src: "/work/sarevi/style-dioramas.mp4",
+              poster: "/work/sarevi/style-dioramas-poster.webp",
+              alt: {
+                en: "Two coloured 3D dioramas: a Spanish cottage with a tiled roof and a Madrid apartment block on a street corner",
+                // TODO(afi-redaccion)
+                es: "Dos dioramas 3D en color: una casita con tejado de teja y un bloque de pisos madrileño en una esquina",
+              },
+            },
+          },
+          {
+            outcome: "dropped",
+            name: {
+              en: "Line drawing",
+              // TODO(afi-redaccion)
+              es: "Dibujo de línea",
+            },
+            note: {
+              en: "The same models as navy outlines. Didn't catch anyone's attention.",
+              // TODO(afi-redaccion)
+              es: "Los mismos modelos en contorno azul marino. No llamó la atención de nadie.",
+            },
+            clip: {
+              src: "/work/sarevi/style-linea.mp4",
+              poster: "/work/sarevi/style-linea-poster.webp",
+              alt: {
+                en: "The cottage and the apartment block drawn as navy outlines on white",
+                // TODO(afi-redaccion)
+                es: "La casita y el bloque de pisos dibujados en contorno azul marino sobre blanco",
+              },
+            },
+          },
+          {
+            outcome: "chosen",
+            name: {
+              en: "White model, colour on hover",
+              // TODO(afi-redaccion)
+              es: "Modelo blanco, color al pasar el ratón",
+            },
+            note: {
+              en: "Grey at rest; colour and trees on hover.",
+              // TODO(afi-redaccion)
+              es: "Gris en reposo; color y árboles al pasar el ratón.",
+            },
+            clip: {
+              src: "/work/sarevi/style-model.mp4",
+              poster: "/work/sarevi/style-model-poster.webp",
+              alt: {
+                en: "The white house and building models: on hover the colour fades in and the trees grow one after another",
+                // TODO(afi-redaccion)
+                es: "Los modelos blancos de la casa y el edificio: al pasar el ratón entra el color y los árboles crecen uno tras otro",
+              },
             },
           },
         ],
@@ -1402,14 +1541,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "No outcomes yet; nothing has shipped. First checks: do more people start from the new landing, and does support still hear whether the figure is binding.",
+            en: "No outcomes yet; none of it is public. First checks: do more people start from the new landing, and does support still hear whether the figure is binding.",
             // TODO(afi-redaccion)
-            es: "Aún no hay resultados ni nada publicado. Primeras comprobaciones: si más gente empieza desde la portada nueva y si atención al cliente sigue oyendo si la cifra es vinculante.",
+            es: "Aún no hay resultados y nada es público. Primeras comprobaciones: si más gente empieza desde la portada nueva y si atención al cliente sigue oyendo si la cifra es vinculante.",
           },
           {
-            en: "Open: the editor default, Bosque's olive text (fails AA at 3.62:1), whether Datos fields should change results, and differing Resumen and Medidas totals (IRPF).",
+            en: "Open: whether Datos fields should change results, and Resumen and Medidas showing different totals (Resumen subtracts IRPF, Medidas doesn't).",
             // TODO(afi-redaccion)
-            es: "Abierto: el valor por defecto del editor, el texto oliva de Bosque (no cumple AA: 3,62:1), si los campos de Datos deben cambiar el resultado y los totales distintos de Resumen y Medidas (IRPF).",
+            es: "Abierto: si los campos de Datos deben cambiar el resultado y que Resumen y Medidas muestren totales distintos (Resumen resta el IRPF, Medidas no).",
           },
         ],
       },
@@ -1421,35 +1560,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         body: [
           {
-            en: "The prototype is built in Claude artifacts, with switches for brand, layout, editor, landing and charts, so a rejected idea costs a click. The numeral morph and loader are exploratory.",
+            en: "The prototype is built in Claude artifacts, with switches for brand, layout, editor, landing and charts, so a rejected idea costs a click. What survived became components in the Afi apps design system, the house models included.",
             // TODO(afi-redaccion)
-            es: "El prototipo está construido en artefactos de Claude, con interruptores de marca, diseño, editor, portada y gráficos, para que descartar una idea cueste un clic. La animación de dígitos y el cargador son exploratorios.",
-          },
-        ],
-        media: [
-          {
-            kind: "clip",
-            clip: {
-              src: "/work/sarevi/morph.mp4",
-              poster: "/work/sarevi/morph-poster.webp",
-              alt: {
-                en: "A grid of digits morphing between a house, a globe and a building",
-                // TODO(afi-redaccion)
-                es: "Una cuadrícula de dígitos transformándose entre una casa, un globo y un edificio",
-              },
-            },
-          },
-          {
-            kind: "clip",
-            clip: {
-              src: "/work/sarevi/loader.mp4",
-              poster: "/work/sarevi/loader-poster.webp",
-              alt: {
-                en: "A bolt made of digits filling in three steps with a percentage, then blurring into the home screen",
-                // TODO(afi-redaccion)
-                es: "Un rayo hecho de dígitos que se rellena en tres pasos con un porcentaje y se difumina hacia la pantalla de inicio",
-              },
-            },
+            es: "El prototipo está construido en artefactos de Claude, con interruptores de marca, diseño, editor, portada y gráficos, para que descartar una idea cueste un clic. Lo que sobrevivió se convirtió en componentes del sistema de diseño de Afi apps, incluidos los modelos de casa.",
           },
         ],
       },

@@ -227,6 +227,8 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/third-party-compliance",
     glyph: "design-system",
+    // The v1.1 template editor with the diagnostic's red pins: the work, shown as a review.
+    image: "/work/third-party-compliance/card.webp",
     ongoing: true,
     // In progress: kept off the home board until the screens are added and Richard
     // says it's ready. /projects still lists it, and the page is reachable by URL.

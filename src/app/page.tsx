@@ -10,9 +10,9 @@ import { CanvasSite } from "./canvas/canvas-site";
 /**
  * Two front doors onto the same work, picked by the visitor.
  *
- * The canvas board is the default and the one that shows taste, but hiring
- * managers and executives who don't live in Figma or Miro find a pannable board
- * hard to read. The list is the bento composition: a conventional scrolling page
+ * The list is the default. The canvas board is the one that shows taste, but
+ * hiring managers and executives who don't live in Figma or Miro find a pannable
+ * board hard to read, so it waits behind the switch. The list is the bento composition: a conventional scrolling page
  * with header and footer, built from the same `WORK` entries, so nothing is
  * written twice.
  *
@@ -20,8 +20,8 @@ import { CanvasSite } from "./canvas/canvas-site";
  * site, so wrapping it in the conventional chrome would argue with itself. Its
  * switch floats top-right instead, the corner nothing else on the board uses.
  *
- * `?view=list` forces the list for that request, so a CV or a message to a
- * recruiter can link straight to it. Otherwise the cookie the switch writes
+ * `?view=canvas` or `?view=list` forces a layout for that request, so a link can
+ * point straight at one. Otherwise the cookie the switch writes
  * decides. Reading either makes `/` render per request, which is the price of the
  * server choosing the layout rather than the client swapping it after load.
  */

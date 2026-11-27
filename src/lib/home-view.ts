@@ -10,8 +10,9 @@ export const HOME_VIEW_COOKIE = "home-view";
 
 export type HomeView = "canvas" | "list";
 
+/** The list is the default: the canvas is one click away for whoever wants it. */
 export function parseHomeView(value: string | undefined): HomeView {
-  return value === "list" ? "list" : "canvas";
+  return value === "canvas" ? "canvas" : "list";
 }
 
 /** A year: the choice should outlast a session, since the reason for it doesn't. */

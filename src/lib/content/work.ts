@@ -52,6 +52,13 @@ export type WorkItem = {
   /** Optional thumbnail-video base path. Full src is built per language + theme:
       `${video}_${lang}_${light|dark}_thumb.mp4`. Shown in place of the glyph. */
   video?: string;
+  /**
+   * For a thumbnail clip that is a component on a flat stage: the clip is fitted
+   * whole (contain) instead of cropped to the tile, and the panel behind it is the
+   * clip's own stage colour per theme, so a tall or wide tile shows more stage
+   * rather than cutting the component. These are the colours baked into the clips.
+   */
+  stage?: { light: string; dark: string };
   /** Optional animated figure (from blog posts) shown in place of the glyph. */
   figure?: FigureKey;
   /**
@@ -233,6 +240,7 @@ export const WORK: WorkItem[] = [
     // then «En revisión» (the overview clip, cropped square on the panel side). The
     // product is light-only and the clip has no text of ours, so all four match.
     video: "/work/third-party-compliance/card",
+    stage: { light: "#eef0f2", dark: "#10181d" },
     ongoing: true,
     // On the home board with SAREVI and Wealth Planner since 2026-11-27. Rank 0
     // like them: the three current studies lead, in date order among themselves.
@@ -253,6 +261,7 @@ export const WORK: WorkItem[] = [
     // the new grade lands last (recorded from the v1.0 board at 2x). Light theme on a
     // pale stage, dark on near-black. No text change by language, so en and es match.
     video: "/work/sarevi/card",
+    stage: { light: "#eef0f2", dark: "#10181d" },
     ongoing: true,
     // On the home board since 2026-11-27 (Richard's call). Rank 0 with Wealth
     // Planner and Compliance, so the three current studies lead.
@@ -276,6 +285,7 @@ export const WORK: WorkItem[] = [
     // selector-only versions came from a relayed note that was about the old still.
     // One light clip for every language and theme. Takes precedence over `image`.
     video: "/work/wealth-planner/card",
+    stage: { light: "#edf2f4", dark: "#10181d" },
     ongoing: true,
     // First on the home board and the canvas since 2026-11-27 (Richard's call):
     // rank 0 sorts it ahead of Visual Identity's 1.

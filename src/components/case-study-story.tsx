@@ -807,12 +807,14 @@ function Stats({ media }: { media: Extract<StoryMedia, { kind: "stats" }> }) {
   const beat = useContext(BeatContext);
   return (
     <dl
-      className={`bg-border grid grid-cols-2 gap-px overflow-hidden rounded-xl ${beat ? "" : "border-border border sm:grid-cols-4"}`}
+      className={`grid grid-cols-2 overflow-hidden ${beat ? "bg-card" : "bg-border border-border gap-px rounded-xl border sm:grid-cols-4"}`}
     >
       {media.items.map((it, k) => (
         <div
           key={k}
-          className={`bg-card flex flex-col gap-1 ${beat ? "p-6" : "p-5"}`}
+          // In a beat the dividers are borders on opaque cells: a see-through gap would
+          // show the light stage behind it as a white line in dark mode.
+          className={`bg-card flex flex-col gap-1 ${beat ? `border-border p-6 ${k % 2 === 0 ? "border-r" : ""} ${k < media.items.length - 2 ? "border-b" : ""}` : "p-5"}`}
         >
           <dt className="sr-only">{pick(it.label, lang)}</dt>
           <dd className="font-display text-foreground text-3xl font-bold tracking-tight tabular-nums">

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<title>Portfolio · Medidas, una medida y los resultados</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/afi-modern/tokens/dimensions.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/colors.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/semantic-colors.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/semantic-dimensions.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/spacing.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/typography.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/elevation.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/motion.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/component-button.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/component-toast.css">
+<link rel="stylesheet" href="ds/afi-modern/tokens/skin-modern.css">
+<link rel="stylesheet" href="ds/afi-modern/components/bundle.css">
+<script src="ds/afi-modern/components/bundle.js"></script>
+<script src="sarevi-afi.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@200;300;400;500;800&amp;display=swap">
+<style>
+body{margin:0}
+/* Portfolio crop of the real Medidas screen: one measure beside the results panel,
+   both live. Everything else is hidden, not removed, so the calculation still runs. */
+html, body, .stage, .sim, .sarevi-afi, .sarevi-afi *:not(.afi-card-v2):not(.afi-card-v2 *) { background-color: transparent !important; }
+.afi-app-header-v2, .afi-step-progress-v2, .afi-stepper-bar-v2, .afi-app-footer-v2,
+.body > .thead, .afi-action-bar-v2, .mact, .mmain .sec > div > h3, .a-rgroup,
+.mmain .hint, .a-selall-sent, .a-selall, .cslot, .addrow { display: none !important; }
+.mlist > .a-row:not(:first-child) { display: none !important; }
+.mmain h1, .mmain h2, .mmain h3, .mmain hr, .mmain .sec { border: 0 !important; }
+.mmain h1, .mmain h2, .mmain h3, .mmain hr { display: none !important; }
+.body { padding-top: 24px !important; padding-bottom: 24px !important; }
+.mprev { position: static !important; }
+</style>
+</helmet>
+<div style="position: relative; width: 100%; height: 100vh; overflow: hidden; background: var(--background-canvas)">
+<x-import component-from-global-scope="SareviAfi.Simulator" pantalla="medidas" modo="vivienda" scroll="si" style="display: block; height: 100%"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -30,10 +30,13 @@ export function CardMedia({ item, lang }: { item: WorkItem; lang: Lang }) {
     // around it, at the standard p-3 inset.
     return (
       <div className="pointer-events-none absolute inset-0 p-3">
-        <div className="bg-card border-border/60 h-full overflow-hidden rounded-xl border">
+        <div
+          className="bg-card border-border/60 h-full overflow-hidden rounded-xl border"
+          style={item.stage ? { background: item.stage[mode] } : undefined}
+        >
           <video
             key={src}
-            className="h-full w-full object-cover"
+            className={`h-full w-full ${item.stage ? "object-contain" : "object-cover"}`}
             autoPlay
             muted
             loop

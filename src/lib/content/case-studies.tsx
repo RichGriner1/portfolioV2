@@ -1267,41 +1267,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             ],
           },
           {
-            label: { en: "Details", es: "Detalles" },
-            heading: {
-              en: "Details open in one drawer.",
-              es: "Los detalles se abren en un panel.",
-            },
-            body: [
-              {
-                en: "Detalles opens a drawer from the right, like every other detail in the product, with the cost, the paperwork and what the measure is.",
-                es: "Detalles abre un panel desde la derecha, como en el resto del producto, con el coste, la tramitación y en qué consiste la medida.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The Personalizar drawer for one measure",
-                  es: "El panel Personalizar de una medida",
-                },
-                items: [
-                  {
-                    src: "/work/sarevi/demo/B-Viv-Personalizar.dc.html",
-                    viewport: { w: 1440, h: 1695 },
-                    rect: { x: 1040, y: 0, w: 400, h: 620 },
-                    x: 50,
-                    y: 52,
-                    w: 30,
-                    radius: 16,
-                    fade: "bottom",
-                  },
-                ],
-                play: "reload",
-              },
-            ],
-          },
-          {
             label: { en: "Try it", es: "Pruébalo" },
             heading: {
               en: "Tick something.",
@@ -1309,20 +1274,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             },
             body: [
               {
-                en: "This is the prototype itself. Tick and untick measures, change the reform type, open a drawer.",
-                es: "Este es el propio prototipo. Marca y desmarca medidas, cambia el tipo de reforma, abre un panel.",
+                en: "This is the prototype itself, cut to one measure. Tick it and watch the results change, or open Detalles.",
+                es: "Este es el propio prototipo, reducido a una medida. Márcala y mira cómo cambian los resultados, o abre Detalles.",
               },
             ],
             media: [
               {
                 kind: "embed",
-                src: "/work/sarevi/demo/PF-Medidas.dc.html",
+                src: "/work/sarevi/demo/PF-Medida.dc.html",
                 title: {
                   en: "SAREVI Medidas, live",
                   es: "Medidas de SAREVI, en vivo",
                 },
-                width: 1440,
-                height: 900,
+                width: 1180,
+                height: 656,
               },
             ],
           },

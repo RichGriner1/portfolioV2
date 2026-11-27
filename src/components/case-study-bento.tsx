@@ -108,8 +108,8 @@ function LayersAnimation({ active }: AnimationProps) {
                 animate={{
                   opacity: isVisible ? 1 : 0.3,
                   backgroundColor: isActive
-                    ? "hsl(var(--muted) / 0.4)"
-                    : "hsl(var(--muted) / 0)",
+                    ? "color-mix(in oklab, var(--muted) 40%, transparent)"
+                    : "color-mix(in oklab, var(--muted) 0%, transparent)",
                 }}
                 transition={{ duration: 0.4, ease: EASE }}
               >
@@ -640,12 +640,12 @@ function CodeToSiteAnimation({ active }: AnimationProps) {
                         width: `${b.w}%`,
                         backgroundColor:
                           b.tone === "primary"
-                            ? "hsl(var(--primary) / 0.9)"
+                            ? "color-mix(in oklab, var(--primary) 90%, transparent)"
                             : b.tone === "accent"
-                              ? "hsl(var(--primary) / 0.5)"
+                              ? "color-mix(in oklab, var(--primary) 50%, transparent)"
                               : b.tone === "soft"
-                                ? "hsl(var(--background) / 0.5)"
-                                : "hsl(var(--background) / 0.25)",
+                                ? "color-mix(in oklab, var(--background) 50%, transparent)"
+                                : "color-mix(in oklab, var(--background) 25%, transparent)",
                       }}
                       initial={{ opacity: 0, x: -4 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -836,7 +836,7 @@ export function PaletteAnimation({
           key={b.name}
           className="flex items-center gap-2.5 rounded-lg px-3 py-2"
           animate={{
-            backgroundColor: i === activeIdx ? b.color + "30" : "transparent",
+            backgroundColor: i === activeIdx ? b.color + "30" : "#00000000",
             scale: i === activeIdx ? 1 : 0.97,
             opacity: i === activeIdx ? 1 : 0.45,
           }}
@@ -942,20 +942,20 @@ function RulesAnimation({ active }: AnimationProps) {
               animate={{
                 opacity: isActive ? 1 : 0.35,
                 borderColor: isWrong
-                  ? "hsl(var(--destructive) / 0.5)"
+                  ? "color-mix(in oklab, var(--destructive) 50%, transparent)"
                   : isActive
-                    ? "hsl(var(--primary) / 0.5)"
-                    : "hsl(var(--border))",
+                    ? "color-mix(in oklab, var(--primary) 50%, transparent)"
+                    : "var(--foreground)",
               }}
               transition={{ duration: 0.35, ease: EASE }}
             >
               <motion.span
                 animate={{
                   color: isWrong
-                    ? "hsl(var(--destructive))"
+                    ? "var(--destructive)"
                     : isActive
-                      ? "hsl(var(--primary))"
-                      : "hsl(var(--muted-foreground))",
+                      ? "var(--primary)"
+                      : "var(--muted-foreground)",
                 }}
                 transition={{ duration: 0.35, ease: EASE }}
               >
@@ -1117,11 +1117,9 @@ function VINinePrinciplesAnimation({ active }: AnimationProps) {
       <div className="relative aspect-[4/3] w-full">
         {/* The beam — stationary; brightens only while a paper crosses it.
             Color rides a CSS class transition, not Motion's
-            `animate.backgroundColor`. This project's tokens are OKLCH, and
-            `hsl()` can't wrap another color function, so the
-            `"hsl(var(--foreground))"` string other animations in this file
-            pass to Motion computes to `transparent` — the beam was invisible.
-            Only `opacity` (a plain number) stays on Motion. */}
+            `animate.backgroundColor`, so it follows the theme token directly.
+            Only `opacity` (a plain number) stays on Motion. Tokens are OKLCH:
+            never wrap them in `hsl()`, which computes to `transparent`. */}
         <motion.div
           className={`ease-out-soft absolute inset-y-0 w-px transition-colors ${
             running ? "duration-[var(--duration-fast)]" : "duration-0"
@@ -1995,8 +1993,8 @@ function GuidelineAnimation({ active }: AnimationProps) {
             key={p}
             className="rounded-md px-2 py-0.5 font-mono text-[9px]"
             animate={{
-              backgroundColor: p === page ? "#5e5eed22" : "transparent",
-              color: p === page ? "#5e5eed" : "hsl(var(--muted-foreground))",
+              backgroundColor: p === page ? "#5e5eed22" : "#00000000",
+              color: p === page ? "#5e5eed" : "var(--foreground)",
               fontWeight: p === page ? 600 : 400,
             }}
             transition={{ duration: 0.4, ease: EASE_SOFT }}
@@ -2033,9 +2031,7 @@ function GuidelineAnimation({ active }: AnimationProps) {
                   style={{
                     backgroundColor: s.hex,
                     borderColor:
-                      s.hex === "#fcfcfd"
-                        ? "hsl(var(--border))"
-                        : "transparent",
+                      s.hex === "#fcfcfd" ? "var(--foreground)" : "transparent",
                   }}
                 />
                 <span className="text-muted-foreground font-mono text-[7px]">
@@ -2195,7 +2191,7 @@ function WordpressAnimation({ active }: AnimationProps) {
             animate={{
               width: i === step ? 16 : 4,
               backgroundColor:
-                i === step ? "hsl(var(--foreground))" : "hsl(var(--border))",
+                i === step ? "var(--foreground)" : "var(--border)",
             }}
             style={{ height: 4 }}
             transition={{ duration: 0.4, ease: EASE_SOFT }}
@@ -2622,8 +2618,8 @@ function FeedbackScreen({
         scale: highlight ? 1 : 0.94,
         boxShadow:
           shipped && isStage4
-            ? "0 0 0 2px hsl(var(--primary) / 0.25)"
-            : "0 0 0 0 hsl(var(--primary) / 0)",
+            ? "0 0 0 2px color-mix(in oklab, var(--primary) 25%, transparent)"
+            : "0 0 0 0 color-mix(in oklab, var(--primary) 0%, transparent)",
       }}
       transition={{ duration: 0.45, ease: EASE_SOFT }}
     >
@@ -2962,8 +2958,8 @@ function HoursStatAnimation({ active }: AnimationProps) {
           className="bg-primary/10 relative flex h-24 w-24 items-center justify-center rounded-full"
           animate={{
             boxShadow: moneyDone
-              ? "0 0 0 6px hsl(var(--primary) / 0.15)"
-              : "0 0 0 0 hsl(var(--primary) / 0)",
+              ? "0 0 0 6px color-mix(in oklab, var(--primary) 15%, transparent)"
+              : "0 0 0 0 color-mix(in oklab, var(--primary) 0%, transparent)",
           }}
           transition={{ duration: 0.6, ease: EASE_SOFT }}
         >
@@ -2983,7 +2979,7 @@ function HoursStatAnimation({ active }: AnimationProps) {
                   r="2"
                   initial={false}
                   animate={{
-                    fill: lit ? "hsl(var(--primary))" : "hsl(var(--muted))",
+                    fill: lit ? "var(--primary)" : "var(--muted)",
                     scale: countingHours && i < litCount ? [1, 1.6, 1] : 1,
                   }}
                   transition={{
@@ -3354,10 +3350,8 @@ function CodedLogoAnimation({ active }: AnimationProps) {
       <motion.div
         className="relative flex h-[72px] w-[72px] items-center justify-center rounded-xl"
         animate={{
-          backgroundColor: isDark
-            ? "hsl(var(--foreground))"
-            : "hsl(var(--card))",
-          boxShadow: "0 0 0 1px hsl(var(--border))",
+          backgroundColor: isDark ? "var(--foreground)" : "var(--card)",
+          boxShadow: "0 0 0 1px var(--border)",
         }}
         transition={{ duration: 0.7, ease: EASE_SOFT }}
       >
@@ -3370,9 +3364,9 @@ function CodedLogoAnimation({ active }: AnimationProps) {
           animate={{
             color: isMono
               ? isDark
-                ? "hsl(var(--background))"
-                : "hsl(var(--foreground))"
-              : "hsl(var(--primary))",
+                ? "var(--background)"
+                : "var(--foreground)"
+              : "var(--primary)",
           }}
           transition={{ duration: 0.6, ease: EASE_SOFT }}
         >
@@ -3607,9 +3601,7 @@ function PlaygroundAnimation({ active }: AnimationProps) {
         <motion.div
           className="relative h-3 w-6 cursor-pointer rounded-full"
           animate={{
-            backgroundColor: toggle1
-              ? "hsl(var(--primary))"
-              : "hsl(var(--muted))",
+            backgroundColor: toggle1 ? "var(--primary)" : "var(--muted)",
           }}
           transition={{ duration: 0.45, ease: EASE_SOFT }}
         >
@@ -3625,9 +3617,7 @@ function PlaygroundAnimation({ active }: AnimationProps) {
         <motion.div
           className="relative h-3 w-6 cursor-pointer rounded-full"
           animate={{
-            backgroundColor: toggle2
-              ? "hsl(var(--primary))"
-              : "hsl(var(--muted))",
+            backgroundColor: toggle2 ? "var(--primary)" : "var(--muted)",
           }}
           transition={{ duration: 0.45, ease: EASE_SOFT }}
         >
@@ -3752,16 +3742,16 @@ function AITeammateAnimation({ active }: AnimationProps) {
             animate={{
               backgroundColor:
                 activeRuleIdx === i
-                  ? "hsl(var(--primary) / 0.15)"
+                  ? "color-mix(in oklab, var(--primary) 15%, transparent)"
                   : "transparent",
               borderColor:
                 activeRuleIdx === i
-                  ? "hsl(var(--primary) / 0.5)"
-                  : "hsl(var(--border) / 0.5)",
+                  ? "color-mix(in oklab, var(--primary) 50%, transparent)"
+                  : "color-mix(in oklab, var(--border) 50%, transparent)",
               color:
                 activeRuleIdx === i
-                  ? "hsl(var(--primary))"
-                  : "hsl(var(--muted-foreground))",
+                  ? "var(--primary)"
+                  : "var(--muted-foreground)",
             }}
             transition={{ duration: 0.5, ease: EASE_SOFT }}
           >
@@ -3798,14 +3788,14 @@ function AITeammateAnimation({ active }: AnimationProps) {
                 className="border-border/50 flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[8px]"
                 animate={{
                   backgroundColor: isActive
-                    ? "hsl(var(--primary) / 0.15)"
-                    : "hsl(var(--muted) / 0.4)",
+                    ? "color-mix(in oklab, var(--primary) 15%, transparent)"
+                    : "color-mix(in oklab, var(--muted) 40%, transparent)",
                   borderColor: isActive
-                    ? "hsl(var(--primary) / 0.6)"
-                    : "hsl(var(--border) / 0.5)",
+                    ? "color-mix(in oklab, var(--primary) 60%, transparent)"
+                    : "color-mix(in oklab, var(--border) 50%, transparent)",
                   color: isActive
-                    ? "hsl(var(--primary))"
-                    : "hsl(var(--muted-foreground))",
+                    ? "var(--primary)"
+                    : "var(--muted-foreground)",
                 }}
                 transition={{ duration: 0.5, ease: EASE_SOFT }}
               >

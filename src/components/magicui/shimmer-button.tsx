@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
  * the spark and the inner glow are derived from `--primary-foreground`, so the
  * pair inverts with the theme like every other button on the site.
  *
- * Three other changes:
+ * Four other changes:
  *
  * 1. **`--radius` is not overridden.** Upstream sets `--radius: 100px` inline for
  *    its pill shape. In this repo `--radius` is the base the entire radius scale
@@ -37,6 +37,14 @@ import { cn } from "@/lib/utils";
  *
  * 3. **The spark is dropped under `prefers-reduced-motion`.** It's an infinite
  *    loop, which is the exact thing that setting exists to stop.
+ *
+ * 4. **Hover and press have a real fill.** Upstream ships no hover/press state
+ *    at all. The fill lives on the backdrop span, not the root — the backdrop
+ *    is the opaque layer inset by `--shimmer-cut` that actually paints the
+ *    button's face, so that's where `group-hover:`/`group-active:` swap in
+ *    `--primary-hover` / `--primary-active` (globals.css). The root gets the
+ *    same two colors on its own `hover:`/`active:` so the hairline rim stays
+ *    the same ink as the face.
  */
 type ShimmerButtonProps = ComponentPropsWithoutRef<"button"> & {
   /**
@@ -71,7 +79,7 @@ export function ShimmerButton({
   } as CSSProperties;
 
   const classes = cn(
-    "group bg-primary text-primary-foreground relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg px-4 text-sm font-medium whitespace-nowrap",
+    "group bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active relative z-0 inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-lg px-4 text-sm font-medium whitespace-nowrap",
     "focus-visible:ring-ring/50 outline-none focus-visible:ring-3",
     "ease-out-soft transform-gpu transition-transform duration-[var(--duration-base)] active:translate-y-px",
     className
@@ -102,7 +110,7 @@ export function ShimmerButton({
           visible as a rim. */}
       <span
         aria-hidden
-        className="bg-primary absolute [inset:var(--shimmer-cut)] -z-20 rounded-[inherit]"
+        className="ease-out-soft bg-primary group-hover:bg-primary-hover group-active:bg-primary-active absolute [inset:var(--shimmer-cut)] -z-20 rounded-[inherit] transition-colors duration-[var(--duration-base)]"
       />
     </>
   );

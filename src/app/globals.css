@@ -142,11 +142,19 @@
 
   /* ------------------------------------------------------------------------
      Design-System color bridges — used ONLY inside `.ds-scope` (the ported
-     Color methodology page). These expose the DS's extra semantic roles as
-     Tailwind utilities (`bg-canvas`, `bg-success-subtle`, …). The underlying
-     vars are defined on `.ds-scope` below, so these resolve to DS values in
-     scope and are simply unused elsewhere. Keys the portfolio already maps
-     (primary, card, muted, border, destructive, …) are intentionally omitted.
+     Color methodology page), with four exceptions. These expose the DS's
+     extra semantic roles as Tailwind utilities (`bg-canvas`,
+     `bg-success-subtle`, …). Most of the underlying vars are defined on
+     `.ds-scope` below only, so those resolve to DS values in scope and are
+     unused elsewhere. Keys the portfolio already maps (primary, card, muted,
+     border, destructive, …) are intentionally omitted.
+
+     The four exceptions — primary-hover/-active, secondary-hover/-active —
+     are ALSO defined on the portfolio's own :root/.dark, next to --primary
+     and --secondary, because the hero CTAs need a real hover/press fill that
+     an alpha modifier can't give them (see the note there). `.ds-scope`
+     still overrides all four further down for its own palette — that's the
+     scope doing its normal job, not a second source of truth.
      ------------------------------------------------------------------------ */
   --color-canvas: var(--canvas);
   --color-primary-hover: var(--primary-hover);
@@ -211,6 +219,25 @@
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
+  /* Hover/press fill for the hero CTAs (ShimmerButton, Button's secondary
+     variant) — added because neither control can get a state from an alpha
+     modifier. `hover:bg-secondary/80` composites to ~0.976 over the near-white
+     --background (0.97 at 80%), a 0.6% lightening that doesn't register, and
+     hover/active land on the same computed value so there's no press state
+     either. The shimmer's fill is worse: it's an opaque backdrop painted over
+     a parent that's already `bg-primary`, so `bg-primary/90` there composites
+     straight back to `primary` — no percentage fixes that.
+
+     Values and direction are ported from the Design System's own `.ds-scope`
+     ramp below (light: --primary #363636 → hover #2c2c2c → active #242424;
+     --secondary #f1f5f9 → #e2e8f0 → #cbd5e1) onto this file's grayscale OKLCH
+     scale: both roles step TOWARD --foreground, so press always reads as more
+     ink rather than less. For the `.ds-scope` override, see the bridge note
+     above. */
+  --primary-hover: oklch(0.16 0 0);
+  --primary-active: oklch(0.125 0 0);
+  --secondary-hover: oklch(0.925 0 0);
+  --secondary-active: oklch(0.87 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   /* Body copy in a prose block (#565656). Sits between --foreground and
@@ -339,7 +366,8 @@
   /* Long colour crossfade, ported from Coherence's --motion-duration-slower
      (their Animate UI checkbox recipe). Colour-only: a fill can dissolve for
      500ms and read as a soft "bloom", where anything that MOVES for 500ms
-     reads as lag — spatial transitions stay on the three durations above. */
+     reads as lag — spatial transitions stay on the three durations above, except
+     a reveal on --ease-enter (see the reveal tiers below), whose tail is flat. */
   --duration-slower: 500ms;
   /* Full-viewport travel only — currently just the theme wipe. Deliberately past
      the --duration-slow ceiling: those three are tuned for an element moving a few
@@ -360,6 +388,30 @@
      --motion-reveal-rise-light / --motion-reveal-stagger-light). */
   --reveal-rise: 6px;
   --reveal-stagger: 40ms;
+  /* Reveal tiers, ported from the Afi apps design system
+     (--motion-reveal-{duration,rise,stagger,blur}-{light,normal,heavy}). `--reveal-rise`
+     and `--reveal-stagger` above are the light tier and keep their names.
+
+     A reveal runs 400–600ms, longer than the --duration-slow ceiling, and still
+     doesn't read as lag: pair it with --ease-enter, which is so front-loaded that
+     most of the travel is done in the first fifth and the rest is a slow, barely
+     moving settle. That tail is the point. Without --ease-enter, a 500ms move is
+     lag. Use for content that enters the page (sections, rows, figures); popups
+     and controls stay on --duration-enter and --duration-base.
+
+     Light for small items, normal for a section, heavy for a hero or a whole
+     panel. Pick one tier per surface and use its duration, rise, stagger and
+     blur together. */
+  --duration-reveal-light: 400ms;
+  --duration-reveal-normal: 500ms;
+  --duration-reveal-heavy: 600ms;
+  --reveal-rise-normal: 10px;
+  --reveal-rise-heavy: 14px;
+  --reveal-stagger-normal: 70ms;
+  --reveal-stagger-heavy: 100ms;
+  --reveal-blur-light: 4px;
+  --reveal-blur-normal: 8px;
+  --reveal-blur-heavy: 14px;
   --ease-in-out-soft: cubic-bezier(0.45, 0.05, 0.15, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -378,6 +430,14 @@
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
+  /* Mirrored: both roles step AWAY from --background instead of toward
+     --foreground, so a lighter fill still reads as "more" on a dark surface.
+     See the :root note above --primary-hover for why alpha can't stand in
+     for these. */
+  --primary-hover: oklch(0.95 0 0);
+  --primary-active: oklch(0.975 0 0);
+  --secondary-hover: oklch(0.32 0 0);
+  --secondary-active: oklch(0.37 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   /* Same job, mirrored: in light it's 25% of the way from --muted-foreground

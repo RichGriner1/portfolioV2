@@ -2776,12 +2776,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 aspect: 1.6,
                 items: [
                   {
-                    src: "/work/wealth-planner/demo/P314-dens-today.html",
-                    rect: { x: 60, y: 54, w: 600, h: 640 },
-                    viewport: { w: 720, h: 1000 },
-                    x: 26,
+                    src: "/work/wealth-planner/demo/wp-before-pat.html",
+                    rect: { x: 766, y: 64, w: 662, h: 706 },
+                    viewport: { w: 1440, h: 1000 },
+                    x: 26.5,
                     y: 50,
-                    w: 44,
+                    w: 48,
                     label: {
                       en: "Before the review",
                       es: "Antes de la revisión",
@@ -2793,9 +2793,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                     src: "/work/wealth-planner/demo/P314-dens-quiet.html",
                     rect: { x: 60, y: 54, w: 600, h: 640 },
                     viewport: { w: 720, h: 1900 },
-                    x: 74,
+                    x: 75.5,
                     y: 50,
-                    w: 44,
+                    w: 43.5,
                     label: {
                       en: "After the review",
                       es: "Después de la revisión",

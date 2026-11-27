@@ -684,28 +684,7 @@ export const TPC_STUDY: CaseStudy = {
           es: "Una segunda prueba distribuyó el cuestionario del proveedor de tres formas, como experimento. No hubo prueba con usuarios antes de la entrega. Lo siguiente es el README, para que el próximo producto cargue el tema sin mí.",
         },
       ],
-      media: [
-        {
-          kind: "stats",
-          items: [
-            {
-              value: "14 → 48",
-              label: {
-                en: "screens became flows",
-                es: "pantallas pasaron a flujos",
-              },
-            },
-            ...C.CLEANUP_STATS.slice(1).map((s) => ({
-              value: s.value.en,
-              label: s.label,
-            })),
-            {
-              value: C.DIAGNOSTIC.audit[0].value.en,
-              label: C.DIAGNOSTIC.audit[0].label,
-            },
-          ],
-        },
-      ],
+      media: [],
     },
   ],
 };

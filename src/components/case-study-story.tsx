@@ -1073,32 +1073,38 @@ function BeatRow({
     >
       {top}
       <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-[minmax(0,1fr)_260px] md:gap-10">
-        <div
-          // One surface: the light product stage, the same in both themes, so a
-          // component never sits inside three frames.
-          className="flex flex-col justify-center overflow-hidden rounded-2xl bg-[#eef1f4] text-[#1f2328]"
-          // The stage is light in both themes, so the site's dot cursor stays navy here.
-          data-cursor-ink="#062D3F"
-        >
+        {/* A beat with no visual is text only: it takes the visual's column, so
+            the page doesn't show an empty stage beside it. */}
+        {media.length > 0 && (
           <div
-            className="duration-base ease-out-soft transition-[height]"
-            style={stable && minH ? { height: minH } : undefined}
+            // One surface: the light product stage, the same in both themes, so a
+            // component never sits inside three frames.
+            className="flex flex-col justify-center overflow-hidden rounded-2xl bg-[#eef1f4] text-[#1f2328]"
+            // The stage is light in both themes, so the site's dot cursor stays navy here.
+            data-cursor-ink="#062D3F"
           >
-            <div ref={visual} className="flex flex-col justify-center gap-4">
-              <BeatContext.Provider value={true}>
-                {media.map((m, k) => (
-                  <Media
-                    // Keyed by its own title, so a switch gives each tab a fresh
-                    // visual: its play runs once for it, not once for the beat.
-                    key={`${k}-${m.kind}-${"title" in m && m.title ? m.title.en : ""}`}
-                    media={m}
-                  />
-                ))}
-              </BeatContext.Provider>
+            <div
+              className="duration-base ease-out-soft transition-[height]"
+              style={stable && minH ? { height: minH } : undefined}
+            >
+              <div ref={visual} className="flex flex-col justify-center gap-4">
+                <BeatContext.Provider value={true}>
+                  {media.map((m, k) => (
+                    <Media
+                      // Keyed by its own title, so a switch gives each tab a fresh
+                      // visual: its play runs once for it, not once for the beat.
+                      key={`${k}-${m.kind}-${"title" in m && m.title ? m.title.en : ""}`}
+                      media={m}
+                    />
+                  ))}
+                </BeatContext.Provider>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-2.5 md:pt-0.5">
+        )}
+        <div
+          className={`flex flex-col gap-2.5 md:pt-0.5 ${media.length ? "" : "max-w-xl"}`}
+        >
           {/* No eyebrow above the headline (Richard, 2026-11-27: all-caps kickers
               read as AI-made). `kicker` stays in the data for the nav and
               screen readers' context, and is not shown. */}

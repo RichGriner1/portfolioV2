@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Panel completo · azul Afi con un toque de violeta</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/afi-apps/styles.css">
+<link rel="stylesheet" href="afi-product.css">
+<link rel="stylesheet" href="rows2.css">
+<link rel="stylesheet" href="rows3.css">
+<link rel="stylesheet" href="rows4.css">
+<link rel="stylesheet" href="rows5.css">
+<link rel="stylesheet" href="lab314.css">
+<script src="ds/afi-apps/components/bundle.js"></script>
+<script src="rows2.js"></script>
+<script src="rows3.js"></script>
+<script src="rows4.js"></script>
+<script src="lab314.js"></script>
+<style>
+/* Portfolio copy: the lab stage is transparent so a composition shows only the element. */
+html,body,.lab,.lab-stage{background:transparent!important}
+</style>
+<script>
+/* Portfolio copy: start with the loop off; the case study plays it when it's on screen. */
+(function(){var mo=new MutationObserver(function(){var b=[].slice.call(document.querySelectorAll('button')).find(function(x){return x.textContent.indexOf('Pausar bucle')>-1});if(b){b.click();mo.disconnect();}});mo.observe(document.documentElement,{childList:true,subtree:true});})();
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>body{margin:0}</style>
+</helmet>
+<x-import component-from-global-scope="WPLab.Lab" el="panel" hue="hint" hint-size="100%,100%"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":960,"height":620}}'>
+/* RING: focus ring on the control pressed to reach the next step (found by its text or aria-label; rows count too). */
+const RING = null;
+class Component extends DCLogic {
+  find(l) {
+    const all = Array.from(document.querySelectorAll('button, [role="button"], [role="separator"], a, tbody tr'));
+    const t = n => (n.textContent || '').replace(/\s+/g, ' ').trim(), exact = all.filter(n => t(n) === l[0]);
+    const pool = exact.length > (l[1] || 0) ? exact : all.filter(n => t(n).startsWith(l[0]) || (n.getAttribute('aria-label') || '').startsWith(l[0]));
+    return pool[l[1] || 0];
+  }
+  run(n) {
+    if (!RING) return;
+    const el = this.find(RING);
+    if (!el) { if (n < 8) this.t.push(setTimeout(() => this.run(n + 1), 700)); return; }
+    el.style.outline = '2px solid var(--borders-focus, #4c8dff)'; el.style.outlineOffset = el.tagName === 'TR' ? '-2px' : '4px';
+  }
+  componentDidMount() { this.t = [setTimeout(() => this.run(0), 1500)]; }
+  componentWillUnmount() { (this.t || []).forEach(clearTimeout); }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

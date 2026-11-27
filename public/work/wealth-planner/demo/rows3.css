@@ -1,0 +1,38 @@
+/* Workstation v3: the page and «El plan» are two surfaces on the grey ground. Loads after rows2.css. Tokens only. */
+[data-r3] .afi-shell__card{background:transparent;padding:0;border-radius:0;gap:0}
+.r3-work{display:flex;align-items:flex-start;min-height:calc(100vh - var(--navigation-navbar-height) - var(--dimension-4))}
+.r3-page{flex:1 1 auto;min-width:0;align-self:stretch;background:var(--background-surface);border-radius:var(--radius-xl);padding:var(--dimension-6) var(--dimension-8) var(--dimension-10);container-type:inline-size}
+.r3-handle{flex:none;align-self:stretch;width:12px;display:grid;place-items:center;cursor:col-resize;touch-action:none;outline:none}
+.r3-handle span{display:block;width:4px;height:48px;border-radius:var(--radius-full, 999px);background:var(--borders-default);opacity:.6;transition:opacity var(--motion-duration-fast) var(--motion-easing-standard),height var(--motion-duration-fast) var(--motion-easing-standard),background var(--motion-duration-fast) var(--motion-easing-standard)}
+.r3-handle:hover span,.is-dragging .r3-handle span{opacity:1;height:96px;background:var(--content-tertiary)}
+.r3-handle:focus-visible span{opacity:1;height:96px;outline:var(--stroke-focus) solid var(--borders-focus);outline-offset:2px}
+.is-dragging{cursor:col-resize;user-select:none}
+.r3-plan{flex:none;position:sticky;top:var(--navigation-navbar-height);height:calc(100vh - var(--navigation-navbar-height) - var(--dimension-4));overflow:auto;background:var(--background-surface);border-radius:var(--radius-xl);padding:0 var(--dimension-5) var(--dimension-4);transition:width var(--motion-duration-move) var(--motion-easing-standard)}
+.is-dragging .r3-plan{transition:none}
+.r3-plan__head{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:var(--dimension-2);padding:var(--dimension-4) 0 var(--dimension-2);background:var(--background-surface)}
+.r3-plan__head h2{margin:0;font-size:var(--type-h4-size);line-height:var(--type-h4-line-height);font-weight:var(--type-h4-weight)}
+.r3-tools{display:inline-flex;gap:2px}
+.r3-plan .r2-sec{border:0;border-top:var(--stroke-hairline) solid var(--borders-subtle);border-radius:0;background:transparent}
+.r3-plan .r2-sec>.afi-accordion-v2__summary{padding:var(--dimension-3) 0;border-radius:0;font-size:var(--type-body-default-size)}
+.r3-plan .r2-sec>.afi-accordion-v2__summary:hover{background:transparent;color:var(--content-secondary)}
+.r3-plan .r2-sec[open]>.afi-accordion-v2__summary{border-block-end:0;margin-block-end:0}
+.r3-plan .r2-legend{padding:0}
+.r3-plan .r2-fig__v{font-size:var(--type-h2-size)}
+.r3-chart{align-self:stretch;min-width:0}
+.r3-plan--wide .r2-fig__v{font-size:var(--type-h1-size, var(--type-h2-size))}
+/* closed: a strip that keeps the two answers in sight */
+.r3-plan--closed{padding:var(--dimension-3) 0;overflow:hidden}
+.r3-strip{display:flex;flex-direction:column;align-items:center;gap:var(--dimension-5)}
+.r3-strip__fig{display:flex;flex-direction:column;align-items:center;gap:var(--dimension-1);text-align:center;font-variant-numeric:tabular-nums;transition:filter var(--motion-duration-base) var(--motion-easing-standard),opacity var(--motion-duration-base) var(--motion-easing-standard)}
+.r3-strip__fig small{font-size:var(--type-caption-size, 11px);color:var(--content-tertiary)}
+.r3-strip__fig strong{font-size:var(--type-body-small-size);font-weight:var(--font-weight-semibold)}
+.r3-strip__fig.is-busy{filter:blur(3px);opacity:.55}
+/* the menu toggle sits in the top bar, before the logo, where the menu starts */
+.r3-railbtn{display:inline-flex;margin-left:calc(var(--dimension-2) * -1)}
+@media (max-width:1023px){.r3-railbtn{display:none}}
+@container (max-width:560px){.r2-grid{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.r3-plan{transition:none}.r3-strip__fig{transition:none}}
+
+.r3-sub{display:flex;align-items:center;justify-content:space-between;gap:var(--dimension-2);align-self:stretch;padding-top:var(--dimension-2)}
+.r3-sub__t{font-size:var(--type-body-small-size);font-weight:var(--font-weight-semibold);color:var(--content-secondary)}
+.r3-plan .r2-figs>p.r2-hint{padding:0}

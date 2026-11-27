@@ -45,7 +45,6 @@ const AFTER_AT: Record<DiagPinAfter, [number, number]> = {
   "draft-actions": [0.535, 0.093],
   pages: [0.305, 0.375],
   "add-question": [0.962, 0.18],
-  conditional: [0.6, 0.393],
 };
 
 type Beat =

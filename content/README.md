@@ -16,6 +16,7 @@
 | `journal/` | Raw end-of-day brain-dumps. **Gitignored** (private, local-only). | capture |
 | `drafts/` | Long-form entries being shaped, by pillar. Committed. | shape |
 | `published/` | Long-form that's ready / rendered on the site, by pillar. | publish |
+| `references/` | Outside work we learn from. `case-studies/`: six studio case studies broken down by section and graphic. → [references/case-studies/README.md](references/case-studies/README.md) | reference |
 | `brand-guide.md` | What the brand *is* — positioning, universal truth, personality, values, visual concept. | rules |
 | `voice.md` | THE canonical voice rulebook — how the brand *sounds*. | rules |
 

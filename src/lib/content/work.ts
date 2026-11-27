@@ -227,8 +227,12 @@ export const WORK: WorkItem[] = [
     kind: "case-study",
     href: "/work/third-party-compliance",
     glyph: "design-system",
-    // The v1.1 template editor with the diagnostic's red pins: the work, shown as a review.
+    // The v1.1 template editor with the diagnostic's red pins: the still fallback.
     image: "/work/third-party-compliance/card.webp",
+    // Thumbnail: the Panel with its side panel opening on «Pendientes de respuesta»,
+    // then «En revisión» (the overview clip, cropped square on the panel side). The
+    // product is light-only and the clip has no text of ours, so all four match.
+    video: "/work/third-party-compliance/card",
     ongoing: true,
     // On the home board with SAREVI and Wealth Planner since 2026-11-27. Rank 0
     // like them: the three current studies lead, in date order among themselves.

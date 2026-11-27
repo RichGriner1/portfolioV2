@@ -6,11 +6,17 @@ import { HyperText } from "@/components/magicui/hyper-text";
 import { sortKey, WORK } from "@/lib/content/work";
 import { pick, useLang, type Bilingual } from "@/lib/i18n";
 
-// Every case study, newest first — including the ones the home shelf doesn't
-// feature. Home curates; this page is the full list.
+// Every case study, including the ones the home shelf doesn't feature. Home
+// curates; this page is the full list. The same `homeRank` that pins the home's
+// lead pins it here (the three current studies first), then newest first.
 const ALL_PROJECTS = WORK.filter(
   (item) => item.kind === "case-study" && !item.hidden
-).sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
+).sort((a, b) => {
+  const ra = a.homeRank ?? Infinity;
+  const rb = b.homeRank ?? Infinity;
+  if (ra !== rb) return ra - rb;
+  return sortKey(b).localeCompare(sortKey(a));
+});
 
 const TITLE: Bilingual<string> = {
   en: "Projects",

@@ -718,6 +718,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Diseño de microinteracciones",
       ],
     },
+    // The workbench card below is 640px tall inside the page column, which is
+    // too tight to browse it. This opens the same page full-screen in a new tab.
+    demo: {
+      href: "https://coherence-wealth-manager.vercel.app/workbench/actions/button?embed=1",
+    },
     /**
      * The same shape afi-design-system uses: context, then a demo, then cards.
      *

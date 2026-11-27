@@ -135,7 +135,10 @@ export function CaseStudyPage({ item, study, diagrams }: Props) {
               </div>
               {study.demo && (
                 <div className={beats ? "pt-3" : undefined}>
-                  <DemoActions href={`/work/${item.slug}/demo`} />
+                  <DemoActions
+                    href={`/work/${item.slug}/demo`}
+                    story={Boolean(study.story)}
+                  />
                 </div>
               )}
             </div>

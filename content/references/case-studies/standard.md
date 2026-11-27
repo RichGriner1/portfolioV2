@@ -44,7 +44,9 @@ Follow [visuals.md](visuals.md). In code:
 | Where things were | `composition` + `marks` + `legend` | Numbered markers beside, not on, the text they point at. |
 | A motion | `composition` + `play` | `"lab"`, `"case"`, `"reload"` or `"click"`. Plays once on screen, then ↺ Replay. |
 | Before and after | two items labelled "The live product" and "Iteration N" | The before is always the shipped version. |
-| Numbers | `stats` | 4 figures with short labels. |
+| Numbers | `stats` | 4 figures with short labels. In a beat the cells are opaque and the dividers are borders, so dark mode shows no light lines or corners. |
+| Something to use | `embed` of a portfolio board (`PF-*.html`) | Rebuild the controls from the product's own design-system bundle (React components, not a screenshot) on a page with a transparent background and `color-scheme: light`. In a beat the embed is drawn frameless with no link, so the pieces sit on the stage like any component. Size the frame to its content; a dropdown leads, so its list opens over the parts below and nothing is cut. |
+| Try the product | `embed` of the real screen, cut down | Copy the prototype board and hide (CSS, `display: none`) everything but the one or two components the beat is about. They stay live, so the calculation still runs. Never a full screen shrunk into the column. |
 
 **Corners and padding (one standard for every visual):**
 
@@ -58,6 +60,8 @@ Follow [visuals.md](visuals.md). In code:
 | Edges | No board background, scrollbar or neighbouring element shows at a piece's edge. The stage hides the boards' scrollbars; check with classic scrollbars on (Playwright `ignoreDefaultArgs: ['--hide-scrollbars']`). |
 | Replay | In its own band under the pieces, never over them. |
 | Motion a person starts | `play: "click"` with `playClick` presses the real control (opening a row). Replay reloads the board and presses it again. |
+| Tabs | A switch beat's stage eases to each tab's own height. It never keeps the tallest tab's height, which leaves a small component floating in an empty box. |
+| Dark artboards | A self-framed dark player (a flow, an audit) takes the stage padding only, not a second light box inside the stage. |
 
 **How to get the pieces:**
 - **Live elements**: copy the Claude Design export into `public/work/<slug>/demo/` (the boards, `ds/`, `_runtime/` and the page scripts). Render each board at its canvas frame size (from `canvas.json`), measure the element with Playwright, and use its exact rect. The frame size usually already isolates one element.
@@ -78,6 +82,15 @@ Follow [visuals.md](visuals.md). In code:
 | Page column | 980 px, one left edge for the header and the beats |
 | Between beats | 150 / 210 px |
 
+## Card thumbnail
+
+The home and Projects card for a case study is a looping clip of one component on a flat stage (`card_<lang>_<theme>_thumb.mp4`, 720 or 1080 px square).
+
+- **Record, don't recolour.** Record the real board straight onto each theme's stage: light `#eef0f2` (or the board's own light stage) and dark `#10181d`. Recolouring a finished light clip leaves a light edge.
+- **One component, whole.** The part of the product the study is about (the Resumen hero, the plan card, the Panel with its side panel). Never a crop that cuts a page.
+- **Open clean.** If the product's first frames are a grey blur or a blank page, start on the first drawn frame and add a short blur-in on the stage colour.
+- **Fit any tile.** Set `stage: { light, dark }` on the work item to the clip's stage colours. The card then fits the clip whole and paints the rest of a tall or wide tile in that colour.
+
 ## Demo
 
 The demo opens at `/work/<slug>/demo`, full screen, with a "← Back to <project>" pill. Demos are open, with no password (Richard's call, 2026-11-27).
@@ -94,6 +107,8 @@ The demo opens at `/work/<slug>/demo`, full screen, with a "← Back to <project
 - [ ] Headlines alone tell the story.
 - [ ] 6 to 8 beats; no repeat between the intro and the first beat.
 - [ ] Every visual is a composition of whole components; the before is the shipped version.
+- [ ] No full-screen recordings or screenshots in a beat: components, a cut-down live screen, or a rebuilt board.
+- [ ] The card thumbnail is recorded per theme and has `stage` set, so it fits tall and wide tiles.
 - [ ] Every animation plays once on view and has Replay.
 - [ ] Checked headless at 1440 and 390 px, 2x, every selector state.
 - [ ] The page ends on numbers, then the demo action.

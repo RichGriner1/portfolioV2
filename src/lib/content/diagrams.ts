@@ -39,7 +39,7 @@ export const DIAGRAMS = {
   accDescr: Afi publishes a template and assigns it to a supplier. The supplier's contact signs in with a one-time code, answers and sends. Afi reviews each answer, then approves or returns it with comments, and the supplier corrects and resends.
   subgraph afi[Afi]
     T[Publish a template] --> N[New assignment: supplier, template, due date]
-    N --> S[Send to the authorised contacts]
+    N --> S[Send to the authorized contacts]
   end
   subgraph sup[Supplier]
     C[Email and one-time code, no password] --> Q[Answer, or save and continue later]

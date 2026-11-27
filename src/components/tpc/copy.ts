@@ -2,13 +2,14 @@ import type { Bilingual } from "@/lib/i18n";
 
 /**
  * Copy for the Third-party compliance case study, EN first. The Spanish had its
- * afi-redaccion pass on 2026-11-27: Peninsular, first person singular (Richard's
+ * afi-redaccion pass on 2026-11-27 (both revisions that day): Peninsular, first person singular (Richard's
  * voice, not Afi's house plural). ES strings edited after that date get a TODO(afi-redaccion).
  *
  * Source of truth for the story: the "Cumplimiento de terceros" design canvas (its
- * v1.0 page and pages 1–7), the design system's atomic-check baseline, the two
- * generation tests, and Richard's own account.
+ * v1.0 page, pages 1–7 and the requirements sheet), the design system's atomic-check
+ * baseline, the two generation tests, and Richard's own account.
  *
+ * One count for the tool everywhere: 14 screens in v1.0, 7 areas and 48 flows in v1.1.
  * Nothing here is a measured result for the tool. The design system numbers are counts
  * from the atomic check. Facts still to confirm are in the list at the bottom.
  */
@@ -22,14 +23,14 @@ export const TAGLINE: B = {
 
 export const INTRO: Bilingual<string[]> = {
   en: [
-    "Third-party compliance is an internal B2B tool at Afi. Before anyone uses an outside product, its supplier has to show it meets our security requirements and regulations. With AI, that check comes up far more often.",
-    "The developer building it generated the first version with AI from our design system. It used the system's parts. It still looked AI-made, wasn't usable, and its information architecture didn't hold. I rebuilt it as v1.1 and handed it back to him to build.",
-    "The tool is the example. What I was testing is the design system: can someone busy, who won't stop to message a designer, build something usable and consistent from it?",
+    "Third-party compliance is an internal tool at Afi. Before we use an outside product, its supplier has to prove it meets our security requirements and regulations. With AI, we check far more outside tools than we used to.",
+    "The developer building it generated v1.0 with AI from our design system. I redesigned it as v1.1 and handed it back to him to build.",
+    "What I cared about went past this tool. Can someone busy, who won't stop to message a designer, build something usable and consistent from our design system?",
   ],
   es: [
-    "Cumplimiento de terceros es una herramienta interna B2B de Afi. Antes de que nadie use un producto externo, su proveedor tiene que demostrar que cumple nuestros requisitos de seguridad y la normativa. Con la IA, esa comprobación es mucho más frecuente.",
-    "El desarrollador que la construye generó la primera versión con IA a partir de nuestro sistema de diseño. Usaba las piezas del sistema. Aun así parecía hecha por una IA, no era usable y su arquitectura de la información no se sostenía. La rehíce como v1.1 y se la devolví para que la construyera.",
-    "La herramienta es el ejemplo. Lo que ponía a prueba era el sistema de diseño: ¿puede alguien con prisa, que no va a pararse a escribir a un diseñador, construir con él algo usable y consistente?",
+    "Cumplimiento de terceros es una herramienta interna de Afi. Antes de usar un producto externo, su proveedor tiene que demostrar que cumple nuestros requisitos de seguridad y la normativa. Con la IA, revisamos muchas más herramientas externas que antes.",
+    "El desarrollador que la construye generó la v1.0 con IA a partir de nuestro sistema de diseño. La rediseñé como v1.1 y se la devolví para que la construyera.",
+    "Lo que me importaba iba más allá de esta herramienta. ¿Puede alguien con prisa, que no va a pararse a escribir a un diseñador, construir algo usable y consistente con nuestro sistema de diseño?",
   ],
 };
 
@@ -60,8 +61,8 @@ export const CONTRIBUTIONS: Bilingual<string[]> = {
 export const PROBLEM_HEADING: B = { en: "The problem", es: "El problema" };
 
 export const PROBLEM_LEAD: B = {
-  en: "We can't use a tool until someone confirms it complies. That wait is what slows us down, and it comes from three pains.",
-  es: "No podemos usar una herramienta hasta que alguien confirme que cumple. Esa espera es lo que nos frena, y viene de tres problemas.",
+  en: "Checking a supplier had three gaps.",
+  es: "Revisar a un proveedor tenía tres huecos.",
 };
 
 export type Pain = {
@@ -81,10 +82,10 @@ export const PAINS: Pain[] = [
   },
   {
     kind: "template",
-    title: { en: "No template questions", es: "Sin preguntas de plantilla" },
+    title: { en: "No common format", es: "Sin formato común" },
     text: {
-      en: "With no template questions, we couldn't count on getting the same information each time.",
-      es: "Sin preguntas de plantilla, no podíamos contar con recibir la misma información cada vez.",
+      en: "Each supplier answered in their own format, a yes here and a PDF there, so answers couldn't be compared.",
+      es: "Cada proveedor respondía a su manera, un sí aquí y un PDF allá, así que las respuestas no se podían comparar.",
     },
   },
   {
@@ -98,8 +99,8 @@ export const PAINS: Pain[] = [
 ];
 
 export const OUTCOME: B = {
-  en: "The outcome: one way of asking and one place to track it, so we stay aligned and compliant without losing time.",
-  es: "El resultado: una sola forma de pedir y un solo sitio donde seguirlo, para estar alineados y cumplir sin perder tiempo.",
+  en: "What the tool does: one set of questions for every supplier, and one place to see where each review stands.",
+  es: "Lo que hace la herramienta: un mismo cuestionario para todos los proveedores y un solo sitio donde ver en qué punto está cada revisión.",
 };
 
 export type Rule = {
@@ -154,16 +155,12 @@ export const BEFORE_ISSUES: { id: string; title: B; text: B }[] = [
 export const BEFORE_EXAMPLE: Rule = {
   id: "templates",
   title: {
-    en: "Template editor: five drawers, then seven flows",
-    es: "Editor de plantillas: de cinco cajones a siete flujos",
+    en: "Template editor: from drawers to its own page",
+    es: "Editor de plantillas: de cajones a una página propia",
   },
   body: {
-    en: "The v1.0 template editor was one page with five drawers: questionnaire, page, question, conditional question and file. Now each job is a flow of its own, seven in all: create, edit and publish, pages and questions, add a question, activation rules, reorder and delete, and discard a draft.",
-    es: "El editor de plantillas de la v1.0 era una página con cinco cajones: cuestionario, página, pregunta, pregunta condicional y archivo. Ahora cada tarea es un flujo propio, siete en total: crear, editar y publicar, páginas y preguntas, añadir una pregunta, reglas de activación, reordenar y eliminar, y descartar un borrador.",
-  },
-  why: {
-    en: "Each job gets its own steps, so nobody has to find it inside a drawer.",
-    es: "Cada tarea tiene sus propios pasos, así que nadie tiene que buscarla dentro de un cajón.",
+    en: "v1.0 put the template library, the question editor and the activation rules on one page, with editing in five drawers. In v1.1 the editor has its own page. Each job is a flow of its own: create, publish, edit pages and questions, set activation rules, reorder, discard a draft.",
+    es: "La v1.0 ponía la biblioteca de plantillas, el editor de preguntas y las reglas de activación en una página, con la edición en cinco cajones. En la v1.1 el editor tiene su propia página. Cada tarea es un flujo propio: crear, publicar, editar páginas y preguntas, definir reglas de activación, reordenar y descartar un borrador.",
   },
 };
 
@@ -178,6 +175,121 @@ export const FLOW_CAPTION: B = {
   en: "The whole loop, from template to approval, built from the flows on the canvas.",
   es: "El circuito completo, de la plantilla a la aprobación, construido con los flujos del lienzo.",
 };
+
+export type FlowLane = "admin" | "supplier" | "review";
+
+export type FlowStep = {
+  id: string;
+  lane: FlowLane;
+  title: B;
+  caption: B;
+};
+
+/**
+ * The loop, one beat at a time, for the flow walkthrough. Every caption traces to a
+ * row of the v1.1 requirements sheet (flows 2.3, 3.3, 3.4, 4.2–4.4, 7.1–7.5).
+ */
+export const FLOW_STEPS: FlowStep[] = [
+  {
+    id: "publish",
+    lane: "admin",
+    title: { en: "Publish a template", es: "Publicar una plantilla" },
+    caption: {
+      en: "Only published versions can be sent, so no supplier gets a half-finished questionnaire.",
+      es: "Solo se pueden enviar versiones publicadas, así que ningún proveedor recibe un cuestionario a medias.",
+    },
+  },
+  {
+    id: "assign",
+    lane: "admin",
+    title: { en: "Create the assignment", es: "Crear la asignación" },
+    caption: {
+      en: "Pick the supplier, the template and a due date.",
+      es: "Se elige proveedor, plantilla y fecha límite.",
+    },
+  },
+  {
+    id: "send",
+    lane: "admin",
+    title: { en: "Send to contacts", es: "Enviar a los contactos" },
+    caption: {
+      en: "It goes only to the supplier's authorized contacts, so the answers come from someone who can speak for them.",
+      es: "Solo llega a los contactos autorizados del proveedor, para que responda alguien que puede hablar en su nombre.",
+    },
+  },
+  {
+    id: "sign-in",
+    lane: "supplier",
+    title: { en: "Sign in with a code", es: "Entrar con un código" },
+    caption: {
+      en: "The contact enters their email and gets a one-time code. There is no password to create or forget.",
+      es: "El contacto escribe su correo y recibe un código de un solo uso. No hay contraseña que crear ni olvidar.",
+    },
+  },
+  {
+    id: "answer",
+    lane: "supplier",
+    title: { en: "Answer or save", es: "Responder o guardar" },
+    caption: {
+      en: "Some questions only appear after certain answers. Progress can be saved, so a long questionnaire doesn't have to be done in one go.",
+      es: "Algunas preguntas solo aparecen tras ciertas respuestas. El avance se puede guardar, así que un cuestionario largo no hay que hacerlo de una vez.",
+    },
+  },
+  {
+    id: "submit",
+    lane: "supplier",
+    title: { en: "Check and send", es: "Revisar y enviar" },
+    caption: {
+      en: "A summary shows every answer. It can't be sent while a required question is empty.",
+      es: "Un resumen muestra todas las respuestas. No se puede enviar con una pregunta obligatoria sin responder.",
+    },
+  },
+  {
+    id: "review",
+    lane: "review",
+    title: { en: "Review each answer", es: "Revisar cada respuesta" },
+    caption: {
+      en: "The reviewer marks each answer as compliant or as needing more information, with a comment for the supplier.",
+      es: "Quien revisa marca cada respuesta como conforme o como que requiere más información, con un comentario para el proveedor.",
+    },
+  },
+  {
+    id: "return",
+    lane: "review",
+    title: { en: "Return with comments", es: "Devolver con comentarios" },
+    caption: {
+      en: "If any answer needs more information, the questionnaire goes back to the supplier with the comments attached.",
+      es: "Si alguna respuesta necesita más información, el cuestionario vuelve al proveedor con los comentarios.",
+    },
+  },
+  {
+    id: "correct",
+    lane: "supplier",
+    title: { en: "Correct and resend", es: "Corregir y reenviar" },
+    caption: {
+      en: "Each flagged question shows Afi's comment, and a notice says how many there are, so the supplier knows what to fix before resending.",
+      es: "Cada pregunta marcada muestra el comentario de Afi, y un aviso indica cuántas son, así que el proveedor sabe qué corregir antes de reenviar.",
+    },
+  },
+  {
+    id: "review-again",
+    lane: "review",
+    title: { en: "Review again", es: "Revisar de nuevo" },
+    caption: {
+      en: "The resent answers come back to the review queue for a new decision.",
+      es: "Las respuestas reenviadas vuelven a la cola de revisión para una nueva decisión.",
+    },
+  },
+  {
+    id: "approve",
+    lane: "review",
+    title: { en: "Approve", es: "Aprobar" },
+    caption: {
+      en: "Only possible when every answer is compliant. It asks for confirmation, then closes the review.",
+      es: "Solo es posible cuando todas las respuestas son conformes. Pide confirmación y cierra la revisión.",
+    },
+  },
+];
 
 export const DID_HEADING: B = { en: "What we did", es: "Lo que hicimos" };
 
@@ -196,12 +308,12 @@ export const UX_RULES: {
   overview: {
     id: "overview",
     title: {
-      en: "The overview is the base of operations",
-      es: "El panel es la base de operaciones",
+      en: "Everything starts on the overview",
+      es: "Todo empieza en el panel",
     },
     body: {
-      en: "Open a drawer to see what's pending in each state. A global view shows our compliance. From here every page is accessible.",
-      es: "Cada estado abre un cajón con lo pendiente. Una vista global muestra nuestro cumplimiento. Desde aquí se llega a cualquier página.",
+      en: "Each card opens a drawer with what's pending in that state. A summary shows our overall compliance.",
+      es: "Cada tarjeta abre un cajón con lo pendiente de ese estado. Un resumen muestra nuestro cumplimiento general.",
     },
   },
   assignment: {
@@ -211,8 +323,8 @@ export const UX_RULES: {
       es: "Nueva asignación, a un clic del panel",
     },
     body: {
-      en: "You create it from the overview, not the sidebar. If the supplier doesn't exist yet, you can create it right there. Only published templates are offered.",
-      es: "Se crea desde el panel, no desde la barra lateral. Si el proveedor no existe, se puede crear desde ahí mismo. Solo se ofrecen plantillas publicadas.",
+      en: "You create it from the overview, not the sidebar. If the supplier doesn't exist yet, you can add it right there.",
+      es: "Se crea desde el panel, no desde la barra lateral. Si el proveedor no existe, se puede dar de alta ahí mismo.",
     },
     why: {
       en: "We expect it to be the most used action, so it sits where people start.",
@@ -227,8 +339,8 @@ export const STEP_FLOWS: { title: B; body: B } = {
     es: "Flujos, con cada botón conectado",
   },
   body: {
-    en: "I defined one flow per row: 14 screens became 7 areas and 48 flows. Every button goes somewhere, and each screen is shown in the steps that lead to it. Main cases came first, then edge cases. Two of the first flows turned out to be states of one page, so flows and states got separate rows.",
-    es: "Definí un flujo por fila: 14 pantallas se convirtieron en 7 áreas y 48 flujos. Cada botón lleva a algún sitio, y cada pantalla se ve en los pasos por los que se llega a ella. Primero los casos principales, después los casos límite. Dos de los primeros flujos resultaron ser estados de una misma página, así que flujos y estados pasaron a filas distintas.",
+    en: "I defined one flow per row: v1.0's 14 screens became 7 areas and 48 flows. Every button goes somewhere. Each screen appears in the steps that lead to it. Main cases came first, then edge cases. Two of the first flows turned out to be states of one page, so flows and states got separate rows.",
+    es: "Definí un flujo por fila: las 14 pantallas de la v1.0 se convirtieron en 7 áreas y 48 flujos. Cada botón lleva a algún sitio. Cada pantalla aparece en los pasos por los que se llega a ella. Primero los casos principales, después los casos límite. Dos de los primeros flujos resultaron ser estados de una misma página, así que flujos y estados pasaron a filas distintas.",
   },
 };
 
@@ -255,12 +367,12 @@ export const FLOW_RULES: Rule[] = [
       es: "La vista previa devuelve al borrador",
     },
     body: {
-      en: "«Preview» opens the portal as the supplier will see it, with conditional questions appearing depending on what they answer. You can answer to test them, and nothing is saved. «Back to the template» returns to the draft exactly as it was.",
-      es: "«Vista previa» abre el portal tal como lo verá el proveedor, donde las preguntas condicionales aparecen según lo que conteste. Se puede contestar para probarlas y no se guarda nada. «Volver a la plantilla» regresa al borrador con todo como estaba.",
+      en: "«Preview» opens the portal as the supplier will see it, and conditional questions appear depending on what you answer. You can answer to test them. Nothing is saved. «Back to the template» returns to the draft exactly as it was.",
+      es: "«Vista previa» abre el portal tal como lo verá el proveedor, donde las preguntas condicionales aparecen según lo que se conteste. Se puede contestar para probarlas. No se guarda nada. «Volver a la plantilla» regresa al borrador con todo como estaba.",
     },
     why: {
-      en: "The first version was a drawer showing a view the supplier never sees. It was pointless, so we replaced it with the real portal.",
-      es: "La primera versión era un cajón con una vista que el proveedor nunca ve. No servía, y lo cambiamos por el portal real.",
+      en: "The first version was a drawer showing a view the supplier never sees, so we replaced it with the real portal.",
+      es: "La primera versión era un cajón con una vista que el proveedor nunca ve, así que la cambiamos por el portal real.",
     },
   },
   {
@@ -273,10 +385,6 @@ export const FLOW_RULES: Rule[] = [
       en: "«Approve review» and «Return to supplier» show what is missing next to them.",
       es: "«Aprobar revisión» y «Devolver al proveedor» muestran, junto a ellos, qué falta para activarlos.",
     },
-    why: {
-      en: "Nobody has to guess what is missing.",
-      es: "Nadie tiene que adivinar qué le falta.",
-    },
   },
   {
     id: "destructive",
@@ -285,8 +393,8 @@ export const FLOW_RULES: Rule[] = [
       es: "Lo destructivo pide confirmación",
     },
     body: {
-      en: "Revoke, delete and remove are red, the destructive pattern, so it's clear you're deleting something. They also ask for confirmation. Revoking keeps the answers already sent.",
-      es: "Revocar, eliminar y quitar van en rojo, el patrón destructivo, para que se note que se está borrando algo. Además piden confirmación. Revocar conserva las respuestas ya enviadas.",
+      en: "Revoke, delete and remove are red, the destructive pattern. They also ask for confirmation. Revoking keeps the answers already sent.",
+      es: "Revocar, eliminar y quitar van en rojo, el patrón destructivo. Además piden confirmación. Revocar conserva las respuestas ya enviadas.",
     },
     why: {
       en: "A wrong click doesn't lose information.",
@@ -311,12 +419,12 @@ export const BEHAVIOR_RULES: Rule[] = [
       es: "Las acciones de fila aparecen al pasar el ratón",
     },
     body: {
-      en: "In a dense table, repeating the same icon or button on every row is noise and distracts. At rest the rows show nothing. On hover or keyboard focus all the actions appear together, as text only, and the ones that delete are red. On touch screens they are always visible.",
-      es: "En una tabla densa, repetir el mismo icono o botón en cada fila es ruido y distrae. En reposo las filas no muestran nada. Al pasar el ratón o enfocar la fila aparecen todas las acciones juntas, solo con texto, y las que borran van en rojo. En pantallas táctiles siempre se ven.",
+      en: "In a dense table, the same icon or button repeated on every row is noise. At rest the rows show nothing. On hover or keyboard focus, all the actions appear together as text. On touch screens they are always visible.",
+      es: "En una tabla densa, el mismo icono o botón repetido en cada fila es ruido. En reposo las filas no muestran nada. Al pasar el ratón o enfocar la fila, aparecen todas las acciones juntas como texto. En pantallas táctiles siempre se ven.",
     },
     why: {
-      en: "Each action is unique, so text saves people from hunting for icons. It's B2B, and people want to move fast.",
-      es: "Cada acción es única, así que el texto evita buscar iconos. Es una herramienta B2B y la gente quiere ir rápido.",
+      en: "Each action is different, so a word is faster to read than an icon to decode.",
+      es: "Cada acción es distinta, así que una palabra se lee antes que un icono.",
     },
   },
   {
@@ -346,17 +454,18 @@ export const EMPTY_RULE: Rule = {
     en: "It shows a title, one sentence and at most two actions. A search with no results repeats what was typed and offers one action to undo it.",
     es: "Muestra un título, una frase y como máximo dos acciones. Una búsqueda sin resultados repite lo escrito y ofrece una sola acción para deshacerla.",
   },
+  // The 3D objects are explained once, in the gallery's "The set" step (empty-gallery.tsx).
   why: {
-    en: "I built 3D models from objects on a moodboard, in Afi's brand, to use across all our apps. The small moments internal B2B tools usually overlook now get a touch of brand and are quick to make.",
-    es: "Construí modelos 3D a partir de objetos de un moodboard, con la marca de Afi, para usarlos en todas nuestras apps. Los momentos pequeños que las herramientas internas B2B suelen ignorar ahora llevan un toque de marca y se resuelven rápido.",
+    en: "An empty table and a broken page look the same. A title and one next step tell them apart.",
+    es: "Una tabla vacía y una página rota se parecen. Un título y un siguiente paso las distinguen.",
   },
 };
 
 export const STEP_REQS: { title: B; body: B } = {
   title: { en: "Requirements sheet", es: "Hoja de requisitos" },
   body: {
-    en: "Functional requirements, user flows, edge cases, error flows and the open decisions, written in Claude Design. The programmer's AI reads it while building, so it doesn't decide the same things again and again. Documenting takes a fraction of the time it used to, and senior developers can spend theirs on more impactful changes.",
-    es: "Requisitos funcionales, flujos de usuario, casos límite, flujos de error y las decisiones abiertas, escritos en Claude Design. La IA del desarrollador lee la hoja mientras construye, así que no vuelve a decidir lo mismo una y otra vez. Documentar lleva una fracción del tiempo de antes, y los desarrolladores senior pueden dedicar el suyo a cambios de más impacto.",
+    en: "Functional requirements, user flows, edge cases, error flows and the open decisions, written in Claude Design. The developer's AI reads it while it builds, so it doesn't re-decide what the sheet already settles.",
+    es: "Requisitos funcionales, flujos de usuario, casos límite, flujos de error y las decisiones abiertas, escritos en Claude Design. La IA del desarrollador lee la hoja mientras construye, así que no vuelve a decidir lo que la hoja ya resuelve.",
   },
 };
 
@@ -371,16 +480,16 @@ export const CLEANUP_HEADING: B = { en: "The cleanup", es: "La limpieza" };
 
 export const CLEANUP_PARAS: B[] = [
   {
-    en: "This was the biggest job. It was also the slowest. I was building SAREVI at the same time, setting patterns and rules for both. The AI kept telling me components used the design system. Many didn't.",
-    es: "Fue el trabajo más grande. También el más lento. Estaba construyendo SAREVI a la vez, fijando patrones y reglas para los dos. La IA me decía una y otra vez que los componentes usaban el sistema de diseño. Muchos no lo hacían.",
+    en: "The cleanup took longer than anything else. The AI kept telling me components used the design system. Many didn't.",
+    es: "La limpieza llevó más tiempo que nada. La IA me decía una y otra vez que los componentes usaban el sistema de diseño. Muchos no lo hacían.",
   },
   {
-    en: "They hand-built buttons, spinners and badges the system already had. Earlier audits checked tokens, not how each component was built, so several of them said it was fine.",
-    es: "Construían a mano botones, indicadores de carga y etiquetas que el sistema ya tenía. Las auditorías anteriores revisaban los tokens, no cómo estaba construido cada componente, así que varias daban el visto bueno.",
+    en: "They hand-built buttons, spinners and badges the system already had. Earlier audits checked tokens, not how components were built, so several audits passed them.",
+    es: "Construían a mano botones, indicadores de carga y etiquetas que el sistema ya tenía. Las auditorías anteriores revisaban los tokens, no cómo estaban construidos los componentes, así que varias los daban por buenos.",
   },
   {
-    en: "So the check became code: a written pass or fail for every component, run after every change. I cleaned the system until it passed. Nothing goes live now without a check page I approve.",
-    es: "Así que la comprobación pasó a ser código: un aprobado o suspenso escrito para cada componente, que se ejecuta tras cada cambio. Limpié el sistema hasta que lo pasó. Ahora nada se publica sin una página de comprobación que yo valido.",
+    en: "So I turned the check into code: a written pass or fail for every component, run after every change. I cleaned the system until everything passed. Now nothing goes live until I've approved a page showing what changed.",
+    es: "Así que convertí la comprobación en código: un aprobado o suspenso escrito para cada componente, que se ejecuta tras cada cambio. Limpié el sistema hasta que todo pasó. Ahora nada se publica hasta que apruebo una página que muestra qué ha cambiado.",
   },
 ];
 
@@ -407,8 +516,8 @@ export const CLEANUP_STATS: Stat[] = [
     id: "atoms",
     value: { en: "8", es: "8" },
     label: {
-      en: "new atoms, so the next component has the part it needs",
-      es: "átomos nuevos, para que el siguiente componente tenga la pieza que necesita",
+      en: "new atoms, including Separator and Pill",
+      es: "átomos nuevos, entre ellos Separator y Pill",
     },
   },
 ];
@@ -419,18 +528,18 @@ export const DS_HEADING: B = { en: "Design system", es: "Sistema de diseño" };
 
 export const DS_PARAS: B[] = [
   {
-    en: "I built this design system while building one of our other apps. This product has a different kind of layout, and that helped: it exposed gaps the last app never did.",
-    es: "Creé este sistema de diseño mientras construía otra de nuestras apps. Este producto tiene una distribución distinta, y eso sirvió: dejó a la vista huecos que la app anterior nunca mostró.",
+    en: "I built the design system alongside SAREVI, another of our apps, with patterns and rules shared by both. This tool's layout is different, which helped: it exposed gaps SAREVI never hit.",
+    es: "Construí el sistema de diseño junto con SAREVI, otra de nuestras apps, con patrones y reglas comunes a las dos. La distribución de esta herramienta es distinta, y eso ayudó: dejó a la vista huecos que SAREVI nunca había tocado.",
   },
   {
-    en: "Shadows are one example. The last app had few cards and few shadows, so the system never had to say when a surface gets one. Here it did, so I could define it. That changed the first app a little, and together they are more consistent than before.",
-    es: "Un ejemplo son las sombras. La app anterior tenía pocas tarjetas y pocas sombras, así que el sistema nunca tuvo que decir cuándo una superficie la lleva. Aquí sí, y pude definirlo. Eso cambió un poco la primera app, y juntas son más consistentes que antes.",
+    en: "Shadows are one example. SAREVI has few cards, so the system never had to say when a surface gets a shadow. This tool needed the rule, so I wrote it, and SAREVI changed a little to follow it.",
+    es: "Un ejemplo son las sombras. SAREVI tiene pocas tarjetas, así que el sistema nunca tuvo que decir cuándo una superficie lleva sombra. Esta herramienta necesitaba la regla, así que la escribí, y SAREVI cambió un poco para seguirla.",
   },
 ];
 
 export const DS_QUOTE: B = {
-  en: "Consistency is looking the same every time. Coherence is adapting and still being recognizably us. This is a first step toward that.",
-  es: "Consistencia es vernos igual siempre. Coherencia es adaptarnos y que se note que somos nosotros. Este es un primer paso en esa dirección.",
+  en: "Each app keeps the layout its job needs, and both still look like Afi.",
+  es: "Cada app mantiene la distribución que su tarea necesita, y las dos se reconocen como Afi.",
 };
 
 export const DS_RULE: Rule = {
@@ -455,12 +564,12 @@ export const TEST_HEADING: B = { en: "The test", es: "La prueba" };
 
 export const TEST_PARAS: B[] = [
   {
-    en: "On 19 November, one-line prompts built two new products from the system: a retirement simulator and a treasury tool, 3 and 5 screens. The component and copy rules held. The Afi theme didn't load, because the README left out the folder that holds it, so 120 of its 614 variables never loaded.",
-    es: "El 19 de noviembre, con instrucciones de una sola línea, el sistema generó dos productos nuevos: un simulador de jubilación y una herramienta de tesorería, de 3 y 5 pantallas. Las reglas de componentes y de texto se cumplieron. El tema de Afi no se aplicó: el README no mencionaba la carpeta que lo contiene, así que 120 de sus 614 variables nunca se cargaron.",
+    en: "On 19 November, one-line prompts built two new products from the system: a retirement simulator and a treasury tool, 3 and 5 screens. The component and copy rules held. The README left out the theme folder, so 120 of the Afi theme's 614 variables never loaded.",
+    es: "El 19 de noviembre, con instrucciones de una sola línea, el sistema generó dos productos nuevos: un simulador de jubilación y una herramienta de tesorería, de 3 y 5 pantallas. Las reglas de componentes y de texto se cumplieron. El README no mencionaba la carpeta del tema, así que 120 de las 614 variables del tema de Afi nunca se cargaron.",
   },
   {
-    en: "On 24 November I tested structure: the same content laid out different ways. I built a skill that audits a screen against my reference library and comes back with references and ideas. From those, the context and the shape of the questions, it proposes layouts. For this tool's supplier questionnaire, about 40 questions in 6 sections, it built three: a section rail, one question at a time, and summary first. Then it drew the illustrations flat, in the wrong blue, ignoring what the README says about them.",
-    es: "El 24 de noviembre puse a prueba la estructura: el mismo contenido distribuido de formas distintas. Construí una skill que audita una pantalla contra mi biblioteca de referencias y devuelve referencias e ideas. A partir de ellas, del contexto y de la forma de las preguntas, propone distribuciones. Para el cuestionario del proveedor de esta herramienta, unas 40 preguntas en 6 secciones, construyó tres: un carril de secciones, una pregunta cada vez y el resumen primero. Después dibujó las ilustraciones planas, en el azul equivocado, sin seguir lo que dice el README sobre ellas.",
+    en: "On 24 November I tested structure: the same content laid out different ways. I built a skill that audits a screen against my reference library and comes back with references and ideas. It proposes layouts from those references, the screen's context and the shape of its questions. For this tool's supplier questionnaire, about 40 questions in 6 sections, it built three: a section rail, one question at a time, and summary first. Then it drew the questionnaire's illustrations flat, in the wrong blue, ignoring what the README says about them.",
+    es: "El 24 de noviembre puse a prueba la estructura: el mismo contenido distribuido de formas distintas. Construí una skill que audita una pantalla contra mi biblioteca de referencias y devuelve referencias e ideas. Propone distribuciones a partir de esas referencias, del contexto de la pantalla y de la forma de sus preguntas. Para el cuestionario del proveedor de esta herramienta, unas 40 preguntas en 6 secciones, construyó tres: un carril de secciones, una pregunta cada vez y el resumen primero. Después dibujó las ilustraciones del cuestionario planas, en el azul equivocado, sin seguir lo que dice el README sobre ellas.",
   },
 ];
 

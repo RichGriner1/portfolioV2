@@ -77,15 +77,15 @@
     { id: 'b16', nombre: 'Hipoteca Chamartín', grupo: 'deu', detalle: 'Préstamo', entidad: 'Santander', ten: T(50, 50), valor: -520000, done: 3 },
     { id: 'b17', nombre: 'Hipoteca Sotogrande', grupo: 'deu', detalle: 'Préstamo', entidad: 'BBVA', ten: T(50, 50), valor: -290000, done: 2 }];
   const PLANS = [
-    { id: 'p1', cliente: 'Borja Foncillas García', plan: 'Borja PFC', tipo: 'Patrimonio', estado: 'Borrador', done: 3, gestor: 'GA', upd: 'Hace 2 h' },
-    { id: 'p2', cliente: 'Lucía Martín Ruiz', plan: 'Jubilación 2031', tipo: 'Jubilación', estado: 'Cumplimentada', done: 5, gestor: 'GA', upd: 'Ayer' },
-    { id: 'p3', cliente: 'Carlos Ibáñez Soto', plan: 'Sucesión familiar', tipo: 'Sucesión', estado: 'Entregada', done: 5, gestor: 'MR', upd: '3 d' },
-    { id: 'p4', cliente: 'Ana Belén Prieto', plan: 'Revisión anual', tipo: 'Patrimonio', estado: 'Borrador', done: 1, gestor: 'GA', upd: '4 d' },
-    { id: 'p5', cliente: 'Javier Ortega Lago', plan: 'Venta de la empresa', tipo: 'Inversión', estado: 'Cumplimentada', done: 4, gestor: 'LS', upd: '1 sem' },
-    { id: 'p6', cliente: 'María José Ferrer', plan: 'Jubilación anticipada', tipo: 'Jubilación', estado: 'Borrador', done: 2, gestor: 'GA', upd: '1 sem' },
-    { id: 'p7', cliente: 'Familia Navarro Gil', plan: 'Legado a los hijos', tipo: 'Sucesión', estado: 'Descargada', done: 5, gestor: 'MR', upd: '2 sem' },
-    { id: 'p8', cliente: 'Elena Sáez Moreno', plan: 'Plan 2024', tipo: 'Patrimonio', estado: 'Entregada', done: 5, gestor: 'LS', upd: '8 meses', arch: true },
-    { id: 'p9', cliente: 'Tomás Rivas Peña', plan: 'Jubilación 2025', tipo: 'Jubilación', estado: 'Descargada', done: 5, gestor: 'GA', upd: '1 año', arch: true }];
+    { id: 'p1', cliente: 'Andrés Molina Vega', plan: 'Plan patrimonial', tipo: 'Patrimonio', estado: 'Borrador', done: 3, gestor: 'GA', upd: 'Hace 2 h' },
+    { id: 'p2', cliente: 'Clara Ruiz Benítez', plan: 'Jubilación 2031', tipo: 'Jubilación', estado: 'Cumplimentada', done: 5, gestor: 'GA', upd: 'Ayer' },
+    { id: 'p3', cliente: 'Luis Herrero Campos', plan: 'Sucesión familiar', tipo: 'Sucesión', estado: 'Entregada', done: 5, gestor: 'MR', upd: '3 d' },
+    { id: 'p4', cliente: 'Irene Castro Lozano', plan: 'Revisión anual', tipo: 'Patrimonio', estado: 'Borrador', done: 1, gestor: 'GA', upd: '4 d' },
+    { id: 'p5', cliente: 'Pablo Serrano Díaz', plan: 'Venta de la empresa', tipo: 'Inversión', estado: 'Cumplimentada', done: 4, gestor: 'LS', upd: '1 sem' },
+    { id: 'p6', cliente: 'Nuria Gómez Pardo', plan: 'Jubilación anticipada', tipo: 'Jubilación', estado: 'Borrador', done: 2, gestor: 'GA', upd: '1 sem' },
+    { id: 'p7', cliente: 'Familia Vidal Romero', plan: 'Legado a los hijos', tipo: 'Sucesión', estado: 'Descargada', done: 5, gestor: 'MR', upd: '2 sem' },
+    { id: 'p8', cliente: 'Sara Medina Ortiz', plan: 'Plan 2024', tipo: 'Patrimonio', estado: 'Entregada', done: 5, gestor: 'LS', upd: '8 meses', arch: true },
+    { id: 'p9', cliente: 'Diego Fuentes Marín', plan: 'Jubilación 2025', tipo: 'Jubilación', estado: 'Descargada', done: 5, gestor: 'GA', upd: '1 año', arch: true }];
   const PAGE_TABS = { ingresos: ['liq'], gastos: ['liq'], patrimonio: ['pat', 'leg'], legado: ['leg', 'liq'], jubilacion: ['leg', 'liq'], aa: ['ren'], gl: ['liq', 'ren'] };
   const AA0 = { rv: 55, rf: 25, mon: 12, alt: 8 }, AAK = { rv: 0.06, rf: 0.02, mon: -0.01, alt: 0.04 };
   const AAL = [['rv', 'Renta variable'], ['rf', 'Renta fija'], ['mon', 'Monetario'], ['alt', 'Alternativos']];
@@ -1847,7 +1847,7 @@
 
     /* ---------- v3.2: the path in the top bar: Planificaciones › client › plan name (renamable) · status (menu) ---------- */
     topPath() {
-      const s = this.state, name = s.planName || 'Borja PFC', st = s.status || 'Borrador';
+      const s = this.state, name = s.planName || 'Plan patrimonial', st = s.status || 'Borrador';
       const STS = [['Borrador', 'neutral', 'Se puede editar todo.'], ['Cumplimentada', 'info', 'Datos completos; pendiente de revisar.'], ['Entregada', 'success', 'Enviada al cliente. Se edita creando una copia.'], ['Descargada', 'neutral', 'El informe se ha descargado.']];
       const tone = (STS.find((x) => x[0] === st) || STS[0])[1];
       const commit = (v) => { const t = (v || '').trim(); this.setState({ renaming: false, planName: t || name }); if (t && t !== name) this.toast('Planificación renombrada: «' + t + '».'); };
@@ -1861,7 +1861,7 @@
       return h('nav', { className: 'r4-path', 'aria-label': 'Ruta' },
         h('button', { type: 'button', className: 'r4-crumb', onClick: () => this.setState({ home: true, open: null, adding: false, pop: null }) }, I('chevron-left', 16), 'Planificaciones'),
         h('span', { className: 'r4-path__sep', 'aria-hidden': true }, '/'),
-        h('span', { className: 'r4-crumb r4-crumb--muted' }, 'Borja Foncillas García'),
+        h('span', { className: 'r4-crumb r4-crumb--muted' }, 'Andrés Molina Vega'),
         h('span', { className: 'r4-path__sep', 'aria-hidden': true }, '/'),
         nameEl, statusMenu);
     }
@@ -2055,7 +2055,7 @@
         group('Objetivos', nav('landmark', 'Legado y colchón de liquidez', 'legado'), nav('armchair', 'Jubilación', 'jubilacion')),
         group('Optimizaciones', nav('pie-chart', 'Asset allocation', 'aa'), nav('droplets', 'Generación de liquidez', 'gl')));
       const bar = ({ menuButton }) => C('AppHeader', { middle: this.state.v32 ? this.topPath() : undefined, middleAlign: 'start', lead: h('span', { className: 'r2-lead' }, menuButton,
-        logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: this.state.v32 ? this.topEnd() : h('span', { className: 'r2-muted r2-client' }, 'Borja Foncillas García · Borja PFC') });
+        logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: this.state.v32 ? this.topEnd() : h('span', { className: 'r2-muted r2-client' }, 'Andrés Molina Vega · Plan patrimonial') });
       if (s.home) {
         const homeBar = () => C('AppHeader', { lead: h('span', { className: 'r2-lead' }, logo, h('span', { className: 'r2-prod' }, 'Wealth Planner')), end: h('span', { className: 'r4-user', title: 'Gestor Afi', 'aria-label': 'Gestor Afi' }, 'GA') });
         return h('div', { className: 'r4-homeshell r4-look--' + (s.look || 'fill') }, homeBar(), this.homePage(), s.v312 ? this.homeDialog() : null, C('Toast', { show: !!s.toast, action: s.undo ? 'Deshacer' : undefined, onAction: () => this.undoLast() }, s.toast));

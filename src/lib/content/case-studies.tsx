@@ -266,7 +266,9 @@ export type StoryMedia =
        * "case" presses a use case's ▶, "reload" reloads the page. It plays once when the
        * stage is half on screen, and a Replay button plays it again.
        */
-      play?: "lab" | "case" | "reload";
+      play?: "lab" | "case" | "reload" | "click";
+      /** With `play: "click"`: the exact text of the element the board clicks. */
+      playClick?: string;
       /** Every item takes this item's corner radius, as drawn on the stage. */
       radiusFrom?: number;
       legend?: Bilingual<string>[];
@@ -2156,7 +2158,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   },
                   {
                     src: "/work/wealth-planner/demo/wp-ingresos.html",
-                    rect: { x: 798, y: 179, w: 598, h: 58 },
+                    rect: { x: 782, y: 163, w: 630, h: 90 },
                     x: 50,
                     y: 68,
                     w: 78,
@@ -2257,14 +2259,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                   en: "Ingresos as a list you edit in place",
                   es: "Ingresos como una lista que se edita en su sitio",
                 },
+                // Opens the first income in place, as the adviser would.
+                play: "click",
+                playClick: "Nómina Titular",
                 items: [
                   {
-                    src: "/work/wealth-planner/demo/wp-ingresos-edit.html",
-                    rect: { x: 72, y: 64, w: 682, h: 420 },
+                    src: "/work/wealth-planner/demo/wp-ingresos.html",
+                    rect: { x: 72, y: 64, w: 682, h: 540 },
                     x: 50,
                     y: 52,
                     w: 80,
-                    fade: "bottom",
                     radius: 10,
                   },
                 ],

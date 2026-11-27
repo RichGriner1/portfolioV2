@@ -1051,6 +1051,8 @@ function BeatRow({
           // One surface: the light product stage, the same in both themes, so a
           // component never sits inside three frames.
           className="flex flex-col justify-center overflow-hidden rounded-md bg-[#eef1f4] text-[#1f2328]"
+          // The stage is light in both themes, so the site's dot cursor stays navy here.
+          data-cursor-ink="#062D3F"
         >
           <div
             ref={visual}
@@ -1365,10 +1367,32 @@ function Composition({
     return () => io.disconnect();
   }, [media.play]);
   const liveCount = media.items.filter((it) => it.src && it.rect).length;
+  // "click": press the element whose own text is `playClick`, as a person would.
+  // A replay reloads the board first, so it starts closed again.
+  const pendingClick = useRef(false);
+  const clickIn = (doc: Document) => {
+    const el = [...doc.querySelectorAll("body *")].find(
+      (e) =>
+        e.children.length === 0 && e.textContent?.trim() === media.playClick
+    );
+    (
+      (el?.closest("tr,button,a,[role=button],li") ?? el) as HTMLElement | null
+    )?.click();
+  };
   const play = () => {
     frames.current.forEach((f) => {
       const doc = f?.contentDocument;
       if (!f || !doc) return;
+      if (media.play === "click") {
+        if (played.current && doc.body.dataset.clicked) {
+          pendingClick.current = true;
+          f.contentWindow?.location.reload();
+        } else {
+          doc.body.dataset.clicked = "1";
+          clickIn(doc);
+        }
+        return;
+      }
       if (media.play === "reload") f.contentWindow?.location.reload();
       else if (media.play === "case")
         (doc.querySelector(".r4-demo__play") as HTMLElement | null)?.click();
@@ -1472,7 +1496,27 @@ function Composition({
                       ref={(el) => {
                         frames.current[k] = el;
                       }}
-                      onLoad={() => setLoaded((n) => n + 1)}
+                      onLoad={(e) => {
+                        // Hide the board's scrollbars. On a system that shows
+                        // classic scrollbars they take ~15 px from the panel and
+                        // shift the measured element off its rect, leaving uneven
+                        // padding and a strip of background at one edge.
+                        const d = e.currentTarget.contentDocument;
+                        if (d?.head) {
+                          const st = d.createElement("style");
+                          st.textContent =
+                            "*{scrollbar-width:none!important}*::-webkit-scrollbar{display:none!important}";
+                          d.head.appendChild(st);
+                        }
+                        if (pendingClick.current && d) {
+                          pendingClick.current = false;
+                          setTimeout(() => {
+                            d.body.dataset.clicked = "1";
+                            clickIn(d);
+                          }, 1400);
+                        }
+                        setLoaded((n) => n + 1);
+                      }}
                       src={it.src}
                       title=""
                       tabIndex={it.interactive ? 0 : -1}

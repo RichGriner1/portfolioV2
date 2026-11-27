@@ -1212,84 +1212,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
             en: "Medidas (the measures) is where the user decides. In the old flow the results sat below a long list. Now they sit beside it and animate with every tick, so you see what each choice does.",
             es: "Medidas es donde el usuario decide. En el flujo antiguo los resultados quedaban debajo de una lista larga. Ahora están al lado y se animan con cada marca, así que se ve el efecto de cada decisión.",
           },
-        ],
-        switch: [
           {
-            label: { en: "Results beside", es: "Resultados al lado" },
-            heading: {
-              en: "The numbers answer every tick.",
-              es: "Los números responden a cada marca.",
-            },
-            body: [
-              {
-                en: "The panel blurs for a beat while it recalculates, then the new figures count in. No spinner.",
-                es: "El panel se difumina un instante mientras recalcula y después entran las cifras nuevas. Sin indicador de carga.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "Two measures beside the results they change",
-                  es: "Dos medidas junto a los resultados que cambian",
-                },
-                items: [
-                  {
-                    src: "/work/sarevi/demo/B-Viv-Medidas-Basica.dc.html",
-                    viewport: { w: 1440, h: 1695 },
-                    rect: { x: 154, y: 367, w: 680, h: 84 },
-                    x: 33,
-                    y: 36,
-                    w: 52,
-                    radius: 16,
-                  },
-                  {
-                    src: "/work/sarevi/demo/B-Viv-Medidas-Basica.dc.html",
-                    viewport: { w: 1440, h: 1695 },
-                    rect: { x: 154, y: 577, w: 680, h: 84 },
-                    x: 33,
-                    y: 62,
-                    w: 52,
-                    radius: 16,
-                  },
-                  {
-                    src: "/work/sarevi/demo/B-Viv-Medidas-Basica.dc.html",
-                    viewport: { w: 1440, h: 1695 },
-                    rect: { x: 866, y: 186, w: 420, h: 584 },
-                    x: 79,
-                    y: 50,
-                    w: 34,
-                    radius: 16,
-                  },
-                ],
-                play: "reload",
-              },
-            ],
+            en: "This is the real screen, cut to one measure. Tick SATE: the yearly bill drops from 627 € to 439 €, and consumption and emissions follow.",
+            es: "Esta es la pantalla real, reducida a una medida. Marca SATE: la factura anual baja de 627 € a 439 €, y el consumo y las emisiones la siguen.",
           },
+        ],
+        media: [
           {
-            label: { en: "Try it", es: "Pruébalo" },
-            heading: {
-              en: "Tick something.",
-              es: "Marca algo.",
+            kind: "embed",
+            src: "/work/sarevi/demo/PF-Medida.dc.html",
+            title: {
+              en: "SATE beside the estimated results, live: tick it and the bill, consumption and emissions change",
+              es: "SATE junto a los resultados estimados, en vivo: márcala y cambian la factura, el consumo y las emisiones",
             },
-            body: [
-              {
-                en: "This is the prototype itself, cut to one measure. Tick it and watch the results change, or open Detalles.",
-                es: "Este es el propio prototipo, reducido a una medida. Márcala y mira cómo cambian los resultados, o abre Detalles.",
-              },
-            ],
-            media: [
-              {
-                kind: "embed",
-                src: "/work/sarevi/demo/PF-Medida.dc.html",
-                title: {
-                  en: "SAREVI Medidas, live",
-                  es: "Medidas de SAREVI, en vivo",
-                },
-                width: 1180,
-                height: 656,
-              },
-            ],
+            width: 1180,
+            height: 348,
           },
         ],
       },

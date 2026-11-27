@@ -28,6 +28,7 @@
 body{margin:0}
 /* Portfolio crop of the real Medidas screen: one measure beside the results panel,
    both live. Everything else is hidden, not removed, so the calculation still runs. */
+html { color-scheme: light !important; }
 html, body, .stage, .sim, .sarevi-afi, .sarevi-afi *:not(.afi-card-v2):not(.afi-card-v2 *) { background-color: transparent !important; }
 .afi-app-header-v2, .afi-step-progress-v2, .afi-stepper-bar-v2, .afi-app-footer-v2,
 .body > .thead, .afi-action-bar-v2, .mact, .mmain .sec > div > h3, .a-rgroup,
@@ -37,9 +38,14 @@ html, body, .stage, .sim, .sarevi-afi, .sarevi-afi *:not(.afi-card-v2):not(.afi-
 .mmain h1, .mmain h2, .mmain h3, .mmain hr { display: none !important; }
 .body { padding-top: 24px !important; padding-bottom: 24px !important; }
 .mprev { position: static !important; }
+/* Only the measure and «Datos estimados» (grade, bill, consumption, emissions):
+   the costs block goes, and the two pieces sit centred against each other. */
+.a-prev > .pv-blk ~ .pv-blk, .a-prev > p, .a-prev .pv-foot { display: none !important; }
+.mgrid { align-items: center !important; }
+.mmain { align-self: center !important; }
 </style>
 </helmet>
-<div style="position: relative; width: 100%; height: 100vh; overflow: hidden; background: var(--background-canvas)">
+<div style="position: relative; width: 100%; height: 100vh; overflow: hidden; background: transparent">
 <x-import component-from-global-scope="SareviAfi.Simulator" pantalla="medidas" modo="vivienda" scroll="si" style="display: block; height: 100%"></x-import>
 </div>
 </x-dc>

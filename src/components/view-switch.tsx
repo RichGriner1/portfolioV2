@@ -1,11 +1,14 @@
 "use client";
 
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Frame, List } from "lucide-react";
 
+import { SegmentPill } from "@/components/segment-pill";
 import { Button } from "@/components/ui/button";
 import { saveHomeView, type HomeView } from "@/lib/home-view";
 import { t, useLang } from "@/lib/i18n";
+import { DURATION } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const OPTIONS = [
@@ -36,15 +39,22 @@ export function ViewSwitch({
 }) {
   const { lang } = useLang();
   const router = useRouter();
+  const group = useId();
+  // The pill moves first; the layout swaps once it has landed. Swapping straight
+  // away would unmount the switch mid-slide.
+  const [shown, setShown] = useState<HomeView>(current);
 
   const choose = (view: HomeView) => {
-    if (view === current) return;
+    if (view === shown) return;
+    setShown(view);
     saveHomeView(view);
-    // The stacked canvas scrolls; the list should open at its top, not partway down.
-    window.scrollTo(0, 0);
-    // A `?view=` link outranks the cookie, so drop it or the choice won't take.
-    if (window.location.search) router.replace("/");
-    else router.refresh();
+    setTimeout(() => {
+      // The stacked canvas scrolls; the list should open at its top, not partway down.
+      window.scrollTo(0, 0);
+      // A `?view=` link outranks the cookie, so drop it or the choice won't take.
+      if (window.location.search) router.replace("/");
+      else router.refresh();
+    }, DURATION.base * 1000);
   };
 
   return (
@@ -59,11 +69,22 @@ export function ViewSwitch({
       {OPTIONS.map(({ value, key, Icon }) => (
         <Button
           key={value}
-          variant={value === current ? "default" : "ghost"}
+          variant="ghost"
           size="sm"
-          aria-pressed={value === current}
+          aria-pressed={value === shown}
           onClick={() => choose(value)}
+          className={cn(
+            "relative isolate",
+            value === shown &&
+              "text-primary-foreground hover:text-primary-foreground hover:bg-transparent"
+          )}
         >
+          {value === shown && (
+            <SegmentPill
+              group={group}
+              className="bg-primary rounded-[min(var(--radius-md),12px)]"
+            />
+          )}
           <Icon />
           {t(key, lang)}
         </Button>

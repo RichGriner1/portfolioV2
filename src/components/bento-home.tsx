@@ -156,6 +156,21 @@ export function BentoHome() {
           />
         </div>
 
+        {/* Rows 5–6 — the two newest Afi product case studies, side by side at
+            2×2, so the three current studies all sit above the fold-to-fold
+            middle of the page (Richard's call, 2026-11-27). */}
+        <div className="sm:col-span-2 sm:row-span-2">
+          <WorkCard item={bySlug("sarevi")} index={5} fill caption={false} />
+        </div>
+        <div className="sm:col-span-2 sm:row-span-2">
+          <WorkCard
+            item={bySlug("third-party-compliance")}
+            index={6}
+            fill
+            caption={false}
+          />
+        </div>
+
         {/* Rows 4–5 — the three tiles whose media is a small layout rather than
             a single mark, each sized to what its content actually needs. The
             token video is 1080² and unreadable below ~400px, so it takes the
@@ -189,7 +204,7 @@ export function BentoHome() {
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("afi-design-system")}
-            index={5}
+            index={7}
             fill
             caption={false}
           />
@@ -202,7 +217,7 @@ export function BentoHome() {
         <div className="sm:col-span-2 sm:row-span-1">
           <WorkCard
             item={bySlug("color-methodology")}
-            index={6}
+            index={8}
             fill
             caption={false}
           />

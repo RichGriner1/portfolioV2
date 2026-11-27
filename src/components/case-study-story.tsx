@@ -18,6 +18,7 @@ import type {
   StoryStep,
 } from "@/lib/content/case-studies";
 import { Artboard } from "@/components/case-study-artboards";
+import { SegmentPill } from "@/components/segment-pill";
 import { pick, useLang } from "@/lib/i18n";
 
 /**
@@ -264,12 +265,18 @@ function Variants({ step }: { step: StoryStep }) {
               aria-controls={`${id}-vp`}
               tabIndex={k === v ? 0 : -1}
               onClick={() => setV(k)}
-              className={`focus-visible:ring-ring inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+              className={`focus-visible:ring-ring relative isolate inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none ${
                 k === v
-                  ? "bg-background text-foreground shadow-sm"
+                  ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
+              {k === v && (
+                <SegmentPill
+                  group={id}
+                  className="bg-background rounded-lg shadow-sm"
+                />
+              )}
               {pick(x.label, lang)}
               {x.chosen && (
                 <span className="bg-primary text-primary-foreground rounded-full px-1.5 py-0.5 font-mono text-[9px] tracking-wider uppercase">
@@ -343,12 +350,13 @@ function Steps({
                 aria-controls={`${id}-p`}
                 tabIndex={k === i ? 0 : -1}
                 onClick={() => setI(k)}
-                className={`focus-visible:ring-ring flex min-w-[9.5rem] flex-1 flex-col items-start gap-0.5 rounded-lg px-3 py-2 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+                className={`focus-visible:ring-ring relative isolate flex min-w-[9.5rem] flex-1 flex-col items-start gap-0.5 rounded-lg px-3 py-2 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none ${
                   k === i
-                    ? "bg-foreground text-background"
+                    ? "text-background"
                     : "text-muted-foreground hover:bg-muted"
                 }`}
               >
+                {k === i && <SegmentPill group={id} className="rounded-lg" />}
                 <span className="font-mono text-[10px] tracking-wider uppercase opacity-80">
                   {word} {k + 1}
                 </span>
@@ -932,12 +940,15 @@ function PairToggle({
             aria-controls={`${id}-p`}
             tabIndex={(k === 1) === after ? 0 : -1}
             onClick={() => setAfter(k === 1)}
-            className={`focus-visible:ring-ring rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+            className={`focus-visible:ring-ring relative isolate rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none ${
               (k === 1) === after
-                ? "bg-foreground text-background"
+                ? "text-background"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
+            {(k === 1) === after && (
+              <SegmentPill group={id} className="rounded-md" />
+            )}
             {l}
           </button>
         ))}
@@ -1149,12 +1160,13 @@ function SwitchBeat({
               aria-selected={j === k}
               tabIndex={j === k ? 0 : -1}
               onClick={() => setK(j)}
-              className={`focus-visible:ring-ring rounded-md px-3 py-1.5 text-[12px] font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+              className={`focus-visible:ring-ring relative isolate rounded-md px-3 py-1.5 text-[12px] font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none ${
                 j === k
-                  ? "bg-foreground text-background"
+                  ? "text-background"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
+              {j === k && <SegmentPill group={id} className="rounded-md" />}
               {pick(it.label, lang)}
             </button>
           ))}

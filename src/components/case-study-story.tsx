@@ -805,7 +805,7 @@ function Stats({ media }: { media: Extract<StoryMedia, { kind: "stats" }> }) {
   const beat = useContext(BeatContext);
   return (
     <dl
-      className={`grid grid-cols-2 overflow-hidden ${beat ? "bg-card" : "bg-border border-border gap-px rounded-xl border sm:grid-cols-4"}`}
+      className={`grid grid-cols-2 overflow-hidden ${beat ? "bg-card border-border rounded-2xl border" : "bg-border border-border gap-px rounded-xl border sm:grid-cols-4"}`}
     >
       {media.items.map((it, k) => (
         <div
@@ -1078,8 +1078,10 @@ function BeatRow({
         {media.length > 0 && (
           <div
             // One surface: the light product stage, the same in both themes, so a
-            // component never sits inside three frames.
-            className="flex flex-col justify-center overflow-hidden rounded-2xl bg-[#eef1f4] text-[#1f2328]"
+            // component never sits inside three frames. A stats strip is its own
+            // themed surface, so it gets no light stage behind it: the stage's
+            // rounded edge would show light at its corners.
+            className={`flex flex-col justify-center overflow-hidden rounded-2xl ${media.every((m) => m.kind === "stats") ? "" : "bg-[#eef1f4] text-[#1f2328]"}`}
             // The stage is light in both themes, so the site's dot cursor stays navy here.
             data-cursor-ink="#062D3F"
           >

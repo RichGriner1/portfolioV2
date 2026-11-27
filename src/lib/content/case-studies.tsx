@@ -734,20 +734,15 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       /**
        * The workbench, on its own, above everything else.
        *
-       * Restored 2026-08-26 after being pulled in f5e5985 for a misbehaving
-       * deployment. The deployment is healthy — verified by loading this route
-       * against it.
+       * The Vercel site builds from the GitHub mirror's `main`, not Azure. When
+       * this frame looks behind Coherence, the mirror needs a push.
        *
        * `?embed=1` strips the site's own nav so the frame doesn't open on
-       * somebody else's navigation; same param the Afi design system card uses,
-       * and it works on this route too (checked: without it the frame starts
-       * with "Diseño en Afi / Workbench / Demos", with it the index is the first
-       * thing in the box).
+       * somebody else's navigation; same param the Afi design system card uses.
        *
-       * It opens on Button, because the workbench is one long scroll whose side
-       * index is a set of buttons and whose URL never changes. Richard's call —
-       * the point of this card is the v2 primitives all in one place, and Button
-       * is where that page starts.
+       * It opens on the Button page rather than the /workbench landing, so the
+       * first thing in the box is a live component, with the grouped side index
+       * one click away for the rest.
        *
        * No `details`. This card is the artefact, and a modal explaining a page
        * you can already touch is a worse version of touching it.
@@ -755,11 +750,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         label: { en: "Component workbench", es: "Workbench de componentes" },
         sublabel: {
-          en: "Primitive components on one page to see them working together and isolated. Here is when we can see each micro interaction on its own before building bigger patterns.",
-          es: "Componentes primitivos en una página para verlos funcionando juntos y por separado. Aquí es donde vemos cada microinteracción por su cuenta antes de construir patrones más grandes.",
+          en: "Each primitive component has its own page, grouped by what it does. Here we see every micro interaction on its own before building bigger patterns.",
+          // TODO(afi-redaccion)
+          es: "Cada componente primitivo tiene su propia página, agrupada por función. Aquí vemos cada microinteracción por separado antes de construir patrones más grandes.",
         },
         span: "full",
-        iframe: "https://coherence-wealth-manager.vercel.app/workbench?embed=1",
+        iframe:
+          "https://coherence-wealth-manager.vercel.app/workbench/actions/button?embed=1",
       },
       {
         label: { en: "Defining modern", es: "Definir moderno" },

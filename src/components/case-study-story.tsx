@@ -1233,6 +1233,9 @@ function LiveCrop({ media }: { media: Extract<StoryMedia, { kind: "live" }> }) {
             loading="lazy"
             className="pointer-events-none absolute top-0 left-0 origin-top-left border-0"
             style={{
+              // Same colour scheme as the board, or the browser paints an opaque
+              // white canvas behind it on the dark site.
+              colorScheme: "light",
               width: vw,
               height: vh,
               transform: `scale(${scale}) translate(${-crop.x}px, ${-crop.y}px)`,
@@ -1403,6 +1406,9 @@ function Composition({
                       loading="lazy"
                       className="pointer-events-none absolute top-0 left-0 origin-top-left border-0"
                       style={{
+                        // Same colour scheme as the board, or the browser paints an opaque
+                        // white canvas behind it on the dark site.
+                        colorScheme: "light",
                         width: it.viewport?.w ?? 1440,
                         height: it.viewport?.h ?? 900,
                         transform: `scale(${iw / it.rect.w}) translate(${-it.rect.x}px, ${-it.rect.y}px)`,

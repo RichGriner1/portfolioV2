@@ -1430,6 +1430,30 @@ function Composition({
   // One step: "range:N" moves the board's first slider to N; anything else is
   // the text of the control to press.
   const stepIn = (doc: Document, step: string) => {
+    if (step.startsWith("hover:")) {
+      // Point at a control: its tooltip or definition opens, as on a real hover.
+      const text = step.slice(6);
+      const all = [...doc.querySelectorAll("body *")].filter(
+        (e) => e.textContent?.trim() === text
+      );
+      const el = all.find((e) => !all.some((o) => o !== e && e.contains(o)));
+      const win = doc.defaultView;
+      if (!el || !win) return;
+      for (const type of [
+        "pointerover",
+        "pointerenter",
+        "mouseover",
+        "mouseenter",
+      ])
+        el.dispatchEvent(
+          new (type.startsWith("pointer") ? win.PointerEvent : win.MouseEvent)(
+            type,
+            { bubbles: type.endsWith("over"), cancelable: true }
+          )
+        );
+      (el as HTMLElement).focus?.();
+      return;
+    }
     if (step.startsWith("range:")) {
       const input = doc.querySelector<HTMLInputElement>('input[type="range"]');
       const win = doc.defaultView;

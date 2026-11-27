@@ -116,8 +116,8 @@ export const TPC_STUDY: CaseStudy = {
           es: "La v1.0 apilaba la lista de plantillas, el editor de preguntas y las reglas de activación en una página, y la edición se hacía en cinco paneles laterales.",
         },
         {
-          en: "Across the rest of the tool, actions were missing, some parts were broken and the flows weren't defined.",
-          es: "En el resto de la herramienta faltaban acciones, había partes rotas y los flujos no estaban definidos.",
+          en: "Across the rest of the tool, actions were missing, some parts were broken and the flows weren't defined. An audit of the handover counted 15 controls that did nothing, 6 gaps in the flows and 4 accessibility fixes.",
+          es: "En el resto de la herramienta faltaban acciones, había partes rotas y los flujos no estaban definidos. Una auditoría de la entrega contó 15 controles que no hacían nada, 6 huecos en los flujos y 4 correcciones de accesibilidad.",
         },
       ],
       media: [
@@ -158,15 +158,48 @@ export const TPC_STUDY: CaseStudy = {
             en: "What the system gave back: the v1.1 overview",
             es: "Lo que devolvió el sistema: el panel de la v1.1",
           },
+          // The overview taken apart: three figure cards, the attention table and
+          // the portfolio summary, each whole.
           items: [
             {
-              src: `${DEMO}/cs-panel.html`,
-              rect: { x: 280, y: 64, w: 1136, h: 600 },
-              x: 50,
-              y: 50,
-              w: 84,
+              src: `${DEMO}/cs-panel-q.html`,
+              rect: { x: 312, y: 166, w: 235, h: 124 },
+              x: 10.68,
+              y: 11.35,
+              w: 21.36,
+              radius: 12,
+            },
+            {
+              src: `${DEMO}/cs-panel-q.html`,
+              rect: { x: 563, y: 166, w: 235, h: 124 },
+              x: 34.59,
+              y: 11.35,
+              w: 21.36,
+              radius: 12,
+            },
+            {
+              src: `${DEMO}/cs-panel-q.html`,
+              rect: { x: 814, y: 166, w: 235, h: 124 },
+              x: 58.5,
+              y: 11.35,
+              w: 21.36,
+              radius: 12,
+            },
+            {
+              src: `${DEMO}/cs-panel-q.html`,
+              rect: { x: 312, y: 432, w: 736, h: 186 },
+              x: 33.45,
+              y: 37.96,
+              w: 66.91,
               radius: 16,
-              fade: "bottom",
+            },
+            {
+              src: `${DEMO}/cs-panel-q.html`,
+              rect: { x: 1064, y: 150, w: 336, h: 495 },
+              x: 87.0,
+              y: 36.0,
+              w: 30.55,
+              radius: 12,
             },
           ],
         },
@@ -224,11 +257,11 @@ export const TPC_STUDY: CaseStudy = {
               items: [
                 {
                   src: `${DEMO}/cs-new.html`,
-                  rect: { x: 313, y: 275, w: 1070, h: 328 },
+                  rect: { x: 312, y: 274, w: 1072, h: 330 },
                   x: 50,
                   y: 50,
                   w: 92,
-                  radius: 12,
+                  radius: 16,
                 },
               ],
             },
@@ -354,11 +387,11 @@ export const TPC_STUDY: CaseStudy = {
               items: [
                 {
                   src: `${DEMO}/cs-ficha-actions.html`,
-                  rect: { x: 313, y: 276, w: 1070, h: 184 },
+                  rect: { x: 312, y: 275, w: 1072, h: 186 },
                   x: 50,
                   y: 50,
                   w: 92,
-                  radius: 12,
+                  radius: 16,
                 },
               ],
             },
@@ -381,15 +414,18 @@ export const TPC_STUDY: CaseStudy = {
                 en: "The portfolio summary with a term's definition open",
                 es: "El resumen de la cartera con la definición de un término abierta",
               },
+              // The live summary panel; the stage points at «Conformidad global» so
+              // its definition opens.
+              play: "click",
+              playClick: ["hover:Conformidad global"],
               items: [
                 {
-                  image: `${BASE}/terms-tooltip.png`,
-                  imageRatio: 487 / 372,
+                  src: `${DEMO}/cs-panel-terms.html`,
+                  rect: { x: 1019, y: 150, w: 381, h: 495 },
                   x: 50,
                   y: 50,
                   w: 34,
-                  flat: true,
-                  sourceW: 372,
+                  radius: 12,
                 },
               ],
             },
@@ -485,10 +521,10 @@ export const TPC_STUDY: CaseStudy = {
               items: [
                 {
                   src: `${DEMO}/cs-empty.html`,
-                  rect: { x: 312, y: 270, w: 1072, h: 296 },
+                  rect: { x: 646, y: 262, w: 404, h: 312 },
                   x: 50,
                   y: 50,
-                  w: 86,
+                  w: 46,
                   radius: 12,
                 },
               ],
@@ -555,7 +591,7 @@ export const TPC_STUDY: CaseStudy = {
               },
               items: [
                 ...[312, 562, 813].map((x, i) => ({
-                  src: `${DEMO}/cs-panel.html`,
+                  src: `${DEMO}/cs-panel-q.html`,
                   rect: { x, y: 166, w: 235, h: 124 },
                   x: 19 + i * 31,
                   y: 50,
@@ -630,25 +666,6 @@ export const TPC_STUDY: CaseStudy = {
           ],
         },
       ],
-    },
-    {
-      kicker: { en: "Feedback", es: "Revisión" },
-      heading: {
-        en: "An audit counted 15 controls that did nothing.",
-        es: "Una auditoría contó 15 controles que no hacían nada.",
-      },
-      navLabel: { en: "The audit", es: "La auditoría" },
-      body: [
-        {
-          en: "The audit checked the prototype as it was handed over and found problems that looked fine: controls with nothing behind them, gaps in the flows, accessibility fixes.",
-          es: "La auditoría revisó el prototipo tal como se entregó y encontró problemas que parecían estar bien: controles sin nada detrás, huecos en los flujos y arreglos pendientes de accesibilidad.",
-        },
-        {
-          en: "Play it through: the problems pinned on v1.0, the audit's counts, then what changed in v1.1.",
-          es: "Reprodúcelo: los problemas marcados en la v1.0, las cifras de la auditoría y lo que cambió en la v1.1.",
-        },
-      ],
-      media: [{ kind: "artboard", name: "tpc-diagnostic" }],
     },
     {
       kicker: { en: "Result", es: "Resultado" },

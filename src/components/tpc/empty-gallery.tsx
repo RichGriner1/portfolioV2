@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-import { ScreenSlot } from "@/components/tpc/demos";
 import { Reveal } from "@/components/tpc/reveal";
 import { type Bilingual, pick, useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -26,14 +25,6 @@ type Stage = {
 
 // TODO(afi-redaccion)
 const STAGES: Stage[] = [
-  {
-    id: "refs",
-    title: { en: "Inspiration", es: "Inspiración" },
-    body: {
-      en: "I started from references and a moodboard of objects.",
-      es: "Empecé con referencias y un moodboard de objetos.",
-    },
-  },
   {
     id: "flat",
     title: { en: "A first pass", es: "Una primera versión" },
@@ -180,14 +171,6 @@ function ObjectTile({ o }: { o: Obj }) {
 
 function StageView({ id }: { id: string }) {
   const { lang } = useLang();
-  if (id === "refs") {
-    return (
-      <ScreenSlot
-        label={{ en: "Moodboard", es: "Moodboard" }}
-        className="aspect-[16/10]"
-      />
-    );
-  }
   if (id === "flat") {
     return (
       <div className="border-border bg-background flex aspect-[16/10] items-center justify-center rounded-xl border p-8">

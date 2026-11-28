@@ -68,6 +68,9 @@ const ROUTES = [
   "/work/mindfulme",
   // Third shell: a bespoke page (TpcPage) with stat cards, rule explorers and clip slots.
   "/work/third-party-compliance",
+  // Fourth shell: a full-screen demo, with the back pill and the "Things to try" pill
+  // sharing the bottom edge. It has no site nav by design (see NO_SITE_NAV).
+  "/work/sarevi/demo",
   "/writing/loops-and-skills-are-components",
   // Same writing shell as the post above, but it carries six figures that exist
   // nowhere else — a side-by-side tree comparison, a 4-column bento, and a
@@ -116,6 +119,13 @@ const MIN_TAP = 24;
  * that page fail five checks while every one of those destinations was reachable.
  * First matching candidate wins.
  */
+/**
+ * Routes that cover the site on purpose: a full-screen demo shows the product and
+ * one way back, so the header's links are not there to find. Every other check
+ * still runs on them.
+ */
+const NO_SITE_NAV = new Set(["/work/sarevi/demo"]);
+
 const NAV_TARGETS = [
   {
     name: "menu toggle",
@@ -517,7 +527,7 @@ async function main() {
         const probe = () =>
           page.evaluate(collectFindings, {
             minTap: MIN_TAP,
-            navTargets: NAV_TARGETS,
+            navTargets: NO_SITE_NAV.has(route) ? [] : NAV_TARGETS,
             touch: width < 768,
             deviceWidth: width,
           });

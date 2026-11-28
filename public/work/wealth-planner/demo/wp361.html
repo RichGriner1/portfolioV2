@@ -1068,7 +1068,7 @@ class Component extends DCLogic {
   }
   DS_ASSETS = [
     { id: 'cc', name: 'Cuentas corrientes', tipo: 'Liquidez', esp: 165612, adq: 165612, tax: false },
-    { id: 'cs', name: 'Fondos CS', tipo: 'Inversiones', esp: 2760202, adq: null, tax: true },
+    { id: 'cs', name: 'Fondos BA', tipo: 'Inversiones', esp: 2760202, adq: null, tax: true },
     { id: 'ac', name: 'Inversión en acciones', tipo: 'Inversiones', esp: 701276, adq: 200000, tax: true },
     { id: 'dn', name: 'Apartamento Denia', tipo: 'Inmobiliario', esp: 331224, adq: 331224, tax: false }
   ];
@@ -1084,8 +1084,8 @@ class Component extends DCLogic {
     return {
       dsRows: s.dsRows, dsName: s.dsName, dsTipo: s.dsTipo, dsYear: year, dsAssets, dsPlan, dsShowResolve: s.dsResolve, dsAdqInput: s.dsAdqInput,
       /* The resolve modal describes whichever asset opened it (CL or OA screen). */
-      dsResolveAsset: s.dsResolveAsset || { tipo: 'Fondos de inversión', name: 'Fondos CS', entidad: 'Credit Suisse', valor: '2.500.000 €' },
-      dsResolveEntOpts: (() => { const e = (s.dsResolveAsset || {}).entidad || 'Credit Suisse'; return [{ value: e, label: e }]; })(),
+      dsResolveAsset: s.dsResolveAsset || { tipo: 'Fondos de inversión', name: 'Fondos BA', entidad: 'Banco Alpino', valor: '2.500.000 €' },
+      dsResolveEntOpts: (() => { const e = (s.dsResolveAsset || {}).entidad || 'Banco Alpino'; return [{ value: e, label: e }]; })(),
       dsCloseResolve: () => this.setState({ dsResolve: false }),
       dsSetAdq: e => this.setState({ dsAdqInput: e.target.value }),
       dsSaveResolve: () => this.setState({ dsResolve: false, dsAdq: this.parseNum(s.dsAdqInput) || null }),
@@ -1104,9 +1104,9 @@ class Component extends DCLogic {
   /* ── Optimizaciones: asset-keyed edits ─────────────────────────────────
    * The Modificar inversión drawer of the two optimisation flows writes
    * optEdits[feature][assetId]; each flow reads only its own key. OA i1
-   * (Santander fund) and CL cs (Credit Suisse fund) are different assets, so
+   * (Banco Meridiano fund) and CL cs (Banco Alpino fund) are different assets, so
    * saving one never resolves the other, and neither writes the legacy scalar.
-   * Compatibility fallback: CL cs is the same Credit Suisse fund that
+   * Compatibility fallback: CL cs is the same Banco Alpino fund that
    * Desinversión futura keeps in the legacy scalar dsAdq, so CL reads dsAdq
    * only while it has no edit of its own. OA i1 has no fallback. */
   optAsset(feature, a, s) {
@@ -3965,7 +3965,7 @@ class Component extends DCLogic {
     tipoLiq: ['Cuenta corriente', 'Cuenta remunerada', 'Depósito a plazo', 'Fondo monetario', 'Otros'],
     tipoCartera: ['Gestión discrecional', 'Asesoramiento', 'Solo ejecución'],
     tipoPlan: [{ value: 'PPI', label: 'PPI' }, { value: 'PPE', label: 'PPE' }, { value: 'EPSV', label: 'EPSV' }],
-    carteras: ['Cartera Manuel', 'Cartera conjunta'], entidades: ['Renta 4', 'BBVA', 'Credit Suisse', 'Mapfre'],
+    carteras: ['Cartera Manuel', 'Cartera conjunta'], entidades: ['Valores Cuatro', 'Banco Norte', 'Banco Alpino', 'Atlas Seguros'],
     riesgo: ['Nulo', 'Bajo', 'Medio', 'Alto'], perfil: ['Bajo', 'Medio', 'Alto'], rentRiesgo: ['Bajo', 'Medio', 'Alto'],
     freq: ['Mensual', 'Trimestral', 'Semestral', 'Anual'], indice: ['Euríbor 12 meses', 'Euríbor 6 meses'],
     financiados: ['Casa', 'Vivienda Madrid'],
@@ -3984,8 +3984,8 @@ class Component extends DCLogic {
       { value: 'VGLB', label: 'Vanguard Global Stock Index', description: 'Fondo RV Global · ISIN IE00B03HCZ61', cat: 'RV Global' },
       { value: 'IWDA', label: 'iShares Core MSCI World ETF', description: 'ETF RV Global · ISIN IE00B4L5Y983', cat: 'RV Global' },
       { value: 'BONO', label: 'Bono del Estado 10 años', description: 'Renta fija · Tesoro Público', cat: 'RF Gobierno' },
-      { value: 'PPR4', label: 'Plan Renta 4 Global', description: 'Plan de pensiones · RV Global', cat: 'Plan RV Global' },
-      { value: 'PPMX', label: 'Plan Mapfre Mixto', description: 'Plan de pensiones · Mixto', cat: 'Plan mixto' }
+      { value: 'PPR4', label: 'Plan Valores Cuatro Global', description: 'Plan de pensiones · RV Global', cat: 'Plan RV Global' },
+      { value: 'PPMX', label: 'Plan Atlas Mixto', description: 'Plan de pensiones · Mixto', cat: 'Plan mixto' }
     ]
   };
   /* Kind → «Añadir …» title and table group. */
@@ -4050,9 +4050,9 @@ class Component extends DCLogic {
     const two = (a, b) => [this.actOwner('Titular', a), this.actOwner('Pareja', b)];
     if (key === 'l1') return Object.assign(B('liquidez'), { tipoLiq: 'Cuenta corriente', nombre: 'Cuenta', entidad: 'Abanca', valor: '160.000', titulares: two('50', '50') });
     if (key === 'l2') return Object.assign(B('liquidez'), { tipoLiq: 'Cuenta corriente', nombre: 'Liquidez 2', valor: '200.000' });
-    if (key === 'i1') return Object.assign(B('inversion'), { tipoInv: 'Acciones cotizadas', activo: sec('Acciones'), activoQuery: 'Acciones', entidad: 'Renta 4', valor: '10.000', valorCompra: '8.000', liquidable: true, liqImporte: '10.000', titulares: [this.actOwner('Titular', '75'), this.actOwner('Terceros', '25')] });
-    if (key === 'i2') return Object.assign(B('inversion'), { tipoInv: 'Fondos de inversión', activo: sec('Fondo'), activoQuery: 'Fondo', entidad: 'Indexa Capital', valor: '25.000', valorCompra: '', titulares: two('60', '40'), liquidable: true, liqImporte: '25.000' });
-    if (key === 'p1') return Object.assign(B('pension'), { tipoPlan: 'PPI', activo: sec('Plan Test'), activoQuery: 'Plan Test', entidad: 'Renta 4', valor: '15.000', valorCompra: '12.000' });
+    if (key === 'i1') return Object.assign(B('inversion'), { tipoInv: 'Acciones cotizadas', activo: sec('Acciones'), activoQuery: 'Acciones', entidad: 'Valores Cuatro', valor: '10.000', valorCompra: '8.000', liquidable: true, liqImporte: '10.000', titulares: [this.actOwner('Titular', '75'), this.actOwner('Terceros', '25')] });
+    if (key === 'i2') return Object.assign(B('inversion'), { tipoInv: 'Fondos de inversión', activo: sec('Fondo'), activoQuery: 'Fondo', entidad: 'Índice Gestión', valor: '25.000', valorCompra: '', titulares: two('60', '40'), liquidable: true, liqImporte: '25.000' });
+    if (key === 'p1') return Object.assign(B('pension'), { tipoPlan: 'PPI', activo: sec('Plan Test'), activoQuery: 'Plan Test', entidad: 'Valores Cuatro', valor: '15.000', valorCompra: '12.000' });
     if (key === 'm1') return Object.assign(B('inmueble'), { tipoInm: 'Vivienda habitual', nombre: 'Casa', valor: '250.000', valorAdq: '180.000', titulares: [this.actOwner('Titular', '40'), this.actOwner('Pareja', '40'), this.actOwner('Terceros', '20')] });
     return null;
   }
@@ -4833,7 +4833,7 @@ class Component extends DCLogic {
       body = [section('datos', datos), section('reval', revalBlock('')), section('titulares', titulares), section('plan', stack(futuro, ingresos, liquidable, excluir))];
     } else if (kind === 'deuda') {
       const datos = stack(
-        row(nombre('Por ejemplo, Préstamo Santander'), adv ? entidad : null, eurIn('valor', 'Importe pendiente', true)),
+        row(nombre('Por ejemplo, Préstamo Meridiano'), adv ? entidad : null, eurIn('valor', 'Importe pendiente', true)),
         row(adv ? null : pctIn('interes', 'Tipo de interés', true),
           input('plazo', { label: 'Plazo pendiente', required: true, numeric: true, unit: 'años', inputMode: 'numeric', help: 'Años que faltan, de media, para terminar de pagar la deuda.' })),
         adv ? row3(...modalidad()) : null);
@@ -4842,7 +4842,7 @@ class Component extends DCLogic {
       body = [section('datos', datos), section('fin', grid(fin)), section('titulares', titulares), section('plan', stack(futuro, excluir))];
     } else if (kind === 'seguro') {
       const datos = stack(
-        row(nombre('Por ejemplo, Seguro de vida Santander'), adv ? entidad : null, eurIn('capFall', 'Capital de fallecimiento', true)),
+        row(nombre('Por ejemplo, Seguro de vida Banco Meridiano'), adv ? entidad : null, eurIn('capFall', 'Capital de fallecimiento', true)),
         row(eurIn('capInv', 'Capital de invalidez', true), adv ? eurIn('prima', 'Prima anual', false) : null));
       body = [section('datos', datos), section('titulares', titulares), section('plan', stack(futuro, excluir))];
     } else if (inm && !f.tipoInm) {
@@ -4868,7 +4868,7 @@ class Component extends DCLogic {
       body = [section('datos', stack(row(select('tipoLiq', { label: 'Tipo de liquidez', required: true, options: O(A.tipoLiq) }))))];
     } else if (liq) {
       const datos = stack(
-        row(select('tipoLiq', { label: 'Tipo de liquidez', required: true, options: O(A.tipoLiq) }), wide(input('nombre', { label: 'Nombre', required: true, placeholder: 'Por ejemplo, Cuenta corriente Renta 4' }))),
+        row(select('tipoLiq', { label: 'Tipo de liquidez', required: true, options: O(A.tipoLiq) }), wide(input('nombre', { label: 'Nombre', required: true, placeholder: 'Por ejemplo, Cuenta corriente Valores Cuatro' }))),
         row(wide(select('entidad', { label: 'Entidad', options: withCur(A.entidades, 'entidad') })), input('valor', { label: 'Valor actual', required: true, numeric: true, unit: '€', inputMode: 'decimal' })));
       body = [section('datos', datos), section('reval', revalBlock(f.tipoLiq)), section('titulares', titulares), section('plan', stack(futuro, ingresos, excluir))];
     } else {
@@ -5061,9 +5061,9 @@ class Component extends DCLogic {
     const editable = (kind, base) => base.filter(r => !pR.includes(r.key)).map(r => pE[r.key] ? fromForm(r.key, pE[r.key]) : Object.assign(r, { actKind: kind }))
       .concat(pA.filter(r => r.form.kind === kind && !pR.includes(r.key)).map(r => fromForm(r.key, r.form)));
     const sumOf = rows => eurS(rows.reduce((t, r) => t + (parseFloat(String(r.valor).replace(/[^\d,-]/g, '').replace(',', '.')) || 0), 0));
-    const invRows = editable('inversion', [mkAsset('Acciones','Acciones cotizadas','Renta 4','10.000 €','i1',['Titular · 75 %','Terceros · 25 %'],'bank'), mkAsset('Fondo','Fondos de inversión','Indexa Capital','25.000 €','i2',['Titular · 60 %','Pareja · 40 %'],'bank')]);
+    const invRows = editable('inversion', [mkAsset('Acciones','Acciones cotizadas','Valores Cuatro','10.000 €','i1',['Titular · 75 %','Terceros · 25 %'],'bank'), mkAsset('Fondo','Fondos de inversión','Índice Gestión','25.000 €','i2',['Titular · 60 %','Pareja · 40 %'],'bank')]);
     const liqRows = editable('liquidez', [mkAsset('Cuenta','Cuenta corriente','Abanca','160.000 €','l1',['Titular · 50 %','Pareja · 50 %'],'bank'), mkAsset('Liquidez 2','Cuenta corriente','—','200.000 €','l2',['Titular · 100 %'])]);
-    const penRows = editable('pension', [mkAsset('Plan Test','PPI','Renta 4','15.000 €','p1',['Titular · 100 %'],'bank')]);
+    const penRows = editable('pension', [mkAsset('Plan Test','PPI','Valores Cuatro','15.000 €','p1',['Titular · 100 %'],'bank')]);
     const extraGroup = (kind, title) => { const rows = editable(kind, []); return rows.length ? { title, subLabel: 'Subtotal ' + title.toLowerCase(), subTotal: sumOf(rows), rows } : null; };
     const inmRows = editable('inmueble', [mkAsset('Casa','Vivienda habitual','Tenencia directa','250.000 €','m1',['Titular · 40 %','Pareja · 40 %','Terceros · 20 %'],'direct')]);
     const patGroups = [

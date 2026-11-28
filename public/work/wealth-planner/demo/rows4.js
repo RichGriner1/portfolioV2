@@ -59,23 +59,23 @@
   const COL8 = { liq: 'var(--chart-primary-primary)', inv: 'var(--color-primary-600)', inm: 'var(--chart-primary-secondary)', pe: 'var(--color-info-300)', pen: 'var(--color-primary-500)', emp: 'var(--color-primary-400)', otr: 'var(--color-primary-300)', deu: 'var(--chart-negative-default)' };
   const T = (t, p) => [['Titular', t]].concat(p ? [['Pareja', p]] : []);
   const REAL = [
-    { id: 'b1', nombre: 'Cuenta nómina', grupo: 'liq', detalle: 'Cuenta corriente', entidad: 'BBVA', ten: T(100), valor: 85000, done: 3 },
+    { id: 'b1', nombre: 'Cuenta nómina', grupo: 'liq', detalle: 'Cuenta corriente', entidad: 'Banco Norte', ten: T(100), valor: 85000, done: 3 },
     { id: 'b2', nombre: 'Cuenta conjunta', grupo: 'liq', detalle: 'Cuenta corriente', entidad: 'CaixaBank', ten: T(50, 50), valor: 140000, done: 3 },
-    { id: 'b3', nombre: 'Letras del Tesoro', grupo: 'liq', detalle: 'Depósito a plazo', entidad: 'Santander', ten: T(100), valor: 220000, done: 2 },
-    { id: 'b4', nombre: 'Fondo indexado global', grupo: 'inv', detalle: 'Fondos de inversión', entidad: 'Indexa Capital', ten: T(60, 40), valor: 380000, done: 3 },
-    { id: 'b5', nombre: 'ETF MSCI World', grupo: 'inv', detalle: 'ETF', entidad: 'Renta 4', ten: T(100), valor: 260000, done: 3 },
-    { id: 'b6', nombre: 'Inditex', grupo: 'inv', detalle: 'Acciones cotizadas', entidad: 'BBVA', ten: T(100), valor: 175000, done: 2 },
+    { id: 'b3', nombre: 'Letras del Tesoro', grupo: 'liq', detalle: 'Depósito a plazo', entidad: 'Banco Meridiano', ten: T(100), valor: 220000, done: 2 },
+    { id: 'b4', nombre: 'Fondo indexado global', grupo: 'inv', detalle: 'Fondos de inversión', entidad: 'Índice Gestión', ten: T(60, 40), valor: 380000, done: 3 },
+    { id: 'b5', nombre: 'ETF MSCI World', grupo: 'inv', detalle: 'ETF', entidad: 'Valores Cuatro', ten: T(100), valor: 260000, done: 3 },
+    { id: 'b6', nombre: 'Inditex', grupo: 'inv', detalle: 'Acciones cotizadas', entidad: 'Banco Norte', ten: T(100), valor: 175000, done: 2 },
     { id: 'a1', nombre: 'Vivienda Chamartín', grupo: 'inm', detalle: 'Vivienda habitual', entidad: 'Tenencia directa', ten: T(50, 50), valor: 1150000, done: 3 },
     { id: 'b8', nombre: 'Casa Sotogrande', grupo: 'inm', detalle: 'Segunda residencia', entidad: 'Tenencia directa', ten: T(50, 50), valor: 620000, done: 2 },
     { id: 'b9', nombre: 'Piso alquiler Chamberí', grupo: 'inm', detalle: 'Inversión', entidad: 'Tenencia directa', ten: T(100), valor: 480000, done: 1 },
-    { id: 'b10', nombre: 'Fondo de private equity · 2022', grupo: 'pe', detalle: 'Private equity', entidad: 'Magnum Capital', ten: T(100), valor: 150000, done: 2 },
-    { id: 'b11', nombre: 'Plan de pensiones BBVA', grupo: 'pen', detalle: 'Plan de pensiones individual', entidad: 'BBVA', ten: T(100), valor: 210000, done: 3 },
+    { id: 'b10', nombre: 'Fondo de private equity · 2022', grupo: 'pe', detalle: 'Private equity', entidad: 'Cumbre Capital', ten: T(100), valor: 150000, done: 2 },
+    { id: 'b11', nombre: 'Plan de pensiones Banco Norte', grupo: 'pen', detalle: 'Plan de pensiones individual', entidad: 'Banco Norte', ten: T(100), valor: 210000, done: 3 },
     { id: 'b12', nombre: 'Plan de empleo EY', grupo: 'pen', detalle: 'Plan de empleo', entidad: 'Fidelity', ten: T(100), valor: 95000, done: 1 },
     { id: 'b13', nombre: 'Sociedad patrimonial familiar', grupo: 'emp', detalle: 'Participación', entidad: '—', ten: T(50, 50), valor: 340000, done: 2 },
     { id: 'b14', nombre: 'Colección de arte', grupo: 'otr', detalle: 'Otro activo', entidad: '—', ten: T(100), valor: 90000, done: 1 },
     { id: 'b15', nombre: 'Vehículo', grupo: 'otr', detalle: 'Otro activo', entidad: '—', ten: T(100), valor: 55000, done: 3 },
-    { id: 'b16', nombre: 'Hipoteca Chamartín', grupo: 'deu', detalle: 'Préstamo', entidad: 'Santander', ten: T(50, 50), valor: -520000, done: 3 },
-    { id: 'b17', nombre: 'Hipoteca Sotogrande', grupo: 'deu', detalle: 'Préstamo', entidad: 'BBVA', ten: T(50, 50), valor: -290000, done: 2 }];
+    { id: 'b16', nombre: 'Hipoteca Chamartín', grupo: 'deu', detalle: 'Préstamo', entidad: 'Banco Meridiano', ten: T(50, 50), valor: -520000, done: 3 },
+    { id: 'b17', nombre: 'Hipoteca Sotogrande', grupo: 'deu', detalle: 'Préstamo', entidad: 'Banco Norte', ten: T(50, 50), valor: -290000, done: 2 }];
   const PLANS = [
     { id: 'p1', cliente: 'Andrés Molina Vega', plan: 'Plan patrimonial', tipo: 'Patrimonio', estado: 'Borrador', done: 3, gestor: 'GA', upd: 'Hace 2 h' },
     { id: 'p2', cliente: 'Clara Ruiz Benítez', plan: 'Jubilación 2031', tipo: 'Jubilación', estado: 'Cumplimentada', done: 5, gestor: 'GA', upd: 'Ayer' },

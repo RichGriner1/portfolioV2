@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { DemoFrame } from "@/components/demo-frame";
 import { CASE_STUDIES } from "@/lib/content/case-studies";
+import { DEMO_GUIDES } from "@/lib/content/demo-guides";
 import { WORK } from "@/lib/content/work";
 
 type Params = Promise<{ slug: string }>;
@@ -27,6 +28,13 @@ export default async function DemoPage({ params }: { params: Params }) {
   const demo = CASE_STUDIES[slug]?.demo;
   if (!item || item.hidden || !demo) notFound();
   return (
-    <DemoFrame src={demo.href} back={`/work/${slug}`} title={item.title} />
+    <DemoFrame
+      slug={slug}
+      src={demo.href}
+      back={`/work/${slug}`}
+      title={item.title}
+      steps={DEMO_GUIDES[slug]?.steps}
+      desktopOnly={DEMO_GUIDES[slug]?.desktopOnly}
+    />
   );
 }

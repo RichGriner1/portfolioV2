@@ -95,6 +95,12 @@ The home and Projects card for a case study is a looping clip of one component o
 
 The demo opens at `/work/<slug>/demo`, full screen, with a "← Back to <project>" pill. Demos are open, with no password (Richard's call, 2026-11-27).
 
+**The demo tells you what to do** (Richard, 2026-11-28, after rows.gg/demo). A visitor lands with no one beside them. rows.gg names its rows as tasks ("Delete me"); our products are domain tools, where task-named records would stop them reading as themselves. So every demo gets a **Things to try** checklist (`src/lib/content/demo-guides.ts`, drawn by `DemoFrame`): about five steps covering the core actions (add, edit, delete or revoke, undo, the one feature the study is about), each naming a real record in the sample data and quoting the control as it reads on screen, in «», with an English gloss. Click every step through before writing it. The list opens on wide screens and waits behind a pill on phones; ticks are kept per visitor.
+
+**The data is fake.** No real names, emails, client banks, fund houses or other counterparties, in the data or in code comments. Use `.example` emails and made-up companies. The case study can name a client in prose when Richard has cleared it; the demo never does.
+
+**Phones.** Load the product's mobile prototype when there is one (SAREVI). When the product is desktop only (Wealth Planner, Compliance), set `desktopOnly` in its guide: a phone gets a sheet saying it is built for desktop, with **Continue anyway** and the way back.
+
 ## Copy
 
 - Voice: `voice-griner`. Substance check: `writing-substance`. Spanish: `afi-redaccion`, and mark new Spanish strings with `// TODO(afi-redaccion)`.

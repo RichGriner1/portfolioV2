@@ -692,6 +692,7 @@ HEROV = 'dos'; /* Inicio 'Dos columnas' is the agreed landing */
     const D = window.AfiModernDesignSystem_dc4c68; if (D && D.copyCodeSwap) D.copyCodeSwap(el, !!S.copied);
   }
   function doCopy() {
+    demoEvent('copied');
     copyText(CODE).then(ok => {
       if (!ok) { toast('No se pudo copiar el código ' + CODE + '.'); return; }
       S.copied = true; updCopy(); clearTimeout(doCopy.t);
@@ -1795,7 +1796,14 @@ HEROV = 'dos'; /* Inicio 'Dos columnas' is the agreed landing */
     const w = Math.round(Math.max(120, Math.min(hFit, hRoom) * 0.8)), h = Math.round(w / 0.8), top = Math.round(blk.offsetTop - 0.056 * h);
     if (Math.abs((parseFloat(slot.style.width) || 0) - w) >= 1 || Math.abs((parseFloat(slot.style.top) || 0) - top) >= 1) { slot.style.width = w + 'px'; slot.style.height = h + 'px'; slot.style.top = top + 'px'; }
   }
+  /* Portfolio: tell the page around the demo what the visitor has done, so its "Things to try" list ticks itself. */
+  function demoEvent(e) { try { if (window.parent !== window) window.parent.postMessage({ demoEvent: e }, '*'); } catch (x) {} }
+  function demoSnap() {
+    demoEvent('step:' + S.step);
+    if (S.drawer && S.drawer.auto === false) demoEvent('auto:off');
+  }
   function paint() {
+    demoSnap();
     document.body.setAttribute('data-foundation', 'modern'); document.body.classList.toggle('v-brands', S.view === 'brands'); document.body.classList.toggle('v-flow', S.view === 'flow'); document.body.classList.toggle('v-nochrome', S.view === 'flow' && CTLHID);
     document.documentElement.setAttribute('data-brand', 'afi'); document.documentElement.setAttribute('data-skin', SKIN(S.brand)); document.documentElement.setAttribute('data-variant', S.brand); document.documentElement.setAttribute('data-fam', FAM(S.brand));
     const flow = S.view === 'flow';
@@ -1963,7 +1971,7 @@ HEROV = 'dos'; /* Inicio 'Dos columnas' is the agreed landing */
       case 'mode': setMode(v); paint(); break;
       case 'reset': resetFlow(); paint(); break;
       case 'home': fadeThen(() => { S.step = 0; paint(); }); break;
-      case 'start': fadeThen(() => { setMode(v); go(1); }); break;
+      case 'start': demoEvent('start:' + v); fadeThen(() => { setMode(v); go(1); }); break;
       case 'go': fadeThen(() => { if (v === '1b') subTo(2); else if (v === '1' && S.step === 1) subTo(1); else { if (+v > 1 && !S.sel) ensureSel(); go(+v); } }); break;
       case 'pvtoggle': S.pvOpen = !S.pvOpen; paint(); break;
       case 'chm': S.chM = v; paint(); break;
@@ -1986,7 +1994,7 @@ HEROV = 'dos'; /* Inicio 'Dos columnas' is the agreed landing */
         if (v === 'Personalizada') av.forEach(i => { S.sel[i] = BASIC[key()].includes(i); });
         bulkStagger(checked); paint(); break;
       }
-      case 'tog': ensureSel(); S.sel[id] = el.checked; S.reforma = 'Personalizada'; paint(); break;
+      case 'tog': ensureSel(); S.sel[id] = el.checked; demoEvent('tog:' + id + ':' + (el.checked ? 'on' : 'off')); S.reforma = 'Personalizada'; paint(); break;
       case 'ctog': S.customs.forEach(c => { if (c.id === id) c.on = el.checked; }); paint(); break;
       case 'pers': {
         if (S.drawer && !S.drawer.custom && S.drawer.id === id && edMode() === 'inline') { const ed = document.getElementById('ed-' + id); if (wantsClose(ed)) unleave(ed); else closeEd(); break; }

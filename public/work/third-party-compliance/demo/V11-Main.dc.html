@@ -560,6 +560,8 @@ class Component extends DCLogic {
     const ae = doc.activeElement; if (ae && ae !== tgt && ae !== doc.body && ae.blur && ae.closest && ae.closest('dialog')) ae.blur();
   }
   upd(p) {
+    /* Portfolio: tell the page around the demo what just happened, so its "Things to try" list ticks itself. */
+    try { if (window.parent !== window && p) { if (p.ev && p.ev.accion) window.parent.postMessage({ demoEvent: p.ev.accion }, '*'); if (p.view) window.parent.postMessage({ demoEvent: 'view:' + p.view }, '*'); } } catch (e) {}
     if (p && 'ev' in p) {
       const ev = p.ev; p = Object.assign({}, p); delete p.ev;
       if (ev) { const cu = this.cur(); const n = (cu.audit || []).length; const e = Object.assign({ actor: 'lmartin@empresa.example' }, ev, { id: 'e' + (n + 1), fecha: '16/11/2026 11:' + String(10 + n).padStart(2, '0') + ':' + String((n * 13 + 5) % 60).padStart(2, '0') }); p.audit = [e].concat(cu.audit || []); }

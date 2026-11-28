@@ -40,6 +40,12 @@
   const NOTES = [['Revisar la venta del piso de Marbella antes de 2029.', '24/11/2026'], ['El cliente quiere mantener el local de Castellana como renta.', '12/11/2026'], ['Pareja: jubilación prevista a los 63.', '03/11/2026'], ['Primera reunión: legado de 1,2 M € para los dos hijos.', '28/10/2026']];
 
   class App extends React.Component {
+    /* Portfolio: tell the page around the demo what just happened, so its "Things to try" list ticks itself. */
+    demoEvent(e) { try { if (window.parent !== window) window.parent.postMessage({ demoEvent: e }, '*'); } catch (x) {} }
+    setState(u, cb) {
+      if (u && typeof u === 'object') { if (u.toast) this.demoEvent('toast:' + u.toast); if (typeof u.size === 'string') this.demoEvent('size:' + u.size); if (u.home === false) this.demoEvent('open-plan'); }
+      return super.setState(u, cb);
+    }
     constructor(props) {
       super(props);
       let patch = {}; try { patch = props.estado ? (typeof props.estado === 'object' ? props.estado : JSON.parse(props.estado)) : {}; } catch (e) {}
@@ -104,7 +110,7 @@
       this.setState((st) => ({ [L]: L === 'inc' ? [row].concat(st[L]) : st[L].concat([row]), adding: false, draft: null, fresh: id, open: L === 'pat' ? id : null }));
       this.toast((L === 'inc' ? 'Ingreso «' + row.concepto : 'Activo «' + row.nombre) + '» creado. El plan se ha recalculado.');
     }
-    update(id, k, v) { const L = this.list(); this.setState((st) => ({ [L]: st[L].map((r) => r.id === id ? Object.assign({}, r, { [k]: (k === 'importe' || k === 'valor') ? num(v) : v }) : r) })); }
+    update(id, k, v) { this.demoEvent('edit:' + k); const L = this.list(); this.setState((st) => ({ [L]: st[L].map((r) => r.id === id ? Object.assign({}, r, { [k]: (k === 'importe' || k === 'valor') ? num(v) : v }) : r) })); }
     finish(id) { const r = this.state.inc.find((x) => x.id === id); this.setState((st) => ({ inc: st.inc.map((x) => x.id === id ? Object.assign({}, x, { ended: true }) : x), open: null })); this.toast('«' + r.concepto + '» pasa a Terminados.', { type: 'finish', id }); }
     remove(id) { const L = this.list(), st = this.state, i = st[L].findIndex((x) => x.id === id), r = st[L][i]; this.setState({ [L]: st[L].filter((x) => x.id !== id), open: null }); this.toast('«' + (r.concepto || r.nombre) + '» eliminado.', { type: 'remove', L, row: r, index: i }); }
     undoLast() {

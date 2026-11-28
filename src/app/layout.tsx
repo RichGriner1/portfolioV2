@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { DotCursor } from "@/components/motion/dot-cursor";
+import { NavMemory } from "@/components/back-link";
 import { LangProvider } from "@/lib/i18n";
 import "./globals.css";
 
@@ -103,6 +104,7 @@ export default function RootLayout({
           <LangProvider>
             {children}
             <DotCursor />
+            <NavMemory />
           </LangProvider>
         </ThemeProvider>
         <Analytics />

@@ -60,7 +60,7 @@
   const T = (t, p) => [['Titular', t]].concat(p ? [['Pareja', p]] : []);
   const REAL = [
     { id: 'b1', nombre: 'Cuenta nómina', grupo: 'liq', detalle: 'Cuenta corriente', entidad: 'Banco Norte', ten: T(100), valor: 85000, done: 3 },
-    { id: 'b2', nombre: 'Cuenta conjunta', grupo: 'liq', detalle: 'Cuenta corriente', entidad: 'CaixaBank', ten: T(50, 50), valor: 140000, done: 3 },
+    { id: 'b2', nombre: 'Cuenta conjunta', grupo: 'liq', detalle: 'Cuenta corriente', entidad: 'Banco Ribera', ten: T(50, 50), valor: 140000, done: 3 },
     { id: 'b3', nombre: 'Letras del Tesoro', grupo: 'liq', detalle: 'Depósito a plazo', entidad: 'Banco Meridiano', ten: T(100), valor: 220000, done: 2 },
     { id: 'b4', nombre: 'Fondo indexado global', grupo: 'inv', detalle: 'Fondos de inversión', entidad: 'Índice Gestión', ten: T(60, 40), valor: 380000, done: 3 },
     { id: 'b5', nombre: 'ETF MSCI World', grupo: 'inv', detalle: 'ETF', entidad: 'Valores Cuatro', ten: T(100), valor: 260000, done: 3 },
@@ -70,7 +70,7 @@
     { id: 'b9', nombre: 'Piso alquiler Chamberí', grupo: 'inm', detalle: 'Inversión', entidad: 'Tenencia directa', ten: T(100), valor: 480000, done: 1 },
     { id: 'b10', nombre: 'Fondo de private equity · 2022', grupo: 'pe', detalle: 'Private equity', entidad: 'Cumbre Capital', ten: T(100), valor: 150000, done: 2 },
     { id: 'b11', nombre: 'Plan de pensiones Banco Norte', grupo: 'pen', detalle: 'Plan de pensiones individual', entidad: 'Banco Norte', ten: T(100), valor: 210000, done: 3 },
-    { id: 'b12', nombre: 'Plan de empleo EY', grupo: 'pen', detalle: 'Plan de empleo', entidad: 'Fidelity', ten: T(100), valor: 95000, done: 1 },
+    { id: 'b12', nombre: 'Plan de empleo de la empresa', grupo: 'pen', detalle: 'Plan de empleo', entidad: 'Gestora Delta', ten: T(100), valor: 95000, done: 1 },
     { id: 'b13', nombre: 'Sociedad patrimonial familiar', grupo: 'emp', detalle: 'Participación', entidad: '—', ten: T(50, 50), valor: 340000, done: 2 },
     { id: 'b14', nombre: 'Colección de arte', grupo: 'otr', detalle: 'Otro activo', entidad: '—', ten: T(100), valor: 90000, done: 1 },
     { id: 'b15', nombre: 'Vehículo', grupo: 'otr', detalle: 'Otro activo', entidad: '—', ten: T(100), valor: 55000, done: 3 },
@@ -592,6 +592,7 @@
       return this.actions(C('Button', { variant: 'ghost', size: 'sm', className: s.v312 ? 'r4-danger' : undefined, iconStart: I('trash-2'), onClick: () => (s.v312 ? this.setState({ delConf: id }) : this.remove(id)) }, 'Eliminar'), right);
     }
     applySim() {
+      this.demoEvent('sim:applied');
       /* the figures are already the simulated ones, so no recalculation diff fires: record what the simulation changed against the real plan */
       if (this.state.sim && (this.state.simChanges || []).length) {
         const v = this.modelFor({}), o = this.modelFor({ sim: false }), d = [], secs = [];

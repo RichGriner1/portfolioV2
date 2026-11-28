@@ -4048,7 +4048,7 @@ class Component extends DCLogic {
   actSeed(key) {
     const B = k => this.actBlank(k), sec = l => ({ value: l, label: l, cat: '' });
     const two = (a, b) => [this.actOwner('Titular', a), this.actOwner('Pareja', b)];
-    if (key === 'l1') return Object.assign(B('liquidez'), { tipoLiq: 'Cuenta corriente', nombre: 'Cuenta', entidad: 'Abanca', valor: '160.000', titulares: two('50', '50') });
+    if (key === 'l1') return Object.assign(B('liquidez'), { tipoLiq: 'Cuenta corriente', nombre: 'Cuenta', entidad: 'Banco Levante', valor: '160.000', titulares: two('50', '50') });
     if (key === 'l2') return Object.assign(B('liquidez'), { tipoLiq: 'Cuenta corriente', nombre: 'Liquidez 2', valor: '200.000' });
     if (key === 'i1') return Object.assign(B('inversion'), { tipoInv: 'Acciones cotizadas', activo: sec('Acciones'), activoQuery: 'Acciones', entidad: 'Valores Cuatro', valor: '10.000', valorCompra: '8.000', liquidable: true, liqImporte: '10.000', titulares: [this.actOwner('Titular', '75'), this.actOwner('Terceros', '25')] });
     if (key === 'i2') return Object.assign(B('inversion'), { tipoInv: 'Fondos de inversión', activo: sec('Fondo'), activoQuery: 'Fondo', entidad: 'Índice Gestión', valor: '25.000', valorCompra: '', titulares: two('60', '40'), liquidable: true, liqImporte: '25.000' });
@@ -5062,7 +5062,7 @@ class Component extends DCLogic {
       .concat(pA.filter(r => r.form.kind === kind && !pR.includes(r.key)).map(r => fromForm(r.key, r.form)));
     const sumOf = rows => eurS(rows.reduce((t, r) => t + (parseFloat(String(r.valor).replace(/[^\d,-]/g, '').replace(',', '.')) || 0), 0));
     const invRows = editable('inversion', [mkAsset('Acciones','Acciones cotizadas','Valores Cuatro','10.000 €','i1',['Titular · 75 %','Terceros · 25 %'],'bank'), mkAsset('Fondo','Fondos de inversión','Índice Gestión','25.000 €','i2',['Titular · 60 %','Pareja · 40 %'],'bank')]);
-    const liqRows = editable('liquidez', [mkAsset('Cuenta','Cuenta corriente','Abanca','160.000 €','l1',['Titular · 50 %','Pareja · 50 %'],'bank'), mkAsset('Liquidez 2','Cuenta corriente','—','200.000 €','l2',['Titular · 100 %'])]);
+    const liqRows = editable('liquidez', [mkAsset('Cuenta','Cuenta corriente','Banco Levante','160.000 €','l1',['Titular · 50 %','Pareja · 50 %'],'bank'), mkAsset('Liquidez 2','Cuenta corriente','—','200.000 €','l2',['Titular · 100 %'])]);
     const penRows = editable('pension', [mkAsset('Plan Test','PPI','Valores Cuatro','15.000 €','p1',['Titular · 100 %'],'bank')]);
     const extraGroup = (kind, title) => { const rows = editable(kind, []); return rows.length ? { title, subLabel: 'Subtotal ' + title.toLowerCase(), subTotal: sumOf(rows), rows } : null; };
     const inmRows = editable('inmueble', [mkAsset('Casa','Vivienda habitual','Tenencia directa','250.000 €','m1',['Titular · 40 %','Pareja · 40 %','Terceros · 20 %'],'direct')]);

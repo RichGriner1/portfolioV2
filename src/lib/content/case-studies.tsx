@@ -376,7 +376,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Token architecture",
         "Component library",
         "AI tooling",
-        "White-label strategy",
       ],
       es: [
         "Diseño de interfaz",
@@ -384,7 +383,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Arquitectura de tokens",
         "Librería de componentes",
         "Herramientas de IA",
-        "Estrategia white-label",
       ],
     },
     bento: [],
@@ -494,103 +492,28 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       {
         kicker: { en: "Tokens", es: "Tokens" },
         heading: {
-          en: "A new brand is one layer.",
+          en: "A shared language, built in layers.",
           // TODO(afi-redaccion)
-          es: "Una marca nueva es una sola capa.",
+          es: "Un lenguaje compartido, construido por capas.",
         },
         navLabel: { en: "Tokens", es: "Tokens" },
         body: [
           {
-            en: "Changing a client's brand meant editing colors across twenty files by hand. We started on PrimeNG, but with the white-label goal it became too many layers to build without a headache.",
+            en: "The same decisions were being remade across twenty files. We needed one shared language that could carry from foundations into every component.",
             // TODO(afi-redaccion)
-            es: "Cambiar la marca de un cliente significaba editar los colores en veinte archivos a mano. Empezamos con PrimeNG, pero con el objetivo white-label eran demasiadas capas para construirlo sin dolores de cabeza.",
+            es: "Las mismas decisiones se repetían en veinte archivos. Necesitábamos un lenguaje compartido que llegara desde los fundamentos hasta cada componente.",
           },
         ],
-        switch: [
+        media: [
           {
-            label: { en: "Three tiers", es: "Tres niveles" },
-            heading: {
-              en: "Components read roles, not colors.",
-              // TODO(afi-redaccion)
-              es: "Los componentes leen funciones, no colores.",
+            kind: "embed",
+            src: "/work/afi-design-system/demo/PF-Niveles.html",
+            title: {
+              en: "The primary button's color traced from primitive to semantic token to component",
+              es: "El color del botón principal, del primitivo al token semántico y al componente",
             },
-            body: [
-              {
-                en: "A primitive names the color. A semantic token says what it's for, and the component only ever reads the semantic one.",
-                // TODO(afi-redaccion)
-                es: "Un primitivo pone nombre al color. Un token semántico dice para qué sirve, y el componente solo lee el semántico.",
-              },
-              {
-                en: "So a brand swap happens in the primitives, and nothing above them has to change.",
-                // TODO(afi-redaccion)
-                es: "Así, un cambio de marca ocurre en los primitivos y nada por encima tiene que cambiar.",
-              },
-            ],
-            media: [
-              {
-                kind: "embed",
-                src: "/work/afi-design-system/demo/PF-Niveles.html",
-                title: {
-                  en: "The primary button's color traced from primitive to semantic token to component",
-                  es: "El color del botón principal, del primitivo al token semántico y al componente",
-                },
-                width: 820,
-                height: 312,
-              },
-            ],
-          },
-          {
-            label: { en: "Two brands", es: "Dos marcas" },
-            heading: {
-              en: "Only the token files change.",
-              // TODO(afi-redaccion)
-              es: "Solo cambian los archivos de tokens.",
-            },
-            body: [
-              {
-                en: "On the left is the neutral white-label skin. On the right is Afi, with the same components.",
-                // TODO(afi-redaccion)
-                es: "A la izquierda, la piel white-label neutra. A la derecha, Afi, con los mismos componentes.",
-              },
-              {
-                en: "Both are live. Try the controls in either one.",
-                // TODO(afi-redaccion)
-                es: "Las dos están en vivo. Prueba los controles en cualquiera.",
-              },
-            ],
-            media: [
-              {
-                kind: "composition",
-                title: {
-                  en: "The same simulation card in the neutral white-label skin and in the Afi skin",
-                  es: "La misma tarjeta de simulación con la piel white-label neutra y con la piel de Afi",
-                },
-                items: [
-                  {
-                    src: "/work/afi-design-system/demo/PF-Marca-Neutral.html",
-                    rect: { x: 20, y: 20, w: 380, h: 341 },
-                    viewport: { w: 420, h: 381 },
-                    x: 26,
-                    y: 50,
-                    w: 45,
-                    flat: true,
-                    interactive: true,
-                    label: { en: "White-label", es: "White-label" },
-                  },
-                  {
-                    src: "/work/afi-design-system/demo/PF-Marca.html",
-                    rect: { x: 20, y: 20, w: 380, h: 341 },
-                    viewport: { w: 420, h: 381 },
-                    x: 74,
-                    y: 50,
-                    w: 45,
-                    flat: true,
-                    interactive: true,
-                    label: { en: "Afi", es: "Afi" },
-                  },
-                ],
-              },
-            ],
+            width: 820,
+            height: 312,
           },
         ],
       },
@@ -1181,17 +1104,21 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         ],
         switch: [
           {
-            label: { en: "Primitives", es: "Primitivos" },
-            heading: {
-              en: "We split the primitives between us.",
+            label: {
+              en: "Core kit",
               // TODO(afi-redaccion)
-              es: "Nos repartimos los primitivos.",
+              es: "Kit básico",
+            },
+            heading: {
+              en: "The small set every flow starts with.",
+              // TODO(afi-redaccion)
+              es: "El conjunto pequeño con el que empieza cada flujo.",
             },
             body: [
               {
-                en: "Chip, badge, card and table were mine. Tag, dialog, navbar and tabs were Miguel's. We built buttons, inputs, checkboxes and toggles together first, to agree on one workflow.",
+                en: "The demo stays on the common layer: actions, fields and selection controls. Product-specific patterns belong in the products that need them, not in the first view of the system.",
                 // TODO(afi-redaccion)
-                es: "Chip, badge, tarjeta y tabla eran míos. Tag, diálogo, barra de navegación y pestañas, de Miguel. Botones, inputs, checkboxes y toggles los hicimos juntos primero, para acordar un solo flujo de trabajo.",
+                es: "La demo se queda en la capa común: acciones, campos y controles de selección. Los patrones específicos de producto pertenecen a los productos que los necesitan, no a la primera vista del sistema.",
               },
               {
                 en: "Two skills check the library. /ds-cleanup audits a component and fixes where it drifts. /ship hands back a Figma prompt for any variable that changed, so Figma and code don't drift apart.",
@@ -1204,8 +1131,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
                 kind: "embed",
                 src: "/work/visual-identity/demo/PF-Primitivos.html",
                 title: {
-                  en: "The primitives each designer built, and the ones built together",
-                  es: "Los primitivos que hizo cada diseñador y los que hicimos juntos",
+                  en: "The core actions, fields and selection controls shared by every flow",
+                  // TODO(afi-redaccion)
+                  es: "Las acciones, campos y controles de selección básicos que comparte cada flujo",
                 },
                 width: 900,
                 height: 305,

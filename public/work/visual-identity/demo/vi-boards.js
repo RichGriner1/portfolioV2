@@ -184,32 +184,28 @@
     );
   }
 
-  /* Components: primitives built in code first, split between the two designers. */
+  /* Components: the shared core kit every product flow starts from. */
   function Primitivos() {
     var _c = useState(true), c = _c[0], setC = _c[1];
     var _t = useState(true), t = _t[0], setT = _t[1];
-    var _s = useState("a"), s = _s[0], setS = _s[1];
     return h("div", { className: "pf pf-3" },
-      h(DS.Card, { heading: "Richard", supporting: L("Chip, badge, card, table", "Chip, badge, tarjeta, tabla") },
+      h(DS.Card, { heading: L("Actions", "Acciones"), supporting: L("The few ways to move forward", "Las pocas formas de avanzar") },
         h("div", { className: "pf-stack pf-stack--tight" },
-          h("div", { className: "pf-row pf-row--wrap" }, h(DS.Chip, { label: L("Status", "Estado"), value: L("Active", "Activo") }), h(DS.Badge, { tone: "success", dot: true }, L("Done", "Hecho"))),
-          h(DS.Table, { density: "compact", columns: [{ key: "a", label: L("Asset", "Activo") }, { key: "v", label: L("Value", "Valor"), kind: "monetary" }], rows: [{ id: 1, a: L("Funds", "Fondos"), v: L("€120,000", "120.000 €") }, { id: 2, a: L("Cash", "Efectivo"), v: L("€18,500", "18.500 €") }] })
+          h(DS.Button, { variant: "primary" }, L("Continue", "Continuar")),
+          h(DS.Button, { variant: "secondary" }, L("Save draft", "Guardar borrador")),
+          h(DS.Button, { variant: "ghost" }, L("Cancel", "Cancelar"))
         )
       ),
-      h(DS.Card, { heading: "Miguel", supporting: L("Tag, dialog, navbar, tabs", "Tag, diálogo, barra de navegación, pestañas") },
+      h(DS.Card, { heading: L("Forms", "Formularios"), supporting: L("The controls used every day", "Los controles de cada día") },
         h("div", { className: "pf-stack pf-stack--tight" },
-          h("div", { className: "pf-row pf-row--wrap" }, h(DS.Tag, null, L("Retirement", "Jubilación")), h(DS.Tag, null, "Beta")),
-          h(DS.Tabs, { items: [{ value: "a", label: L("Plan", "Plan") }, { value: "b", label: L("Goals", "Objetivos") }], value: s, onChange: setS })
+          h(DS.Input, { label: L("Client", "Cliente"), defaultValue: "Ana García" }),
+          h(DS.Input, { label: L("Amount", "Importe"), defaultValue: L("250,000", "250.000"), suffix: "€" })
         )
       ),
-      h(DS.Card, { heading: L("Together", "Juntos"), supporting: L("Button, input, checkbox, toggle", "Botón, input, checkbox, toggle") },
+      h(DS.Card, { heading: L("Selection", "Selección"), supporting: L("Clear states, with motion", "Estados claros, con movimiento") },
         h("div", { className: "pf-stack pf-stack--tight" },
-          h(DS.Input, { defaultValue: L("250,000", "250.000"), suffix: "€" }),
-          h("div", { className: "pf-row pf-row--wrap pf-row--gap" },
-            h(DS.Checkbox, { label: L("Joint", "Conjunta"), checked: c, onChange: setC }),
-            h(DS.Toggle, { "aria-label": L("Notify", "Avisar"), active: t, onChange: setT })
-          ),
-          h(DS.Button, { variant: "primary" }, L("Save", "Guardar"))
+          h(DS.Checkbox, { label: L("Include property", "Incluir inmueble"), checked: c, onChange: setC }),
+          h(DS.Toggle, { label: L("Automatic updates", "Actualizaciones automáticas"), active: t, onChange: setT })
         )
       )
     );

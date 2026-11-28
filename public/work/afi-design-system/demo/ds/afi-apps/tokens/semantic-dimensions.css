@@ -1,0 +1,23 @@
+/* semantic-dimensions.css — Semantic Dimensions (85 vars)
+   Source: Coherence/libs/tokens/foundations-modern/ (generated from Figma AFI-FOUNDATIONS-MODERN).
+   Values copied verbatim. */
+:root{
+  --radius-none:var(--dimension-0);--radius-xs:var(--dimension-0-5);--radius-sm:var(--dimension-1);--radius-md:var(--dimension-1-5);--radius-lg:var(--dimension-2);--radius-xl:var(--dimension-3);--radius-full:var(--dimension-249-75);
+  --height-component-xs:var(--dimension-6);--height-component-sm:var(--dimension-7);--height-component-md:var(--dimension-8);--height-component-lg:var(--dimension-10);--height-badge:var(--dimension-5);--height-badge-sm:var(--dimension-5);--height-badge-md:var(--dimension-6);--height-toggle:var(--dimension-5);
+  --width-sidebar-expanded:var(--dimension-70);--width-sidebar-collapsed:var(--dimension-18);--width-drawer-sm:var(--dimension-90);--width-drawer-md:var(--dimension-120);--width-drawer-lg:var(--dimension-160);
+  --width-dialog-sm:var(--dimension-100);--width-dialog-md:var(--dimension-140);--width-dialog-lg:var(--dimension-180);--width-dialog-xl:var(--dimension-200);--width-dialog-xxl:var(--dimension-240);
+  --width-menu-min:var(--dimension-50);--width-toggle:var(--dimension-9);
+  --stroke-hairline:var(--dimension-0-25);--stroke-default:var(--dimension-0-25);--stroke-medium:var(--dimension-0-375);--stroke-strong:var(--dimension-0-5);--stroke-focus:var(--dimension-0-5);
+  --icon-xs:var(--dimension-3);--icon-sm:var(--dimension-4);--icon-md:var(--dimension-5);--icon-lg:var(--dimension-6);--icon-xl:var(--dimension-8);
+  --size-toggle-thumb:var(--dimension-4);--size-checkbox:var(--dimension-4);--size-badge-dot:var(--dimension-2);--size-radio:var(--dimension-4);--size-radio-dot:var(--dimension-1-5);
+  --navigation-navbar-height:var(--dimension-16);--navigation-toolbar-height:var(--dimension-12);--navigation-sidebar-item-height:var(--dimension-10);--navigation-tab-height:var(--dimension-10);
+  --table-row-compact:var(--dimension-8);--table-row-default:var(--dimension-10);--table-row-comfortable:var(--dimension-12);--table-header-height:var(--dimension-10);
+  --pad-table-cell-inline-compact:var(--dimension-2);--pad-table-cell-inline-default:var(--dimension-3);--gap-table-cell-content:var(--dimension-2);--width-table-selection-column:var(--dimension-10);
+  --avatar-xs:var(--dimension-5);--avatar-sm:var(--dimension-6);--avatar-md:var(--dimension-8);--avatar-lg:var(--dimension-10);--avatar-xl:var(--dimension-14);
+  --pad-control-xs:var(--dimension-1-5);--pad-control-sm:var(--dimension-2);--pad-control-md:var(--dimension-2-5);--pad-control-lg:var(--dimension-3);
+  --pad-card:var(--dimension-4);--pad-dialog:var(--dimension-6);--pad-drawer:var(--dimension-6);--pad-toggle-track:var(--dimension-0-5);--pad-sidebar-block:var(--dimension-3);
+  --gap-control-xs:var(--dimension-0-5);--gap-control-sm:var(--dimension-1);--gap-control-md:var(--dimension-1-5);--gap-control-label:var(--dimension-2);
+  --gap-field-label:var(--dimension-1);--gap-menu-item:var(--dimension-0-5);--gap-dialog-actions:var(--dimension-2);
+  --gap-sidebar-item-content:var(--dimension-2);--gap-sidebar-items:var(--dimension-0-5);--gap-sidebar-label-to-items:var(--dimension-2);--gap-sidebar-groups:var(--dimension-3);--gap-sidebar-header-to-nav:var(--dimension-8);
+  --pad-navbar-inline:var(--dimension-4);--gap-navbar-zones:var(--dimension-4);--gap-navbar-actions:var(--dimension-2);--width-navbar-search:var(--dimension-90);
+}

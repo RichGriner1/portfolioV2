@@ -23,8 +23,10 @@
 html, html[data-ds-v2], body, #root { background: transparent !important; }
 body { margin: 0; font-family: var(--font-family-primary); color: var(--content-primary); }
 #root { box-sizing: border-box; width: 880px; min-height: 100vh; margin: 0 auto; padding: var(--dimension-4) var(--dimension-8); display: flex; align-items: center; }
-.pf { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--dimension-8); width: 100%; align-items: start; }
+.pf { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--dimension-8); width: 100%; align-items: start; }
 .pf-col { display: flex; flex-direction: column; gap: var(--dimension-5); }
+/* The questions sit on their own panel, so their labels never touch the stage. */
+.pf > .pf-col:first-child { box-sizing: border-box; padding: var(--dimension-5); background: var(--background-surface); border-radius: var(--radius-xl); box-shadow: var(--elevation-2); }
 .pf-label { margin: 0; font-size: var(--type-label-size); font-weight: var(--font-weight-semibold); }
 .pf-card { display: flex; flex-direction: column; gap: var(--dimension-3); padding: var(--dimension-5); background: var(--background-surface); border-radius: var(--radius-xl); box-shadow: var(--elevation-2); }
 .pf-switch { display: flex; align-items: center; justify-content: space-between; gap: var(--dimension-3); padding: var(--dimension-4) var(--dimension-5); background: var(--background-surface); border-radius: var(--radius-xl); box-shadow: var(--elevation-2); }

@@ -1,0 +1,6 @@
+/* component-toast.css — Toast role tokens (hand-authored; not in the Figma variable set). Skins re-point them (e.g. --toast-background: var(--ink)). */
+:root{
+  --toast-background:var(--background-inverse);--toast-foreground:var(--content-inverse);--toast-radius:var(--radius-lg);
+  --toast-offset-bottom:var(--dimension-6); /* @kind spacing */
+  --z-toast:60; /* @kind other */
+}

@@ -142,7 +142,7 @@ function Media({ media }: { media: StoryMedia }) {
         <Composition media={media} />
         {media.legend && (
           <ol
-            className={`flex flex-col gap-1 text-xs leading-relaxed ${beat ? "px-7 pb-7 text-[#4f5761]" : "text-muted-foreground"}`}
+            className={`flex flex-col gap-1 text-xs leading-relaxed ${beat ? "text-stage-muted px-7 pb-7" : "text-muted-foreground"}`}
           >
             {media.legend.map((l, k) => (
               <li key={k} className="flex gap-2">
@@ -158,7 +158,7 @@ function Media({ media }: { media: StoryMedia }) {
         )}
         {media.caption && (
           <p
-            className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
+            className={`max-w-2xl leading-relaxed ${beat ? "text-stage-muted px-7 pb-7 text-xs" : "text-muted-foreground text-sm"}`}
           >
             {pick(media.caption, lang)}
           </p>
@@ -171,7 +171,7 @@ function Media({ media }: { media: StoryMedia }) {
         <LiveCrop media={media} />
         {media.caption && (
           <p
-            className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
+            className={`max-w-2xl leading-relaxed ${beat ? "text-stage-muted px-7 pb-7 text-xs" : "text-muted-foreground text-sm"}`}
           >
             {pick(media.caption, lang)}
           </p>
@@ -192,7 +192,7 @@ function Media({ media }: { media: StoryMedia }) {
         </div>
         {media.caption && (
           <p
-            className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
+            className={`max-w-2xl leading-relaxed ${beat ? "text-stage-muted px-7 pb-7 text-xs" : "text-muted-foreground text-sm"}`}
           >
             {pick(media.caption, lang)}
           </p>
@@ -205,7 +205,7 @@ function Media({ media }: { media: StoryMedia }) {
       <Frame clip={media.clip} />
       {caption && (
         <p
-          className={`max-w-2xl leading-relaxed ${beat ? "px-7 pb-7 text-xs text-[#4f5761]" : "text-muted-foreground text-sm"}`}
+          className={`max-w-2xl leading-relaxed ${beat ? "text-stage-muted px-7 pb-7 text-xs" : "text-muted-foreground text-sm"}`}
         >
           {caption}
         </p>
@@ -875,7 +875,12 @@ function Embed({ media }: { media: Extract<StoryMedia, { kind: "embed" }> }) {
             ? "relative w-full overflow-hidden"
             : "border-border bg-muted relative w-full overflow-hidden rounded-xl border"
         }
-        style={{ aspectRatio: `${w} / ${h}` }}
+        // In a beat a board never draws bigger than it was built: a small card
+        // scaled to fill the column reads as a poster, not a component.
+        style={{
+          aspectRatio: `${w} / ${h}`,
+          ...(beat ? { maxWidth: w, marginInline: "auto" } : {}),
+        }}
       >
         {near && scale > 0 && (
           <iframe
@@ -1077,13 +1082,13 @@ function BeatRow({
             the page doesn't show an empty stage beside it. */}
         {media.length > 0 && (
           <div
-            // One surface: the light product stage, the same in both themes, so a
-            // component never sits inside three frames. A stats strip is its own
-            // themed surface, so it gets no light stage behind it: the stage's
-            // rounded edge would show light at its corners.
-            className={`flex flex-col justify-center overflow-hidden rounded-2xl ${media.every((m) => m.kind === "stats") ? "" : "bg-[#eef1f4] text-[#1f2328]"}`}
-            // The stage is light in both themes, so the site's dot cursor stays navy here.
-            data-cursor-ink="#062D3F"
+            // One surface: the product stage (light, one notch up the ramp in dark),
+            // so a component never sits inside three frames. A stats strip is its
+            // own themed surface, so it gets no stage behind it: the stage's
+            // rounded edge would show at its corners.
+            className={`flex flex-col justify-center overflow-hidden rounded-2xl ${media.every((m) => m.kind === "stats") ? "" : "bg-stage text-stage-foreground"}`}
+            // The dot cursor takes the stage's own ink: navy on light, foreground on dark.
+            data-cursor-ink="var(--stage-cursor)"
           >
             <div
               className="duration-base ease-out-soft transition-[height]"
@@ -1596,7 +1601,7 @@ function Composition({
             >
               {it.label && (
                 <span
-                  className="absolute -top-5 left-0 text-[11px] font-medium text-[#4f5761]"
+                  className="text-stage-muted absolute -top-5 left-0 text-[11px] font-medium"
                   style={{ fontSize: Math.max(8, Math.min(11, W / 64)) }}
                 >
                   {pick(it.label, lang)}

@@ -1,0 +1,10 @@
+/* skin.css — the default variant's shape roles on top of the primitives.
+   Radius roles sit between square corners and full pills:
+     control = buttons, inputs, selects, number fields, menu rows    chip = tags, badges    surface = cards, dialogs, popovers, drawers, tables
+   On by default (no data-variant on :root, or data-variant="default"); opt any element in with data-radius="soft".
+   The older radius names follow the roles, so every component reads one scale: --radius-md = chip (8), --radius-lg = control (12),
+   --radius-xl = surface (16). --radius-xs (2) and --radius-sm (4) stay for tiny marks and checkboxes.
+   Radius follows height: control-sm (28 px) 10, control-xs (24 px) 8, chip-sm (20 px badge) 6, so small sizes are not pills.
+   Checkboxes, radios, toggles and sliders keep their own shape. Retune the values here. */
+:root:is([data-variant="default"],:not([data-variant])),[data-radius="soft"]{--radius-control:var(--dimension-3);--radius-chip:var(--dimension-2);--radius-surface:var(--dimension-4);--radius-control-sm:var(--dimension-2-5);--radius-control-xs:var(--dimension-2);--radius-chip-sm:var(--dimension-1-5)}
+:root:is([data-variant="default"],:not([data-variant])),[data-radius="soft"]{--radius-md:var(--radius-chip);--radius-lg:var(--radius-control);--radius-xl:var(--radius-surface)}

@@ -1,0 +1,28 @@
+/* colors.css — primitive colours. Black and white to start: one neutral family, the action colour #242424.
+   Every grey ramp (neutral, control, zinc) steps evenly in lightness from the same neutral, so surfaces, controls and
+   text read as one family. Re-skin: change --color-primary-* (the action colour) and, if wanted, the chart series. */
+:root{
+  /* neutral: the one grey family. 0 = white surface, 900 = text. */
+  --color-neutral-0:#ffffff;--color-neutral-25:#fbfbfb;--color-neutral-50:#f6f6f6;--color-neutral-100:#efefef;--color-neutral-200:#e3e3e3;--color-neutral-300:#d1d1d1;--color-neutral-400:#b4b4b4;--color-neutral-500:#8f8f8f;--color-neutral-600:#6e6e6e;--color-neutral-700:#4f4f4f;--color-neutral-800:#333333;--color-neutral-900:#1a1a1a;--color-neutral-500-20:#33333333;
+  /* control: the fills of inputs, selects and ghost presses (same family, a touch lighter at the low end). */
+  --color-control-0:#ffffff;--color-control-25:#fcfcfc;--color-control-50:#f8f8f8;--color-control-100:#f1f1f1;--color-control-200:#e6e6e6;--color-control-300:#d4d4d4;--color-control-400:#a3a3a3;--color-control-500:#737373;--color-control-600:#525252;--color-control-700:#3d3d3d;--color-control-800:#262626;--color-control-900:#171717;--color-control-950:#0a0a0a;
+  /* zinc: kept as a name for components that read it; same neutral values. */
+  --color-zinc-0:#ffffff;--color-zinc-25:#fcfcfc;--color-zinc-50:#fafafa;--color-zinc-100:#f3f3f3;--color-zinc-200:#e5e5e5;--color-zinc-300:#d4d4d4;--color-zinc-400:#a3a3a3;--color-zinc-500:#737373;--color-zinc-600:#525252;--color-zinc-700:#3d3d3d;--color-zinc-800:#262626;--color-zinc-900:#171717;--color-zinc-700-20:#3d3d3d33;
+  /* primary: the action colour. 700 = rest (#242424), 600 = hover, 800 = pressed. */
+  --color-primary-0:#ffffff;--color-primary-25:#fafafa;--color-primary-50:#f4f4f4;--color-primary-100:#e8e8e8;--color-primary-200:#d0d0d0;--color-primary-300:#a6a6a6;--color-primary-400:#7c7c7c;--color-primary-500:#535353;--color-primary-600:#3a3a3a;--color-primary-700:#242424;--color-primary-800:#161616;--color-primary-900:#0a0a0a;
+  /* status ramps: clear, saturated hues; 50 = background, 300 = border, 500 = icon/dot, 700 = text. */
+  --color-info-25:#f7faff;--color-info-50:#eff5ff;--color-info-100:#dce8fe;--color-info-200:#bfd4fe;--color-info-300:#93b7fd;--color-info-500:#3b82f6;--color-info-700:#1d4ed8;--color-info-900:#172554;
+  --color-success-25:#f5fdf8;--color-success-50:#ecfdf3;--color-success-100:#d3f8e2;--color-success-200:#a8efc6;--color-success-300:#6cdca0;--color-success-500:#16a34a;--color-success-700:#15703d;--color-success-900:#0c3d22;
+  --color-warning-25:#fffdf5;--color-warning-50:#fffaeb;--color-warning-100:#fef0c7;--color-warning-200:#fedf89;--color-warning-300:#fec84b;--color-warning-500:#f59e0b;--color-warning-700:#b45309;--color-warning-900:#713f12;
+  --color-error-25:#fffbfa;--color-error-50:#fef3f2;--color-error-100:#fee4e2;--color-error-200:#fecdca;--color-error-300:#fda29b;--color-error-500:#ef4444;--color-error-700:#c0262d;--color-error-900:#7a1a1d;
+  /* data-viz: monochrome series to start (dark to light), green / red for gain / loss. */
+  --color-data-viz-series-1:#242424;--color-data-viz-series-2:#a3a3a3;--color-data-viz-series-3:#d4d4d4;--color-data-viz-series-4:#f1f1f1;--color-data-viz-series-5:#4ade80;--color-data-viz-series-6:#15803d;--color-data-viz-series-7:#ef4444;--color-data-viz-series-8:#fca5a5;
+  --color-data-viz-monochrome-1:var(--color-neutral-25);--color-data-viz-monochrome-2:var(--color-zinc-100);--color-data-viz-monochrome-3:var(--color-zinc-300);--color-data-viz-monochrome-4:var(--color-zinc-500);--color-data-viz-monochrome-5:var(--color-zinc-700);--color-data-viz-monochrome-6:var(--color-zinc-900);--color-data-viz-monochrome-7:var(--color-neutral-900);--color-data-viz-monochrome-8:var(--color-control-700);--color-data-viz-monochrome-9:var(--color-control-500);--color-data-viz-monochrome-10:var(--color-control-300);
+  --color-data-viz-positive-subtle:#bbf7d0;--color-data-viz-positive-default:#4ade80;--color-data-viz-positive-strong:#15803d;--color-data-viz-negative-subtle:#fca5a5;--color-data-viz-negative-default:#ef4444;
+  --color-data-viz-neutral-axis:#d4d4d4;--color-data-viz-neutral-grid:#f1f1f1;--color-data-viz-neutral-label:#3d3d3d;--color-data-viz-neutral-tooltip-background:#ffffff;--color-data-viz-neutral-tooltip-border:#e6e6e6;--color-data-viz-neutral-tooltip-text:#0a0a0a;
+  /* accent highlight ("look here"): lime and pink ramps for one hero surface per page. */
+  --color-accent-lime-100:#f4fccc;--color-accent-lime-300:#e2f77a;--color-accent-lime-500:#bce23f;
+  --color-accent-pink-100:#ffd6e3;--color-accent-pink-300:#f98bb4;--color-accent-pink-500:#e35b9c;
+  /* brand accent: the second brand colour (links, chart ramp middle, highlight gradient). Mid grey to start (4.7:1 on white, so it also works as link text). */
+  --brand-accent:#737373;--brand-accent-strong:#242424;--brand-accent-light:#a3a3a3;--brand-ink:#0a0a0a;
+}

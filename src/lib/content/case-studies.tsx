@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { IntroPreviewLink } from "@/components/intro-preview-link";
 import type { DiagramKey } from "@/lib/content/diagrams";
 import type { Bilingual } from "@/lib/i18n";
 import { TPC_STUDY } from "./case-study-tpc";
@@ -357,15 +356,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
   "third-party-compliance": TPC_STUDY,
   "afi-design-system": {
     tagline: {
-      en: "Building design infrastructure for a fintech consultancy",
-      es: "Construyendo la infraestructura de diseño para una consultora fintech",
+      en: "A design language forty programmers can reach without asking",
+      // TODO(afi-redaccion)
+      es: "Un lenguaje de diseño al que cuarenta programadores llegan sin preguntar",
     },
     intro: {
-      en: "Afi is a financial consultancy that added a digital team during the dot-com boom and grew it as an engineering team. It hired 40 programmers for math and CS, had no dedicated designers until 2021, and had no design system. Afi runs three brands. This is the system for Afi web, the internal and client-facing sites that carry the Afi brand. It's what someone reaches for to mock up a concept before committing time to real UI and internal solutions.",
-      es: "Afi es una consultora financiera que montó su equipo digital durante la burbuja de las .com y lo hizo crecer como equipo de ingeniería. Contrató a 40 programadores por su perfil de matemáticas e informática, no tuvo diseñadores dedicados hasta 2021 y no tenía sistema de diseño. Afi tiene tres marcas. Este es el sistema de Afi web, los sitios internos y de cliente que llevan la marca Afi. Es a lo que se recurre para maquetar un concepto antes de dedicar tiempo a la UI real y a las soluciones internas.",
+      en: "Afi web is the design system behind the internal and client-facing sites that carry the Afi brand, one of three brands Afi runs. I built its tokens, its components and a coded playground, so the team can mock up a concept before committing time to real UI.",
+      // TODO(afi-redaccion)
+      es: "Afi web es el sistema de diseño de los sitios internos y de cliente que llevan la marca Afi, una de las tres marcas de Afi. Construí sus tokens, sus componentes y un playground en código, para que el equipo pueda maquetar un concepto antes de dedicar tiempo a la UI real.",
     },
     role: {
-      en: "Design Systems Lead",
+      en: "Design systems lead",
       es: "Líder de sistemas de diseño",
     },
     contributions: {
@@ -386,314 +387,409 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Estrategia white-label",
       ],
     },
-    bento: [
+    bento: [],
+    layout: "beats",
+    // The boards are rebuilt from the Afi apps components (public/work/afi-design-system/demo/),
+    // so every name and figure on them is made up. The coded playground itself is internal.
+    story: [
       {
-        label: {
-          en: "Component Playground",
-          es: "Playground de componentes",
+        kicker: { en: "Context", es: "Contexto" },
+        heading: {
+          en: "Forty programmers, one designer, no system.",
+          // TODO(afi-redaccion)
+          es: "Cuarenta programadores, un diseñador, ningún sistema.",
         },
-        sublabel: {
-          en: "One page per component: every state, the tokens it uses and a brand picker. Nobody rebuilds the same thing in Figma to check how it behaves, and the token names on the page become the language the team uses for it.",
-          es: "Una página por componente: todos sus estados, los tokens que usa y un selector de marca. Nadie vuelve a montar lo mismo en Figma para ver cómo se comporta, y los nombres de los tokens de esa página pasan a ser el lenguaje con el que el equipo habla de él.",
-        },
-        /**
-         * The segmented control, not the button: it carries a `Marca` picker, an
-         * appearance and size row and an options count, so one card demonstrates
-         * both halves of the system — a component in isolation, and the same
-         * component re-skinned by a brand swap.
-         *
-         * `?embed=1` strips the docs chrome — breadcrumb, title, description,
-         * use-cases, accessibility, dos-and-donts — leaving the controls row, the
-         * live preview and the `Tokens consumidos` table. Without it the first
-         * screenful of a 640px card is a docs header, so the brand picker and the
-         * token table both sit below a fold a cross-origin frame cannot be scrolled
-         * past from here. See EmbedService in the Coherence repo.
-         *
-         * Both the route and the param are live as of 2026-08-26 — verified
-         * against the deployment: without `?embed=1` the frame opens on
-         * "Components/Segmented Control" and its description, with it the first
-         * thing in the frame is the Marca picker. The note that used to sit here
-         * saying the build was behind main is no longer true; it has caught up.
-         */
-        iframe:
-          "https://coherence-wealth-manager.vercel.app/componentes/segmented-control?embed=1",
-        span: "full",
-        details: {
-          heading: {
-            en: "Components on their own",
-            es: "Componentes por separado",
+        navLabel: { en: "Context", es: "Contexto" },
+        body: [
+          {
+            en: "Afi is a financial consultancy that grew its digital team as an engineering team. It hired forty programmers for math and computer science, and had no dedicated designers until 2021.",
+            // TODO(afi-redaccion)
+            es: "Afi es una consultora financiera que hizo crecer su equipo digital como equipo de ingeniería. Contrató a cuarenta programadores por su perfil de matemáticas e informática y no tuvo diseñadores dedicados hasta 2021.",
           },
-          sections: [
-            {
-              body: {
-                en: "Programmers have different permissions to Figma, so handoffs were inconsistent because they saw different things. They also wouldn't use the components in Figma, just the flows, but then would ask me component-specific questions. It was because we didn't have time to properly document the Figma for them.",
-                es: "Los programadores tienen permisos distintos en Figma, así que las entregas eran inconsistentes porque cada uno veía cosas distintas. Tampoco usaban los componentes de Figma, solo los flujos, pero luego me hacían preguntas específicas de componentes. Era porque no habíamos tenido tiempo de documentarles bien el Figma.",
-              },
-            },
-            {
-              body: {
-                en: "Now I made the component playground to look at states, interactions, tokens in an isolated place.",
-                es: "Ahora he montado el playground de componentes para ver estados, interacciones y tokens en un sitio aislado.",
-              },
-            },
-          ],
-        },
-      },
-      /**
-       * Token architecture and white-label were two cards until 2026-08-25. They
-       * read as one: the tokens are tiered the way they are so that a brand swap
-       * happens in a single layer, and the white-label card's argument depends on
-       * the architecture the other card described. Merged, the four beats run in
-       * order — how the Figmas used to be made, what we built instead, what that
-       * buys, and where it still falls short. The `palette` animation comes from
-       * the white-label half; `layers`, the token half's, is now unused here.
-       */
-      {
-        label: {
-          en: "Token Architecture & White-label",
-          es: "Arquitectura de tokens y white-label",
-        },
-        sublabel: {
-          en: "Changing a client's brand meant editing colors across twenty files by hand. The values sit in three tiers now, primitive, semantic and component, so a new brand is a token swap and the components never change.",
-          es: "Cambiar la marca de un cliente significaba editar los colores en veinte archivos a mano. Ahora los valores están en tres niveles, primitivo, semántico y componente, así que una marca nueva es un cambio de tokens y los componentes no se tocan.",
-        },
-        details: {
-          heading: {
-            en: "Own the tokens, don't skin someone else's",
-            es: "Tokens propios, no el skin de otro",
+          {
+            en: "Figmas were made one at a time. Designers were always rushed, so there was never time to define anything or build components. The workflow that came out of it was slow for everyone.",
+            // TODO(afi-redaccion)
+            es: "Los Figmas se hacían de uno en uno. A los diseñadores siempre se les metía prisa, así que nunca hubo tiempo de definir nada ni de construir componentes, y el flujo de trabajo que salió de ahí era lento para todos.",
           },
-          sections: [
-            {
-              body: {
-                en: "Figmas were made one at a time. Designers were always being rushed, so there was never time to define anything or build components, and the workflow that came out of it was inefficient for everyone.",
-                es: "Los Figmas se hacían de uno en uno. A los diseñadores siempre se les metía prisa, así que nunca hubo tiempo de definir nada ni de construir componentes, y el flujo de trabajo que salió de ahí era ineficiente para todos.",
-              },
+        ],
+        media: [
+          {
+            kind: "embed",
+            src: "/work/afi-design-system/demo/PF-Sistema.html",
+            title: {
+              en: "A simulation form, a figure and status badges, all live",
+              es: "Un formulario de simulación, una cifra y etiquetas de estado, todo en vivo",
             },
-            {
-              body: {
-                en: (
-                  <>
-                    We started on PrimeNG but with the white-label objective it
-                    became too many layers to build without a headache. So we
-                    built a{" "}
-                    <IntroPreviewLink slug="color-methodology" newTab>
-                      color token strategy
-                    </IntroPreviewLink>
-                    .
-                  </>
-                ),
-                es: (
-                  <>
-                    Empezamos con PrimeNG, pero con el objetivo white-label eran
-                    demasiadas capas para construirlo sin dolores de cabeza. Así
-                    que construimos una{" "}
-                    <IntroPreviewLink slug="color-methodology" newTab>
-                      estrategia de tokens de color
-                    </IntroPreviewLink>
-                    .
-                  </>
-                ),
-              },
-            },
-            {
-              body: {
-                en: "Swapping tokens is good for quick changes when a concept has to go out to a client, but the patterns and the visual essence get lost.",
-                es: "Cambiar tokens sirve para cambios rápidos cuando un concepto tiene que salir a cliente, pero los patrones y la esencia visual se pierden.",
-              },
-            },
-            {
-              body: {
-                en: "We're working with some of our clients now on a more cohesive white-labeling in code.",
-                es: "Ahora trabajamos con algunos clientes en un white-label más coherente en código.",
-              },
-            },
-          ],
-        },
-        animation: "palette",
+            width: 760,
+            height: 404,
+          },
+        ],
       },
       {
-        label: {
-          en: "Documentation & Downloadable Brand Assets",
-          es: "Documentación y recursos de marca descargables",
+        kicker: { en: "The problem", es: "El problema" },
+        heading: {
+          en: "Everyone saw a different Figma.",
+          // TODO(afi-redaccion)
+          es: "Cada uno veía un Figma distinto.",
         },
-        sublabel: {
-          en: "Documented, with the brand assets and token sets downloadable. Five teams and one designer means the answer has to sit somewhere they can reach without me.",
-          es: "Documentado, con los recursos de marca y los sets de tokens descargables. Cinco equipos y un diseñador obligan a que la respuesta esté en algún sitio al que lleguen sin mí.",
-        },
-        // `nodes` — the one-repo-everyone-reads-from animation, which came free when
-        // the Unified Design Platform card was cut. It's the better fit: this card is
-        // about one shared source reaching every team, which is what that figure draws.
-        // `asset-portal` was a download tray, and drew the mechanism rather than the point.
-        animation: "nodes",
-        // The one row of two on this page: the two drawn figures sit together,
-        // and the three cards carrying real footage — the live playground above,
-        // the two recordings below — each take a full row so the app inside them
-        // is big enough to follow. Nothing is `wide`: two wide cards stack
-        // instead of sitting next to each other.
-        details: {
-          heading: {
-            en: "One designer, forty programmers, five teams",
-            es: "Un diseñador, cuarenta programadores, cinco equipos",
+        navLabel: { en: "The problem", es: "El problema" },
+        body: [
+          {
+            en: "Programmers have different permissions in Figma, so handoffs were inconsistent because they saw different things. They used the flows, not the components, and then asked me component questions.",
+            // TODO(afi-redaccion)
+            es: "Los programadores tienen permisos distintos en Figma, así que las entregas eran inconsistentes porque cada uno veía cosas distintas. Usaban los flujos, no los componentes, y luego me hacían preguntas de componentes.",
           },
-          // Richard's own beats, verbatim. No section labels: this is how he writes
-          // it, and the four-heading frame is what invited invented filler. His
-          // 2026-08-06 rewrite of the closing paragraph absorbed the old standalone
-          // "Documented everything..." beat word for word, so that beat went — its
-          // sentence now lives inside the closer.
-          sections: [
-            {
-              body: {
-                en: "A designer makes a million decisions across a project, big and small. As the only full-time designer, my attention splits across forty programmers, so insights land with one team and never reach the others, and in a preference-first culture that means defending the same call repeatedly.",
-                es: "Un diseñador toma un millón de decisiones a lo largo de un proyecto, grandes y pequeñas. Como único diseñador a tiempo completo, mi atención se reparte entre cuarenta programadores, así que un hallazgo se queda en un equipo y no llega al resto, y en una cultura donde manda la preferencia eso significa defender la misma decisión una y otra vez.",
-              },
+          {
+            en: "As the only full-time designer, my attention splits across forty programmers. An insight lands with one team and never reaches the others, so the same call gets defended again and again.",
+            // TODO(afi-redaccion)
+            es: "Como único diseñador a tiempo completo, mi atención se reparte entre cuarenta programadores. Un hallazgo se queda en un equipo y no llega al resto, así que la misma decisión se defiende una y otra vez.",
+          },
+        ],
+        media: [
+          {
+            kind: "embed",
+            src: "/work/afi-design-system/demo/PF-Lugares.html",
+            title: {
+              en: "Where the answers lived, in Figma by permission, the flows and the designer",
+              es: "Dónde estaban las respuestas, en Figma según el permiso, los flujos y el diseñador",
             },
-            {
-              body: {
-                en: "A shared design language only exists if everyone has the same access to it. So, I documented everything and made assets like token sets and skills downloadable.",
-                es: "Un lenguaje de diseño compartido solo existe si todo el mundo tiene el mismo acceso a él. Así que lo documenté todo e hice descargables recursos como los sets de tokens y las skills.",
-              },
-            },
-          ],
-        },
+            width: 880,
+            height: 273,
+          },
+        ],
       },
       {
-        label: {
-          en: "Designer Feedback Tool",
-          es: "Herramienta de feedback de diseño",
+        kicker: { en: "The question", es: "La pregunta" },
+        heading: {
+          en: "What if the system answered instead of me?",
+          // TODO(afi-redaccion)
+          es: "¿Y si respondiera el sistema en vez de yo?",
         },
-        sublabel: {
-          en: "Feedback arrived in chat threads and I couldn't tell which screen or component it was about. Now anyone can click the element and comment on it, and I export those comments as a file to work from.",
-          es: "El feedback llegaba en hilos de chat y yo no sabía de qué pantalla o componente hablaba. Ahora cualquiera puede hacer clic en el elemento y comentarlo, y yo exporto esos comentarios a un archivo con el que trabajar.",
-        },
-        details: {
-          heading: {
-            en: "Where feedback finally has somewhere to land",
-            es: "Donde el feedback por fin tiene un lugar al que llegar",
+        navLabel: { en: "The question", es: "La pregunta" },
+        body: [
+          {
+            en: "A shared design language only exists if everyone has the same access to it. So the answers had to live somewhere the team could reach without me.",
+            // TODO(afi-redaccion)
+            es: "Un lenguaje de diseño compartido solo existe si todo el mundo tiene el mismo acceso a él. Así que las respuestas tenían que estar en algún sitio al que el equipo llegara sin mí.",
           },
-          // Quote convention: English quotes get italics + double quotes; Spanish
-          // keeps «guillemets», no italics.
-          sections: [
-            {
-              body: {
-                en: (
-                  <>
-                    When showing the team the first version the feedback was:{" "}
-                    <em>&ldquo;How do we give you feedback?&rdquo;</em> They
-                    mentioned they liked Figma because of how they can stay up
-                    to date with comments.
-                  </>
-                ),
-                es: (
-                  <>
-                    Al enseñar al equipo la primera versión, el feedback fue:
-                    «¿Cómo te damos feedback?». Comentaron que les gustaba Figma
-                    porque les permite estar al día con los comentarios.
-                  </>
-                ),
-              },
+          {
+            en: "So I made one page per component, with every state and the tokens it uses.",
+            // TODO(afi-redaccion)
+            es: "Así que hice una página por componente, con todos sus estados y los tokens que usa.",
+          },
+        ],
+        media: [
+          {
+            kind: "embed",
+            src: "/work/afi-design-system/demo/PF-Pagina.html",
+            title: {
+              en: "The live segmented control and the tokens it consumes, on one component page",
+              es: "El segmented control en vivo y los tokens que consume, en una página de componente",
             },
-            {
-              body: {
-                en: "Now the user can pin a specific component or element and leave a comment. Once the comment lands I can generate an MD file for the changes. We make the iteration and document it in our change log.",
-                es: "Ahora el usuario puede fijar un componente o elemento concreto y dejar un comentario. Cuando llega el comentario, genero un archivo MD con los cambios. Hacemos la iteración y la documentamos en nuestro registro de cambios.",
-              },
-            },
-          ],
-          // The recording stops when the comment lands. This is the rest of the trip.
-          diagram: "feedback-round-trip",
-        },
-        // Captured from the demo shell on 2026-08-25, on Familia: comment mode
-        // on, click the `Residencia fiscal` select, type, publish, hold on the
-        // comment landing in the rail with the selector it pinned to and the .md
-        // export beside it.
-        //
-        // Recorded with the panel docked right. `PanelMode` defaults to
-        // `floating`, which puts the comments panel in a box over the top-left of
-        // the canvas; the shell remembers the choice in localStorage, so the
-        // capture script sets `coherence-demo-panel-mode` before the app boots.
-        // Docked, it reads as the same rail Inspección uses.
-        video: "/work/afi-design-system/handoff-comment.mp4",
-        // Full width, like the inspector below it. A screen recording in a
-        // half-width card is a thumbnail of an app — legible as a shape, not as
-        // a thing anyone can follow. Across the full row the composer, the
-        // selector it pinned to and the typed comment are all readable.
-        span: "full",
+            width: 560,
+            height: 419,
+          },
+        ],
       },
       {
-        label: {
-          en: "Token Inspector",
-          es: "Inspector de tokens",
+        kicker: { en: "Tokens", es: "Tokens" },
+        heading: {
+          en: "A new brand is one layer.",
+          // TODO(afi-redaccion)
+          es: "Una marca nueva es una sola capa.",
         },
-        sublabel: {
-          en: "In a user test I watched programmers skip the primitives and go straight for the raw value. So the inspector shows both, which means the set-up underneath stays best practice while what they read matches how they already work.",
-          es: "En un test con usuarios vi a los programadores saltarse los primitivos e ir directos al valor. Por eso el inspector enseña los dos: la base de debajo sigue siendo la buena práctica y lo que leen encaja con cómo trabajan ya.",
-        },
-        details: {
-          heading: {
-            en: "Designers and developers reading the same variable",
-            es: "Diseñadores y desarrolladores leyendo la misma variable",
+        navLabel: { en: "Tokens", es: "Tokens" },
+        body: [
+          {
+            en: "Changing a client's brand meant editing colors across twenty files by hand. We started on PrimeNG, but with the white-label goal it became too many layers to build without a headache.",
+            // TODO(afi-redaccion)
+            es: "Cambiar la marca de un cliente significaba editar los colores en veinte archivos a mano. Empezamos con PrimeNG, pero con el objetivo white-label eran demasiadas capas para construirlo sin dolores de cabeza.",
           },
-          // Straight from the draft, and nothing beyond it. The previous version opened
-          // with developers "eyeballing colors from screenshots and approximating
-          // spacing" — Richard never said that, and it was there to fill a heading.
-          sections: [
-            {
-              body: {
-                en: (
-                  <>
-                    Programmers don&rsquo;t use primitives. They say color-main
-                    and the hex. A mid/senior teammate, looking at the
-                    inspector:{" "}
-                    <em>
-                      &ldquo;We know we are doing it wrong but the team
-                      won&rsquo;t change.&rdquo;
-                    </em>
-                  </>
-                ),
-                es: "Los programadores no usan primitivos. Dicen color-main y el hex. Un compañero mid/senior, mirando el inspector: «Sabemos que lo estamos haciendo mal, pero el equipo no va a cambiar».",
-              },
+        ],
+        switch: [
+          {
+            label: { en: "Three tiers", es: "Tres niveles" },
+            heading: {
+              en: "Components read roles, not colors.",
+              // TODO(afi-redaccion)
+              es: "Los componentes leen funciones, no colores.",
             },
-            {
-              body: {
-                en: "So the inspector answers in their vocabulary, not mine. In Figma the team has different permissions, so some people had more features than others. Here everyone sees the same thing, which evens the playing field.",
-                es: "Así que el inspector responde en su vocabulario, no en el mío. En Figma el equipo tiene permisos distintos, así que unos tenían más funciones que otros. Aquí todo el mundo ve lo mismo, y eso pone a todos al mismo nivel.",
+            body: [
+              {
+                en: "A primitive names the color. A semantic token says what it's for, and the component only ever reads the semantic one.",
+                // TODO(afi-redaccion)
+                es: "Un primitivo pone nombre al color. Un token semántico dice para qué sirve, y el componente solo lee el semántico.",
               },
+              {
+                en: "So a brand swap happens in the primitives, and nothing above them has to change.",
+                // TODO(afi-redaccion)
+                es: "Así, un cambio de marca ocurre en los primitivos y nada por encima tiene que cambiar.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/afi-design-system/demo/PF-Niveles.html",
+                title: {
+                  en: "The primary button's color traced from primitive to semantic token to component",
+                  es: "El color del botón principal, del primitivo al token semántico y al componente",
+                },
+                width: 820,
+                height: 312,
+              },
+            ],
+          },
+          {
+            label: { en: "Two brands", es: "Dos marcas" },
+            heading: {
+              en: "Only the token files change.",
+              // TODO(afi-redaccion)
+              es: "Solo cambian los archivos de tokens.",
             },
-          ],
+            body: [
+              {
+                en: "On the left is the neutral white-label skin. On the right is Afi, with the same components.",
+                // TODO(afi-redaccion)
+                es: "A la izquierda, la piel white-label neutra. A la derecha, Afi, con los mismos componentes.",
+              },
+              {
+                en: "Both are live. Try the controls in either one.",
+                // TODO(afi-redaccion)
+                es: "Las dos están en vivo. Prueba los controles en cualquiera.",
+              },
+            ],
+            media: [
+              {
+                kind: "composition",
+                title: {
+                  en: "The same simulation card in the neutral white-label skin and in the Afi skin",
+                  es: "La misma tarjeta de simulación con la piel white-label neutra y con la piel de Afi",
+                },
+                items: [
+                  {
+                    src: "/work/afi-design-system/demo/PF-Marca-Neutral.html",
+                    rect: { x: 20, y: 20, w: 380, h: 341 },
+                    viewport: { w: 420, h: 381 },
+                    x: 26,
+                    y: 50,
+                    w: 45,
+                    flat: true,
+                    interactive: true,
+                    label: { en: "White-label", es: "White-label" },
+                  },
+                  {
+                    src: "/work/afi-design-system/demo/PF-Marca.html",
+                    rect: { x: 20, y: 20, w: 380, h: 341 },
+                    viewport: { w: 420, h: 381 },
+                    x: 74,
+                    y: 50,
+                    w: 45,
+                    flat: true,
+                    interactive: true,
+                    label: { en: "Afi", es: "Afi" },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: { en: "Playground", es: "Playground" },
+        heading: {
+          en: "Every component, on its own page.",
+          // TODO(afi-redaccion)
+          es: "Cada componente, en su propia página.",
         },
-        // Shot on Familia rather than Patrimonio, and on components rather than
-        // on text. The inspector reads the exact node under the cursor, so
-        // clicking a figure returns the single type token that figure consumes
-        // and reads as though the tool only knows about fonts. The text input
-        // returns what a real control is made of — height, radius, transition,
-        // background, border, border width, type — and the tabs beside it return
-        // a different six, which is the point the card is making.
-        video: "/work/afi-design-system/token-inspector.mp4",
-        span: "full",
+        navLabel: { en: "Playground", es: "Playground" },
+        body: [
+          {
+            en: "Nobody rebuilds the same thing in Figma to check how it behaves. The token names on the page become the language the team uses for it.",
+            // TODO(afi-redaccion)
+            es: "Nadie vuelve a montar lo mismo en Figma para ver cómo se comporta. Los nombres de los tokens de esa página pasan a ser el lenguaje con el que el equipo habla de él.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "States", es: "Estados" },
+            heading: {
+              en: "Every state, side by side.",
+              // TODO(afi-redaccion)
+              es: "Todos los estados, uno al lado del otro.",
+            },
+            body: [
+              {
+                en: "The component questions that used to come to me now have a page each. Disabled, loading and error are all there, live.",
+                // TODO(afi-redaccion)
+                es: "Las preguntas de componentes que antes me llegaban a mí tienen ahora su página. Desactivado, cargando y error están todos ahí, en vivo.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/afi-design-system/demo/PF-Estados.html",
+                title: {
+                  en: "Buttons, fields, checkboxes and switches in every state",
+                  es: "Botones, campos, casillas e interruptores en todos sus estados",
+                },
+                width: 720,
+                height: 335,
+              },
+            ],
+          },
+          {
+            label: { en: "Inspector", es: "Inspector" },
+            heading: {
+              en: "The inspector answers in their vocabulary.",
+              // TODO(afi-redaccion)
+              es: "El inspector responde en su vocabulario.",
+            },
+            body: [
+              {
+                en: "In a user test I watched programmers skip the primitives and go straight for the raw value. So the inspector shows the token, the primitive behind it and the raw value they already work with.",
+                // TODO(afi-redaccion)
+                es: "En un test con usuarios vi a los programadores saltarse los primitivos e ir directos al valor. Así que el inspector enseña el token, el primitivo que hay detrás y el valor con el que ya trabajan.",
+              },
+              {
+                en: "In Figma some people had more features than others. Here everyone sees the same thing.",
+                // TODO(afi-redaccion)
+                es: "En Figma unos tenían más funciones que otros. Aquí todo el mundo ve lo mismo, y eso pone a todos al mismo nivel.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/afi-design-system/demo/PF-Inspector.html",
+                title: {
+                  en: "A field and the inspector listing each property's token, primitive and value",
+                  es: "Un campo y el inspector con el token, el primitivo y el valor de cada propiedad",
+                },
+                width: 940,
+                height: 396,
+              },
+            ],
+          },
+          {
+            label: { en: "Downloads", es: "Descargas" },
+            heading: {
+              en: "Anyone can download the tokens and skills.",
+              // TODO(afi-redaccion)
+              es: "Cualquiera puede descargar los tokens y las skills.",
+            },
+            body: [
+              {
+                en: "Five teams and one designer means the answer has to sit somewhere they can reach without me. So the token sets and the skills are downloadable.",
+                // TODO(afi-redaccion)
+                es: "Cinco equipos y un diseñador obligan a que la respuesta esté en algún sitio al que lleguen sin mí. Por eso los sets de tokens y las skills se pueden descargar.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/afi-design-system/demo/PF-Descargas.html",
+                title: {
+                  en: "Downloadable token sets and an AI skill",
+                  es: "Sets de tokens y una skill de IA descargables",
+                },
+                width: 500,
+                height: 291,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: { en: "Feedback", es: "Feedback" },
+        heading: {
+          en: "The team asked how to give feedback.",
+          // TODO(afi-redaccion)
+          es: "El equipo preguntó cómo dar feedback.",
+        },
+        navLabel: { en: "Feedback", es: "Feedback" },
+        body: [
+          {
+            en: "When I showed the team the first version, the feedback was “How do we give you feedback?” They liked Figma because comments keep everyone up to date.",
+            // TODO(afi-redaccion)
+            es: "Al enseñar al equipo la primera versión, el feedback fue «¿Cómo te damos feedback?». Les gustaba Figma porque los comentarios mantienen a todo el mundo al día.",
+          },
+          {
+            en: "Now anyone can pin a comment to a component or element. I export the comments as an MD file, we make the iteration, and it goes in our change log.",
+            // TODO(afi-redaccion)
+            es: "Ahora cualquiera puede fijar un comentario en un componente o elemento. Exporto los comentarios a un archivo MD, hacemos la iteración y la apuntamos en nuestro registro de cambios.",
+          },
+        ],
+        media: [
+          {
+            kind: "embed",
+            src: "/work/afi-design-system/demo/PF-Comentario.html",
+            title: {
+              en: "A comment pinned to a field, and the exported comments file",
+              es: "Un comentario fijado en un campo y el archivo de comentarios exportado",
+            },
+            width: 760,
+            height: 237,
+          },
+        ],
+      },
+      {
+        kicker: { en: "Result", es: "Resultado" },
+        heading: {
+          en: "The coded rollout is on pause.",
+          // TODO(afi-redaccion)
+          es: "El despliegue en código está en pausa.",
+        },
+        navLabel: { en: "Result", es: "Resultado" },
+        body: [
+          {
+            en: "It paused when the Modern UI work took priority. Swapping tokens is good for quick changes when a concept has to go out to a client, but the patterns and the visual essence get lost.",
+            // TODO(afi-redaccion)
+            es: "Se pausó cuando el trabajo de UI moderna pasó a ser prioritario. Cambiar tokens sirve para cambios rápidos cuando un concepto tiene que salir a cliente, pero los patrones y la esencia visual se pierden.",
+          },
+          {
+            en: "The primitives still get skipped. A mid-senior teammate said, looking at the inspector, “We know we are doing it wrong but the team won't change.” We're now working with some clients on a more cohesive white-label in code.",
+            // TODO(afi-redaccion)
+            es: "Los primitivos se siguen saltando. Un compañero mid/senior dijo, mirando el inspector: «Sabemos que lo estamos haciendo mal, pero el equipo no va a cambiar». Ahora trabajamos con algunos clientes en un white-label más coherente en código.",
+          },
+        ],
+        media: [
+          {
+            kind: "stats",
+            items: [
+              {
+                value: "1",
+                label: {
+                  en: "full-time designer",
+                  es: "diseñador a tiempo completo",
+                },
+              },
+              {
+                value: "40",
+                label: { en: "programmers", es: "programadores" },
+              },
+              { value: "5", label: { en: "teams", es: "equipos" } },
+              {
+                value: "3",
+                label: { en: "token tiers", es: "niveles de tokens" },
+              },
+            ],
+          },
+        ],
       },
     ],
   },
   "visual-identity": {
     tagline: {
-      en: "Redesigning a white-label wealth planner from the tokens up",
+      en: "We wrote down what modern meant before designing anything",
       // TODO(afi-redaccion)
-      es: "Rediseñar un wealth planner de marca blanca empezando por los tokens",
+      es: "Escribimos qué significaba moderno antes de diseñar nada",
     },
     intro: {
-      /**
-       * A context paragraph, not a summary of the project: what the product is,
-       * what was wrong, and what came out. The arc is the cards' job.
-       *
-       * Richard's wording. The last line names the deliverable, a token system
-       * and component library ahead of a design system migration, and the
-       * tagline, role and contributions all describe that same work.
-       */
-      en: "Afi's Wealth Planner runs white-label for Spanish banks. Its 2026 redesign arrived as a one-line brief: make it look more modern. The product was built from static Figma screens, and developers worked screen by screen. I'm leading the work with Miguel, a freelance designer working with us part-time. We created the token system and component library in preparation for a design system migration.",
+      en: "Wealth Planner is Afi's white-label simulator for Spanish banks, built from static Figma screens. Miguel, a freelance designer, and I built its token system and component library ahead of a design system migration.",
       // TODO(afi-redaccion)
-      es: "El Wealth Planner de Afi se ofrece en marca blanca a bancos españoles. Su rediseño de 2026 llegó como un encargo de una línea: que parezca más moderno. El producto estaba hecho de pantallas estáticas de Figma y los desarrolladores trabajaban pantalla a pantalla. Lidero el trabajo con Miguel, un diseñador freelance que colabora con nosotros a tiempo parcial. Creamos el sistema de tokens y la librería de componentes de cara a una migración de sistema de diseño.",
+      es: "Wealth Planner es el simulador de marca blanca de Afi para bancos españoles, hecho a partir de pantallas estáticas de Figma. Miguel, un diseñador freelance, y yo construimos su sistema de tokens y su librería de componentes de cara a una migración de sistema de diseño.",
     },
     role: {
-      en: "Design Lead",
+      en: "Design lead",
       // TODO(afi-redaccion)
       es: "Líder de diseño",
     },
@@ -718,308 +814,481 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         "Diseño de microinteracciones",
       ],
     },
-    // The workbench card below is 640px tall inside the page column, which is
-    // too tight to browse it. This opens the same page full-screen in a new tab.
+    bento: [],
+    layout: "beats",
+    // The workbench is the Coherence site's, opened full screen. The boards in the
+    // beats are rebuilt from the Afi apps components (public/work/visual-identity/demo/).
     demo: {
       href: "https://coherence-wealth-manager.vercel.app/workbench/actions/button?embed=1",
     },
-    /**
-     * The same shape afi-design-system uses: context, then a demo, then cards.
-     *
-     * Distilled from the long-form post on the Coherence site
-     * (coherence-wealth-manager.vercel.app/blog/identidad-visual), which tells
-     * the story in nine sections. Nothing here is new material: each card is one
-     * of that post's sections compressed to the beat a visitor needs at a
-     * glance, with the detail popup carrying the rest.
-     *
-     * Card order follows the work, not the writing: define the word, find the
-     * references, agree the rules, build the foundations, then what got made on top.
-     */
-    bento: [
-      /**
-       * The workbench, on its own, above everything else.
-       *
-       * The Vercel site builds from the GitHub mirror's `main`, not Azure. When
-       * this frame looks behind Coherence, the mirror needs a push.
-       *
-       * `?embed=1` strips the site's own nav so the frame doesn't open on
-       * somebody else's navigation; same param the Afi design system card uses.
-       *
-       * It opens on the Button page rather than the /workbench landing, so the
-       * first thing in the box is a live component, with the grouped side index
-       * one click away for the rest.
-       *
-       * No `details`. This card is the artefact, and a modal explaining a page
-       * you can already touch is a worse version of touching it.
-       */
+    closing: {
+      en: "Open the workbench and press a button.",
+      // TODO(afi-redaccion)
+      es: "Abre el workbench y pulsa un botón.",
+    },
+    story: [
       {
-        label: { en: "Component workbench", es: "Workbench de componentes" },
-        sublabel: {
-          en: "Each primitive component has its own page, grouped by what it does. Here we see every micro interaction on its own before building bigger patterns.",
+        kicker: { en: "Context", es: "Contexto" },
+        heading: {
+          en: "The brief was one line.",
           // TODO(afi-redaccion)
-          es: "Cada componente primitivo tiene su propia página, agrupada por función. Aquí vemos cada microinteracción por separado antes de construir patrones más grandes.",
+          es: "El encargo era una línea.",
         },
-        span: "full",
-        iframe:
-          "https://coherence-wealth-manager.vercel.app/workbench/actions/button?embed=1",
-      },
-      {
-        label: { en: "Defining modern", es: "Definir moderno" },
-        sublabel: {
-          en: "Desk research that turned “more modern” into a six-point checklist the redesign is reviewed against.",
-          // TODO(afi-redaccion)
-          es: "Investigación que convirtió «más moderno» en una lista de control de seis puntos con la que se revisa el rediseño.",
-        },
-        // The Modern UI in 2026 thumbnail — the kinetic-type clip for the very
-        // post this card links to, so the card face and the piece it points at
-        // are the same object. An abstract glyph for "we defined what modern
-        // means" kept coming out as a diagram about something else.
-        video: "/writing/modern-ui-2026",
-        details: {
-          heading: {
-            en: "Defining what modern means",
-            es: "Definir qué significa moderno",
-          },
-          sections: [
-            {
-              body: {
-                en: "The brief was one line: make it look more modern. My boss had no complaint about what the product did, only about how dated it looked. Without a shared definition of modern, every review turns into taste arguing with taste. In a product designed screen by screen, each person's version of the word could land on a different screen.",
-                // TODO(afi-redaccion)
-                es: "El encargo era de una línea: que parezca más moderno. A mi jefe no le molestaba lo que hacía el producto, solo lo anticuado que se veía. Sin una definición compartida de moderno, cada revisión se convierte en un gusto discutiendo con otro. En un producto diseñado pantalla a pantalla, la versión de cada persona podía acabar en una pantalla distinta.",
-              },
-            },
-            {
-              body: {
-                en: (
-                  <>
-                    Before opening Figma, I did the desk research and wrote it
-                    up as{" "}
-                    <IntroPreviewLink slug="modern-ui-2026" newTab>
-                      Modern UI in 2026
-                    </IntroPreviewLink>
-                    . It ends on six checks the redesign gets reviewed against:
-                    a shared design language, screens built around user intent,
-                    motion that explains state, neutral surfaces with color kept
-                    for meaning, semantic tokens an AI can build on, and
-                    interactions that stay transparent, consistent and
-                    responsive.
-                  </>
-                ),
-                // TODO(afi-redaccion)
-                es: (
-                  <>
-                    Antes de abrir Figma hice la investigación y la publiqué
-                    como{" "}
-                    <IntroPreviewLink slug="modern-ui-2026" newTab>
-                      UI moderno en 2026
-                    </IntroPreviewLink>
-                    . Termina en una lista de control de seis puntos con la que
-                    se revisa el rediseño: un lenguaje de diseño compartido,
-                    pantallas construidas en torno a la intención del usuario,
-                    movimiento que explica estados, superficies neutras con el
-                    color reservado para el significado, tokens semánticos sobre
-                    los que una IA puede construir, e interacciones con
-                    transparencia, consistencia y capacidad de respuesta.
-                  </>
-                ),
-              },
-            },
-            {
-              body: {
-                en: "Now a review tests a screen against the checklist instead of someone's taste. Color that decorates a card loses to color that marks a negative number, because the checklist keeps color for meaning.",
-                // TODO(afi-redaccion)
-                es: "Ahora una revisión contrasta una pantalla con la lista de control, no con el gusto de alguien. El color que decora una tarjeta pierde frente al que marca un número negativo, porque la lista reserva el color para el significado.",
-              },
-            },
-          ],
-        },
-      },
-      {
-        label: { en: "Moodboards", es: "Moodboards" },
-        sublabel: {
-          en: "Two boards built separately kept landing on Wise, Cursor, Shopify, Clerk, Notion and Granola, so those six set the direction.",
-          // TODO(afi-redaccion)
-          es: "Dos moodboards hechos por separado acababan en Wise, Cursor, Shopify, Clerk, Notion y Granola, así que esas seis marcaron la dirección.",
-        },
-        animation: "vi-moodboard",
-        details: {
-          heading: {
-            en: "Finding the visual direction",
-            es: "Encontrar la dirección visual",
-          },
-          sections: [
-            {
-              body: {
-                en: "A wide reference set gives you plenty to react to and no direction. And almost everything we liked was SaaS, built around a few common actions. Wealth Planner keeps adding options because it gets built to whatever a client needed that day, so no single product was going to fit it whole.",
-                // TODO(afi-redaccion)
-                es: "Un conjunto amplio de referencias da mucho material y ninguna dirección. Además, casi todo lo que nos gustaba era SaaS, construido en torno a unas pocas acciones comunes. El Wealth Planner no para de sumar opciones porque se construye según lo que un cliente necesitaba ese día, así que ningún producto iba a encajar entero.",
-              },
-            },
-            {
-              body: {
-                en: "So we collected by component, not by product. Miguel and I each built a board in Mobbin, separately: buttons, inputs, menus, cards, dialogs, sidebar and filters, three or four screens each. Going through both boards one component at a time, Miguel noticed we kept picking the same six apps. We took the repetition as the signal.",
-                // TODO(afi-redaccion)
-                es: "Así que recopilamos por componente, no por producto. Miguel y yo construimos cada uno un moodboard en Mobbin, por separado: botones, inputs, menús, tarjetas, diálogos, barra lateral y filtros, tres o cuatro pantallas por componente. Al recorrer los dos componente a componente, Miguel se dio cuenta de que elegíamos siempre las mismas seis aplicaciones. Tomamos esa repetición como la señal.",
-              },
-            },
-            {
-              body: {
-                en: "The session gave us directions, not designs: buttons compact like Cursor's, menus like Clerk's with options only and no icons, Shopify for charts on cards. Wise, the only reference from our own domain, settled color: a financial interface can stay mostly black and white and spend color on the data.",
-                // TODO(afi-redaccion)
-                es: "La sesión nos dio direcciones, no diseños: botones compactos como los de Cursor, menús como los de Clerk, solo opciones y sin iconos, y Shopify para las gráficas sobre tarjetas. Wise, la única referencia de nuestro sector, resolvió el color: una interfaz financiera puede ser casi toda blanco y negro y gastar el color en los datos.",
-              },
-            },
-          ],
-        },
-      },
-      {
-        label: { en: "Nine principles", es: "Nueve principios" },
-        sublabel: {
-          en: "The patterns we kept picking, written down as nine principles, so the same question gets one answer on every screen.",
-          // TODO(afi-redaccion)
-          es: "Los patrones que elegíamos una y otra vez, escritos como nueve principios, para que la misma pregunta tenga una sola respuesta en cada pantalla.",
-        },
-        animation: "vi-nine-principles",
-        details: {
-          heading: {
-            en: "Nine decisions the team can reuse",
-            es: "Nueve decisiones que el equipo puede reutilizar",
-          },
-          sections: [
-            {
-              body: {
-                en: "A definition of modern tells you how the product should feel. It does not tell you whether editing opens a page or a drawer, or whether two controls that look alike can mean different things.",
-                es: "Una definición de moderno te dice qué sensación debe dar el producto. No te dice si editar abre una página o un panel lateral, ni si dos controles que se parecen pueden significar cosas distintas.",
-              },
-            },
-            {
-              body: {
-                en: "We tied the patterns we kept picking back to the research and wrote them down as nine principles. Among them: information density without visual density, progressive disclosure, consistency above novelty, and context over pages, so an edit happens in a drawer, inline or in an expandable card instead of on a new page. A second list names four things to avoid, starting with Material Design, whose opinions we had spent our time working around.",
-                // TODO(afi-redaccion)
-                es: "Conectamos los patrones que elegíamos una y otra vez con la investigación y los escribimos como nueve principios. Entre ellos: densidad de información sin densidad visual, revelado progresivo, consistencia por encima de novedad y contexto por encima de páginas, para que una edición ocurra en un panel lateral, en línea o en una tarjeta desplegable y no en otra página. Una segunda lista recoge cuatro cosas que evitar, empezando por Material Design, cuyas opiniones nos habíamos pasado el tiempo sorteando.",
-              },
-            },
-            {
-              body: {
-                en: "The rules that earn their place are about roles: one component, one meaning. Page navigation is tabs; mutually exclusive options are a segmented control. An add-on tag and a beta tag describe what you're looking at, but a pro tag is selling you something, so it can't look like them. That fixed the problem we kept hitting: one component appearing twice on a page, meaning two things.",
-                // TODO(afi-redaccion)
-                es: "Las reglas que se ganan el sitio son las de roles: un componente, un significado. La navegación de página son pestañas; las opciones excluyentes son un control segmentado. Una etiqueta de add-on y una de beta describen lo que estás viendo, pero una de pro te está vendiendo algo, así que no puede parecerse a ellas. Eso resolvió lo que nos pasaba una y otra vez: un mismo componente que aparece dos veces en una página con dos significados.",
-              },
-            },
-          ],
-        },
-      },
-      {
-        label: { en: "Foundations", es: "Fundamentos" },
-        sublabel: {
-          en: "Tokens named by role, and a typeface that keeps 0000 and 4444 the same width so columns line up.",
-          // TODO(afi-redaccion)
-          es: "Tokens nombrados por su papel y una tipografía que mantiene 0000 y 4444 al mismo ancho para que las columnas se alineen.",
-        },
-        animation: "vi-type-test",
-        details: {
-          heading: {
-            en: "Decisions that carry across screens",
-            es: "Decisiones que se mantienen entre pantallas",
-          },
-          sections: [
-            {
-              body: {
-                en: "Screen-by-screen design leaves the foundations open. A color gets picked for one screen with nobody naming the job it does elsewhere. Typography is worse in a financial product: when 0000 and 4444 take up different widths, columns stop lining up.",
-                es: "Diseñar pantalla a pantalla deja las bases abiertas. Se elige un color para una pantalla sin que nadie diga qué papel cumple en el resto. La tipografía es peor en un producto financiero: cuando 0000 y 4444 ocupan anchos distintos, las columnas dejan de alinearse.",
-              },
-            },
-            {
-              body: {
-                en: "We set up the primitive and semantic tokens in black and white and named each by its role, background canvas or background elevated, before picking a single color. Spacing got the same treatment, like nav-to-content and canvas padding, and no corner is rounder than 6px. For type, we ran Space Grotesk, Fira Sans, Geist and IBM Plex Sans through the same number patterns.",
-                // TODO(afi-redaccion)
-                es: "Montamos los tokens primitivos y semánticos en blanco y negro y nombramos cada uno por su papel, background canvas o background elevated, antes de elegir un solo color. El espaciado recibió el mismo trato, como la distancia de la navegación al contenido o el padding del lienzo, y ninguna esquina pasa de 6 px de radio. En tipografía, pasamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans por los mismos patrones de cifras.",
-              },
-            },
-            {
-              body: {
-                en: "A screen asks for a canvas, not a hex value, so the palette can change later without renaming anything. Space Grotesk, Fira Sans and Geist drifted; IBM Plex Sans held, so it became the type family. The test used each font's default figures, which is what a screen gets unless someone turns on tabular numerals. Shadows and dimensions are the next two passes.",
-                // TODO(afi-redaccion)
-                es: "Una pantalla pide un canvas, no un hexadecimal, así que la paleta puede cambiar después sin renombrar nada. Space Grotesk, Fira Sans y Geist variaban; IBM Plex Sans se mantuvo, así que se convirtió en la familia tipográfica. La prueba usó las cifras por defecto de cada fuente, que es lo que recibe una pantalla si nadie activa los numerales tabulares. Las sombras y las dimensiones son las dos pasadas siguientes.",
-              },
-            },
-          ],
-        },
-      },
-      {
-        label: { en: "Components", es: "Componentes" },
-        sublabel: {
-          en: "Primitives built in code first, then rebuilt in Figma by AI on the same variables, so both stay in sync.",
-          // TODO(afi-redaccion)
-          es: "Primitivos hechos primero en código y llevados a Figma por la IA con las mismas variables, para que Figma y el código no se separen.",
-        },
-        animation: "vi-components",
-        details: {
-          heading: {
-            en: "Components in code, documentation in Figma",
+        navLabel: { en: "Context", es: "Contexto" },
+        body: [
+          {
+            en: "Make Wealth Planner look more modern. The product worked. It just looked dated.",
             // TODO(afi-redaccion)
-            es: "Componentes en código, documentación en Figma",
+            es: "Que Wealth Planner parezca más moderno. El producto funcionaba. Solo parecía anticuado.",
           },
-          sections: [
-            {
-              body: {
-                en: "Foundations do not give you an interface. Wealth Planner still needed buttons, inputs, tables and dialogs whose states behave the same everywhere, and building those inside each screen reopens every decision that just closed.",
-                es: "Las bases no te dan una interfaz. El Wealth Planner seguía necesitando botones, inputs, tablas y diálogos cuyos estados se comporten igual en todas partes, y construirlos dentro de cada pantalla reabre todas las decisiones que se acaban de cerrar.",
-              },
-            },
-            {
-              body: {
-                en: "We split the primitives: chip, badge, card and table for me; tag, dialog, navbar and tabs for Miguel. Buttons, inputs, checkboxes and toggles we built together first, to agree on one workflow. Each component starts in code, from the moodboard. An AI agent then builds it in Figma with the correct variables, adds any that are missing and drafts the documentation. We adjust it, then build it into the Afi library through the Figma MCP.",
-                // TODO(afi-redaccion)
-                es: "Nos repartimos los primitivos: chip, badge, tarjeta y tabla para mí; tag, diálogo, barra de navegación y pestañas para Miguel. Botones, inputs, checkboxes y toggles los hicimos juntos primero, para acordar un solo flujo de trabajo. Cada componente empieza en código, a partir del moodboard. Después un agente de IA lo construye en Figma con las variables correctas, crea las que falten y redacta la documentación. Lo ajustamos y lo llevamos a la librería de Afi con el MCP de Figma.",
-              },
-            },
-            {
-              body: {
-                en: "Two skills keep the library consistent. /ds-cleanup audits a component or page, flags where it drifts from the system and fixes it on a second prompt. /ship commits and pushes, then hands back a Figma prompt for any variable that changed, so Figma and code don't drift apart. The workbench at the top of this page is where the team reviews each component on its own.",
-                // TODO(afi-redaccion)
-                es: "Dos skills mantienen la librería coherente. /ds-cleanup audita un componente o una página, señala dónde se desvía del sistema y lo corrige con un segundo prompt. /ship hace commit y push, y devuelve un prompt de Figma con cada variable que cambió, para que Figma y el código no se separen. El workbench del principio de esta página es donde el equipo revisa cada componente por separado.",
-              },
-            },
-          ],
-        },
+          {
+            en: "The product was built from static Figma screens. Developers worked screen by screen, and nobody had written down what modern meant.",
+            // TODO(afi-redaccion)
+            es: "El producto estaba hecho de pantallas estáticas de Figma. Los desarrolladores trabajaban pantalla a pantalla, y nadie había escrito qué significaba moderno.",
+          },
+        ],
       },
       {
-        label: { en: "Micro-interactions", es: "Microinteracciones" },
-        sublabel: {
-          en: "Motion that explains state: a check that draws itself, a button that sinks when you press it.",
+        kicker: { en: "The problem", es: "El problema" },
+        heading: {
+          en: "Without a definition, every review is taste.",
           // TODO(afi-redaccion)
-          es: "Movimiento que explica estados: una marca que se dibuja sola y un botón que se hunde al pulsarlo.",
+          es: "Sin una definición, cada revisión es gusto.",
         },
-        animation: "vi-micro",
-        details: {
-          heading: {
-            en: "Defining how the product responds",
-            es: "Definir cómo responde el producto",
+        navLabel: { en: "The problem", es: "El problema" },
+        body: [
+          {
+            en: "Every review came down to whose taste won. In a product built screen by screen, each person's version of modern landed on a different screen.",
+            // TODO(afi-redaccion)
+            es: "Cada revisión acababa en qué gusto ganaba. En un producto hecho pantalla a pantalla, la versión de moderno de cada persona acababa en una pantalla distinta.",
           },
-          sections: [
-            {
-              body: {
-                en: "A component at rest does not tell you what happens when someone acts on it. Decide that inside each feature and the timing drifts even when the colors match. It matters more now: a generated interface arrives correct and generic, and small physical responses are one of the few things it does not hand you.",
-                es: "Un componente en reposo no te dice qué pasa cuando alguien actúa sobre él. Si eso se decide dentro de cada funcionalidad, los tiempos se desvían aunque los colores coincidan. Ahora importa más: una interfaz generada llega correcta y genérica, y las respuestas físicas pequeñas son de las pocas cosas que no te vienen dadas.",
-              },
+          {
+            en: "We kept hitting the same problem. One component showed up twice on a page, meaning two things.",
+            // TODO(afi-redaccion)
+            es: "Nos pasaba una y otra vez. Un mismo componente aparecía dos veces en una página con dos significados.",
+          },
+        ],
+        media: [
+          {
+            kind: "embed",
+            src: "/work/visual-identity/demo/PF-Dos.html",
+            title: {
+              en: "Tabs used for pages and for options, and a beta label drawn like a paid feature",
+              es: "Pestañas para páginas y para opciones, y una etiqueta beta igual que una función de pago",
             },
-            {
-              body: {
-                en: "We didn't invent most of the animations. We reverse-engineered the ones that inspired us, or took a React library like Magic UI or Animate UI, ported it to Angular and iterated. The press state came out of the moodboard session: the button sinks in, the way a physical one does.",
-                // TODO(afi-redaccion)
-                es: "La mayoría de las animaciones no las inventamos. Recreamos por ingeniería inversa las que nos inspiraban, o cogimos una librería de React como Magic UI o Animate UI, la portamos a Angular e iteramos. El estado de pulsado salió de la sesión de moodboards: el botón se hunde, como uno físico.",
-              },
-            },
-            {
-              body: {
-                en: "A checkbox draws its check, a radio fills, a toggle flips, and a send button runs from send to sending to sent. They're rules, not decoration, so a larger pattern reuses the response instead of inventing its own.",
-                // TODO(afi-redaccion)
-                es: "Un checkbox dibuja su marca, un radio se rellena, un toggle gira y un botón de enviar recorre enviar, enviando y enviado. Son reglas, no decoración, así que un patrón mayor reutiliza la respuesta en vez de inventarse otra.",
-              },
-            },
-          ],
+            width: 460,
+            height: 374,
+          },
+        ],
+      },
+      {
+        kicker: { en: "The question", es: "La pregunta" },
+        heading: {
+          en: "What does modern mean in 2026?",
+          // TODO(afi-redaccion)
+          es: "¿Qué significa moderno en 2026?",
         },
+        navLabel: { en: "The question", es: "La pregunta" },
+        body: [
+          {
+            en: "Before opening Figma, I did the desk research and wrote it up as Modern UI in 2026. It ends on six checks the redesign gets reviewed against.",
+            // TODO(afi-redaccion)
+            es: "Antes de abrir Figma hice la investigación y la publiqué como UI moderno en 2026. Termina en seis puntos con los que se revisa el rediseño.",
+          },
+          {
+            en: "Now a review tests a screen against the list instead of someone's taste. Decorative color on a card gets cut. Color on a negative number stays.",
+            // TODO(afi-redaccion)
+            es: "Ahora una revisión comprueba la pantalla contra la lista y no contra el gusto de alguien. El color decorativo de una tarjeta se quita. El color de un número negativo se queda.",
+          },
+        ],
+        media: [
+          {
+            kind: "embed",
+            src: "/work/visual-identity/demo/PF-Lista.html",
+            title: {
+              en: "The six checks every screen is reviewed against",
+              es: "Los seis puntos con los que se revisa cada pantalla",
+            },
+            width: 460,
+            height: 333,
+          },
+        ],
+      },
+      {
+        kicker: { en: "References", es: "Referencias" },
+        heading: {
+          en: "Miguel noticed we kept picking the same apps.",
+          // TODO(afi-redaccion)
+          es: "Miguel se dio cuenta de que elegíamos las mismas apps.",
+        },
+        navLabel: { en: "References", es: "Referencias" },
+        body: [
+          {
+            en: "Miguel and I each built a board in Mobbin, separately, by component: buttons, inputs, menus, cards and dialogs. Going through both, he noticed we kept landing on Wise, Cursor, Shopify, Clerk, Notion and Granola.",
+            // TODO(afi-redaccion)
+            es: "Miguel y yo hicimos cada uno un tablero en Mobbin, por separado y por componente: botones, inputs, menús, tarjetas y diálogos. Al repasar los dos, vio que siempre acabábamos en Wise, Cursor, Shopify, Clerk, Notion y Granola.",
+          },
+          {
+            en: "We took the repetition as the signal. Wise, the only reference from our own domain, settled color. A financial interface can stay mostly black and white and spend color on the data.",
+            // TODO(afi-redaccion)
+            es: "Tomamos la repetición como la señal. Wise, la única referencia de nuestro sector, resolvió el color. Una interfaz financiera puede ser casi toda blanco y negro y gastar el color en los datos.",
+          },
+        ],
+        media: [
+          {
+            kind: "composition",
+            title: {
+              en: "Screens from the moodboard, one per app",
+              es: "Pantallas del moodboard, una por app",
+            },
+            items: [
+              {
+                image: "/assets/work/visual-identity/moodboard/moodboard-6.jpg",
+                imageRatio: 0.69,
+                x: 18,
+                y: 22,
+                w: 30,
+                radius: 24,
+                sourceW: 1440,
+                label: { en: "Wise", es: "Wise" },
+              },
+              {
+                image:
+                  "/assets/work/visual-identity/moodboard/moodboard-87.jpg",
+                imageRatio: 0.69,
+                x: 50,
+                y: 22,
+                w: 30,
+                radius: 24,
+                sourceW: 1440,
+                label: { en: "Cursor", es: "Cursor" },
+              },
+              {
+                image:
+                  "/assets/work/visual-identity/moodboard/moodboard-33.jpg",
+                imageRatio: 0.69,
+                x: 82,
+                y: 22,
+                w: 30,
+                radius: 24,
+                sourceW: 1440,
+                label: { en: "Shopify", es: "Shopify" },
+              },
+              {
+                image:
+                  "/assets/work/visual-identity/moodboard/moodboard-20.jpg",
+                imageRatio: 0.69,
+                x: 34,
+                y: 64,
+                w: 30,
+                radius: 24,
+                sourceW: 1440,
+                label: { en: "Clerk", es: "Clerk" },
+              },
+              {
+                image:
+                  "/assets/work/visual-identity/moodboard/moodboard-17.jpg",
+                imageRatio: 0.69,
+                x: 66,
+                y: 64,
+                w: 30,
+                radius: 24,
+                sourceW: 1440,
+                label: { en: "Notion", es: "Notion" },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: { en: "Rules", es: "Reglas" },
+        heading: {
+          en: "One component, one meaning.",
+          // TODO(afi-redaccion)
+          es: "Un componente, un significado.",
+        },
+        navLabel: { en: "Rules", es: "Reglas" },
+        body: [
+          {
+            en: "We tied the patterns we kept picking back to the research and wrote them down as nine principles. A second list names four things to avoid, starting with Material Design.",
+            // TODO(afi-redaccion)
+            es: "Relacionamos los patrones que elegíamos con la investigación y los escribimos como nueve principios. Una segunda lista nombra cuatro cosas que evitar, empezando por Material Design.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "Principles", es: "Principios" },
+            heading: {
+              en: "Nine principles the team can reuse.",
+              // TODO(afi-redaccion)
+              es: "Nueve principios que el equipo puede reutilizar.",
+            },
+            body: [
+              {
+                en: "A definition of modern tells you how the product should feel. It doesn't tell you whether editing opens a page or a drawer.",
+                // TODO(afi-redaccion)
+                es: "Una definición de moderno dice cómo debe sentirse el producto. No dice si editar abre una página o un panel.",
+              },
+              {
+                en: "The principles do. Context over pages means an edit happens in a drawer, inline or in an expandable card.",
+                // TODO(afi-redaccion)
+                es: "Los principios sí. Contexto antes que páginas significa que se edita en un panel, en línea o en una tarjeta desplegable.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/visual-identity/demo/PF-Principios.html",
+                title: {
+                  en: "Four of the nine principles, and Material Design on the avoid list",
+                  es: "Cuatro de los nueve principios, y Material Design en la lista de lo que evitar",
+                },
+                width: 460,
+                height: 433,
+              },
+            ],
+          },
+          {
+            label: { en: "Roles", es: "Roles" },
+            heading: {
+              en: "The role picks the component.",
+              // TODO(afi-redaccion)
+              es: "El rol elige el componente.",
+            },
+            body: [
+              {
+                en: "Page navigation is tabs. Mutually exclusive options are a segmented control.",
+                // TODO(afi-redaccion)
+                es: "La navegación de página son pestañas. Las opciones excluyentes son un control segmentado.",
+              },
+              {
+                en: "An add-on tag and a beta tag describe what you're looking at. A pro tag is selling you something, so it can't look like them.",
+                // TODO(afi-redaccion)
+                es: "Una etiqueta de add-on y una de beta describen lo que estás viendo. Una de pro te está vendiendo algo, así que no puede parecerse a ellas.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/visual-identity/demo/PF-Uno.html",
+                title: {
+                  en: "Tabs for pages, a segmented control for options, and a sale that looks like a sale",
+                  es: "Pestañas para páginas, un control segmentado para opciones y una venta que parece una venta",
+                },
+                width: 460,
+                height: 365,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: { en: "Foundations", es: "Fundamentos" },
+        heading: {
+          en: "Name the job before the color.",
+          // TODO(afi-redaccion)
+          es: "Nombra la función antes que el color.",
+        },
+        navLabel: { en: "Foundations", es: "Fundamentos" },
+        body: [
+          {
+            en: "Screen-by-screen design leaves the foundations open. A color gets picked for one screen, and nobody names the job it does anywhere else.",
+            // TODO(afi-redaccion)
+            es: "Diseñar pantalla a pantalla deja los fundamentos abiertos. Se elige un color para una pantalla y nadie nombra la función que cumple en las demás.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "Tokens by role", es: "Tokens por rol" },
+            heading: {
+              en: "Black and white came first, named by role.",
+              // TODO(afi-redaccion)
+              es: "Primero blanco y negro, con nombre de rol.",
+            },
+            body: [
+              {
+                en: "We set up the primitive and semantic tokens in black and white before picking a single color. Each one is named by its role, like background canvas or background elevated.",
+                // TODO(afi-redaccion)
+                es: "Configuramos los tokens primitivos y semánticos en blanco y negro antes de elegir un solo color. Cada uno lleva el nombre de su rol, como fondo lienzo o fondo elevado.",
+              },
+              {
+                en: "A screen asks for a canvas, not a hex value. So the palette can change later without renaming anything.",
+                // TODO(afi-redaccion)
+                es: "Una pantalla pide un lienzo, no un valor hexadecimal. Así la paleta puede cambiar más adelante sin renombrar nada.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/visual-identity/demo/PF-Roles.html",
+                title: {
+                  en: "Black and white tokens, each named by its role",
+                  es: "Tokens en blanco y negro, cada uno con el nombre de su rol",
+                },
+                width: 620,
+                height: 388,
+              },
+            ],
+          },
+          {
+            label: { en: "Type test", es: "Prueba tipográfica" },
+            heading: {
+              en: "IBM Plex Sans kept the columns straight.",
+              // TODO(afi-redaccion)
+              es: "IBM Plex Sans mantuvo las columnas rectas.",
+            },
+            body: [
+              {
+                en: "When 0000 and 4444 take up different widths, columns of figures stop lining up. We ran Space Grotesk, Fira Sans, Geist and IBM Plex Sans through the same number patterns.",
+                // TODO(afi-redaccion)
+                es: "Cuando 0000 y 4444 ocupan anchos distintos, las columnas de cifras dejan de alinearse. Pasamos Space Grotesk, Fira Sans, Geist e IBM Plex Sans por los mismos patrones de números.",
+              },
+              {
+                en: "Three drifted and IBM Plex Sans held, so it became the type family. The board measures each font's default figures live.",
+                // TODO(afi-redaccion)
+                es: "Tres se desviaron e IBM Plex Sans aguantó, así que pasó a ser la familia tipográfica. El tablero mide en vivo las cifras por defecto de cada fuente.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/visual-identity/demo/PF-Tipos.html",
+                title: {
+                  en: "0000 and 4444 in four typefaces, with the width difference measured live",
+                  es: "0000 y 4444 en cuatro tipografías, con la diferencia de ancho medida en vivo",
+                },
+                width: 620,
+                height: 540,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: { en: "Components", es: "Componentes" },
+        heading: {
+          en: "Built in code, then mirrored in Figma.",
+          // TODO(afi-redaccion)
+          es: "Hechos en código y luego llevados a Figma.",
+        },
+        navLabel: { en: "Components", es: "Componentes" },
+        body: [
+          {
+            en: "Each component starts in code, from the moodboard. An AI agent then builds it in Figma with the right variables and drafts the documentation. We adjust it and add it to the Afi library through the Figma MCP.",
+            // TODO(afi-redaccion)
+            es: "Cada componente empieza en código, a partir del moodboard. Después un agente de IA lo construye en Figma con las variables correctas y redacta la documentación. Lo ajustamos y lo llevamos a la librería de Afi con el MCP de Figma.",
+          },
+        ],
+        switch: [
+          {
+            label: { en: "Primitives", es: "Primitivos" },
+            heading: {
+              en: "We split the primitives between us.",
+              // TODO(afi-redaccion)
+              es: "Nos repartimos los primitivos.",
+            },
+            body: [
+              {
+                en: "Chip, badge, card and table were mine. Tag, dialog, navbar and tabs were Miguel's. We built buttons, inputs, checkboxes and toggles together first, to agree on one workflow.",
+                // TODO(afi-redaccion)
+                es: "Chip, badge, tarjeta y tabla eran míos. Tag, diálogo, barra de navegación y pestañas, de Miguel. Botones, inputs, checkboxes y toggles los hicimos juntos primero, para acordar un solo flujo de trabajo.",
+              },
+              {
+                en: "Two skills check the library. /ds-cleanup audits a component and fixes where it drifts. /ship hands back a Figma prompt for any variable that changed, so Figma and code don't drift apart.",
+                // TODO(afi-redaccion)
+                es: "Dos skills revisan la librería. /ds-cleanup audita un componente y corrige donde se desvía. /ship devuelve un prompt de Figma para cada variable que cambió, para que Figma y el código no se separen.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/visual-identity/demo/PF-Primitivos.html",
+                title: {
+                  en: "The primitives each designer built, and the ones built together",
+                  es: "Los primitivos que hizo cada diseñador y los que hicimos juntos",
+                },
+                width: 900,
+                height: 305,
+              },
+            ],
+          },
+          {
+            label: { en: "Micro-interactions", es: "Microinteracciones" },
+            heading: {
+              en: "Motion that explains state.",
+              // TODO(afi-redaccion)
+              es: "Movimiento que explica el estado.",
+            },
+            body: [
+              {
+                en: "We didn't invent most of the animations. We reverse-engineered the ones that inspired us, or ported a React library like Magic UI to Angular and iterated.",
+                // TODO(afi-redaccion)
+                es: "No inventamos la mayoría de las animaciones. Copiamos el mecanismo de las que nos inspiraban, o portamos a Angular una librería de React como Magic UI e iteramos.",
+              },
+              {
+                en: "The press state came out of the moodboard session. The button sinks in, the way a physical one does. Press anything on the board.",
+                // TODO(afi-redaccion)
+                es: "El estado de pulsado salió de la sesión de moodboard. El botón se hunde, como uno físico. Pulsa cualquier cosa del tablero.",
+              },
+            ],
+            media: [
+              {
+                kind: "embed",
+                src: "/work/visual-identity/demo/PF-Micro.html",
+                title: {
+                  en: "A checkbox, radios, a toggle, a button that sinks and a send button",
+                  es: "Una casilla, radios, un toggle, un botón que se hunde y un botón de enviar",
+                },
+                width: 720,
+                height: 218,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        kicker: { en: "Result", es: "Resultado" },
+        heading: {
+          en: "Reviews now run against a checklist.",
+          // TODO(afi-redaccion)
+          es: "Las revisiones van ahora contra una lista.",
+        },
+        navLabel: { en: "Result", es: "Resultado" },
+        body: [
+          {
+            en: "The token system and component library are ready for the design system migration. Shadows and dimensions are the next two passes.",
+            // TODO(afi-redaccion)
+            es: "El sistema de tokens y la librería de componentes están listos para la migración del sistema de diseño. Sombras y dimensiones son las dos próximas pasadas.",
+          },
+          {
+            en: "Not every principle has earned its place yet. So far the ones that have are the role rules, one component and one meaning.",
+            // TODO(afi-redaccion)
+            es: "No todos los principios se han ganado su sitio todavía. Por ahora, los que sí son las reglas de roles, un componente y un significado.",
+          },
+        ],
+        media: [
+          {
+            kind: "stats",
+            items: [
+              {
+                value: "6",
+                label: {
+                  en: "checks in every review",
+                  es: "puntos en cada revisión",
+                },
+              },
+              {
+                value: "6",
+                label: { en: "reference apps", es: "apps de referencia" },
+              },
+              { value: "9", label: { en: "principles", es: "principios" } },
+              {
+                value: "4",
+                label: { en: "typefaces tested", es: "tipografías probadas" },
+              },
+            ],
+          },
+        ],
       },
     ],
   },

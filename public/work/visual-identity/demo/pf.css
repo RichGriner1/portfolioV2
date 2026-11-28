@@ -1,0 +1,61 @@
+/* Layout for the portfolio boards. Only places things: every colour, size, radius
+   and font is a token from the skin the page loads. */
+html, html[data-ds-v2], body, #root { background: transparent !important; }
+body { margin: 0; font-family: var(--font-family-primary); color: var(--content-primary); }
+#root { box-sizing: border-box; width: var(--pf-w, 760px); min-height: 100vh; padding: 28px; display: flex; flex-direction: column; justify-content: center; }
+
+.pf { display: grid; gap: var(--dimension-5); align-items: start; }
+.pf-2 { grid-template-columns: 1.25fr 1fr; }
+.pf-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pf-inspect { grid-template-columns: 300px minmax(0, 1fr); }
+.pf-comment { grid-template-columns: 1fr 1fr; }
+.pf-tiers > * { height: 100%; }
+
+.pf-stack { display: flex; flex-direction: column; gap: var(--dimension-4); }
+.pf-stack--tight { gap: var(--dimension-2); }
+.pf-row { display: flex; align-items: center; gap: var(--dimension-2); }
+.pf-row--end { justify-content: flex-end; }
+.pf-row--wrap { flex-wrap: wrap; }
+.pf-row--gap { column-gap: var(--dimension-6); row-gap: var(--dimension-3); }
+.pf-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--dimension-4); align-items: start; }
+
+/* A panel piece: the components plus their own white panel, never a cut of a page. */
+.pf-panel { box-sizing: border-box; padding: var(--dimension-4); background: var(--background-surface); border-radius: var(--radius-surface, var(--radius-xl)); box-shadow: var(--elevation-2); }
+.pf-target { display: flex; flex-direction: column; gap: var(--dimension-4); }
+
+.pf-label { margin: 0; font-size: var(--type-label-size); font-weight: var(--font-weight-semibold); }
+.pf-caption { margin: 0; font-size: var(--type-caption-size); color: var(--content-secondary); }
+.pf-text { margin: 0; font-size: var(--type-body-default-size); line-height: 1.45; }
+.pf-states { display: flex; flex-direction: column; gap: var(--dimension-2); }
+
+.pf-person { display: flex; align-items: center; gap: var(--dimension-2); font-size: var(--type-body-default-size); }
+.pf-person > span:not([class]) { flex: 1; }
+
+.pf-preview { display: flex; align-items: center; justify-content: center; padding: var(--dimension-6) var(--dimension-4); background: var(--background-subtle, var(--color-neutral-50)); border-radius: var(--radius-control, var(--radius-lg)); }
+.pf-preview--small { padding: var(--dimension-4); margin-bottom: var(--dimension-3); }
+.pf-swatch { height: 64px; border-radius: var(--radius-control, var(--radius-lg)); margin-bottom: var(--dimension-3); }
+
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--type-caption-size); }
+.pf-value { display: inline-flex; align-items: center; gap: var(--dimension-2); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--type-caption-size); }
+.pf-value i { width: 14px; height: 14px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1px var(--borders-default); }
+
+.pf-file { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--dimension-2); }
+.pf-file > :first-child { width: 100%; max-width: none; box-sizing: border-box; }
+
+.pf-pinned { position: relative; }
+.pf-pin { position: absolute; top: 20px; right: -11px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--brand-background-default); color: var(--content-inverse); font-size: var(--type-caption-size); font-weight: var(--font-weight-semibold); box-shadow: 0 0 0 3px var(--background-surface); }
+
+/* Visual Identity boards */
+.pf-strong { font-weight: var(--font-weight-semibold); }
+.pf-principle { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--dimension-3); align-items: start; padding: var(--dimension-2) 0; }
+.pf-num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--background-subtle); font-size: var(--type-caption-size); font-weight: var(--font-weight-semibold); }
+.pf-avoid { padding-top: var(--dimension-2); border-top: var(--stroke-default) solid var(--borders-default); }
+.pf-roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--dimension-4); }
+.pf-role { display: flex; flex-direction: column; gap: var(--dimension-1); }
+.pf-role__swatch { height: 56px; border-radius: var(--radius-md); box-shadow: inset 0 0 0 var(--stroke-default) var(--borders-default); margin-bottom: var(--dimension-1); }
+.pf-type { display: grid; grid-template-columns: 130px minmax(0, 1fr) 140px; gap: var(--dimension-4); align-items: center; padding: var(--dimension-2) 0; border-bottom: var(--stroke-default) solid var(--borders-subtle); }
+.pf-type:last-child { border-bottom: 0; }
+.pf-type > :last-child { justify-self: end; }
+.pf-figures { display: flex; flex-direction: column; font-size: 32px; line-height: 1.1; }
+.pf-figures > span { width: max-content; }
+.pf-micro { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--dimension-5); }
